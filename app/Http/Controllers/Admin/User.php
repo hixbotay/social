@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 
-class Users extends Controller
+class User extends Controller
 {
-	
-	public function __construct(){
-		$this->input = request();
-	}
-
+    //
 	public function index(){
-		die;
 		return view('admin.user');
+	}
+	
+	public function test(){
+		debug('test');
+		return view('admin'); 
 	}
 }

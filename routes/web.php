@@ -18,7 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::any('debug', 'Debug@show');
 Route::any('debug/{name}', 'Debug@execute');
-Route::get('admin', 'Admin@execute');
+Route::get('admin', 'Admin\Controller@execute');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
