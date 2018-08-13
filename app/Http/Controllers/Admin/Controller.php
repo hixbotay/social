@@ -24,7 +24,14 @@ class Controller extends BaseController
     
     	if($request->input('view')){
     		$controller = $this->get_controller($request->input('view'));
-    		return $controller->index();
+    		$id = $request->input('id');
+    		$layout = $request->input('layout','index');
+    		if($id){
+    			return $controller->$layout($id);
+    		}else{
+    			return $controller->$layout();
+    		}
+    		
     	}
     
     	return $this->index();

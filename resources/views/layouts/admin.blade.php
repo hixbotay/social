@@ -12,14 +12,11 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta
-	content="A fully featured admin theme which can be used to build CRM, CMS, etc."
+	content="{{env('description')}}"
 	name="description" />
 <meta content="Coderthemes" name="author" />
 
 <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
-
-<!--Morris Chart CSS -->
-<link rel="stylesheet" href="{{ asset('assets/plugins/morris/morris.css') }}">
 
 <!-- Bootstrap core CSS -->
 <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -29,6 +26,7 @@
 <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+@yield('header')
 </head>
 <body>
 	<div id="page-wrapper">
@@ -67,14 +65,8 @@
 	<script src="{{ asset('assets/js/metisMenu.min.js') }}"></script>
 	<script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
 
-	<!--Morris Chart-->
-	<script src="{{ asset('assets/plugins/morris/morris.min.js') }}"></script>
-	<script src="{{ asset('assets/plugins/raphael/raphael-min.js') }}"></script>
-
-	<!-- Dashboard init -->
-	<script src="{{ asset('assets/pages/jquery.dashboard.js') }}"></script>
-
 	<!-- App Js -->
 	<script src="{{ asset('assets/js/jquery.app.js') }}"></script>
+	@yield('footer')
 </body>
 </html>

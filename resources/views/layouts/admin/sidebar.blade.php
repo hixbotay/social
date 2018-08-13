@@ -22,8 +22,9 @@
                                 <li>
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Users') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="{{url('/admin?view=users')}}"><i class="ti-person"></i>@lang('Users')</a></li>
-										<li><a href="{{url('/admin?view=users')}}"><i class="ti-person"></i>@lang('User groups')</a></li>
+                                        <li><a href="{{url('/admin?view=user')}}"><i class="ti-person"></i>@lang('Users')</a></li>
+                                        <li><a href="{{url('/admin?view=user&layout=edit')}}"><i class="ti-person"></i>@lang('Create user')</a></li>
+										<li><a href="{{url('/admin?view=usergroup')}}"><i class="ti-person"></i>@lang('User groups')</a></li>
                                     </ul>
                                 </li>
                                 
