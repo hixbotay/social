@@ -20,6 +20,8 @@ class User extends Controller
 		}
 		return $this->$method(request());
 	}
+	
+	
 		
 	
 	public function update(){
