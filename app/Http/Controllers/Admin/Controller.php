@@ -28,7 +28,8 @@ class Controller extends BaseController
     	}
     
     	return $this->index();
-    }
+	}
+	
     private function get_controller($controller_str){
     	$controller = __NAMESPACE__ . '\\' .$controller_str;
     	$controller = new $controller();
