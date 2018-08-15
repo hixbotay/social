@@ -22,6 +22,7 @@ Route::any('debug/{name}', 'Debug@execute');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin', 'Admin\Controller@execute')->name('admin');
+Route::post('/admin', 'Admin\Controller@execute')->name('admin.post');
 Route::get('/admin/login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.login');
 Route::post('/admin/login', 'Admin\Auth\LoginController@login')->name('admin.login.submit');
 Route::post('/logout', 'Admin\Auth\LoginController@logout')->name('admin.logout');

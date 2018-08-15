@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\UserGroup AS UserGroupModel;
+use Validator;
 
 
 class UserGroup extends Controller
@@ -13,15 +14,17 @@ class UserGroup extends Controller
     {
         return view('admin.usergroup.list', ['items' => UserGroupModel::all()]);
     }
-    public function find($id){
-        return (object)array('name'=>'admin');
-    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $rule = [
+        'name'=>'required|max:30',
+    ];
+
     public function create()
     {
         //
@@ -36,7 +39,15 @@ class UserGroup extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $name = request()->input('name');
+
+        $model = new UserGroupModel();
+        $model->name = $name;
+        $model->save();
+
+        return redirect(route('admin').'?view=usergroup')->with('success','Data updated successfully!');
+
+
     }
 
     /**
@@ -48,7 +59,7 @@ class UserGroup extends Controller
     public function show($id)
     {
         //
-        $user = User::find($id);
+        $user = UserGroupModel::find($id);
 
         // show the view and pass the nerd to it
         return View::make('admin.usergroup.show')
@@ -67,7 +78,8 @@ class UserGroup extends Controller
     {
         //
         $id = request()->input('id');
-        $user = UserGroup::find($id);
+
+        $user = UserGroupModel::find($id);
 
         // show the view and pass the nerd to it
         return \View::make('admin.usergroup.edit')
@@ -81,9 +93,17 @@ class UserGroup extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $this->validate($request, $this->rule);
+        $item = UserGroupModel::find($id);
+        $item->name = $name;
+        $item->save();
+
+        return redirect(route('admin') . '?view=usergroup')->with('success','Data updated successfully!');
+
     }
 
     /**

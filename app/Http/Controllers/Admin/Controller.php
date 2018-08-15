@@ -19,7 +19,8 @@ class Controller extends BaseController
     	if($request->input('controller')){
     		$controller = $this->get_controller($request->input('controller'));
     		$task = $request->input('task','index');
-    		return $controller->$task($request);
+            $id = $request->input('id');
+            return $controller->$task($request);
     	}
     
     	if($request->input('view')){
