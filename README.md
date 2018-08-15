@@ -30,6 +30,7 @@ public function down()
 1. php artisan make:model -make
 2. php artisan make:controller Admin/Test -r
 
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
