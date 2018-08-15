@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User AS UserModel;
 
 class User extends Controller
 {
@@ -14,11 +15,7 @@ class User extends Controller
      */
     public function index()
     {
-        //
-    	return view('admin.user.list');
-    }
-    public function find($id){
-    	return (object)array('name'=>'admin');
+    	return view('admin.user.list', ['items' => UserModel::all()]);
     }
 
     /**
@@ -52,7 +49,7 @@ class User extends Controller
     public function show($id)
     {
         //
-    	$user = User::find($id);
+    	$user = UserModel::find($id);
 
         // show the view and pass the nerd to it
         return View::make('admin.user.show')
@@ -71,7 +68,7 @@ class User extends Controller
     {
         //
         $id = request()->input('id');
-    	$user = User::find($id);
+    	$user = UserModel::find($id);
 
         // show the view and pass the nerd to it
         return \View::make('admin.user.edit')
