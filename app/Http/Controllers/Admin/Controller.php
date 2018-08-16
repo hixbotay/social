@@ -13,7 +13,8 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function __construct(){
     	$this->input = request();
-    }
+	}
+	
     public function execute(Request $request){
     	//khoi tao controller hoac view qua URL
     	if($request->input('controller')){

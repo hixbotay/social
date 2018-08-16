@@ -11,21 +11,30 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::middleware(['guest'])->group(function() {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+    Route::get('/admin/login', 'Admin\Auth\LoginController@index');
+    Route::post('/admin/login', 'Admin\Auth\LoginController@login')->name('admin');
+    Route::any('debug', 'Debug@show');
+    Route::any('debug/{name}', 'Debug@execute');
 });
 
-Auth::routes();
-Route::any('debug', 'Debug@show');
-Route::any('debug/{name}', 'Debug@execute');
-Route::get('admin', 'Admin\Controller@execute');
+Route::middleware(['auth'])->group(function() {
+    Route::get('/home', 'HomeController@index')->name('home');
+});
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['admin'])->group(function() {
+    Route::get('/admin', 'Admin\Controller@execute');
+});
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
