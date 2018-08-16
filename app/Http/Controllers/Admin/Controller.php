@@ -20,13 +20,15 @@ class Controller extends BaseController
     	if($request->input('controller')){
     		$controller = $this->get_controller($request->input('controller'));
     		$task = $request->input('task','index');
-    		return $controller->$task($request);
+            $id = $request->input('id');
+            return $controller->$task($request);
     	}
     
     	if($request->input('view')){
     		$controller = $this->get_controller($request->input('view'));
     		$id = $request->input('id');
     		$layout = $request->input('layout','index');
+
     		if($id){
     			return $controller->$layout($id);
     		}else{
@@ -36,7 +38,8 @@ class Controller extends BaseController
     	}
     
     	return $this->index();
-    }
+	}
+	
     private function get_controller($controller_str){
     	$controller = __NAMESPACE__ . '\\' .$controller_str;
     	$controller = new $controller();

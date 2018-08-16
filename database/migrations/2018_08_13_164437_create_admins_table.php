@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserGroup extends Migration
+class CreateAdminsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class AddUserGroup extends Migration
      */
     public function up()
     {
-        Schema::create('user_groups', function (Blueprint $table) {
-//            $table->integer('user_id');
+        Schema::create('admins', function (Blueprint $table) {
             $table->increments('id');
-//			$table->index(array('user_id','group_id'));
             $table->string('name');
-            $table->text('params', null)->nullable(1);
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
         });
     }
 
@@ -29,6 +30,6 @@ class AddUserGroup extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_groups');
+        Schema::dropIfExists('admins');
     }
 }

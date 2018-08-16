@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\User AS UserModel;
+use App\UserGroup AS UserGroupModel;
+use Validator;
 
-class User extends Controller
+
+class UserGroup extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-    	return view('admin.user.list', ['items' => UserModel::all()]);
+        return view('admin.usergroup.list', ['items' => UserGroupModel::all()]);
     }
 
     /**
@@ -23,10 +20,15 @@ class User extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    private $rule = [
+        'name'=>'required|max:30',
+    ];
+
     public function create()
     {
         //
-    	return view('admin.user.edit');
+        return view('admin.usergroup.edit');
     }
 
     /**
@@ -37,7 +39,15 @@ class User extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $name = request()->input('name');
+
+        $model = new UserGroupModel();
+        $model->name = $name;
+        $model->save();
+
+        return redirect(route('admin').'?view=usergroup')->with('success','Data updated successfully!');
+
+
     }
 
     /**
@@ -49,14 +59,14 @@ class User extends Controller
     public function show($id)
     {
         //
-    	$user = UserModel::find($id);
+        $user = UserGroupModel::find($id);
 
         // show the view and pass the nerd to it
-        return View::make('admin.user.show')
+        return View::make('admin.usergroup.show')
             ->with('item', $user);
     }
-    
-    
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -68,10 +78,11 @@ class User extends Controller
     {
         //
         $id = request()->input('id');
-    	$user = UserModel::find($id);
+
+        $user = UserGroupModel::find($id);
 
         // show the view and pass the nerd to it
-        return \View::make('admin.user.edit')
+        return \View::make('admin.usergroup.edit')
             ->with('item', $user);
     }
 
@@ -82,9 +93,17 @@ class User extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request->get('id');
+        $name = $request->get('name');
+        $this->validate($request, $this->rule);
+        $item = UserGroupModel::find($id);
+        $item->name = $name;
+        $item->save();
+
+        return redirect(route('admin') . '?view=usergroup')->with('success','Data updated successfully!');
+
     }
 
     /**

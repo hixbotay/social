@@ -17,14 +17,10 @@
                                     </div>
                                 </th>
                                 <th>Name</th>
-                                <th>Email</th>
-                                <th>Mobile</th>
-                                <th>Address</th>
                             </tr>
                         </thead>
 
                         <tbody>
-
 
 
                         @foreach($items AS $item)
@@ -40,23 +36,14 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{url('admin?view=user&layout=edit&id='.$item->id)}}">{{$item->name}}</a>
+                                    <a href="{{url('admin?view=usergroup&layout=edit&id='.$item->id)}}">
+                                        {{$item->name}}
+                                    </a>
                                 </td>
-
-                                <td>
-                                    <a href="#" class="text-muted">{{$item->email}}</a>
-                                </td>
-
-                                <td>
-                                    <b><a href="" class="text-dark"><b>{{$item->mobile}}</b></a> </b>
-                                </td>
-
-                                <td>{{$item->address}}</td>
 
                             </tr>
 
-
-                            @endforeach
+                        @endforeach
 
 
                         </tbody>
