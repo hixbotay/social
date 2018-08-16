@@ -14,27 +14,28 @@
 				<div class="form-group">
 					<label class="col-md-2 control-label" for="example-email">Email</label>
 					<div class="col-md-10">
-						<input id="example-email" name="email" value="{{isset($item->email)?$item->email:null}}"
+						<input readonly id="example-email" name="email" value="{{isset($item->email)?$item->email:null}}"
 							class="form-control" placeholder="Email" type="email">
 					</div>
 				</div>
+				@if(!$item->id)
 				<div class="form-group">
 					<label class="col-md-2 control-label">Password</label>
 					<div class="col-md-10">
-						<input class="form-control" value="password" type="password">
+						<input class="form-control" value="" type="password">
 					</div>
 				</div>
-
+				@endif
 				<div class="form-group">
-					<label class="col-md-2 control-label">Placeholder</label>
+					<label class="col-md-2 control-label">Mobile</label>
 					<div class="col-md-10">
-						<input class="form-control" placeholder="placeholder" type="text">
+						<input name="mobile" value="{{isset($item->mobile)?$item->mobile:null}}" class="form-control" placeholder="" type="text">
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-md-2 control-label">Text area</label>
+					<label class="col-md-2 control-label">Nhóm</label>
 					<div class="col-md-10">
-						<textarea class="form-control" rows="5"></textarea>
+						{{BookproHelper::select_user_groups('group_id')}}
 					</div>
 				</div>
 

@@ -1,10 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
+
+
 function url_root(){
 	return env('APP_URL');
 }
 
 class BookproHelper{
+
 	static function mask_email($email, $minLength = 3, $mask = "*") {
 		$em   = explode("@",$email,2);
 	    $name = implode(array_slice($em, 0, count($em)-1), '@');
@@ -68,8 +72,21 @@ class BookproHelper{
 		}
 	
 		return "https://chart.googleapis.com/chart?cht=qr&chs=".preg_replace("/[^0-9]/", "", $data['width'])."x".preg_replace("/[^0-9]/", "", $data['height'])."&chl=".urlencode($data['data']);
-		
 	}
+
+	public static function select_user_groups($name, $class = null, $id = null, $selected = null){
+
+        $userGroup = DB::table('user_groups')->get();
+
+        echo "<select class='$class form-control'>";
+        foreach ($userGroup AS $value){
+            echo "<option value='$value->id'>";
+            echo $value->name;
+            echo "</option>";
+        }
+        echo "</select>";
+
+    }
 	
 	
 }
