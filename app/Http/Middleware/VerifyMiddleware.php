@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Request;
 use Illuminate\Support\Facades\Auth;
+use Closure;
 
-class AdminMiddleware
+class VerifyMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,12 +16,12 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check()) {
-            $user = Auth::user();
-            if($user->is_admin == 1) {
-                return $next($request);
-            }
+        $user = Auth::user();
+        if($user && $user->is_verify == 1) {
+            return $next($request);
+        } else {
+            return redirect('/alert');
         }
-        // return redirect('/admin/login');
+        
     }
 }

@@ -19,8 +19,8 @@ class AddInfoUser extends Migration
 			$table->string('avatar',300)->nullable(1);
 			$table->integer('group_id')->nullable(1);
 			$table->string('address',200)->nullable(1);
-			$table->float('longitude',6,6)->nullable(1);
-			$table->float('langitude',6,6)->nullable(1);
+			$table->decimal('longitude',9,6)->nullable(1);
+			$table->decimal('langitude',9,6)->nullable(1);
 			$table->boolean('is_verify')->nullable(1);
 			$table->integer('credit')->nullable(1);
 			$table->string('ip_address',30)->nullable(1);
