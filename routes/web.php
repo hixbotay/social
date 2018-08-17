@@ -12,11 +12,11 @@
 */
 
 Auth::routes();
-
+Route::get('/', function () {
+	return view('welcome');
+});
 Route::middleware(['guest'])->group(function() {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+   
     Route::get('/alert', function() {
         return view('alert');
     });

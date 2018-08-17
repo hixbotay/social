@@ -4,7 +4,7 @@
                 <!-- LOGO -->
                 <div class="topbar-left">
                     <div class="">
-                        <a href="index.html" class="logo">
+                        <a href="{{url('/')}}" class="logo">
                             <img src="assets/images/logo.png" alt="logo" class="logo-lg" />
                             <img src="assets/images/logo_sm.png" alt="logo" class="logo-sm hidden" />
                         </a>
