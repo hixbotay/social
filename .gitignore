@@ -10,5 +10,10 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+.setting
+.svn
+.htaccess
+.project
+.buildpath
 .env
 composer.json
