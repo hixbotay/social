@@ -14,7 +14,7 @@
 Auth::routes();
 Route::get('/', function () {
 	return view('welcome');
-})->auth('login');
+})->middleware('auth');
 
 Route::any('debug', 'Debug@show');
 Route::any('debug/{name}', 'Debug@execute');
