@@ -14,7 +14,11 @@
 Auth::routes();
 Route::get('/', function () {
 	return view('welcome');
-});
+})->auth('login');
+
+Route::any('debug', 'Debug@show');
+Route::any('debug/{name}', 'Debug@execute');
+
 Route::middleware(['guest'])->group(function() {
    
     Route::get('/alert', function() {
@@ -23,8 +27,7 @@ Route::middleware(['guest'])->group(function() {
     
     Route::get('/admin/login', 'Admin\Auth\LoginController@index');
     Route::post('/admin/login', 'Admin\Auth\LoginController@login')->name('admin');
-    Route::any('debug', 'Debug@show');
-    Route::any('debug/{name}', 'Debug@execute');
+    
 });
 
 Route::middleware(['auth', 'verify'])->group(function() {
