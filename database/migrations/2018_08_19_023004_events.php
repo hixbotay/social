@@ -15,12 +15,11 @@ class Events extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name',300);
             $table->integer('schedule_id');
-            $table->char('name', 300);
             $table->text('desciption')->nullable(1);
             $table->dateTime('created');
-            $table->char('address', 1000);
+            $table->string('address', 1000);
             $table->integer('address_id');
             $table->tinyInteger('limit_number');
             $table->integer('min_number');
