@@ -55,6 +55,10 @@
                                     Login
                                 </button>
 
+                                <button type="button" class="btn btn-primary">
+                                    <a href="auth/google">Login with Google</a>
+                                </button>
+
                                 <a class="btn btn-link" href="{{ route('password.request') }}">
                                     Forgot Your Password?
                                 </a>

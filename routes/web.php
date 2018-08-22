@@ -27,6 +27,8 @@ Route::middleware(['guest'])->group(function() {
     
     Route::get('/admin/login', 'Admin\Auth\LoginController@index');
     Route::post('/admin/login', 'Admin\Auth\LoginController@login')->name('admin');
+    Route::get('auth/{provider}', 'Auth\LoginController@redirectToProvider');
+	Route::get('auth/{provider}/callback', 'Auth\LoginController@handleProviderCallback');
     
 });
 
