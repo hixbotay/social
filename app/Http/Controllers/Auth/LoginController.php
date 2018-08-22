@@ -9,6 +9,7 @@ use Session;
 use URL;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -87,10 +88,9 @@ class LoginController extends Controller
         return User::create([
             'name'     => $user->name,
             'email'    => $user->email,
-            'password' => $provider,
-            'is_admin' => 1,
-            'provider' => "google",
-            'provider_id' => 1
+            'password' => Hash::make($user->email),
+            'provider' => $provider,
+            'provider_id' => $user->id
         ]);
     }
 }

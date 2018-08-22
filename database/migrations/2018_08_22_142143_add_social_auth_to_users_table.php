@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddSocialUser extends Migration
+class AddSocialAuthToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddSocialUser extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('provider');
-            $table->string('provider_id')->unique();
+            $table->string('provider')->nullable(1);
+            $table->string('provider_id')->nullable(1);
         });
     }
 
@@ -27,8 +27,8 @@ class AddSocialUser extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('provider');
-            $table->dropColumn('provider_id');
+            $table->drop('provider');
+            $table->drop('provider_id');
         });
     }
 }
