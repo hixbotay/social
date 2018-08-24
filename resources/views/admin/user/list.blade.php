@@ -20,6 +20,7 @@
                                 <th>Email</th>
                                 <th>Mobile</th>
                                 <th>Address</th>
+                                <th>Option</th>
                             </tr>
                         </thead>
 
@@ -53,6 +54,12 @@
 
                                 <td>{{$item->address}}</td>
 
+                                <td>
+                                    <a href="{{url('admin?controller=user&task=destroy&id='.$item->id)}}">
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </a>
+                                </td>
+
                             </tr>
 
 
@@ -62,6 +69,7 @@
                         </tbody>
                     </table>
                 </div>
+                {{ $items->links() }}
             </div>
         </div>
     </div>

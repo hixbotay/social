@@ -20,7 +20,7 @@ class AddInfoUser extends Migration
 			$table->integer('group_id')->nullable(1);
 			$table->string('address',200)->nullable(1);
 			$table->decimal('longitude',9,6)->nullable(1);
-			$table->decimal('langitude',9,6)->nullable(1);
+			$table->decimal('latitude',9,6)->nullable(1);
 			$table->boolean('is_verify')->nullable(1);
 			$table->integer('credit')->nullable(1);
 			$table->string('ip_address',30)->nullable(1);
@@ -42,7 +42,7 @@ class AddInfoUser extends Migration
 			$table->drop('group_id');
 			$table->drop('address');
 			$table->drop('longitude');
-			$table->drop('langitude');
+			$table->drop('latitude');
 			$table->drop('is_verify');
 			$table->drop('credit');
 			$table->drop('ip_address');

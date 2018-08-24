@@ -38,6 +38,6 @@ Route::middleware(['auth', 'verify'])->group(function() {
 });
 
 Route::middleware(['admin', 'verify'])->group(function() {
-    Route::get('/admin', 'Admin\Controller@execute');
+    Route::any('/admin', 'Admin\Controller@execute');
     // Route::post('/admin', 'Admin\Controller@execute')->name('admin.post');
 });

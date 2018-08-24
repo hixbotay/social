@@ -25,7 +25,7 @@ class User extends Seeder
             'avatar' => 'jfdcnjknskdcsabjc',
             'address' => $faker->streetAddress,
             'longitude' => 23.123667,
-            'langitude' => 45.125355,
+            'latitude' => 45.125355,
             'is_verify' => $faker->randomElement([0, 1]),
             'credit' => $faker->randomNumber(),
             'ip_address' => $faker->ipv4,
