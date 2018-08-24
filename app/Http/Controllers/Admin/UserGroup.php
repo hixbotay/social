@@ -27,8 +27,7 @@ class UserGroup extends Controller
 
     public function create()
     {
-        //
-        return view('admin.usergroup.edit');
+        return view('admin.usergroup.create');
     }
 
     /**
@@ -39,15 +38,11 @@ class UserGroup extends Controller
      */
     public function store(Request $request)
     {
-        $name = request()->input('name');
+        $usergroup = request()->get('data');
+        console_log($usergroup);
 
-        $model = new UserGroupModel();
-        $model->name = $name;
-        $model->save();
-
-        return redirect(route('admin').'?view=usergroup')->with('success','Data updated successfully!');
-
-
+        UserGroupModel::create($usergroup);
+        return redirect('admin?view=UserGroup');
     }
 
     /**
@@ -58,11 +53,10 @@ class UserGroup extends Controller
      */
     public function show($id)
     {
-        //
         $user = UserGroupModel::find($id);
 
         // show the view and pass the nerd to it
-        return View::make('admin.usergroup.show')
+        return View::make('admin.usergroup.detail')
             ->with('item', $user);
     }
 
@@ -74,16 +68,14 @@ class UserGroup extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit()
+    public function edit($id)
     {
-        //
-        $id = request()->input('id');
+        // $id = request()->input('id');
 
         $user = UserGroupModel::find($id);
 
         // show the view and pass the nerd to it
-        return \View::make('admin.usergroup.edit')
-            ->with('item', $user);
+        return view('admin.usergroup.detail')->with('item', $user);
     }
 
     /**
@@ -95,14 +87,16 @@ class UserGroup extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->get('id');
-        $name = $request->get('name');
-        $this->validate($request, $this->rule);
-        $item = UserGroupModel::find($id);
-        $item->name = $name;
-        $item->save();
+        $id = $request->input('id');
+        $data = $request->get('data');
 
-        return redirect(route('admin') . '?view=usergroup')->with('success','Data updated successfully!');
+        $usergroup = UserGroupModel::find($id);
+        foreach ($data as $key => $value) {
+            $usergroup->$key = $value;
+        }
+        $usergroup->save();
+
+        return redirect('admin?view=usergroup');
 
     }
 
@@ -112,8 +106,10 @@ class UserGroup extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->input('id');
+        UserGroupModel::destroy($id);
+        return redirect('admin?view=usergroup');
     }
 }

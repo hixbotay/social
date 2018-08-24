@@ -18,7 +18,7 @@ class User extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->paginate(2);
+        $users = DB::table('users')->paginate(10);
         $users->withPath('admin?view=User');
 
         return view('admin.user.list', ['items' => $users]);
@@ -72,7 +72,7 @@ class User extends Controller
      */
     public function edit($id)
     {
-        console_log($id);
+        // console_log($id);
     	$user = UserModel::find($id);
 
         // show the view and pass the nerd to it
@@ -109,9 +109,10 @@ class User extends Controller
     public function destroy(Request $request)
     {
         $id =  $request->input('id');
-        // UserModel::destroy($id);
+        UserModel::destroy($id);
+        // redirect to previous url after destroy
         Session::put('pre_url', URL::previous());
         console_log(Session::get('pre_url'));
-        // return redirect(Session::get('pre_url'));
+        return redirect(Session::get('pre_url'));
     }
 }

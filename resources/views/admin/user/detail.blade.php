@@ -19,7 +19,7 @@
 					</div>
 					<div class="form-group">
 						<label>Mobile</label>
-						<input type="number" class="form-control" name="data[mobile]" value="{{$item->mobile}}" required />
+						<input type="text" class="form-control" name="data[mobile]" value="{{$item->mobile}}" required />
 					</div>
 					<div class="form-group">
 						<label>Group ID</label>

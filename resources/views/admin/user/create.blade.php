@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-sm-12">
-			<h4 class="m-b-20 header-title">Form Elements</h4>
+			<h4 class="m-b-20 header-title">Create New User</h4>
 			<form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=user&task=store')}}">
 				{{ csrf_field() }}
 				<div class="col-sm-6">

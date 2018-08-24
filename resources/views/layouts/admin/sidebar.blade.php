@@ -23,8 +23,14 @@
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Users') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="{{url('/admin?view=user')}}"><i class="ti-person"></i>@lang('Users')</a></li>
-                                        <li><a href="{{url('/admin?view=user&layout=edit')}}"><i class="ti-person"></i>@lang('Create user')</a></li>
-										<li><a href="{{url('/admin?view=usergroup')}}"><i class="ti-person"></i>@lang('User groups')</a></li>
+                                        <li><a href="{{url('/admin?view=user&layout=create')}}"><i class="ti-person"></i>@lang('Create user')</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('User Groups') <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+                                        <li><a href="{{url('/admin?view=usergroup')}}"><i class="ti-person"></i>@lang('User Groups')</a></li>
+                                        <li><a href="{{url('/admin?view=usergroup&layout=create')}}"><i class="ti-person"></i>@lang('Create user group')</a></li>
                                     </ul>
                                 </li>
                                 

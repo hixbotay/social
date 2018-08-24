@@ -17,14 +17,13 @@
                                     </div>
                                 </th>
                                 <th>Name</th>
+                                <th>Params</th>
+                                <th>Option</th>
                             </tr>
                         </thead>
 
                         <tbody>
-
-
                         @foreach($items AS $item)
-
                             <tr>
                                 <td>
                                     <div class="checkbox checkbox-primary m-r-15">
@@ -41,11 +40,14 @@
                                     </a>
                                 </td>
 
+                                <td>{{$item->params}}</td>
+                                <td>
+                                    <a href="{{url('admin?controller=UserGroup&&task=destroy&id='.$item->id)}}">
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </a>
+                                </td>
                             </tr>
-
                         @endforeach
-
-
                         </tbody>
                     </table>
                 </div>
