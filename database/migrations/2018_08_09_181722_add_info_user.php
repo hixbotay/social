@@ -15,7 +15,7 @@ class AddInfoUser extends Migration
     {
         Schema::table('users', function($table) {
 			$table->string('gender',1)->nullable(1);
-			$table->string('mobile',20)->nullable(1);
+			$table->string('mobile',20)->nullable(1)->unique();
 			$table->string('avatar',300)->nullable(1);
 			$table->integer('group_id')->nullable(1);
 			$table->string('address',200)->nullable(1);

@@ -1,6 +1,104 @@
-@extends('layouts.app')
+@extends('layouts.landing')
 
-@section('content')
+@section('login-register-form')
+
+<div>
+    <div class="form-top">
+        <div class="col-sm-offset-2 col-sm-12">
+            <img src="{{asset('assets/landing/img/logo.png')}}" id="logo-form">
+        </div>
+    </div>
+    <div class="form-bottom">
+        <form>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Tên của bạn" />
+            </div>      
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Ngày</option>
+                        @for($i=1; $i<=31; $i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Tháng</option>
+                        @for($i=1; $i<=12; $i++)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Năm</option>
+                        @for($i=2000; $i>=1950; $i--)
+                        <option value="{{$i}}">{{$i}}</option>
+                        @endfor
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-7">
+                    <select class="form-control">
+                        <option>Tình trạng hôn nhân</option>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <select class="form-control">
+                        <option>Giới tính</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Xã/Phường</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Huyện/Quận</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <select class="form-control">
+                        <option>Tỉnh/TP</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" placeholder="Số điện thoại" />
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Mật khẩu" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn">ĐĂNG KÝ</button>
+            </div>
+            <div class="col-sm-offset-2">
+                <div class="text-center">hoặc</div>
+                <div class="form-group">
+                    <div class="social-login-buttons text-center">
+                        <a class="btn btn-link-1 btn-link-1-facebook" href="auth/facebook">
+                            <i class="fa fa-facebook"></i> Facebook
+                        </a>
+                        <a class="btn btn-link-1 btn-link-1-google-plus" href="auth/google">
+                            <i class="fa fa-google-plus"></i> Google Plus
+                        </a>
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@endsection
+
+{{-- @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -75,3 +173,4 @@
     </div>
 </div>
 @endsection
+ --}}

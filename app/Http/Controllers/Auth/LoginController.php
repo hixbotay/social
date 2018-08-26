@@ -10,6 +10,7 @@ use URL;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -41,6 +42,17 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+    *  ghi đè phương thức để login bằng điện thoại
+    */
+    protected function credentials(Request $request)
+    {
+        if(is_numeric($request->get('email'))){
+            return ['mobile'=>$request->get('email'),'password'=>$request->get('password')];
+        }
+        return $request->only($this->username(), 'password');
     }
 
     /**
