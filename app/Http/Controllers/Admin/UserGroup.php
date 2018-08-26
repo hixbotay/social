@@ -10,9 +10,22 @@ use Validator;
 
 class UserGroup extends Controller
 {
+	public function __construct(){
+	/*
+		$this->user = Factory::getUser();
+		if(!$this->user->role->is_admin){
+			throw new Exception('None permission');
+		}
+	*/
+	}
     public function index()
     {
-        return view('admin.usergroup.list', ['items' => UserGroupModel::all()]);
+		
+		if($this->user->roles->manage){
+			$data = UserGroupModel::all();
+		}
+		$data = UserGroupModel::all();
+        return view('admin.usergroup.list', ['items' => $data]);
     }
 
     /**
