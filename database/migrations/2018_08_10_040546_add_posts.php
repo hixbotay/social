@@ -17,8 +17,8 @@ class AddPosts extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id')->nullable(0);
             $table->text('content');
-            $table->text('like');
-			$table->text('dislike');
+            $table->text('like')->nullable()->change();
+			$table->text('dislike')->nullable()->change();
             $table->string('attachment');
             $table->timestamps();
         });

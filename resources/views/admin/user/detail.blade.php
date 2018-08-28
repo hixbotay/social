@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<h4 class="m-b-20 header-title">Form Elements</h4>
-			<form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=user&task=update&id='.$item->id)}}">
+			<form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=User&task=update&id='.$item->id)}}">
 				{{ csrf_field() }}
 				<input name="_method" type="hidden" value="PATCH">
 				<div class="col-sm-6">

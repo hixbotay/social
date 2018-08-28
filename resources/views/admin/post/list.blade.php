@@ -16,10 +16,11 @@
                                         <label for="action-checkbox"></label>
                                     </div>
                                 </th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Mobile</th>
-                                <th>Address</th>
+                                <th>User</th>
+                                <th>Content</th>
+                                <th>Reaction</th>
+                                <th>Created</th>
+                                <th>Updated</th>
                                 <th>Option</th>
                             </tr>
                         </thead>
@@ -41,25 +42,29 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{url('admin?view=User&layout=edit&id='.$item->id)}}">{{$item->name}}</a>
+                                    {{$item->user_id}}
                                 </td>
 
                                 <td>
-                                    <a href="#" class="text-muted">{{$item->email}}</a>
+                                    <a href="{{url('admin?view=Post&layout=edit&id='.$item->id)}}" class="text-muted">{{substr($item->content, 0, 200)}}...</a>
                                 </td>
 
                                 <td>
-                                    <b><a href="" class="text-dark"><b>{{$item->mobile}}</b></a> </b>
+                                    
                                 </td>
 
-                                <td>{{$item->address}}</td>
+                                <td>
+                                    {{$item->created_at}}
+                                </td>
 
                                 <td>
-                                    <a href="{{url('admin?controller=User&task=destroy&id='.$item->id)}}">
+                                    {{$item->updated_at}}
+                                </td>
+                                <td>
+                                    <a href="{{url('admin?controller=Post&task=destroy&id='.$item->id)}}">
                                         <button class="btn btn-sm btn-danger">Delete</button>
                                     </a>
                                 </td>
-
                             </tr>
 
 

@@ -21,9 +21,9 @@ class UserGroup extends Controller
     public function index()
     {
 		
-		if($this->user->roles->manage){
-			$data = UserGroupModel::all();
-		}
+		// if($this->user->roles->manage){
+		// 	$data = UserGroupModel::all();
+		// }
 		$data = UserGroupModel::all();
         return view('admin.usergroup.list', ['items' => $data]);
     }

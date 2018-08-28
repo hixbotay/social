@@ -35,7 +35,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{url('admin?view=usergroup&layout=edit&id='.$item->id)}}">
+                                    <a href="{{url('admin?view=UserGroup&layout=edit&id='.$item->id)}}">
                                         {{$item->name}}
                                     </a>
                                 </td>
