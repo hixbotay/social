@@ -26,7 +26,12 @@
 <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
 <!-- Custom styles for this template -->
 <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-@yield('header')
+
+	<script src="{{ asset('js/app.js') }}"></script>
+
+	<script src="{{ asset('assets/js/jquery-2.1.4.min.js') }}"></script>
+
+	@yield('header')
 </head>
 <body>
 	<div id="page-wrapper">
@@ -59,8 +64,6 @@
 
 
 	<!-- Scripts -->
-	<script src="{{ asset('js/app.js') }}"></script>
-	<script src="{{ asset('assets/js/jquery-2.1.4.min.js') }}"></script>
 	<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('assets/js/metisMenu.min.js') }}"></script>
 	<script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
