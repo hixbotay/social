@@ -17,8 +17,8 @@ class ProvinceGroups extends Migration
             $table->increments('id');
             $table->char('name', 255);
 //            save json of province id
-            $table->text('description');
-            $table->text('province_ids');
+            $table->text('description')->nullable(1);
+            $table->text('province_ids')->nullable(1);
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@ class UserJobs extends Migration
         Schema::create('user_jobs', function (Blueprint $table) {
             $table->increments('id');
             $table->char('name', 255);
-            $table->text('description');
+            $table->text('description')->nullable(1);
             $table->timestamps();
         });
 
