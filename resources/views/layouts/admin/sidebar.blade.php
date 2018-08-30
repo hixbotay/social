@@ -64,6 +64,14 @@
                                     </ul>
                                 </li>
                                 
+                                <li>
+                                    <a href="{{url('/admin?view=Configuration')}}"><i class="ti-light-bulb"></i> Configuration <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+                                        <li><a href="{{url('/admin?view=Configuration&option=general')}}"><i class="ti-person"></i>@lang('Cấu hình chung')</a></li>
+                                        <li><a href="{{url('/admin?view=Configuration&option=seo')}}"><i class="ti-person"></i>@lang('Cấu hình Seo')</a></li>
+                                        <li><a href="{{url('/admin?view=Configuration&option=general')}}"><i class="ti-person"></i>@lang('Cấu hình ..v..v..')</a></li>
+                                    </ul>
+                                </li>
                                 <li><a href="{{url('/admin?controller=user&task=test')}}"><i class="ti-home"></i> Test controller admin </a></li>
 
                             </ul>
