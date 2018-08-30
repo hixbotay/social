@@ -83,7 +83,7 @@ final class KernelEvents
     /**
      * The TERMINATE event occurs once a response was sent.
      *
-     * This event allows you to run expensive post-response jobs.
+     * This event allows you to run expensive post-response job.
      * The event listener method receives a
      * Symfony\Component\HttpKernel\Event\PostResponseEvent instance.
      *

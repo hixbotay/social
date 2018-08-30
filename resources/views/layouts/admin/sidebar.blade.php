@@ -43,6 +43,19 @@
                                 </li>
 
                                 <li>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('1 số config') <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+
+                                        <li><a href="{{url('/admin?view=Job')}}"><i class="ti-person"></i>@lang('Jobs')</a></li>
+                                        <li><a href="{{url('/admin?controller=Job&task=create')}}"><i class="ti-person"></i>@lang('Create new Jobs')</a></li>
+
+                                        <li><a href="{{url('/admin?view=ProvinceGroup')}}"><i class="ti-person"></i>@lang('Province Groups')</a></li>
+                                        <li><a href="{{url('/admin?controller=ProvinceGroup&task=create')}}"><i class="ti-person"></i>@lang('Thêm group')</a></li>
+
+                                    </ul>
+                                </li>
+
+                                <li>
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Events') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="{{url('/admin?view=Event&layout=listEvent')}}"><i class="ti-person"></i>@lang('Events')</a></li>
