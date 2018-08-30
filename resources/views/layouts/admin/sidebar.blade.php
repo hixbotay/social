@@ -41,6 +41,15 @@
                                         <li><a href="{{url('/admin?controller=Post&task=create')}}"><i class="ti-person"></i>@lang('Create new post')</a></li>
                                     </ul>
                                 </li>
+
+                                <li>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Events') <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+                                        <li><a href="{{url('/admin?view=Event&layout=listEvent')}}"><i class="ti-person"></i>@lang('Events')</a></li>
+                                        <li><a href="{{url('/admin?view=Event&layout=listEventSchedules')}}"><i class="ti-person"></i>@lang('Event Schedules')</a></li>
+                                        <li><a href="{{url('/admin?controller=Event&task=create')}}"><i class="ti-person"></i>@lang('Create new event')</a></li>
+                                    </ul>
+                                </li>
                                 
                                 <li><a href="{{url('/admin?controller=user&task=test')}}"><i class="ti-home"></i> Test controller admin </a></li>
 

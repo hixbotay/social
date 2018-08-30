@@ -3,21 +3,30 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Post as PostModel;
-use Session;    
+use App\Http\Controllers\Controller;
+use App\Event as EventModel;
+use App\EventSchedules as EventSchedulesModel;
+use DateTime;
+use Session;
 use URL;
 
-class Post extends Controller
+class Event extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function listEvent()
     {
-        $posts = PostModel::paginate(10);
-        return view('admin.post.list', ['items' => $posts]);
+        $events = EventModel::paginate(10);
+        return view('admin.event.list-event', ['items' => $events]);
+    }
+
+    public function listEventSchedules()
+    {
+        $events = EventSchedulesModel::paginate(10);
+        return view('admin.event.list-event-schedules', ['items' => $events]);
     }
 
     /**
@@ -27,7 +36,7 @@ class Post extends Controller
      */
     public function create()
     {
-        return view('admin.post.create');
+        return view('admin.event.create');
     }
 
     /**
@@ -38,13 +47,13 @@ class Post extends Controller
      */
     public function store(Request $request)
     {
-        $new_post = $request->get('data');
-        $new_post['content'] = trim(strip_tags($new_post['content']));
-        console_log($new_post);
+        $new_event = $request->get('data');
+        $new_event['start_date'] = date_format(new DateTime($new_event['start_date']), 'm-d-Y');
+        $new_event['start_date'] = substr($new_event['start_date'], 0, 5);
 
-        PostModel::create($new_post);
+        EventSchedulesModel::create($new_event);
 
-        return redirect('/admin?view=Post');
+        return redirect('/admin?view=Event&layout=listEventSchedules');
     }
 
     /**
@@ -55,7 +64,7 @@ class Post extends Controller
      */
     public function show($id)
     {
-        
+        //
     }
 
     /**
@@ -66,10 +75,10 @@ class Post extends Controller
      */
     public function edit($id)
     {
-        $post = PostModel::find($id);
+        $event = EventSchedulesModel::find($id);
 
         // show the view and pass the nerd to it
-        return view('admin.post.detail', ['item' => $post]);
+        return view('admin.event.detail', ['item' => $event]);
     }
 
     /**
@@ -82,13 +91,15 @@ class Post extends Controller
     public function update(Request $request)
     {
         $id =  $request->input('id');
-        $post = PostModel::find($id);
+        $event = EventSchedulesModel::find($id);
         $data = $request->get('data');
 
-        $post['content'] = trim(strip_tags($data['content']));
+        foreach ($data as $key => $value) {
+            $event->$key = $value;
+        }
 
-        $post->save();
-        return redirect('admin?view=Post');
+        $event->save();
+        return redirect('admin?view=Event&layout=listEventSchedules');
     }
 
     /**
@@ -100,7 +111,7 @@ class Post extends Controller
     public function destroy(Request $request)
     {
         $id =  $request->input('id');
-        PostModel::destroy($id);
+        EventSchedulesModel::destroy($id);
         // redirect to previous url after destroy
         Session::put('pre_url', URL::previous());
         console_log(Session::get('pre_url'));
