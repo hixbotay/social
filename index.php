@@ -24,6 +24,7 @@ define('JPATH_ROOT', __DIR__);
 require __DIR__.'/vendor/autoload.php';
 require __DIR__.'/helpers/basic.php';
 require __DIR__.'/helpers/helper.php';
+require __DIR__.'/app/Http/Business/User.php';
 
 /*
 |--------------------------------------------------------------------------

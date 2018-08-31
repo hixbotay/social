@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ADmin;
 
+use Faker\Factory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Job AS JobModel;
@@ -9,12 +10,7 @@ use App\Job AS JobModel;
 class Job extends Controller
 {
     public function __construct(){
-        /*
-            $this->user = Factory::getUser();
-            if(!$this->user->role->is_admin){
-                throw new Exception('None permission');
-            }
-        */
+
     }
     public function index()
     {
