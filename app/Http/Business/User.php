@@ -1,16 +1,21 @@
 <?php 
 	class FactoryUser{
 
-		public $roles;
-		
-		public function __construct(){
+		public static $roles;
+
+
+		function __construct(){
 			$this->user = \Auth::user();
-			$this->roles = $this->get_roles();
+			$this->roles = 'NGUYEN VAN TU';
 		}
 		
 		function roles(){
 			$groups = $this->groups;
 			return $groups[$this->user->group];
+        }
+
+        static function getAccount(){
+		    return \Auth::user();
         }
 
 		function groups(){

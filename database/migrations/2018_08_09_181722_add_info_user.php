@@ -25,6 +25,13 @@ class AddInfoUser extends Migration
 			$table->integer('credit')->nullable(1);
 			$table->string('ip_address',30)->nullable(1);
 			$table->string('id_number',20)->nullable(1);
+			$table->float('weight')->nullable(1);
+			$table->float('height')->nullable(1);
+			$table->tinyInteger('marital_status')->nullable(1);
+			$table->tinyInteger('education')->nullable(1);
+			$table->tinyInteger('job')->nullable(1);
+			$table->text('favourite')->nullable(1);
+			$table->string('philosophy', 1000)->nullable(1);
 		});
     }
 

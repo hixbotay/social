@@ -12,11 +12,30 @@ class UserGroup extends Seeder
      */
     public function run()
     {
-        $data = [
-            'name' => 'Default Group SuperAdmin',
-        ];
-        print_r($data);
-        DB::table('user_groups')->truncate();
-        factory(App\UserGroup::class)->make();   
+        DB::table('user_groups')->insert([
+            'name' => 'administrator',
+        ],[
+            'name' => 'shareholders',
+        ],[
+            'name' => 'general_operation',
+        ],[
+            'name' => 'province_operation',
+        ],[
+            'name' => 'district_operation',
+        ],[
+            'name' => 'member_brands',
+        ],[
+            'name' => 'member_special',
+        ],[
+            'name' => 'member_guaranteed',
+        ],[
+            'name' => 'member_vip',
+        ],[
+            'name' => 'member_official',
+        ],[
+            'name' => 'member_temporary',
+        ],[
+            'name' => 'guest',
+        ]);
     }
 }

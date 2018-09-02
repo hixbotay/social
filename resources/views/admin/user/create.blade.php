@@ -26,7 +26,8 @@
 					</div>
 					<div class="form-group">
 						<label>Group ID</label>
-						<input type="number" class="form-control" name="data[group_id]" />
+						{{--<input type="number" class="form-control" name="data[group_id]" />--}}
+						<?php BookproHelper::select_user_groups('data[group_id]') ?>
 					</div>
 					<div class="form-group">
 						<label>Address</label>
