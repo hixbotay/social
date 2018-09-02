@@ -52,6 +52,9 @@
                                         <li><a href="{{url('/admin?view=ProvinceGroup')}}"><i class="ti-person"></i>@lang('Province Groups')</a></li>
                                         <li><a href="{{url('/admin?controller=ProvinceGroup&task=create')}}"><i class="ti-person"></i>@lang('Thêm group')</a></li>
 
+                                        <li><a href="{{url('/admin?view=Hobby')}}"><i class="ti-person"></i>@lang('Sở thích')</a></li>
+                                        <li><a href="{{url('/admin?controller=Hobby&task=create')}}"><i class="ti-person"></i>@lang('Create Hobby')</a></li>
+
                                     </ul>
                                 </li>
 

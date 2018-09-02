@@ -1,10 +1,3 @@
-<?php
-//$user = FactoryUser::getAccount();
-//echo "<pre>";
-//print_r($user);
-//die;
-?>
-
 @extends('layouts.admin')
 
 @section('content')

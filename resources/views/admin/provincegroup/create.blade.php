@@ -9,13 +9,25 @@
                     {{ csrf_field() }}
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label>Name <span>*</span></label>
+                            <label>Tên nhóm <span>*</span></label>
                             <input type="text" class="form-control" name="data[name]" required />
                         </div>
-                        <div class="form-group">
-                            <label>Tỉnh/TP <span>*</span></label>
-                            <input type="text" class="form-control" name="data[province_ids]" required />
+
+                        @foreach($province AS $value)
+
+                        <div class="checkbox checkbox-custom">
+
+                            <input
+                                    id="province_{{$value->matp}}"
+                                    type="checkbox" name="data[province_ids]">
+                            <label for="province_{{$value->matp}}">
+                                {{$value->name}}
+                            </label>
+
                         </div>
+
+                        @endforeach
+
                     </div>
 
                     <div class="col-sm-12">

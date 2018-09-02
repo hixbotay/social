@@ -10,7 +10,7 @@
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
                         <tr>
-                            <th style="min-width: 95px;">
+                            <th width="20%">
                                 <div class="checkbox checkbox-primary checkbox-single m-r-15">
                                     <input id="action-checkbox" type="checkbox">
                                     <label for="action-checkbox"></label>
@@ -31,7 +31,7 @@
 
                                     <img src="assets/images/users/avatar-1.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
                                 </td>
-                                <td>{{$item->name}}</td>
+                                <td><a href="{{url('admin?view=ProvinceGroup&layout=edit&id='.$item->id)}}"> {{$item->name}} </a> </td>
                             </tr>
                         @endforeach
                         </tbody>

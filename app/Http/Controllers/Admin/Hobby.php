@@ -12,7 +12,8 @@ class Hobby extends Controller
     }
     public function index()
     {
-        return view('admin.hobby.list', ['items' => array()]);
+        $items = \App\Hobby::all();
+        return view('admin.hobby.list', ['items' => $items]);
     }
 
     /**
@@ -39,10 +40,8 @@ class Hobby extends Controller
     public function store(Request $request)
     {
         $data = request()->get('data');
-        console_log($data);
-
-        JobModel::create($data);
-        return redirect('admin?view=job');
+        \App\Hobby::create($data);
+        return redirect('admin?view=Hobby');
     }
 
     /**

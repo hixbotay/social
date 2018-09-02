@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h4 class="m-b-20 header-title">Tạo Job</h4>
-                <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=Job&task=store')}}">
+                <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=Hobby&task=store')}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">
                         <div class="form-group">

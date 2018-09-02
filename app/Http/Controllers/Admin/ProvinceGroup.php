@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 
 class ProvinceGroup extends Controller
 {
@@ -27,7 +28,9 @@ class ProvinceGroup extends Controller
 
     public function create()
     {
-        return view('admin.provincegroup.create');
+        $class = new \App\ProvinceGroup();
+        $province = $class->get_list_province();
+        return view('admin.provincegroup.create', ['province' => $province]);
     }
 
     /**
@@ -39,8 +42,6 @@ class ProvinceGroup extends Controller
     public function store(Request $request)
     {
         $data = request()->get('data');
-        console_log($data);
-
         \App\ProvinceGroup::create($data);
         return redirect('admin?view=ProvinceGroup');
     }
@@ -72,10 +73,13 @@ class ProvinceGroup extends Controller
     {
         // $id = request()->input('id');
 
-        $user = UserGroupModel::find($id);
+        $user = \App\ProvinceGroup::find($id);
+
+        $class = new \App\ProvinceGroup();
+        $province = $class->get_list_province();
 
         // show the view and pass the nerd to it
-        return view('admin.provincegroup.detail')->with('item', $user);
+        return view('admin.provincegroup.detail', ['item' => $user, 'province' => $province]);
     }
 
     /**
@@ -90,7 +94,9 @@ class ProvinceGroup extends Controller
         $id = $request->input('id');
         $data = $request->get('data');
 
-        $usergroup = UserGroupModel::find($id);
+        $data['province_ids'] = json_encode($data['province_ids']);
+
+        $usergroup = \App\ProvinceGroup::find($id);
         foreach ($data as $key => $value) {
             $usergroup->$key = $value;
         }
