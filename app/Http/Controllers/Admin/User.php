@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\User as UserModel;
 use Session;    
 use URL;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Controller
 {
@@ -43,8 +44,24 @@ class User extends Controller
     public function store(Request $request)
     {
         $new_user = $request->get('data');
-        UserModel::create($new_user);
+        console_log($new_user);
 
+        $id = UserModel::create($new_user)->id;
+
+        $request->validate([
+            'avatar' => 'sometimes|mimes:jpeg,bmp,png|max:20000',
+        ]);
+
+        if($request->hasFile('avatar')) {
+            $filename = (string) time().'.'.$request->avatar->getClientOriginalExtension();
+            $request->avatar->storeAs('user'.$id.'/avatar', $filename);
+        }
+
+        $user = UserModel::find($id);
+        $user['avatar'] = env('APP_URL').'/storage/app/user'.$id.'/avatar/'.$filename;
+        $user->save();
+
+        console_log($user);
         return redirect('/admin?view=user');
     }
 
@@ -56,7 +73,10 @@ class User extends Controller
      */
     public function show($id)
     {
-    	$user = UserModel::find($id);
+        $user = UserModel::find($id);
+        
+        // store user id in session for use update avatar
+        Session::put('current_user_id', $id);
 
         // show the view and pass the nerd to it
         return view('admin.user.detail', ['item' => $user]);
@@ -114,5 +134,34 @@ class User extends Controller
         Session::put('pre_url', URL::previous());
         console_log(Session::get('pre_url'));
         return redirect(Session::get('pre_url'));
+    }
+
+    public function resetUserPassword(Request $request) {
+        $id = $request->input('id');
+        $user = UserModel::find($id);
+
+        $new_password = str_random(10);
+        $user->password = Hash::make($new_password);
+        // ở đây cần gửi mật khẩu mới qua mail cho người dùng
+        $user->save();
+        return redirect('admin?view=User');
+    }
+
+    public function updateUserAvatar(Request $request) {
+        $id =  Session::get('current_user_id');
+        console_log($id);
+        // $user = UserModel::find($id);
+
+        // $request->validate([
+        //     'avatar' => 'sometimes|mimes:jpeg,bmp,png|max:20000',
+        // ]);
+
+        // if($request->hasFile('avatar')) {
+        //     $filename = (string) time().'.'.$request->avatar->getClientOriginalExtension();
+        //     $request->avatar->storeAs('user'.$id.'/avatar', $filename);
+        // }
+
+        // $user->save();
+        // return redirect('admin?view=User');
     }
 }

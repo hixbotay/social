@@ -37,7 +37,7 @@
                                         <label for="checkbox1"></label>
                                     </div>
 
-                                    <img src="assets/images/users/avatar-1.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
+                                    <img src="{{$item->avatar}}" alt="avatar" title="avatar" class="img-circle thumb-sm" />
                                 </td>
 
                                 <td>

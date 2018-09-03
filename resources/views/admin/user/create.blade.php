@@ -88,7 +88,7 @@
 					</div>
 					<div class="form-group">
 						<label>Avatar</label>
-						<input type="file" class="form-control" name="data[avatar]" />
+						<input type="file" class="form-control" name="avatar" />
 					</div>
 				</div>
 				<div class="col-sm-12">
@@ -100,3 +100,5 @@
 	</div>
 </div>
 @endsection
+
+

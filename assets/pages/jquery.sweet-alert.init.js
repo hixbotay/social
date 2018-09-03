@@ -123,13 +123,19 @@
         //custom html alert
         $('#custom-html-alert').click(function () {
             swal({
-                title: '<i>HTML</i> <u>example</u>',
+                title: 'Upload new Avatar',
                 type: 'info',
-                html: 'You can use <b>bold text</b>, ' +
-                '<a href="//coderthemes.com/">links</a> ' +
-                'and other HTML tags',
+                html: `<form enctype='multipart/form-data' method="POST" action="admin?controller=User&task=updateUserAvatar">
+                    <div class="input-group m-t-10">
+                        <input type="file" id="example-input2-group2" name="avatar" class="form-control">
+                        <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        </span>
+                    </div>
+                </form>`,
                 showCloseButton: true,
-                showCancelButton: true,
+                showCancelButton: false,
+                showConfirmButton: false,
                 confirmButtonClass: 'btn btn-success',
                 cancelButtonClass: 'btn btn-danger m-l-10',
                 confirmButtonText: '<i class="fa fa-thumbs-up"></i> Great!',

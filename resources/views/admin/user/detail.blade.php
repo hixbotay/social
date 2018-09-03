@@ -9,6 +9,23 @@
 				{{ csrf_field() }}
 				<input name="_method" type="hidden" value="PATCH">
 				<div class="col-sm-6">
+					<div class="row">
+						<div class="container">
+							<div class="col-md-3 user-details">
+								<button class="btn btn-default waves-effect waves-light avatar-button" id="custom-html-alert" type="button">
+									<img src="{{$item->avatar}}" class="thumb-md img-circle">
+								</button>
+							</div>
+							<div class="col-md-4">
+								<div><b>{{$item->name}}</b></div>
+							</div>
+							<div class="col-md-5">
+								<a href="{{url('admin?controller=User&task=resetUserPassword&id='.$item->id)}}">
+									<button type="button" class="btn btn-danger">Reset User Password</button>
+								</a>
+							</div>
+						</div>
+					</div>
 					<div class="form-group">
 						<label>Name <span>*</span></label>
 						<input type="text" class="form-control" name="data[name]" value="{{$item->name}}" required />
@@ -26,6 +43,13 @@
 						<input type="number" class="form-control" name="data[group_id]" value="{{$item->group_id}}"/>
 					</div>
 					<div class="form-group">
+						<label>Enabled or Disabled</label>
+						<select name="is_enabled" class="form-control">
+							<option value="1">Enabled</option>
+							<option value="0">Disabled</option>
+						</select>
+					</div>
+					<div class="form-group">
 						<label>Address</label>
 						<input type="text" class="form-control" name="data[address]" value="{{$item->address}}"/>
 					</div>
@@ -37,12 +61,12 @@
 						<label>Latitude</label>
 						<input type="text" class="form-control" name="data[latitude]" value="{{$item->latitude}}"/>
 					</div>
+				</div>
+				<div class="col-sm-6">
 					<div class="form-group">
 						<label>Credit</label>
 						<input type="text" class="form-control" name="data[credit]" value="{{$item->credit}}"/>
 					</div>
-				</div>
-				<div class="col-sm-6">
 					<div class="form-group">
 						<label>IP Address</label>
 						<input type="text" class="form-control" name="data[ip_address]" value="{{$item->ip_address}}"/>
@@ -80,6 +104,13 @@
 						<select name="is_verify" class="form-control">
 							<option value="1" selected="{{$item->is_verify == 1}}">Yes</option>
 							<option value="0" selected="{{$item->is_verify == 0}}">No</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Upload image in status or not</label>
+						<select name="" class="form-control">  
+							<option>Yes</option>
+							<option>No</option>
 						</select>
 					</div>
 					<div class="form-group">

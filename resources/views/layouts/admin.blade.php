@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<!-- CSRF Token -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
+	<!-- CSRF Token -->
+	<meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>{{ config('app.name', 'Laravel') }}</title>
+	<title>{{ config('app.name', 'Laravel') }}</title>
 
-<meta name="viewport"
+	<meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta
+	<meta
 	content="{{env('description')}}"
 	name="description" />
-<meta content="Coderthemes" name="author" />
+	<meta content="Coderthemes" name="author" />
 
-<link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
-<!-- Bootstrap core CSS -->
-<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-<!-- MetisMenu CSS -->
-<link href="{{ asset('assets/css/metisMenu.min.css') }}" rel="stylesheet">
-<!-- Icons CSS -->
-<link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
-<!-- Custom styles for this template -->
-<link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+	<!-- Bootstrap core CSS -->
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<!-- MetisMenu CSS -->
+	<link href="{{ asset('assets/css/metisMenu.min.css') }}" rel="stylesheet">
+	<!-- Icons CSS -->
+	<link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
+
+	<!-- Sweet Alert -->
+	<link href="{{ asset('assets/plugins/sweet-alert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css">
+
+	<!-- Custom styles for this template -->
+	<link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
 
 	<script src="{{ asset('js/app.js') }}"></script>
 
@@ -67,6 +72,10 @@
 	<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 	<script src="{{ asset('assets/js/metisMenu.min.js') }}"></script>
 	<script src="{{ asset('assets/js/jquery.slimscroll.min.js') }}"></script>
+
+	<!-- Sweet-Alert  -->
+	<script src="{{ asset('assets/plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
+	<script src="{{ asset('assets/pages/jquery.sweet-alert.init.js') }}"></script>
 
 	<!-- App Js -->
 	<script src="{{ asset('assets/js/jquery.app.js') }}"></script>
