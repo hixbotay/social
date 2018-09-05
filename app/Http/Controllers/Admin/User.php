@@ -44,7 +44,9 @@ class User extends Controller
     public function store(Request $request)
     {
         $new_user = $request->get('data');
-        console_log($new_user);
+
+        $new_user['password'] = Hash::make($new_user['password']);
+
 
         $id = UserModel::create($new_user)->id;
 
@@ -52,6 +54,7 @@ class User extends Controller
             'avatar' => 'sometimes|mimes:jpeg,bmp,png|max:20000',
         ]);
 
+        $filename = null;
         if($request->hasFile('avatar')) {
             $filename = (string) time().'.'.$request->avatar->getClientOriginalExtension();
             $request->avatar->storeAs('user'.$id.'/avatar', $filename);
@@ -61,7 +64,18 @@ class User extends Controller
         $user['avatar'] = env('APP_URL').'/storage/app/user'.$id.'/avatar/'.$filename;
         $user->save();
 
-        console_log($user);
+        $favourite = $request->get('favourite');
+
+        $plans = array();
+        foreach ($favourite AS $value){
+            $plans[] = array(
+                'user_id' => $id,
+                'hobby_id' => $value
+            );
+        }
+
+        DB::table('user_hobby_map')->insert( $plans );
+
         return redirect('/admin?view=user');
     }
 

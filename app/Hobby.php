@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Hobby extends Model
 {
@@ -11,4 +13,9 @@ class Hobby extends Model
     protected $fillable = ['name'];
 
     public $timestamps = false;
+
+    static function get_hobby_by_user($id){
+        $result = DB::table('user_hobby_map')->where("user_id", $id)->get();
+        return $result;
+    }
 }

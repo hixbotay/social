@@ -21,14 +21,20 @@
                         </div>
 
                         @foreach($province AS $value)
-                            @foreach(json_decode($value->province_ids) AS $val)
+
 
                             <div class="checkbox checkbox-custom">
                                 <input
                                         id="province_{{$value->matp}}"
-                                        @if($val == $value->matp)
-                                            checked
-                                        @endif
+
+                                        @foreach(json_decode($item->province_ids) AS $val)
+
+                                            @if($val == $value->matp)
+                                                checked
+                                            @endif
+
+                                        @endforeach
+
                                         type="checkbox" name="data[province_ids][]" value="{{$value->matp}}">
                                 <label for="province_{{$value->matp}}">
                                     {{$value->name}}
@@ -36,7 +42,6 @@
 
                             </div>
 
-                            @endforeach
 
                         @endforeach
 

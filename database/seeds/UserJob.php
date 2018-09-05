@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserJob extends Seeder
 {
@@ -11,15 +12,10 @@ class UserJob extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        $result = DB::table('user_jobs')->insert([
             'name' => 'Bác sĩ',
             'description' => 'Nghề bác sĩ là nghề chưa bệnh',
-        ],[
-            'name' => 'Giáo viên',
-            'description' => 'Chuyên dạy học'
-        ],[
-            'name' => 'Kỹ sư thông tin',
-            'description' => 'Mô tả nghề kỹ sư',
         ]);
+
     }
 }

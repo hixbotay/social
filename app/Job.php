@@ -11,4 +11,17 @@ class Job extends Model
     protected $fillable = ['name'];
 
     public $timestamps = false;
+
+    public static function select_job($name, $class = null, $id = null, $selected = null){
+
+        $job = self::all();
+
+        echo "<select class='$class form-control'>";
+        foreach ($job AS $value){
+            echo "<option value='$value->id'>";
+            echo $value->name;
+            echo "</option>";
+        }
+        echo "</select>";
+    }
 }

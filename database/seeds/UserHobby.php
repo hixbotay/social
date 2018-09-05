@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserHobby extends Seeder
 {
@@ -13,6 +14,8 @@ class UserHobby extends Seeder
     {
         DB::table('user_hobby')->insert([
             'name' => 'Đá bóng',
+        ],[
+            'name' => 'Đua xe'
         ]);
     }
 }

@@ -23,7 +23,6 @@
 
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="reset" class="btn btn-dark">Reset</button>
                     </div>
 
 

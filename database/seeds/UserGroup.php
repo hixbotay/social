@@ -14,28 +14,34 @@ class UserGroup extends Seeder
     {
         DB::table('user_groups')->insert([
             'name' => 'administrator',
-        ],[
-            'name' => 'shareholders',
-        ],[
-            'name' => 'general_operation',
-        ],[
-            'name' => 'province_operation',
-        ],[
-            'name' => 'district_operation',
-        ],[
-            'name' => 'member_brands',
-        ],[
-            'name' => 'member_special',
-        ],[
-            'name' => 'member_guaranteed',
-        ],[
-            'name' => 'member_vip',
-        ],[
-            'name' => 'member_official',
-        ],[
-            'name' => 'member_temporary',
-        ],[
-            'name' => 'guest',
         ]);
     }
+
+    /**
+     * ,[
+    'name' => 'shareholders',
+    ],[
+    'name' => 'general_operation',
+    ],[
+    'name' => 'province_operation',
+    ],[
+    'name' => 'district_operation',
+    ],[
+    'name' => 'member_brands',
+    ],[
+    'name' => 'member_special',
+    ],[
+    'name' => 'member_guaranteed',
+    ],[
+    'name' => 'member_vip',
+    ],[
+    'name' => 'member_official',
+    ],[
+    'name' => 'member_temporary',
+    ],[
+    'name' => 'guest',
+    ]
+     *
+     */
+
 }

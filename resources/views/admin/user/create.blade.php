@@ -45,6 +45,14 @@
 						<label>Credit</label>
 						<input type="text" class="form-control" name="data[credit]" />
 					</div>
+					<div class="form-group">
+						<label>Chiều cao</label>
+						<input type="number" step="0.01" class="form-control" name="data[height]" />
+					</div>
+					<div class="form-group">
+						<label>Cân nặng</label>
+						<input type="number" step="0.01" class="form-control" name="data[weight]" />
+					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
@@ -86,15 +94,42 @@
 							<option value="0">No</option>
 						</select>
 					</div>
+
+					<div class="form-group">
+						<label>Nghề nghiệp</label>
+						{{\App\Job::select_job('data[job]')}}
+					</div>
+
+					<div class="form-group">
+						<label>Triết lý sống</label>
+						<input type="text" name="data[philosophy]" class="form-control">
+					</div>
+
+					<div class="form-group">
+						<label>Sở thích</label>
+
+						@foreach(\App\Hobby::all() AS $value)
+
+							<div class="checkbox checkbox-info">
+								<input id="checkbox{{$value->id}}" value="{{$value->id}}" type="checkbox" name="favourite[]">
+								<label for="checkbox{{$value->id}}">{{$value->name}}</label>
+							</div>
+
+						@endforeach
+
+					</div>
+
 					<div class="form-group">
 						<label>Avatar</label>
 						<input type="file" class="form-control" name="avatar" />
 					</div>
+
 				</div>
+
 				<div class="col-sm-12">
 					<button type="submit" class="btn btn-primary">Submit</button>
-					<button type="reset" class="btn btn-dark">Reset</button>
 				</div>
+
 			</form>
 		</div>
 	</div>
