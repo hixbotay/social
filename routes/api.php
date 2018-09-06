@@ -23,3 +23,10 @@ Route::get('articles', function() {
     // this will return a JSON structure. This will be cleaned up later.
     die("111");
 });
+
+Route::get('country', function (Request $request){
+//    $model = \App\ProvinceGroup::class;
+//    $result = $model->get_list_province();
+    $result = \App\ProvinceGroup::all_province();
+    return $result;
+});

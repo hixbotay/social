@@ -20,5 +20,10 @@ class ProvinceGroup extends Model
         return $province;
     }
 
+    public static function all_province(){
+        $province = DB::table('devvn_tinhthanhpho')->select('name', 'matp')->get();
+        return $province;
+    }
+
 
 }

@@ -11,12 +11,12 @@
 
                         <div class="form-group">
                             <label>Tiêu đề <span>*</span></label>
-                            <input type="text" value="{{$params->title}}" class="form-control" name="data[params][title]" required />
+                            <input type="text" value="{{isset($params->title)?$params->title:null}}" class="form-control" name="data[params][title]" required />
                         </div>
 
                         <div class="form-group">
                             <label>Mô tả <span>*</span></label>
-                            <textarea class="form-control" name="data[params][description]" required>{{$params->description}}</textarea>
+                            <textarea class="form-control" name="data[params][description]" required>{{isset($params->description)?$params->description:null}}</textarea>
                         </div>
 
                     </div>
