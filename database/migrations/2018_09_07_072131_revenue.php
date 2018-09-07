@@ -15,9 +15,10 @@ class Revenue extends Migration
     {
         Schema::create('revenue', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('group_id')->nullable(1);
+            $table->integer('group_id');
             $table->integer('type');
             $table->float('value');
+            $table->timestamps();
         });
     }
 

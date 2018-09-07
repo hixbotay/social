@@ -9,7 +9,8 @@ class Finance extends Controller
 {
     public function index()
     {
-        return view('admin.finance.list', ['items' => array()]);
+        $items = \App\Finance::all();
+        return view('admin.finance.list', ['items' => $items]);
     }
 
     /**
@@ -31,12 +32,10 @@ class Finance extends Controller
     public function store(Request $request)
     {
         $new_post = $request->get('data');
-        $new_post['content'] = trim(strip_tags($new_post['content']));
-        console_log($new_post);
 
-        PostModel::create($new_post);
+        \App\Finance::create($new_post);
 
-        return redirect('/admin?view=finance');
+        return redirect('/admin?view=Finance');
     }
 
     /**

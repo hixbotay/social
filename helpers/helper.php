@@ -74,19 +74,6 @@ class BookproHelper{
 		return "https://chart.googleapis.com/chart?cht=qr&chs=".preg_replace("/[^0-9]/", "", $data['width'])."x".preg_replace("/[^0-9]/", "", $data['height'])."&chl=".urlencode($data['data']);
 	}
 
-	public static function select_user_groups($name, $class = null, $id = null, $selected = null){
-
-        $userGroup = DB::table('user_groups')->get();
-
-        echo "<select class='$class form-control'>";
-        foreach ($userGroup AS $value){
-            echo "<option value='$value->id'>";
-            echo $value->name;
-            echo "</option>";
-        }
-        echo "</select>";
-
-    }
 
 
 }
