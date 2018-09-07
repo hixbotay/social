@@ -1,18 +1,6 @@
 <?php
 
 
-/**
- * Support for generating html code
- *
- * @package 	Bookpro
- * @author 		Vuong Anh Duong
- * @link 		http://http://woafun.com/
- * @copyright 	Copyright (C) 2011 - 2012 Vuong Anh Duong
- * @license 	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version 	$Id: html.php 82 2012-08-16 15:07:10Z quannv $
- **/
-defined('ABSPATH') or die('Restricted access');
-
 class BookproHtml
 {
 	static $star_lib;
@@ -292,6 +280,21 @@ class BookproHtml
 		}
 		return "<div class='starrr' rating='{$number_int}{$number_haft}'></div>{$volume}";
 	}
+
+
+    public static function select_user_groups($name, $selected = null, $class = null, $id = null){
+
+        $userGroup = DB::table('user_groups')->get();
+
+        echo "<select class='$class form-control' name='$name'>";
+        foreach ($userGroup AS $value){
+            echo "<option value='$value->id'>";
+            echo $value->name;
+            echo "</option>";
+        }
+        echo "</select>";
+
+    }
 	
 	
 			

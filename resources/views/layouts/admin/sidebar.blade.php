@@ -70,9 +70,9 @@
                                 <li>
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Finance') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="{{url('/admin?view=finance')}}"><i class="ti-person"></i>@lang('Chia lợi nhuận')</a></li>
+                                        <li><a href="{{url('/admin?view=Finance')}}"><i class="ti-person"></i>@lang('Chia lợi nhuận')</a></li>
                                         <li><a href="{{url('/admin?view=Event&layout=listEventSchedules')}}"><i class="ti-person"></i>@lang('Event Schedules')</a></li>
-                                        <li><a href="{{url('/admin?controller=Event&task=create')}}"><i class="ti-person"></i>@lang('Create new event')</a></li>
+                                        <li><a href="{{url('/admin?controller=Finance&task=create')}}"><i class="ti-person"></i>@lang('Thêm cấu hình lợi nhuận')</a></li>
                                     </ul>
                                 </li>
                                 

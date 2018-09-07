@@ -10,13 +10,15 @@
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
                         <tr>
-                            <th style="min-width: 95px;">
+                            <th>
                                 <div class="checkbox checkbox-primary checkbox-single m-r-15">
                                     <input id="action-checkbox" type="checkbox">
                                     <label for="action-checkbox"></label>
                                 </div>
                             </th>
-                            <th>Name</th>
+                            <th>Nhóm</th>
+                            <th>Kiểu</th>
+                            <th>Giá trị</th>
                         </tr>
                         </thead>
 
@@ -31,7 +33,9 @@
 
                                     <img src="assets/images/users/avatar-1.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
                                 </td>
-                                <td>{{$item->name}}</td>
+                                <td>{{$item->group_id}}</td>
+                                <td>{{$item->type}}</td>
+                                <td>{{$item->value}}</td>
                             </tr>
                         @endforeach
                         </tbody>

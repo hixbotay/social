@@ -1,9 +1,3 @@
-<?php
-//    echo "<pre>";
-//    print_r($item);
-//    die;
-?>
-
 @extends('layouts.admin')
 
 @section('content')
