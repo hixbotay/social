@@ -41,3 +41,10 @@ Route::middleware(['admin', 'verify'])->group(function() {
     Route::any('/admin', 'Admin\Controller@execute');
     // Route::post('/admin', 'Admin\Controller@execute')->name('admin.post');
 });
+
+// Route::any('/{path?}', function () {
+//     return view('layouts.app');
+// })->where('path', '.*');
+
+Route::view('{any}', 'layouts.app')
+    ->where('any', '.*');
