@@ -66,6 +66,15 @@
                                         <li><a href="{{url('/admin?controller=Event&task=create')}}"><i class="ti-person"></i>@lang('Create new event')</a></li>
                                     </ul>
                                 </li>
+
+                                <li>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Finance') <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+                                        <li><a href="{{url('/admin?view=finance')}}"><i class="ti-person"></i>@lang('Chia lợi nhuận')</a></li>
+                                        <li><a href="{{url('/admin?view=Event&layout=listEventSchedules')}}"><i class="ti-person"></i>@lang('Event Schedules')</a></li>
+                                        <li><a href="{{url('/admin?controller=Event&task=create')}}"><i class="ti-person"></i>@lang('Create new event')</a></li>
+                                    </ul>
+                                </li>
                                 
                                 <li>
                                     <a href="{{url('/admin?view=Configuration')}}"><i class="ti-light-bulb"></i> Configuration <span class="fa arrow"></span></a>
