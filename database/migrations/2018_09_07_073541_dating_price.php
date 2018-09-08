@@ -15,10 +15,12 @@ class DatingPrice extends Migration
     {
         Schema::create('dating_price', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('type');
             $table->integer('province_group_id');
             $table->float('double_dating_price');
             $table->float('group_dating_m_price');
             $table->float('group_dating_f_price');
+            $table->timestamps();
         });
     }
 

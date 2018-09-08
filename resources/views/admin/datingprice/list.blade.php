@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">% Lợi nhuận</h4>
+                <h4 class="m-t-0">Quản lý giá hẹn hò</h4>
                 <div class="table-responsive">
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
@@ -16,9 +16,9 @@
                                     <label for="action-checkbox"></label>
                                 </div>
                             </th>
-                            <th>Nhóm</th>
-                            <th>Loại thu nhập</th>
-                            <th>Giá trị(%)</th>
+                            <th>Type</th>
+                            <th>Nhóm tỉnh</th>
+                            <th>Giá (VND)</th>
                         </tr>
                         </thead>
 

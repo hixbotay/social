@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class Finance extends Controller
+class DatingPrice extends Controller
 {
     public function index()
     {
-        $items = \App\Finance::all();
-        return view('admin.finance.list', ['items' => $items]);
+        $items = \App\DatingPrice::all();
+        return view('admin.datingprice.list', ['items' => $items]);
     }
 
     /**
@@ -20,7 +20,7 @@ class Finance extends Controller
      */
     public function create()
     {
-        return view('admin.finance.create');
+        return view('admin.datingprice.create');
     }
 
     /**
@@ -31,11 +31,11 @@ class Finance extends Controller
      */
     public function store(Request $request)
     {
-        $new_post = $request->get('data');
+        $data = $request->get('data');
 
-        \App\Finance::create($new_post);
+        \App\DatingPrice::create($data);
 
-        return redirect('/admin?view=Finance');
+        return redirect('/admin?view=DatingPrice');
     }
 
     /**

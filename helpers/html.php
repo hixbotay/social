@@ -282,11 +282,19 @@ class BookproHtml
 	}
 
 
-    public static function select_user_groups($name, $selected = null, $class = null, $id = null){
+    /**
+     * @param $name
+     * @param null $selected
+     * @param null $class
+     * @param null $id
+     * @param bool $readonly
+     */
+
+    public static function select_user_groups($name, $selected = null, $class = null, $id = null, $readonly = false){
 
         $userGroup = DB::table('user_groups')->get();
 
-        echo "<select class='$class form-control' name='$name'>";
+        echo "<select class='$class form-control' name='$name' $readonly?'readonly':null>";
         foreach ($userGroup AS $value){
             echo "<option value='$value->id'>";
             echo $value->name;

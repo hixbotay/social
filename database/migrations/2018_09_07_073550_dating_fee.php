@@ -13,12 +13,13 @@ class DatingFee extends Migration
      */
     public function up()
     {
-        Schema::create('dating_price', function (Blueprint $table) {
+        Schema::create('dating_fee', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('dating_price_id');
             $table->integer('user_id');
             $table->float('price');
             $table->integer('type');
+            $table->timestamps();
         });
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use App\UserGroup;
 
 
 function url_root(){
@@ -8,6 +9,25 @@ function url_root(){
 }
 
 class BookproHelper{
+
+
+    public static $finance_type = array(
+        '1' => 'nang_cap',
+        '2' => 'hen_nhom',
+        '3' => 'hen_doi',
+        '4' => 'tang_qua',
+        '5' => 'quang_cao',
+    );
+
+    public static function get_finance_type_name($type){
+        $data = self::$finance_type;
+        foreach ($data AS $key => $value){
+            if ($key == $type){
+                return $value;
+            }
+        }
+        return false;
+    }
 
 	static function mask_email($email, $minLength = 3, $mask = "*") {
 		$em   = explode("@",$email,2);
@@ -73,6 +93,12 @@ class BookproHelper{
 	
 		return "https://chart.googleapis.com/chart?cht=qr&chs=".preg_replace("/[^0-9]/", "", $data['width'])."x".preg_replace("/[^0-9]/", "", $data['height'])."&chl=".urlencode($data['data']);
 	}
+
+
+	public static function get_group_name_by_id($id){
+	    $result = UserGroup::find($id);
+	    return $result->name;
+    }
 
 
 

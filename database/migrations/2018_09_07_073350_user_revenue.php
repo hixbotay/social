@@ -13,11 +13,12 @@ class UserRevenue extends Migration
      */
     public function up()
     {
-        Schema::create('revenue', function (Blueprint $table) {
+        Schema::create('user_revenue', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('revenue_id');
             $table->integer('user_id');
             $table->float('value');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +29,6 @@ class UserRevenue extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('revenue');
+        Schema::dropIfExists('user_revenue');
     }
 }
