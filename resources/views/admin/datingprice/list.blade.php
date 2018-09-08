@@ -18,7 +18,9 @@
                             </th>
                             <th>Type</th>
                             <th>Nhóm tỉnh</th>
-                            <th>Giá (VND)</th>
+                            <th>Giá hẹn đôi (VND)</th>
+                            <th>Giá hẹn nhóm Nam (VND)</th>
+                            <th>Giá hẹn nhóm Nữ (VND)</th>
                         </tr>
                         </thead>
 
@@ -33,12 +35,12 @@
 
                                 </td>
                                 <td>
-                                    <a href="{{'admin?view=Finance&layout=edit&id='.$item->id}}">
-                                        {{BookproHelper::get_group_name_by_id($item->group_id)}}
-                                    </a>
+                                    {{$item->type}}
                                 </td>
-                                <td> {{BookproHelper::get_finance_type_name($item->type)}}</td>
-                                <td>{{$item->value}}</td>
+                                <td>{{$item->province_group_id}}</td>
+                                <td>{{$item->double_dating_price}}</td>
+                                <td>{{$item->group_dating_m_price}}</td>
+                                <td>{{$item->group_dating_f_price}}</td>
                             </tr>
                         @endforeach
                         </tbody>

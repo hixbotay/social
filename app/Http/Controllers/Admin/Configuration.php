@@ -11,7 +11,7 @@ class Configuration extends Controller
     }
 
     private $type = [
-        'general', 'seo'
+        'general', 'seo', 'price'
     ];
 
     public function index()
@@ -68,7 +68,7 @@ class Configuration extends Controller
 
         }
 
-        return redirect('admin?view=configuration&option=general');
+        return redirect('admin?view=configuration&option='.$data['name']);
     }
 
     /**

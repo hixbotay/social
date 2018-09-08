@@ -19,6 +19,7 @@ class DatingFee extends Migration
             $table->integer('user_id');
             $table->float('price');
             $table->integer('type');
+            $table->integer('province_group_id');
             $table->timestamps();
         });
     }
