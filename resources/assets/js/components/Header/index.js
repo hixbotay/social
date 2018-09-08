@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-import "../../../../../assets/css/bootstrap-reboot.css";
-import "../../../../../assets/css/bootstrap.css";
-import "../../../../../assets/css/bootstrap-grid.css";
-import "../../../../../assets/css/react-main.css";
-// import "../../../../../assets/css/fonts.css";
-import "../../../../../assets/fonts/fontawesome-all";
 
 class Header extends Component {
     render() {

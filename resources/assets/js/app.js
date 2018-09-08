@@ -22,7 +22,7 @@ import MainApp from './routes/index';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store/index';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 export default class App extends Component {
     constructor(props) {
@@ -51,7 +51,10 @@ export default class App extends Component {
 
 ReactDOM.render(
     <Provider store={store}>
-        <App/>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+
     </Provider>,
     document.getElementById('app')
 );

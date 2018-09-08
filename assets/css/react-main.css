@@ -3260,7 +3260,7 @@ input, .form-control {
   line-height: 1.75; }
 
 .label-floating textarea.form-control {
-  padding: 1.5rem 1.1rem .2rem; }
+  padding: 1rem 1.1rem .2rem; }
 
 .label-floating.with-icon .form-control, .label-floating.with-icon input, .label-floating.with-icon textarea {
   padding-left: 70px; }
@@ -6193,7 +6193,7 @@ ol ol li {
   padding: 25px;
   border-bottom: 1px solid #e6ecf5; }
   .post p {
-    margin: 25px 0; }
+    margin: 0px 0px 15px 0px; }
   .post .control-block-button {
     top: 20px;
     right: -17px; }

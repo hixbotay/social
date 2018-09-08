@@ -1,60 +1,67 @@
 import React, { Component } from 'react';
 // import {withRouter} from 'react-router-dom';
+import CreatePostForm from '../../components/Post/CreatePostForm';
+import PostHeader from '../../components/Post/PostHeader';
+import CircleButton from '../../components/Button/CircleButton';
 
 class NewFeeds extends Component {
     render() {
+        var posts = [1,2,3,4];
+
         return (
             <main className="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                 <div className="ui-block">
-                    <div className="news-feed-form">
-                        <ul className="nav nav-tabs" role="tablist">
-                            <li className="nav-item">
-                                <a className="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab" aria-expanded="true">
-                                    <span>Status</span>
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link inline-items" data-toggle="tab" href="#profile-1" role="tab" aria-expanded="false">
-
-                                    <span>Multimedia</span>
-                                </a>
-                            </li>
-
-                            <li className="nav-item">
-                                <a className="nav-link inline-items" data-toggle="tab" href="#blog" role="tab" aria-expanded="false">
-
-                                    <span>Blog Post</span>
-                                </a>
-                            </li>
-                        </ul>
-
-                        <div className="tab-content">
-                            <div className="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
-                                <form>
-                                    <div className="author-thumb">
+                    <CreatePostForm></CreatePostForm>
+                    <hr/>
+                    {
+                        posts.map(post => {
+                            return (
+                                <article className="hentry post" key={post}>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="float-left">
+                                                <PostHeader 
+                                                    heartNumber="100"
+                                                    viewNumber="200"
+                                                    likeNumber="300"    
+                                                />
+                                            </div>
+                                            <div className="float-right">
+                                                <CircleButton icon="fas fa-flag"></CircleButton>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="form-group with-icon label-floating is-empty">
-                                        <label className="control-label">Share what you are thinking here...</label>
-                                        <textarea className="form-control" placeholder=""></textarea>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+                                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
+                                        ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
+                                        in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
+                                        deserunt mollit anim id est laborum.
+                                    </p>
+                                    <div className="row">
+                                        <div className="col">
+                                            <CircleButton icon="fas fa-heart"></CircleButton>
+                                            Yêu thích
+                                        </div>
+                                        <div className="col">
+                                            <CircleButton icon="fas fa-thumbs-up"></CircleButton>
+                                            Thích
+                                        </div>
+                                        <div className="col">
+                                            <CircleButton icon="fas fa-comment"></CircleButton>
+                                            Bình luận
+                                        </div>
+                                        <div className="col">
+                                            <CircleButton icon="fas fa-times"></CircleButton>
+                                            Xóa
+                                        </div>
                                     </div>
-                                    <div className="add-options-message">
-                                        <a href="#" className="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD PHOTOS">
-
-                                        </a>
-                                        <a href="#" className="options-message" data-toggle="tooltip" data-placement="top" data-original-title="TAG YOUR FRIENDS">
-                                        </a>
-
-                                        <a href="#" className="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD LOCATION">
-
-                                        </a>
-
-                                        <button className="btn btn-primary btn-md-2">Post Status</button>
-                                        <button className="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                                </article>
+                            )
+                        })
+                    }
                 </div>
             </main>
         );
