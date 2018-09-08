@@ -21,6 +21,8 @@ class NewFeeds extends Component {
                                         <div className="col-12">
                                             <div className="float-left">
                                                 <PostHeader 
+                                                    avatar="https://www.w3schools.com/howto/img_avatar.png"
+                                                    username="Pham Anh Thu"
                                                     heartNumber="100"
                                                     viewNumber="200"
                                                     likeNumber="300"    

@@ -4974,7 +4974,7 @@ fieldset[disabled] .checkbox, fieldset[disabled] .checkbox input[type=checkbox],
 .notification-list {
   margin-bottom: 0; }
   .notification-list .selectize-dropdown-content > *, .notification-list li {
-    padding: 25px;
+    padding: 25px 15px;
     border-bottom: 1px solid #e6ecf5;
     display: block;
     position: relative;

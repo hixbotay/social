@@ -11,3 +11,17 @@
     padding-right: 0;
     min-width: 60px;
 }
+
+.verification-icon {
+    margin-right: 5px;
+}
+
+.verification-icon img{
+    width: 40px;
+    height:40px;
+    border-radius: 0 !important;
+}
+
+.notification-icon svg{
+    color: #27ae60
+}

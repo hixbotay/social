@@ -1,9 +1,29 @@
 import React, { Component } from 'react';
+import VerificationBlock from './VerificationBlock';
 
 class RightSidebar extends Component {
     render() {
+        var items = [
+            {
+                image: "https://lh5.googleusercontent.com/-2r7nkB71SpM/AAAAAAAAAAI/AAAAAAAC5RI/yYrFyU20Boc/photo.jpg",
+                name: "Google+",
+                isVerify: true
+            },
+            {
+                image: "https://upload.wikimedia.org/wikipedia/commons/1/16/Facebook-icon-1.png",
+                name: "Facebook",
+                isVerify: false
+            },
+            {
+                image: "http://icons-for-free.com/free-icons/png/512/410514.png",
+                name: "Twitter",
+                isVerify: true
+            }
+        ];
+        
         return (
             <aside className="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-12 col-12">
+                <VerificationBlock verificationItems={items}/>
                 <div className="ui-block">
                     <div className="widget w-birthday-alert">
                         <div className="content">
