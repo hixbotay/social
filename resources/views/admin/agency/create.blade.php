@@ -12,7 +12,12 @@
 
                         <div class="form-group">
                             <label>Chủ sở hữu <span>*</span></label>
-                            <input type="text" class="form-control" name="data[user_id]" required />
+                            <select name="data[user_id]" class="form-control" required>
+                                @foreach($users AS $value)
+                                    <option value="{{$value->id}}">{{ $value->name . ' ' . $value->email }}</option>
+                                @endforeach
+                            </select>
+
                         </div>
 
                         <div class="form-group">

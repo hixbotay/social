@@ -43,7 +43,8 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public static function get_list_user_by_type(){
-
+    public static function get_list_user_by_type($group){
+        $data = User::select('name', 'email', 'id')->where('group_id', $group)->get();
+        return $data;
     }
 }

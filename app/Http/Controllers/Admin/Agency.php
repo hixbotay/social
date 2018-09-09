@@ -4,9 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
+
 
 class Agency extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $items = \App\Agency::all();
@@ -20,7 +25,8 @@ class Agency extends Controller
      */
     public function create()
     {
-        return view('admin.agency.create');
+        $users = User::get_list_user_by_type(1);
+        return view('admin.agency.create', ['users' => $users]);
     }
 
     /**
