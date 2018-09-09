@@ -15,7 +15,23 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'is_admin', 'gender', 'mobile', 'avatar', 'group_id', 'address', 'longitude', 'latitude', 'is_verify', 'credit', 'ip_address', 'id_number', 'provider', 'provider_id'
+        'name',
+        'email',
+        'password',
+        'is_admin',
+        'gender',
+        'mobile',
+        'avatar',
+        'group_id',
+        'address',
+        'longitude',
+        'latitude',
+        'is_verify',
+        'credit',
+        'ip_address',
+        'id_number',
+        'provider',
+        'provider_id'
     ];
 
     /**
@@ -26,4 +42,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function get_list_user_by_type(){
+
+    }
 }

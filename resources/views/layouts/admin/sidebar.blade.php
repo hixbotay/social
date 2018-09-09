@@ -24,11 +24,6 @@
                                     <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="{{url('/admin?view=User')}}"><i class="ti-person"></i>@lang('Users')</a></li>
                                         <li><a href="{{url('/admin?view=User&layout=create')}}"><i class="ti-person"></i>@lang('Create user')</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('User Groups') <span class="fa arrow"></span></a>
-                                    <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="{{url('/admin?view=UserGroup')}}"><i class="ti-person"></i>@lang('User Groups')</a></li>
                                         <li><a href="{{url('/admin?controller=UserGroup&task=create')}}"><i class="ti-person"></i>@lang('Create user group')</a></li>
                                     </ul>
@@ -43,7 +38,39 @@
                                 </li>
 
                                 <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('1 số config') <span class="fa arrow"></span></a>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Events') <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+                                        <li><a href="{{url('/admin?view=Event&layout=listEvent')}}"><i class="ti-person"></i>@lang('Events')</a></li>
+                                        <li><a href="{{url('/admin?view=Event&layout=listEventSchedules')}}"><i class="ti-person"></i>@lang('Event Schedules')</a></li>
+                                        <li><a href="{{url('/admin?controller=Event&task=create')}}"><i class="ti-person"></i>@lang('Create new event')</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Module tài chính') <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+                                        <li><a href="{{url('/admin?view=Finance')}}"><i class="ti-person"></i>@lang('Chia lợi nhuận')</a></li>
+                                        <li><a href="{{url('/admin?controller=Finance&task=create')}}"><i class="ti-person"></i>@lang('Thêm cấu hình lợi nhuận')</a></li>
+                                        <li><a href="{{url('/admin?view=DatingPrice')}}"><i class="ti-person"></i>@lang('Giá hẹn hò')</a></li>
+                                        <li><a href="{{url('/admin?controller=DatingPrice&task=create')}}"><i class="ti-person"></i>@lang('Thêm giá hẹn hò')</a></li>
+                                        <li><a href="{{url('/admin?controller=Configuration&option=price')}}"><i class="ti-person"></i>@lang('Cấu hình giá chung')</a></li>
+
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="{{url('/admin?view=Agency')}}"><i class="ti-light-bulb"></i> Module đại lý <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+                                        <li><a href="{{url('/admin?view=Agency')}}"><i class="ti-person"></i>@lang('Danh sách đại lý')</a></li>
+                                        <li><a href="{{url('/admin?controller=Agency&task=create')}}"><i class="ti-person"></i>@lang('Thêm đại lý')</a></li>
+                                        <li><a href="{{url('/admin?view=Agency')}}"><i class="ti-person"></i>@lang('Danh sách đại lý')</a></li>
+                                        <li><a href="{{url('/admin?view=Agency')}}"><i class="ti-person"></i>@lang('Danh sách đại lý')</a></li>
+                                        <li><a href="{{url('/admin?view=Agency')}}"><i class="ti-person"></i>@lang('Danh sách đại lý')</a></li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('1 số cấu hình khác') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
 
                                         <li><a href="{{url('/admin?view=Job')}}"><i class="ti-person"></i>@lang('Jobs')</a></li>
@@ -58,26 +85,7 @@
                                     </ul>
                                 </li>
 
-                                <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Events') <span class="fa arrow"></span></a>
-                                    <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="{{url('/admin?view=Event&layout=listEvent')}}"><i class="ti-person"></i>@lang('Events')</a></li>
-                                        <li><a href="{{url('/admin?view=Event&layout=listEventSchedules')}}"><i class="ti-person"></i>@lang('Event Schedules')</a></li>
-                                        <li><a href="{{url('/admin?controller=Event&task=create')}}"><i class="ti-person"></i>@lang('Create new event')</a></li>
-                                    </ul>
-                                </li>
 
-                                <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Finance') <span class="fa arrow"></span></a>
-                                    <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="{{url('/admin?view=Finance')}}"><i class="ti-person"></i>@lang('Chia lợi nhuận')</a></li>
-                                        <li><a href="{{url('/admin?controller=Finance&task=create')}}"><i class="ti-person"></i>@lang('Thêm cấu hình lợi nhuận')</a></li>
-                                        <li><a href="{{url('/admin?view=DatingPrice')}}"><i class="ti-person"></i>@lang('Giá hẹn hò')</a></li>
-                                        <li><a href="{{url('/admin?controller=DatingPrice&task=create')}}"><i class="ti-person"></i>@lang('Thêm giá hẹn hò')</a></li>
-
-                                    </ul>
-                                </li>
-                                
                                 <li>
                                     <a href="{{url('/admin?view=Configuration')}}"><i class="ti-light-bulb"></i> Configuration <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
@@ -86,6 +94,7 @@
                                         <li><a href="{{url('/admin?view=Configuration&option=general')}}"><i class="ti-person"></i>@lang('Cấu hình ..v..v..')</a></li>
                                     </ul>
                                 </li>
+
                                 <li><a href="{{url('/admin?controller=user&task=test')}}"><i class="ti-home"></i> Test controller admin </a></li>
 
                             </ul>
