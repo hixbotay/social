@@ -59,14 +59,14 @@
                                 </li>
 
                                 <li>
-                                    <a href="{{url('/admin?view=Agency')}}"><i class="ti-light-bulb"></i> Module đại lý <span class="fa arrow"></span></a>
+                                    <a href="javascript: void(0);"><i class="ti-light-bulb"></i> Module đại lý <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="{{url('/admin?view=Agency')}}"><i class="ti-person"></i>@lang('Danh sách đại lý')</a></li>
                                         <li><a href="{{url('/admin?controller=Agency&task=create')}}"><i class="ti-person"></i>@lang('Thêm đại lý')</a></li>
                                         <li><a href="{{url('/admin?view=Product')}}"><i class="ti-person"></i>@lang('Sản phẩm')</a></li>
                                         <li><a href="{{url('/admin?controller=Product&task=create')}}"><i class="ti-person"></i>@lang('Thêm sản phẩm')</a></li>
                                         <li><a href="{{url('/admin?view=ProductCategory')}}"><i class="ti-person"></i>@lang('Danh mục sản phẩm')</a></li>
-                                        <li><a href="{{url('/admin?view=Agency')}}"><i class="ti-person"></i>@lang('Danh sách đại lý')</a></li>
+                                        <li><a href="{{url('/admin?controller=ProductCategory&task=create')}}"><i class="ti-person"></i>@lang('Thêm danh mục sản phẩm')</a></li>
                                     </ul>
                                 </li>
 

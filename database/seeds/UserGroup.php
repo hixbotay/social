@@ -12,36 +12,26 @@ class UserGroup extends Seeder
      */
     public function run()
     {
-        DB::table('user_groups')->insert([
-            'name' => 'administrator',
-        ]);
-    }
 
-    /**
-     * ,[
-    'name' => 'shareholders',
-    ],[
-    'name' => 'general_operation',
-    ],[
-    'name' => 'province_operation',
-    ],[
-    'name' => 'district_operation',
-    ],[
-    'name' => 'member_brands',
-    ],[
-    'name' => 'member_special',
-    ],[
-    'name' => 'member_guaranteed',
-    ],[
-    'name' => 'member_vip',
-    ],[
-    'name' => 'member_official',
-    ],[
-    'name' => 'member_temporary',
-    ],[
-    'name' => 'guest',
-    ]
-     *
-     */
+        $data = array(
+            ['name' => 'administrator', 'key' => 1],
+            ['name' => 'Cổ đông', 'key' => 2],
+            ['name' => 'Điều hành chung', 'key' => 3],
+            ['name' => 'Điều hành tỉnh', 'key' => 4],
+            ['name' => 'Điều hành huyện', 'key' => 5],
+            ['name' => 'Thành viên thương hiệu', 'key' => 6],
+            ['name' => 'Thành viên đặc biệt', 'key' => 7],
+            ['name' => 'Thành viên đảm bảo', 'key' => 8],
+            ['name' => 'Thành viên vip', 'key' => 9],
+            ['name' => 'Thành viên chính thức', 'key' => 10],
+            ['name' => 'Thành viên tạm thời', 'key' => 11],
+            ['name' => 'Đại lý', 'key' => 12],
+            ['name' => 'Khách', 'key' => 13],
+        );
+
+        DB::table('user_groups')->insert($data);
+
+
+    }
 
 }

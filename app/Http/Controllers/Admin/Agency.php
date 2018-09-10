@@ -25,7 +25,7 @@ class Agency extends Controller
      */
     public function create()
     {
-        $users = User::get_list_user_by_type(1);
+        $users = User::get_list_user_by_key(12);
         return view('admin.agency.create', ['users' => $users]);
     }
 

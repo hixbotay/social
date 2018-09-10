@@ -20,8 +20,8 @@ class Agency extends Migration
             $table->string('address');
             $table->integer('province_id');
             $table->integer('district_id');
-            $table->tinyInteger('authorized_dealer');
-            $table->tinyInteger('contract');
+            $table->tinyInteger('authorized_dealer')->nullable(1);
+            $table->tinyInteger('contract')->nullable(1);
             $table->timestamps();
         });
     }

@@ -12,10 +12,14 @@ class UserHobby extends Seeder
      */
     public function run()
     {
-        DB::table('user_hobby')->insert([
-            'name' => 'Đá bóng',
-        ],[
-            'name' => 'Đua xe'
-        ]);
+        $data = array(
+            ['name' => 'Đá bóng'],
+            ['name' => 'Đua xe' ],
+            ['name' => 'Đánh bài'],
+            ['name' => 'Rượu chè'],
+            ['name' => 'Cướp ngân hàng'],
+            ['name' => 'Cờ bạc'],
+        );
+        DB::table('user_hobby')->insert($data);
     }
 }
