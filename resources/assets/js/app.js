@@ -18,7 +18,7 @@ import MainApp from './routes/index';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store/index';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
 import Header from '../js/components/Header';
 
@@ -39,9 +39,9 @@ const history = createBrowserHistory();
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <HashRouter>
             <MainApp />
-        </BrowserRouter>
+        </HashRouter>
     </Provider>,
     document.getElementById('app')
 );

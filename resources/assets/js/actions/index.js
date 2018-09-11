@@ -5,7 +5,7 @@ var data = [];
 
 export const getAllCountries = () => (dispatch) => {
     
-    axios.get('http://localhost/social/api/country')
+    axios.get('http://127.0.0.1:8080/zeno5/social/api/country')
         .then(function (response) {
             dispatch({
                 type: GET_ALL_COUNTRIES,
