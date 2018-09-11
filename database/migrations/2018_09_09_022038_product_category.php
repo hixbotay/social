@@ -16,9 +16,9 @@ class ProductCategory extends Migration
         Schema::create('product_category', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->text('description');
-            $table->text('params');
-            $table->integer('agency_id');
+            $table->text('description')->nullable(1);
+            $table->text('params')->nullable(1);
+            $table->integer('agency_id')->nullable(1);
             $table->timestamps();
         });
     }

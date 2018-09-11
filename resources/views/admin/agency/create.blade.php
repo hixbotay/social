@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label>Quận/Huyện<span></span></label>
 
-                            <select name="data[province_id]" class="form-control" required>
+                            <select name="data[district_id]" class="form-control" required>
                                 @foreach(App\ProvinceGroup::all_district() AS $value)
                                     <option value="{{$value->maqh}}">{{$value->name}}</option>
                                 @endforeach
