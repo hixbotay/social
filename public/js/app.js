@@ -54481,7 +54481,6 @@ var data = [];
 
 var getAllCountries = function getAllCountries() {
     return function (dispatch) {
-
         __WEBPACK_IMPORTED_MODULE_1__api__["a" /* default */].get('/country').then(function (response) {
             dispatch({
                 type: __WEBPACK_IMPORTED_MODULE_0__types__["a" /* GET_ALL_COUNTRIES */],

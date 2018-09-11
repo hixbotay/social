@@ -10,7 +10,7 @@
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
                         <tr>
-                            <th width="20%">
+                            <th>
                                 <div class="checkbox checkbox-primary checkbox-single m-r-15">
                                     <input id="action-checkbox" type="checkbox">
                                     <label for="action-checkbox"></label>
@@ -31,6 +31,7 @@
                                     </div>
                                 </td>
                                 <td><a href="{{url('admin?view=ProductCategory&layout=edit&id='.$item->id)}}"> {{$item->name}} </a> </td>
+                                <td>{{$item->description}}</td>
                             </tr>
                         @endforeach
                         </tbody>

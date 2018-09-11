@@ -51,11 +51,8 @@ class ProductCategory extends Controller
      */
     public function show($id)
     {
-        $user = UserGroupModel::find($id);
-
-        // show the view and pass the nerd to it
-        return View::make('admin.product.detail')
-            ->with('item', $user);
+        $item = ProductCategoryModel::find($id);
+        return View::make('admin.ProductCategory.detail')->with('item', $item);
     }
 
 
@@ -68,15 +65,9 @@ class ProductCategory extends Controller
      */
     public function edit($id)
     {
-        // $id = request()->input('id');
-
-        $user = ProductCategoryModel::find($id);
-
-        $class = new \App\ProvinceGroup();
-        $province = $class->get_list_province();
-
-        // show the view and pass the nerd to it
-        return view('admin.product.detail', ['item' => $user, 'province' => $province]);
+        $item = ProductCategoryModel::find($id);
+//        return View::make('admin.ProductCategory.detail')->with('item', $item);
+        return view('admin.ProductCategory.detail', ['item' => $item]);
     }
 
     /**
@@ -88,18 +79,21 @@ class ProductCategory extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->input('id');
+        $id = $request->get('id');
         $data = $request->get('data');
 
-        $data['province_ids'] = json_encode($data['province_ids']);
+        $item = ProductCategoryModel::find($id);
 
-        $usergroup = \App\ProvinceGroup::find($id);
         foreach ($data as $key => $value) {
-            $usergroup->$key = $value;
+            $item->$key = $value;
         }
-        $usergroup->save();
 
-        return redirect('admin?view=provincegroup');
+        if ($item->id)
+        {
+            $item->save();
+        }
+
+        return redirect('admin?view=ProductCategory');
 
     }
 
@@ -113,6 +107,6 @@ class ProductCategory extends Controller
     {
         $id = $request->input('id');
         UserGroupModel::destroy($id);
-        return redirect('admin?view=usergroup');
+        return redirect('admin?view=ProductCategory');
     }
 }

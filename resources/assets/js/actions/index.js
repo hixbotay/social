@@ -5,7 +5,6 @@ const axios = require('axios');
 var data = [];
 
 export const getAllCountries = () => (dispatch) => {
-    
     api.get('/country')
         .then(function (response) {
             dispatch({
