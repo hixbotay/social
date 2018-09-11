@@ -32,8 +32,30 @@
     margin-right: 12px;
     width: 80px;
     height: 80px;
+    /* margin-top: 15px; */
 }
 
 .info-number-line {
     max-width: 200px;
+}
+
+.custom-card {
+    padding: 15px 0px;
+}
+
+.custom-card svg {
+    font-size: 1.25em
+}
+
+.seperate-line {
+    clear: both
+}
+
+.custom-textarea {
+    padding: 0;
+    border: none;
+}
+
+#map {
+    height: 200px;
 }

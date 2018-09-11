@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, HashRouter, Router, Switch, Route } from 'react-router-dom';
 import Country from './country/index.js';
 import NewFeeds from './newfeeds/index.js';
+import Profile from './profile/index.js';
+import UserDetail from './profile/UserDetail';
 import MainLayout from '../layouts/MainLayout';
 import SecondLayout from '../layouts/SecondLayout';
 import Header from '../components/Header';
@@ -26,11 +28,13 @@ class MainApp extends Component {
 	render() {
 		return (
 			<div className="App">
-                <Header></Header>
-                <div className="header-spacer"></div>
+				<Header></Header>
+				<div className="header-spacer"></div>
 				<Switch>
 					<AppRoute exact path="/" layout={MainLayout} component={NewFeeds} />
 					<AppRoute exact path="/country" layout={SecondLayout} component={Country} />
+					<AppRoute exact path="/profile" layout={SecondLayout} component={Profile} />
+					<AppRoute exact path="/profile/setting" layout={SecondLayout} component={UserDetail} />
 				</Switch>
 			</div>
 		);

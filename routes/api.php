@@ -25,8 +25,12 @@ Route::get('articles', function() {
 });
 
 Route::get('country', function (Request $request){
-//    $model = \App\ProvinceGroup::class;
-//    $result = $model->get_list_province();
     $result = \App\ProvinceGroup::all_province();
     return $result;
+});
+
+Route::get('user/{id}', function ($id){
+    // die($id);
+    $result = \App\User::get($id);
+    return ($result);
 });

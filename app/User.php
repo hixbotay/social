@@ -47,4 +47,9 @@ class User extends Authenticatable
         $data = User::select('name', 'email', 'id')->where('group_id', $group)->get();
         return $data;
     }
+
+    public static function get($id) {
+        $user = User::find($id);
+        return json_encode($user);
+    }
 }

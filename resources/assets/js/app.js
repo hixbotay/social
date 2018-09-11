@@ -18,30 +18,13 @@ import MainApp from './routes/index';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store/index';
-import { BrowserRouter } from 'react-router-dom';
-import createBrowserHistory from 'history/createBrowserHistory';
-import Header from '../js/components/Header';
-
-const history = createBrowserHistory();
-
-// class App extends Component {
-//     render() {
-//         return (
-//             <div>
-//                 <Header></Header>
-//                 <MainApp></MainApp>
-//             </div>
-//         );
-//     }
-// }
-
-// export default App;
+import {HashRouter} from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <HashRouter>
             <MainApp />
-        </BrowserRouter>
+        </HashRouter>
     </Provider>,
     document.getElementById('app')
 );
