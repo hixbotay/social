@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 import CreatePostForm from '../../components/Post/CreatePostForm';
 import PostHeader from '../../components/Post/PostHeader';
 import CircleButton from '../../components/Button/CircleButton';
+import Card from '../../components/Card/Card';
+import Avatar from '../../components/Information/Avatar';
+import Heading from '../../components/Information/Heading';
+import InformationNumber from '../../components/Information/InformationNumber';
 
 class NewFeeds extends Component {
     render() {
@@ -13,6 +17,9 @@ class NewFeeds extends Component {
                 <div className="ui-block">
                     <CreatePostForm></CreatePostForm>
                     <hr/>
+                    <Avatar src="https://www.w3schools.com/howto/img_avatar.png"></Avatar>
+                    <Heading heading="Pham Anh Thu" subHeading="Thanh Hoa, Viet Nam"></Heading>
+                    <InformationNumber likeNumber="100" viewNumber="200" heartNumber="1000"></InformationNumber>
                     {
                         posts.map(post => {
                             return (

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 
 class Header extends Component {
     render() {
         return (
             <header className="header" id="site-header">
                 <div className="page-title">
-                    <h6>Newsfeed</h6>
+                    <Link to='/'><h6>Homepage</h6></Link>
+                    <Link to='/country'><h6>Country</h6></Link>
                 </div>
 
                 <div className="header-content-wrapper">

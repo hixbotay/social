@@ -14,47 +14,34 @@ require('./bootstrap');
  */
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import Header from './components/Header';
-import LeftSidebar from './components/LeftSidebar';
-import RightSidebar from './components/RightSidebar';
 import MainApp from './routes/index';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store/index';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import createBrowserHistory from 'history/createBrowserHistory';
+import Header from '../js/components/Header';
 
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-    }
+const history = createBrowserHistory();
 
-    render() {
-        return (
-            <div className="App">
-                <Header></Header>
-                <div className="header-spacer"></div>
-
-                <div className="container">
-                    <div className="row">
-                        <LeftSidebar></LeftSidebar>
-                        <MainApp></MainApp>
-                        <RightSidebar></RightSidebar>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+// class App extends Component {
+//     render() {
+//         return (
+//             <div>
+//                 <Header></Header>
+//                 <MainApp></MainApp>
+//             </div>
+//         );
+//     }
+// }
 
 // export default App;
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <App />
+            <MainApp />
         </BrowserRouter>
-
     </Provider>,
     document.getElementById('app')
 );

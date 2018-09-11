@@ -15,7 +15,7 @@ class RightSidebar extends Component {
                 isVerify: false
             },
             {
-                image: "http://icons-for-free.com/free-icons/png/512/410514.png",
+                image: "https://seeklogo.com/images/T/twitter-2012-negative-logo-5C6C1F1521-seeklogo.com.png",
                 name: "Twitter",
                 isVerify: true
             }

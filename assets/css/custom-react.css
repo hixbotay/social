@@ -25,3 +25,15 @@
 .notification-icon svg{
     color: #27ae60
 }
+
+.avatar {
+    border-radius: 100%;
+    overflow: hidden;
+    margin-right: 12px;
+    width: 80px;
+    height: 80px;
+}
+
+.info-number-line {
+    max-width: 200px;
+}
