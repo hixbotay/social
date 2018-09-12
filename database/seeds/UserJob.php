@@ -12,10 +12,17 @@ class UserJob extends Seeder
      */
     public function run()
     {
-        $result = DB::table('user_jobs')->insert([
-            'name' => 'Bác sĩ',
-            'description' => 'Nghề bác sĩ là nghề chưa bệnh',
-        ]);
+        $faker = Faker\Factory::create();
+        DB::table('user_jobs')->truncate();
 
+        $data = [];
+        for($i = 0; $i < 15; $i++) {
+            $item = [
+                'name' => $faker->jobTitle,
+                'description' => $faker->sentence($nbWords = 6, $variableNbWords = true)
+            ];
+            array_push($data, $item);
+        }
+        DB::table('user_jobs')->insert($data);
     }
 }

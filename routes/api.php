@@ -35,6 +35,6 @@ Route::get('user/{id}', function ($id){
     return ($result);
 });
 
-Route::get('/post', function () {
+Route::get('/posts', function () {
     return \App\Post::list();
 });

@@ -1,9 +1,10 @@
-import countryReducer from './CountryReducer';
 import {combineReducers} from 'redux';
+
+import newfeedsReducer from './NewFeedsReducer';
 import userReducer from './UserReducer';
 
 const rootReducer = combineReducers({
-    country: countryReducer,
+    newfeeds: newfeedsReducer,
     user: userReducer
 
 });

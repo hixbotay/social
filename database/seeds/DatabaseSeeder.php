@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(UserGroup::class);
         $this->call(UserHobby::class);
         $this->call(UserJob::class);
-        $this->call(ProvinceGroup::class);
+        // $this->call(ProvinceGroup::class);
+        $this->call(Post::class);
         Model::reguard();
     }
 }

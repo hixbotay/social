@@ -40,7 +40,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'job'
     ];
 
     public static function get_list_user_by_key($group){
@@ -49,7 +49,10 @@ class User extends Authenticatable
     }
 
     public static function get($id) {
-        $user = User::find($id);
-        return json_encode($user);
+        $users = User::where('users.id', $id)
+            ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
+            ->select('users.*', 'user_jobs.name AS job_name')
+            ->get();
+        return json_encode($users[0]);
     }
 }

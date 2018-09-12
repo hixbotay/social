@@ -8,7 +8,7 @@ class Job extends Model
 {
     protected $table = 'user_jobs';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 
     public $timestamps = false;
 

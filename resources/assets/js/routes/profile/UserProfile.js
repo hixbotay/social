@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Card from '../../components/Card/Card';
 import ProfileLayout from './ProfileLayout';
 
-class Profile extends Component {
+class UserProfile extends Component {
     render() {
 
         return (
@@ -31,4 +31,4 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+export default UserProfile;
