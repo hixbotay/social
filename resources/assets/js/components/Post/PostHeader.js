@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
+import Avatar from '../Information/Avatar';
+import Heading from '../Information/Heading';
+import InformationNumber from '../Information/InformationNumber';
 
 class PostHeader extends Component {
     render() {
         return (
             <div className="post__author author vcard inline-items">
-                <img src={this.props.avatar} alt="author" />
+                <Avatar src={this.props.avatar} size="small"></Avatar>
 
                 <div className="author-date">
-                    <a className="h6 post__author-name fn" href="#">{this.props.username}</a>
-                    <div className="row">
-                        <div className="post-info-item col"><i className="fas fa-heart"></i> {this.props.heartNumber}</div>
-                        <div className="post-info-item col"><i className="fas fa-eye"></i> {this.props.viewNumber}</div>
-                        <div className="post-info-item col"><i className="fas fa-thumbs-up"></i> {this.props.likeNumber}</div>
-                    </div>
+                    <Heading heading={this.props.name}></Heading>
+                    <InformationNumber
+                        likeNumber={this.props.likeNumber}
+                        viewNumber={this.props.viewNumber}
+                        heartNumber={this.props.heartNumber}
+                    ></InformationNumber>
                 </div>
             </div>
         );

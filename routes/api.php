@@ -34,3 +34,7 @@ Route::get('user/{id}', function ($id){
     $result = \App\User::get($id);
     return ($result);
 });
+
+Route::get('/post', function () {
+    return \App\Post::list();
+});

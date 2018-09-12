@@ -17,9 +17,6 @@ class NewFeeds extends Component {
             <div className="ui-block">
                 <CreatePostForm></CreatePostForm>
                 <hr />
-                <Avatar src="https://www.w3schools.com/howto/img_avatar.png"></Avatar>
-                <Heading heading="Pham Anh Thu" subHeading="Thanh Hoa, Viet Nam"></Heading>
-                <InformationNumber likeNumber="100" viewNumber="200" heartNumber="1000"></InformationNumber>
                 {
                     posts.map(post => {
                         return (
@@ -29,7 +26,7 @@ class NewFeeds extends Component {
                                         <div className="float-left">
                                             <PostHeader
                                                 avatar="https://www.w3schools.com/howto/img_avatar.png"
-                                                username="Pham Anh Thu"
+                                                name="Pham Anh Thu"
                                                 heartNumber="100"
                                                 viewNumber="200"
                                                 likeNumber="300"

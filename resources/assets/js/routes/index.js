@@ -33,8 +33,8 @@ class MainApp extends Component {
 				<Switch>
 					<AppRoute exact path="/" layout={MainLayout} component={NewFeeds} />
 					<AppRoute exact path="/country" layout={SecondLayout} component={Country} />
-					<AppRoute exact path="/profile" layout={SecondLayout} component={Profile} />
-					<AppRoute exact path="/profile/setting" layout={SecondLayout} component={UserDetail} />
+					<AppRoute exact path="/profile/:id" layout={SecondLayout} component={Profile} />
+					<AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserDetail} />
 				</Switch>
 			</div>
 		);

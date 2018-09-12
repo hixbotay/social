@@ -8,7 +8,7 @@ import { withRouter } from 'react-router-dom';
 class UserDetail extends Component {
 
     componentDidMount() {
-        this.props.getUserDetail(1);
+        this.props.getUserDetail(this.props.match.params.id);
     }
 
     render() {
@@ -72,9 +72,11 @@ class UserDetail extends Component {
                                 </div>
                             </Card>
                             <Card leftIcon="fas fa-user" rightIcon="fas fa-pen-square" hasLine={true}>
+                                <h6>Tiêu chí tìm người ấy của bạn</h6>
                                 <div className="row">
                                     <div className="col-4">Chiều cao</div>
-                                    <div className="col-8"></div>
+                                    <div className="col-8">
+                                    </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Cân nặng</div>

@@ -11,7 +11,6 @@ class VerificationBlock extends Component {
 				<ul className="widget w-friend-pages-added notification-list friend-requests">
                     {
                         this.props.verificationItems.map((item, index) => {
-                            console.log(item);
                             return (
                                 <li className="inline-items" key={index}>
                                     <div className="author-thumb verification-icon">
