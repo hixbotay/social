@@ -16,6 +16,8 @@ import "../../../../assets/css/custom-react.css";
 // import "../../../../../assets/css/fonts.css";
 import "../../../../assets/fonts/fontawesome-all";
 
+import Cafe from './cafe/index';
+
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
 		<Layout>
@@ -26,6 +28,7 @@ const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 
 class MainApp extends Component {
 	render() {
+		console.log("this is route");
 		return (
 			<div className="App">
 				<Header></Header>
@@ -35,6 +38,7 @@ class MainApp extends Component {
 					<AppRoute exact path="/country" layout={SecondLayout} component={Country} />
 					<AppRoute exact path="/profile/:id" layout={SecondLayout} component={Profile} />
 					<AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserDetail} />
+					<AppRoute exact path="/cafe" layout={MainLayout} component={Cafe} />
 				</Switch>
 			</div>
 		);

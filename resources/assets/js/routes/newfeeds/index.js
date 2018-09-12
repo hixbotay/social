@@ -10,6 +10,9 @@ import InformationNumber from '../../components/Information/InformationNumber';
 
 class NewFeeds extends Component {
     render() {
+
+        console.log('this is new feed');
+
         var posts = [1, 2, 3, 4];
 
         return (
