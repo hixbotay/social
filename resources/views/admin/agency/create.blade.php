@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="m-b-20 header-title">Tạo Đại Lý</h4>
+                <h4 class="m-b-20 header-title">Tạo Đại Lý Cafe</h4>
                 <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=Agency&task=store')}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">

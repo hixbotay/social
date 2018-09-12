@@ -9,9 +9,17 @@ import CircleButton from '../../components/Button/CircleButton';
 import {getAllPosts} from '../../actions/NewFeedsActions';
 
 class NewFeeds extends Component {
+<<<<<<< HEAD:resources/assets/js/routes/newfeeds/NewFeeds.js
     componentDidMount() {
         this.props.getAllPosts();
     }
+=======
+    render() {
+
+        console.log('this is new feed');
+
+        var posts = [1, 2, 3, 4];
+>>>>>>> 5d9f661bfc455a09ae64b482ad380e35b539b9ce:resources/assets/js/routes/newfeeds/index.js
 
     render() {      
         return (

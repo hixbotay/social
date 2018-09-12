@@ -4,7 +4,8 @@ import ProfileLayout from './ProfileLayout';
 
 class UserProfile extends Component {
     render() {
-
+        console.log(121323455);
+        console.log(this.props.location.pathname)
         return (
             <ProfileLayout>
                 <Card leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true}>
