@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import Card from '../../components/Card/Card';
 import ProfileLayout from './ProfileLayout';
+import {getUserDetail} from '../../actions/UserActions';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 class UserProfile extends Component {
+    componentDidMount() {
+        this.props.getUserDetail(this.props.match.params.id);
+    }
+
     render() {
-        console.log(121323455);
-        console.log(this.props.location.pathname)
+        const {user} = this.props;
         return (
-            <ProfileLayout>
+            <ProfileLayout
+                avatar={user ? user.avatar : "https://www.w3schools.com/howto/img_avatar.png"}
+                heading={user ? user.name : "UNDEFINED"}
+                subHeading={user ? user.address : null}
+            >
                 <Card leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true}>
                     <textarea className="form-control custom-textarea" defaultValue="Viết điều gì đó..."></textarea>
                 </Card>
@@ -32,4 +42,16 @@ class UserProfile extends Component {
     }
 }
 
-export default UserProfile;
+function mapStateToProps(state) {
+    return {
+        user: state.user.user
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getUserDetail: (id) =>  dispatch(getUserDetail(id))
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserProfile));
