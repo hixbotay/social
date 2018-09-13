@@ -4,6 +4,8 @@ import ProfileLayout from './ProfileLayout';
 import {getUserDetail} from '../../actions/UserActions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import Slider from 'react-animated-slider';
+import 'react-animated-slider/build/horizontal.css';
 
 class UserProfile extends Component {
     componentDidMount() {
@@ -21,6 +23,50 @@ class UserProfile extends Component {
                 <Card leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true}>
                     <textarea className="form-control custom-textarea" defaultValue="Viết điều gì đó..."></textarea>
                 </Card>
+                <div>
+                    <div className="row">
+                        <div className="col-3">
+                            <button className="btn btn-camera"><i className="fas fa-camera fa-2x"></i></button>
+                        </div>
+                        <div className="col-9">
+                        <Slider>
+                            {[1,2,3,4].map((article, index) =>
+                                <div
+                                    key={1}
+                                    style={{ background: `url('https://i.imgur.com/DvmN8Hx.jpg') no-repeat center center` }}
+                                >
+                                    <div className="center">
+                                        {/*<h1>title o day</h1>*/}
+                                        {/*<p>MIeu ta</p>*/}
+                                        {/*<button>Nut</button>*/}
+                                    </div>
+                                </div>
+                            )}
+                        </Slider>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-3">
+                            <button className="btn btn-video"><i className="fas fa-file-video fa-2x"></i></button>
+                        </div>
+                        <div className="col-9">
+                        <Slider>
+                            {[1,2,3,4].map((article, index) =>
+                                <div
+                                    key={1}
+                                    style={{ background: `url('https://i.imgur.com/DvmN8Hx.jpg') no-repeat center center` }}
+                                >
+                                    <div className="center">
+                                        {/*<h1>title o day</h1>*/}
+                                        {/*<p>MIeu ta</p>*/}
+                                        {/*<button>Nut</button>*/}
+                                    </div>
+                                </div>
+                            )}
+                        </Slider>
+                        </div>
+                    </div>
+                </div>
                 <Card leftIcon="fas fa-question-circle" rightIcon="fas fa-pen-square" hasLine={true}>
                     <textarea className="form-control custom-textarea" defaultValue="Tôi ở đây để..."></textarea>
                 </Card>

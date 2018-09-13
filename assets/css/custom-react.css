@@ -73,3 +73,36 @@
     margin-right: -5px;
     margin-left: -5px;
 }
+
+.status-info-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.vip-upgrade {
+    padding: 0;
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+.verify-user,  .verify-user .container{
+    margin: 0!important;
+    padding: 0!important;
+}
+
+.pending-list {
+    margin-top: 15px;
+}
+
+span.avatar-list {
+    margin-right: 10px;
+}
+
+.btn-camera, .btn-video, .col-9 .slider {
+    width: 100%;
+    height: 8em !important;
+}
+
+.custom-card .float-right {
+    cursor: pointer;
+}
