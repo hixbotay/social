@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import SecondLayout from '../layouts/SecondLayout';
+import ThirdLayout from '../layouts/ThirdLayout';
+
 import Header from '../components/Header';
 // component
 import Home from './newfeeds/NewFeeds';
@@ -39,7 +41,7 @@ class MainApp extends Component {
 					<AppRoute exact path="/profile/:id" layout={SecondLayout} component={UserProfile} />
 					<AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserSetting} />
 					{/* Cafe */}
-					<AppRoute exact path="/cafe" layout={MainLayout} component={Cafe} />
+					<AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
 				</Switch>
 			</div>
 		);
