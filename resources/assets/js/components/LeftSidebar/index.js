@@ -3,11 +3,16 @@ import React, { Component } from 'react';
 class LeftSidebar extends Component {
     render() {
         return (
-            <aside className="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
+            <aside className="col col-xl-2 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
                 <div className="ui-block">
 
-                    <div className="ui-block-title">
-                        <h6 className="title">Pages You May Like</h6>
+                    <div className="ui-block-title hentry post">
+                        <img src="https://images.vexels.com/media/users/3/145908/preview2/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg" style={{
+                            borderRadius: '50%',
+                            // width:100,
+                            // height:100
+                        }} />
+                        {/*<h6 className="title">Pages You May Like</h6>*/}
                     </div>
 
                     <ul className="list-group">
