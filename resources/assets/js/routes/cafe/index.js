@@ -19,7 +19,7 @@ class Cafe extends Component {
 
             <div className="row">
 
-                <div className="col-md-9">
+                <div className="col-md-8">
 
                     <div className="ui-block">
 
@@ -106,7 +106,7 @@ class Cafe extends Component {
                     </div>
                 </div>
 
-                <div className="col col-md-3">
+                <div className="col col-md-4">
                     <CafeRight />
                 </div>
 

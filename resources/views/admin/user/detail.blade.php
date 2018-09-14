@@ -40,7 +40,8 @@
 					</div>
 					<div class="form-group">
 						<label>Group ID</label>
-						<input type="number" class="form-control" name="data[group_id]" value="{{$item->group_id}}"/>
+                        <?php BookproHtml::select_user_groups('data[group_id]', $item->group_id) ?>
+						{{--<input type="number" class="form-control" name="data[group_id]" value="{{$item->group_id}}"/>--}}
 					</div>
 					<div class="form-group">
 						<label>Enabled or Disabled</label>

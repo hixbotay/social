@@ -1,25 +1,62 @@
 import React, { Component } from 'react';
 import CafeSearch from './Cafe/search';
+import Slider from "react-slick";
+
 
 class Cafe extends Component {
     render() {
+
+        var data = [
+            {'url': 'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg'},
+            {'url': 'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg'},
+            {'url': 'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg'},
+            {'url': 'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg'},
+            {'url': 'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg'},
+        ]
+
+        const settings = {
+            className: "center",
+            arrows: false,
+            centerMode: true,
+            infinite: true,
+            centerPadding: "10px",
+            slidesToShow: 2,
+            swipeToSlide: true,
+            speed: 500
+        };
+
         return (
             <div className="row">
 
                 <CafeSearch />
 
-                <aside className="col-md-12">
+                <div className="col-md-12">
 
                     <div className="ui-block">
-                        <div className="widget w-birthday-alert">
-                            <div className="content">
-                                <span>Today is</span>
-                                <a href="#" className="h4 title">Marina Valentine’s Birthday!</a>
-                                <p>Leave her a message with your best wishes on her profile page!</p>
-                            </div>
+
+                        <div className="ui-block-title">
+                            <h6 className="title">Săn deal giảm giá</h6>
                         </div>
+
+                        <Slider {...settings}>
+
+                            {data.map((xxx, index) => {
+                                return (
+                                    <div key={index}>
+                                        <img
+                                            src={"https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg"}
+                                            style={{width: 300, heigh:400, marginLeft:5}}
+                                        />
+                                    </div>
+                                );
+                            })}
+
+                        </Slider>
+
                     </div>
-                </aside>
+
+                </div>
+
             </div>
         );
     }
