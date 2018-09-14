@@ -1,34 +1,26 @@
 import React, { Component } from 'react';
+import Avatar from '../Information/Avatar';
 
 class LeftSidebar extends Component {
     render() {
         return (
             <aside className="col col-xl-2 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
-                <div className="ui-block">
+                {/* <div className="ui-block"> */}
 
-                    <div className="ui-block-title hentry post">
-                        <img src="https://images.vexels.com/media/users/3/145908/preview2/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg" style={{
-                            borderRadius: '50%',
-                            // width:100,
-                            // height:100
-                        }} />
-                        {/*<h6 className="title">Pages You May Like</h6>*/}
-                    </div>
+                    {/* <div className="ui-block-title hentry post"> */}
+                        <Avatar src="https://images.vexels.com/media/users/3/145908/preview2/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg" />
+                    {/* </div> */}
 
                     <ul className="list-group">
-                        <li className="list-group-item">Dapibus ac facilisis in</li>
-
-
-                        <li className="list-group-item list-group-item-primary">This is a primary list group item</li>
-                        <li className="list-group-item list-group-item-secondary">This is a secondary list group item</li>
-                        <li className="list-group-item list-group-item-success">This is a success list group item</li>
-                        <li className="list-group-item list-group-item-danger">This is a danger list group item</li>
-                        <li className="list-group-item list-group-item-warning">This is a warning list group item</li>
-                        <li className="list-group-item list-group-item-info">This is a info list group item</li>
-                        <li className="list-group-item list-group-item-light">This is a light list group item</li>
-                        <li className="list-group-item list-group-item-dark">This is a dark list group item</li>
+                        <li className="list-group-item-custom"><i className="fas fa-clock fa-2x"></i> HẸN TỐC ĐỘ</li>
+                        <li className="list-group-item">Cafe nhóm</li>
+                        <li className="list-group-item">Lời mời</li>
+                        <li className="list-group-item">Lịch hẹn</li>
+                        <li className="list-group-item">Tạo cuộc hẹn</li>
+                        <li className="list-group-item-custom"><i className="fas fa-heartbeat fa-2x"></i> KẾT ĐÔI</li>
+                        <li className="list-group-item-custom"><i className="fas fa-coffee fa-2x"></i> ĐẠI LÝ CAFE</li>
                     </ul>
-                </div>
+                {/* </div> */}
             </aside>
         );
     }

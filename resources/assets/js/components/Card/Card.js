@@ -9,7 +9,7 @@ class Card extends Component {
                 <div className="container">
                     <div className="">
                         <div className="float-left"><i className={this.props.leftIcon}></i></div>
-                        <div className="float-right"><span className="btn-icon-card" onClick={this.props.rightActionIcon}><i className={this.props.rightIcon}></i></span></div>
+                        <div className="float-right"><span className="btn-icon-card"><i className={this.props.rightIcon} onClick={this.props.rightActionIcon}></i></span></div>
                     </div>
                     {this.props.hasLine ? <hr className="seperate-line"/> : null}
                     <div className="col-md-12">

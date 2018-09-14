@@ -138,3 +138,35 @@ span.avatar-list {
     box-shadow: 3px 3px 2px #D1D1D1;
     /*height: 230px;*/
 }
+
+li.list-group-item-custom {
+    margin: 10px 0px 5px 0px;
+}
+
+li.list-group-item {
+    margin: 2px 0px;
+}
+
+.image-card img {
+    height: 160px;
+}
+
+.image-card-content {
+    padding: 10px 0px;
+}
+
+.image-card {
+    border: solid 1px #b4babe;
+    box-shadow: 2px 3px #bdc3c7;
+    position: relative;
+}
+
+.image-card-btn {
+    position: absolute;
+    top: 50%;
+    left: 24%;
+}
+
+.image-card-btn .circle-button {
+    margin-right: 10px;
+}

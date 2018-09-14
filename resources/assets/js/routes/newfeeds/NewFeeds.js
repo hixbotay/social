@@ -7,6 +7,7 @@ import PostHeader from '../../components/Post/PostHeader';
 import CircleButton from '../../components/Button/CircleButton';
 // action
 import {getAllPosts} from '../../actions/NewFeedsActions';
+import ImageCard from '../../components/Card/ImageCard';
 
 class NewFeeds extends Component {
     componentDidMount() {
@@ -18,6 +19,7 @@ class NewFeeds extends Component {
             <div className="ui-block">
                 <CreatePostForm></CreatePostForm>
                 <hr />
+                <ImageCard heading="Pham Anh Thu" subHeading="Thanh Hoa, Viet Nam"></ImageCard>
                 {
                     this.props.posts.map((post, index) => {
                         return (

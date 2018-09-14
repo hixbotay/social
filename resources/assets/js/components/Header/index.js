@@ -7,7 +7,6 @@ class Header extends Component {
             <header className="header" id="site-header">
                 <div className="page-title">
                     <Link to='/'><h6>Homepage</h6></Link>
-                    <Link to='/country'><h6>Country</h6></Link>
                 </div>
 
                 <div className="header-content-wrapper">

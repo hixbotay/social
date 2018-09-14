@@ -3,14 +3,19 @@ import Card from '../../components/Card/Card';
 import Avatar from '../../components/Information/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
+import {withRouter} from 'react-router-dom';
 
 class ProfileLayout extends Component {
+
+    redirect() {
+        console.log(111111111);
+    }
     
     render() {
         return (
             <div className="row">
                 <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                    <Card rightIcon="fas fa-cog">
+                    <Card rightIcon="fas fa-cog" rightActionIcon={this.redirect()}>
                         <div className="author vcard inline-items profile-heading-info">
                             <Avatar src={this.props.avatar}></Avatar>
 
@@ -94,4 +99,4 @@ class ProfileLayout extends Component {
     }
 }
 
-export default ProfileLayout;
+export default withRouter(ProfileLayout);
