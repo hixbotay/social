@@ -1,8 +1,14 @@
 <?php
 
 
-Route::get('ahihihi', function() {
-    // If the Content-Type and Accept headers are set to 'application/json',
-    // this will return a JSON structure. This will be cleaned up later.
-    die(json_encode(array('íd'=>1,'çontent'=>'vantu')));
+Route::get('getAllProvince', function() {
+    $data = \App\ProvinceGroup::all_province();
+    return $data;
 });
+
+
+Route::get('getAllDistrict', function() {
+    $data = \App\ProvinceGroup::all_district();
+    return $data;
+});
+

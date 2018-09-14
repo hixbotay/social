@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import CafeSearch from './Cafe/search';
 import Slider from "react-slick";
+import {getUserDetail} from "../../actions/UserActions";
+import {withRouter} from "react-router-dom";
+import connect from "react-redux/es/connect/connect";
 
 
 class Cafe extends Component {
@@ -35,7 +38,9 @@ class Cafe extends Component {
                     <div className="ui-block">
 
                         <div className="ui-block-title">
-                            <h6 className="title">Săn deal giảm giá</h6>
+                            <h6 className="title" onClick={() => {
+                                console.log(this.props.province)
+                            }}>Săn deal giảm giá</h6>
                         </div>
 
                         <Slider {...settings}>

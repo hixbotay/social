@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import Slider from 'react-animated-slider';
 import 'react-animated-slider/build/horizontal.css';
 import CafeRight from '../../components/RightSidebar/Cafe';
+import {getAllProvince, getAllDistrict} from "../../actions/CafeActions";
+import {withRouter} from "react-router-dom";
+import connect from "react-redux/es/connect/connect";
 
 class Cafe extends Component {
+
+    componentDidMount(){
+        this.props.getAllProvince();
+        this.props.getAllDistrict();
+    }
 
     render() {
 
@@ -49,6 +57,9 @@ class Cafe extends Component {
                                     <article className="" key={post}>
                                         <div className="row">
                                             <div className="col-12">
+                                                <p onClick={() => {
+                                                    console.log(this.props.province)
+                                                }}>hihihihihi</p>
                                             </div>
                                         </div>
 
@@ -107,7 +118,7 @@ class Cafe extends Component {
                 </div>
 
                 <div className="col col-md-4">
-                    <CafeRight />
+                    <CafeRight province={this.props.province} district={this.props.district} />
                 </div>
 
             </div>
@@ -115,4 +126,12 @@ class Cafe extends Component {
     }
 }
 
-export default Cafe;
+
+function mapStateToProps(state) {
+    return {
+        province: state.cafe.allprovince,
+        district: state.cafe.alldisctrict
+    };
+}
+
+export default withRouter(connect(mapStateToProps, {getAllProvince, getAllDistrict})(Cafe));
