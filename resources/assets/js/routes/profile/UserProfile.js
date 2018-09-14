@@ -4,7 +4,7 @@ import ProfileLayout from './ProfileLayout';
 import {getUserDetail} from '../../actions/UserActions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import Slider from 'react-animated-slider';
+import SimpleSlider from '../../components/Slider';
 import 'react-animated-slider/build/horizontal.css';
 
 class UserProfile extends Component {
@@ -13,6 +13,14 @@ class UserProfile extends Component {
     }
 
     render() {
+        var images = [
+            'https://picsum.photos/400/300?image=0',
+            'https://picsum.photos/400/300?image=1',
+            'https://picsum.photos/400/300?image=2',
+            'https://picsum.photos/400/300?image=3',
+            'https://picsum.photos/400/300?image=4'
+        ];
+
         const {user} = this.props;
         return (
             <ProfileLayout
@@ -29,20 +37,7 @@ class UserProfile extends Component {
                             <button className="btn btn-camera"><i className="fas fa-camera fa-2x"></i></button>
                         </div>
                         <div className="col-9">
-                        <Slider>
-                            {[1,2,3,4].map((article, index) =>
-                                <div
-                                    key={1}
-                                    style={{ background: `url('https://i.imgur.com/DvmN8Hx.jpg') no-repeat center center` }}
-                                >
-                                    <div className="center">
-                                        {/*<h1>title o day</h1>*/}
-                                        {/*<p>MIeu ta</p>*/}
-                                        {/*<button>Nut</button>*/}
-                                    </div>
-                                </div>
-                            )}
-                        </Slider>
+                        <SimpleSlider images={images}></SimpleSlider>
                         </div>
                     </div>
                     <div className="row">
@@ -50,20 +45,7 @@ class UserProfile extends Component {
                             <button className="btn btn-video"><i className="fas fa-file-video fa-2x"></i></button>
                         </div>
                         <div className="col-9">
-                        <Slider>
-                            {[1,2,3,4].map((article, index) =>
-                                <div
-                                    key={1}
-                                    style={{ background: `url('https://i.imgur.com/DvmN8Hx.jpg') no-repeat center center` }}
-                                >
-                                    <div className="center">
-                                        {/*<h1>title o day</h1>*/}
-                                        {/*<p>MIeu ta</p>*/}
-                                        {/*<button>Nut</button>*/}
-                                    </div>
-                                </div>
-                            )}
-                        </Slider>
+                        <SimpleSlider images={images}></SimpleSlider>
                         </div>
                     </div>
                 </div>

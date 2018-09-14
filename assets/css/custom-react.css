@@ -118,9 +118,6 @@ span.avatar-list {
     margin-left: -5px;
 }
 
-.box-cafe-item {
-    /*height: 250px;*/
-}
 
 .box-cafe-item-btn {
     color: black;
@@ -170,3 +167,12 @@ li.list-group-item {
 .image-card-btn .circle-button {
     margin-right: 10px;
 }
+
+.custom-slider-item img {
+    padding: 0px 2px;
+    height: 8em !important;
+}
+
+.slick-prev:before, .slick-next:before {
+    color: #3498db;
+} 
