@@ -176,3 +176,11 @@ li.list-group-item {
 .slick-prev:before, .slick-next:before {
     color: #3498db;
 } 
+
+.styles_modal__gNwvD {
+    min-width: 500px;
+}
+
+.styles_modal__gNwvD .page-header {
+    margin-bottom: 2em;
+}

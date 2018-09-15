@@ -8,8 +8,10 @@ class ImageCard extends Component {
                 <div className="row">
                     <img src="https://www.w3schools.com/w3images/avatar2.png"/>
                     <div className="image-card-btn">
-                        <CircleButton icon="fas fa-heart"></CircleButton>
-                        <CircleButton icon="fas fa-comments"></CircleButton>
+                        <div>
+                            <CircleButton icon="fas fa-heart"></CircleButton>
+                            <CircleButton icon="fas fa-comments"></CircleButton>
+                        </div>
                     </div>
                 </div>
                 <div className="row image-card-content">

@@ -5,7 +5,6 @@ import {getUserDetail} from '../../actions/UserActions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import SimpleSlider from '../../components/Slider';
-import 'react-animated-slider/build/horizontal.css';
 
 class UserProfile extends Component {
     componentDidMount() {

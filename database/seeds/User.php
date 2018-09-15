@@ -59,6 +59,9 @@ class User extends Seeder
                 'job' => $faker->numberBetween($min = 1, $max = 20),
                 'favourite' => $faker->sentence($nbWords = 6, $variableNbWords = true),
                 'philosophy' => $faker->text($maxNbChars = 200),
+                'birthday' => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'type' =>  $faker->text($maxNbChars = 200),
+                'home_town' =>  $faker->text($maxNbChars = 200)
             ];
             factory(App\User::class)->create($user);
         }
