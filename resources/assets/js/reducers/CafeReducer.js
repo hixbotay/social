@@ -1,4 +1,9 @@
-import {GET_ALL_PROVINCE, GET_ALL_DISTRICT} from '../actions/types';
+import {
+    GET_ALL_PROVINCE,
+    GET_ALL_DISTRICT,
+    GET_ALL_CAFE,
+    GET_CAFE_DETAIL
+} from '../actions/types';
 
 const INIT_STATE = {
     allprovince: {},
@@ -12,6 +17,12 @@ export default (state = INIT_STATE, action) => {
         }
         case GET_ALL_DISTRICT: {
             return {...state, alldistrict: action.payload}
+        }
+        case GET_ALL_CAFE: {
+            return {...state, allcafe: action.payload}
+        }
+        case GET_CAFE_DETAIL: {
+            return {...state, cafe: action.payload}
         }
         default: {
             return {...state};

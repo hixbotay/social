@@ -118,6 +118,20 @@ span.avatar-list {
     margin-left: -5px;
 }
 
+.cafe-box {
+
+}
+
+.cafe-box-content{
+    padding: 10px;
+}
+
+@media only screen and (min-width: 600px) {
+    .cafe-box .cafe-box-content img {
+        width: 100%;
+        height: 150px;
+    }
+}
 
 .box-cafe-item-btn {
     color: black;

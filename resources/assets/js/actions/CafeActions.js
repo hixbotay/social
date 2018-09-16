@@ -1,6 +1,9 @@
 import api from '../api';
 import {
-    GET_ALL_PROVINCE, GET_ALL_DISTRICT
+    GET_ALL_PROVINCE,
+    GET_ALL_DISTRICT,
+    GET_CAFE_DETAIL,
+    GET_ALL_CAFE
 } from './types'
 
 export const getAllProvince = () => (dispatch) => {
@@ -17,6 +20,27 @@ export const getAllDistrict = () => (dispatch) => {
     api.get('/getAllDistrict')
         .then(response => {
             dispatch({type: GET_ALL_DISTRICT, payload: response.data});
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+
+export function getAllCafe(index = 0) {
+    api.get('/getListCafe/'+index)
+        .then(response => {
+            dispatch({type: GET_ALL_CAFE, payload: response.data});
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+export function getCafeDetail(id) {
+    api.get('/getCafeDetail/'+id)
+        .then(response => {
+            dispatch({type: GET_CAFE_DETAIL, payload: response.data});
         })
         .catch(err => {
             console.log(err);
