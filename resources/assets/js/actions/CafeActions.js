@@ -14,7 +14,7 @@ export const getAllProvince = () => (dispatch) => {
 }
 
 export const getAllDistrict = () => (dispatch) => {
-    api.get('/getAllProvince')
+    api.get('/getAllDistrict')
         .then(response => {
             dispatch({type: GET_ALL_DISTRICT, payload: response.data});
         })

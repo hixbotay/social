@@ -2,7 +2,7 @@ import {GET_ALL_PROVINCE, GET_ALL_DISTRICT} from '../actions/types';
 
 const INIT_STATE = {
     allprovince: {},
-    alldicstrict: {}
+    alldistrict: {}
 }
 
 export default (state = INIT_STATE, action) => {
@@ -11,7 +11,7 @@ export default (state = INIT_STATE, action) => {
             return {...state, allprovince: action.payload}
         }
         case GET_ALL_DISTRICT: {
-            return {...state, alldicstrict: action.payload}
+            return {...state, alldistrict: action.payload}
         }
         default: {
             return {...state};

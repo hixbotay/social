@@ -31,7 +31,7 @@ class Cafe extends Component {
         return (
             <div className="row">
 
-                <CafeSearch />
+                <CafeSearch province={this.props.province} district={this.props.district} />
 
                 <div className="col-md-12">
 

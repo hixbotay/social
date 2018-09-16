@@ -15,8 +15,6 @@ class Cafe extends Component {
 
     render() {
 
-        console.log('this is cafe components')
-
         var posts = [1];
 
         var content = [1,2,3,4]
@@ -30,8 +28,6 @@ class Cafe extends Component {
                 <div className="col-md-8">
 
                     <div className="ui-block">
-
-                        <h1>Quarng cao here</h1>
 
                         <Slider>
                             {content.map((article, index) =>
@@ -130,7 +126,7 @@ class Cafe extends Component {
 function mapStateToProps(state) {
     return {
         province: state.cafe.allprovince,
-        district: state.cafe.alldisctrict
+        district: state.cafe.alldistrict
     };
 }
 
