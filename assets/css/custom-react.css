@@ -168,7 +168,7 @@ li.list-group-item {
     margin-right: 10px;
 }
 
-.custom-slider-item img {
+.invididual-video img, .invididual-image img {
     padding: 0px 2px;
     height: 8em !important;
 }

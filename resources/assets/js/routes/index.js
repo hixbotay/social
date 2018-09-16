@@ -22,6 +22,7 @@ import Cafe from './cafe';
 import FriendsLikeYou from './relationship/FriendsLikeYou';
 import FriendsYouLike from './relationship/FriendsYouLike';
 import FriendsVisited from './relationship/FriendsVisited';
+import Couple from './couple';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -49,6 +50,8 @@ class MainApp extends Component {
 					<AppRoute exact path="/friends/like-you" layout={MainLayout} component={FriendsLikeYou} />
 					<AppRoute exact path="/friends/you-like" layout={MainLayout} component={FriendsYouLike} />
 					<AppRoute exact path="/friends/visited" layout={MainLayout} component={FriendsVisited} />
+					{/* Couple */}
+					<AppRoute exact path="/couple/:id" layout={SecondLayout} component={Couple} />
 				</Switch>
 			</div>
 		);

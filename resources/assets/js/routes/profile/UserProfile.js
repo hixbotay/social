@@ -35,16 +35,16 @@ class UserProfile extends Component {
                         <div className="col-3">
                             <button className="btn btn-camera"><i className="fas fa-camera fa-2x"></i></button>
                         </div>
-                        <div className="col-9">
-                        <SimpleSlider images={images}></SimpleSlider>
+                        <div className="col-9 invididual-image">
+                        <SimpleSlider slidesToShow={3}  images={images}></SimpleSlider>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-3">
                             <button className="btn btn-video"><i className="fas fa-file-video fa-2x"></i></button>
                         </div>
-                        <div className="col-9">
-                        <SimpleSlider images={images}></SimpleSlider>
+                        <div className="col-9 invididual-video">
+                        <SimpleSlider slidesToShow={3} images={images}></SimpleSlider>
                         </div>
                     </div>
                 </div>
