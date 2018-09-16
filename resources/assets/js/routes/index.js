@@ -17,8 +17,11 @@ import "../../../../assets/css/react-main.css";
 import "../../../../assets/css/custom-react.css";
 // import "../../../../../assets/css/fonts.css";
 import "../../../../assets/fonts/fontawesome-all";
+import Cafe from './cafe';
 
-import Cafe from './cafe/index';
+import FriendsLikeYou from './relationship/FriendsLikeYou';
+import FriendsYouLike from './relationship/FriendsYouLike';
+import FriendsVisited from './relationship/FriendsVisited';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -42,6 +45,10 @@ class MainApp extends Component {
 					<AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserSetting} />
 					{/* Cafe */}
 					<AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
+					{/* Friend */}
+					<AppRoute exact path="/friends/like-you" layout={MainLayout} component={FriendsLikeYou} />
+					<AppRoute exact path="/friends/you-like" layout={MainLayout} component={FriendsYouLike} />
+					<AppRoute exact path="/friends/visited" layout={MainLayout} component={FriendsVisited} />
 				</Switch>
 			</div>
 		);

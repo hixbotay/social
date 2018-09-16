@@ -53167,7 +53167,10 @@ module.exports = onlyChild;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__assets_css_custom_react_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__assets_css_custom_react_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__assets_fonts_fontawesome_all__ = __webpack_require__(377);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__assets_fonts_fontawesome_all___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__assets_fonts_fontawesome_all__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__cafe_index__ = __webpack_require__(378);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__cafe__ = __webpack_require__(378);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__relationship_FriendsLikeYou__ = __webpack_require__(402);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__relationship_FriendsYouLike__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__relationship_FriendsVisited__ = __webpack_require__(404);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -53198,6 +53201,9 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 
 // import "../../../../../assets/css/fonts.css";
+
+
+
 
 
 
@@ -53239,7 +53245,10 @@ var MainApp = function (_Component) {
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/', layout: __WEBPACK_IMPORTED_MODULE_2__layouts_MainLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_6__newfeeds_NewFeeds__["a" /* default */] }),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/profile/:id', layout: __WEBPACK_IMPORTED_MODULE_3__layouts_SecondLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_7__profile_UserProfile__["a" /* default */] }),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/profile/:id/setting', layout: __WEBPACK_IMPORTED_MODULE_3__layouts_SecondLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_8__profile_UserSetting__["a" /* default */] }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/cafe', layout: __WEBPACK_IMPORTED_MODULE_4__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_15__cafe_index__["a" /* default */] })
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/cafe', layout: __WEBPACK_IMPORTED_MODULE_4__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_15__cafe__["a" /* default */] }),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/friends/like-you', layout: __WEBPACK_IMPORTED_MODULE_2__layouts_MainLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_16__relationship_FriendsLikeYou__["a" /* default */] }),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/friends/you-like', layout: __WEBPACK_IMPORTED_MODULE_2__layouts_MainLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_17__relationship_FriendsYouLike__["a" /* default */] }),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/friends/visited', layout: __WEBPACK_IMPORTED_MODULE_2__layouts_MainLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_18__relationship_FriendsVisited__["a" /* default */] })
 				)
 			);
 		}
@@ -56962,15 +56971,14 @@ var ImageCard = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'row' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'https://www.w3schools.com/w3images/avatar2.png' }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: this.props.src }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'image-card-btn' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             null,
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Button_CircleButton__["a" /* default */], { icon: 'fas fa-heart' }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__Button_CircleButton__["a" /* default */], { icon: 'fas fa-comments' })
+                            this.props.children
                         )
                     )
                 ),
@@ -78450,6 +78458,254 @@ module.exports = function (str, opts) {
     return utils.compact(obj);
 };
 
+
+/***/ }),
+/* 400 */,
+/* 401 */,
+/* 402 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Card_Card__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Card_ImageCard__ = __webpack_require__(236);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+var FriendsLikeYou = function (_Component) {
+    _inherits(FriendsLikeYou, _Component);
+
+    function FriendsLikeYou() {
+        _classCallCheck(this, FriendsLikeYou);
+
+        return _possibleConstructorReturn(this, (FriendsLikeYou.__proto__ || Object.getPrototypeOf(FriendsLikeYou)).apply(this, arguments));
+    }
+
+    _createClass(FriendsLikeYou, [{
+        key: 'render',
+        value: function render() {
+            var temp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'row' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'banner' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    __WEBPACK_IMPORTED_MODULE_1__components_Card_Card__["a" /* default */],
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'row' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'h4',
+                            null,
+                            '\u0110\xC3 TH\xCDCH B\u1EA0N'
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'row' },
+                        temp.map(function (item, index) {
+                            var number = getRandomInt(20);
+                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Card_ImageCard__["a" /* default */], {
+                                key: index,
+                                src: 'https://picsum.photos/400/300?image=' + number,
+                                heading: 'Lorem Ipsum',
+                                subHeading: 'Lorem ipsum lositdomet'
+                            });
+                        })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return FriendsLikeYou;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (FriendsLikeYou);
+
+/***/ }),
+/* 403 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Card_Card__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Card_ImageCard__ = __webpack_require__(236);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+var FriendYouLike = function (_Component) {
+    _inherits(FriendYouLike, _Component);
+
+    function FriendYouLike() {
+        _classCallCheck(this, FriendYouLike);
+
+        return _possibleConstructorReturn(this, (FriendYouLike.__proto__ || Object.getPrototypeOf(FriendYouLike)).apply(this, arguments));
+    }
+
+    _createClass(FriendYouLike, [{
+        key: 'render',
+        value: function render() {
+            var temp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'row' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'banner' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    __WEBPACK_IMPORTED_MODULE_1__components_Card_Card__["a" /* default */],
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'row' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'h4',
+                            null,
+                            'B\u1EA0N \u0110\xC3 TH\xCDCH'
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'row' },
+                        temp.map(function (item, index) {
+                            var number = getRandomInt(20);
+                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Card_ImageCard__["a" /* default */], {
+                                key: index,
+                                src: 'https://picsum.photos/400/300?image=' + number,
+                                heading: 'Lorem Ipsum',
+                                subHeading: 'Lorem ipsum lositdomet'
+                            });
+                        })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return FriendYouLike;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (FriendYouLike);
+
+/***/ }),
+/* 404 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Card_Card__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Card_ImageCard__ = __webpack_require__(236);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
+var FriendsVisited = function (_Component) {
+    _inherits(FriendsVisited, _Component);
+
+    function FriendsVisited() {
+        _classCallCheck(this, FriendsVisited);
+
+        return _possibleConstructorReturn(this, (FriendsVisited.__proto__ || Object.getPrototypeOf(FriendsVisited)).apply(this, arguments));
+    }
+
+    _createClass(FriendsVisited, [{
+        key: 'render',
+        value: function render() {
+            var temp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'row' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'banner' })
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    __WEBPACK_IMPORTED_MODULE_1__components_Card_Card__["a" /* default */],
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'row' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'h4',
+                            null,
+                            '\u0110\xC3 GH\xC9 TH\u0102M B\u1EA0N'
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'row' },
+                        temp.map(function (item, index) {
+                            var number = getRandomInt(20);
+                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__components_Card_ImageCard__["a" /* default */], {
+                                key: index,
+                                src: 'https://picsum.photos/400/300?image=' + number,
+                                heading: 'Lorem Ipsum',
+                                subHeading: 'Lorem ipsum lositdomet'
+                            });
+                        })
+                    )
+                )
+            );
+        }
+    }]);
+
+    return FriendsVisited;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (FriendsVisited);
 
 /***/ })
 /******/ ]);
