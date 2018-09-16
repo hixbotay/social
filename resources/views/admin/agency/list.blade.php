@@ -19,8 +19,7 @@
                                 <th>Chủ sở hữu</th>
                                 <th>Tên đại lý</th>
                                 <th>Địa chỉ</th>
-                                <th>Đại lý ủy quyền</th>
-                                <th>Hợp đồng</th>
+                                <th>Ảnh đại diện</th>
                             </tr>
                         </thead>
 
@@ -37,8 +36,7 @@
                                 <td>{{$item->user_id}}</td>
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->address}}</td>
-                                <td>{{$item->authorized_dealer}}</td>
-                                <td>{{$item->contract}}</td>
+                                <td>{{$item->image}}</td>
                             </tr>
                         @endforeach
                         </tbody>
