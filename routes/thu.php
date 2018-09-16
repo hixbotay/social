@@ -1,8 +1,10 @@
 <?php
+use Illuminate\Http\Request;
 
-
-Route::get('thu', function() {
-    // If the Content-Type and Accept headers are set to 'application/json',
-    // this will return a JSON structure. This will be cleaned up later.
-    die(json_encode(array('íd'=>1,'çontent'=>'vantu')));
+Route::post('user/{id}', function (Request $request, $id){
+    // $result = \App\User::updateUser($request, $id);
+    // return json_encode($result);
+    // $data = json_encode($request);
+    // return json_decode($data);
+    console_log(json_decode($request));
 });

@@ -55,4 +55,16 @@ class User extends Authenticatable
             ->get();
         return json_encode($users[0]);
     }
+
+    public static function updateUser($request, $id) {
+        $user = User::find($id);
+
+        // $data_arr = json_decode($data);
+        foreach ($request as $key => $value) {
+            $user->$key = $value;
+        }
+
+        $user->save();
+        return $user;
+    }
 }

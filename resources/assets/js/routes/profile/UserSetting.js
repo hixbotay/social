@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Card from '../../components/Card/Card';
 import ProfileLayout from './ProfileLayout';
-import { getUserDetail } from '../../actions/UserActions';
+import { getUserDetail, updateUser } from '../../actions/UserActions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import InputRange from 'react-input-range';
@@ -11,30 +11,42 @@ import Modal from 'react-responsive-modal';
 class UserSetting extends Component {
     constructor(props) {
         super(props);
-        this.state = { isOpen: false };
+        this.state = { isOpenFirstModal: false, isOpenSecondModal: false };
     }
 
     componentDidMount() {
         this.props.getUserDetail(this.props.match.params.id);
     }
 
-    openModal() {
-        this.setState({ isOpen: true });
+    openFirstModal() {
+        this.setState({ user: {}, isOpenFirstModal: true });
     }
 
-    closeModal() {
-        console.log(this);
-        this.setState({ isOpen: false });
+    closeFirstModal() {
+        this.setState({ isOpenFirstModal: false });
+    }
+
+    openSecondModal() {
+        this.setState({ user: {}, isOpenSecondModal: true });
+    }
+
+    closeSecondModal() {
+        this.setState({ isOpenSecondModal: false });
     }
 
     editUser(event) {
         this.setState({
             user: {
+                ...this.state.user,
                 [event.target.name]: event.target.value
             }
         }, () => {
             console.log(this.state.user);
         })
+    }
+
+    submit() {
+        this.props.updateUser(this.state.user, this.props.user.id);
     }
 
     render() {
@@ -49,7 +61,7 @@ class UserSetting extends Component {
                 {
                     !user ? null : (
                         <div>
-                            <Card leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true} rightActionIcon={() => this.openModal()}>
+                            <Card leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true} rightActionIcon={() => this.openFirstModal()}>
                                 <div className="row">
                                     <div className="col-4">Tên</div>
                                     <div className="col-8">{user.name}</div>
@@ -97,7 +109,7 @@ class UserSetting extends Component {
                                     <div className="col-8"></div>
                                 </div>
                             </Card>
-                            <Card leftIcon="fas fa-user" rightIcon="fas fa-pen-square" hasLine={true}>
+                            <Card leftIcon="fas fa-user" rightIcon="fas fa-pen-square" hasLine={true} rightActionIcon={() => this.openSecondModal()}>
                                 <h6>Tiêu chí tìm người ấy của bạn</h6>
                                 <div className="row">
                                     <div className="col-4">Chiều cao (cm)</div>
@@ -142,7 +154,7 @@ class UserSetting extends Component {
                     )
                 }
                 {/* Form in modal */}
-                <Modal open={this.state.isOpen} onClose={() => this.closeModal()} center>
+                <Modal open={this.state.isOpenFirstModal} onClose={() => this.closeFirstModal()} center>
                     <div className="page-header">
                         <h5>Edit User</h5>
                     </div>
@@ -173,9 +185,8 @@ class UserSetting extends Component {
                                     <label>Giới tính</label>
                                 </div>
                                 <div className="col-8">
-                                    {/* <input type="text" className="form-control" name="gender" defaultValue={user.gender} onChange={(event) => this.editUser(event)} /> */}
-                                    <select name="gender" onChange={(event) => this.editUser(event)} className="form-control" defaultValue={user.gender}>
-                                        <option value="M" selected>Nam</option>
+                                    <select className="custom-select" name="gender" onChange={(event) => this.editUser(event)} defaultValue={user.gender}>
+                                        <option value="M">Nam</option>
                                         <option value="F">Nữ</option>
                                     </select>
                                 </div>
@@ -207,7 +218,7 @@ class UserSetting extends Component {
                                     <label>Nghề nghiệp</label>
                                 </div>
                                 <div className="col-8">
-                                    <input type="text" className="form-control" name="job" defaultValue={user.job} onChange={(event) => this.editUser(event)} />
+                                    <input type="text" className="form-control" name="job" defaultValue={user.job_name} onChange={(event) => this.editUser(event)} />
                                 </div>
                             </div>
                         </div>
@@ -231,6 +242,80 @@ class UserSetting extends Component {
                                 </div>
                             </div>
                         </div>
+                        <div className="form-group">
+                            <button className="btn btn-success float-right" type="button" onClick={() => this.submit()}>Gửi</button>
+                        </div>
+                    </form>
+                </Modal>
+                {/* Form in modal */}
+                <Modal open={this.state.isOpenSecondModal} onClose={() => this.closeSecondModal()} center>
+                    <div className="page-header">
+                        <h5>Edit User</h5>
+                    </div>
+                    <form>
+                        <div className="form-group">
+                            <div className="row align-items-center">
+                                <div className="col-4">
+                                    <label>Chiều cao (cm)</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="number" className="form-control" name="height" defaultValue={user.height} onChange={(event) => this.editUser(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="row align-items-center">
+                                <div className="col-4">
+                                    <label>Cân nặng (kg)</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="number" className="form-control" name="weight" defaultValue={user.weight} onChange={(event) => this.editUser(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="row align-items-center">
+                                <div className="col-4">
+                                    <label>Học vấn</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="text" className="form-control" name="education" defaultValue={user.education} onChange={(event) => this.editUser(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="row align-items-center">
+                                <div className="col-4">
+                                    <label>Sở thích</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="text" className="form-control" name="hobby" defaultValue={user.hobby} onChange={(event) => this.editUser(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="row align-items-center">
+                                <div className="col-4">
+                                    <label>Tuýp người</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="text" className="form-control" name="type" defaultValue={user.type} onChange={(event) => this.editUser(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="row align-items-center">
+                                <div className="col-4">
+                                    <label>Quan điểm sống</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="text" className="form-control" name="philosophy" defaultValue={user.philosophy} onChange={(event) => this.editUser(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <button className="btn btn-success float-right" type="button" onClick={() => this.submit()}>Gửi</button>
+                        </div>
                     </form>
                 </Modal>
             </ProfileLayout>
@@ -246,7 +331,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserDetail: (id) => dispatch(getUserDetail(id))
+        getUserDetail: (id) => dispatch(getUserDetail(id)),
+        updateUser: (data, id) => dispatch(updateUser(data, id))
     }
 }
 
