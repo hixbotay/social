@@ -3,12 +3,10 @@ import {
     GET_USER_DETAIL,
     UPDATE_USER_DETAIL
 } from './types';
-import qs from 'qs';
 
 export const getUserDetail = (id) => (dispatch) => {
     api.get(`/user/${id}`)
     .then(response => {
-        console.log(response.data);
         dispatch({type: GET_USER_DETAIL, payload: response.data});
     })
     .catch(err => {
@@ -17,9 +15,10 @@ export const getUserDetail = (id) => (dispatch) => {
 }
 
 export const updateUser = (data, id) => (dispatch) => {
-    api.post(`/user/${id}`, {data: qs.stringify(data)})
+    console.log(data);
+    api.post(`/user/${id}`, data)
     .then(response => {
-        console.log(response.data);
+        window.location.reload();
         dispatch({type: UPDATE_USER_DETAIL, payload: response.data});
     })
     .catch(err => {

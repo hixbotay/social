@@ -14,6 +14,10 @@ class Hobby extends Model
 
     public $timestamps = false;
 
+    static function get_all_hobbies() {
+        return Hobby::all();
+    }
+
     static function get_hobby_by_user($id){
         $result = DB::table('user_hobby_map')->where("user_id", $id)->get();
         return $result;

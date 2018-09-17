@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
-import Card from '../../components/Card/Card';
-import ProfileLayout from './ProfileLayout';
-import { getUserDetail, updateUser } from '../../actions/UserActions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
+import Card from '../../components/Card/Card';
+import ProfileLayout from './ProfileLayout';
 import InputRange from 'react-input-range';
 import '../../../../../node_modules/react-input-range/lib/css/index.css';
 import Modal from 'react-responsive-modal';
 
+// action
+import { getUserDetail, updateUser } from '../../actions/UserActions';
+import {getAllHobbies} from '../../actions/HobbyActions';
+
 class UserSetting extends Component {
     constructor(props) {
         super(props);
-        this.state = { isOpenFirstModal: false, isOpenSecondModal: false };
+        this.state = { 
+            isOpenFirstModal: false, 
+            isOpenSecondModal: false,
+            data: {
+                user: {},
+                hobby: {}
+            }
+        };
     }
 
     componentDidMount() {
         this.props.getUserDetail(this.props.match.params.id);
+        this.props.getAllHobbies();
     }
 
     openFirstModal() {
@@ -36,21 +48,34 @@ class UserSetting extends Component {
 
     editUser(event) {
         this.setState({
-            user: {
-                ...this.state.user,
-                [event.target.name]: event.target.value
+            data: {
+                ...this.state.data,
+                user: {
+                    ...this.state.data.user,
+                    [event.target.name]: event.target.value
+                }
             }
-        }, () => {
-            console.log(this.state.user);
-        })
+        });
+    }
+
+    onChangeHobby(event, user_id) {
+        this.setState({
+            data: {
+                ...this.state.data,
+                hobby: {
+                    user_id: user_id,
+                    hobby_id: event.target.value
+                }
+            }
+        });
     }
 
     submit() {
-        this.props.updateUser(this.state.user, this.props.user.id);
+        this.props.updateUser(this.state.data, this.props.user.id);
     }
 
     render() {
-        const { user } = this.props;
+        const { user, hobbies } = this.props;
         console.log(user);
         return (
             <ProfileLayout
@@ -289,7 +314,15 @@ class UserSetting extends Component {
                                     <label>Sở thích</label>
                                 </div>
                                 <div className="col-8">
-                                    <input type="text" className="form-control" name="hobby" defaultValue={user.hobby} onChange={(event) => this.editUser(event)} />
+                                    <select name="hobby_id" onChange={(event) => this.onChangeHobby(event, user.id)}>
+                                    {
+                                        hobbies.map((item, index) => {
+                                            return (
+                                                <option value={item.id} key={index}>{item.name}</option>
+                                            )
+                                        })
+                                    }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -325,14 +358,16 @@ class UserSetting extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user.user
+        user: state.user.user,
+        hobbies: state.hobby.hobbies,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getUserDetail: (id) => dispatch(getUserDetail(id)),
-        updateUser: (data, id) => dispatch(updateUser(data, id))
+        getAllHobbies: () => dispatch(getAllHobbies()),
+        updateUser: (data, id) => dispatch(updateUser(data, id)),
     }
 }
 

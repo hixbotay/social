@@ -8,7 +8,7 @@ import {withRouter} from 'react-router-dom';
 class ProfileLayout extends Component {
 
     redirect() {
-        console.log(111111111);
+        // console.log(111111111);
     }
     
     render() {

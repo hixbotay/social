@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -56,11 +57,19 @@ class User extends Authenticatable
         return json_encode($users[0]);
     }
 
-    public static function updateUser($request, $id) {
+    public static function updateUser($data, $id) {
         $user = User::find($id);
 
-        // $data_arr = json_decode($data);
-        foreach ($request as $key => $value) {
+        $data_arr = json_decode($data);
+
+        $hobby = json_decode(json_encode($data_arr->hobby), true);
+        $user_data = json_decode(json_encode($data_arr->user), true);
+
+        // insert hobby
+        DB::table('user_hobby_map')->insert( $hobby );
+
+        // insert user property
+        foreach ($user_data as $key => $value) {
             $user->$key = $value;
         }
 
