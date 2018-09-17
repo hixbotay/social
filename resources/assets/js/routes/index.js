@@ -19,6 +19,7 @@ import "../../../../assets/css/custom-react.css";
 import "../../../../assets/fonts/fontawesome-all";
 import Cafe from './cafe';
 import CafeView from './cafe/view/index';
+import Messages from './messages/index';
 
 import FriendsLikeYou from './relationship/FriendsLikeYou';
 import FriendsYouLike from './relationship/FriendsYouLike';
@@ -48,6 +49,9 @@ class MainApp extends Component {
 					{/* Cafe */}
 					<AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
 					<AppRoute exact path="/cafe/:url" layout={ThirdLayout} component={CafeView} />
+					<AppRoute exact path="/cafe/create" layout={ThirdLayout} component={CafeView} />
+					{/* Messages */}
+                    <AppRoute exact path="/messages" layout={ThirdLayout} component={Messages} />
 					{/* Friend */}
 					<AppRoute exact path="/friends/like-you" layout={MainLayout} component={FriendsLikeYou} />
 					<AppRoute exact path="/friends/you-like" layout={MainLayout} component={FriendsYouLike} />

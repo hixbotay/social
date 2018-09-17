@@ -198,3 +198,11 @@ li.list-group-item {
 .styles_modal__gNwvD .page-header {
     margin-bottom: 2em;
 }
+
+.chat-list-title ul {
+    list-style: none outside none; margin:0; padding: 0;
+}
+
+.chat-list-title ul li {
+    float: left; margin: 0 10px;
+}
