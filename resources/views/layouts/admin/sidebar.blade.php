@@ -83,6 +83,10 @@
                                         <li><a href="{{url('/admin?view=Hobby')}}"><i class="ti-person"></i>@lang('Sở thích')</a></li>
                                         <li><a href="{{url('/admin?controller=Hobby&task=create')}}"><i class="ti-person"></i>@lang('Create Hobby')</a></li>
 
+                                        <li><a href="{{url('/admin?view=Education')}}"><i class="ti-person"></i>@lang('Học vấn')</a></li>
+                                        <li><a href="{{url('/admin?controller=Education&task=create')}}"><i class="ti-person"></i>@lang('Thêm học vấn')</a></li>
+
+
                                     </ul>
                                 </li>
 

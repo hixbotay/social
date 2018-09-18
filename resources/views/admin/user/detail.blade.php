@@ -70,6 +70,23 @@
 						<label>Cân nặng</label>
 						<input type="number" step="0.01" value="{{$item->weight}}" class="form-control" name="data[weight]" />
 					</div>
+					<div class="form-group">
+						<label>Học vấn</label>
+						<select name="data[education]" class="form-control">
+
+							@foreach(App\Education::all() AS $value)
+
+								<option
+									value="{{$value->id}}"
+									@if($value->id == $item->education)
+										selected
+									@endif
+								>{{$value->name}}</option>
+
+							@endforeach
+
+						</select>
+					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
