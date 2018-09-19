@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import Card from '../../components/Card/Card';
-import ImageCard from '../../components/Card/ImageCard';
+import {Card, ImageCard} from '../../components/Card';
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));

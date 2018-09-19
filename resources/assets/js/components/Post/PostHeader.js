@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Avatar from '../Information/Avatar';
+import {RoundAvatar} from '../Avatar';
 import Heading from '../Information/Heading';
 import InformationNumber from '../Information/InformationNumber';
 
@@ -7,7 +7,7 @@ class PostHeader extends Component {
     render() {
         return (
             <div className="post__author author vcard inline-items">
-                <Avatar src={this.props.avatar} size="small"></Avatar>
+                <RoundAvatar img={this.props.avatar} size="medium"></RoundAvatar>
 
                 <div className="author-date">
                     <Heading heading={this.props.name}></Heading>

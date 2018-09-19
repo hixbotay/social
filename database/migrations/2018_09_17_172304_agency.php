@@ -15,7 +15,7 @@ class Agency extends Migration
     {
         Schema::table('agency', function($table) {
             $table->string('hotline', 20)->nullable(1);
-            $table->int('village_id')->nullable(1);
+            $table->integer('village_id')->nullable(1);
             $table->string('email', 200)->nullable(1);
             $table->string('website', 200)->nullable(1);
             $table->float('lat', 16, 16)->nullable(1);

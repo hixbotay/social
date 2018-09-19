@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Card from '../../components/Card/Card';
+import {Card, CardWithIcon} from '../../components/Card';
 import SimpleSlider from '../../components/Slider';
 import InformationNumber from '../../components/Information/InformationNumber';
 
@@ -31,7 +31,7 @@ class CoupleLayout extends Component {
                         <SimpleSlider slidesToShow={1} images={images}></SimpleSlider>
                     </div>
                     <div className="col col-xl-4 order-xl-2 col-lg-4 order-lg-1 col-md-4 col-sm-4 col-4">
-                        <Card rightIcon="fas fa-user-circle">
+                        <CardWithIcon rightIcon="fas fa-user-circle">
                             <h4>{user.name}</h4>
                             <small>{user.address}</small>
                             <InformationNumber></InformationNumber>
@@ -43,7 +43,7 @@ class CoupleLayout extends Component {
                                 <i className="fas fa-question-circle"></i>
                                 <p>{user.philosophy}</p>
                             </div>
-                        </Card>
+                        </CardWithIcon>
                     </div>
                 </div>
             </div>

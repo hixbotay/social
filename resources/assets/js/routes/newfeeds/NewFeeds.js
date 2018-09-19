@@ -7,7 +7,7 @@ import PostHeader from '../../components/Post/PostHeader';
 import CircleButton from '../../components/Button/CircleButton';
 // action
 import {getAllPosts} from '../../actions/NewFeedsActions';
-import ImageCard from '../../components/Card/ImageCard';
+import {ImageCard} from '../../components/Card';
 
 class NewFeeds extends Component {
     componentDidMount() {
@@ -30,9 +30,9 @@ class NewFeeds extends Component {
                                             <PostHeader
                                                 avatar={post.author_avatar}
                                                 name={post.author}
-                                                heartNumber="100"
-                                                viewNumber="200"
-                                                likeNumber="300"
+                                                heartNumber={100}
+                                                viewNumber={200}
+                                                likeNumber={300}
                                             />
                                         </div>
                                         <div className="float-right">

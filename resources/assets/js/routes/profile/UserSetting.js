@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import Card from '../../components/Card/Card';
+import {CardWithIcon} from '../../components/Card';
 import ProfileLayout from './ProfileLayout';
 import InputRange from 'react-input-range';
 import '../../../../../node_modules/react-input-range/lib/css/index.css';
@@ -86,7 +86,7 @@ class UserSetting extends Component {
                 {
                     !user ? null : (
                         <div>
-                            <Card leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true} rightActionIcon={() => this.openFirstModal()}>
+                            <CardWithIcon leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true} rightIconAction={() => this.openFirstModal()}>
                                 <div className="row">
                                     <div className="col-4">Tên</div>
                                     <div className="col-8">{user.name}</div>
@@ -119,8 +119,8 @@ class UserSetting extends Component {
                                     <div className="col-4">Số điện thoại</div>
                                     <div className="col-8">{user.mobile}</div>
                                 </div>
-                            </Card>
-                            <Card leftIcon="fas fa-user" rightIcon="fas fa-pen-square" hasLine={true}>
+                            </CardWithIcon>
+                            <CardWithIcon leftIcon="fas fa-user" rightIcon="fas fa-pen-square" hasLine={true}>
                                 <div className="row">
                                     <div className="col-4">Email</div>
                                     <div className="col-8">{user.email}</div>
@@ -133,8 +133,8 @@ class UserSetting extends Component {
                                     <div className="col-4">Chứng thực hồ sơ</div>
                                     <div className="col-8"></div>
                                 </div>
-                            </Card>
-                            <Card leftIcon="fas fa-user" rightIcon="fas fa-pen-square" hasLine={true} rightActionIcon={() => this.openSecondModal()}>
+                            </CardWithIcon>
+                            <CardWithIcon leftIcon="fas fa-user" rightIcon="fas fa-pen-square" hasLine={true} rightIconAction={() => this.openSecondModal()}>
                                 <h6>Tiêu chí tìm người ấy của bạn</h6>
                                 <div className="row">
                                     <div className="col-4">Chiều cao (cm)</div>
@@ -174,7 +174,7 @@ class UserSetting extends Component {
                                     <div className="col-4">Quan điểm sống</div>
                                     <div className="col-8">{user.philosophy}</div>
                                 </div>
-                            </Card>
+                            </CardWithIcon>
                         </div>
                     )
                 }

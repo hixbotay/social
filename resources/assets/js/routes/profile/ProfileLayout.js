@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Card from '../../components/Card/Card';
-import Avatar from '../../components/Information/Avatar';
+import {Card, CardWithIcon} from '../../components/Card';
+import {RoundAvatar} from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
 import {withRouter} from 'react-router-dom';
@@ -17,16 +17,16 @@ class ProfileLayout extends Component {
             <div className="row">
                 <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                     
-                    <Card rightIcon="fas fa-cog" rightActionIcon={this.redirect()}>
+                    <CardWithIcon rightIcon="fas fa-cog" rightIconAction={this.redirect()}>
                         <div className="author vcard inline-items profile-heading-info">
-                            <Avatar src={this.props.avatar}></Avatar>
+                            <RoundAvatar img={this.props.avatar} size='large'></RoundAvatar>
 
                             <div className="author-date">
                                 <Heading heading={this.props.heading} subHeading={this.props.subHeading} size='medium'></Heading>
-                                <InformationNumber likeNumber="100" viewNumber="200" heartNumber="300"></InformationNumber>
+                                <InformationNumber likeNumber={100} viewNumber={200} heartNumber={300}></InformationNumber>
                             </div>
                         </div>
-                    </Card>
+                    </CardWithIcon>
                     <Card>
                         <div className="row">
                             <div className="col-4">
@@ -63,10 +63,10 @@ class ProfileLayout extends Component {
                         <div className="row pending-list">
                             <div className="container">
                                 {
-                                    [1,2,3,4,5].map(item => {
+                                    [1,2,3,4].map(item => {
                                         return (
                                             <span className='avatar-list' key={item}>
-                                                <Avatar src="https://www.w3schools.com/howto/img_avatar.png" size="small"/>
+                                                <RoundAvatar img="https://www.w3schools.com/howto/img_avatar.png" size="medium"/>
                                             </span>
                                         )
                                     })
@@ -76,10 +76,10 @@ class ProfileLayout extends Component {
                         <div className="row pending-list">
                             <div className="container">
                                 {
-                                    [1,2,3,4,5].map(item => {
+                                    [1,2,3,4].map(item => {
                                         return (
                                             <span className='avatar-list' key={item}>
-                                                <Avatar src="https://www.w3schools.com/howto/img_avatar.png" size="small"/>
+                                                <RoundAvatar img="https://www.w3schools.com/howto/img_avatar.png" size="medium"/>
                                             </span>
                                         )
                                     })

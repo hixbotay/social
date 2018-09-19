@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class InformationNumber extends Component {
     render() {
@@ -10,6 +11,18 @@ class InformationNumber extends Component {
             </div>
         );
     }
+}
+
+InformationNumber.propTypes = {
+    heartNumber: PropTypes.number,
+    viewNumber: PropTypes.number,
+    likeNumber: PropTypes.number,
+}
+
+InformationNumber.defaultProps = {
+    heartNumber: 0,
+    viewNumber: 0,
+    likeNumber: 0,
 }
 
 export default InformationNumber;
