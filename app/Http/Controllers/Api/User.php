@@ -17,4 +17,17 @@ class User extends Controller
         return \App\Job::all();
     }
 
+    public function index(Request $request){
+        return array('code' => 200);
+    }
+
+    /*
+     * Function to like/love/follow ... profile
+     */
+    public function create(Request $request){
+        $data = $request->getContent();
+        $result = \App\UserRelationship::create($data);
+        return $result;
+    }
+
 }
