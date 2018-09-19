@@ -21,6 +21,12 @@ class User extends Controller
         return array('code' => 200);
     }
 
+    public function visitProfile(Request $request){
+        $data = $request->getContent();
+        $result = \App\User::visitProfile($data);
+        return $result;
+    }
+
     /*
      * Function to like/love/follow ... profile
      */

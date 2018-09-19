@@ -76,4 +76,10 @@ class User extends Authenticatable
         $user->save();
         return $user;
     }
+
+    public static function visitProfile($data){
+
+        $result = DB::table('profile_visitor')->insert( json_decode($data, true) );
+        return $result;
+    }
 }

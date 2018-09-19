@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Card, CardWithIcon} from '../../components/Card';
 import ProfileLayout from './ProfileLayout';
-import {getUserDetail} from '../../actions/UserActions';
+import {getUserDetail, addVisitor} from '../../actions/UserActions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import SimpleSlider from '../../components/Slider';
@@ -21,6 +21,14 @@ class UserProfile extends Component {
         ];
 
         const {user} = this.props;
+
+        if (user.id){
+            this.props.addVisitor({
+                'profile_id': 1,
+                'visitor_id': 2
+            })
+        }
+
         return (
             <ProfileLayout
                 avatar={user ? user.avatar : "https://www.w3schools.com/howto/img_avatar.png"}
@@ -77,7 +85,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserDetail: (id) =>  dispatch(getUserDetail(id))
+        getUserDetail: (id) =>  dispatch(getUserDetail(id)),
+        addVisitor: (data) => dispatch(addVisitor(data))
     }
 }
 

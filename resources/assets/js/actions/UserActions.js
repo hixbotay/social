@@ -25,3 +25,16 @@ export const updateUser = (data, id) => (dispatch) => {
         console.log(err);
     })
 }
+
+//this function run in background
+
+export const addVisitor = (data) => (dispatch) => {
+    api.post(`/profile/visitprofile`, data)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    return Promise.resolve();
+}
