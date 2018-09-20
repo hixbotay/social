@@ -6,11 +6,12 @@ import CreatePostForm from '../../components/Post/CreatePostForm';
 import PostHeader from '../../components/Post/PostHeader';
 import CircleButton from '../../components/Button/CircleButton';
 // action
+import {getCurrentUser} from '../../actions/UserActions';
 import {getAllPosts} from '../../actions/NewFeedsActions';
-import {ImageCard} from '../../components/Card';
 
 class NewFeeds extends Component {
     componentDidMount() {
+        this.props.getCurrentUser();
         this.props.getAllPosts();
     }
 
@@ -19,7 +20,6 @@ class NewFeeds extends Component {
             <div className="ui-block">
                 <CreatePostForm></CreatePostForm>
                 <hr />
-                <ImageCard heading="Pham Anh Thu" subHeading="Thanh Hoa, Viet Nam"></ImageCard>
                 {
                     this.props.posts.map((post, index) => {
                         return (
@@ -81,6 +81,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        getCurrentUser: () => dispatch(getCurrentUser()),
         getAllPosts: () => dispatch(getAllPosts())
     }
 }

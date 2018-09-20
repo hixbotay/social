@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ImageCard extends Component {
     render() {
         return (
             <div className="image-card">
-                <div className="row">
-                    <img src={this.props.src}/>
+                <div>
+                    <img src={this.props.img}/>
                     <div className="image-card-btn">
                         <div>
                             {this.props.children}
@@ -25,6 +26,16 @@ class ImageCard extends Component {
             </div>
         );
     }
+}
+
+ImageCard.propTypes = {
+    img: PropTypes.string,
+    heading: PropTypes.string,
+    subHeading: PropTypes.string,
+}
+
+ImageCard.defaultProps = {
+    img: 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png',
 }
 
 export {ImageCard};

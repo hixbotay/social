@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Card, ImageCard} from '../../components/Card';
+import {CardWithTitle, ImageCard} from '../../components/Card';
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -14,26 +14,24 @@ class FriendsLikeYou extends Component {
                 <div className="row">
                     <div className="banner"></div>
                 </div>
-                <Card>
-                    <div className="row">
-                        <h4>ĐÃ THÍCH BẠN</h4>
-                    </div>
+                <CardWithTitle title="ĐÃ THÍCH BẠN">
                     <div className="row">
                         {
                             temp.map((item, index) => {
                                 var number = getRandomInt(20);
                                 return (
-                                    <ImageCard
-                                        key={index}
-                                        src={`https://picsum.photos/400/300?image=${number}`}
-                                        heading="Lorem Ipsum"
-                                        subHeading="Lorem ipsum lositdomet"
-                                    ></ImageCard>
+                                    <div className="col-3 col-md-3 mb-4" key={index}>
+                                        <ImageCard
+                                            img={`https://picsum.photos/400/300?image=${number}`}
+                                            heading="Lorem Ipsum"
+                                            subHeading="Lorem ipsum lositdomet"
+                                        ></ImageCard>
+                                    </div>
                                 )
                             })
                         }
                     </div>
-                </Card>
+                </CardWithTitle>
             </div>
         );
     }

@@ -1,8 +1,20 @@
 import api from '../api';
 import {
+    GET_CURRENT_USER,
     GET_USER_DETAIL,
     UPDATE_USER_DETAIL
 } from './types';
+
+export const getCurrentUser = () => (dispatch) => {
+    api.get('auth/user')
+    .then(response => {
+        console.log('==================');
+        console.log(response);
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
 
 export const getUserDetail = (id) => (dispatch) => {
     api.get(`/user/${id}`)

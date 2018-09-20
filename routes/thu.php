@@ -1,5 +1,8 @@
 <?php
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Cookie;
+
+Route::get('auth/user', 'Api\User@getCurrentUser');
 
 Route::get('hobbies', 'Api\User@getHobbies');
 Route::get('education', 'Api\User@getEducation');

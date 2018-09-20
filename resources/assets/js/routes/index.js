@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import MainLayout from '../layouts/MainLayout';
-import SecondLayout from '../layouts/SecondLayout';
-import ThirdLayout from '../layouts/ThirdLayout';
 
-import Header from '../components/Header';
-// component
-import Home from './newfeeds/NewFeeds';
-import UserProfile from './profile/UserProfile';
-import UserSetting from './profile/UserSetting';
-
+// css file
 import "../../../../assets/css/bootstrap-reboot.css";
 import "../../../../assets/css/bootstrap.css";
 import "../../../../assets/css/bootstrap-grid.css";
@@ -17,6 +9,17 @@ import "../../../../assets/css/react-main.css";
 import "../../../../assets/css/custom-react.css";
 // import "../../../../../assets/css/fonts.css";
 import "../../../../assets/fonts/fontawesome-all";
+
+import MainLayout from '../layouts/MainLayout';
+import SecondLayout from '../layouts/SecondLayout';
+import ThirdLayout from '../layouts/ThirdLayout';
+
+import Header from '../components/Header';
+
+import Home from './newfeeds/NewFeeds';
+import UserProfile from './profile/UserProfile';
+import UserSetting from './profile/UserSetting';
+
 import Cafe from './cafe';
 import CafeView from './cafe/view/index';
 import Messages from './messages/index';
