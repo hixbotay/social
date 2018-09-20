@@ -6,6 +6,7 @@ import {
 export const getAllPosts = () => (dispatch) => {
     api.get('/posts')
     .then(response => {
+        console.log(response.data);
         dispatch({type: GET_ALL_POSTS, payload: response.data});
     })
     .catch(err => {

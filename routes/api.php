@@ -39,6 +39,11 @@ Route::get('user/{id}', function ($id){
     return ($result);
 });
 
+
 Route::get('/posts', function () {
     return \App\Post::list();
+});
+
+Route::middleware(['web'])->group(function() {
+    Route::get('auth/user', 'Api\User@getCurrentUser');
 });

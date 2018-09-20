@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { RoundAvatar } from '../Avatar';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getCurrentUser} from '../../actions/UserActions';
 
 class LeftSidebar extends Component {
+    componentDidMount () {
+        this.props.getCurrentUser();
+    }
+
     render() {
+        const {user} = this.props;
+
         return (
             <aside className="col col-xl-2 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12">
 
-                <Link to="/profile">
-                    <RoundAvatar img="https://images.vexels.com/media/users/3/145908/preview2/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg" size='large' />
+                <Link to={`/profile/${user.id}`}>
+                    <RoundAvatar img={user.avatar} size='large' />
+                    <h4>{user.name}</h4>
                 </Link>
 
                 <ul className="list-group">
@@ -25,4 +34,16 @@ class LeftSidebar extends Component {
     }
 }
 
-export default LeftSidebar;
+function mapStateToProps(state) {
+    return {
+        user: state.user.current_user
+    }
+} 
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getCurrentUser: () => dispatch(getCurrentUser())
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LeftSidebar));

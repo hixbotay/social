@@ -8,8 +8,8 @@ import {
 export const getCurrentUser = () => (dispatch) => {
     api.get('auth/user')
     .then(response => {
-        console.log('==================');
-        console.log(response);
+        dispatch({type: GET_CURRENT_USER, payload: response.data});
+        console.log(response.data);
     })
     .catch(error => {
         console.log(error);

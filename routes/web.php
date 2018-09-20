@@ -42,5 +42,8 @@ Route::middleware(['admin', 'verify'])->group(function() {
     // Route::post('/admin', 'Admin\Controller@execute')->name('admin.post');
 });
 
-Route::view('{any}', 'layouts.app')
+Route::middleware(['web'])->group( function() {
+    Route::view('{any}', 'layouts.app')
     ->where('any', '.*');
+});
+

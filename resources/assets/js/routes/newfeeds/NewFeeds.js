@@ -6,12 +6,10 @@ import CreatePostForm from '../../components/Post/CreatePostForm';
 import PostHeader from '../../components/Post/PostHeader';
 import CircleButton from '../../components/Button/CircleButton';
 // action
-import {getCurrentUser} from '../../actions/UserActions';
 import {getAllPosts} from '../../actions/NewFeedsActions';
 
 class NewFeeds extends Component {
     componentDidMount() {
-        this.props.getCurrentUser();
         this.props.getAllPosts();
     }
 
@@ -81,7 +79,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCurrentUser: () => dispatch(getCurrentUser()),
         getAllPosts: () => dispatch(getAllPosts())
     }
 }

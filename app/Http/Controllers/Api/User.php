@@ -4,9 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Controller
 {
+    public function getCurrentUser() {
+        $user = Auth::user();
+        return json_encode($user);
+    }
+
     public function getHobbies(Request $request){
         return \App\Hobby::get_all_hobbies();
     }
