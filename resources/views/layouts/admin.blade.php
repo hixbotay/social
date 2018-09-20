@@ -32,7 +32,7 @@
 	<link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 	<link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
 
-	<script src="{{ asset('js/app.js') }}"></script>
+	{{--<script src="{{ asset('js/app.js') }}"></script>--}}
 
 	<script src="{{ asset('assets/js/jquery-2.1.4.min.js') }}"></script>
 
