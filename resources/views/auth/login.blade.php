@@ -48,6 +48,12 @@
                 </div>
             </div>
 
+            {{--VANTU--}}
+
+            <input type="hidden" name="remember" value="1" />
+
+            {{--END VANTU--}}
+
         </form>
     </div>
 </div>
