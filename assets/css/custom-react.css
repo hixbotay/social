@@ -174,7 +174,8 @@ li.list-group-item {
 }
 
 .image-card img {
-    height: 160px;
+    height: 175px;
+    width: 175px;
 }
 
 .image-card-content {
@@ -195,6 +196,10 @@ li.list-group-item {
 
 .image-card-btn .circle-button {
     margin-right: 10px;
+}
+
+.image-card-results {
+    padding-bottom: 25px; 
 }
 
 .invididual-video img, .invididual-image img {

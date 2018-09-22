@@ -27,7 +27,8 @@ import Messages from './messages/index';
 import FriendsLikeYou from './relationship/FriendsLikeYou';
 import FriendsYouLike from './relationship/FriendsYouLike';
 import FriendsVisited from './relationship/FriendsVisited';
-import Couple from './couple';
+import ViewCouple from './couple/ViewCouple';
+import SearchResults from './couple/SearchResults';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -60,7 +61,8 @@ class MainApp extends Component {
 					<AppRoute exact path="/friends/you-like" layout={MainLayout} component={FriendsYouLike} />
 					<AppRoute exact path="/friends/visited" layout={MainLayout} component={FriendsVisited} />
 					{/* Couple */}
-					<AppRoute exact path="/couple/:id" layout={SecondLayout} component={Couple} />
+					<AppRoute exact path="/couple" layout={SecondLayout} component={SearchResults} />
+					<AppRoute exact path="/couple/:id" layout={SecondLayout} component={ViewCouple} />
 				</Switch>
 			</div>
 		);

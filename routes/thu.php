@@ -10,6 +10,8 @@ Route::get('job', 'Api\User@getJob');
 Route::post('relationship/create', 'Api\User@getJob');
 //load relationship
 Route::get('relationship/{from_user_id}/{to_user_id}', 'Api\User@index');
+
+Route::get('/posts', 'Api\Post@list');
 /*
  * post/like/{post_id}
  * input:
@@ -29,4 +31,14 @@ Route::post('user/{id}', function (Request $request, $id){
 
     // return json_decode($data);
     return ($result);
+});
+
+Route::get('couple/search/{keyword}', function($keyword) {
+    $results = \App\Http\Controllers\Api\Couple::find($keyword);
+    return json_encode($results);
+});
+
+Route::get('couple/view/{id}', function($id) {
+    $results = \App\Http\Controllers\Api\Couple::findOne($id);
+    return json_encode($results);
 });

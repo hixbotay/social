@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Slider from "react-slick";
+import PropTypes from 'prop-types';
 
 class SimpleSlider extends Component {
     render() {
@@ -27,6 +28,16 @@ class SimpleSlider extends Component {
             </Slider>
         );
     }
+}
+
+SimpleSlider.propTypes = {
+    slidesToShow: PropTypes.number,
+    images: PropTypes.array
+}
+
+SimpleSlider.defaultProps = {
+    slidesToShow: 1,
+    images: ['http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png']
 }
 
 export default SimpleSlider;

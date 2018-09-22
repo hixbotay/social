@@ -9,6 +9,10 @@ class LeftSidebar extends Component {
         this.props.getCurrentUser();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return (this.props !== nextProps);
+    }
+
     render() {
         const {user} = this.props;
 

@@ -28,9 +28,9 @@ class NewFeeds extends Component {
                                             <PostHeader
                                                 avatar={post.author_avatar}
                                                 name={post.author}
-                                                heartNumber={100}
-                                                viewNumber={200}
-                                                likeNumber={300}
+                                                heartNumber={post.love ? post.love : 0}
+                                                viewNumber={post.view ? post.view : 0}
+                                                likeNumber={post.like ? post.like : 0}
                                             />
                                         </div>
                                         <div className="float-right">

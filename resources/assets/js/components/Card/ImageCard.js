@@ -18,9 +18,9 @@ class ImageCard extends Component {
                         <h5>
                             {this.props.heading}
                         </h5>
-                        <div>
+                        <small>
                             {this.props.subHeading}
-                        </div>
+                        </small>
                     </div>
                 </div>
             </div>

@@ -31,7 +31,6 @@ class CreatePostForm extends Component {
                             <div className="author-thumb">
                             </div>
                             <div className="form-group with-icon label-floating is-empty">
-                                {/* <label className="control-label">Share what you are thinking here...</label> */}
                                 <textarea className="form-control" placeholder="Share what you are thinking here..." ></textarea>
                             </div>
                             <div className="add-options-message">
