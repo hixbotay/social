@@ -226,3 +226,19 @@ li.list-group-item {
 .chat-list-title ul li {
     float: left; margin: 0 10px;
 }
+
+.navigator {
+    width: 100%;
+    background: none !important;
+    color: #34495e;
+}
+
+.btn.navigator :hover {
+    color: #7f8c8d;
+}
+
+.group-navigator {
+    background-color: white;
+    height: 4em;
+    margin-bottom: 1em;
+}

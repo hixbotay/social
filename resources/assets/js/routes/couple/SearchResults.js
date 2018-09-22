@@ -4,7 +4,7 @@ import SecondLayout from '../../layouts/SecondLayout';
 import {Card, ImageCard} from '../../components/Card';
 import {getCoupleResults} from '../../actions/CoupleActions';
 import {Link} from 'react-router-dom';
-
+import HomeNavigator from '../../components/HomeNavigator';
 
 class SearchResults extends Component {
 
@@ -33,17 +33,20 @@ class SearchResults extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col col-xl-6 order-xl-2 col-lg-6 order-lg-1 col-md-6 col-sm-6 col-6">
-                        <Card>
-                            <button className="btn tab-btn">Tìm kiếm một</button>
-                            <button className="btn tab-btn">Tìm kiếm nhiều</button>
-                        </Card>
+                    <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                        <HomeNavigator></HomeNavigator>
                     </div>
-                    <div className="col col-xl-3 order-xl-2 col-lg-3 order-lg-1 col-md-3 col-sm-3 col-3">
+                    <div className="col col-xl-2 order-xl-2">
                     </div>
-                    <div className="col col-xl-3 order-xl-2 col-lg-3 order-lg-1 col-md-3 col-sm-3 col-3">
-                        <input type="text" className="form-control" placeholder="Tìm kiếm" onChange={(event) => this.changeKeyword(event)}/>
-                        <button className='btn' onClick={() => this.onSearch()}><i className="fas fa-search"></i></button>
+                    <div className="col col-xl-3 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12 form-row">
+                        <div className="col-md-9">
+                            <input type="text" className="form-control" placeholder="Tìm kiếm" onChange={(event) => this.changeKeyword(event)}/>
+                        </div>
+                        <div className="col-md-3">
+                            <button className='btn' onClick={() => this.onSearch()}>
+                                <i className="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 

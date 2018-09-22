@@ -1,71 +1,75 @@
 import React, { Component } from 'react';
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 // component
 import CreatePostForm from '../../components/Post/CreatePostForm';
 import PostHeader from '../../components/Post/PostHeader';
 import CircleButton from '../../components/Button/CircleButton';
 // action
-import {getAllPosts} from '../../actions/NewFeedsActions';
+import { getAllPosts } from '../../actions/NewFeedsActions';
+import HomeNavigator from '../../components/HomeNavigator';
 
 class NewFeeds extends Component {
     componentDidMount() {
         this.props.getAllPosts();
     }
 
-    render() {      
+    render() {
         return (
-            <div className="ui-block">
-                <CreatePostForm></CreatePostForm>
-                <hr />
-                {
-                    this.props.posts.map((post, index) => {
-                        return (
-                            <article className="hentry post" key={index}>
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="float-left">
-                                            <PostHeader
-                                                avatar={post.author_avatar}
-                                                name={post.author}
-                                                heartNumber={post.love ? post.love : 0}
-                                                viewNumber={post.view ? post.view : 0}
-                                                likeNumber={post.like ? post.like : 0}
-                                            />
-                                        </div>
-                                        <div className="float-right">
-                                            <CircleButton icon="fas fa-flag"></CircleButton>
+            <div>
+                <HomeNavigator></HomeNavigator>
+                <div className="ui-block">
+                    <CreatePostForm></CreatePostForm>
+                    <hr />
+                    {
+                        this.props.posts.map((post, index) => {
+                            return (
+                                <article className="hentry post" key={index}>
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <div className="float-left">
+                                                <PostHeader
+                                                    avatar={post.author_avatar}
+                                                    name={post.author}
+                                                    heartNumber={post.love ? post.love : 0}
+                                                    viewNumber={post.view ? post.view : 0}
+                                                    likeNumber={post.like ? post.like : 0}
+                                                />
+                                            </div>
+                                            <div className="float-right">
+                                                <CircleButton icon="fas fa-flag"></CircleButton>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="post-photo">
-                                    {post.photo_id ? <img src={post.source} /> : null}
-                                </div>
-                                <p>
-                                    {post.content}    
-                                </p>
-                                <div className="row">
-                                    <div className="col">
-                                        <CircleButton icon="fas fa-heart"></CircleButton>
-                                        Yêu thích
+                                    <div className="post-photo">
+                                        {post.photo_id ? <img src={post.source} /> : null}
+                                    </div>
+                                    <p>
+                                        {post.content}
+                                    </p>
+                                    <div className="row">
+                                        <div className="col">
+                                            <CircleButton icon="fas fa-heart"></CircleButton>
+                                            Yêu thích
                                         </div>
-                                    <div className="col">
-                                        <CircleButton icon="fas fa-thumbs-up"></CircleButton>
-                                        Thích
+                                        <div className="col">
+                                            <CircleButton icon="fas fa-thumbs-up"></CircleButton>
+                                            Thích
                                         </div>
-                                    <div className="col">
-                                        <CircleButton icon="fas fa-comment"></CircleButton>
-                                        Bình luận
+                                        <div className="col">
+                                            <CircleButton icon="fas fa-comment"></CircleButton>
+                                            Bình luận
                                         </div>
-                                    <div className="col">
-                                        <CircleButton icon="fas fa-times"></CircleButton>
-                                        Xóa
+                                        <div className="col">
+                                            <CircleButton icon="fas fa-times"></CircleButton>
+                                            Xóa
                                         </div>
-                                </div>
-                            </article>
-                        )
-                    })
-                }
+                                    </div>
+                                </article>
+                            )
+                        })
+                    }
+                </div>
             </div>
         );
     }
