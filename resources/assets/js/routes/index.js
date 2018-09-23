@@ -21,8 +21,9 @@ import UserProfile from './profile/UserProfile';
 import UserSetting from './profile/UserSetting';
 
 import Cafe from './cafe';
-import CafeView from './cafe/view/index';
-import Messages from './messages/index';
+import CafeView from './cafe/view';
+import Messages from './messages';
+import Dating from './dating';
 
 import FriendsLikeYou from './relationship/FriendsLikeYou';
 import FriendsYouLike from './relationship/FriendsYouLike';
@@ -54,6 +55,8 @@ class MainApp extends Component {
 					<AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
 					<AppRoute exact path="/cafe/:url" layout={ThirdLayout} component={CafeView} />
 					<AppRoute exact path="/cafe/create" layout={ThirdLayout} component={CafeView} />
+                    {/* Dating */}
+                    <AppRoute extract path={'/dating'} layout={ThirdLayout} component={Dating} />
 					{/* Messages */}
                     <AppRoute exact path="/messages" layout={ThirdLayout} component={Messages} />
 					{/* Friend */}
