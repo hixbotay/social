@@ -3,13 +3,16 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 // component
 import CreatePostForm from '../../components/Post/CreatePostForm';
-import PostHeader from '../../components/Post/PostHeader';
-import CircleButton from '../../components/Button/CircleButton';
+import Post from '../../components/Post';
 // action
-import { getAllPosts } from '../../actions/NewFeedsActions';
+import { getAllPosts } from '../../actions/PostActions';
 import HomeNavigator from '../../components/HomeNavigator';
 
 class NewFeeds extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
         this.props.getAllPosts();
     }
@@ -24,48 +27,7 @@ class NewFeeds extends Component {
                     {
                         this.props.posts.map((post, index) => {
                             return (
-                                <article className="hentry post" key={index}>
-                                    <div className="row">
-                                        <div className="col-12">
-                                            <div className="float-left">
-                                                <PostHeader
-                                                    avatar={post.author_avatar}
-                                                    name={post.author}
-                                                    heartNumber={post.love ? post.love : 0}
-                                                    viewNumber={post.view ? post.view : 0}
-                                                    likeNumber={post.like ? post.like : 0}
-                                                />
-                                            </div>
-                                            <div className="float-right">
-                                                <CircleButton icon="fas fa-flag"></CircleButton>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="post-photo">
-                                        {post.photo_id ? <img src={post.source} /> : null}
-                                    </div>
-                                    <p>
-                                        {post.content}
-                                    </p>
-                                    <div className="row">
-                                        <div className="col">
-                                            <CircleButton icon="fas fa-heart"></CircleButton>
-                                            Yêu thích
-                                        </div>
-                                        <div className="col">
-                                            <CircleButton icon="fas fa-thumbs-up"></CircleButton>
-                                            Thích
-                                        </div>
-                                        <div className="col">
-                                            <CircleButton icon="fas fa-comment"></CircleButton>
-                                            Bình luận
-                                        </div>
-                                        <div className="col">
-                                            <CircleButton icon="fas fa-times"></CircleButton>
-                                            Xóa
-                                        </div>
-                                    </div>
-                                </article>
+                                <Post post={post} key={index}></Post>
                             )
                         })
                     }

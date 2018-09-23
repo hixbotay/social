@@ -18,8 +18,10 @@ Route::get('/posts', 'Api\Post@list');
  * type: like, dislike, love //
  * user_id: 99
  */
-Route::post('post/like/{post_id}', 'Api\Post@like');
-Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
+Route::middleware(['web'])->group(function() {
+    Route::post('post/like/{post_id}', 'Api\Post@like');
+    Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
+});
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
 

@@ -3,8 +3,11 @@ export const GET_CURRENT_USER = "GET_CURRENT_USER";
 export const GET_USER_DETAIL = "GET_USER_DETAIL";
 export const UPDATE_USER_DETAIL = "UPDATE_USER_DETAIL";
 
-// Newfeeds
+// Post
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
+export const LIKE_POST = 'LIKE_POST';
+export const LOVE_POST = 'LOVE_POST';
+export const UNLIKE_POST = 'UNLIKE_POST';
 
 // cafe
 export const GET_ALL_PROVINCE = 'GET_ALL_PROVINCE';

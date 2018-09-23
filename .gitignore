@@ -17,3 +17,4 @@ yarn-error.log
 .buildpath
 .env
 composer.json
+package-lock.json
