@@ -13,27 +13,27 @@ class Post extends Component {
             like: props.post.like ? JSON.parse(props.post.like).length : 0,
             love: props.post.love ? JSON.parse(props.post.love).length : 0,
             view: props.post.view ? JSON.parse(props.post.view).length : 0,
-            isLoved: (props.post.love && props.post.love.indexOf(props.post.author_id) >= 0) ? true : false,
-            isLiked: (props.post.like && props.post.like.indexOf(props.post.author_id) >= 0) ? true : false,
+            isLoved: (props.post.love === null || props.post.love.indexOf(props.user_id) < 0) ? false : true,
+            isLiked: (props.post.like === null || props.post.like.indexOf(props.user_id) < 0) ? false : true,
         }
     }
 
     changeReaction(actionType, post_id) {
         if (actionType === 'love') {
             if(this.state.isLoved) {
-                this.props.likePost({type: actionType}, post_id);
+                this.props.unlikePost({type: actionType}, post_id);
                 this.setState(prevState => ({ love: prevState.love - 1, isLoved: false}));
             } else {
-                this.props.unlikePost({type: actionType}, post_id);
+                this.props.likePost({type: actionType}, post_id);
                 this.setState(prevState => ({ love: prevState.love + 1, isLoved: true}));
             }
         }
         else if (actionType === 'like') {
             if(this.state.isLiked) {
-                this.props.likePost({type: actionType}, post_id);
+                this.props.unlikePost({type: actionType}, post_id);
                 this.setState(prevState => ({ like: prevState.like - 1, isLiked: false}));
             } else {
-                this.props.unlikePost({type: actionType}, post_id);
+                this.props.likePost({type: actionType}, post_id);
                 this.setState(prevState => ({ like: prevState.like + 1, isLiked: true}));
             }
         }
@@ -41,6 +41,7 @@ class Post extends Component {
 
     render() {
         const {post} = this.props;
+        
         return (
             <article className="hentry post">
                 <div className="row">
@@ -96,7 +97,7 @@ class Post extends Component {
 
 function mapStateToProps(state) {
     return {
-
+        current_user: state.user.current_user
     }
 }
 

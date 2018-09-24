@@ -33,7 +33,6 @@ class Post extends Controller
             $oldData = $post->$type ? json_decode($post->$type) : [] ;
             
             if(in_array($user_id, $oldData)) {
-                return 1111111;
                 $return['message'] = "Lỗi. Bạn đã thích bài viết này trước đó.";
                 return response()->json($return, 500);
             }

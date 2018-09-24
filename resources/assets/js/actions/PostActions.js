@@ -21,6 +21,7 @@ export const likePost = (actionType, id) => (dispatch) => {
     console.log(actionType);
     api.post(`/post/like/${id}`, JSON.stringify(actionType))
     .then(response => {
+        console.log(response.data);
         dispatch({type: LIKE_POST});
     })
     .catch(error => {
@@ -32,6 +33,7 @@ export const unlikePost = (actionType, id) => (dispatch) => {
     console.log(actionType);
     api.post(`/post/unlike/${id}`, JSON.stringify(actionType))
     .then(response => {
+        console.log(response.data);
         dispatch({type: UNLIKE_POST});
     })
     .catch(error => {

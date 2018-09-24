@@ -27,7 +27,7 @@ class NewFeeds extends Component {
                     {
                         this.props.posts.map((post, index) => {
                             return (
-                                <Post post={post} key={index}></Post>
+                                <Post post={post} key={index} user_id={this.props.current_user.id}></Post>
                             )
                         })
                     }
@@ -39,7 +39,8 @@ class NewFeeds extends Component {
 
 function mapStateToProps(state) {
     return {
-        posts: state.newfeeds.posts
+        posts: state.newfeeds.posts,
+        current_user: state.user.current_user
     }
 }
 
