@@ -6,8 +6,18 @@ import {
 } from '../actions/types';
 
 const INIT_STATE = {
-    allprovince: {},
-    alldistrict: {}
+    allprovince: [{
+        matp: null,
+        name: null
+    }],
+    alldistrict: [{
+        maqh: null,
+        name: null
+    }],
+    allCommune: [{
+        xaid: null,
+        name: null
+    }],
 }
 
 export default (state = INIT_STATE, action) => {
