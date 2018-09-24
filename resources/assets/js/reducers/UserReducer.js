@@ -6,7 +6,8 @@ import {
 
 const INIT_STATE = {
     current_user: {},
-    user: {}
+    user: {},
+    user_hobbies: [],
 }
 
 export default (state = INIT_STATE, action) => {
@@ -15,7 +16,7 @@ export default (state = INIT_STATE, action) => {
             return {...state, current_user: action.payload}
         }
         case GET_USER_DETAIL: {
-            return {...state, user: action.payload}
+            return {...state, user: action.payload.user, user_hobbies: action.payload.hobbies}
         }
         case UPDATE_USER_DETAIL: {
             return {...state, user: action.payload}

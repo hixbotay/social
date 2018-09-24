@@ -8,7 +8,8 @@ import {withRouter} from 'react-router-dom';
 class ProfileLayout extends Component {
 
     redirect() {
-        // console.log(111111111);
+        window.location.href = `${window.location.href}/setting`;
+        // console.log(this.props);
     }
     
     render() {
@@ -17,7 +18,7 @@ class ProfileLayout extends Component {
             <div className="row">
                 <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                     
-                    <CardWithIcon rightIcon="fas fa-cog" rightIconAction={this.redirect()}>
+                    <CardWithIcon rightIcon="fas fa-cog user-setting" rightIconAction={() => this.redirect()}>
                         <div className="author vcard inline-items profile-heading-info">
                             <RoundAvatar img={this.props.avatar} size='large'></RoundAvatar>
 

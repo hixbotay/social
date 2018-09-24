@@ -75,7 +75,7 @@ class UserSetting extends Component {
     }
 
     render() {
-        const { user, hobbies } = this.props;
+        const { user, user_hobbies, hobbies } = this.props;
         console.log(user);
         return (
             <ProfileLayout
@@ -164,7 +164,17 @@ class UserSetting extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Sở thích</div>
-                                    <div className="col-8">{user.favourite}</div>
+                                    <div className="col-8">
+                                    {
+                                        user_hobbies.map((item, index) => {
+                                            return (
+                                                <div className="tag" key={index}>
+                                                    {item.name}
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                    </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Tuýp người</div>
@@ -359,6 +369,7 @@ class UserSetting extends Component {
 function mapStateToProps(state) {
     return {
         user: state.user.user,
+        user_hobbies: state.user.user_hobbies,
         hobbies: state.hobby.hobbies,
     }
 }
