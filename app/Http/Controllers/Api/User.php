@@ -29,8 +29,14 @@ class User extends Controller
 
     public function visitProfile(Request $request){
         $data = $request->getContent();
+        $data = json_decode($data, true);
+        $data['created_at'] = $data['updated_at'] = date("Y-m-d H:i:s");
         $result = \App\User::visitProfile($data);
-        return $result;
+        if ($result){
+            return (array('message' => 'Thành công'));
+        }else{
+            return (array('message' => 'Không thành công'));
+        }
     }
 
     /*

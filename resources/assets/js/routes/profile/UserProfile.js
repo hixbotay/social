@@ -21,11 +21,12 @@ class UserProfile extends Component {
         ];
 
         const {user} = this.props;
+        const {current_user} = this.props;
 
-        if (user.id){
+        if (user.id && user.id !== current_user.id){
             this.props.addVisitor({
-                'profile_id': 1,
-                'visitor_id': 2
+                'profile_id': user.id,
+                'visitor_id': current_user.id
             })
         }
 
@@ -79,7 +80,8 @@ class UserProfile extends Component {
 
 function mapStateToProps(state) {
     return {
-        user: state.user.user
+        user: state.user.user,
+        current_user: state.user.current_user
     }
 }
 
