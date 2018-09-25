@@ -59,12 +59,12 @@ class User extends Authenticatable
             //     COUNT(user_relationship.is_loved = 1) AS loveNumber, 
             //     COUNT(user_relationship.is_like = 1) AS likeNumber'
             // ))
-            // ->select('('.DB::raw(
-            //     'users.*, 
-            //     user_jobs.name AS job_name, 
-            //     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
-            //     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
-            // ).')')
+            ->select(DB::raw(
+                'users.*, 
+                user_jobs.name AS job_name, 
+                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+            ))
             // ->groupBy('users.id')
             ->get();
 

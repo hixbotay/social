@@ -2,8 +2,8 @@ import api from '../api';
 import {
     GET_ALL_POSTS,
     LIKE_POST,
-    LOVE_POST,
-    UNLIKE_POST
+    UNLIKE_POST,
+    CREATE_NEW_POST,
 } from './types'
 
 export const getAllPosts = () => (dispatch) => {
@@ -39,4 +39,15 @@ export const unlikePost = (actionType, id) => (dispatch) => {
     .catch(error => {
         console.log(error);
     });
+}
+
+export const createPost = (data) => (dispatch) => {
+    api.post('/post', data)
+    .then(response => {
+        console.log(response);
+        dispatch({type: CREATE_NEW_POST});
+    })
+    .catch(error => {
+        console.log(error);
+    })
 }

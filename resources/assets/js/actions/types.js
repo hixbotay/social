@@ -8,6 +8,7 @@ export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const LIKE_POST = 'LIKE_POST';
 export const LOVE_POST = 'LOVE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
+export const CREATE_NEW_POST = 'CREATE_NEW_POST';
 
 // cafe
 export const GET_ALL_PROVINCE = 'GET_ALL_PROVINCE';

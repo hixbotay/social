@@ -1,7 +1,47 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {createPost, getAllPosts} from '../../actions/PostActions';
 
 class CreatePostForm extends Component {
+    constructor(props) {
+        super(props);
+        console.log(props);
+        this.state = {
+            newPost: {
+                user_id: props.user_id,
+                content: ''
+            }
+        }
+    }
+
+    updateStatus(event) {
+        this.setState({
+            newPost: {
+                ...this.state.newPost,
+                content: event.target.value
+            }
+        }, () => {
+            console.log(this.state.newPost);
+        })
+    }
+
+    async createPost(e) {
+        e.preventDefault();
+        if(this.state.newPost.content != '') {
+            await this.props.createPost(this.state.newPost);
+        }
+        
+        this.props.addPost(this.state.newPost);
+        this.setState({
+            newPost: {
+                ...this.state.newPost,
+                content: ''
+            }
+        })
+    }
+
     render() {
+    
         return (
             <div className="news-feed-form">
                 <ul className="nav nav-tabs" role="tablist">
@@ -27,24 +67,19 @@ class CreatePostForm extends Component {
 
                 <div className="tab-content">
                     <div className="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
-                        <form>
+                        <form onSubmit={(e) => this.createPost(e)}>
                             <div className="author-thumb">
                             </div>
                             <div className="form-group with-icon label-floating is-empty">
-                                <textarea className="form-control" placeholder="Share what you are thinking here..." ></textarea>
+                                <textarea 
+                                    className="form-control" 
+                                    placeholder="Share what you are thinking here..." 
+                                    onChange={(event) => this.updateStatus(event)}
+                                    value={this.state.newPost.content}
+                                ></textarea>
                             </div>
                             <div className="add-options-message">
-                                <a href="#" className="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD PHOTOS">
-
-                                </a>
-                                <a href="#" className="options-message" data-toggle="tooltip" data-placement="top" data-original-title="TAG YOUR FRIENDS">
-                                </a>
-
-                                <a href="#" className="options-message" data-toggle="tooltip" data-placement="top" data-original-title="ADD LOCATION">
-
-                                </a>
-
-                                <button className="btn btn-primary btn-md-2">Post Status</button>
+                                <button type="submit" className="btn btn-primary btn-md-2">Post Status</button>
                                 <button className="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
                             </div>
                         </form>
@@ -55,4 +90,11 @@ class CreatePostForm extends Component {
     }
 }
 
-export default CreatePostForm;
+function mapDispatchToProps(dispatch) {
+    return {
+        createPost: (data) => dispatch(createPost(data)),
+        getAllPosts: () => dispatch(getAllPosts())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CreatePostForm);

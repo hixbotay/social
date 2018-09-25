@@ -79,4 +79,15 @@ class Post extends Controller
             return response()->json($return, 404);
         }
     }
+
+    public function createPost(Request $request) {
+        $data = json_decode($request->getContent());
+        $newPost = [
+            'user_id' => $data->user_id,
+            'content' => $data->content
+        ];
+        $result = \App\Post::create($newPost);
+        return $result;
+        // return $newPost;
+    }
 }

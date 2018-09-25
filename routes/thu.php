@@ -44,3 +44,5 @@ Route::get('couple/view/{id}', function($id) {
     $results = \App\Http\Controllers\Api\Couple::findOne($id);
     return json_encode($results);
 });
+
+Route::post('/post', 'Api\Post@createPost');

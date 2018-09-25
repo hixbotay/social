@@ -13,8 +13,8 @@ class Post extends Component {
             like: props.post.like ? JSON.parse(props.post.like).length : 0,
             love: props.post.love ? JSON.parse(props.post.love).length : 0,
             view: props.post.view ? JSON.parse(props.post.view).length : 0,
-            isLoved: (props.post.love === null || props.post.love.indexOf(props.user_id) < 0) ? false : true,
-            isLiked: (props.post.like === null || props.post.like.indexOf(props.user_id) < 0) ? false : true,
+            // isLoved: (props.post.love === null || props.post.love.indexOf(props.user_id) < 0) ? false : true,
+            // isLiked: (props.post.like === null || props.post.like.indexOf(props.user_id) < 0) ? false : true,
         }
     }
 
@@ -92,12 +92,6 @@ class Post extends Component {
                 </div>
             </article>
         );
-    }
-}
-
-function mapStateToProps(state) {
-    return {
-        current_user: state.user.current_user
     }
 }
 
