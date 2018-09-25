@@ -27,14 +27,13 @@ class NewFeeds extends Component {
     }
 
     addPost(post) {
-        this.state.posts.push(post);
+        this.state.posts.unshift(post);
         this.setState({
             posts: this.state.posts
         })
     }
 
     render() {
-        console.table(this.state.posts);
         const {current_user} = this.props;
         return (
             <div>
@@ -43,7 +42,7 @@ class NewFeeds extends Component {
                     <div>
                         <HomeNavigator></HomeNavigator>
                         <div className="ui-block">
-                            <CreatePostForm user_id={current_user.id} addPost={this.addPost.bind(this)}></CreatePostForm>
+                            <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
                             <hr />
                             {
                                 this.state.posts.map((post, index) => {
@@ -65,7 +64,7 @@ class NewFeeds extends Component {
 
 function mapStateToProps(state) {
     return {
-        posts: state.newfeeds.posts,
+        posts: state.post.posts,
         current_user: state.user.current_user
     }
 }

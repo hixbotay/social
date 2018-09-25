@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import {createPost, getAllPosts} from '../../actions/PostActions';
+import { connect } from 'react-redux';
+import { createPost, getAllPosts } from '../../actions/PostActions';
 
 class CreatePostForm extends Component {
     constructor(props) {
         super(props);
+        console.log('===============');
         console.log(props);
         this.state = {
             newPost: {
-                user_id: props.user_id,
+                user_id: props.user.id,
                 content: ''
             }
         }
@@ -20,18 +21,22 @@ class CreatePostForm extends Component {
                 ...this.state.newPost,
                 content: event.target.value
             }
-        }, () => {
-            console.log(this.state.newPost);
-        })
+        });
     }
 
-    async createPost(e) {
+    createPost(e) {
         e.preventDefault();
-        if(this.state.newPost.content != '') {
-            await this.props.createPost(this.state.newPost);
-        }
         
-        this.props.addPost(this.state.newPost);
+        this.props.createPost(this.state.newPost).then(data => {
+            var post = {
+                ...data,
+                author: this.props.user.name,
+                author_avatar: this.props.user.avatar
+            };
+    
+            this.props.addPost(post);
+        });
+
         this.setState({
             newPost: {
                 ...this.state.newPost,
@@ -41,7 +46,6 @@ class CreatePostForm extends Component {
     }
 
     render() {
-    
         return (
             <div className="news-feed-form">
                 <ul className="nav nav-tabs" role="tablist">
@@ -71,9 +75,9 @@ class CreatePostForm extends Component {
                             <div className="author-thumb">
                             </div>
                             <div className="form-group with-icon label-floating is-empty">
-                                <textarea 
-                                    className="form-control" 
-                                    placeholder="Share what you are thinking here..." 
+                                <textarea
+                                    className="form-control"
+                                    placeholder="Share what you are thinking here..."
                                     onChange={(event) => this.updateStatus(event)}
                                     value={this.state.newPost.content}
                                 ></textarea>
@@ -90,11 +94,17 @@ class CreatePostForm extends Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps(state) {
     return {
-        createPost: (data) => dispatch(createPost(data)),
-        getAllPosts: () => dispatch(getAllPosts())
+        post: state.post.newPost
     }
 }
 
-export default connect(null, mapDispatchToProps)(CreatePostForm);
+function mapDispatchToProps(dispatch) {
+    return {
+        createPost: (data) => dispatch(createPost(data)),
+        getAllPosts: () => dispatch(getAllPosts()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePostForm);

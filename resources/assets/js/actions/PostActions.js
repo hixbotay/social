@@ -8,46 +8,48 @@ import {
 
 export const getAllPosts = () => (dispatch) => {
     api.get('/posts')
-    .then(response => {
-        console.log(response.data);
-        dispatch({type: GET_ALL_POSTS, payload: response.data});
-    })
-    .catch(err => {
-        console.log(err);
-    })
+        .then(response => {
+            dispatch({ type: GET_ALL_POSTS, payload: response.data });
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }
 
 export const likePost = (actionType, id) => (dispatch) => {
     console.log(actionType);
     api.post(`/post/like/${id}`, JSON.stringify(actionType))
-    .then(response => {
-        console.log(response.data);
-        dispatch({type: LIKE_POST});
-    })
-    .catch(error => {
-        console.log(error);
-    });
+        .then(response => {
+            console.log(response.data);
+            dispatch({ type: LIKE_POST });
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
 export const unlikePost = (actionType, id) => (dispatch) => {
     console.log(actionType);
     api.post(`/post/unlike/${id}`, JSON.stringify(actionType))
-    .then(response => {
-        console.log(response.data);
-        dispatch({type: UNLIKE_POST});
-    })
-    .catch(error => {
-        console.log(error);
-    });
+        .then(response => {
+            console.log(response.data);
+            dispatch({ type: UNLIKE_POST });
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
 export const createPost = (data) => (dispatch) => {
-    api.post('/post', data)
-    .then(response => {
-        console.log(response);
-        dispatch({type: CREATE_NEW_POST});
-    })
-    .catch(error => {
-        console.log(error);
+    return new Promise((resolve, reject) => {
+        api.post('/post', data)
+        .then(response => {
+            dispatch({ type: CREATE_NEW_POST, payload: response.data });
+            resolve(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+            reject(error);
+        })
     })
 }
