@@ -50,7 +50,7 @@ class CafeSearch extends Component {
                                     <option>Huyện</option>
                                     {Object.values(district).map((data, index) => {
                                         return(
-                                            <option value={data.matp} key={index}>{data.name}</option>
+                                            <option value={data.maqh} key={index}>{data.name}</option>
                                         );
                                     })}
 

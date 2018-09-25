@@ -103,7 +103,12 @@ class User extends Authenticatable
 
     public static function visitProfile($data){
 
-        $result = DB::table('profile_visitor')->insert( json_decode($data, true) );
-        return $result;
+        try {
+            $result = DB::table('profile_visitor')->insert( $data );
+            return true;
+        }
+        catch (\Exception $e) {
+            return false;
+        }
     }
 }

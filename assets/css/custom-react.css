@@ -264,3 +264,40 @@ li.list-group-item {
     margin-right: 5px;
     color: #fff;
 }
+
+.add-cafe-header {
+    padding: 20px;
+    background: #008FE5;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.add-cafe-header h4 {
+    color: #fff;
+    font-weight: bold;
+}
+
+.add-cafe-header h6{
+    color: #fff;
+    font-weight: normal;
+}
+
+.add-cafe-basic {
+    padding: 10px;
+}
+
+.add-cafe-basic .control-label {
+    color: #7F7F7F;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.add-cafe-basic h3 {
+    color: #C1272D;
+    margin: 20px;
+    font-size: 20px;
+}
+
+.add-cafe-basic .form-horizontal {
+    margin-bottom: 10px;
+}

@@ -67,6 +67,7 @@ class MainApp extends Component {
 					<AppRoute exact path="/couple" layout={SecondLayout} component={SearchResults} />
 					<AppRoute exact path="/couple/:id" layout={SecondLayout} component={ViewCouple} />
 				</Switch>
+
 			</div>
 		);
 	}
