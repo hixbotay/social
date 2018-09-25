@@ -3,6 +3,7 @@ import {
     GET_ALL_PROVINCE,
     GET_ALL_DISTRICT,
     GET_CAFE_DETAIL,
+    GET_ALL_COMMUNE,
     GET_ALL_CAFE
 } from './types'
 
@@ -20,6 +21,16 @@ export const getAllDistrict = () => (dispatch) => {
     api.get('/getAllDistrict')
         .then(response => {
             dispatch({type: GET_ALL_DISTRICT, payload: response.data});
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+export const getAllCommune = () => (dispatch) => {
+    api.get('/getAllCommune')
+        .then(response => {
+            dispatch({type: GET_ALL_COMMUNE, payload: response.data});
         })
         .catch(err => {
             console.log(err);

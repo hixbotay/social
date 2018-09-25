@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
-import {getAllDistrict, getAllProvince} from "../../../actions/CafeActions";
+import {getAllDistrict, getAllProvince, getAllCommune} from "../../../actions/CafeActions";
 import Slider from "react-animated-slider";
 import CafeRight from "../../../components/RightSidebar/Cafe";
 import Lightbox from 'react-image-lightbox';
@@ -13,21 +13,32 @@ class CafeView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            photoIndex: 0,
-            openLightBox: false,
-            images: [
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-            ]
+            data: {
+                name: '',
+                province_id: '',
+                district_id: '',
+                commune_id: '',
+                hotline: '',
+                email: '',
+                website: '',
+                lat: '',
+                lng: '',
+                owner: '',
+                owner_mobile: '',
+                manager: '',
+                manager_mobile: '',
+                min_price: '',
+                max_price: '',
+                open: '',
+                close: '',
+            }
         };
     }
 
     componentDidMount() {
         this.props.getAllProvince();
         this.props.getAllDistrict();
+        // this.props.getAllCommune();
     }
 
     render() {
@@ -42,8 +53,6 @@ class CafeView extends Component {
             minutes.push(i);
         }
 
-
-        const { photoIndex, openLightBox, images } = this.state;
 
         return (
             <div className="row">
@@ -129,7 +138,7 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="hotline">Hotline</label>
                                     <div className="col-md-10">
-                                        <input type="text" id="hotline" className="form-control" placeholder="Hotline" />
+                                        <input type="text" id="hotline" className="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +147,7 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="Email">Email</label>
                                     <div className="col-md-10">
-                                        <input type="Email" id="Email" className="form-control" placeholder="Email" />
+                                        <input type="Email" id="Email" className="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +156,7 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="website">Website</label>
                                     <div className="col-md-10">
-                                        <input type="text" id="website" className="form-control" placeholder="Website" />
+                                        <input type="text" id="website" className="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -173,12 +182,47 @@ class CafeView extends Component {
                         <div className={"add-cafe-basic"}>
                             <h3>THÔNG TIN KHÁC</h3>
 
+                            <div className={"form-horizontal"}>
+                                <div className="row">
+                                    <label className="col-md-2 control-label" htmlFor="owner">Họ tên chủ quán</label>
+                                    <div className="col-md-10">
+                                        <input type="text" id="owner" className="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={"form-horizontal"}>
+                                <div className="row">
+                                    <label className="col-md-2 control-label" htmlFor="owner_mobile">SĐT chủ quán</label>
+                                    <div className="col-md-10">
+                                        <input type="text" id="owner_mobile" className="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={"form-horizontal"}>
+                                <div className="row">
+                                    <label className="col-md-2 control-label" htmlFor="manager">Quản lý</label>
+                                    <div className="col-md-10">
+                                        <input type="text" id="manager" className="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={"form-horizontal"}>
+                                <div className="row">
+                                    <label className="col-md-2 control-label" htmlFor="manager_mobile">SĐT quản lý</label>
+                                    <div className="col-md-10">
+                                        <input type="text" id="manager_mobile" className="form-control" />
+                                    </div>
+                                </div>
+                            </div>
 
                             <div className={"form-horizontal"}>
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="maxprice">Giá max</label>
                                     <div className="col-md-10">
-                                        <input type="number" step={0.01} id="maxprice" className="form-control" placeholder="Giá max" />
+                                        <input type="number" step={0.01} id="maxprice" className="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +231,7 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="minprice">Giá min</label>
                                     <div className="col-md-10">
-                                        <input type="number" step={0.01} id="minprice" className="form-control" placeholder="Giá min" />
+                                        <input type="number" step={0.01} id="minprice" className="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -282,4 +326,6 @@ function mapStateToProps(state) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, {getAllProvince, getAllDistrict})(CafeView));
+export default withRouter(connect(mapStateToProps, {
+    getAllProvince, getAllDistrict, getAllCommune
+})(CafeView));

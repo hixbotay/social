@@ -26,8 +26,13 @@ class ProvinceGroup extends Model
     }
 
     public static function all_district(){
-        $province = DB::table('devvn_quanhuyen')->select('name', 'maqh')->get();
+        $province = DB::table('devvn_quanhuyen')->select('name', 'maqh', 'matp')->get();
         return $province;
+    }
+
+    public static function all_commune(){
+        $commune = DB::table('devvn_xaphuongthitran')->select('xaid', 'name', 'maqh')->get();
+        return $commune;
     }
 
 
