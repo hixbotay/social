@@ -24,5 +24,9 @@ Route::get('getDetailCafe/{url}', function ($url) {
     return $data;
 });
 
+Route::get('getAllCommune', function (){
+    $data = \App\ProvinceGroup::all_commune();
+    return $data;
+});
 
 

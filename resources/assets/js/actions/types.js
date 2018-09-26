@@ -14,6 +14,7 @@ export const CREATE_NEW_POST = 'CREATE_NEW_POST';
 // cafe
 export const GET_ALL_PROVINCE = 'GET_ALL_PROVINCE';
 export const GET_ALL_DISTRICT = 'GET_ALL_DISTRICT';
+export const GET_ALL_COMMUNE = 'GET_ALL_COMMUNE';
 export const GET_CAFE_DETAIL = 'GET_CAFE_DETAIL';
 export const GET_ALL_CAFE = 'GET_ALL_CAFE';
 

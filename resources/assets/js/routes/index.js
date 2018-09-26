@@ -21,7 +21,7 @@ import Profile from './profile/Profile';
 import UserSetting from './profile/CurrentUserDetail';
 
 import Cafe from './cafe';
-import CafeView from './cafe/view';
+import CafeView from './cafe/create';
 import Messages from './messages';
 import Dating from './dating';
 

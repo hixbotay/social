@@ -1526,22 +1526,23 @@ module.exports = invariant;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_CURRENT_USER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_USER_DETAIL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return UPDATE_USER_DETAIL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_CURRENT_USER_DETAIL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return GET_ALL_POSTS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return LIKE_POST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return GET_CURRENT_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return GET_USER_DETAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return UPDATE_USER_DETAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return GET_CURRENT_USER_DETAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return GET_ALL_POSTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return LIKE_POST; });
 /* unused harmony export LOVE_POST */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return UNLIKE_POST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return UNLIKE_POST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CREATE_NEW_POST; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return GET_ALL_PROVINCE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GET_ALL_DISTRICT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_CAFE_DETAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return GET_ALL_PROVINCE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return GET_ALL_DISTRICT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return GET_ALL_COMMUNE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_CAFE_DETAIL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return GET_ALL_CAFE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return GET_ALL_HOBBIES; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_COUPLE_RESULTS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return GET_COUPLE_DETAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return GET_ALL_HOBBIES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return GET_COUPLE_RESULTS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return GET_COUPLE_DETAIL; });
 // User
 var GET_CURRENT_USER = "GET_CURRENT_USER";
 var GET_USER_DETAIL = "GET_USER_DETAIL";
@@ -1558,6 +1559,7 @@ var CREATE_NEW_POST = 'CREATE_NEW_POST';
 // cafe
 var GET_ALL_PROVINCE = 'GET_ALL_PROVINCE';
 var GET_ALL_DISTRICT = 'GET_ALL_DISTRICT';
+var GET_ALL_COMMUNE = 'GET_ALL_COMMUNE';
 var GET_CAFE_DETAIL = 'GET_CAFE_DETAIL';
 var GET_ALL_CAFE = 'GET_ALL_CAFE';
 
@@ -5054,7 +5056,7 @@ var locationsAreEqual = function locationsAreEqual(a, b) {
 var getCurrentUser = function getCurrentUser() {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('auth/user').then(function (response) {
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["j" /* GET_CURRENT_USER */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["k" /* GET_CURRENT_USER */], payload: response.data });
         }).catch(function (error) {
             console.log(error);
         });
@@ -5064,7 +5066,7 @@ var getCurrentUser = function getCurrentUser() {
 var getOtherUserDetail = function getOtherUserDetail(id) {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/user/' + id).then(function (response) {
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["l" /* GET_USER_DETAIL */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["m" /* GET_USER_DETAIL */], payload: response.data });
         }).catch(function (err) {
             console.log(err);
         });
@@ -5074,7 +5076,7 @@ var getOtherUserDetail = function getOtherUserDetail(id) {
 var getCurrentUserDetail = function getCurrentUserDetail() {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/user').then(function (response) {
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["k" /* GET_CURRENT_USER_DETAIL */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["l" /* GET_CURRENT_USER_DETAIL */], payload: response.data });
         }).catch(function (err) {
             console.log(err);
         });
@@ -5086,7 +5088,7 @@ var updateUser = function updateUser(data, id) {
         console.log(data);
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].post('/user/' + id, data).then(function (response) {
             window.location.reload();
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["o" /* UPDATE_USER_DETAIL */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["p" /* UPDATE_USER_DETAIL */], payload: response.data });
         }).catch(function (err) {
             console.log(err);
         });
@@ -7128,8 +7130,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getAllProvince; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getAllDistrict; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getAllProvince; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getAllDistrict; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getAllCommune; });
 /* unused harmony export getAllCafe */
 /* unused harmony export getCafeDetail */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api__ = __webpack_require__(36);
@@ -7140,7 +7143,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var getAllProvince = function getAllProvince() {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/getAllProvince').then(function (response) {
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["f" /* GET_ALL_PROVINCE */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["g" /* GET_ALL_PROVINCE */], payload: response.data });
         }).catch(function (err) {
             console.log(err);
         });
@@ -7150,7 +7153,17 @@ var getAllProvince = function getAllProvince() {
 var getAllDistrict = function getAllDistrict() {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/getAllDistrict').then(function (response) {
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["c" /* GET_ALL_DISTRICT */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["d" /* GET_ALL_DISTRICT */], payload: response.data });
+        }).catch(function (err) {
+            console.log(err);
+        });
+    };
+};
+
+var getAllCommune = function getAllCommune() {
+    return function (dispatch) {
+        __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/getAllCommune').then(function (response) {
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["c" /* GET_ALL_COMMUNE */], payload: response.data });
         }).catch(function (err) {
             console.log(err);
         });
@@ -7169,7 +7182,7 @@ function getAllCafe() {
 
 function getCafeDetail(id) {
     __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/getCafeDetail/' + id).then(function (response) {
-        dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["g" /* GET_CAFE_DETAIL */], payload: response.data });
+        dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["h" /* GET_CAFE_DETAIL */], payload: response.data });
     }).catch(function (err) {
         console.log(err);
     });
@@ -8393,7 +8406,7 @@ if ("development" !== 'production' && typeof isCrushed.name === 'string' && isCr
 var getAllPosts = function getAllPosts() {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/posts').then(function (response) {
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["e" /* GET_ALL_POSTS */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["f" /* GET_ALL_POSTS */], payload: response.data });
         }).catch(function (err) {
             console.log(err);
         });
@@ -8405,7 +8418,7 @@ var likePost = function likePost(actionType, id) {
         console.log(actionType);
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].post('/post/like/' + id, JSON.stringify(actionType)).then(function (response) {
             console.log(response.data);
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["m" /* LIKE_POST */] });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["n" /* LIKE_POST */] });
         }).catch(function (error) {
             console.log(error);
         });
@@ -8417,7 +8430,7 @@ var unlikePost = function unlikePost(actionType, id) {
         console.log(actionType);
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].post('/post/unlike/' + id, JSON.stringify(actionType)).then(function (response) {
             console.log(response.data);
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["n" /* UNLIKE_POST */] });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["o" /* UNLIKE_POST */] });
         }).catch(function (error) {
             console.log(error);
         });
@@ -31049,7 +31062,7 @@ var getCoupleResults = function getCoupleResults(keyword) {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/couple/search/' + keyword).then(function (response) {
             console.log(response.data);
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["i" /* GET_COUPLE_RESULTS */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["j" /* GET_COUPLE_RESULTS */], payload: response.data });
         }).catch(function (error) {
             console.log(error);
         });
@@ -31060,7 +31073,7 @@ var getCoupleDetail = function getCoupleDetail(id) {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].get('/couple/view/' + id).then(function (response) {
             console.log(response.data);
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["h" /* GET_COUPLE_DETAIL */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_1__types__["i" /* GET_COUPLE_DETAIL */], payload: response.data });
         }).catch(function (error) {
             console.log(error);
         });
@@ -55085,7 +55098,7 @@ module.exports = onlyChild;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__profile_Profile__ = __webpack_require__(433);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__profile_CurrentUserDetail__ = __webpack_require__(437);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__cafe__ = __webpack_require__(398);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__cafe_view__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__cafe_create__ = __webpack_require__(438);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__messages__ = __webpack_require__(413);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__dating__ = __webpack_require__(414);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__relationship_FriendsLikeYou__ = __webpack_require__(415);
@@ -55188,8 +55201,8 @@ var MainApp = function (_Component) {
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/profile/:id/setting', layout: __WEBPACK_IMPORTED_MODULE_9__layouts_SecondLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_14__profile_CurrentUserDetail__["a" /* default */] }),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/other/:id', layout: __WEBPACK_IMPORTED_MODULE_9__layouts_SecondLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_24__profile_OtherUserProfile__["a" /* default */] }),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/cafe', layout: __WEBPACK_IMPORTED_MODULE_10__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_15__cafe__["a" /* default */] }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/cafe/:url', layout: __WEBPACK_IMPORTED_MODULE_10__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_16__cafe_view__["a" /* default */] }),
-					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/cafe/create', layout: __WEBPACK_IMPORTED_MODULE_10__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_16__cafe_view__["a" /* default */] }),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/cafe/:url', layout: __WEBPACK_IMPORTED_MODULE_10__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_16__cafe_create__["a" /* default */] }),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/cafe/create', layout: __WEBPACK_IMPORTED_MODULE_10__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_16__cafe_create__["a" /* default */] }),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { extract: true, path: '/dating', layout: __WEBPACK_IMPORTED_MODULE_10__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_18__dating__["a" /* default */] }),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/messages', layout: __WEBPACK_IMPORTED_MODULE_10__layouts_ThirdLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_17__messages__["a" /* default */] }),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(AppRoute, { exact: true, path: '/friends/like-you', layout: __WEBPACK_IMPORTED_MODULE_8__layouts_MainLayout__["a" /* default */], component: __WEBPACK_IMPORTED_MODULE_19__relationship_FriendsLikeYou__["a" /* default */] }),
@@ -77146,7 +77159,7 @@ exports.default = (0, _reactLifecyclesCompat.polyfill)(Transition);
 var getAllHobbies = function getAllHobbies() {
     return function (dispatch) {
         __WEBPACK_IMPORTED_MODULE_1__api__["a" /* default */].get('/hobbies').then(function (response) {
-            dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__types__["d" /* GET_ALL_HOBBIES */], payload: response.data });
+            dispatch({ type: __WEBPACK_IMPORTED_MODULE_0__types__["e" /* GET_ALL_HOBBIES */], payload: response.data });
         }).catch(function (err) {
             console.log(err);
         });
@@ -77343,7 +77356,7 @@ function mapStateToProps(state) {
     };
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_5_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_6_react_redux_es_connect_connect__["a" /* default */])(mapStateToProps, { getAllProvince: __WEBPACK_IMPORTED_MODULE_4__actions_CafeActions__["b" /* getAllProvince */], getAllDistrict: __WEBPACK_IMPORTED_MODULE_4__actions_CafeActions__["a" /* getAllDistrict */] })(Cafe)));
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_5_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_6_react_redux_es_connect_connect__["a" /* default */])(mapStateToProps, { getAllProvince: __WEBPACK_IMPORTED_MODULE_4__actions_CafeActions__["c" /* getAllProvince */], getAllDistrict: __WEBPACK_IMPORTED_MODULE_4__actions_CafeActions__["b" /* getAllDistrict */] })(Cafe)));
 
 /***/ }),
 /* 399 */
@@ -79240,512 +79253,7 @@ var CafeSearch = function (_Component) {
 /* harmony default export */ __webpack_exports__["a"] = (CafeSearch);
 
 /***/ }),
-/* 403 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_redux_es_connect_connect__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_animated_slider__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_animated_slider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_animated_slider__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_RightSidebar_Cafe__ = __webpack_require__(154);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_image_lightbox__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_image_lightbox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_image_lightbox__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_image_lightbox_style_css__ = __webpack_require__(91);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_image_lightbox_style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react_image_lightbox_style_css__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-
-
-
-
-
-
-
-
-var CafeView = function (_Component) {
-    _inherits(CafeView, _Component);
-
-    function CafeView(props) {
-        _classCallCheck(this, CafeView);
-
-        var _this = _possibleConstructorReturn(this, (CafeView.__proto__ || Object.getPrototypeOf(CafeView)).call(this, props));
-
-        _this.state = {
-            photoIndex: 0,
-            openLightBox: false,
-            images: ['https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg', 'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg', 'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg', 'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg', 'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg']
-        };
-        return _this;
-    }
-
-    _createClass(CafeView, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {
-            this.props.getAllProvince();
-            this.props.getAllDistrict();
-        }
-    }, {
-        key: "render",
-        value: function render() {
-
-            var hours = [];
-            var minutes = [];
-            for (var i = 0; i < 24; i++) {
-                hours.push(i);
-            }
-
-            for (var _i = 0; _i < 60; _i++) {
-                minutes.push(_i);
-            }
-
-            var _state = this.state,
-                photoIndex = _state.photoIndex,
-                openLightBox = _state.openLightBox,
-                images = _state.images;
-
-
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "div",
-                { className: "row" },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { className: "col-md-8" },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "div",
-                        { className: "ui-block" },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            { className: "add-cafe-header" },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "h4",
-                                null,
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fas fa-map-marker-alt" }),
-                                " Th\xEAm \u0111\u1ECBa \u0111i\u1EC3m"
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "h6",
-                                null,
-                                "Tham gia c\xF9ng ch\xFAng t\xF4i \u0111\u1EC3 t\u1EA1o nh\u1EEFng tr\u1EA3i nghi\u1EC7m kh\xF4ng gian l\xE3ng m\u1EA1n"
-                            )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            { className: "add-cafe-banner" },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("img", { src: "https://image.freepik.com/free-vector/different-types-of-coffee-and-phrase-i-need-coffee_1308-18167.jpg" })
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            { className: "add-cafe-basic" },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "h3",
-                                null,
-                                "TH\xD4NG TIN C\u01A0 B\u1EA2N"
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "name" },
-                                        "T\xEAn qu\xE1n"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "name", className: "form-control", placeholder: "T\xEAn qu\xE1n" })
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "province" },
-                                        "T\u1EC9nh/TP"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "select",
-                                            { style: { height: 40, padding: 10 }, id: "province" },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "option",
-                                                null,
-                                                "T\u1EC9nh/TP"
-                                            ),
-                                            this.props.province.map(function (data, index) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "option",
-                                                    { value: data.matp, key: index },
-                                                    data.name
-                                                );
-                                            })
-                                        )
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "district" },
-                                        "Qu\u1EADn/Huy\u1EC7n"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "select",
-                                            { style: { height: 40, padding: 10 }, id: "district" },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "option",
-                                                null,
-                                                "Qu\u1EADn/Huy\u1EC7n"
-                                            ),
-                                            this.props.district.map(function (data, index) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "option",
-                                                    { value: data.maqh, key: index },
-                                                    data.name
-                                                );
-                                            })
-                                        )
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "commune" },
-                                        "X\xE3/Ph\u01B0\u1EDDng"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "select",
-                                            { style: { height: 40, padding: 10 }, id: "commune" },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "option",
-                                                null,
-                                                "X\xE3/Ph\u01B0\u1EDDng"
-                                            ),
-                                            this.props.commune.map(function (data, index) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "option",
-                                                    { value: data.xaid, key: index },
-                                                    data.name
-                                                );
-                                            })
-                                        )
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "hotline" },
-                                        "Hotline"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "hotline", className: "form-control", placeholder: "Hotline" })
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "Email" },
-                                        "Email"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "Email", id: "Email", className: "form-control", placeholder: "Email" })
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "website" },
-                                        "Website"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "website", className: "form-control", placeholder: "Website" })
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "location" },
-                                        "V\u1ECB tr\xED"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "a",
-                                            { href: "#", className: "btn btn-secondary btn-sm" },
-                                            "Small Button",
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "ripple-container" })
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "div",
-                        { className: "ui-block" },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "div",
-                            { className: "add-cafe-basic" },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "h3",
-                                null,
-                                "TH\xD4NG TIN KH\xC1C"
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "maxprice" },
-                                        "Gi\xE1 max"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "number", step: 0.01, id: "maxprice", className: "form-control", placeholder: "Gi\xE1 max" })
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "minprice" },
-                                        "Gi\xE1 min"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-10" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "number", step: 0.01, id: "minprice", className: "form-control", placeholder: "Gi\xE1 min" })
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "openHour" },
-                                        "M\u1EDF c\u1EEDa"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-5" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "select",
-                                            { style: { height: 40, padding: 10 }, id: "openHour" },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "option",
-                                                null,
-                                                "Gi\u1EDD"
-                                            ),
-                                            hours.map(function (data, index) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "option",
-                                                    { value: data, key: index },
-                                                    data
-                                                );
-                                            })
-                                        )
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-5" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "select",
-                                            { style: { height: 40, padding: 10 } },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "option",
-                                                null,
-                                                "Ph\xFAt"
-                                            ),
-                                            minutes.map(function (data, index) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "option",
-                                                    { value: data, key: index },
-                                                    data
-                                                );
-                                            })
-                                        )
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "label",
-                                        { className: "col-md-2 control-label", htmlFor: "closeHour" },
-                                        "\u0110\xF3ng c\u1EEDa"
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-5" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "select",
-                                            { style: { height: 40, padding: 10 }, id: "closeHour" },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "option",
-                                                null,
-                                                "Gi\u1EDD"
-                                            ),
-                                            hours.map(function (data, index) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "option",
-                                                    { value: data, key: index },
-                                                    data
-                                                );
-                                            })
-                                        )
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-5" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "select",
-                                            { style: { height: 40, padding: 10 } },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                "option",
-                                                null,
-                                                "Ph\xFAt"
-                                            ),
-                                            minutes.map(function (data, index) {
-                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                    "option",
-                                                    { value: data, key: index },
-                                                    data
-                                                );
-                                            })
-                                        )
-                                    )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                "div",
-                                { className: "form-horizontal" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    "div",
-                                    { className: "row" },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        "div",
-                                        { className: "col-md-6 offset-md-3" },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            "a",
-                                            { href: "#", className: "btn btn-blue btn-md-2" },
-                                            "+ Th\xEAm \u0111\u1ECBa \u0111i\u1EC3m",
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "ripple-container" })
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { className: "col col-md-4" },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__components_RightSidebar_Cafe__["a" /* default */], { province: this.props.province, district: this.props.district })
-                )
-            );
-        }
-    }]);
-
-    return CafeView;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-function mapStateToProps(state) {
-    return {
-        province: state.cafe.allprovince,
-        district: state.cafe.alldistrict,
-        commune: state.cafe.allCommune
-    };
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_2_react_redux_es_connect_connect__["a" /* default */])(mapStateToProps, { getAllProvince: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["b" /* getAllProvince */], getAllDistrict: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["a" /* getAllDistrict */] })(CafeView)));
-
-/***/ }),
+/* 403 */,
 /* 404 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -80988,7 +80496,7 @@ function mapStateToProps(state) {
     };
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_2_react_redux_es_connect_connect__["a" /* default */])(mapStateToProps, { getAllProvince: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["b" /* getAllProvince */], getAllDistrict: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["a" /* getAllDistrict */] })(Messages)));
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_2_react_redux_es_connect_connect__["a" /* default */])(mapStateToProps, { getAllProvince: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["c" /* getAllProvince */], getAllDistrict: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["b" /* getAllDistrict */] })(Messages)));
 
 /***/ }),
 /* 414 */
@@ -81185,7 +80693,7 @@ function mapStateToProps(state) {
     };
 }
 
-/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_2_react_redux_es_connect_connect__["a" /* default */])(mapStateToProps, { getAllProvince: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["b" /* getAllProvince */], getAllDistrict: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["a" /* getAllDistrict */] })(Dating)));
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_2_react_redux_es_connect_connect__["a" /* default */])(mapStateToProps, { getAllProvince: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["c" /* getAllProvince */], getAllDistrict: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["b" /* getAllDistrict */] })(Dating)));
 
 /***/ }),
 /* 415 */
@@ -81801,7 +81309,7 @@ var INIT_STATE = {
     var action = arguments[1];
 
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["e" /* GET_ALL_POSTS */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["f" /* GET_ALL_POSTS */]:
             {
                 return _extends({}, state, { posts: action.payload });
             }
@@ -81842,19 +81350,19 @@ var INIT_STATE = {
     var action = arguments[1];
 
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["j" /* GET_CURRENT_USER */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["k" /* GET_CURRENT_USER */]:
             {
                 return _extends({}, state, { current_user: action.payload });
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["l" /* GET_USER_DETAIL */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["m" /* GET_USER_DETAIL */]:
             {
                 return _extends({}, state, { other_user_data: action.payload });
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["k" /* GET_CURRENT_USER_DETAIL */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["l" /* GET_CURRENT_USER_DETAIL */]:
             {
                 return _extends({}, state, { user: action.payload.user, user_hobbies: action.payload.hobbies });
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["o" /* UPDATE_USER_DETAIL */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["p" /* UPDATE_USER_DETAIL */]:
             {
                 return _extends({}, state, { user: action.payload });
             }
@@ -81895,11 +81403,11 @@ var INIT_STATE = {
     var action = arguments[1];
 
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["f" /* GET_ALL_PROVINCE */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["g" /* GET_ALL_PROVINCE */]:
             {
                 return _extends({}, state, { allprovince: action.payload });
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["c" /* GET_ALL_DISTRICT */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["d" /* GET_ALL_DISTRICT */]:
             {
                 return _extends({}, state, { alldistrict: action.payload });
             }
@@ -81907,9 +81415,13 @@ var INIT_STATE = {
             {
                 return _extends({}, state, { allcafe: action.payload });
             }
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["g" /* GET_CAFE_DETAIL */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["h" /* GET_CAFE_DETAIL */]:
             {
                 return _extends({}, state, { cafe: action.payload });
+            }
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["c" /* GET_ALL_COMMUNE */]:
+            {
+                return _extends({}, state, { allCommune: action.payload });
             }
         default:
             {
@@ -81937,7 +81449,7 @@ var INIT_STATE = {
     var action = arguments[1];
 
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["d" /* GET_ALL_HOBBIES */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["e" /* GET_ALL_HOBBIES */]:
             {
                 return _extends({}, state, { hobbies: action.payload });
             }
@@ -81971,12 +81483,12 @@ var INIT_STATE = {
     var action = arguments[1];
 
     switch (action.type) {
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["i" /* GET_COUPLE_RESULTS */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["j" /* GET_COUPLE_RESULTS */]:
             {
                 return _extends({}, state, { search_results: action.payload });
             }
 
-        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["h" /* GET_COUPLE_DETAIL */]:
+        case __WEBPACK_IMPORTED_MODULE_0__actions_types__["i" /* GET_COUPLE_DETAIL */]:
             {
                 return _extends({}, state, { coupleDetail: action.payload });
             }
@@ -83700,6 +83212,606 @@ function mapDispatchToProps(dispatch) {
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(mapStateToProps, mapDispatchToProps)(UserSetting)));
+
+/***/ }),
+/* 438 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_redux_es_connect_connect__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_animated_slider__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_animated_slider___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_animated_slider__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_RightSidebar_Cafe__ = __webpack_require__(154);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_image_lightbox__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_image_lightbox___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_image_lightbox__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_image_lightbox_style_css__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_image_lightbox_style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react_image_lightbox_style_css__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+
+
+
+
+
+
+var CafeView = function (_Component) {
+    _inherits(CafeView, _Component);
+
+    function CafeView(props) {
+        _classCallCheck(this, CafeView);
+
+        var _this = _possibleConstructorReturn(this, (CafeView.__proto__ || Object.getPrototypeOf(CafeView)).call(this, props));
+
+        _this.state = {
+            data: {
+                name: '',
+                province_id: '',
+                district_id: '',
+                commune_id: '',
+                hotline: '',
+                email: '',
+                website: '',
+                lat: '',
+                lng: '',
+                owner: '',
+                owner_mobile: '',
+                manager: '',
+                manager_mobile: '',
+                min_price: '',
+                max_price: '',
+                open: '',
+                close: ''
+            }
+        };
+        return _this;
+    }
+
+    _createClass(CafeView, [{
+        key: "componentDidMount",
+        value: function componentDidMount() {
+            this.props.getAllProvince();
+            this.props.getAllDistrict();
+            // this.props.getAllCommune();
+        }
+    }, {
+        key: "changeProvince",
+        value: function changeProvince(event) {
+            console.log(event);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this2 = this;
+
+            var hours = [];
+            var minutes = [];
+            for (var i = 0; i < 24; i++) {
+                hours.push(i);
+            }
+
+            for (var _i = 0; _i < 60; _i++) {
+                minutes.push(_i);
+            }
+
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "row" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "col-md-8" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "ui-block" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "add-cafe-header" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "h4",
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("i", { className: "fas fa-map-marker-alt" }),
+                                " Th\xEAm \u0111\u1ECBa \u0111i\u1EC3m"
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "h6",
+                                null,
+                                "Tham gia c\xF9ng ch\xFAng t\xF4i \u0111\u1EC3 t\u1EA1o nh\u1EEFng tr\u1EA3i nghi\u1EC7m kh\xF4ng gian l\xE3ng m\u1EA1n"
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "add-cafe-banner" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("img", { src: "https://image.freepik.com/free-vector/different-types-of-coffee-and-phrase-i-need-coffee_1308-18167.jpg" })
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "add-cafe-basic" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "h3",
+                                null,
+                                "TH\xD4NG TIN C\u01A0 B\u1EA2N"
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "name" },
+                                        "T\xEAn qu\xE1n"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "name", className: "form-control", placeholder: "T\xEAn qu\xE1n" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "province" },
+                                        "T\u1EC9nh/TP"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "select",
+                                            { style: { height: 40, padding: 10 }, id: "province", onChange: function onChange(event) {
+                                                    alert(111);
+                                                    _this2.changeProvince(event);
+                                                }, value: this.state.data.province_id },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "option",
+                                                null,
+                                                "T\u1EC9nh/TP"
+                                            ),
+                                            this.props.province.map(function (data, index) {
+                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    "option",
+                                                    { value: data.matp, key: index },
+                                                    data.name
+                                                );
+                                            })
+                                        )
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "district" },
+                                        "Qu\u1EADn/Huy\u1EC7n"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "select",
+                                            { style: { height: 40, padding: 10 }, id: "district" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "option",
+                                                null,
+                                                "Qu\u1EADn/Huy\u1EC7n"
+                                            ),
+                                            this.props.district.map(function (data, index) {
+                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    "option",
+                                                    { value: data.maqh, key: index },
+                                                    data.name
+                                                );
+                                            })
+                                        )
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "commune" },
+                                        "X\xE3/Ph\u01B0\u1EDDng"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "select",
+                                            { style: { height: 40, padding: 10 }, id: "commune" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "option",
+                                                null,
+                                                "X\xE3/Ph\u01B0\u1EDDng"
+                                            ),
+                                            this.props.commune.map(function (data, index) {
+                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    "option",
+                                                    { value: data.xaid, key: index },
+                                                    data.name
+                                                );
+                                            })
+                                        )
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "hotline" },
+                                        "Hotline"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "hotline", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "Email" },
+                                        "Email"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "Email", id: "Email", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "website" },
+                                        "Website"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "website", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "location" },
+                                        "V\u1ECB tr\xED"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "a",
+                                            { href: "#", className: "btn btn-secondary btn-sm" },
+                                            "Small Button",
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "ripple-container" })
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { className: "ui-block" },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            "div",
+                            { className: "add-cafe-basic" },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "h3",
+                                null,
+                                "TH\xD4NG TIN KH\xC1C"
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "owner" },
+                                        "H\u1ECD t\xEAn ch\u1EE7 qu\xE1n"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "owner", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "owner_mobile" },
+                                        "S\u0110T ch\u1EE7 qu\xE1n"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "owner_mobile", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "manager" },
+                                        "Qu\u1EA3n l\xFD"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "manager", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "manager_mobile" },
+                                        "S\u0110T qu\u1EA3n l\xFD"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "text", id: "manager_mobile", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "maxprice" },
+                                        "Gi\xE1 max"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "number", step: 0.01, id: "maxprice", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "minprice" },
+                                        "Gi\xE1 min"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-10" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { type: "number", step: 0.01, id: "minprice", className: "form-control" })
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "openHour" },
+                                        "M\u1EDF c\u1EEDa"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-5" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "select",
+                                            { style: { height: 40, padding: 10 }, id: "openHour" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "option",
+                                                null,
+                                                "Gi\u1EDD"
+                                            ),
+                                            hours.map(function (data, index) {
+                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    "option",
+                                                    { value: data, key: index },
+                                                    data
+                                                );
+                                            })
+                                        )
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-5" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "select",
+                                            { style: { height: 40, padding: 10 } },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "option",
+                                                null,
+                                                "Ph\xFAt"
+                                            ),
+                                            minutes.map(function (data, index) {
+                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    "option",
+                                                    { value: data, key: index },
+                                                    data
+                                                );
+                                            })
+                                        )
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "label",
+                                        { className: "col-md-2 control-label", htmlFor: "closeHour" },
+                                        "\u0110\xF3ng c\u1EEDa"
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-5" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "select",
+                                            { style: { height: 40, padding: 10 }, id: "closeHour" },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "option",
+                                                null,
+                                                "Gi\u1EDD"
+                                            ),
+                                            hours.map(function (data, index) {
+                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    "option",
+                                                    { value: data, key: index },
+                                                    data
+                                                );
+                                            })
+                                        )
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-5" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "select",
+                                            { style: { height: 40, padding: 10 } },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                "option",
+                                                null,
+                                                "Ph\xFAt"
+                                            ),
+                                            minutes.map(function (data, index) {
+                                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                    "option",
+                                                    { value: data, key: index },
+                                                    data
+                                                );
+                                            })
+                                        )
+                                    )
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                "div",
+                                { className: "form-horizontal" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    "div",
+                                    { className: "row" },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        "div",
+                                        { className: "col-md-6 offset-md-3" },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            "a",
+                                            { href: "#", className: "btn btn-blue btn-md-2" },
+                                            "+ Th\xEAm \u0111\u1ECBa \u0111i\u1EC3m",
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("div", { className: "ripple-container" })
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "col col-md-4" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__components_RightSidebar_Cafe__["a" /* default */], { province: this.props.province, district: this.props.district })
+                )
+            );
+        }
+    }]);
+
+    return CafeView;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+function mapStateToProps(state) {
+    return {
+        province: state.cafe.allprovince,
+        district: state.cafe.alldistrict,
+        commune: state.cafe.allCommune
+    };
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_router_dom__["e" /* withRouter */])(Object(__WEBPACK_IMPORTED_MODULE_2_react_redux_es_connect_connect__["a" /* default */])(mapStateToProps, {
+    getAllProvince: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["c" /* getAllProvince */], getAllDistrict: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["b" /* getAllDistrict */], getAllCommune: __WEBPACK_IMPORTED_MODULE_3__actions_CafeActions__["a" /* getAllCommune */]
+})(CafeView)));
 
 /***/ })
 /******/ ]);
