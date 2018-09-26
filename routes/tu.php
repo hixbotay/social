@@ -29,4 +29,6 @@ Route::get('getAllCommune', function (){
     return $data;
 });
 
+Route::post('cafe/create', 'Api\Cafe@create');
+
 

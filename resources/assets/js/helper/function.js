@@ -7,3 +7,13 @@ export function load_district_by_province(data, provinceID) {
     }
     return newData;
 }
+
+export function load_commune_by_district(data, districtID){
+    var newData = [];
+    for (let i = 0; i < data.length; i ++){
+        if (data[i].maqh === districtID){
+            newData.push(data[i]);
+        }
+    }
+    return newData;
+}

@@ -4,7 +4,7 @@ import {
     GET_ALL_DISTRICT,
     GET_CAFE_DETAIL,
     GET_ALL_COMMUNE,
-    GET_ALL_CAFE
+    GET_ALL_CAFE, CREATE_NEW_POST
 } from './types'
 
 export const getAllProvince = () => (dispatch) => {
@@ -56,4 +56,18 @@ export function getCafeDetail(id) {
         .catch(err => {
             console.log(err);
         })
+}
+
+export function createCafe(data) {
+    return new Promise((resolve, reject) => {
+
+        api.post('/cafe/create', data)
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(error => {
+                console.log(error);
+                reject(error);
+            })
+    })
 }

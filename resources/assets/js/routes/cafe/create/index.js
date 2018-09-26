@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
-import {getAllDistrict, getAllProvince, getAllCommune} from "../../../actions/CafeActions";
+import {getAllDistrict, getAllProvince, getAllCommune, createCafe} from "../../../actions/CafeActions";
 import Slider from "react-animated-slider";
 import CafeRight from "../../../components/RightSidebar/Cafe";
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
+import {load_commune_by_district, load_district_by_province} from "../../../helper/function";
+import {createPost, getAllPosts} from "../../../actions/PostActions";
 
 class CafeView extends Component {
 
@@ -31,18 +33,51 @@ class CafeView extends Component {
                 max_price: '',
                 open: '',
                 close: '',
-            }
+            },
+            district: [],
+            commune: []
         };
     }
 
     componentDidMount() {
         this.props.getAllProvince();
         this.props.getAllDistrict();
-        // this.props.getAllCommune();
+        this.props.getAllCommune();
     }
 
     changeProvince(event){
-        console.log(event)
+        var value = event.currentTarget.value;
+        this.state.data.province_id = value;
+        var district = load_district_by_province(this.props.district, value);
+        this.setState({
+            data: this.state.data,
+            district: district,
+        });
+    }
+
+    changeDistrict(event){
+        var value = event.currentTarget.value;
+        this.state.data.district_id = value;
+        var commune = load_commune_by_district(this.props.commune, value);
+        this.setState({
+            data: this.state.data,
+            commune: commune,
+        });
+    }
+
+    changeCommune(event){
+        var value = event.currentTarget.value;
+        this.state.data.commune_id = value;
+        this.setState({
+            data: this.state.data,
+        });
+    }
+
+    createCafe(){
+        this.props.createCafe(this.state.data)
+            .then((data) => {
+                console.log(data);
+            });
     }
 
     render() {
@@ -81,7 +116,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="name">Tên quán</label>
                                     <div className="col-md-10">
-                                        <input type="text" id="name" className="form-control" placeholder="Tên quán" />
+                                        <input type="text" id="name" className="form-control" onChange={(event)=>{
+                                            this.state.data.name = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }} />
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +130,6 @@ class CafeView extends Component {
                                     <div className="col-md-10">
                                         <select style={{height:40,padding:10}} id={"province"} onChange={
                                             (event) => {
-                                                alert(111);
                                                 this.changeProvince(event);
                                             }
                                         } value={this.state.data.province_id}>
@@ -113,15 +150,17 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="district">Quận/Huyện</label>
                                     <div className="col-md-10">
-                                        <select style={{height:40,padding:10}} id={"district"}>
+                                        <select style={{height:40,padding:10}} id={"district"} value={this.state.data.district_id}
+                                            onChange={(event) => {
+                                                this.changeDistrict(event);
+                                            }}
+                                        >
                                             <option>Quận/Huyện</option>
-
                                             {
-                                                this.props.district.map((data, index) => {
+                                                this.state.district.map((data, index) => {
                                                     return (<option value={data.maqh} key={index}>{data.name}</option> );
                                                 })
                                             }
-
                                         </select>
                                     </div>
                                 </div>
@@ -131,10 +170,13 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="commune">Xã/Phường</label>
                                     <div className="col-md-10">
-                                        <select style={{height:40,padding:10}} id={"commune"}>
+                                        <select style={{height:40,padding:10}}
+                                                value={this.state.data.commune_id}
+                                                onChange={(event) => {this.changeCommune(event)}}
+                                                id={"commune"}>
                                             <option>Xã/Phường</option>
                                             {
-                                                this.props.commune.map((data, index) => {
+                                                this.state.commune.map((data, index) => {
                                                     return (<option value={data.xaid} key={index}>{data.name}</option> );
                                                 })
                                             }
@@ -147,7 +189,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="hotline">Hotline</label>
                                     <div className="col-md-10">
-                                        <input type="text" id="hotline" className="form-control" />
+                                        <input type="text" id="hotline" className="form-control" onChange={(event)=>{
+                                            this.state.data.hotline = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }} />
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +201,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="Email">Email</label>
                                     <div className="col-md-10">
-                                        <input type="Email" id="Email" className="form-control" />
+                                        <input type="Email" id="Email" className="form-control" onChange={(event)=>{
+                                            this.state.data.email = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }}/>
                                     </div>
                                 </div>
                             </div>
@@ -195,7 +243,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="owner">Họ tên chủ quán</label>
                                     <div className="col-md-10">
-                                        <input type="text" id="owner" className="form-control" />
+                                        <input type="text" id="owner" className="form-control" onChange={(event)=>{
+                                            this.state.data.owner = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }}/>
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +255,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="owner_mobile">SĐT chủ quán</label>
                                     <div className="col-md-10">
-                                        <input type="text" id="owner_mobile" className="form-control" />
+                                        <input type="text" id="owner_mobile" className="form-control" onChange={(event)=>{
+                                            this.state.data.owner_mobile = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }}/>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +267,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="manager">Quản lý</label>
                                     <div className="col-md-10">
-                                        <input type="text" id="manager" className="form-control" />
+                                        <input type="text" id="manager" className="form-control" onChange={(event)=>{
+                                            this.state.data.manager = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }}/>
                                     </div>
                                 </div>
                             </div>
@@ -222,7 +279,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="manager_mobile">SĐT quản lý</label>
                                     <div className="col-md-10">
-                                        <input type="text" id="manager_mobile" className="form-control" />
+                                        <input type="text" id="manager_mobile" className="form-control" onChange={(event)=>{
+                                            this.state.data.manager_mobile = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }}/>
                                     </div>
                                 </div>
                             </div>
@@ -231,7 +291,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="maxprice">Giá max</label>
                                     <div className="col-md-10">
-                                        <input type="number" step={0.01} id="maxprice" className="form-control" />
+                                        <input type="number" step={0.01} id="maxprice" className="form-control" onChange={(event)=>{
+                                            this.state.data.max_price = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }} />
                                     </div>
                                 </div>
                             </div>
@@ -240,7 +303,10 @@ class CafeView extends Component {
                                 <div className="row">
                                     <label className="col-md-2 control-label" htmlFor="minprice">Giá min</label>
                                     <div className="col-md-10">
-                                        <input type="number" step={0.01} id="minprice" className="form-control" />
+                                        <input type="number" step={0.01} id="minprice" className="form-control" onChange={(event)=>{
+                                            this.state.data.min_price = event.currentTarget.value;
+                                            this.setState({data: this.state.data})
+                                        }} />
                                     </div>
                                 </div>
                             </div>
@@ -302,9 +368,13 @@ class CafeView extends Component {
                                 <div className={"row"}>
 
                                     <div className={"col-md-6 offset-md-3"}>
-                                        <a href="#" className="btn btn-blue btn-md-2">+ Thêm địa điểm
+                                        <button href="#"
+                                                onClick={()=>{
+                                                    this.createCafe();
+                                                }}
+                                                className="btn btn-blue btn-md-2">+ Thêm địa điểm
                                             <div className="ripple-container"></div>
-                                        </a>
+                                        </button>
                                     </div>
 
                                 </div>
@@ -335,6 +405,15 @@ function mapStateToProps(state) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, {
-    getAllProvince, getAllDistrict, getAllCommune
-})(CafeView));
+
+function mapDispatchToProps(dispatch) {
+    return {
+        createCafe: (data) => dispatch(createCafe(data)),
+        getAllCommune: () => dispatch(getAllCommune()),
+        getAllProvince: () => dispatch(getAllProvince()),
+        getAllDistrict: () => dispatch(getAllDistrict()),
+
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CafeView));
