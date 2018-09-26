@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Card, CardWithIcon} from '../../components/Card';
-import SimpleSlider from '../../components/Slider';
+import SimpleSlider from '../../components/Slider/SimpleSlider';
 import InformationNumber from '../../components/Information/InformationNumber';
 import {getCoupleDetail} from '../../actions/CoupleActions';
 import {connect} from 'react-redux';

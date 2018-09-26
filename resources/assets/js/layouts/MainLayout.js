@@ -3,6 +3,7 @@ import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
 
 class MainLayout extends Component {
+
     render() {
         return (
             <div className="container">

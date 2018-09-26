@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
 // css file
 import "../../../../assets/css/bootstrap-reboot.css";
@@ -17,8 +17,8 @@ import ThirdLayout from '../layouts/ThirdLayout';
 import Header from '../components/Header';
 
 import Home from './newfeeds/NewFeeds';
-import UserProfile from './profile/UserProfile';
-import UserSetting from './profile/UserSetting';
+import Profile from './profile/Profile';
+import UserSetting from './profile/CurrentUserDetail';
 
 import Cafe from './cafe';
 import CafeView from './cafe/view';
@@ -30,6 +30,9 @@ import FriendsYouLike from './relationship/FriendsYouLike';
 import FriendsVisited from './relationship/FriendsVisited';
 import ViewCouple from './couple/ViewCouple';
 import SearchResults from './couple/SearchResults';
+import OtherPerson from './profile/OtherUserProfile';
+import {connect} from 'react-redux';
+import {getCurrentUser} from '../actions/UserActions';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -40,6 +43,10 @@ const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 )
 
 class MainApp extends Component {
+	componentDidMount() {
+        this.props.getCurrentUser();
+	}
+	
 	render() {
 		return (
 			<div className="App">
@@ -49,8 +56,9 @@ class MainApp extends Component {
 					{/* Home */}
 					<AppRoute exact path="/" layout={MainLayout} component={Home} />
 					{/* Profile */}
-					<AppRoute exact path="/profile/:id" layout={SecondLayout} component={UserProfile} />
+					<AppRoute exact path="/profile/:id" layout={SecondLayout} component={Profile} />
 					<AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserSetting} />
+					<AppRoute exact path="/other/:id" layout={SecondLayout} component={OtherPerson} />
 					{/* Cafe */}
 					<AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
 					<AppRoute exact path="/cafe/:url" layout={ThirdLayout} component={CafeView} />
@@ -73,4 +81,10 @@ class MainApp extends Component {
 	}
 }
 
-export default MainApp;
+function mapDispatchToProps(dispatch) {
+    return {
+        getCurrentUser: () => dispatch(getCurrentUser())
+    }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(MainApp));

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import {Card, CardWithIcon} from '../../components/Card';
-import ProfileLayout from './ProfileLayout';
-import {getUserDetail, addVisitor} from '../../actions/UserActions';
+import CurrentUserLayout from './CurrentUserLayout';
+import {getCurrentUserDetail, addVisitor} from '../../actions/UserActions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import SimpleSlider from '../../components/Slider';
+import SimpleSlider from '../../components/Slider/SimpleSlider';
 
 class UserProfile extends Component {
-    componentDidMount() {
-        this.props.getUserDetail(this.props.match.params.id);
-    }
+    // componentDidMount() {
+    //     this.props.getCurrentUserDetail();
+    // }
 
     render() {
         var images = [
@@ -20,21 +20,21 @@ class UserProfile extends Component {
             'https://picsum.photos/400/300?image=4'
         ];
 
-        const {user} = this.props;
+        // const {user} = this.props;
         const {current_user} = this.props;
 
-        if (user.id && user.id !== current_user.id){
-            this.props.addVisitor({
-                'profile_id': user.id,
-                'visitor_id': current_user.id
-            })
-        }
+        // if (user.id && user.id !== current_user.id){
+        //     this.props.addVisitor({
+        //         'profile_id': user.id,
+        //         'visitor_id': current_user.id
+        //     })
+        // }
 
         return (
-            <ProfileLayout
-                avatar={user ? user.avatar : "https://www.w3schools.com/howto/img_avatar.png"}
-                heading={user ? user.name : "UNDEFINED"}
-                subHeading={user ? user.address : null}
+            <CurrentUserLayout
+                avatar={current_user ? current_user.avatar : "https://www.w3schools.com/howto/img_avatar.png"}
+                heading={current_user ? current_user.name : "UNDEFINED"}
+                subHeading={current_user ? current_user.address : null}
             >
                 <CardWithIcon leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true}>
                     <textarea className="form-control custom-textarea" defaultValue="Viết điều gì đó..."></textarea>
@@ -64,7 +64,7 @@ class UserProfile extends Component {
                     <p>
                         Bão BARIJAT đã đi vào biển Đông và trở thành cơn bão số 5,
                         dự báo sẽ gây mưa to đến rất to ở Bắc Bộ và Thanh Hóa vào khoảng ngày 14/9
-                        </p>
+                    </p>
                 </CardWithIcon>
                 <CardWithIcon leftIcon="fas fa-map-marker" rightIcon="fas fa-pen-square" hasLine={true}>
                     <address>Đại học Bách Khoa, Hà Nội, Việt Nam</address>
@@ -73,21 +73,21 @@ class UserProfile extends Component {
                 <CardWithIcon leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true}>
 
                 </CardWithIcon>
-            </ProfileLayout>
+            </CurrentUserLayout>
         );
     }
 }
 
 function mapStateToProps(state) {
     return {
-        user: state.user.user,
+        // user: state.user.user,
         current_user: state.user.current_user
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserDetail: (id) =>  dispatch(getUserDetail(id)),
+        // getCurrentUserDetail: () =>  dispatch(getCurrentUserDetail()),
         addVisitor: (data) => dispatch(addVisitor(data))
     }
 }

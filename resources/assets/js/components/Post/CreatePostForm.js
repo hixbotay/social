@@ -5,8 +5,6 @@ import { createPost, getAllPosts } from '../../actions/PostActions';
 class CreatePostForm extends Component {
     constructor(props) {
         super(props);
-        console.log('===============');
-        console.log(props);
         this.state = {
             newPost: {
                 user_id: props.user.id,
@@ -94,12 +92,6 @@ class CreatePostForm extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        post: state.post.newPost
-    }
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         createPost: (data) => dispatch(createPost(data)),
@@ -107,4 +99,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePostForm);
+export default connect(null, mapDispatchToProps)(CreatePostForm);

@@ -2,16 +2,8 @@ import React, { Component } from 'react';
 import { RoundAvatar } from '../Avatar';
 import { withRouter, Link } from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getCurrentUser} from '../../actions/UserActions';
 
 class LeftSidebar extends Component {
-    componentDidMount () {
-        this.props.getCurrentUser();
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return (this.props !== nextProps);
-    }
 
     render() {
         const {user} = this.props;
@@ -44,10 +36,4 @@ function mapStateToProps(state) {
     }
 } 
 
-function mapDispatchToProps(dispatch) {
-    return {
-        getCurrentUser: () => dispatch(getCurrentUser())
-    }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LeftSidebar));
+export default connect(mapStateToProps, null)(LeftSidebar);

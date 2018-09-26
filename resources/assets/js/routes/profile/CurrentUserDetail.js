@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import {CardWithIcon} from '../../components/Card';
-import ProfileLayout from './ProfileLayout';
+import CurrentUserLayout from './CurrentUserLayout';
 import InputRange from 'react-input-range';
 import '../../../../../node_modules/react-input-range/lib/css/index.css';
 import Modal from 'react-responsive-modal';
 
 // action
-import { getUserDetail, updateUser } from '../../actions/UserActions';
+import { getCurrentUserDetail, updateUser } from '../../actions/UserActions';
 import {getAllHobbies} from '../../actions/HobbyActions';
 
 class UserSetting extends Component {
@@ -26,7 +26,7 @@ class UserSetting extends Component {
     }
 
     componentDidMount() {
-        this.props.getUserDetail(this.props.match.params.id);
+        this.props.getCurrentUserDetail();
         this.props.getAllHobbies();
     }
 
@@ -78,7 +78,7 @@ class UserSetting extends Component {
         const { user, user_hobbies, hobbies } = this.props;
         console.log(user);
         return (
-            <ProfileLayout
+            <CurrentUserLayout
                 avatar={user ? user.avatar : "https://www.w3schools.com/howto/img_avatar.png"}
                 heading={user ? user.name : "UNDEFINED"}
                 subHeading={user ? user.address : null}
@@ -361,7 +361,7 @@ class UserSetting extends Component {
                         </div>
                     </form>
                 </Modal>
-            </ProfileLayout>
+            </CurrentUserLayout>
         );
     }
 }
@@ -376,7 +376,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserDetail: (id) => dispatch(getUserDetail(id)),
+        getCurrentUserDetail: () => dispatch(getCurrentUserDetail()),
         getAllHobbies: () => dispatch(getAllHobbies()),
         updateUser: (data, id) => dispatch(updateUser(data, id)),
     }

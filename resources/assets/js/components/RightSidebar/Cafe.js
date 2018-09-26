@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import CafeSearch from './Cafe/search';
 import Slider from "react-slick";
-import {getUserDetail} from "../../actions/UserActions";
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 

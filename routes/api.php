@@ -33,12 +33,9 @@ Route::get('country', function (Request $request){
     return $result;
 });
 
-Route::get('user/{id}', function ($id){
-    // die($id);
-    $result = \App\User::get($id);
-    return ($result);
-});
-
 Route::middleware(['web'])->group(function() {
     Route::get('auth/user', 'Api\User@getCurrentUser');
+    Route::get('user', 'Api\User@getCurrentUserDetail');
 });
+
+Route::get('user/{id}', 'Api\User@getOtherUserDetail');

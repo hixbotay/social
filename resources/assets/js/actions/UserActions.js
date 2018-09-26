@@ -2,24 +2,34 @@ import api from '../api';
 import {
     GET_CURRENT_USER,
     GET_USER_DETAIL,
-    UPDATE_USER_DETAIL
+    UPDATE_USER_DETAIL,
+    GET_CURRENT_USER_DETAIL
 } from './types';
 
 export const getCurrentUser = () => (dispatch) => {
     api.get('auth/user')
     .then(response => {
         dispatch({type: GET_CURRENT_USER, payload: response.data});
-        console.log(response.data);
     })
     .catch(error => {
         console.log(error);
     })
 }
 
-export const getUserDetail = (id) => (dispatch) => {
+export const getOtherUserDetail = (id) => (dispatch) => {
     api.get(`/user/${id}`)
     .then(response => {
         dispatch({type: GET_USER_DETAIL, payload: response.data});
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+export const getCurrentUserDetail = () => (dispatch) => {
+    api.get('/user')
+    .then(response => {
+        dispatch({type: GET_CURRENT_USER_DETAIL, payload: response.data});
     })
     .catch(err => {
         console.log(err);

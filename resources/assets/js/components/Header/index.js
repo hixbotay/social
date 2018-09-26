@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 
 class Header extends Component {
     render() {
-        console.log(window.location);
         return (
             <header className="header" id="site-header">
                 <div className="page-title">

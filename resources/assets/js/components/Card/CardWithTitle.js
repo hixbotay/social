@@ -9,7 +9,7 @@ class CardWithTitle extends Component {
         return (
             <div className={`ui-block custom-card ${className}`} >
                 <div className="container">
-                    <h3>{title}</h3>
+                    <h6>{title}</h6>
                     {hasLine ? <hr className="seperate-line"/> : null}
                     <div className="col-md-12">
                         {children}
