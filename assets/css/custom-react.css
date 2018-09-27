@@ -306,3 +306,15 @@ li.list-group-item {
     margin: auto;
     width: 50%;
 }
+
+.header .has-items a{
+    color: #0586DA;
+    font-weight: bold;
+    font-size: 16px;
+}
+.header .has-items svg{
+    font-size: 20px;
+}
+.header .has-items {
+    margin-right: 40px;
+}

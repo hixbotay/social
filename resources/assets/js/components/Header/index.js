@@ -14,12 +14,16 @@ class Header extends Component {
                     <div className="control-block">
 
                         <div>
-                            <img src={"http://127.0.0.1:8080/zeno5/social/public/images/main/logo.png"}
+                            <img src={"http://125.212.227.39/social/public/images/main/logo.png"}
                             style={{
                                 width:150, height: 'auto',
                                 marginRight: 80,
                             }}
                             />
+                        </div>
+
+                        <div className="control-icon more has-items">
+                            <a href={"/"}>TRANG CHỦ</a>
                         </div>
 
                         <div className="control-icon more has-items">
@@ -95,7 +99,10 @@ class Header extends Component {
                         </div>
 
                         <div className="author-page author vcard inline-items more">
-                            <i className="fa fa-caret-down"></i>
+                            {/*<i className="fa fa-caret-down"></i>*/}
+                            <img src={"http://125.212.227.39/social/public/images/main/header-menu.png"}
+                                style={{width: 30, height: 30}}
+                            />
                             <div className="author-thumb"> 
                                 <div className="more-dropdown more-with-triangle">
                                     <div className="mCustomScrollbar" data-mcs-theme="dark">
