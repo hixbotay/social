@@ -36,6 +36,7 @@ Route::get('country', function (Request $request){
 Route::middleware(['web'])->group(function() {
     Route::get('auth/user', 'Api\User@getCurrentUser');
     Route::get('user', 'Api\User@getCurrentUserDetail');
+    Route::get('user/{id}', 'Api\User@getOtherUserDetail');
 });
 
-Route::get('user/{id}', 'Api\User@getOtherUserDetail');
+

@@ -43,10 +43,34 @@ class User extends Controller
     /*
      * Function to like/love/follow ... profile
      */
-    public function create(Request $request){
-        $data = $request->getContent();
-        $result = \App\UserRelationship::create($data);
-        return $result;
+    public function createOrUpdateRelationship(Request $request, $user_id){
+        $data = json_decode($request->getContent());
+        $from_user_id = Auth::id();
+ 
+        $relationship = \App\UserRelationship::where([
+                        ['from_user_id', '=', $from_user_id],
+                        ['to_user_id', '=', $user_id]
+                    ])
+                    ->first();
+        
+        if($relationship) {
+            foreach($data as $key => $value) {
+                $relationship->$key = $value;
+            }
+            $relationship->save();
+        } else {
+            $newRelationship = [
+                'from_user_id' => $from_user_id,
+                'to_user_id' => $user_id
+            ];
+
+            foreach($data as $key => $value) {
+                $newRelationship[$key] = $value;
+            }          
+            $relationship = \App\UserRelationship::create($newRelationship);
+        }
+        
+        return $relationship;
     }
 
     public function getCurrentUserDetail() {
@@ -77,10 +101,10 @@ class User extends Controller
     }
 
     public function getOtherUserDetail($id) {
-        $users = \App\User::where('users.id', $id)
+        $user = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
             ->select('users.name', 'users.avatar', 'users.favourite', 'user_jobs.name AS job_name')
-            ->get();
+            ->first();
 
         $hobbies = DB::table('user_hobby_map')
                     ->where('user_hobby_map.user_id', $id)
@@ -94,11 +118,20 @@ class User extends Controller
                     ->select('posts.*', 'user_photos.id AS photo_id', 'user_photos.source')
                     ->orderBy('id', 'DESC')
                     ->get();
-    
+        
+        $relationship = \App\UserRelationship::where([
+                        ['from_user_id', '=', Auth::id()],
+                        ['to_user_id', '=', $id]
+                    ])
+                    ->first();
+                    
+        
+
         $result = [
-            'user' => $users[0],
+            'user' => $user,
             'hobbies' => $hobbies,
-            'posts' => $posts
+            'posts' => $posts,
+            'relationship' => $relationship
         ];
 
         return json_encode($result);

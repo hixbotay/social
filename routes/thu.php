@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 Route::get('hobbies', 'Api\User@getHobbies');
 Route::get('education', 'Api\User@getEducation');
 Route::get('job', 'Api\User@getJob');
-//likeProfile/ folow, love
-Route::post('relationship/create', 'Api\User@getJob');
+
 //load relationship
-Route::get('relationship/{from_user_id}/{to_user_id}', 'Api\User@index');
+// Route::get('relationship/{from_user_id}/{to_user_id}', 'Api\User@index');
 
 Route::get('/posts', 'Api\Post@list');
 /*
@@ -19,6 +18,9 @@ Route::get('/posts', 'Api\Post@list');
  * user_id: 99
  */
 Route::middleware(['web'])->group(function() {
+    //likeProfile/ folow, love
+    Route::post('relationship/{user_id}', 'Api\User@createOrUpdateRelationship');
+
     Route::post('post/like/{post_id}', 'Api\Post@like');
     Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
 });

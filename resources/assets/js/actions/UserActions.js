@@ -3,7 +3,8 @@ import {
     GET_CURRENT_USER,
     GET_USER_DETAIL,
     UPDATE_USER_DETAIL,
-    GET_CURRENT_USER_DETAIL
+    GET_CURRENT_USER_DETAIL,
+    UPDATE_RELATIONSHIP
 } from './types';
 
 export const getCurrentUser = () => (dispatch) => {
@@ -42,6 +43,16 @@ export const updateUser = (data, id) => (dispatch) => {
     .then(response => {
         window.location.reload();
         dispatch({type: UPDATE_USER_DETAIL, payload: response.data});
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+export const updateRelationship = (data, user_id) => (dispatch) => {
+    api.post(`/relationship/${user_id}`, data)
+    .then(response => {
+        dispatch({type: UPDATE_RELATIONSHIP, payload: response.data});
     })
     .catch(err => {
         console.log(err);

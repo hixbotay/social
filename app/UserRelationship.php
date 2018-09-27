@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserRelationship extends Model
 {
-    protected $table = "user_photos";
+    protected $table = "user_relationship";
     protected $fillable = [
         "from_user_id",
         "to_user_id",

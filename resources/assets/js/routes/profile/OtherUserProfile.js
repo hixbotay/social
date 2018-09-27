@@ -6,13 +6,64 @@ import { RoundAvatar } from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
 import CenterModeSlider from '../../components/Slider/CenterModeSlider';
-import {getOtherUserDetail} from '../../actions/UserActions';
+import {getOtherUserDetail, updateRelationship} from '../../actions/UserActions';
 import Post from '../../components/Post';
 import {withRouter} from 'react-router-dom';
 
 class OtherPerson extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLiked: false,
+            isLoved: false,
+            isBlocked: false
+        }
+    }
+
     componentDidMount() {
         this.props.getUserInfo(this.props.match.params.id);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            isLoved: nextProps.user_data.relationship.is_loved,
+            isLiked: nextProps.user_data.relationship.is_like,
+            isBlocked: nextProps.user_data.relationship.is_block,
+        })
+    }
+
+    updateRelationship(actionType) {
+
+        var data = {};
+
+        if(actionType == 'love') {
+            if(this.state.isLoved) {
+                data = {'is_loved': 0};
+                this.setState({isLoved: false});
+            } else {
+                data = {'is_loved': 1};
+                this.setState({isLoved: true});
+            }
+        } else if(actionType == 'like') {
+            if(this.state.isLiked) {
+                data = {'is_like': 0};
+                this.setState({isLiked: false});
+            } else {
+                data = {'is_like': 1};
+                this.setState({isLiked: true});
+            }
+        } else if(actionType == 'block') {
+            if(this.state.isBlocked) {
+                data = {'is_block': 0};
+                this.setState({isBlocked: false});
+            } else {
+                data = {'is_block': 1};
+                this.setState({isBlocked: true});
+            }
+        }
+
+        this.props.updateRelationship(data, this.props.match.params.id);
+        
     }
 
     render() {
@@ -72,20 +123,24 @@ class OtherPerson extends Component {
                                 <CircleButton
                                     icon="fas fa-heart"
                                     name='love'
-                                    // color={this.state.isLoved ? '#e74c3c' : '#34495e'}
-                                // action={() => this.changeReaction('love', post.id)}
+                                    color={this.state.isLoved ? '#e74c3c' : '#34495e'}
+                                    action={() => this.updateRelationship('love')}
                                 ></CircleButton>
                             </div>
                             <div className="col-4">
                                 <CircleButton
                                     icon="fas fa-thumbs-up"
                                     name='like'
-                                    // color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                                // action={() => this.changeReaction('like', post.id)}
+                                    color={this.state.isLiked ? '#2980b9' : '#34495e'}
+                                    action={() => this.updateRelationship('like')}
                                 ></CircleButton>
                             </div>
                             <div className="col-4">
-                                <CircleButton icon="fas fa-times"></CircleButton>
+                                <CircleButton 
+                                    icon="fas fa-times"
+                                    color={this.state.isBlocked ? '#d35400' : '#34495e'}
+                                    action={() => this.updateRelationship('block')}
+                                ></CircleButton>
                             </div>
                         </div>
                     </Card>
@@ -136,7 +191,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserInfo: (id) => dispatch(getOtherUserDetail(id))
+        getUserInfo: (id) => dispatch(getOtherUserDetail(id)),
+        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id))
     }
 }
 
