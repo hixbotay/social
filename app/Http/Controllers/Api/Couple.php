@@ -8,7 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class Couple extends Controller {
     public static function find($keyword) {
-        $results = \App\User::select(['id', 'name', 'address', 'avatar'])->where('name', 'like', DB::raw("BINARY '%".$keyword."%'"))->get();
+        $results = \App\User::where('name', 'like', DB::raw("BINARY '%".$keyword."%'"))
+                ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
+                ->select(DB::raw(
+                    'users.id, users.name, users.address, users.avatar, users.birthday,
+                    SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                    SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                ))
+                ->groupBy('users.id')
+                ->get();
         return $results;
     }
 

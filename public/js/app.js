@@ -60561,15 +60561,7 @@ var ImageCard = function (_Component) {
                     'div',
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: this.props.img }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'image-card-btn' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            null,
-                            this.props.children
-                        )
-                    )
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'image-card-btn' })
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
@@ -60586,7 +60578,8 @@ var ImageCard = function (_Component) {
                             'small',
                             null,
                             this.props.subHeading
-                        )
+                        ),
+                        this.props.children
                     )
                 )
             );
@@ -83632,9 +83625,10 @@ function mapDispatchToProps(dispatch) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_SecondLayout__ = __webpack_require__(122);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Card__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__actions_CoupleActions__ = __webpack_require__(160);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react_router_dom__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_HomeNavigator__ = __webpack_require__(69);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Information_InformationNumber__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__actions_CoupleActions__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_router_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_HomeNavigator__ = __webpack_require__(69);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83642,6 +83636,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -83686,6 +83681,8 @@ var SearchResults = function (_Component) {
         value: function render() {
             var _this2 = this;
 
+            var currentYear = new Date().getFullYear();
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 null,
@@ -83695,7 +83692,7 @@ var SearchResults = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__components_HomeNavigator__["a" /* default */], null)
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__components_HomeNavigator__["a" /* default */], null)
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'col col-xl-2 order-xl-2' }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -83728,6 +83725,7 @@ var SearchResults = function (_Component) {
                         'div',
                         { className: 'row' },
                         this.state.results.map(function (item, index) {
+                            var birth = new Date(item.birthday).getFullYear();
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
                                 { className: 'col col-md-3 col-lg-3', key: index },
@@ -83735,13 +83733,24 @@ var SearchResults = function (_Component) {
                                     'div',
                                     { className: 'container image-card-results' },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        __WEBPACK_IMPORTED_MODULE_5_react_router_dom__["b" /* Link */],
+                                        __WEBPACK_IMPORTED_MODULE_6_react_router_dom__["b" /* Link */],
                                         { to: 'couple/' + item.id },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__components_Card__["d" /* ImageCard */], {
-                                            img: item.avatar,
-                                            heading: item.name,
-                                            subHeading: item.address
-                                        })
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            __WEBPACK_IMPORTED_MODULE_3__components_Card__["d" /* ImageCard */],
+                                            {
+                                                img: item.avatar,
+                                                heading: item.name + ', ' + (currentYear - birth),
+                                                subHeading: item.address
+                                            },
+                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'div',
+                                                { className: 'container' },
+                                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__components_Information_InformationNumber__["a" /* default */], {
+                                                    heartNumber: item.loveNumber ? item.loveNumber : 0,
+                                                    likeNumber: item.likeNumber ? item.likeNumber : 0
+                                                })
+                                            )
+                                        )
                                     )
                                 )
                             );
@@ -83764,7 +83773,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getCoupleResults: function getCoupleResults(keyword) {
-            return dispatch(Object(__WEBPACK_IMPORTED_MODULE_4__actions_CoupleActions__["b" /* getCoupleResults */])(keyword));
+            return dispatch(Object(__WEBPACK_IMPORTED_MODULE_5__actions_CoupleActions__["b" /* getCoupleResults */])(keyword));
         }
     };
 }

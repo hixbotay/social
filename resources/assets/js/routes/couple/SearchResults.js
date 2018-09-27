@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import SecondLayout from '../../layouts/SecondLayout';
 import {Card, ImageCard} from '../../components/Card';
+import InformationNumber from '../../components/Information/InformationNumber';
 import {getCoupleResults} from '../../actions/CoupleActions';
 import {Link} from 'react-router-dom';
 import HomeNavigator from '../../components/HomeNavigator';
@@ -29,6 +30,8 @@ class SearchResults extends Component {
     }
 
     render() {
+
+        var currentYear = new Date().getFullYear();
         
         return (
             <div>
@@ -54,15 +57,23 @@ class SearchResults extends Component {
                     <div className="row">
                     {
                         this.state.results.map((item, index) => {
+                            var birth = new Date(item.birthday).getFullYear();
                             return (
                                 <div className='col col-md-3 col-lg-3' key={index}>
                                     <div className='container image-card-results'>
                                         <Link to={`couple/${item.id}`}>
                                             <ImageCard 
                                                 img={item.avatar} 
-                                                heading={item.name} 
+                                                heading={`${item.name}, ${currentYear - birth}` }
                                                 subHeading={item.address} 
                                             >
+                                                <div className="container">
+                                                    <InformationNumber
+                                                        heartNumber={item.loveNumber ? item.loveNumber : 0}
+                                                        likeNumber={item.likeNumber ? item.likeNumber : 0}
+                                                    ></InformationNumber>
+                                                </div>
+                                            
                                             </ImageCard>
                                         </Link>
                                     </div>

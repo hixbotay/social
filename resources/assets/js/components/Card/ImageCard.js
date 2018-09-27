@@ -8,9 +8,9 @@ class ImageCard extends Component {
                 <div>
                     <img src={this.props.img}/>
                     <div className="image-card-btn">
-                        <div>
+                        {/* <div>
                             {this.props.children}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 <div className="row image-card-content">
@@ -21,6 +21,7 @@ class ImageCard extends Component {
                         <small>
                             {this.props.subHeading}
                         </small>
+                        {this.props.children}
                     </div>
                 </div>
             </div>
