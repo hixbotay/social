@@ -76,7 +76,8 @@ class UserSetting extends Component {
 
     render() {
         const { user, user_hobbies, hobbies } = this.props;
-        console.log(user);
+        if(user.id != this.props.match.params.id) window.location.href = `#/profile/${user.id}/setting`;
+        
         return (
             <CurrentUserLayout
                 avatar={user ? user.avatar : "https://www.w3schools.com/howto/img_avatar.png"}
