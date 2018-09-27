@@ -318,3 +318,21 @@ li.list-group-item {
 .header .has-items {
     margin-right: 40px;
 }
+.leftslider a img{
+    display:block;
+    margin:auto;
+}
+.leftslider .imgMenu1{
+    width: 80%;
+}
+.leftslider a{
+    text-align: center;
+}
+.leftslider ul{
+    margin-top: 10px;
+}
+.leftslider ul li{
+    background: transparent;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
