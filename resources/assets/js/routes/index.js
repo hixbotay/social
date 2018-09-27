@@ -48,33 +48,44 @@ class MainApp extends Component {
 	}
 	
 	render() {
+
+		var route = (<div><h1>Đang tải User</h1></div>);
+
+		if (this.props.user.id){
+            route = (
+                <Switch>
+                    {/* Home */}
+                    <AppRoute exact path="/" layout={MainLayout} component={Home} />
+                    {/* Profile */}
+                    <AppRoute exact path="/profile/:id" layout={SecondLayout} component={Profile} />
+                    <AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserSetting} />
+                    <AppRoute exact path="/other/:id" layout={SecondLayout} component={OtherPerson} />
+                    {/* Cafe */}
+                    <AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
+                    <AppRoute exact path="/cafe/:url" layout={ThirdLayout} component={CafeView} />
+                    <AppRoute exact path="/cafe/create" layout={ThirdLayout} component={CafeView} />
+                    {/* Dating */}
+                    <AppRoute extract path={'/dating'} layout={ThirdLayout} component={Dating} />
+                    {/* Messages */}
+                    <AppRoute exact path="/messages" layout={ThirdLayout} component={Messages} />
+                    {/* Friend */}
+                    <AppRoute exact path="/friends/like-you" layout={MainLayout} component={FriendsLikeYou} />
+                    <AppRoute exact path="/friends/you-like" layout={MainLayout} component={FriendsYouLike} />
+                    <AppRoute exact path="/friends/visited" layout={MainLayout} component={FriendsVisited} />
+                    {/* Couple */}
+                    <AppRoute exact path="/couple" layout={SecondLayout} component={SearchResults} />
+                    <AppRoute exact path="/couple/:id" layout={SecondLayout} component={ViewCouple} />
+                </Switch>
+			);
+		}
+
+
 		return (
 			<div className="App">
 				<Header></Header>
 				<div className="header-spacer"></div>
-				<Switch>
-					{/* Home */}
-					<AppRoute exact path="/" layout={MainLayout} component={Home} />
-					{/* Profile */}
-					<AppRoute exact path="/profile/:id" layout={SecondLayout} component={Profile} />
-					<AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserSetting} />
-					<AppRoute exact path="/other/:id" layout={SecondLayout} component={OtherPerson} />
-					{/* Cafe */}
-					<AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
-					<AppRoute exact path="/cafe/:url" layout={ThirdLayout} component={CafeView} />
-					<AppRoute exact path="/cafe/create" layout={ThirdLayout} component={CafeView} />
-                    {/* Dating */}
-                    <AppRoute extract path={'/dating'} layout={ThirdLayout} component={Dating} />
-					{/* Messages */}
-                    <AppRoute exact path="/messages" layout={ThirdLayout} component={Messages} />
-					{/* Friend */}
-					<AppRoute exact path="/friends/like-you" layout={MainLayout} component={FriendsLikeYou} />
-					<AppRoute exact path="/friends/you-like" layout={MainLayout} component={FriendsYouLike} />
-					<AppRoute exact path="/friends/visited" layout={MainLayout} component={FriendsVisited} />
-					{/* Couple */}
-					<AppRoute exact path="/couple" layout={SecondLayout} component={SearchResults} />
-					<AppRoute exact path="/couple/:id" layout={SecondLayout} component={ViewCouple} />
-				</Switch>
+
+				{ route }
 
 			</div>
 		);
@@ -87,4 +98,10 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(MainApp));
+function mapStateToProps(state) {
+    return {
+        user: state.user.current_user
+    };
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MainApp));

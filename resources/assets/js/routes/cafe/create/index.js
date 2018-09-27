@@ -33,9 +33,11 @@ class CafeView extends Component {
                 max_price: '',
                 open: '',
                 close: '',
+                user_id: this.props.user.id
             },
             district: [],
-            commune: []
+            commune: [],
+            canSubmit: true
         };
     }
 
@@ -74,10 +76,28 @@ class CafeView extends Component {
     }
 
     createCafe(){
-        this.props.createCafe(this.state.data)
-            .then((data) => {
-                console.log(data);
-            });
+        if (this.state.canSubmit === true){
+            this.setState({
+                canSubmit: false
+            }, () => {
+                this.props.createCafe(this.state.data)
+                    .then((data) => {
+                        console.log(data);
+                        if (data.status === 'ok'){
+                            window.location.reload();
+                        } else {
+                            alert(data.message);
+                            this.setState({
+                                canSubmit: false
+                            })
+                        }
+                    });
+            })
+
+        }else{
+
+        }
+
     }
 
     render() {
@@ -401,7 +421,8 @@ function mapStateToProps(state) {
     return {
         province: state.cafe.allprovince,
         district: state.cafe.alldistrict,
-        commune: state.cafe.allCommune
+        commune: state.cafe.allCommune,
+        user: state.user.current_user
     };
 }
 

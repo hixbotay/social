@@ -58,12 +58,15 @@ export function getCafeDetail(id) {
         })
 }
 
-export function createCafe(data) {
+export const createCafe = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
-
         api.post('/cafe/create', data)
             .then(response => {
-                resolve(response.data);
+                if (response.status === 200) {
+                    resolve(response.data);
+                }else{
+                    resolve({status: 'ko', message: 'Unknown error'});
+                }
             })
             .catch(error => {
                 console.log(error);
