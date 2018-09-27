@@ -301,3 +301,8 @@ li.list-group-item {
 .add-cafe-basic .form-horizontal {
     margin-bottom: 10px;
 }
+
+.control-block {
+    margin: auto;
+    width: 50%;
+}

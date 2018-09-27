@@ -5,12 +5,22 @@ class Header extends Component {
     render() {
         return (
             <header className="header" id="site-header">
-                <div className="page-title">
-                    <Link to='/'><h6>Homepage</h6></Link>
-                </div>
+
+                {/*<div className="page-title">*/}
+                    {/*<Link to='/'><h6>Homepage</h6></Link>*/}
+                {/*</div>*/}
 
                 <div className="header-content-wrapper">
                     <div className="control-block">
+
+                        <div>
+                            <img src={"http://127.0.0.1:8080/zeno5/social/public/images/main/logo.png"}
+                            style={{
+                                width:150, height: 'auto',
+                                marginRight: 80,
+                            }}
+                            />
+                        </div>
 
                         <div className="control-icon more has-items">
                             <i className="fa fa-comments"></i>
