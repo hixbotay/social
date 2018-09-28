@@ -189,9 +189,10 @@ li.list-group-item {
 }
 
 .image-card-btn {
+    z-index: 1;
     position: absolute;
-    top: 50%;
-    left: 24%;
+    top: 45%;
+    left: 10%;
 }
 
 .image-card-btn .circle-button {

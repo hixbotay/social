@@ -6,6 +6,7 @@ import InformationNumber from '../../components/Information/InformationNumber';
 import {getCoupleResults} from '../../actions/CoupleActions';
 import {Link} from 'react-router-dom';
 import HomeNavigator from '../../components/HomeNavigator';
+import {updateRelationship} from '../../actions/UserActions';
 
 class SearchResults extends Component {
 
@@ -58,24 +59,14 @@ class SearchResults extends Component {
                     {
                         this.state.results.map((item, index) => {
                             var birth = new Date(item.birthday).getFullYear();
+                            item.age = currentYear - birth;
                             return (
                                 <div className='col col-md-3 col-lg-3' key={index}>
                                     <div className='container image-card-results'>
-                                        <Link to={`couple/${item.id}`}>
-                                            <ImageCard 
-                                                img={item.avatar} 
-                                                heading={`${item.name}, ${currentYear - birth}` }
-                                                subHeading={item.address} 
-                                            >
-                                                <div className="container">
-                                                    <InformationNumber
-                                                        heartNumber={item.loveNumber ? item.loveNumber : 0}
-                                                        likeNumber={item.likeNumber ? item.likeNumber : 0}
-                                                    ></InformationNumber>
-                                                </div>
-                                            
-                                            </ImageCard>
-                                        </Link>
+                                        <ImageCard 
+                                            user={item}
+                                            action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                        ></ImageCard>
                                     </div>
                                 </div>
                             )
@@ -96,7 +87,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCoupleResults: (keyword) => dispatch(getCoupleResults(keyword))
+        getCoupleResults: (keyword) => dispatch(getCoupleResults(keyword)),
+        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id))
     }
 }
 
