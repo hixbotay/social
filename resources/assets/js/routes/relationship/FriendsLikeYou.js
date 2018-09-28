@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {CardWithTitle, ImageCard} from '../../components/Card';
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+import {getListFriends, updateRelationship} from '../../actions/UserActions';
 
 class FriendsLikeYou extends Component {
+    componentDidMount() {
+        this.props.getListFriends('like-you');
+    }
+
     render() {
-        var temp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        const {users} = this.props;
+        var currentYear = new Date().getFullYear();  
 
         return (
             <div>
@@ -16,20 +19,20 @@ class FriendsLikeYou extends Component {
                 </div>
                 <CardWithTitle title="ĐÃ THÍCH BẠN">
                     <div className="row">
-                        {
-                            temp.map((item, index) => {
-                                var number = getRandomInt(20);
-                                return (
-                                    <div className="col-3 col-md-3 mb-4" key={index}>
-                                        <ImageCard
-                                            img={`https://picsum.photos/400/300?image=${number}`}
-                                            heading="Lorem Ipsum"
-                                            subHeading="Lorem ipsum lositdomet"
-                                        ></ImageCard>
-                                    </div>
-                                )
-                            })
-                        }
+                            {
+                                users ? users.map((user, index) => {
+                                    let birth = new Date(user.birthday).getFullYear();
+                                    user.age = currentYear - birth;
+                                    return (
+                                        <div className="col-4 col-md-4 mb-4" key={index}>
+                                            <ImageCard 
+                                                user={user}
+                                                action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                            ></ImageCard>
+                                        </div>
+                                    )
+                                }) : <div>Loading...</div>
+                            }
                     </div>
                 </CardWithTitle>
             </div>
@@ -37,4 +40,17 @@ class FriendsLikeYou extends Component {
     }
 }
 
-export default FriendsLikeYou;
+function mapStateToProps(state) {
+    return {
+        users: state.user.friendsLikeYou
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getListFriends: (type) => dispatch(getListFriends(type)),
+        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FriendsLikeYou);

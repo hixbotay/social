@@ -4,7 +4,9 @@ import {
     GET_USER_DETAIL,
     UPDATE_USER_DETAIL,
     GET_CURRENT_USER_DETAIL,
-    UPDATE_RELATIONSHIP
+    UPDATE_RELATIONSHIP,
+    GET_FRIENDS_YOU_LIKED,
+    GET_FRIENDS_LIKED_YOU
 } from './types';
 
 export const getCurrentUser = () => (dispatch) => {
@@ -70,4 +72,19 @@ export const addVisitor = (data) => (dispatch) => {
             console.log(err);
         })
     return Promise.resolve();
+}
+
+export const getListFriends = (type) => (dispatch) => {
+    api.get(`/friends/${type}`)
+    .then(response => {
+        console.log(response.data);
+        if(type == 'you-like') {
+            dispatch({type: GET_FRIENDS_YOU_LIKED, payload: response.data});
+        } else if(type == 'like-you') {
+            dispatch({type: GET_FRIENDS_LIKED_YOU, payload: response.data});
+        }
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }

@@ -136,5 +136,39 @@ class User extends Controller
 
         return json_encode($result);
     }
+
+    public function listFriends($type) {
+        $user_id = Auth::id();
+        if($type == 'you-like') {
+            $results = \App\UserRelationship::where('is_like', '=', $user_id)           
+                ->orWhere('is_loved', '=', 1)
+                ->leftjoin('users', 'user_relationship.to_user_id', '=', 'users.id')
+                ->select(DB::raw(
+                    'users.id, users.name, users.address, users.avatar, users.birthday,
+                    user_relationship.from_user_id, 
+                    SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                    SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                ))
+                ->groupBy('users.id')
+                ->having('from_user_id', '=', 1)
+                ->get();
+        } else if ($type == 'like-you') {
+            $results = \App\UserRelationship::where('is_like', '=', $user_id)           
+                ->orWhere('is_loved', '=', 1)
+                ->leftjoin('users', 'user_relationship.to_user_id', '=', 'users.id')
+                ->select(DB::raw(
+                    'users.id, users.name, users.address, users.avatar, users.birthday,
+                    user_relationship.to_user_id,
+                    SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                    SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                ))
+                ->groupBy('users.id')
+                ->having('to_user_id', '=', 1)
+                ->get();
+        }
+        else $results = [];
+        
+        return json_encode($results);
+    }
 }
 
