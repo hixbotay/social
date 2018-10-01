@@ -1,10 +1,12 @@
 import {
     GET_ALL_POSTS,
-    CREATE_NEW_POST
+    CREATE_NEW_POST,
+    GET_MY_POSTS
 } from '../actions/types';
 
 const INIT_STATE = {
     posts: [],
+    myPosts: [],
     newPost: {}
 }
 
@@ -15,6 +17,9 @@ export default (state = INIT_STATE, action) => {
         }
         case CREATE_NEW_POST: {
             return {...state, newPost: action.payload}
+        }
+        case GET_MY_POSTS: {
+            return {...state, myPosts: action.payload}
         }
         default: {
             return {...state};

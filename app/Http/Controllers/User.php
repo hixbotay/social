@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Parent_;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Auth;
+use App\User as UserModel;
 
 class User extends Controller
 {
@@ -21,35 +23,47 @@ class User extends Controller
 		return $this->$method(request());
 	}
 	
-	
+	public function update(Request $request)
+    {
+        $id =  Auth::id();
+        $user = UserModel::find($id);
+        $data = $request->get('data');
+
+        foreach ($data as $key => $value) {
+            $user->$key = $value;
+        }
+
+        $user->save();
+        return redirect('home');
+    }
 		
 	
-	public function update(){
-		$data = \Request::all();
-		$user = \Auth::user();
+// 	public function update(){
+// 		$data = \Request::all();
+// 		$user = \Auth::user();
 		
-// 		$user = User::whereCompanyName($company_name)->firstOrFail();
-		if(!empty($user->eth_address)){
-			\Session::flash('alert-warning', 'Your ETH Address is exist already!');
-			return redirect('/dashboard/wallet');
-		}
-		// this 'fills' the user model with all fields of the Input that are fillable
-		$user->fill(array('eth_address'=>$data['eth_address']));
-// 		debug($data);
-// 		debug($user);die;
-		if(!preg_match('^0x[a-fA-F0-9]{40}$^',$data['eth_address'])){
-			\Session::flash('alert-danger', 'ETH Address is invalid');			
-			return redirect('dashboard/wallet');
-		}
-		if($user->save()){
-			\Session::flash('alert-success', 'Your ETH Address has been updated');
-// 			die('df');
-		}else{
-			\Session::flash('alert-danger', 'Update failed');
-		}
+// // 		$user = User::whereCompanyName($company_name)->firstOrFail();
+// 		if(!empty($user->eth_address)){
+// 			\Session::flash('alert-warning', 'Your ETH Address is exist already!');
+// 			return redirect('/dashboard/wallet');
+// 		}
+// 		// this 'fills' the user model with all fields of the Input that are fillable
+// 		$user->fill(array('eth_address'=>$data['eth_address']));
+// // 		debug($data);
+// // 		debug($user);die;
+// 		if(!preg_match('^0x[a-fA-F0-9]{40}$^',$data['eth_address'])){
+// 			\Session::flash('alert-danger', 'ETH Address is invalid');			
+// 			return redirect('dashboard/wallet');
+// 		}
+// 		if($user->save()){
+// 			\Session::flash('alert-success', 'Your ETH Address has been updated');
+// // 			die('df');
+// 		}else{
+// 			\Session::flash('alert-danger', 'Update failed');
+// 		}
 		
-		return redirect(url('dashboard/wallet'));
-	}
+// 		return redirect(url('dashboard/wallet'));
+// 	}
 	
 	public function confirm(){
 		

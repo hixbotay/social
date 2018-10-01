@@ -9,6 +9,7 @@ export const GET_FRIENDS_LIKED_YOU = 'GET_FRIENDS_LIKED_YOU';
 
 // Post
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
+export const GET_MY_POSTS = 'GET_MY_POSTS';
 export const LIKE_POST = 'LIKE_POST';
 export const LOVE_POST = 'LOVE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';

@@ -59,7 +59,7 @@ class MainApp extends Component {
                     {/* Profile */}
                     <AppRoute exact path="/profile/:id" layout={SecondLayout} component={Profile} />
                     <AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserSetting} />
-                    <AppRoute exact path="/other/:id" layout={SecondLayout} component={OtherPerson} />
+                    {/* <AppRoute exact path="/other/:id" layout={SecondLayout} component={OtherPerson} /> */}
                     {/* Cafe */}
                     <AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
                     <AppRoute exact path="/cafe/:url" layout={ThirdLayout} component={CafeView} />

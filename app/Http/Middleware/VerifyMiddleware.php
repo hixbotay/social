@@ -17,6 +17,7 @@ class VerifyMiddleware
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
+        
         if($user && $user->is_verify == 1) {
             return $next($request);
         } else {

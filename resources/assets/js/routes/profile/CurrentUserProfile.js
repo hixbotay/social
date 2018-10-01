@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
-import {Card, CardWithIcon} from '../../components/Card';
+import { Card, CardWithIcon } from '../../components/Card';
 import CurrentUserLayout from './CurrentUserLayout';
-import {getCurrentUserDetail, addVisitor} from '../../actions/UserActions';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import { addVisitor } from '../../actions/UserActions';
+import { getMyPosts } from '../../actions/PostActions';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import SimpleSlider from '../../components/Slider/SimpleSlider';
+import Post from '../../components/Post';
+import CreatePostForm from '../../components/Post/CreatePostForm';
 
 class UserProfile extends Component {
-    // componentDidMount() {
-    //     this.props.getCurrentUserDetail();
-    // }
+    componentDidMount() {
+        this.props.getMyPosts();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            posts: nextProps.posts
+        });
+    }
+
+    addPost(post) {
+        this.state.posts.unshift(post);
+        this.setState({
+            posts: this.state.posts
+        })
+    }
 
     render() {
         var images = [
@@ -21,7 +37,7 @@ class UserProfile extends Component {
         ];
 
         // const {user} = this.props;
-        const {current_user} = this.props;
+        const { current_user } = this.props;
 
         // if (user.id && user.id !== current_user.id){
         //     this.props.addVisitor({
@@ -36,43 +52,42 @@ class UserProfile extends Component {
                 heading={current_user ? current_user.name : "UNDEFINED"}
                 subHeading={current_user ? current_user.address : null}
             >
-                <CardWithIcon leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true}>
-                    <textarea className="form-control custom-textarea" defaultValue="Viết điều gì đó..."></textarea>
-                </CardWithIcon>
-                <div>
+                <Card>
+                    <SimpleSlider images={images} slidesToShow={3}></SimpleSlider>
                     <div className="row">
-                        <div className="col-3">
-                            <button className="btn btn-camera"><i className="fas fa-camera fa-2x"></i></button>
-                        </div>
-                        <div className="col-9 invididual-image">
-                        <SimpleSlider slidesToShow={3}  images={images}></SimpleSlider>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-3">
-                            <button className="btn btn-video"><i className="fas fa-file-video fa-2x"></i></button>
-                        </div>
-                        <div className="col-9 invididual-video">
-                        <SimpleSlider slidesToShow={3} images={images}></SimpleSlider>
-                        </div>
-                    </div>
-                </div>
-                <CardWithIcon leftIcon="fas fa-question-circle" rightIcon="fas fa-pen-square" hasLine={true}>
-                    <textarea className="form-control custom-textarea" defaultValue="Tôi ở đây để..."></textarea>
-                </CardWithIcon>
-                <CardWithIcon leftIcon="fas fa-briefcase" rightIcon="fas fa-pen-square" hasLine={true}>
-                    <p>
-                        Bão BARIJAT đã đi vào biển Đông và trở thành cơn bão số 5,
-                        dự báo sẽ gây mưa to đến rất to ở Bắc Bộ và Thanh Hóa vào khoảng ngày 14/9
-                    </p>
-                </CardWithIcon>
-                <CardWithIcon leftIcon="fas fa-map-marker" rightIcon="fas fa-pen-square" hasLine={true}>
-                    <address>Đại học Bách Khoa, Hà Nội, Việt Nam</address>
-                    <div id="map"></div>
-                </CardWithIcon>
-                <CardWithIcon leftIcon="fas fa-info-circle" rightIcon="fas fa-pen-square" hasLine={true}>
 
-                </CardWithIcon>
+                        <div className="float-left">Ngày sinh</div>
+                        <div className="float-right">{current_user.birthday}</div>
+
+                    </div>
+                    <div className="row">
+
+                        <div className="float-left">Giới tính</div>
+                        <div className="float-right">{current_user.gender}</div>
+
+                    </div>
+                    <div className="row">
+                        <div className="float-left">Tình trạng hôn nhân</div>
+                        <div className="float-right">{current_user.marial_status}</div>
+
+                    </div>
+                    <div className="row">
+                        <div className="float-left">Nơi sống</div>
+                        <div className="float-right">{current_user.address}</div>
+                    </div>
+                </Card>
+                <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
+                <Card>
+                    {
+                        this.props.posts.map((post, index) => {
+                            post.author = current_user.name;
+                            post.author_avatar = current_user.avatar;
+                            return (
+                                <Post post={post} key={index} user_id={current_user.id}></Post>
+                            )
+                        })
+                    }
+                </Card>
             </CurrentUserLayout>
         );
     }
@@ -80,14 +95,14 @@ class UserProfile extends Component {
 
 function mapStateToProps(state) {
     return {
-        // user: state.user.user,
-        current_user: state.user.current_user
+        current_user: state.user.current_user,
+        posts: state.post.myPosts
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // getCurrentUserDetail: () =>  dispatch(getCurrentUserDetail()),
+        getMyPosts: () => dispatch(getMyPosts()),
         addVisitor: (data) => dispatch(addVisitor(data))
     }
 }

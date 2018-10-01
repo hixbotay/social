@@ -22,6 +22,7 @@ Route::middleware(['web'])->group(function() {
     Route::post('relationship/{user_id}', 'Api\User@createOrUpdateRelationship');
     Route::get('friends/{type}', 'Api\User@listFriends');
 
+    Route::get('my-posts', 'Api\Post@getMyPosts');
     Route::post('post/like/{post_id}', 'Api\Post@like');
     Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
 });

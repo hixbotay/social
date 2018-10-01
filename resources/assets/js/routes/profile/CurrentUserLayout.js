@@ -16,6 +16,9 @@ class ProfileLayout extends Component {
 
         return (
             <div className="row">
+                <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                    {this.props.children}
+                </div>
                 <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                     
                     <CardWithIcon rightIcon="fas fa-cog user-setting" rightIconAction={() => this.redirect()}>
@@ -93,9 +96,6 @@ class ProfileLayout extends Component {
                     <div>
                         <img src="https://momo.vn/Images/2018/03/13/banner-uu-dai-1080x540_131430747.png"/>
                     </div>
-                </div>
-                <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                    {this.props.children}
                 </div>
             </div>
         );

@@ -12,6 +12,7 @@ use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Cookie;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -82,9 +83,9 @@ class LoginController extends Controller
         $user = Socialite::driver($provider)->user();
         // print_r($user);
 
-        $authUser = $this->findOrCreateUser($user, $provider);
-        Auth::login($authUser, true);
-        return redirect(Session::get('pre_url'));
+        $data = $this->findOrCreateUser($user, $provider);
+        Auth::login($data['user'], true);
+        return redirect($data['path']);
     }
 
     /**
@@ -96,14 +97,17 @@ class LoginController extends Controller
     {
         $authUser = User::where('provider_id', $user->id)->first();
         if ($authUser) {
-            return $authUser;
+            return ['user' => $authUser, 'path' => '/'];
         }
-        return User::create([
+
+        $newUser =  User::create([
             'name'     => $user->name,
             'email'    => $user->email,
             'password' => Hash::make($user->email),
+            'is_verify' => 1,
             'provider' => $provider,
             'provider_id' => $user->id
         ]);
+        return ['user' => $newUser, 'path' => '/additional-information'];
     }
 }
