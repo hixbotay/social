@@ -1,0 +1,33 @@
+.additional-info-screen {
+    background: url('../../storage/app/public/additional-info/background.jpg');
+    padding-top: 50px;
+    /* height: 100vh; */
+}
+
+.additional-info-logo {
+    padding-bottom: 40px;
+}
+
+.additional-info-logo img {
+    width: 300px;
+    height: 100px;
+}
+
+.additional-info-card {
+    background-color: #9370db70;
+}
+
+img#additional-image1 {
+    z-index: 10;
+    position: absolute;
+    width: 200px;
+    right: 0;
+}
+
+img#additional-image2 {
+    z-index: 10;
+    position: absolute;
+    left: 0;
+    width: 225px;
+    bottom: -50px;
+}

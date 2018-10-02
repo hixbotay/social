@@ -108,6 +108,6 @@ class LoginController extends Controller
             'provider' => $provider,
             'provider_id' => $user->id
         ]);
-        return ['user' => $newUser, 'path' => '/additional-information'];
+        return ['user' => $newUser, 'path' => '/update-information'];
     }
 }

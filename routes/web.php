@@ -34,10 +34,14 @@ Route::middleware(['guest'])->group(function() {
 
 Route::middleware(['web', 'auth', 'verify'])->group(function() {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/additional-information', function() {
+    Route::get('/update-information', function() {
         return view('additional');
     });
     Route::post('/update-information', 'User@update');
+    Route::get('/upload-avatar', function() {
+        return view('avatar');
+    });
+    Route::post('/upload-avatar', 'User@uploadAvatar');
 });
 
 Route::middleware(['admin', 'verify'])->group(function() {

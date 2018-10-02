@@ -34,9 +34,26 @@ class User extends Controller
         }
 
         $user->save();
-        return redirect('home');
+        return redirect('upload-avatar');
     }
-		
+	
+	public function uploadAvatar(Request $request) {
+		$id = Auth::id();
+		$user = UserModel::find($id);
+
+        $request->validate([
+            'avatar' => 'sometimes|mimes:jpeg,bmp,png|max:20000',
+        ]);
+
+        if($request->hasFile('avatar')) {
+            $filename = (string) time().'.'.$request->avatar->getClientOriginalExtension();
+            $request->avatar->storeAs('user'.$id.'/avatar', $filename);
+		}
+		$user->avatar = env('APP_URL').'/storage/app/user'.$id.'/avatar/'.$filename;
+
+        $user->save();
+        return redirect('home');
+	}
 	
 // 	public function update(){
 // 		$data = \Request::all();

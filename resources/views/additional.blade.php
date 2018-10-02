@@ -1,6 +1,14 @@
 @extends('layouts.information')
 
+@section('text')
+<small>Giới thiệu thêm về bản thân đê Nối duyên giúp bạn tìm đúng người bạn đời của mình</small>
+@endsection
+
 @section('card')
+<div class="text-center">
+    <br/>
+    <a href={{url('/upload-avatar')}}><button class="btn btn-light">Bỏ qua</button></a>
+</div>
 <hr />
 <div class="container">
     <form method="POST" action={{url('/update-information')}}>
@@ -45,7 +53,9 @@
                 <input type="date" class="form-control" name="data[birthday]" required />
             </div>
         </div>
-        <button type="submit" class="btn btn-outline-primary">Gửi</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Gửi</button>
+        </div>
     </form>
 </div>
 @endsection

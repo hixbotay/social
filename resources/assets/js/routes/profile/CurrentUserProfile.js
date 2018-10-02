@@ -76,7 +76,10 @@ class UserProfile extends Component {
                         <div className="float-right">{current_user.address}</div>
                     </div>
                 </Card>
-                <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
+                <Card>
+                    <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
+                </Card>
+                
                 <Card>
                     {
                         this.props.posts.map((post, index) => {
