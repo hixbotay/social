@@ -2,24 +2,39 @@ import React, { Component } from 'react';
 import Slider from 'react-animated-slider';
 import 'react-animated-slider/build/horizontal.css';
 import CafeRight from '../../components/RightSidebar/Cafe';
-import {getAllProvince, getAllDistrict} from "../../actions/CafeActions";
+import {getAllProvince, getAllDistrict, listCafe} from "../../actions/CafeActions";
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 
 class Cafe extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            cafeList: []
+        }
+    }
+
     componentDidMount(){
         this.props.getAllProvince();
         this.props.getAllDistrict();
+        this.props.listCafe()
+            .then(data => {
+                var push = [];
+                for (let i = 0; i < data.length; i ++){
+                    push.push(data['i']);
+                }
+                this.setState({
+                    cafeList: push,
+                });
+            })
     }
 
     render() {
 
         var posts = [1];
 
-        var content = [1,2,3,4]
-
-        var cafeList = [1, 2, 3, 4];
+        var cafeList = this.state.cafeList;
 
         return (
 
@@ -46,7 +61,7 @@ class Cafe extends Component {
                                             margin:5,
                                         }}>
 
-                                            {cafeList.map((data, index) => {
+                                            {this.state.cafeList.map((data, index) => {
                                                 return (
                                                     <div className="col col-xl-4 col-lg-3 col-md-6 col-sm-6 col-6 box-cafe-item" key={index} style={{marginBottom:20}}>
 
@@ -67,8 +82,8 @@ class Cafe extends Component {
                                                             </div>
 
                                                             <div className="video-content">
-                                                                <a href="#" className="h6 title">Quán cafe xịn</a>
-                                                                <p>123 Nguyễn Trãi</p>
+                                                                <a href="#" className="h6 title">YyxXx</a>
+                                                                <p>YYY</p>
                                                             </div>
 
                                                         </div>
@@ -111,4 +126,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, {getAllProvince, getAllDistrict})(Cafe));
+export default withRouter(connect(mapStateToProps, {getAllProvince, getAllDistrict, listCafe})(Cafe));
