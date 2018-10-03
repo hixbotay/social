@@ -35,6 +35,10 @@ class Cafe extends Controller
         }else{
             return ['status' => 'ko', "message" => $required];
         }
+    }
 
+    public function list(Request $request, $page = null){
+        $data = \App\Agency::all();
+        return $data;
     }
 }

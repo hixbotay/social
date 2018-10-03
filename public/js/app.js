@@ -7338,6 +7338,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /* unused harmony export getAllCafe */
 /* unused harmony export getCafeDetail */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createCafe; });
+/* unused harmony export listCafe */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types__ = __webpack_require__(16);
 
@@ -7402,6 +7403,22 @@ var createCafe = function createCafe(data) {
                 }
             }).catch(function (error) {
                 console.log(error);
+                reject(error);
+            });
+        });
+    };
+};
+
+var listCafe = function listCafe(data) {
+    return function (dispatch) {
+        return new Promise(function (resolve, reject) {
+            __WEBPACK_IMPORTED_MODULE_0__api__["a" /* default */].post('/cafe/list/1', data).then(function (response) {
+                if (response.status === 200) {
+                    resolve(response.data);
+                } else {
+                    resolve({ status: 'ko', message: 'Unknown error' });
+                }
+            }).catch(function (error) {
                 reject(error);
             });
         });
@@ -58508,17 +58525,9 @@ if(false) {
 
 /***/ }),
 /* 234 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-exports = module.exports = __webpack_require__(21)(false);
-// imports
-
-
-// module
-exports.push([module.i, ".circle-button {\r\n    background-color: #ecf0f1;\r\n    color: #2c3e50;\r\n    border-radius: 50%;\r\n    padding: 0.75em !important;\r\n    text-align: center;\r\n    box-shadow: #7f8c8d 2px 2px;\r\n}\r\n\r\n.post-info-item {\r\n    padding-right: 0;\r\n    min-width: 60px;\r\n}\r\n\r\n.verification-icon {\r\n    margin-right: 5px;\r\n}\r\n\r\n.verification-icon img{\r\n    width: 40px;\r\n    height:40px;\r\n    border-radius: 0 !important;\r\n}\r\n\r\n.notification-icon svg{\r\n    color: #27ae60\r\n}\r\n\r\n.avatar {\r\n    overflow: hidden;\r\n    margin-right: 12px;\r\n}\r\n\r\n.round-avatar {\r\n    border-radius: 100%;\r\n}\r\n\r\n.avatar-small {\r\n    width: 30px;\r\n    height: 30px;\r\n}\r\n\r\n.avatar-medium {\r\n    width: 50px;\r\n    height: 50px;\r\n}\r\n\r\n.avatar-large {\r\n    width: 100px;\r\n    height: 100px;\r\n}\r\n\r\n.info-number-line {\r\n    max-width: 200px;\r\n}\r\n\r\n.custom-card {\r\n    padding: 15px 0px;\r\n}\r\n\r\n.custom-card svg {\r\n    font-size: 1.25em\r\n}\r\n\r\n.seperate-line {\r\n    clear: both\r\n}\r\n\r\n.custom-textarea {\r\n    padding: 0;\r\n    border: none;\r\n}\r\n\r\n#map {\r\n    height: 200px;\r\n}\r\n\r\n.post-photo {\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto, .col-xxl, .col-xxl-1, .col-xxl-10, .col-xxl-11, .col-xxl-12, .col-xxl-2, .col-xxl-3, .col-xxl-4, .col-xxl-5, .col-xxl-6, .col-xxl-7, .col-xxl-8, .col-xxl-9, .col-xxl-auto {\r\n    padding-right: 5px;\r\n    padding-left: 5px;\r\n}\r\n\r\n.row {\r\n    margin-right: -5px;\r\n    margin-left: -5px;\r\n}\r\n\r\n.status-info-icon {\r\n    width: 40px;\r\n    height: 40px;\r\n}\r\n\r\n.vip-upgrade {\r\n    padding: 0;\r\n    margin-top: -15px;\r\n    margin-bottom: 15px;\r\n}\r\n\r\n.verify-user,  .verify-user .container{\r\n    margin: 0!important;\r\n    padding: 0!important;\r\n}\r\n\r\n.pending-list {\r\n    margin-top: 15px;\r\n}\r\n\r\nspan.avatar-list {\r\n    margin-right: 10px;\r\n}\r\n\r\n.btn-camera, .btn-video, .col-9 .slider {\r\n    width: 100%;\r\n    height: 8em !important;\r\n}\r\n\r\n.custom-card .float-right {\r\n    cursor: pointer;\r\n}\r\n\r\n\r\n.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto, .col-xxl, .col-xxl-1, .col-xxl-10, .col-xxl-11, .col-xxl-12, .col-xxl-2, .col-xxl-3, .col-xxl-4, .col-xxl-5, .col-xxl-6, .col-xxl-7, .col-xxl-8, .col-xxl-9, .col-xxl-auto {\r\n    padding-right: 5px;\r\n    padding-left: 5px;\r\n}\r\n\r\n.row {\r\n    margin-right: -5px;\r\n    margin-left: -5px;\r\n}\r\n\r\n.cafe-box {\r\n\r\n}\r\n\r\n.cafe-box-content{\r\n    padding: 10px;\r\n}\r\n\r\n@media only screen and (min-width: 600px) {\r\n    .cafe-box .cafe-box-content img {\r\n        width: 100%;\r\n        height: 150px;\r\n    }\r\n}\r\n\r\n.box-cafe-item-btn {\r\n    color: black;\r\n    background: white;\r\n    padding: 5px;\r\n}\r\n.box-cafe-item-btn:hover{\r\n    color: black;\r\n}\r\n.landing-item {\r\n    text-align: left;\r\n    margin-bottom: 5px;\r\n    border: 1px solid #c5c5c5;\r\n    border-radius: 3px;\r\n    box-shadow: 3px 3px 2px #D1D1D1;\r\n    /*height: 230px;*/\r\n}\r\n\r\nli.list-group-item-custom {\r\n    margin: 10px 0px 5px 0px;\r\n}\r\n\r\nli.list-group-item {\r\n    margin: 2px 0px;\r\n}\r\n\r\n.image-card img {\r\n    height: 175px;\r\n    width: 100%;\r\n}\r\n\r\n.image-card-content {\r\n    padding: 10px 0px;\r\n}\r\n\r\n.image-card {\r\n    border: solid 1px #b4babe;\r\n    box-shadow: 2px 3px #bdc3c7;\r\n    position: relative;\r\n}\r\n\r\n.image-card-btn {\r\n    z-index: 1;\r\n    position: absolute;\r\n    top: 45%;\r\n    left: 10%;\r\n}\r\n\r\n.image-card-btn .circle-button {\r\n    margin-right: 10px;\r\n}\r\n\r\n.image-card-results {\r\n    padding-bottom: 25px; \r\n}\r\n\r\n.invididual-video img, .invididual-image img {\r\n    padding: 0px 2px;\r\n    height: 8em !important;\r\n}\r\n\r\n.slick-prev:before, .slick-next:before {\r\n    color: #3498db;\r\n} \r\n\r\n.styles_modal__gNwvD {\r\n    min-width: 500px;\r\n}\r\n\r\n.styles_modal__gNwvD .page-header {\r\n    margin-bottom: 2em;\r\n}\r\n\r\n.chat-list-title ul {\r\n    list-style: none outside none; margin:0; padding: 0;\r\n}\r\n\r\n.chat-list-title ul li {\r\n    float: left; margin: 0 10px;\r\n}\r\n\r\n.navigator {\r\n    width: 100%;\r\n    background: none !important;\r\n    color: #34495e;\r\n}\r\n\r\n.btn.navigator :hover {\r\n    color: #7f8c8d;\r\n}\r\n\r\n.group-navigator {\r\n    background-color: white;\r\n    height: 4em;\r\n    margin-bottom: 1em;\r\n}\r\n\r\n.next-dating-header {\r\n\r\n}\r\n\r\n.next-dating-header-row1 {\r\n    background: #38a9ff30;\r\n}\r\n\r\n.user-setting {\r\n    z-index: 1;\r\n    position: relative;\r\n}\r\n\r\n.tag {\r\n    padding: 5px;\r\n    display: inline-block;\r\n    background: deepskyblue;\r\n    border-radius: 5px;\r\n    margin-right: 5px;\r\n    color: #fff;\r\n}\r\n\r\n.add-cafe-header {\r\n    padding: 20px;\r\n    background: #008FE5;\r\n    border-radius: 10px 10px 0px 0px;\r\n}\r\n\r\n.add-cafe-header h4 {\r\n    color: #fff;\r\n    font-weight: bold;\r\n}\r\n\r\n.add-cafe-header h6{\r\n    color: #fff;\r\n    font-weight: normal;\r\n}\r\n\r\n.add-cafe-basic {\r\n    padding: 10px;\r\n}\r\n\r\n.add-cafe-basic .control-label {\r\n    color: #7F7F7F;\r\n    font-size: 16px;\r\n    font-weight: bold;\r\n    margin-top: 5px;\r\n}\r\n\r\n.add-cafe-basic h3 {\r\n    color: #C1272D;\r\n    margin: 20px;\r\n    font-size: 20px;\r\n}\r\n\r\n.add-cafe-basic .form-horizontal {\r\n    margin-bottom: 10px;\r\n}\r\n\r\n.control-block {\r\n    margin: auto;\r\n    width: 50%;\r\n}\r\n\r\n.header .has-items a{\r\n    color: #0586DA;\r\n    font-weight: bold;\r\n    font-size: 16px;\r\n}\r\n.header .has-items svg{\r\n    font-size: 20px;\r\n}\r\n.header .has-items {\r\n    margin-right: 40px;\r\n}\r\n.leftslider a img{\r\n    display:block;\r\n    margin:auto;\r\n}\r\n.leftslider .imgMenu1{\r\n    width: 80%;\r\n}\r\n.leftslider a{\r\n    text-align: center;\r\n}\r\n.leftslider ul{\r\n    margin-top: 10px;\r\n}\r\n.leftslider ul li{\r\n    background: transparent;\r\n    padding-top: 7px;\r\n    padding-bottom: 7px;\r\n}\r\n\r\n.notification-item {\r\n    padding-left: 0;\r\n    margin-left: -10px;\r\n}\r\n\r\n.notification-heading {\r\n    font-size: 16px;\r\n    font-weight: 500;\r\n}\r\n\r\n.notification-content {\r\n    color: #7f8c8d;\r\n}\r\n\r\n.dating-header {\r\n    padding: 10px 0px 10px 5px;\r\n}\r\n\r\n.dating-time {\r\n    background: #2980b9;\r\n    border-bottom-left-radius: 40px;\r\n    border-top-left-radius: 40px;\r\n    color: #fff;\r\n}\r\n\r\n.dating-time p {\r\n    font-size: 1.5em!important;\r\n}\r\n\r\n.dating-img {\r\n    padding: 10px 0px;\r\n}\r\n\r\n.dating-info {\r\n    padding: 10px 0px 0px 20px;\r\n}\r\n\r\n.dating-slide .slick-slide {\r\n    padding: 0 10px;\r\n}", ""]);
-
-// exports
-
+throw new Error("Module build failed: Unknown word (420:1)\n\n  418 | .landing-item:hover .btnhenho {\n  419 |     opacity: 1;\n> 420 | >>>>>>> 48fdc2e6f3925fce406ac00d1358a10ddfd9e24f\n      | ^\n  421 | }\n");
 
 /***/ }),
 /* 235 */
@@ -79221,7 +79230,6 @@ var Cafe = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this2 = this;
 
             var posts = [1];
 
@@ -79238,20 +79246,6 @@ var Cafe = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'ui-block' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            __WEBPACK_IMPORTED_MODULE_1_react_animated_slider___default.a,
-                            null,
-                            content.map(function (article, index) {
-                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'div',
-                                    { key: index,
-                                        style: { background: 'url(\'https://i.imgur.com/DvmN8Hx.jpg\') no-repeat center center' }
-                                    },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'center' })
-                                );
-                            })
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('hr', null),
                         posts.map(function (post) {
 
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -79260,17 +79254,7 @@ var Cafe = function (_Component) {
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',
                                     { className: 'row' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'div',
-                                        { className: 'col-12' },
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            'p',
-                                            { onClick: function onClick() {
-                                                    console.log(_this2.props.province);
-                                                } },
-                                            'hihihihihi'
-                                        )
-                                    )
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'col-12' })
                                 ),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',
@@ -79280,33 +79264,29 @@ var Cafe = function (_Component) {
                                     cafeList.map(function (data, index) {
                                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'div',
-                                            { className: 'col col-xl-4 col-lg-3 col-md-6 col-sm-6 col-6 box-cafe-item', key: index },
+                                            { className: 'col col-xl-4 col-lg-3 col-md-6 col-sm-6 col-6 box-cafe-item', key: index, style: { marginBottom: 20 } },
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 'div',
                                                 { className: 'landing-item' },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                     'div',
                                                     { className: 'landing-item-thumb' },
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'http://www.royalhotelchilliwack.com/Content/images/Hotel-Cafe-o.jpg', alt: 'page' }),
-                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                        'div',
-                                                        { className: 'overlay overlay-dark' },
-                                                        ' '
-                                                    ),
+                                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', {
+                                                        style: { height: 200 },
+                                                        src: 'http://www.royalhotelchilliwack.com/Content/images/Hotel-Cafe-o.jpg', alt: 'page' }),
                                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                         'div',
                                                         { className: 'btn-sm' },
                                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                             'a',
                                                             { target: '_blank', href: '#',
-                                                                className: 'btn  box-cafe-item-btn' },
-                                                            'H\u1EB9n h\xF2'
+                                                                className: 'btnhenho box-cafe-item-btn' },
+                                                            '\u0110\u1EB7t ch\u1ED7'
                                                         ),
                                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                             'a',
-                                                            { target: '_blank', href: '#',
-                                                                className: 'btn box-cafe-item-btn' },
-                                                            '\u0110\u1EB7t ch\u1ED7'
+                                                            { target: "_blank", href: "#", className: "btnbook box-cafe-item-btn" },
+                                                            'H\u1EB9n h\xF2'
                                                         )
                                                     )
                                                 ),
@@ -81383,6 +81363,7 @@ var CafeView = function (_Component) {
                     _this2.props.createCafe(_this2.state.data).then(function (data) {
                         console.log(data);
                         if (data.status === 'ok') {
+                            alert('OK');
                             window.location.reload();
                         } else {
                             alert(data.message);

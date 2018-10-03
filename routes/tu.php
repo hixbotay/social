@@ -31,4 +31,5 @@ Route::get('getAllCommune', function (){
 
 Route::post('cafe/create', 'Api\Cafe@create');
 
+Route::get('cafe/list/{page}', 'Api\Cafe@list');
 

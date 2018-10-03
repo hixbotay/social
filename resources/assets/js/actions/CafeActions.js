@@ -74,3 +74,19 @@ export const createCafe = (data) => (dispatch) => {
             })
     })
 }
+
+export const listCafe = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        api.post('/cafe/list/1', data)
+            .then(response => {
+                if (response.status === 200) {
+                    resolve(response.data);
+                }else{
+                    resolve({status: 'ko', message: 'Unknown error'});
+                }
+            })
+            .catch(error => {
+                reject(error);
+            })
+    })
+}

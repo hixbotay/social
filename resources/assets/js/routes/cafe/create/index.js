@@ -84,6 +84,7 @@ class CafeView extends Component {
                     .then((data) => {
                         console.log(data);
                         if (data.status === 'ok'){
+                            alert('OK');
                             window.location.reload();
                         } else {
                             alert(data.message);
