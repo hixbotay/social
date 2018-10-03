@@ -29,22 +29,6 @@ class Cafe extends Component {
 
                     <div className="ui-block">
 
-                        <Slider>
-                            {content.map((article, index) =>
-                                <div key={index}
-                                    style={{ background: `url('https://i.imgur.com/DvmN8Hx.jpg') no-repeat center center` }}
-                                >
-                                    <div className="center">
-                                        {/*<h1>title o day</h1>*/}
-                                        {/*<p>MIeu ta</p>*/}
-                                        {/*<button>Nut</button>*/}
-                                    </div>
-                                </div>
-                            )}
-                        </Slider>
-
-                        <hr />
-
                         {
                             posts.map(post => {
 
@@ -53,9 +37,7 @@ class Cafe extends Component {
                                     <article className="" key={post}>
                                         <div className="row">
                                             <div className="col-12">
-                                                <p onClick={() => {
-                                                    console.log(this.props.province)
-                                                }}>hihihihihi</p>
+
                                             </div>
                                         </div>
 
@@ -66,22 +48,21 @@ class Cafe extends Component {
 
                                             {cafeList.map((data, index) => {
                                                 return (
-                                                    <div className="col col-xl-4 col-lg-3 col-md-6 col-sm-6 col-6 box-cafe-item" key={index}>
+                                                    <div className="col col-xl-4 col-lg-3 col-md-6 col-sm-6 col-6 box-cafe-item" key={index} style={{marginBottom:20}}>
 
                                                         <div className="landing-item">
 
                                                             <div className="landing-item-thumb">
-                                                                <img src={'http://www.royalhotelchilliwack.com/Content/images/Hotel-Cafe-o.jpg'} alt="page" />
 
-                                                                <div className="overlay overlay-dark"> </div>
+                                                                <img
+                                                                    style={{height: 200}}
+                                                                    src={'http://www.royalhotelchilliwack.com/Content/images/Hotel-Cafe-o.jpg'} alt="page" />
 
                                                                 <div className="btn-sm">
                                                                     <a target="_blank" href="#"
-                                                                       className="btn  box-cafe-item-btn">Hẹn hò</a>
-                                                                    <a target="_blank" href="#"
-                                                                       className="btn box-cafe-item-btn">Đặt chỗ</a>
+                                                                       className="btnhenho box-cafe-item-btn">Đặt chỗ</a>
+                                                                    <a target={"_blank"} href={"#"} className={"btnbook box-cafe-item-btn"} >Hẹn hò</a>
                                                                 </div>
-
 
                                                             </div>
 

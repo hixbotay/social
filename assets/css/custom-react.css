@@ -152,6 +152,10 @@ span.avatar-list {
     color: black;
     background: white;
     padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 60px;
+    border-radius: 5px;
 }
 .box-cafe-item-btn:hover{
     color: black;
@@ -337,4 +341,39 @@ li.list-group-item {
     padding-top: 7px;
     padding-bottom: 7px;
 }
+.landing-item .landing-item-thumb{
+    box-shadow: 0 0 0;
+    margin-bottom: 0px;
+}
+.box-cafe-item .video-content {
+    padding-left: 10px;
+}
 
+.landing-item .landing-item-thumb .btnbook {
+    margin-bottom: 0;
+    position: absolute;
+    opacity: 0;
+    top: 40%;
+    left: 50%;
+    -webkit-transform: translate(-20%, -20%);
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+}
+
+.landing-item .landing-item-thumb .btnhenho {
+    margin-bottom: 0;
+    position: absolute;
+    opacity: 0;
+    top: 55%;
+    left: 50%;
+    -webkit-transform: translate(-20%, -20%);
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+}
+
+.landing-item:hover .btnbook {
+    opacity: 1;
+}
+.landing-item:hover .btnhenho {
+    opacity: 1;
+}
