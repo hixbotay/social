@@ -12,6 +12,7 @@ class SimpleSlider extends Component {
             speed: 500,
             slidesToShow: this.props.slidesToShow,
             slidesToScroll: 1,
+            arrows: true
             // adaptiveHeight: true
         };
         return (

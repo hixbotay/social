@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import ListItem from '../../components/Notification/ListItem';
 
 class Header extends Component {
+
     render() {
+        const notification = {
+            img: "https://www.w3schools.com/w3images/avatar2.png",
+            heading: "Hello World",
+            content: "bdjs adjshd jhsdgjs dsjahdjsd djsjhdjsdj"
+        }
+        
         return (
             <header className="header" id="site-header">
 
@@ -90,7 +98,9 @@ class Header extends Component {
                                         <li className="list-group-item list-group-item-warning">This is a warning list group item</li>
                                         <li className="list-group-item list-group-item-info">This is a info list group item</li>
                                         <li className="list-group-item list-group-item-light">This is a light list group item</li>
-                                        <li className="list-group-item list-group-item-dark">This is a dark list group item</li>
+                                        <li className="list-group-item list-group-item-dark">
+                                            <ListItem notification={notification}></ListItem>
+                                        </li>
                                     </ul>
                                 </div>
 

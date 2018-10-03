@@ -249,7 +249,7 @@ li.list-group-item {
 }
 
 .next-dating-header-row1 {
-    background: #F2F8FC;
+    background: #38a9ff30;
 }
 
 .user-setting {
@@ -338,3 +338,43 @@ li.list-group-item {
     padding-bottom: 7px;
 }
 
+.notification-item {
+    padding-left: 0;
+    margin-left: -10px;
+}
+
+.notification-heading {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.notification-content {
+    color: #7f8c8d;
+}
+
+.dating-header {
+    padding: 10px 0px 10px 5px;
+}
+
+.dating-time {
+    background: #2980b9;
+    border-bottom-left-radius: 40px;
+    border-top-left-radius: 40px;
+    color: #fff;
+}
+
+.dating-time p {
+    font-size: 1.5em!important;
+}
+
+.dating-img {
+    padding: 10px 0px;
+}
+
+.dating-info {
+    padding: 10px 0px 0px 20px;
+}
+
+.dating-slide .slick-slide {
+    padding: 0 10px;
+}
