@@ -58527,7 +58527,7 @@ if(false) {
 /* 234 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: Unknown word (420:1)\n\n  418 | .landing-item:hover .btnhenho {\n  419 |     opacity: 1;\n> 420 | >>>>>>> 48fdc2e6f3925fce406ac00d1358a10ddfd9e24f\n      | ^\n  421 | }\n");
+throw new Error("Module build failed: Unclosed block (400:1)\n\n  398 | }\n  399 | \n> 400 | .dating-slide .slick-slide {\n      | ^\n  401 |     padding: 0 10px;\n  402 | .landing-item .landing-item-thumb .btnhenho {\n  403 |     margin-bottom: 0;\n");
 
 /***/ }),
 /* 235 */

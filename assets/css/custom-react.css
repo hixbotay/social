@@ -360,7 +360,6 @@ li.list-group-item {
     max-width: 90%;
 }
 
-<<<<<<< HEAD
 .notification-item {
     padding-left: 0;
     margin-left: -10px;
@@ -400,7 +399,6 @@ li.list-group-item {
 
 .dating-slide .slick-slide {
     padding: 0 10px;
-=======
 .landing-item .landing-item-thumb .btnhenho {
     margin-bottom: 0;
     position: absolute;
@@ -417,5 +415,4 @@ li.list-group-item {
 }
 .landing-item:hover .btnhenho {
     opacity: 1;
->>>>>>> 48fdc2e6f3925fce406ac00d1358a10ddfd9e24f
 }
