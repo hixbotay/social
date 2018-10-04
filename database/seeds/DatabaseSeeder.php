@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserJob::class);
         // $this->call(ProvinceGroup::class);
         $this->call(Post::class);
+        $this->call(Events::class);
         Model::reguard();
     }
 }
