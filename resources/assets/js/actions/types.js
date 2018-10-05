@@ -28,3 +28,6 @@ export const GET_ALL_HOBBIES = 'GET_ALL_HOBBIES';
 // couple
 export const GET_COUPLE_RESULTS = 'GET_COUPLE_RESULTS';
 export const GET_COUPLE_DETAIL = 'GET_COUPLE_DETAIL';
+
+// dating
+export const GET_ALL_EVENTS = 'GET_ALL_EVENTS';

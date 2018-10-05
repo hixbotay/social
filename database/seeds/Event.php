@@ -19,11 +19,11 @@ class Events extends Seeder
         $meta_data = [];
         for($i=0; $i<20; $i++) {
             $event = [
-                'name' =>  $faker->realText($maxNbChars = 50, $indexSize = 2),
+                'name' =>  $faker->realText($maxNbChars = 20, $indexSize = 2),
                 'schedule_id' => $faker->randomDigit,
                 'description' => $faker->paragraph($nbSentences = 2, $variableNbSentences = true),
                 'created' => date("Y/m/d"),
-                'address' => $faker->sentence($nbWords = 6, $variableNbWords = true) ,
+                'address' => $faker->sentence($nbWords = 3, $variableNbWords = true) ,
                 'address_id' => $faker->randomDigit,
                 'limit_number' => $faker->randomNumber($nbDigits = 2, $strict = false),
                 'min_number' => $faker->randomDigit,

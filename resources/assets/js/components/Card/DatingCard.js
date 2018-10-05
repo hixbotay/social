@@ -15,27 +15,14 @@ class DatingCard extends Component {
             // adaptiveHeight: true
         };
 
-        const { title, text } = this.props;
-
-        var datings = [
-            {
-                name: "Hello World",
-                address: "Thieu Trung, Thieu Hoa, Thanh Hoa",
-                start_time: "15h Thứ 5 Ngày 08/10",
-            },
-            {
-                name: "Hello World",
-                address: "Thieu Trung, Thieu Hoa, Thanh Hoa",
-                start_time: "15h Thứ 5 Ngày 08/10",
-            }
-        ]
+        const { title, text, events } = this.props;
 
         return (
             <CardWithTitle hasLine={true} title={title}>
                 <div className="dating-slide">
                     <Slider {...settings}>
                         {
-                            datings.map((dating, index) => {
+                            events.map((event, index) => {
                                 return (
                                     <div key={index}>
                                         <div className={"row next-dating-header-row1"}>
@@ -43,22 +30,80 @@ class DatingCard extends Component {
                                                 <RoundAvatar size={"medium"} img="https://lorempixel.com/200/300/?48789"></RoundAvatar>
                                             </div>
                                             <div className={"col-md-7 dating-header"}>
-                                                <h5>{dating.name}</h5>
-                                                <div>{dating.address}</div>
+                                                <h5>{event.name}</h5>
+                                                <div>{event.address}</div>
                                             </div>
                                             <div className={"col-md-3 align-right dating-time"}>
-                                                <p>{dating.start_time}</p>
+                                                <p>{event.start_time}</p>
                                             </div>
                                         </div>
 
                                         <div className={"row"}>
                                             <div className={"col-md-7 dating-img"}>
                                                 <img
-                                                    src={"https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg"}
+                                                    src={event.image}
                                                 />
                                             </div>
                                             <div className={"col-md-5 dating-info"}>
-                                                {this.props.children}
+                                                {
+                                                    event.type === 'group' ? (
+                                                        <div>
+                                                            <div className="text-center">
+                                                                <h5>ĐIỀU KIỆN</h5>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-5"></div>
+                                                                <div className="col-2">
+                                                                    <i className="fas fa-male"></i>
+                                                                </div>
+                                                                <div className="col-5">
+                                                                    Tuổi {event.min_male_age} - {event.max_male_age}
+                                                                </div>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-5"></div>
+                                                                <div className="col-2">
+                                                                    <i className="fas fa-female"></i>
+                                                                </div>
+                                                                <div className="col-5">
+                                                                    Tuổi {event.min_male_age} - {event.max_male_age}
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <i className="far fa-heart"> </i> 
+                                                                <span>
+                                                                    {
+                                                                        event.marital_status.map((item, index) => {
+                                                                            return (item === '0' ? <span>Single, </span> : <span>Married, </span>)
+                                                                        })
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                            <div>
+                                                                <i className="fas fa-suitcase"> </i> 
+                                                                <span>
+                                                                    {
+                                                                        event.job.map((item, index) => {
+                                                                            return (<span>{item}, </span>)
+                                                                        })
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                            <div className="row">
+                                                                <div className="col-7">
+                                                                    <button className="btn btn-primary btn-sm">Tìm hiểu thêm</button>
+                                                                </div>
+                                                                <div className="col-5">
+                                                                    <button className="btn btn-primary btn-sm">Tham gia</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>        
+                                                    ) : (
+                                                        <div>
+
+                                                        </div>
+                                                    )
+                                                }
                                             </div>
                                         </div>
                                         <div className="row">

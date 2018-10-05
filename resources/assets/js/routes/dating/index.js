@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
-import {getAllDistrict, getAllProvince} from "../../actions/CafeActions";
-import Lightbox from 'react-image-lightbox';
+import {getAllEvents} from "../../actions/EventActions";
 import 'react-image-lightbox/style.css';
 
 import Slider from 'react-animated-slider';
@@ -14,21 +13,11 @@ class Dating extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            photoIndex: 0,
-            openLightBox: false,
-            images: [
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-            ]
-        };
+        this.state =  {};
     }
 
     componentDidMount() {
-
+        this.props.getAllEvents()
     }
 
     render() {
@@ -37,7 +26,7 @@ class Dating extends Component {
             <div className="row">
 
                 <div className={'col-md-8'}>
-                    <DatingCard title="aaaaaaaaa"></DatingCard>
+                    <DatingCard title="Cuộc hẹn trong hôm nay" events={this.props.events}></DatingCard>
                 </div>
                 <div className={'col-md-4'}>
                     <h1>NGUYEN VAN TU</h1>
@@ -52,9 +41,14 @@ class Dating extends Component {
 
 function mapStateToProps(state) {
     return {
-        province: state.cafe.allprovince,
-        district: state.cafe.alldistrict
+        events: state.event.events
     };
 }
 
-export default withRouter(connect(mapStateToProps, {getAllProvince, getAllDistrict})(Dating));
+function mapDispatchToProps(dispatch) {
+    return {
+        getAllEvents: () => dispatch(getAllEvents())
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dating));
