@@ -52,8 +52,10 @@ class DatingCard extends Component {
                                                                 <h5>ĐIỀU KIỆN</h5>
                                                             </div>
                                                             <div className="row">
-                                                                <div className="col-5"></div>
-                                                                <div className="col-2">
+                                                                <div className="col-6">
+                                                                    Min {event.min_male_number} - Max {event.max_male_number}
+                                                                </div>
+                                                                <div className="col-1">
                                                                     <i className="fas fa-male"></i>
                                                                 </div>
                                                                 <div className="col-5">
@@ -61,40 +63,42 @@ class DatingCard extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className="row">
-                                                                <div className="col-5"></div>
-                                                                <div className="col-2">
+                                                                <div className="col-6">
+                                                                    Min {event.min_female_number} - Max {event.max_female_number}
+                                                                </div>
+                                                                <div className="col-1">
                                                                     <i className="fas fa-female"></i>
                                                                 </div>
                                                                 <div className="col-5">
-                                                                    Tuổi {event.min_male_age} - {event.max_male_age}
+                                                                    Tuổi {event.min_female_age} - {event.max_female_age}
                                                                 </div>
                                                             </div>
                                                             <div>
-                                                                <i className="far fa-heart"> </i> 
+                                                                <i className="far fa-heart"></i> 
                                                                 <span>
                                                                     {
                                                                         event.marital_status.map((item, index) => {
-                                                                            return (item === '0' ? <span>Single, </span> : <span>Married, </span>)
+                                                                            return (item === '0' ? <span> Single, </span> : <span> Married, </span>)
                                                                         })
                                                                     }
                                                                 </span>
                                                             </div>
                                                             <div>
-                                                                <i className="fas fa-suitcase"> </i> 
-                                                                <span>
+                                                                <i className="fas fa-suitcase"></i>
+                                                                <div>
                                                                     {
                                                                         event.job.map((item, index) => {
-                                                                            return (<span>{item}, </span>)
+                                                                            return (<div className="tag">{item}</div>)
                                                                         })
                                                                     }
-                                                                </span>
+                                                                </div>
                                                             </div>
                                                             <div className="row">
                                                                 <div className="col-7">
-                                                                    <button className="btn btn-primary btn-sm">Tìm hiểu thêm</button>
+                                                                    <button className="btn btn-primary btn-sm btn-dating">Tìm hiểu thêm</button>
                                                                 </div>
                                                                 <div className="col-5">
-                                                                    <button className="btn btn-primary btn-sm">Tham gia</button>
+                                                                    <button className="btn btn-primary btn-sm btn-dating">Tham gia</button>
                                                                 </div>
                                                             </div>
                                                         </div>        

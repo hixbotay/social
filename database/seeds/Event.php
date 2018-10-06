@@ -80,7 +80,31 @@ class Events extends Seeder
                 'meta_value' => $faker->randomNumber($nbDigits = 2, $strict = false),
             ];
 
-            array_push($meta_data, $meta1, $meta2, $meta3, $meta4, $meta5);
+            $meta6 = [
+                'event_id' => $i,
+                'meta_key' => 'min_male_number',
+                'meta_value' => $faker->randomNumber($nbDigits = 2, $strict = false),
+            ];
+
+            $meta7 = [
+                'event_id' => $i,
+                'meta_key' => 'max_male_number',
+                'meta_value' => $faker->randomNumber($nbDigits = 2, $strict = false),
+            ];
+
+            $meta8 = [
+                'event_id' => $i,
+                'meta_key' => 'min_female_number',
+                'meta_value' => $faker->randomNumber($nbDigits = 2, $strict = false),
+            ];
+
+            $meta9 = [
+                'event_id' => $i,
+                'meta_key' => 'max_female_number',
+                'meta_value' => $faker->randomNumber($nbDigits = 2, $strict = false),
+            ];
+
+            array_push($meta_data, $meta1, $meta2, $meta3, $meta4, $meta5, $meta6, $meta7, $meta8, $meta9);
         }
 
         DB::table('events')->insert($event_data);

@@ -16,7 +16,13 @@ class Event extends Controller {
             array_push($events_id, $event->id);
         }
 
-        $event_meta = DB::table('event_meta')->whereIn('event_id', $events_id)->get();
+        $event_meta = DB::table('event_meta')
+                    ->whereIn('event_id', $events_id)
+                    ->leftJoin('user_jobs', function($join) {
+                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
+                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
+                    })
+                    ->get();
 
         $events->map( function ($event, $key) use ($event_meta) {
             $job = [];
@@ -25,7 +31,7 @@ class Event extends Controller {
                 if($metadata->event_id == $event->id) {
                     switch ($metadata->meta_key) {
                         case 'job_conditional': {
-                            array_push($job, $metadata->meta_value);
+                            array_push($job, $metadata->name);
                             break;
                         }
                         case 'marital_status': {
@@ -48,6 +54,22 @@ class Event extends Controller {
                             $event['max_female_age'] = $metadata->meta_value;
                             break;
                         }
+                        case 'min_male_number': {
+                            $event['min_male_number'] = $metadata->meta_value;
+                            break;
+                        }
+                        case 'max_male_number': {
+                            $event['max_male_number'] = $metadata->meta_value;
+                            break;
+                        }
+                        case 'min_female_number': {
+                            $event['min_female_number'] = $metadata->meta_value;
+                            break;
+                        }
+                        case 'max_female_number': {
+                            $event['max_female_number'] = $metadata->meta_value;
+                            break;
+                        }
                         default: {
                             break;
                         }
@@ -58,6 +80,5 @@ class Event extends Controller {
             }
         });
         return json_encode($events);
-
     }
 }
