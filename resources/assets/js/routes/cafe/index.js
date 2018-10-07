@@ -22,7 +22,7 @@ class Cafe extends Component {
             .then(data => {
                 var push = [];
                 for (let i = 0; i < data.length; i ++){
-                    push.push(data['i']);
+                    push.push(data[i]);
                 }
                 this.setState({
                     cafeList: push,
@@ -52,7 +52,6 @@ class Cafe extends Component {
                                     <article className="" key={post}>
                                         <div className="row">
                                             <div className="col-12">
-
                                             </div>
                                         </div>
 
@@ -82,8 +81,8 @@ class Cafe extends Component {
                                                             </div>
 
                                                             <div className="video-content">
-                                                                <a href="#" className="h6 title">YyxXx</a>
-                                                                <p>YYY</p>
+                                                                <a href="#" className="h6 title">{data.name}</a>
+                                                                <p>{data.address}</p>
                                                             </div>
 
                                                         </div>

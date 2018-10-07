@@ -18,7 +18,6 @@
                                 </th>
                                 <th>Name</th>
                                 <th>Params</th>
-                                <th>Option</th>
                             </tr>
                         </thead>
 
@@ -41,11 +40,6 @@
                                 </td>
 
                                 <td>{{$item->params}}</td>
-                                <td>
-                                    <a href="{{url('admin?controller=UserGroup&&task=destroy&id='.$item->id)}}">
-                                        <button class="btn btn-sm btn-danger">Delete</button>
-                                    </a>
-                                </td>
                             </tr>
                         @endforeach
                         </tbody>

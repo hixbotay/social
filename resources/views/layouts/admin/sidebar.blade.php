@@ -90,6 +90,16 @@
                                     </ul>
                                 </li>
 
+                                <li>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Module Hẹn hò') <span class="fa arrow"></span></a>
+                                    <ul class="nav-second-level nav" aria-expanded="true">
+
+                                        <li><a href="{{url('/admin?view=Job')}}"><i class="ti-person"></i>@lang('Jobs')</a></li>
+                                        <li><a href="{{url('/admin?controller=Job&task=create')}}"><i class="ti-person"></i>@lang('Create new Jobs')</a></li>
+
+                                    </ul>
+                                </li>
+
 
                                 <li>
                                     <a href="{{url('/admin?view=Configuration')}}"><i class="ti-light-bulb"></i> Configuration <span class="fa arrow"></span></a>

@@ -10,5 +10,5 @@ class Configuration extends Model
 
     protected $fillable = ['name', 'params'];
 
-    public $timestamps = false;
+//    public $timestamps = false;
 }

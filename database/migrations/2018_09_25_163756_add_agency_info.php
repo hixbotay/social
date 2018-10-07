@@ -13,9 +13,9 @@ class AddAgencyInfo extends Migration
      */
     public function up()
     {
-        Schema::table('agency', function($table) {
-            $table->integer('commune_id')->nullable(1);
-        });
+//        Schema::table('agency', function($table) {
+//            $table->integer('commune_id')->nullable(1);
+//        });
     }
 
     /**
