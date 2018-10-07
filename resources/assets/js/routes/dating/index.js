@@ -5,9 +5,9 @@ import connect from "react-redux/es/connect/connect";
 import {getAllEvents} from "../../actions/EventActions";
 import 'react-image-lightbox/style.css';
 
-import Slider from 'react-animated-slider';
 import 'react-animated-slider/build/horizontal.css';
-import DatingCard from '../../components/Card/DatingCard';
+import { DatingCard } from '../../components/Card';
+import DatingLayout from './DatingLayout';
 
 class Dating extends Component {
 
@@ -23,16 +23,9 @@ class Dating extends Component {
     render() {
 
         return (
-            <div className="row">
-
-                <div className={'col-md-8'}>
-                    <DatingCard title="Cuộc hẹn trong hôm nay" events={this.props.events}></DatingCard>
-                </div>
-                <div className={'col-md-4'}>
-                    <h1>NGUYEN VAN TU</h1>
-                </div>
-
-            </div>
+            <DatingLayout>
+                <DatingCard title="Cuộc hẹn trong hôm nay" events={this.props.events}></DatingCard>
+            </DatingLayout>
         );
     }
 

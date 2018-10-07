@@ -124,4 +124,4 @@ class DatingCard extends Component {
     }
 }
 
-export default DatingCard;
+export {DatingCard};

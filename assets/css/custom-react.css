@@ -420,3 +420,42 @@ li.list-group-item {
 .landing-item:hover .btnhenho {
     opacity: 1;
 }
+
+.dating-date {
+    color: #fff;
+    position: relative;
+    height: 80px;
+    /* padding: 0px; */
+}
+
+div#today {
+    background-color: #c0392b;
+}
+
+div#tomorrow {
+    background-color: #e74c3c;
+}
+
+div#this-week {
+    background-color: #e17055;
+}
+
+div#this-month {
+    background-color: #ff7675;
+}
+
+.dating-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.image-chooser {
+    clear: both;
+    margin-bottom: 15px;
+}
+
+.image-chooser img {
+    height: 130px;
+    width: 100%;
+}
