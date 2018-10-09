@@ -18,8 +18,8 @@
                         <div class="checkbox checkbox-custom">
 
                             <input
-                                    id="province_{{$value->matp}}"
-                                    type="checkbox" name="data[province_ids]">
+                                    id="province_{{$value->matp}}" value="{{$value->matp}}"
+                                    type="checkbox" name="data[province_ids][]">
                             <label for="province_{{$value->matp}}">
                                 {{$value->name}}
                             </label>

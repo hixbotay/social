@@ -1,3 +1,27 @@
+<?php
+
+$full_path = base_path().'\\resources\\views\\admin\\';
+
+if(!is_dir($full_path))
+    return 'Views directory not found';
+
+$files = scandir($full_path);
+unset($files[0]);
+unset($files[1]);
+
+if(($key = array_search('emails', $files)) !== false) {
+    unset($files[$key]);
+}
+
+foreach($files AS $file){
+    $link = str_replace('.blade.php','',$file);
+    echo '<a href="'.$link.'">'.$link.'</a>'.'<br>';
+}
+
+
+
+?>
+
 @extends('layouts.admin')
 
 @section('content')

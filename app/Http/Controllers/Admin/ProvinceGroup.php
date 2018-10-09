@@ -42,6 +42,7 @@ class ProvinceGroup extends Controller
     public function store(Request $request)
     {
         $data = request()->get('data');
+        $data['province_ids'] = json_encode($data['province_ids']);
         \App\ProvinceGroup::create($data);
         return redirect('admin?view=ProvinceGroup');
     }
