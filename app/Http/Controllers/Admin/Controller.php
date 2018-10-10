@@ -16,6 +16,8 @@ class Controller extends BaseController
 	}
 	
     public function execute(Request $request){
+//        $this->authorize(config('auth.action.access_dashboard'));
+        $this->authorize('access-admin');
     	//khoi tao controller hoac view qua URL
     	if($request->input('controller')){
     		$controller = $this->get_controller($request->input('controller'));

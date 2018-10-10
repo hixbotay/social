@@ -113,4 +113,8 @@ return [
         ],
     ],
 
+    'action' => [
+        'access_dashboard' => 'access_dashboard'
+    ]
+
 ];
