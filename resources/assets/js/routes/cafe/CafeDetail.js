@@ -24,7 +24,7 @@ class CafeDetail extends Component {
         return (
             <CafeLayout>
                 <div className={"add-cafe-banner"}>
-                    <img src='http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'/>
+                    <img src={agency.image ? agency.image : 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'}/>
                     
                     <label className="btn-add-image"> <i className="fas fa-camera fa-2x"></i> 
                         <input type="file" className="d-none" onChange={(e) => this.handleImage(e)}/>
@@ -35,11 +35,13 @@ class CafeDetail extends Component {
                         <RoundAvatar img={agency.image} size="large"></RoundAvatar>
 
                         <div className="author-date">
-                            <Heading size="medium" heading={agency.name} subHeading={agency.params}></Heading>
+                            <h3>{agency.name}</h3>
+                            <p>{agency.params}</p>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-6">
+                        <div className="col-2"></div>
+                        <div className="col-4">
                             <div>
                                 <i className="fas fa-map-marker-alt"></i> {agency.address}
                             </div>
@@ -54,7 +56,7 @@ class CafeDetail extends Component {
                             </div>
                         </div>
                         <div className="col-6">
-                            <button className="btn btn-outline-primary" id="btn-cafe-1">Hẹn hò</button>
+                            <button className="btn btn-primary" id="btn-cafe-1">Hẹn hò</button>
                             <button className="btn btn-primary" id="btn-cafe-2">Đặt chố</button>
                         </div>
                     </div>

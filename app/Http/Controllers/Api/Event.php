@@ -81,4 +81,45 @@ class Event extends Controller {
         });
         return json_encode($events);
     }
+
+    public function create(Request $request) {
+        $newEvent = [];
+        $metadata = [];
+
+        $data = json_decode($request->getContent());
+        $newEvent['limit_number'] = $data->event_meta->max_male_number + $data->event_meta->max_female_number;
+        $newEvent['min_number'] = $data->event_meta->min_male_number + $data->event_meta->min_female_number;
+
+        foreach($data->event as $key => $value) {
+            $newEvent[$key] = $value;
+        }
+        $result = \App\Event::create($newEvent);
+
+        foreach($data->event_meta as $key => $value) {
+            if($key === 'job_conditional') {
+                foreach($value as $temp) {
+                    array_push(
+                        $metadata, 
+                        [
+                            'event_id' => $result['id'],
+                            'meta_key' => $key,
+                            'meta_value' => $temp
+                        ]
+                    );
+                }
+            } else {
+                array_push(
+                    $metadata, 
+                    [
+                        'event_id' => $result['id'],
+                        'meta_key' => $key,
+                        'meta_value' => $value
+                    ]
+                );
+            }
+        }
+        $result_1 = DB::table('event_meta')->insert($metadata);
+
+        return json_encode($result);
+    }
 }

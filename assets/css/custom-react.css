@@ -544,3 +544,22 @@ div#this-month {
     color: #fff;
     font-weight: 600;
 }
+
+img.address-image {
+    position: relative;
+    padding: 2px;
+}
+
+.address-avatar {
+    position: absolute;
+    z-index: 1;
+    top: 5px;
+    margin-left: 5px;
+    background: #fff;
+    border: solid #fff 3px;
+    border-radius: 100%;
+}
+
+.address-avatar img {
+    margin: 0
+}

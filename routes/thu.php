@@ -53,3 +53,5 @@ Route::post('/post', 'Api\Post@createPost');
 
 Route::get('/events', 'Api\Event@list');
 Route::get('/jobs', 'Api\Job@list');
+
+Route::post('/event', 'Api\Event@create');

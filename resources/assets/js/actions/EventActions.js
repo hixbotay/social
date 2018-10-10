@@ -1,6 +1,7 @@
 import api from '../api';
 import {
-    GET_ALL_EVENTS
+    GET_ALL_EVENTS, 
+    CREATE_NEW_EVENT
 } from './types';
 
 export const getAllEvents = () => dispatch => {
@@ -11,4 +12,15 @@ export const getAllEvents = () => dispatch => {
         .catch(err => {
             console.log(err);
         })
+}
+
+export const createNewEvent = (data) => dispatch => {
+    return api.post('/event', data)
+    .then((response) => {
+        dispatch({type: CREATE_NEW_EVENT, payload: response.data});
+        window.location.reload();
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }
