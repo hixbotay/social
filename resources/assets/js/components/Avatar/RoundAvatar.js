@@ -6,7 +6,7 @@ class RoundAvatar extends Component {
         const {img, size} = this.props;
 
         return (
-            <img className={`avatar round-avatar avatar-${size}`} src={img} alt="Avatar" /> 
+            <img className={`avatar round-avatar avatar-${size}`} src={img ? img : 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'} alt="Avatar" /> 
         );
     }
 }

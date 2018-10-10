@@ -20,8 +20,7 @@ import Home from './newfeeds/NewFeeds';
 import Profile from './profile/Profile';
 import UserSetting from './profile/CurrentUserDetail';
 
-import Cafe from './cafe';
-import CafeView from './cafe/create';
+import CreateNewCafe from './cafe/CreateNewCafe';
 import Messages from './messages';
 import Dating from './dating';
 
@@ -34,6 +33,8 @@ import OtherPerson from './profile/OtherUserProfile';
 import {connect} from 'react-redux';
 import {getCurrentUser} from '../actions/UserActions';
 import CreateEvent from './dating/CreateEvent';
+import CafeDetail from './cafe/CafeDetail';
+import CafeList from './cafe/CafeList';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -62,9 +63,9 @@ class MainApp extends Component {
                     <AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserSetting} />
                     {/* <AppRoute exact path="/other/:id" layout={SecondLayout} component={OtherPerson} /> */}
                     {/* Cafe */}
-                    <AppRoute exact path="/cafe" layout={ThirdLayout} component={Cafe} />
-                    <AppRoute exact path="/cafe/:url" layout={ThirdLayout} component={CafeView} />
-                    <AppRoute exact path="/cafe/create" layout={ThirdLayout} component={CafeView} />
+                    <AppRoute exact path="/cafe" layout={ThirdLayout} component={CafeList} />
+                    <AppRoute exact path="/cafe/:id/view" layout={ThirdLayout} component={CafeDetail} />
+                    <AppRoute exact path="/cafe/create" layout={ThirdLayout} component={CreateNewCafe} />
                     {/* Dating */}
                     <AppRoute exact path={'/dating'} layout={SecondLayout} component={Dating} />
                     <AppRoute exact path={'/dating/create'} layout={SecondLayout} component={CreateEvent} />

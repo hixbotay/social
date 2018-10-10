@@ -2,8 +2,32 @@ import React, { Component } from 'react';
 import DatingLayout from './DatingLayout';
 import { Card } from '../../components/Card';
 import SimpleSlider from '../../components/Slider/SimpleSlider';
+import connect from 'react-redux/es/connect/connect';
+import {getAllJobs} from '../../actions/JobActions';
 
 class CreateEvent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedItem: 0,
+            newEvent: {}
+        }
+    }
+
+    componentDidMount() {
+        this.props.getAllJobs();
+    }
+
+    selectTheme(item) {
+        this.setState({
+            selectedItem: item,
+            newEvent: {
+                ...this.state.newEvent,
+                image: `storage/app/public/event-theme/theme_${item}.jpg`
+            }
+        });
+    }
+
     render() {
         var img = [
             'https://picsum.photos/300/200/?image=72',
@@ -11,6 +35,11 @@ class CreateEvent extends Component {
             'https://picsum.photos/300/200/?image=74',
             'https://picsum.photos/300/200/?image=75'
         ];
+
+        var age = [];
+        for(let $i=18; $i<=60; $i++) {
+            age.push($i);
+        }
 
         return (
             <DatingLayout>
@@ -28,117 +57,159 @@ class CreateEvent extends Component {
                         <div className="float-right"><i className="fas fa-camera"></i> Tải ảnh/video</div>
                     </div>
                     <div className="row image-chooser">
-                        <div className="col-4">
-                            <img src="https://pp.vk.me/VDRJb-1A1jxb7N31Njyc77KDpZQajiYRhgfnCA/KSIWRq0oaFo.jpg" />
-                        </div>
-                        <div className="col-4">
-                            <img src="https://pp.vk.me/VDRJb-1A1jxb7N31Njyc77KDpZQajiYRhgfnCA/KSIWRq0oaFo.jpg" />
-                        </div>
-                        <div className="col-4">
-                            <img src="https://pp.vk.me/VDRJb-1A1jxb7N31Njyc77KDpZQajiYRhgfnCA/KSIWRq0oaFo.jpg" />
-                        </div>
-                    </div>
-                    <div className="row image-chooser">
-                        <div className="col-4">
-                            <img src="https://pp.vk.me/VDRJb-1A1jxb7N31Njyc77KDpZQajiYRhgfnCA/KSIWRq0oaFo.jpg" />
-                        </div>
-                        <div className="col-4">
-                            <img src="https://pp.vk.me/VDRJb-1A1jxb7N31Njyc77KDpZQajiYRhgfnCA/KSIWRq0oaFo.jpg" />
-                        </div>
-                        <div className="col-4">
-                            <img src="https://pp.vk.me/VDRJb-1A1jxb7N31Njyc77KDpZQajiYRhgfnCA/KSIWRq0oaFo.jpg" />
-                        </div>
+                    {
+                        [1,2,3,4,5,6].map((item) => {
+                            return (
+                                <div className="col-4 event-theme" key={item}>
+                                    <img 
+                                        src={`storage/app/public/event-theme/theme_${item}.jpg`} 
+                                        className={this.state.selectedItem == item ? `selected-image` : ``}
+                                        onClick={() => this.selectTheme(item)}
+                                    />
+                                </div>
+                            );
+                        }) 
+                    }
                     </div>
                     <div className="row">
-                        <h5><i className="far fa-calendar-check"></i> Tên cuộc hẹn</h5>
+                        <h5><i className="far fa-calendar-check"></i> Cuộc hẹn</h5>
+                    </div>
+                    <div className="row form-group">
+                        <div className="col-4">Tên cuộc hẹn</div>
+                        <div className="col-8">
+                            <input className="form-control" type="text" name="name" required/>
+                        </div>
                     </div>
                     <div className="row form-group">
                         <div className="col-4">Lịch hẹn</div>
-                        <div className="col-2">
-                            <select className="custom-select">
-                                <option>Giờ</option>
-                            </select>
-                        </div>
-                        <div className="col-2">
-                            <select className="custom-select">
-                                <option>Ngày</option>
-                            </select>
-                        </div>
-                        <div className="col-2">
-                            <select className="custom-select">
-                                <option>Tháng</option>
-                            </select>
-                        </div>
-                        <div className="col-2">
-                            <select className="custom-select">
-                                <option>Năm</option>
-                            </select>
+                        <div className="col-8">
+                            <input className="form-control" type="datetime-local" name="start_time" required/>
                         </div>
                     </div>
                     <div className="row form-group">
                         <div className="col-4">Thời gian chốt đăng ký</div>
-                        <div className="col-2">
-                            <select className="custom-select">
-                                <option>Giờ</option>
-                            </select>
-                        </div>
-                        <div className="col-2">
-                            <select className="custom-select">
-                                <option>Ngày</option>
-                            </select>
-                        </div>
-                        <div className="col-2">
-                            <select className="custom-select">
-                                <option>Tháng</option>
-                            </select>
-                        </div>
-                        <div className="col-2">
-                            <select className="custom-select">
-                                <option>Năm</option>
-                            </select>
+                        <div className="col-8">
+                            <input className="form-control" type="datetime-local" name="limit_time_register" required/>
                         </div>
                     </div>
-                    <SimpleSlider images={img} slidesToShow={3}></SimpleSlider>
+
                     <div className="row">
                         <h5><i className="fas fa-map-marker-alt"></i> Chọn địa chỉ</h5>
                     </div>
+                    <SimpleSlider images={img} slidesToShow={3}></SimpleSlider>
+                    
                     <div className="row form-group">
-                        <div className="col-4">Số lượng người tham gia</div>
-                        <div className="col-2"></div>
-                        <div className="col-2"></div>
-                        <div className="col-2"></div>
-                        <div className="col-2">
+                        <div className="col-4">Số lượng nam tham gia</div>
+                        <div className="col-4">
                             <select className="custom-select">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
+                                <option>Nhỏ nhất</option>
+                                {
+                                    [1,2,3,4,5,6,7,8,9,10].map(item => {
+                                        return (<option key={item} value={item}>{item}</option>);
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className="col-4">
+                            <select className="custom-select">
+                                <option>Lớn nhất</option>
+                                {
+                                    [2,3,4,5,6,7,8,9,10].map(item => {
+                                        return (<option key={item} value={item}>{item}</option>);
+                                    })
+                                }
                             </select>
                         </div>
                     </div>
                     <div className="row form-group">
-                        <div className="col-4">Độ tuổi</div>
-                        <div className="col-2"></div>
-                        <div className="col-2"></div>
-                        <div className="col-2">
+                        <div className="col-4">Số lượng nữ tham gia</div>
+                        <div className="col-4">
                             <select className="custom-select">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
+                                <option>Nhỏ nhất</option>
+                                {
+                                    [1,2,3,4,5,6,7,8,9,10].map(item => {
+                                        return (<option key={item} value={item}>{item}</option>);
+                                    })
+                                }
                             </select>
                         </div>
-                        <div className="col-2">
+                        <div className="col-4">
                             <select className="custom-select">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
+                                <option>Lớn nhất</option>
+                                {
+                                    [2,3,4,5,6,7,8,9,10].map(item => {
+                                        return (<option key={item} value={item}>{item}</option>);
+                                    })
+                                }
                             </select>
                         </div>
                     </div>
-                    <div className="row">
-                        <h5><i className="fas fa-suitcase"></i> Chọn nghề nghiệp</h5>
+                    <div className="row form-group">
+                        <div className="col-4">Độ tuổi của nam từ:</div>
+                        <div className="col-4">
+                            <select className="custom-select">
+                                <option>Nhỏ nhất</option>
+                                {
+                                    age.map(item => {
+                                        return (<option key={item} value={item}>{item}</option>)
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className="col-4">
+                            <select className="custom-select">
+                                <option>Lớn nhất</option>
+                                {
+                                    age.map(item => {
+                                        return (<option key={item} value={item}>{item}</option>)
+                                    })
+                                }
+                            </select>
+                        </div>
                     </div>
-                    <div className="row">
-                        <h5><i className="fas fa-heart"></i> Tình trạng hôn nhân</h5>
+                    <div className="row form-group">
+                        <div className="col-4">Độ tuổi của nữ từ:</div>
+                        <div className="col-4">
+                            <select className="custom-select">
+                                <option>Nhỏ nhất</option>
+                                {
+                                    age.map(item => {
+                                        return (<option key={item} value={item}>{item}</option>)
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className="col-4">
+                            <select className="custom-select">
+                                <option>Lớn nhất</option>
+                                {
+                                    age.map(item => {
+                                        return (<option key={item} value={item}>{item}</option>)
+                                    })
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div className="row form-group">
+                        <div className="col-4">Chọn nghề nghiệp</div>
+                        <div className="col-8">
+                            <select className="custom-select" multiple>
+                                {
+                                    this.props.jobs.map((item, index) => {
+                                        return (<option key={index} value={item.id}>{item.name}</option>)
+                                    })
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div className="row form-group">
+                        <div className="col-4">Tình trạng hôn nhân</div>
+                        <div className="col-8">
+                            <select className="custom-select">
+                                <option value={0}>Single</option>
+                                <option value={1}>Married</option>
+                            </select>
+                        </div>
                     </div>
                     <div className="row form-group">
                         <div className="col-4">Phí tham gia</div>
@@ -172,4 +243,16 @@ class CreateEvent extends Component {
     }
 }
 
-export default CreateEvent;
+function mapStateToProps(state) {
+    return {
+        jobs: state.job.jobs
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getAllJobs: () => dispatch(getAllJobs())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateEvent);

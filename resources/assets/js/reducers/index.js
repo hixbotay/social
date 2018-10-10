@@ -6,6 +6,8 @@ import CafeReducer from './CafeReducer';
 import hobbyReducer from './HobbyReducers';
 import coupleReducer from './CoupleReducer';
 import eventReducer from './EventReducer';
+import jobReducer from './JobReducer';
+import addressReducer from './AddressReducer';
 
 const rootReducer = combineReducers({
     post: postReducer,
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
     cafe: CafeReducer,
     hobby: hobbyReducer,
     couple: coupleReducer,
-    event: eventReducer
+    event: eventReducer, 
+    job: jobReducer,
+    address: addressReducer
 });
 
 export default rootReducer;

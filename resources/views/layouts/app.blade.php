@@ -21,10 +21,11 @@
     
     <!-- Scripts -->
     <script src="public/js/app.js"></script>
-    <script async defer
+    {{-- <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBc-l_-IyaKNzygWGRnOXMPBLEvTAVIv4E&callback=initMap">
-    </script>
-    <script>
+    </script> --}}
+    <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBc-l_-IyaKNzygWGRnOXMPBLEvTAVIv4E&libraries=places'></script>
+    {{-- <script>
         function initMap() {
 
             //Nếu không có div id = map thì không chạy
@@ -38,6 +39,6 @@
             }
 
         }
-    </script>
+    </script> --}}
 </body>
 </html>

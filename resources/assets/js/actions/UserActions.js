@@ -88,3 +88,4 @@ export const getListFriends = (type) => (dispatch) => {
         console.log(err);
     })
 }
+

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
-import {getAllDistrict, getAllProvince} from "../../actions/CafeActions";
+// import {getAllDistricts, getAllProvinces} from "../../actions/CafeActions";
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 
@@ -32,7 +32,7 @@ class Messages extends Component {
         return (
             <div className="row">
 
-                <div className="col-md-5">
+                {/* <div className="col-md-5">
 
                     <div className="ui-block">
 
@@ -57,7 +57,7 @@ class Messages extends Component {
                     <div className="ui-block">
                         <p>Nội dung chát</p>
                     </div>
-                </div>
+                </div> */}
 
             </div>
         );
@@ -67,10 +67,10 @@ class Messages extends Component {
 
 
 function mapStateToProps(state) {
-    return {
-        province: state.cafe.allprovince,
-        district: state.cafe.alldistrict
-    };
+    // return {
+    //     province: state.cafe.allprovince,
+    //     district: state.cafe.alldistrict
+    // };
 }
 
-export default withRouter(connect(mapStateToProps, {getAllProvince, getAllDistrict})(Messages));
+export default withRouter(connect(mapStateToProps, null)(Messages));

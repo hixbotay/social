@@ -78,7 +78,7 @@ class DatingCard extends Component {
                                                                 <span>
                                                                     {
                                                                         event.marital_status.map((item, index) => {
-                                                                            return (item === '0' ? <span> Single, </span> : <span> Married, </span>)
+                                                                            return (item === '0' ? <span> Single</span> : <span> Married</span>)
                                                                         })
                                                                     }
                                                                 </span>

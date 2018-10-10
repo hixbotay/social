@@ -13,12 +13,12 @@ class CafeSearch extends Component {
     render() {
 
 
-        var province = this.props.province;
-        var district = this.props.district;
+        // var province = this.props.provinces;
+        // var district = this.props.districts;
 
         return (
             <div className="col-md-12">
-                <div className="ui-block">
+                {/* <div className="ui-block">
                     <div className="ui-block-title">
                         <h6 className="title">Tìm quán cafe</h6>
                     </div>
@@ -68,7 +68,7 @@ class CafeSearch extends Component {
                         </div>
 
                     </div>
-                </div>
+                </div> */}
             </div>
         );
     }

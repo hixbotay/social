@@ -15,15 +15,21 @@ export const LOVE_POST = 'LOVE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
 export const CREATE_NEW_POST = 'CREATE_NEW_POST';
 
+// address
+export const GET_ALL_PROVINCES = 'GET_ALL_PROVINCES';
+export const GET_ALL_DISTRICTS = 'GET_ALL_DISTRICTS';
+export const GET_ALL_COMMUNES = 'GET_ALL_COMMUNES';
+
 // cafe
-export const GET_ALL_PROVINCE = 'GET_ALL_PROVINCE';
-export const GET_ALL_DISTRICT = 'GET_ALL_DISTRICT';
-export const GET_ALL_COMMUNE = 'GET_ALL_COMMUNE';
 export const GET_CAFE_DETAIL = 'GET_CAFE_DETAIL';
 export const GET_ALL_CAFE = 'GET_ALL_CAFE';
+export const CREATE_NEW_CAFE = 'CREATE_NEW_CAFE';
 
 // hobbies
 export const GET_ALL_HOBBIES = 'GET_ALL_HOBBIES';
+
+// jobs
+export const GET_ALL_JOBS = 'GET_ALL_JOBS';
 
 // couple
 export const GET_COUPLE_RESULTS = 'GET_COUPLE_RESULTS';

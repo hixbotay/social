@@ -1,35 +1,25 @@
 <?php
 use Illuminate\Http\Request;
 
-Route::get('getAllProvince', function () {
+Route::get('provinces', function () {
     $data = \App\ProvinceGroup::all_province();
     return $data;
 });
 
-Route::get('getAllDistrict', function () {
-    $data = \App\ProvinceGroup::all_district();
+Route::get('districts/{province_id}', function ($province_id) {
+    $data = \App\ProvinceGroup::all_district($province_id);
     return $data;
 });
 
-Route::get('getListCafe/{index}', function () {
-    $limit = 10; // Tính sau
-    $data = \App\Agency::all();
+Route::get('communes/{district_id}', function ($district_id){
+    $data = \App\ProvinceGroup::all_commune($district_id);
     return $data;
 });
 
-Route::get('getDetailCafe/{url}', function ($url) {
-    $id = $url;
-    //    get id from url, tinh sau
-    $data = \App\Agency::find($id);
-    return $data;
+Route::middleware(['web'])->group(function() {
+    Route::post('cafe/create', 'Api\Cafe@create');
 });
 
-Route::get('getAllCommune', function (){
-    $data = \App\ProvinceGroup::all_commune();
-    return $data;
-});
-
-Route::post('cafe/create', 'Api\Cafe@create');
-
-Route::get('cafe/list/{page}', 'Api\Cafe@list');
+Route::get('cafes', 'Api\Cafe@list');
+Route::get('cafe/{id}', 'Api\Cafe@get');
 

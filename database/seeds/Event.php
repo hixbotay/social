@@ -51,7 +51,7 @@ class Events extends Seeder
 
         for($i=1; $i<=20; $i++) {
             $meta1 = [
-                'event_id' => $faker->randomElement([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]),
+                'event_id' => $i,
                 'meta_key' => 'marital_status',
                 'meta_value' => $faker->randomElement([0,1]),
             ];
