@@ -38,12 +38,16 @@ class AuthServiceProvider extends ServiceProvider
 
             $data = $this->getUserRoles($user->group_id);
             $haveRole = false;
-            foreach ($data AS $value){
-                if (config('auth.action.LIST_POST') == $value){
-                    $haveRole = true;
-                    break;
+            if (!empty($data))
+            {
+                foreach ($data AS $value){
+                    if (config('auth.action.LIST_POST') == $value){
+                        $haveRole = true;
+                        break;
+                    }
                 }
             }
+
             return $haveRole;
         });
 
