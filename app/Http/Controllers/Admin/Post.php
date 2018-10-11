@@ -16,6 +16,7 @@ class Post extends Controller
      */
     public function index()
     {
+        $this->authorize(config('auth.action.LIST_POST'));
         $posts = PostModel::paginate(10);
         return view('admin.post.list', ['items' => $posts]);
     }
