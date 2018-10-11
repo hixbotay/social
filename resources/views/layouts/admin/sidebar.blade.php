@@ -23,9 +23,7 @@
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Users') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="{{url('/admin?view=User')}}"><i class="ti-person"></i>@lang('Users')</a></li>
-                                        <li><a href="{{url('/admin?view=User&layout=create')}}"><i class="ti-person"></i>@lang('Create user')</a></li>
                                         <li><a href="{{url('/admin?view=UserGroup')}}"><i class="ti-person"></i>@lang('User Groups')</a></li>
-                                        <li><a href="{{url('/admin?controller=UserGroup&task=create')}}"><i class="ti-person"></i>@lang('Create user group')</a></li>
                                     </ul>
                                 </li>
 
@@ -33,7 +31,6 @@
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="ti-light-bulb"></i> @lang('Posts') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="{{url('/admin?view=Post')}}"><i class="ti-person"></i>@lang('Posts')</a></li>
-                                        <li><a href="{{url('/admin?controller=Post&task=create')}}"><i class="ti-person"></i>@lang('Create new post')</a></li>
                                     </ul>
                                 </li>
 
@@ -62,11 +59,8 @@
                                     <a href="javascript: void(0);"><i class="ti-light-bulb"></i> Module đại lý <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="{{url('/admin?view=Agency')}}"><i class="ti-person"></i>@lang('Danh sách đại lý CAFE')</a></li>
-                                        <li><a href="{{url('/admin?controller=Agency&task=create')}}"><i class="ti-person"></i>@lang('Thêm đại lý cafe')</a></li>
                                         <li><a href="{{url('/admin?view=Product')}}"><i class="ti-person"></i>@lang('Sản phẩm')</a></li>
-                                        <li><a href="{{url('/admin?controller=Product&task=create')}}"><i class="ti-person"></i>@lang('Thêm sản phẩm')</a></li>
                                         <li><a href="{{url('/admin?view=ProductCategory')}}"><i class="ti-person"></i>@lang('Danh mục sản phẩm')</a></li>
-                                        <li><a href="{{url('/admin?controller=ProductCategory&task=create')}}"><i class="ti-person"></i>@lang('Thêm danh mục sản phẩm')</a></li>
                                     </ul>
                                 </li>
 
@@ -75,10 +69,8 @@
                                     <ul class="nav-second-level nav" aria-expanded="true">
 
                                         <li><a href="{{url('/admin?view=Job')}}"><i class="ti-person"></i>@lang('Jobs')</a></li>
-                                        <li><a href="{{url('/admin?controller=Job&task=create')}}"><i class="ti-person"></i>@lang('Create new Jobs')</a></li>
 
                                         <li><a href="{{url('/admin?view=ProvinceGroup')}}"><i class="ti-person"></i>@lang('Province Groups')</a></li>
-                                        <li><a href="{{url('/admin?controller=ProvinceGroup&task=create')}}"><i class="ti-person"></i>@lang('Thêm group')</a></li>
 
                                         <li><a href="{{url('/admin?view=Hobby')}}"><i class="ti-person"></i>@lang('Sở thích')</a></li>
                                         <li><a href="{{url('/admin?controller=Hobby&task=create')}}"><i class="ti-person"></i>@lang('Create Hobby')</a></li>

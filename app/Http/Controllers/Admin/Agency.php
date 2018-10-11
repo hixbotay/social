@@ -108,4 +108,8 @@ class Agency extends Controller
         console_log(Session::get('pre_url'));
         return redirect(Session::get('pre_url'));
     }
+
+    public function ajaxLoadDistrict(){
+
+    }
 }

@@ -2,3 +2,6 @@
 	padding: 5px;
 	border-radius: 50%; 
 }
+#datatable-responsive_filter {
+	float: right;
+}

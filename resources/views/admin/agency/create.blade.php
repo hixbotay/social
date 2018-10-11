@@ -31,6 +31,25 @@
         }
     </script>
 
+    <script>
+
+        $("#province").change(function () {
+            alert();
+            // loadDistrict();
+        })
+
+        function loadDistrict(){
+            jQuery.ajax({
+                type:'POST',
+                url:'?controller=Agency&task=ajaxLoadDistrict',
+                data:'_token = <?php echo csrf_token() ?>',
+                success:function(data){
+                    alert();
+                }
+            });
+        }
+    </script>
+
 
     <div class="container">
         <div class="row">
@@ -60,7 +79,7 @@
                         <div class="form-group">
                             <label>Tỉnh/Thành phố<span></span></label>
 
-                            <select name="data[province_id]" class="form-control" required>
+                            <select name="data[province_id]" class="form-control" id="province" required>
                                 @foreach(App\ProvinceGroup::all_province() AS $value)
                                     <option value="{{$value->matp}}">{{$value->name}}</option>
                                 @endforeach
@@ -72,9 +91,9 @@
                             <label>Quận/Huyện<span></span></label>
 
                             <select name="data[district_id]" class="form-control" required>
-                                @foreach(App\ProvinceGroup::all_district() AS $value)
-                                    <option value="{{$value->maqh}}">{{$value->name}}</option>
-                                @endforeach
+                                {{--@foreach(App\ProvinceGroup::all_district() AS $value)--}}
+                                    {{--<option value="{{$value->maqh}}">{{$value->name}}</option>--}}
+                                {{--@endforeach--}}
                             </select>
                         </div>
 

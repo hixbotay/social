@@ -2,10 +2,28 @@
 
 @section('content')
 
+
+    <h4 class="m-t-0">Quản lý sản phẩm (Quán CAFE)</h4>
+
+
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">Quản lý sản phẩm</h4>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="datatable-responsive_filter" class="dataTables_filter">
+                            <a href="<?= url('/admin?controller=Product&task=create') ?>" type="button" class="btn btn-primary">
+                                Thêm
+                            </a>
+                            <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">Xóa</button>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="table-responsive">
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
