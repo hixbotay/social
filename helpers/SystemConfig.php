@@ -12,6 +12,10 @@ class SystemConfig {
         }
     }
 
+    public function getPrice(){
+
+    }
+
 }
 
 ?>

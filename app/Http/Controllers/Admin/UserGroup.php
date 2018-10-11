@@ -52,7 +52,6 @@ class UserGroup extends Controller
     public function store(Request $request)
     {
         $usergroup = request()->get('data');
-        console_log($usergroup);
 
         UserGroupModel::create($usergroup);
         return redirect('admin?view=UserGroup');
@@ -87,8 +86,12 @@ class UserGroup extends Controller
 
         $user = UserGroupModel::find($id);
 
+        $roles = config('auth.action');
+
+        $groupROLE = json_decode($user->role);
+
         // show the view and pass the nerd to it
-        return view('admin.usergroup.detail')->with('item', $user);
+        return view('admin.usergroup.detail', ['item' => $user, 'roles' => $roles, 'groupROLE' => $groupROLE]);
     }
 
     /**
@@ -102,6 +105,7 @@ class UserGroup extends Controller
     {
         $id = $request->input('id');
         $data = $request->get('data');
+        $data['role'] = json_encode($data['role']);
 
         $usergroup = UserGroupModel::find($id);
         foreach ($data as $key => $value) {
