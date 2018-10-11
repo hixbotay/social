@@ -10,16 +10,34 @@
 				{{ csrf_field() }}
 
 				<div class="form-group">
-					<label class="col-md-2 control-label" for="name">Name</label>
+					<label class="col-md-2 control-label" for="name">Tên nhóm</label>
 					<div class="col-md-10">
-						<input class="form-control" name="data[name]" value="{{ isset($item->name)?$item->name:null }}" type="text" id="name" required maxlength="30">
+						<input class="form-control" name="data[name]" readonly="readonly" value="{{ isset($item->name)?$item->name:null }}" type="text" id="name" required maxlength="30">
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="col-md-2 control-label" for="params">Params</label>
+					<label class="col-md-2 control-label" for="params">Quyền hạn</label>
 					<div class="col-md-10">
-						<input class="form-control" name="data[params]" type="text" id="params" value="{{$item->params}}">
+						@foreach($roles AS $value)
+
+							<div class="checkbox checkbox-info">
+								<input
+										@if(!empty($groupROLE))
+											@foreach($groupROLE AS $val)
+												@if($value == $val)
+												checked
+												@endif
+											@endforeach
+										@endif
+										id="checkbox{{$value}}"
+										value="{{$value}}"
+										type="checkbox"
+										name="data[role][]">
+								<label for="checkbox{{$value}}">{{$value}}</label>
+							</div>
+
+						@endforeach
 					</div>
 				</div>
 
