@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class Cafe extends Controller
 {
@@ -40,5 +42,41 @@ class Cafe extends Controller
     public function get($id) {
         $agency = \App\Agency::find($id);
         return json_encode($agency);
+    }
+
+    public function handleImage(Request $request, $id) {
+        $user_id = 1;
+        $data = json_decode($request->getContent());
+        $base64_image = explode(',', $data->image)[1];
+
+        $firstChar = substr($base64_image, 0, 1);
+
+        switch($firstChar) {
+            case '/': {
+				$extension = 'jpg';
+				break;
+			}
+			case 'i': {
+				$extension = 'png';
+				break;
+			}
+			case 'R': {
+				$extension = 'gif';
+				break;
+			}
+			default: {
+				$extension = 'jpg';
+				break;
+			}
+        }
+ 
+        $filename = (string) time().'.'.$extension;
+        
+        $result = Storage::disk('local')->put('user'.$user_id.'/cafe/'.$filename, base64_decode($base64_image));
+
+        $cafe = \App\Agency::find($id);
+        $cafe['image'] = env('APP_URL').'/storage/app/user'.$user_id.'/cafe/'.$filename;
+        $cafe->save();
+        return json_encode($cafe);
     }
 }

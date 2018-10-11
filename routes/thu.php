@@ -55,3 +55,4 @@ Route::get('/events', 'Api\Event@list');
 Route::get('/jobs', 'Api\Job@list');
 
 Route::post('/event', 'Api\Event@create');
+Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');

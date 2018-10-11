@@ -61,7 +61,7 @@ class User extends Controller
         }
 
         $user = UserModel::find($id);
-        $user['avatar'] = env('APP_URL').'/storage/app/user'.$id.'/avatar/'.$filename;
+        $user['avatar'] = env('APP_URL').'/storage/app/public/user'.$id.'/avatar/'.$filename;
         $user->save();
 
         $favourite = $request->get('favourite');

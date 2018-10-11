@@ -24,6 +24,7 @@ export const GET_ALL_COMMUNES = 'GET_ALL_COMMUNES';
 export const GET_CAFE_DETAIL = 'GET_CAFE_DETAIL';
 export const GET_ALL_CAFE = 'GET_ALL_CAFE';
 export const CREATE_NEW_CAFE = 'CREATE_NEW_CAFE';
+export const UPDATE_CAFE_IMAGE = 'UPDATE_CAFE_IMAGE';
 
 // hobbies
 export const GET_ALL_HOBBIES = 'GET_ALL_HOBBIES';

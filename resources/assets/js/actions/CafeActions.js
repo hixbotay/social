@@ -2,7 +2,8 @@ import api from '../api';
 import {
     GET_CAFE_DETAIL,
     GET_ALL_CAFE, 
-    CREATE_NEW_CAFE
+    CREATE_NEW_CAFE,
+    UPDATE_CAFE_IMAGE
 } from './types'
 
 export const getAllCafe = (page = 1) => (dispatch) => {
@@ -36,3 +37,13 @@ export const createCafe = (data) => (dispatch) => {
             console.log(error);
         })
 }
+
+export const updateImage = (data, id) => (dispatch) => {
+    return api.post(`/cafe/image/${id}`, data)
+        .then(response => {
+            dispatch({type: UPDATE_CAFE_IMAGE, payload: response.data});
+        })
+        .catch(error => {
+            console.log(error);
+        })
+} 
