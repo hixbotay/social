@@ -3,6 +3,10 @@
 @section('content')
 
     <div class="row">
+
+
+
+
         <div class="col-md-6 offset-md-3" id="landing-content">
 
             <form class="form-signin" method="POST" action="{{ route('admin') }}">
@@ -43,6 +47,7 @@
             </form>
 
         </div>
+
     </div>
 
 @endsection

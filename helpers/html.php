@@ -294,9 +294,11 @@ class BookproHtml
 
         $userGroup = DB::table('user_groups')->get();
 
-        echo "<select class='$class form-control' name='$name' $readonly?'readonly':null>";
+        echo "<select class='$class form-control' name='$name'>";
         foreach ($userGroup AS $value){
-            echo "<option value='$value->id'>";
+            $checked = null;
+            if ($value->id == $selected) $checked = "selected";
+            echo '<option value="'.$value->id.'" '.$checked.'>';
             echo $value->name;
             echo "</option>";
         }

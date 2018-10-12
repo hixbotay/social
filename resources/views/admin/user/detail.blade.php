@@ -41,7 +41,6 @@
 					<div class="form-group">
 						<label>Group ID</label>
                         <?php BookproHtml::select_user_groups('data[group_id]', $item->group_id) ?>
-						{{--<input type="number" class="form-control" name="data[group_id]" value="{{$item->group_id}}"/>--}}
 					</div>
 					<div class="form-group">
 						<label>Enabled or Disabled</label>
@@ -112,16 +111,16 @@
 					<div class="form-group">
 						<label>Admin Role</label>
 						<select name="data[is_admin]" class="form-control" >  
-							<option value="0" selected="{{$item->is_admin == 0}}">No</option>
-							<option value="1" selected="{{$item->is_admin == 1}}">Yes</option>
+							<option value="0" @if($item->is_admin == 0)selected @endif>No</option>
+							<option value="1" @if($item->is_admin == 1)selected @endif>Yes</option>
 						</select>
 					</div>
 
 					<div class="form-group">
 						<label>Gender</label>
 						<select name="data[gender]" class="form-control">  
-							<option value='M' selected="{{$item->gender == 'M'}}">Male</option>
-							<option value='F' selected="{{$item->gender == 'F'}}">Female</option>
+							<option value='M' @if($item->gender == 'M') selected @endif>Male</option>
+							<option value='F' @if($item->gender == 'F') selected @endif>Female</option>
 						</select>
 					</div>
 
