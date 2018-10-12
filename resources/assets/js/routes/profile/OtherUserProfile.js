@@ -21,16 +21,22 @@ class OtherPerson extends Component {
     }
 
     componentDidMount() {
-        this.props.getUserInfo(this.props.match.params.id);
+        this.props.getUserInfo(this.props.match.params.id).then(data => {
+            this.setState({
+                isLoved: data.relationship.is_loved,
+                isLiked: data.relationship.is_like,
+                isBlocked:  data.relationship.is_block,
+            })
+        });
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            isLoved: nextProps.user_data.relationship.is_loved,
-            isLiked: nextProps.user_data.relationship.is_like,
-            isBlocked: nextProps.user_data.relationship.is_block,
-        })
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     this.setState({
+    //         isLoved: nextProps.user_data.relationship.is_loved,
+    //         isLiked: nextProps.user_data.relationship.is_like,
+    //         isBlocked: nextProps.user_data.relationship.is_block,
+    //     })
+    // }
 
     updateRelationship(actionType) {
 

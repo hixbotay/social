@@ -20,13 +20,18 @@ export const getCurrentUser = () => (dispatch) => {
 }
 
 export const getOtherUserDetail = (id) => (dispatch) => {
-    api.get(`/user/${id}`)
-    .then(response => {
-        dispatch({type: GET_USER_DETAIL, payload: response.data});
-    })
-    .catch(err => {
-        console.log(err);
-    })
+    return new Promise((resolve, reject) => {
+        return api.get(`/user/${id}`)
+            .then(response => {
+                dispatch({type: GET_USER_DETAIL, payload: response.data});
+                resolve(response.data);
+            })
+            .catch(err => {
+                console.log(err);
+                reject(error);
+            })
+    });
+    
 }
 
 export const getCurrentUserDetail = () => (dispatch) => {

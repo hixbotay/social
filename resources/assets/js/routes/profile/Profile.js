@@ -5,16 +5,14 @@ import CurrentUserProfile from './CurrentUserProfile';
 import OtherUserProfile from './OtherUserProfile';
 
 class Profile extends Component {
-    // componentDidMount() {
-    //     if(this.props.current_user.id == )
-    // }
 
     render() {
         const {current_user} = this.props;
+        console.log(current_user.id.toString() == this.props.match.params.id);
 
         var content = "Loading...";
         if(current_user.id) {
-            content = (current_user.id == this.props.match.params.id) ?
+            content = (current_user.id.toString() == this.props.match.params.id.toString()) ?
             <CurrentUserProfile></CurrentUserProfile>
             : <OtherUserProfile></OtherUserProfile>
         }
