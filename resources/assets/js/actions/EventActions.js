@@ -18,7 +18,7 @@ export const createNewEvent = (data) => dispatch => {
     return api.post('/event', data)
     .then((response) => {
         dispatch({type: CREATE_NEW_EVENT, payload: response.data});
-        window.location.reload();
+        // window.location.reload();
     })
     .catch(err => {
         console.log(err);

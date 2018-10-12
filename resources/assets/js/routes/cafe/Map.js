@@ -72,7 +72,7 @@ class Map extends Component {
         return (
             <div>
                 <label>Nhập địa chỉ vào ô bên dưới, bạn có thể điều chỉnh marker cho phù hợp:</label>
-                <input id="pac-input" className="controls" type="text" placeholder="Street, City, State, Zip" />
+                <input id="pac-input" className="controls" type="text" placeholder="Nhập địa chỉ và nhấn Enter" />
                 <div id="map"></div>
             </div>
 

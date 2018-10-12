@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Modal extends Component {
     render() {
         return (
-            <div id="myModal" className="modal fade" role="dialog">
+            <div id={this.props.id} className="modal fade" role="dialog">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -13,9 +13,9 @@ class Modal extends Component {
                         <div className="modal-body">
                             {this.props.children}
                         </div>
-                        <div className="modal-footer">
+                        {/* <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

@@ -189,7 +189,7 @@ class CreateNewCafe extends Component {
                                 <div className="row">
                                     <label className="col-md-3 control-label" htmlFor="location">Vị trí</label>
                                     <div className="col-md-3">
-                                        <button type="button" className="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Chọn vị trí</button>
+                                        <button type="button" className="btn btn-info btn-sm" data-toggle="modal" data-target="#map-modal">Chọn vị trí</button>
                                     </div>
                                     <div className="col-md-6">{this.state.data.address}</div>
                                 </div>
@@ -287,8 +287,11 @@ class CreateNewCafe extends Component {
                     </form>
                 </div>
 
-                <Modal title="Chọn vị trí trên bản đồ">
+                <Modal id="map-modal" title="Chọn vị trí trên bản đồ">
                     <Map onChangeAddress={(address, coordinates) => this.onChangeAddress(address, coordinates)}></Map>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </Modal>
             </CafeLayout>
         );

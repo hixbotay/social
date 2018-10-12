@@ -7,6 +7,7 @@ import { getAllJobs } from '../../actions/JobActions';
 import { getAllCafe } from '../../actions/CafeActions';
 import { createNewEvent } from '../../actions/EventActions';
 import { RoundAvatar } from '../../components/Avatar';
+import Modal from '../../components/Modal';
 
 class CreateEvent extends Component {
     constructor(props) {
@@ -109,6 +110,7 @@ class CreateEvent extends Component {
         e.preventDefault();
         if (this.state.selectedTheme && this.state.selectedAddress) {
             this.props.createNewEvent({event: this.state.newEvent, event_meta: this.state.metadata});
+            document.getElementById('open-modal').click();
         } else {
             window.alert("Bạn chọn thiếu chủ đề hoặc địa chỉ");
         }
@@ -346,7 +348,26 @@ class CreateEvent extends Component {
                             <button type="submit" className="btn btn-primary">ĐĂNG KÝ</button>
                         </div>
                     </form>
+                    <button type="button" id="open-modal" className="d-none" data-toggle="modal" data-target="#create-event-alert"></button>
                 </Card>
+                <Modal id="create-event-alert">
+                    <div className="row">
+                        <div className="col-6">
+                            <img src="https://i.pinimg.com/originals/69/89/db/6989db04751259bbd958ebd57e8c7814.jpg" id="create-event-alert-img"/>
+                        </div>
+                        <div className="col-6">
+                            <div className="text-center" id="create-event-alert-header">
+                                CHƯA XONG!
+                            </div>
+                            <div className="text-center create-event-alert-content">
+                                Khởi tạo cuộc hẹn của bạn đang chờ admin duyệt!
+                            </div>
+                            <div className="text-center create-event-alert-content">
+                                <button className="btn btn-primary">OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
             </DatingLayout>
         );
     }

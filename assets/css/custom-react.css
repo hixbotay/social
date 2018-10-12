@@ -563,3 +563,21 @@ img.address-image {
 .address-avatar img {
     margin: 0
 }
+
+#create-event-alert .modal-dialog {
+    width: 400px;
+}
+
+#create-event-alert-img {
+    width: 200px;
+    height: 200px;
+}
+
+#create-event-alert-header {
+    font-size: 1.5em;
+    font-weight: 600;
+}
+
+#create-event-alert-content {
+    margin-top: 25px;
+}
