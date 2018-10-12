@@ -15,6 +15,7 @@ export const getAllEvents = () => dispatch => {
 }
 
 export const createNewEvent = (data) => dispatch => {
+    console.log(data);
     return api.post('/event', data)
     .then((response) => {
         dispatch({type: CREATE_NEW_EVENT, payload: response.data});

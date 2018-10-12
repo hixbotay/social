@@ -87,8 +87,13 @@ class Event extends Controller {
         $metadata = [];
 
         $data = json_decode($request->getContent());
-        $newEvent['limit_number'] = $data->event_meta->max_male_number + $data->event_meta->max_female_number;
-        $newEvent['min_number'] = $data->event_meta->min_male_number + $data->event_meta->min_female_number;
+        if($data->event->type == 'group') {
+            $newEvent['limit_number'] = $data->event_meta->max_male_number + $data->event_meta->max_female_number;
+            $newEvent['min_number'] = $data->event_meta->min_male_number + $data->event_meta->min_female_number;
+        } else {
+            $newEvent['limit_number'] = 2;
+            $newEvent['min_number'] = 2;
+        }
 
         foreach($data->event as $key => $value) {
             $newEvent[$key] = $value;

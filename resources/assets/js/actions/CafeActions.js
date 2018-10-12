@@ -6,9 +6,20 @@ import {
     UPDATE_CAFE_IMAGE
 } from './types'
 
-export const getAllCafe = (page = 1) => (dispatch) => {
-    return api.get(`/cafes?page=${page}`)
+export const getAllCafe = (filter = {}, page = 1) => (dispatch) => {
+    var filter_string = '';
+    Object.keys(filter).map(key => {
+        if(Array.isArray(filter[key])) {
+            filter[key].map(item => {
+                filter_string = filter_string.concat(`&${key}=${item}`);
+            })
+        } else {
+            filter_string = filter_string.concat(`&${key}=${filter[key]}`);
+        }
+    });
+    return api.get(`/cafes?page=${page}${filter_string}`)
         .then(response => {
+            console.log(`/cafes?page=${page}${filter_string}`);
             dispatch({type: GET_ALL_CAFE, payload: response.data.data});
         })
         .catch(err => {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
@@ -35,18 +36,74 @@ class Cafe extends Controller
     }
 
     public function list(Request $request, $page = null) {
-        $data = \App\Agency::paginate();
+        $query = $request->all();
+        unset($query['page']);
+
+        $data = \App\Agency::where($query)->paginate();
+        foreach($data as $agency) {
+            $images = DB::table('agency_photos')
+                ->where('agency_id', '=', $agency->id)
+                ->whereIn('type', ['cover', 'avatar'])
+                ->orderBy('id', 'DESC')
+                ->get();
+                
+            $agency['cover'] = '';
+            $agency['avatar'] = '';
+
+            foreach($images as $image) {
+                switch($image->type) {
+                    case 'cover': {
+                        $agency['cover'] = $image->source;
+                        break;
+                    }
+                    case 'avatar': {
+                        $agency['avatar'] = $image->source;
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+        }
+
         return json_encode($data);
     }
 
     public function get($id) {
         $agency = \App\Agency::find($id);
+        $agency['avatar'] = '';
+        $agency['cover'] = '';
+
+        $images = DB::table('agency_photos')->where('agency_id', '=', $id)->orderBy('id', 'DESC')->get();
+
+        $temp = [];
+        foreach($images as $image) {
+            array_push($temp, $image->source);
+            switch($image->type) {
+                case 'cover': {
+                    $agency['cover'] = $image->source;
+                    break;
+                }
+                case 'avatar': {
+                    $agency['avatar'] = $image->source;
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        }
+        $agency['images'] = $temp;
+ 
         return json_encode($agency);
     }
 
     public function handleImage(Request $request, $id) {
-        $user_id = 1;
+        $user_id = Auth::id();
         $data = json_decode($request->getContent());
+        $type = $data->type;
+
         $base64_image = explode(',', $data->image)[1];
 
         $firstChar = substr($base64_image, 0, 1);
@@ -72,11 +129,24 @@ class Cafe extends Controller
  
         $filename = (string) time().'.'.$extension;
         
-        $result = Storage::disk('local')->put('user'.$user_id.'/cafe/'.$filename, base64_decode($base64_image));
+        Storage::disk('local')->put('user'.$user_id.'/cafe/'.$filename, base64_decode($base64_image));
 
-        $cafe = \App\Agency::find($id);
-        $cafe['image'] = env('APP_URL').'/storage/app/user'.$user_id.'/cafe/'.$filename;
-        $cafe->save();
+        // update type of old image to normal type
+        if($type != 'normal') {
+            DB::table('agency_photos')->where([['type', '=', $type], ['agency_id', '=', $id]])->update(['type' => 'normal']);
+        }
+
+        $result = DB::table('agency_photos')->insert(
+            [
+                'agency_id' => $id,
+                'source' => 'storage/app/user'.$user_id.'/cafe/'.$filename,
+                'type' => $type
+            ]
+        );
+
+        // $cafe = \App\Agency::find($id);
+        $cafe = json_decode($this->get($id));
+        $cafe->$type = 'storage/app/user'.$user_id.'/cafe/'.$filename;
         return json_encode($cafe);
     }
 }

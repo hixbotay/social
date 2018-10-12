@@ -5,6 +5,7 @@ import { RoundAvatar } from '../../components/Avatar';
 import connect from 'react-redux/es/connect/connect';
 import { getCafeDetail, updateImage } from '../../actions/CafeActions';
 import { withRouter } from 'react-router-dom';
+import SimpleSlider from '../../components/Slider/SimpleSlider';
 
 class CafeDetail extends Component {
     constructor(props) {
@@ -18,14 +19,14 @@ class CafeDetail extends Component {
         this.props.getCafeDetail(this.props.match.params.id);
     }
 
-    handleImage(e) {
+    handleImage(event, type) {
         var component = this;
-        var file = e.target.files[0];
-        
+        var file = event.target.files[0];
+
         var reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function () {
-            component.props.updateCafeImage({image: reader.result}, component.props.match.params.id);
+            component.props.updateCafeImage({ image: reader.result, type: type }, component.props.match.params.id);
         };
         reader.onerror = function (error) {
             window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
@@ -39,16 +40,17 @@ class CafeDetail extends Component {
         return (
             <CafeLayout>
                 <div className={"add-cafe-banner"}>
-                    <img src={agency.image ? agency.image : 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'} />
-                    {/* <form encType="multipart/form-data" id="cafe-image-form"> */}
-                        <label className="btn-add-image"> <i className="fas fa-camera fa-2x"></i>
-                            <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e)} />
-                        </label>
-                    {/* </form> */}
+                    <img src={agency.cover ? agency.cover : 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'} />
+                    <label className="btn-add-image"> <i className="fas fa-camera fa-2x"></i>
+                        <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'cover')} />
+                    </label>
                 </div>
                 <Card>
-                    <div className="post__author author vcard inline-items">
-                        <RoundAvatar img={agency.image} size="large"></RoundAvatar>
+                    <div className="post__author author vcard inline-items" id="cafe-avatar">
+                        <RoundAvatar img={agency.avatar} size="large"></RoundAvatar>
+                        <label className="btn-change-avatar">
+                            <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'avatar')} />
+                        </label>
 
                         <div className="author-date">
                             <h3>{agency.name}</h3>
@@ -79,6 +81,17 @@ class CafeDetail extends Component {
                 </Card>
                 <Card>
                     <p>Thêm ảnh có liên quan để mô tả rõ hơn về quán</p>
+                    <div className="row">
+                        <div className="col-3">
+                            <label className="btn-add-image" id="btn-normal-img"> 
+                                <i className="fas fa-camera fa-2x"></i>
+                                <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'normal')} />
+                            </label>
+                        </div>
+                        <div className="col-9">
+                            <SimpleSlider images={agency.images} slidesToShow={3}></SimpleSlider>
+                        </div>
+                    </div>
                 </Card>
             </CafeLayout>
         );

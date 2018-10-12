@@ -25,6 +25,8 @@ Route::middleware(['web'])->group(function() {
     Route::get('my-posts', 'Api\Post@getMyPosts');
     Route::post('post/like/{post_id}', 'Api\Post@like');
     Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
+
+    Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
@@ -55,4 +57,4 @@ Route::get('/events', 'Api\Event@list');
 Route::get('/jobs', 'Api\Job@list');
 
 Route::post('/event', 'Api\Event@create');
-Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
+
