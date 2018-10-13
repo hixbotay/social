@@ -5,6 +5,11 @@
         <div class="row">
             <div class="col-md-12">
                 <h4 class="m-b-20 header-title"></h4>
+
+
+                @include('layouts.admin.notice')
+
+
                 <form method="post" action="{{url('admin?controller=DatingPrice&task=update&id='.$item->id)}}" class="form-horizontal">
 
                     {{ csrf_field() }}

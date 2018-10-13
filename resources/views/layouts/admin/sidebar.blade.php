@@ -49,7 +49,6 @@
                                         <li><a href="{{url('/admin?view=Finance')}}"><i class="ti-person"></i>@lang('Chia lợi nhuận')</a></li>
                                         <li><a href="{{url('/admin?controller=Finance&task=create')}}"><i class="ti-person"></i>@lang('Thêm cấu hình lợi nhuận')</a></li>
                                         <li><a href="{{url('/admin?view=DatingPrice')}}"><i class="ti-person"></i>@lang('Giá hẹn hò')</a></li>
-                                        <li><a href="{{url('/admin?controller=DatingPrice&task=create')}}"><i class="ti-person"></i>@lang('Thêm giá hẹn hò')</a></li>
                                         <li><a href="{{url('/admin?controller=Configuration&option=price')}}"><i class="ti-person"></i>@lang('Cấu hình giá chung')</a></li>
 
                                     </ul>

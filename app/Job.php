@@ -12,13 +12,15 @@ class Job extends Model
 
     public $timestamps = false;
 
-    public static function select_job($name, $class = null, $id = null, $selected = null){
+    public static function select_job($name, $selected = null, $class = null, $id = null){
 
         $job = self::all();
 
-        echo "<select class='$class form-control'>";
+        echo '<select class="$class form-control" name="'.$name.'">';
         foreach ($job AS $value){
-            echo "<option value='$value->id'>";
+            $checked = null;
+            if ($value->id == $selected) $checked = "selected";
+            echo '<option value="'.$value->id.'" '.$checked.'>';
             echo $value->name;
             echo "</option>";
         }

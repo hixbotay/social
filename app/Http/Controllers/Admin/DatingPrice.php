@@ -33,9 +33,14 @@ class DatingPrice extends Controller
     {
         $data = $request->get('data');
 
-        \App\DatingPrice::create($data);
+        $result = \App\DatingPrice::create($data);
 
-        return redirect('/admin?view=DatingPrice');
+        if ($result->id)
+        {
+            return redirect('/admin?view=DatingPrice')->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect('/admin?controller=DatingPrice&task=create')->withErrors('SAVE_FAIL');
+        }
     }
 
     /**
@@ -72,19 +77,17 @@ class DatingPrice extends Controller
     {
         $id =  $request->input('id');
         $item = \App\DatingPrice::find($id);
-
         $data = $request->get('data');
-
-        if ($item->id){
-
-            foreach ($data as $key => $value) {
-                $item->$key = $value;
-            }
-            $item->save();
-
+        foreach ($data as $key => $value) {
+            $item->$key = $value;
         }
-
-        return redirect('admin?view=DatingPrice');
+        $result = $item->save();
+        if ($result)
+        {
+            return redirect('/admin?view=DatingPrice')->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect('/admin?controller=DatingPrice&task=create')->withErrors('SAVE_FAIL');
+        }
     }
 
     /**

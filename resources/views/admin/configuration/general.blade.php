@@ -5,6 +5,27 @@
         <div class="row">
             <div class="col-sm-6">
                 <h4 class="m-b-20 header-title">Cấu hình chung</h4>
+
+
+                @if(!empty(Session::get('success')))
+                    <div class="alert alert-success alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <strong>Thành công!</strong> {!! Session::get('success')[0] !!}
+                    </div>
+                @endif
+
+                @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <strong>Lỗi!</strong> {{$errors->first()}}
+                    </div>
+                @endif
+
+
                 <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=Configuration&task=store')}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">

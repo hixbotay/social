@@ -5,6 +5,11 @@
 	<div class="row">
 		<div class="col-sm-12">
 			<h4 class="m-b-20 header-title">Form Elements</h4>
+
+
+			@include('layouts.admin.notice')
+
+
 			<form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=User&task=update&id='.$item->id)}}">
 				{{ csrf_field() }}
 				<input name="_method" type="hidden" value="PATCH">
@@ -126,15 +131,15 @@
 
 					<div class="form-group">
 						<label>Verify</label>
-						<select name="is_verify" class="form-control">
-							<option value="1" selected="{{$item->is_verify == 1}}">Yes</option>
-							<option value="0" selected="{{$item->is_verify == 0}}">No</option>
+						<select name="data[is_verify]" class="form-control">
+							<option value="1" @if($item->is_verify == 1)selected @endif;>Yes</option>
+							<option value="0" @if($item->is_verify == 0)selected @endif;>No</option>
 						</select>
 					</div>
 
 					<div class="form-group">
 						<label>Nghề nghiệp</label>
-						{{\App\Job::select_job('data[job]', null, null, $item->job)}}
+						{{\App\Job::select_job('data[job]', $item->job, null, null )}}
 					</div>
 
 					<div class="form-group">

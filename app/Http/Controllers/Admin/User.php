@@ -130,8 +130,13 @@ class User extends Controller
             $user->$key = $value;
         }
 
-        $user->save();
-        return redirect('admin?view=User');
+        $result = $user->save();
+        if ($result)
+        {
+            return redirect('admin?view=User&layout=edit&id='.$id)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect('admin?view=User&layout=edit&id='.$id)->withErrors('SAVE_FAIL');
+        }
     }
 
     /**
