@@ -21,21 +21,19 @@ class Events extends Seeder
             $event = [
                 'name' =>  $faker->realText($maxNbChars = 20, $indexSize = 2),
                 'schedule_id' => $faker->randomDigit,
-                'description' => $faker->paragraph($nbSentences = 2, $variableNbSentences = true),
                 'created' => date("Y/m/d"),
-                'address' => $faker->sentence($nbWords = 3, $variableNbWords = true) ,
-                'address_id' => $faker->randomDigit,
+                'agency_id' => $faker->randomElement([1,2,3,4,5,6,7]),
                 'limit_number' => $faker->randomNumber($nbDigits = 2, $strict = false),
                 'min_number' => $faker->randomDigit,
-                'min_m' => $faker->randomDigit,
-                'min_f' => $faker->randomDigit,
                 'limit_time_register' => new DateTime('tomorrow'),
                 'start_time' => date("Y/m/d"),
                 'payment_m' => '100000.00',
                 'payment_f' => '100000.00',
-                'params' =>  $faker->sentence($nbWords = 6, $variableNbWords = true) ,
                 'image' => $faker->imageUrl($width='400', $height='600'),
-                'type' => $faker->randomElement(['couple', 'group'])
+                'type' => $faker->randomElement(['couple', 'group']),
+                'creator' => $faker->randomDigit,
+                'is_approved' =>  $faker->randomElement([0,1]),
+                'status' => $faker->randomElement(['forthcoming', 'happening', 'cancelled', 'finished']),
             ];
             array_push($event_data, $event);
         }

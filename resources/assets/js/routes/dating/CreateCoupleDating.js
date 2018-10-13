@@ -16,9 +16,10 @@ class CreateCoupleDating extends Component {
             selectedTheme: 0,
             newEvent: {
                 type: 'couple',
-                marital_status: 0
             },
-            metadata: {}
+            metadata: {
+                marital_status: 0
+            }
         }
     }
 
@@ -41,8 +42,7 @@ class CreateCoupleDating extends Component {
         this.setState({
             newEvent: {
                 ...this.state.newEvent,
-                address: '',
-                address_id: this.province_id.value
+                agency_id: ''
             }
         }, () => {
             this.props.getAllDistricts(this.province_id.value);
@@ -57,7 +57,7 @@ class CreateCoupleDating extends Component {
         this.setState({
             newEvent: {
                 ...this.state.newEvent,
-                address: this.cafe.value,
+                agency_id: this.cafe.value,
             }
         });
     }
@@ -228,7 +228,7 @@ class CreateCoupleDating extends Component {
                                     <option>Quán</option>
                                     {
                                         this.props.cafes.map((data, index) => {
-                                            return (<option value={data.address} key={index}>{data.name}</option>);
+                                            return (<option value={data.id} key={index}>{data.name}</option>);
                                         })
                                     }
                                 </select>

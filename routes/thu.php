@@ -27,6 +27,10 @@ Route::middleware(['web'])->group(function() {
     Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
 
     Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
+
+    Route::post('/event', 'Api\Event@create');
+    Route::post('/event/{event_id}', 'Api\Event@joinEvent');
+    
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
@@ -56,5 +60,5 @@ Route::post('/post', 'Api\Post@createPost');
 Route::get('/events', 'Api\Event@list');
 Route::get('/jobs', 'Api\Job@list');
 
-Route::post('/event', 'Api\Event@create');
+
 

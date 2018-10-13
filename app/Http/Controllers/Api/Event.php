@@ -9,7 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class Event extends Controller {
     public function list() {
-        $events = \App\Event::paginate(10);
+        $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+            ->leftjoin('agency_photos', 'events.agency_id', '=', 'agency_photos.agency_id')
+            ->where('agency_photos.type', '=', 'avatar')
+            ->select(DB::raw('events.*, users.name as creator_name, users.avatar as creator_avatar, agency.address as address, agency_photos.source as address_avatar'))
+            ->paginate(10);
 
         $events_id = [];
         foreach($events as $key => $event) {
@@ -83,14 +88,20 @@ class Event extends Controller {
     }
 
     public function create(Request $request) {
-        $newEvent = [];
+        $user_id = Auth::id();
+        $newEvent = [
+            'creator' => $user_id,
+            'status' => 'forthcoming'
+        ];
         $metadata = [];
 
         $data = json_decode($request->getContent());
+        // if dating type is group
         if($data->event->type == 'group') {
             $newEvent['limit_number'] = $data->event_meta->max_male_number + $data->event_meta->max_female_number;
             $newEvent['min_number'] = $data->event_meta->min_male_number + $data->event_meta->min_female_number;
         } else {
+            // else dating type is couple
             $newEvent['limit_number'] = 2;
             $newEvent['min_number'] = 2;
         }
@@ -99,6 +110,17 @@ class Event extends Controller {
             $newEvent[$key] = $value;
         }
         $result = \App\Event::create($newEvent);
+
+        // if type is couple, creator is first event register
+        if($result['type'] == 'couple') {
+            DB::table('event_register')
+            ->insert([
+                'user_id' => $user_id,
+                'event_id' => $result['id'],
+                'status' => 1,
+                'created' => date('Y-m-d h:i:s')
+            ]);
+        }
 
         foreach($data->event_meta as $key => $value) {
             if($key === 'job_conditional') {
@@ -125,6 +147,17 @@ class Event extends Controller {
         }
         $result_1 = DB::table('event_meta')->insert($metadata);
 
+        return json_encode($result);
+    }
+
+    public function joinEvent($event_id) {
+        $result = DB::table('event_register')
+            ->insert([
+                'user_id' => Auth::id(),
+                'event_id' => $event_id,
+                'status' => 1,
+                'created' => date('Y-m-d h:i:s')
+            ]);
         return json_encode($result);
     }
 }

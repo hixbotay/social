@@ -397,10 +397,37 @@ li.list-group-item {
 
 .dating-info {
     padding: 10px 0px 0px 20px;
+    position: relative;
 }
 
 .dating-slide .slick-slide {
     padding: 0 10px;
+}
+
+.btn-dating-group {
+    position: absolute;
+    bottom: 0;
+}
+
+.btn-dating-group button {
+    margin: 0;
+}
+
+.couple-dating-info {
+    position: absolute;
+    top: 25%;
+}
+
+.couple-avatar img{
+    width: 100% !important;
+    height: 85px;
+}
+
+#couple-icon {
+    font-size: 2em;
+    top: 25%;
+    position: relative;
+    color: #c0392b
 }
 
 .landing-item .landing-item-thumb .btnhenho {

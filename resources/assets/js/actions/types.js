@@ -39,3 +39,4 @@ export const GET_COUPLE_DETAIL = 'GET_COUPLE_DETAIL';
 // dating
 export const GET_ALL_EVENTS = 'GET_ALL_EVENTS';
 export const CREATE_NEW_EVENT = 'CREATE_NEW_EVENT';
+export const JOIN_EVENT = 'JOIN_EVENT';

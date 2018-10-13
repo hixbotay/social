@@ -10,5 +10,22 @@ class Event extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['name', 'schedule_id', 'address', 'address_id', 'limit_number', 'min_number', 'limit_time_register', 'start_time', 'payment_m', 'payment_f', 'image', 'type'];
+    protected $hidden = ['creator', 'agency_id'];
+
+    protected $fillable = [
+        'name', 
+        'schedule_id', 
+        'limit_number', 
+        'min_number', 
+        'limit_time_register', 
+        'start_time', 
+        'payment_m', 
+        'payment_f', 
+        'image', 
+        'type', 
+        'creator', 
+        'is_approved',
+        'status',
+        'agency_id'
+    ];
 }

@@ -1,6 +1,7 @@
 import {
     GET_ALL_EVENTS,
-    CREATE_NEW_EVENT
+    CREATE_NEW_EVENT,
+    JOIN_EVENT
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -15,6 +16,9 @@ export default (state=INIT_STATE, action) => {
         }
         case CREATE_NEW_EVENT: {
             return {...state, newEvent: action.payload}
+        }
+        case JOIN_EVENT: {
+            return {...state}
         }
         default: {
             return {...state}

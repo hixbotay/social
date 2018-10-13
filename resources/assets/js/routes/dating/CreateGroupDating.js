@@ -17,9 +17,10 @@ class CreateGroupDating extends Component {
             selectedAddress: -1,
             newEvent: {
                 type: 'group',
-                marital_status: 0
             },
-            metadata: {}
+            metadata: {
+                marital_status: 0
+            }
         }
     }
 
@@ -43,8 +44,7 @@ class CreateGroupDating extends Component {
             selectedAddress: index,
             newEvent: {
                 ...this.state.newEvent,
-                address: item.address,
-                address_id: item.province_id
+                agency_id: item.id
             }
         })
     }
@@ -363,7 +363,7 @@ class CreateGroupDating extends Component {
                                 Khởi tạo cuộc hẹn của bạn đang chờ admin duyệt!
                             </div>
                             <div className="text-center create-event-alert-content">
-                                <button className="btn btn-primary" onClick={() => {window.location.reload()}}>OK</button>
+                                <button className="btn btn-primary" >OK</button>
                             </div>
                         </div>
                     </div>

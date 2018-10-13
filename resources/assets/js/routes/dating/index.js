@@ -4,10 +4,10 @@ import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getAllEvents} from "../../actions/EventActions";
 import 'react-image-lightbox/style.css';
-
 import 'react-animated-slider/build/horizontal.css';
 import { DatingCard } from '../../components/Card';
 import DatingLayout from './DatingLayout';
+// import {joinDating} from '../../actions/EventActions';
 
 class Dating extends Component {
 
@@ -15,6 +15,8 @@ class Dating extends Component {
         super(props);
         this.state =  {};
     }
+
+
 
     componentDidMount() {
         this.props.getAllEvents()
@@ -40,7 +42,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAllEvents: () => dispatch(getAllEvents())
+        getAllEvents: () => dispatch(getAllEvents()),
     }
 }
 
