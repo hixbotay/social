@@ -28,7 +28,7 @@ class Hobby extends Controller
 
     public function create()
     {
-        return view('admin.job.create');
+        return view('admin.hobby.create');
     }
 
     /**
@@ -40,8 +40,15 @@ class Hobby extends Controller
     public function store(Request $request)
     {
         $data = request()->get('data');
-        \App\Hobby::create($data);
-        return redirect('admin?view=Hobby');
+        $result = \App\Hobby::create($data);
+
+        $url = url('admin?view=Hobby');
+
+        if ($result->id){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
     }
 
     /**
@@ -52,10 +59,10 @@ class Hobby extends Controller
      */
     public function show($id)
     {
-        $user = UserGroupModel::find($id);
+        $user = \App\Hobby::find($id);
 
         // show the view and pass the nerd to it
-        return View::make('admin.job.detail')
+        return View::make('admin.hobby.detail')
             ->with('item', $user);
     }
 
@@ -71,10 +78,10 @@ class Hobby extends Controller
     {
         // $id = request()->input('id');
 
-        $user = UserGroupModel::find($id);
+        $user = \App\Hobby::find($id);
 
         // show the view and pass the nerd to it
-        return view('admin.job.detail')->with('item', $user);
+        return view('admin.hobby.detail')->with('item', $user);
     }
 
     /**
@@ -89,13 +96,18 @@ class Hobby extends Controller
         $id = $request->input('id');
         $data = $request->get('data');
 
-        $usergroup = UserGroupModel::find($id);
+        $usergroup = \App\Hobby::find($id);
         foreach ($data as $key => $value) {
             $usergroup->$key = $value;
         }
-        $usergroup->save();
+        $result = $usergroup->save();
+        $url = url('admin?view=Hobby');
 
-        return redirect('admin?view=job');
+        if ($result){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
 
     }
 
@@ -108,7 +120,7 @@ class Hobby extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
-        UserGroupModel::destroy($id);
-        return redirect('admin?view=usergroup');
+        \App\Hobby::destroy($id);
+        return redirect('admin?view=hobby');
     }
 }

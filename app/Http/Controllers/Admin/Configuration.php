@@ -20,7 +20,7 @@ class Configuration extends Controller
         $option = $request->get('option');
 
         if (!in_array($option, $this->type)){
-            die("ahihi");
+            die("Không hợp lệ");
         }
 
         $item = \App\Configuration::where('name', "$option")->first();
@@ -41,7 +41,7 @@ class Configuration extends Controller
 
     public function create()
     {
-        return view('admin.provincegroup.create');
+
     }
 
     /**
@@ -58,17 +58,27 @@ class Configuration extends Controller
 
         $item = \App\Configuration::where('name', "{$data['name']}")->first();
 
+        $url = url('admin?view=configuration&option='.$data['name']);
+        $resulz = false;
         if (!$item) {
             $result = \App\Configuration::create($data);
+            if ($result->id)$resulz = true;
         }else{
             foreach ($data as $key => $value) {
                 $item->$key = $value;
             }
-            $item->save();
-
+            $result = $item->save();
+            if ($result)$resulz = true;
         }
 
-        return redirect('admin?view=configuration&option='.$data['name']);
+        if ($resulz)
+        {
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
+
+
     }
 
     /**

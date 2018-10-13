@@ -5,6 +5,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h4 class="m-b-20 header-title">Tạo Nhóm tỉnh</h4>
+                @include('layouts.admin.notice')
                 <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=ProvinceGroup&task=store')}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">

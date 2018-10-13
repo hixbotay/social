@@ -101,9 +101,14 @@ class ProvinceGroup extends Controller
         foreach ($data as $key => $value) {
             $usergroup->$key = $value;
         }
-        $usergroup->save();
+        $url = url('admin?view=provincegroup&layout=edit&id='.$id);
+        $result = $usergroup->save();
 
-        return redirect('admin?view=provincegroup');
+        if ($result){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
 
     }
 

@@ -12,7 +12,7 @@ class Hobby extends Model
 
     protected $fillable = ['name'];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     static function get_all_hobbies() {
         return Hobby::all();

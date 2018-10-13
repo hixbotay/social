@@ -6,6 +6,9 @@
         <div class="col-sm-12">
             <div class="card-box">
                 <h4 class="m-t-0">NHóm User</h4>
+
+                @include('layouts.admin.notice')
+
                 <div class="table-responsive">
 
                     <div class="row">
@@ -26,13 +29,12 @@
                         <thead>
                             <tr>
                                 <th style="min-width: 95px;">
-                                    <div class="checkbox checkbox-primary checkbox-single m-r-15">
-                                        <input id="action-checkbox" type="checkbox">
-                                        <label for="action-checkbox"></label>
+                                    {{--<div class="checkbox checkbox-primary checkbox-single m-r-15">--}}
+                                        {{--<input id="action-checkbox" type="checkbox">--}}
+                                        {{--<label for="action-checkbox"></label>--}}
                                     </div>
                                 </th>
-                                <th>Name</th>
-                                <th>Params</th>
+                                <th>Tên nhóm</th>
                             </tr>
                         </thead>
 
@@ -40,10 +42,10 @@
                         @foreach($items AS $item)
                             <tr>
                                 <td>
-                                    <div class="checkbox checkbox-primary m-r-15">
-                                        <input id="checkbox1" type="checkbox">
-                                        <label for="checkbox1"></label>
-                                    </div>
+                                    {{--<div class="checkbox checkbox-primary m-r-15">--}}
+                                        {{--<input id="checkbox1" type="checkbox">--}}
+                                        {{--<label for="checkbox1"></label>--}}
+                                    {{--</div>--}}
 
                                     <img src="assets/images/users/avatar-1.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
                                 </td>
@@ -54,7 +56,6 @@
                                     </a>
                                 </td>
 
-                                <td>{{$item->params}}</td>
                             </tr>
                         @endforeach
                         </tbody>

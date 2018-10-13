@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use http\Url;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\UserGroup AS UserGroupModel;
@@ -83,13 +84,9 @@ class UserGroup extends Controller
     public function edit($id)
     {
         // $id = request()->input('id');
-
         $user = UserGroupModel::find($id);
-
         $roles = config('auth.action');
-
         $groupROLE = json_decode($user->role);
-
         // show the view and pass the nerd to it
         return view('admin.usergroup.detail', ['item' => $user, 'roles' => $roles, 'groupROLE' => $groupROLE]);
     }
@@ -106,14 +103,19 @@ class UserGroup extends Controller
         $id = $request->input('id');
         $data = $request->get('data');
         $data['role'] = json_encode($data['role']);
-
         $usergroup = UserGroupModel::find($id);
         foreach ($data as $key => $value) {
             $usergroup->$key = $value;
         }
-        $usergroup->save();
+        $result = $usergroup->save();
 
-        return redirect('admin?view=usergroup');
+        $url = url('admin?view=usergroup&layout=edit&id='.$id);
+
+        if ($result){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
 
     }
 

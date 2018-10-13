@@ -1,10 +1,21 @@
 @extends('layouts.admin')
 
 @section('content')
+
+	<div class="alert alert-info alert-white alert-dismissible fade in" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">×</span>
+		</button>
+		<strong>Chức năng bị chặn!</strong> Vui lòng liên hệ nhà phát triển web! Xin cảm ơn!
+	</div>
+	<!--
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<h4 class="m-b-20 header-title">Create New Group</h4>
+
+			@include('layouts.admin.notice')
+
 			<form method="post" action="{{url('admin?controller=UserGroup&&task=store')}}" class="form-horizontal">
 
 				{{ csrf_field() }}
@@ -34,4 +45,6 @@
 
 	</div>
 </div>
+
+-->
 @endsection

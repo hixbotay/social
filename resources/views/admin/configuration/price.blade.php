@@ -3,8 +3,11 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <h4 class="m-b-20 header-title">Cấu hình giá chung hệ thống</h4>
+
+                @include('layouts.admin.notice')
+
                 <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=Configuration&task=store')}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">

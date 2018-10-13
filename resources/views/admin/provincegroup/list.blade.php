@@ -1,27 +1,3 @@
-<?php
-
-$full_path = base_path().'\\resources\\views\\admin\\';
-
-if(!is_dir($full_path))
-    return 'Views directory not found';
-
-$files = scandir($full_path);
-unset($files[0]);
-unset($files[1]);
-
-if(($key = array_search('emails', $files)) !== false) {
-    unset($files[$key]);
-}
-
-foreach($files AS $file){
-    $link = str_replace('.blade.php','',$file);
-    echo '<a href="'.$link.'">'.$link.'</a>'.'<br>';
-}
-
-
-
-?>
-
 @extends('layouts.admin')
 
 @section('content')
@@ -30,6 +6,9 @@ foreach($files AS $file){
         <div class="col-sm-12">
             <div class="card-box">
                 <h4 class="m-t-0">Nhóm tỉnh</h4>
+
+                @include('layouts.admin.notice')
+
                 <div class="table-responsive">
 
                     <div class="row">

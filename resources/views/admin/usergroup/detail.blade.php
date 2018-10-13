@@ -5,6 +5,9 @@
 	<div class="row">
 		<div class="col-md-12">
 			<h4 class="m-b-20 header-title">Group Detail</h4>
+
+			@include('layouts.admin.notice')
+
 			<form method="post" action="{{url('admin?controller=UserGroup&task=update&id='.$item->id)}}" class="form-horizontal">
 
 				{{ csrf_field() }}
@@ -48,6 +51,14 @@
 					</div>
 				</div>
 			</form>
+
+			<div class="alert alert-warning alert-dismissible fade in" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+				<strong>Chú ý!</strong> Hãy chắc chắn bạn không phân quyền cho nhầm người
+			</div>
+
 		</div>
 
 	</div>
