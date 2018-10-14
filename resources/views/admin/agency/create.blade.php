@@ -33,18 +33,25 @@
 
     <script>
 
-        $("#province").change(function () {
-            alert();
-            // loadDistrict();
-        })
+
+        $(document).ready(function(){
+            $("#province").change(function () {
+                loadDistrict();
+            })
+        });
 
         function loadDistrict(){
             jQuery.ajax({
                 type:'POST',
                 url:'?controller=Agency&task=ajaxLoadDistrict',
-                data:'_token = <?php echo csrf_token() ?>',
-                success:function(data){
-                    alert();
+                data: {provinceID: jQuery("#province").val()},
+                success:function(response){
+                    var data = JSON.parse(response);
+                    jQuery("#district").html('<option>Chọn quận/huyện</option>');
+                    for (let i = 0; i < data.length; i ++){
+                        jQuery("#district").append('<option value="'+data[i].maqh+'">'+data[i].name+'</option>');
+                    }
+
                 }
             });
         }
@@ -55,6 +62,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h4 class="m-b-20 header-title">Tạo Đại Lý Cafe</h4>
+                @include('layouts.admin.notice')
                 <form enctype='multipart/form-data' method="POST"
                       action="{{url('admin?controller=Agency&task=store')}}">
                     {{ csrf_field() }}
@@ -64,6 +72,7 @@
                         <div class="form-group">
                             <label>Chủ sở hữu <span>*</span></label>
                             <select name="data[user_id]" class="form-control" required>
+                                <option>Chọn tài khoản sở hữu</option>
                                 @foreach($users AS $value)
                                     <option value="{{$value->id}}">{{ $value->name . ' ' . $value->email }}</option>
                                 @endforeach
@@ -80,6 +89,7 @@
                             <label>Tỉnh/Thành phố<span></span></label>
 
                             <select name="data[province_id]" class="form-control" id="province" required>
+                                <option>Chọn tỉnh/thành phố</option>
                                 @foreach(App\ProvinceGroup::all_province() AS $value)
                                     <option value="{{$value->matp}}">{{$value->name}}</option>
                                 @endforeach
@@ -90,7 +100,8 @@
                         <div class="form-group">
                             <label>Quận/Huyện<span></span></label>
 
-                            <select name="data[district_id]" class="form-control" required>
+                            <select name="data[district_id]" id="district" class="form-control" required>
+                                <option>Chọn quận/huyện</option>
                                 {{--@foreach(App\ProvinceGroup::all_district() AS $value)--}}
                                     {{--<option value="{{$value->maqh}}">{{$value->name}}</option>--}}
                                 {{--@endforeach--}}

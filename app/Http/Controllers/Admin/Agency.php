@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 
 class Agency extends Controller
@@ -110,6 +111,9 @@ class Agency extends Controller
     }
 
     public function ajaxLoadDistrict(){
-
+        $provinceID = $_POST['provinceID'];
+        $data = DB::table('devvn_quanhuyen')->where('matp', $provinceID)->get();
+        print_r(json_encode($data));
+        die;
     }
 }

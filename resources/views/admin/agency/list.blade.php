@@ -5,6 +5,7 @@
 
     <h4 class="m-t-0 header-title">Quản lý quán cafe</h4>
 
+    @include('layouts.admin.notice')
 
     <div class="row">
 

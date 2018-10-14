@@ -78,10 +78,10 @@ class Hobby extends Controller
     {
         // $id = request()->input('id');
 
-        $user = \App\Hobby::find($id);
+        $item = \App\Hobby::find($id);
 
         // show the view and pass the nerd to it
-        return view('admin.hobby.detail')->with('item', $user);
+        return view('admin.hobby.detail')->with('item', $item);
     }
 
     /**
@@ -96,11 +96,12 @@ class Hobby extends Controller
         $id = $request->input('id');
         $data = $request->get('data');
 
-        $usergroup = \App\Hobby::find($id);
+        $item = \App\Hobby::find($id);
+
         foreach ($data as $key => $value) {
-            $usergroup->$key = $value;
+            if ($value)$item->$key = $value;
         }
-        $result = $usergroup->save();
+        $result = $item->save();
         $url = url('admin?view=Hobby');
 
         if ($result){

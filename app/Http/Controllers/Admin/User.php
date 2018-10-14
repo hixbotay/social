@@ -73,8 +73,7 @@ class User extends Controller
                 'hobby_id' => $value
             );
         }
-
-        DB::table('user_hobby_map')->insert( $plans );
+        if (!empty($plans))DB::table('user_hobby_map')->insert( $plans );
 
         return redirect('/admin?view=user');
     }
@@ -133,6 +132,18 @@ class User extends Controller
         $result = $user->save();
         if ($result)
         {
+            $favourite = $request->get('favourite');
+
+            $plans = array();
+            foreach ($favourite AS $value){
+                $plans[] = array(
+                    'user_id' => $id,
+                    'hobby_id' => $value
+                );
+            }
+
+            DB::table('user_hobby_map')->insert( $plans );
+
             return redirect('admin?view=User&layout=edit&id='.$id)->with('success', ['SAVE_SUCCESS']);
         }else{
             return redirect('admin?view=User&layout=edit&id='.$id)->withErrors('SAVE_FAIL');

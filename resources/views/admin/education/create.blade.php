@@ -7,6 +7,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h4 class="m-b-20 header-title">Thêm học vấn</h4>
+                @include('layouts.admin.notice')
                 <form enctype='multipart/form-data' method="POST"
                       action="{{url('admin?controller=Education&task=store')}}">
                     {{ csrf_field() }}

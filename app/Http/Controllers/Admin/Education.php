@@ -33,9 +33,15 @@ class education extends Controller
     {
         $data = $request->get('data');
 
-        \App\Education::create($data);
+        $result = \App\Education::create($data);
 
-        return redirect('/admin?view=Education');
+        $url = url('admin?view=Education');
+
+        if ($result->id){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
     }
 
     /**
@@ -80,11 +86,16 @@ class education extends Controller
             foreach ($data as $key => $value) {
                 $item->$key = $value;
             }
-            $item->save();
-
         }
 
-        return redirect('admin?view=Education');
+        $result = $item->save();
+        $url = url('admin?view=Education');
+
+        if ($result){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
     }
 
     /**

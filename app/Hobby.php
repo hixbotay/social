@@ -10,7 +10,7 @@ class Hobby extends Model
 {
     protected $table = 'user_hobby';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 
     public $timestamps = true;
 
