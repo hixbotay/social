@@ -21,7 +21,6 @@ class Events extends Seeder
             $event = [
                 'name' =>  $faker->realText($maxNbChars = 20, $indexSize = 2),
                 'schedule_id' => $faker->randomDigit,
-                'created' => date("Y/m/d"),
                 'agency_id' => $faker->randomElement([1,2,3,4,5,6,7]),
                 'limit_number' => $faker->randomNumber($nbDigits = 2, $strict = false),
                 'min_number' => $faker->randomDigit,
