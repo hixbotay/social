@@ -52,7 +52,12 @@ class MainApp extends Component {
 	
 	render() {
 
-		var route = (<div><h1>Đang tải User</h1></div>);
+		var route = (
+        <div className={'row'}>
+            <div className={'col-sm-12'}>
+                <div className="loader"></div>
+            </div>
+        </div>);
 
 		if (this.props.user.id){
             route = (

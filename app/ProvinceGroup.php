@@ -22,7 +22,7 @@ class ProvinceGroup extends Model
 
     public static function all_province(){
         $provinces = DB::table('devvn_tinhthanhpho')->select('name', 'matp')->get();
-        return json_encode($provinces);
+        return $provinces;
     }
 
     public static function all_district($province_id){
