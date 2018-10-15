@@ -22,12 +22,14 @@ class Header extends Component {
                     <div className="control-block">
 
                         <div>
-                            <img src={"http://125.212.227.39/social/public/images/main/logo.png"}
-                            style={{
-                                width:150, height: 'auto',
-                                marginRight: 80,
-                            }}
-                            />
+                            <Link to="/">
+                                <img src={"storage/app/public/logo.png"}
+                                style={{
+                                    width:150, height: 'auto',
+                                    marginRight: 80,
+                                }}
+                                />
+                            </Link>
                         </div>
 
                         <div className="control-icon more has-items">
