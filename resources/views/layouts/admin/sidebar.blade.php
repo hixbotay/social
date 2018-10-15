@@ -20,17 +20,17 @@
                                 <li><a href="{{url('/admin')}}"><i class="ti-home"></i> @lang('Dashboard') </a></li>
                                
                                 <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-account-multiple-plus"></i> @lang('Users') <span class="fa arrow"></span></a>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-account-multiple-plus"></i> @lang('admin.ACCOUNT') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="{{url('/admin?view=User')}}"><i class="ti-person"></i>@lang('Users')</a></li>
-                                        <li><a href="{{url('/admin?view=UserGroup')}}"><i class="ti-person"></i>@lang('User Groups')</a></li>
+                                        <li><a href="{{url('/admin?view=User')}}"><i class="ti-person"></i>@lang('admin.LIST')</a></li>
+                                        <li><a href="{{url('/admin?view=UserGroup')}}"><i class="ti-person"></i>@lang('admin.ACCOUNT_GROUP')</a></li>
                                     </ul>
                                 </li>
 
                                 <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class=" mdi mdi-border-color"></i> @lang('Posts') <span class="fa arrow"></span></a>
+                                    <a href="javascript: void(0);" aria-expanded="true"><i class=" mdi mdi-border-color"></i> @lang('admin.POST') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="{{url('/admin?view=Post')}}"><i class="ti-person"></i>@lang('Posts')</a></li>
+                                        <li><a href="{{url('/admin?view=Post')}}"><i class="ti-person"></i>@lang('admin.POST')</a></li>
                                     </ul>
                                 </li>
 

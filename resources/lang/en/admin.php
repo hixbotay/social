@@ -25,6 +25,11 @@ return [
     'CAFE_PRODUCT' => 'Sản phẩm',
     'CAFE_PRODUCT_CATEGORY' => 'Danh mục sản phẩm',
     'MODULE_FINANCE' => 'Module tài chính',
-    'FINACNE_SHARE' => 'Cổ phần'
+    'FINACNE_SHARE' => 'Cổ phần',
+    'ACCOUNT' => 'Tài khoản',
+    'LIST' => 'Danh sách',
+    'ACCOUNT_GROUP' => 'Nhóm tài khoản',
+    'POST' => 'Bài viết',
+
 
 ];
