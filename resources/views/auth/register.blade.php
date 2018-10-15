@@ -39,25 +39,25 @@
                 <div class="col-sm-4">
                     <select class="form-control" name="province_id" id="register-province" required>
                         <option>Tỉnh/TP</option>
-                        @foreach ($provinces as $item)
+                        {{-- @foreach ($provinces as $item)
                             <option value={{$item->matp}}>{{$item->name}}</option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                 </div>
                 <div class="col-sm-4">
                     <select class="form-control" name="district_id" required>
                         <option>Huyện/Quận</option>
-                        @foreach ($districts as $item)
+                        {{-- @foreach ($districts as $item)
                             <option value={{$item->maqh}}>{{$item->name}}</option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                 </div>
                 <div class="col-sm-4">
                     <select class="form-control" name="village_id" required>
                         <option>Xã/Phường</option>
-                        @foreach ($villages as $item)
+                        {{-- @foreach ($villages as $item)
                             <option value={{$item->xaid}}>{{$item->name}}</option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                 </div>
             </div>
