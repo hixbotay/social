@@ -20,7 +20,8 @@ export const getAllCafe = (filter = {}, page = 1) => (dispatch) => {
     return api.get(`/cafes?page=${page}${filter_string}`)
         .then(response => {
             console.log(`/cafes?page=${page}${filter_string}`);
-            dispatch({type: GET_ALL_CAFE, payload: response.data.data});
+            console.log(response.data);
+            dispatch({type: GET_ALL_CAFE, payload: response.data});
         })
         .catch(err => {
             console.log(err);

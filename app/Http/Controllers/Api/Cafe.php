@@ -35,29 +35,31 @@ class Cafe extends Controller
         return json_encode($result);
     }
 
-    public function list(Request $request, $page = null) {
+    public function list(Request $request) {
         $query = $request->all();
         unset($query['page']);
 
-        $data = \App\Agency::where($query)->paginate();
-        foreach($data as $agency) {
+        $data = \App\Agency::where($query)->paginate(10);
+        $temp = $data->items();
+
+        foreach($temp as $key => $agency) {
+            $agency->avatar = '';
+            $agency->cover = '';
+
             $images = DB::table('agency_photos')
                 ->where('agency_id', '=', $agency->id)
                 ->whereIn('type', ['cover', 'avatar'])
                 ->orderBy('id', 'DESC')
                 ->get();
-                
-            $agency['cover'] = '';
-            $agency['avatar'] = '';
 
             foreach($images as $image) {
                 switch($image->type) {
                     case 'cover': {
-                        $agency['cover'] = $image->source;
+                        $agency->cover = $image->source;
                         break;
                     }
                     case 'avatar': {
-                        $agency['avatar'] = $image->source;
+                        $agency->avatar = $image->source;
                         break;
                     }
                     default: {
@@ -66,8 +68,7 @@ class Cafe extends Controller
                 }
             }
         }
-
-        return json_encode($data);
+        return(json_encode($temp));
     }
 
     public function get($id) {

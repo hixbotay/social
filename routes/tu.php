@@ -20,6 +20,5 @@ Route::middleware(['web'])->group(function() {
     Route::post('cafe/create', 'Api\Cafe@create');
 });
 
-Route::get('cafes', 'Api\Cafe@list');
-Route::get('cafe/{id}', 'Api\Cafe@get');
+
 

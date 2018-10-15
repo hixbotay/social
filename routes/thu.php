@@ -60,5 +60,8 @@ Route::post('/post', 'Api\Post@createPost');
 Route::get('/events/{status}', 'Api\Event@list');
 Route::get('/jobs', 'Api\Job@list');
 
+Route::get('cafes', 'Api\Cafe@list');
+Route::get('cafe/{id}', 'Api\Cafe@get');
+
 
 

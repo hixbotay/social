@@ -22,9 +22,9 @@ import {HashRouter, BrowserRouter} from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <HashRouter>
             <MainApp />
-        </BrowserRouter>
+        </HashRouter>
     </Provider>,
     document.getElementById('app')
 );
