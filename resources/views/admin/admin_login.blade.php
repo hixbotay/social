@@ -5,9 +5,17 @@
     <div class="row">
 
 
-
-
         <div class="col-md-6 offset-md-3" id="landing-content">
+
+            @if($errors->any())
+
+                <div class="col-md-12">
+                    <div class="alert alert-danger">
+                        <strong>Lỗi!</strong> {{$errors->first()}}
+                    </div>
+                </div>
+
+            @endif
 
             <form class="form-signin" method="POST" action="{{ route('admin') }}">
 
@@ -43,7 +51,9 @@
                     </div>
                 </div>
 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <div class="form-group col-md-12">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </div>
             </form>
 
         </div>

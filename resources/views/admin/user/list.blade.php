@@ -70,9 +70,9 @@
                                 <td>{{$item->address}}</td>
 
                                 <td>
-                                    <a href="{{url('admin?controller=User&task=destroy&id='.$item->id)}}">
-                                        <button class="btn btn-sm btn-danger">Delete</button>
-                                    </a>
+                                    {{--<a href="{{url('admin?controller=User&task=destroy&id='.$item->id)}}">--}}
+                                        {{--<button class="btn btn-sm btn-danger">Delete</button>--}}
+                                    {{--</a>--}}
                                 </td>
 
                             </tr>
