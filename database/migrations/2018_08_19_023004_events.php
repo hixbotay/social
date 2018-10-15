@@ -17,20 +17,19 @@ class Events extends Migration
             $table->bigIncrements('id');
             $table->string('name',300);
             $table->integer('schedule_id');
-            $table->text('desciption')->nullable(1);
-            $table->dateTime('created');
-            $table->string('address', 1000);
-            $table->integer('address_id');
             $table->tinyInteger('limit_number');
-            $table->integer('min_number');
-            $table->integer('min_m');
-            $table->integer('min_f');
+            $table->integer('min_number');         
             $table->dateTime('limit_time_register');
             $table->dateTime('start_time');
             $table->decimal('payment_m', 15, 2);
             $table->decimal('payment_f', 15, 2);
-            $table->text('params');
-
+            $table->string('image')->nullable(1);
+            $table->string('type');
+            $table->integer('creator');
+            $table->integer('agency_id');
+            $table->boolean('is_approved');
+            $table->string('status');
+            $table->timestamps();
         });
     }
 

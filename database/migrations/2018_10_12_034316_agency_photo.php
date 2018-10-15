@@ -13,16 +13,11 @@ class AgencyPhoto extends Migration
      */
     public function up()
     {
-        Schema::table('agency', function (Blueprint $table) {
-            $table->dropColumn('image');
-            $table->renameColumn('params', 'type');
-        });
-
         Schema::create('agency_photos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('agency_id');
             $table->string('source');
-            $table->string('type')->default("normal");
+            $table->string('type')->default("normal"); // type: avatar, cover, normal
             $table->timestamps();
         });
     }

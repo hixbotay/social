@@ -16,7 +16,7 @@ class Education extends Migration
         Schema::create('education', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 1000);
-            $table->text('description');
+            $table->text('description')->nullable(1);
             $table->timestamps();
         });
     }

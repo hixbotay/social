@@ -19,7 +19,6 @@ class EventRegister extends Migration
             $table->integer('event_id');
             $table->dateTime('created');
             $table->tinyInteger('status');
-
         });
     }
 

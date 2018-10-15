@@ -21,8 +21,8 @@ class UserPayments extends Migration
             $table->char('pay_type', 20);
             $table->char('pay_status', 20);
             $table->text('params');
-            $table->dateTime('created');
-//            $table->timestamps();
+            // $table->dateTime('created');
+            $table->timestamps();
         });
     }
 

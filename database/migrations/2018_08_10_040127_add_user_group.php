@@ -18,6 +18,7 @@ class AddUserGroup extends Migration
             $table->string('name');
             $table->integer('key');
             $table->text('params', null)->nullable(1);
+            $table->text('role')->nullable(1);
         });
     }
 
