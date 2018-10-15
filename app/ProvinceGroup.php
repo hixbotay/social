@@ -12,7 +12,7 @@ class ProvinceGroup extends Model
 
     protected $fillable = ['name', 'province_ids'];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
 
     public function get_list_province(){

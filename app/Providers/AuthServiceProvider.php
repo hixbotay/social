@@ -35,19 +35,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define(config('auth.action.LIST_POST'), function ($user){
-
             $data = $this->getUserRoles($user->group_id);
             $haveRole = false;
-            if (!empty($data))
-            {
-                foreach ($data AS $value){
-                    if (config('auth.action.LIST_POST') == $value){
-                        $haveRole = true;
-                        break;
-                    }
-                }
+            if (!empty($data) && in_array(config('auth.action.LIST_POST'), $data)){
+                $haveRole = true;
             }
-
             return $haveRole;
         });
 
