@@ -32,7 +32,7 @@ Route::middleware(['guest'])->group(function() {
     
 });
 
-Route::middleware(['web', 'auth', 'verify'])->group(function() {
+Route::middleware(['web', 'auth'])->group(function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/update-information', function() {
         return view('additional');

@@ -7,14 +7,14 @@ class CafeCard extends Component {
         const {agency} = this.props;
 
         return (
-            <div className="image-card">
+            <div className="image-card cafe-card">
                 <div>
                     <Link to={`cafe/${agency.id}/view`}>
-                        <img src={agency.image}/>
+                        <img src={agency.avatar}/>
                     </Link>
-                    <div className="image-card-btn">
-                        <button className="btn">Hẹn hò</button>
-                        <button className="btn">Đặt chố</button>
+                    <div className="image-card-btn cafe-btn">
+                        <button className="btn btn-sm">Hẹn hò</button>
+                        <button className="btn btn-sm">Đặt chố</button>
                     </div>
                 </div>
                 <div className="row image-card-content">

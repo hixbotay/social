@@ -647,3 +647,23 @@ input[type=radio], input[type=checkbox] {
     height: 100px;
     font-size: -webkit-xxx-large;
 }
+
+.cafe-card {
+    margin-bottom: 15px;
+}
+
+.cafe-btn {
+    top: 30% !important;
+    left: 30% !important;
+}
+
+.cafe-btn button {
+    background: azure;
+    color: black;
+}
+
+.cafe-btn button:hover {
+    background: #2980b9;
+    color: #ecf0f1;
+    opacity: 1;
+}

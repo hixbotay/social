@@ -19,12 +19,12 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             $user = Auth::user();
-            if($user->is_verify) {
+            // if($user->is_verify) {
                 if(Auth::user()->is_admin == 1) return redirect('/admin');
-                return redirect('/home');
-            } else {
+                else return redirect('/');
+            // } else {
 //                return redirect('/alert');
-            }
+            // }
         }
 
         return $next($request);

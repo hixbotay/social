@@ -59,7 +59,7 @@ class DatingGroup extends Component {
                                 <span>
                                     {
                                         event.marital_status.map((item, index) => {
-                                            return (item === '0' ? <span> Single</span> : <span> Married</span>)
+                                            return (item === '0' ? <span key={index}> Single</span> : <span key={index}> Married</span>)
                                         })
                                     }
                                 </span>
@@ -75,14 +75,35 @@ class DatingGroup extends Component {
                                 </div>
                             </div>
                             <div className="row btn-dating-group">
-                                <div className="col-7">
-                                    <button className="btn btn-primary btn-sm">Tìm hiểu thêm</button>
-                                </div>
-                                <div className="col-5">
-                                    <button className="btn btn-primary btn-sm" onClick={() => this.props.joinDating(event.id)}>
-                                        Tham gia
-                                    </button>
-                                </div>
+                                {
+                                    (event.status !== 'forthcoming') ? 
+                                    (
+                                        event.status !== 'finished' ? 
+                                        (
+                                            <div className="text-center">
+                                                <button className="btn btn-primary btn-sm">Hẹn lại</button>
+                                            </div>
+                                        )
+                                        :
+                                        (
+                                            <div className="text-center">
+                                                <button className="btn btn-primary btn-sm">Xem kết quả</button>
+                                            </div>
+                                        )
+                                    ) : (
+                                        <div>
+                                            <div className="col-7">
+                                                <button className="btn btn-primary btn-sm">Tìm hiểu thêm</button>
+                                            </div>
+                                            <div className="col-5">
+                                                <button className="btn btn-primary btn-sm" onClick={() => this.props.joinDating(event.id)}>
+                                                    Tham gia
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                                
                             </div>
                         </div>
                     </div>

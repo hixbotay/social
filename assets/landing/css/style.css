@@ -1,6 +1,6 @@
 
 body {
-	background: url(../img/bg.jpg) left top repeat;
+	background: url(../../../storage/app/public/additional-info/background.jpg) left top repeat;
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	font-weight: 300;
@@ -199,6 +199,14 @@ footer a:hover, footer a:focus { border-bottom: 1px dotted #19b9e7; }
 	position: relative;
 }
 
+#landing-content p {
+	font-size: 1.2em
+}
+
+#landing-content h3 {
+	font-weight: 500
+}
+
 #landing-animation-img {
 	position: absolute;
 	bottom: -10px;
@@ -232,4 +240,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
  
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.auth-link {
+	float: right;
+	margin-right: 10%;
+}
+
+.auth-link a {
+	padding: 5px;
+	font-weight: 500;
 }

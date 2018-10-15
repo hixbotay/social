@@ -57,7 +57,7 @@ Route::get('couple/view/{id}', function($id) {
 
 Route::post('/post', 'Api\Post@createPost');
 
-Route::get('/events', 'Api\Event@list');
+Route::get('/events/{status}', 'Api\Event@list');
 Route::get('/jobs', 'Api\Job@list');
 
 

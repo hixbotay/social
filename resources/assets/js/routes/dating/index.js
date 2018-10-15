@@ -19,14 +19,18 @@ class Dating extends Component {
 
 
     componentDidMount() {
-        this.props.getAllEvents()
+        this.props.getAllEvents('forthcoming');
+        this.props.getAllEvents('finished');
+        this.props.getAllEvents('cancelled');
     }
 
     render() {
 
         return (
             <DatingLayout>
-                <DatingCard title="Cuộc hẹn trong hôm nay" events={this.props.events}></DatingCard>
+                <DatingCard title="CUỘC HẸN SẮP TỚI" events={this.props.forthcomingEvents}></DatingCard>
+                <DatingCard title="CUỘC HẸN ĐÃ KẾT THÚC" events={this.props.finishedEvents}></DatingCard>
+                <DatingCard title="CUỘC HẸN ĐÃ HỦY" events={this.props.cancelledEvents}></DatingCard>
             </DatingLayout>
         );
     }
@@ -36,13 +40,15 @@ class Dating extends Component {
 
 function mapStateToProps(state) {
     return {
-        events: state.event.events
+        forthcomingEvents: state.event.forthcomingEvents,
+        finishedEvents: state.event.finishedEvents,
+        cancelledEvents: state.event.cancelledEvents
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAllEvents: () => dispatch(getAllEvents()),
+        getAllEvents: (status) => dispatch(getAllEvents(status)),
     }
 }
 

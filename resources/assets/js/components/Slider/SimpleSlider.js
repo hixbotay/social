@@ -4,11 +4,16 @@ import PropTypes from 'prop-types';
 
 class SimpleSlider extends Component {
     render() {
+        const {images} = this.props;
+        if(images.length >= 3) {
+            images.push('')
+        }
+
         // See more at: https://react-slick.neostack.com/docs/api
         var settings = {
             accessibility: true,
             dots: false,
-            infinite: true,
+            infinite: images.length > this.props.slidesToShow,
             speed: 500,
             slidesToShow: this.props.slidesToShow,
             slidesToScroll: 1,
@@ -18,7 +23,7 @@ class SimpleSlider extends Component {
         return (
             <Slider {...settings}>
                 {
-                    this.props.images.map((item, index) => {
+                    images.map((item, index) => {
                         return (
                             <div key={index} className="custom-slider-item">
                                 <img src={item}/>

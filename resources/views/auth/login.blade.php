@@ -5,7 +5,7 @@
 <div>
     <div class="form-top">
         <div class="col-sm-offset-2 col-sm-12">
-            <img src="{{asset('assets/landing/img/logo.png')}}" id="logo-form">
+            <img src="storage/app/public/logo.png" id="logo-form">
         </div>
     </div>
     <div class="form-bottom">
@@ -43,8 +43,13 @@
                         <a class="btn btn-link" href="{{ route('password.request') }}">
                             Forgot Your Password?
                         </a>
+                        
                     </div>
                     <!-- </div> -->
+                    <div class="text-center">
+                        <small>Bạn chưa có tài khoản? <a href="/register">Đăng ký ngay!</a></small>
+                    </div>
+                    
                 </div>
             </div>
 

@@ -49,10 +49,10 @@ class User extends Controller
             $filename = (string) time().'.'.$request->avatar->getClientOriginalExtension();
             $request->avatar->storeAs('user'.$id.'/avatar', $filename);
 		}
-		$user->avatar = env('APP_URL').'/storage/app/user'.$id.'/avatar/'.$filename;
+		$user->avatar = 'storage/app/user'.$id.'/avatar/'.$filename;
 
         $user->save();
-        return redirect('home');
+        return redirect('/');
 	}
 	
 // 	public function update(){

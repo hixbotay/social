@@ -132,7 +132,7 @@ class CreateCoupleDating extends Component {
 
     createNewEvent(e) {
         e.preventDefault();
-        if (this.state.selectedTheme && this.state.newEvent.address) {
+        if (this.state.selectedTheme && this.state.newEvent.agency_id) {
             this.props.createNewEvent({ event: this.state.newEvent, event_meta: this.state.metadata });
             document.getElementById('open-modal').click();
         } else {

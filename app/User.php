@@ -32,7 +32,15 @@ class User extends Authenticatable
         'ip_address',
         'id_number',
         'provider',
-        'provider_id'
+        'provider_id',
+        'is_id_verified',
+        'province_id',
+        'district_id',
+        'village_id',
+        'marital_status',
+        'birthday',
+        'remember_token',
+        'job',
     ];
 
     /**
@@ -41,7 +49,12 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'job'
+        'password', 
+        'remember_token', 
+        'job', 
+        'province_id',
+        'district_id',
+        'village_id',
     ];
 
     public static function get_list_user_by_key($group){

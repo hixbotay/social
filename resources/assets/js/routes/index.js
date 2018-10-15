@@ -45,8 +45,9 @@ const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 )
 
 class MainApp extends Component {
-	componentDidMount() {
-        this.props.getCurrentUser();
+	constructor(props) {
+        super(props);
+        props.getCurrentUser();
 	}
 	
 	render() {

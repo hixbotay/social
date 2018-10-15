@@ -108,7 +108,7 @@ class CreateGroupDating extends Component {
 
     createNewEvent(e) {
         e.preventDefault();
-        if (this.state.selectedTheme && this.state.selectedAddress) {
+        if (this.state.selectedTheme && (this.state.selectedAddress >= 0)) {
             this.props.createNewEvent({event: this.state.newEvent, event_meta: this.state.metadata});
             document.getElementById('open-modal').click();
         } else {
@@ -363,7 +363,7 @@ class CreateGroupDating extends Component {
                                 Khởi tạo cuộc hẹn của bạn đang chờ admin duyệt!
                             </div>
                             <div className="text-center create-event-alert-content">
-                                <button className="btn btn-primary" >OK</button>
+                                <button className="btn btn-primary" onClick={() => window.location.reload()}>OK</button>
                             </div>
                         </div>
                     </div>

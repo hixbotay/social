@@ -6,6 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Bootstrap Login &amp; Register Templates</title>
 
     <!-- CSS -->
@@ -24,7 +26,8 @@
 
         <!-- Favicon and touch icons -->
         <link rel="shortcut icon" href="{{asset('assets/landing/ico/favicon.png')}}">
-
+        {{-- <script src="{{ asset('assets/js/jquery-2.1.4.min.js') }}"></script> --}}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
 
     <body>
@@ -53,31 +56,31 @@
 
         <!-- Top content -->
         <div class="top-content">
-        	
+        	<div class="auth-link">
+                <a href="/login">Đăng nhập</a> 
+                <a href="/register">Đăng ký</a>
+            </div>
             <div class="inner-bg">
                 <div class="container">
-                	
-                    <div class="row">
-
-                    </div>
-                    
                     <div class="row">
                         <div class="col-sm-7" id="landing-content">
                             <div class="col-sm-12 text">
-                                <h1>Bootstrap Login &amp; Register Forms</h1>
+                                {{-- <h1>Bootstrap Login &amp; Register Forms</h1>
                                 <div class="description">
                                     <p>
                                         This is a free responsive <strong>"login and register forms"</strong> template made with Bootstrap. 
                                         Download it on <a href="http://azmind.com" target="_blank"><strong>AZMIND</strong></a>, 
                                         customize and use it as you like!
                                     </p>
-                                </div>
+                                </div> --}}
+                                <p>Nếu bạn thực sự muốn tìm một người bạn có ý nghĩa với cuộc đời mình</p>
+                                <h3>HÃY THAM GIA CÙNG CHÚNG TÔI</h3>
                             </div>
                             <div class="embed-responsive embed-responsive-16by9">
                                 <iframe max-width="100%" class="embed-responsive-item" src="https://www.youtube.com/embed/FGIun-VbbJM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                             </div>
                             <div>
-                                <img id="landing-animation-img" src="{{asset('assets/landing/img/cycling.gif')}}">
+                                <img id="landing-animation-img" src="storage/app/public/additional-info/image2.png">
                             </div>
                             
                         </div>
@@ -114,7 +117,8 @@
 </footer>
 
 <!-- Javascript -->
-<script src="{{asset('assets/landing/js/jquery-1.11.1.min.js')}}"></script>
+
+{{-- <script src="{{asset('assets/landing/js/jquery-1.11.1.min.js')}}"></script> --}}
 <script src="{{asset('assets/landing/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/landing/js/scripts.js')}}"></script>
 

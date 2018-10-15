@@ -1,14 +1,33 @@
 import api from '../api';
 import {
     GET_ALL_EVENTS, 
+    GET_FORTHCOMING_EVENTS,
+    GET_FINISHED_EVENTS,
+    GET_CANCELLED_EVENTS,
     CREATE_NEW_EVENT,
     JOIN_EVENT
 } from './types';
 
-export const getAllEvents = () => dispatch => {
-    return api.get('/events')
+export const getAllEvents = (status) => dispatch => {
+    return api.get(`/events/${status}`)
         .then((response) => {
-            dispatch({type: GET_ALL_EVENTS, payload: response.data.data})
+            var type = GET_ALL_EVENTS;
+            switch(status) {
+                case 'forthcoming': {
+                    type = GET_FORTHCOMING_EVENTS;
+                    break;
+                }
+                case 'finished': {
+                    type = GET_FINISHED_EVENTS;
+                    break;
+                }
+                case 'cancelled': {
+                    type = GET_CANCELLED_EVENTS;
+                    break;
+                }
+                default: break;
+            }
+            dispatch({type: type, payload: response.data.data})
         })
         .catch(err => {
             console.log(err);

@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Event extends Controller {
-    public function list() {
+    public function list($status) {
         $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
             ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
             ->leftjoin('agency_photos', 'events.agency_id', '=', 'agency_photos.agency_id')
-            ->where('agency_photos.type', '=', 'avatar')
+            ->where([
+                ['agency_photos.type', '=', 'avatar'],
+                ['status', '=', $status]
+            ])
             ->select(DB::raw('events.*, users.name as creator_name, users.avatar as creator_avatar, agency.address as address, agency_photos.source as address_avatar'))
             ->paginate(10);
 
@@ -34,51 +37,16 @@ class Event extends Controller {
             $marital_status = [];
             foreach($event_meta as $metadata) {
                 if($metadata->event_id == $event->id) {
-                    switch ($metadata->meta_key) {
-                        case 'job_conditional': {
-                            array_push($job, $metadata->name);
-                            break;
-                        }
-                        case 'marital_status': {
-                            array_push($marital_status, $metadata->meta_value);
-                            break;
-                        }
-                        case 'min_male_age': {
-                            $event['min_male_age'] = $metadata->meta_value;
-                            break;
-                        }
-                        case 'min_female_age': {
-                            $event['min_female_age'] = $metadata->meta_value;
-                            break;
-                        }
-                        case 'max_male_age': {
-                            $event['max_male_age'] = $metadata->meta_value;
-                            break;
-                        }
-                        case 'max_female_age': {
-                            $event['max_female_age'] = $metadata->meta_value;
-                            break;
-                        }
-                        case 'min_male_number': {
-                            $event['min_male_number'] = $metadata->meta_value;
-                            break;
-                        }
-                        case 'max_male_number': {
-                            $event['max_male_number'] = $metadata->meta_value;
-                            break;
-                        }
-                        case 'min_female_number': {
-                            $event['min_female_number'] = $metadata->meta_value;
-                            break;
-                        }
-                        case 'max_female_number': {
-                            $event['max_female_number'] = $metadata->meta_value;
-                            break;
-                        }
-                        default: {
-                            break;
-                        }
+                    $key = $metadata->meta_key;
+
+                    if($key == 'job_conditional') {
+                        array_push($job, $metadata->name);
+                    } else if($key == 'marital_status') {
+                        array_push($marital_status, $metadata->meta_value);
+                    } else {
+                        $event[$key] = $metadata->meta_value;
                     }
+
                     $event['job'] = $job;
                     $event['marital_status'] = $marital_status;
                 }

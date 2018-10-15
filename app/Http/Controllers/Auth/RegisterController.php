@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -27,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/upload-avatar';
 
     /**
      * Create a new controller instance.
@@ -49,8 +51,14 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'nullable|string|email|max:255|unique:users',
+            // 'email' => 'nullable|string|email|max:255|unique:users',
             'mobile' => 'required|digits:20|unique:users',
+            'gender' => ['required', Rule::in(['M', 'F'])],
+            'marital_status' => ['required', Rule::in([0, 1])],
+            'birthday' => 'required|date',
+            'province_id' => 'required|digits:4',
+            'district_id' => 'required|digits:4',
+            'village_id' => 'required|digits:5',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -65,7 +73,13 @@ class RegisterController extends Controller
     {
         return User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'mobile' => $data['mobile'],
+            'gender' => $data['gender'],
+            'marital_status' => $data['marital_status'],
+            'birthday' => $data['birthday'],
+            'province_id' => $data['province_id'],
+            'district_id' => $data['district_id'],
+            'village_id' => $data['village_id'],
             'password' => bcrypt($data['password']),
         ]);
     }
