@@ -67,6 +67,14 @@ class Map extends Component {
         }
     }
 
+    checkAddress() {
+        if(this.state.address && this.state.coordinates) {
+            var button = document.getElementById('close-map-modal');
+            button.setAttribute('data-dismiss', "modal");
+            button.click();
+        } else alert("Có vẻ bạn chưa điền địa chỉ hoặc chưa nhấn Enter sau khi điền?");
+    }
+
     render() {
 
         return (
@@ -74,6 +82,9 @@ class Map extends Component {
                 <label>Nhập địa chỉ vào ô bên dưới, bạn có thể điều chỉnh marker cho phù hợp:</label>
                 <input id="pac-input" className="controls" type="text" placeholder="Nhập địa chỉ và nhấn Enter" />
                 <div id="map"></div>
+                <div className="">
+                    <button type="button" className="btn btn-secondary" id="close-map-modal" onClick={() => this.checkAddress()}>Close</button>
+                </div>
             </div>
 
         );

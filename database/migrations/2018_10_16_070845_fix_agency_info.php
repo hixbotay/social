@@ -13,9 +13,9 @@ class FixAgencyInfo extends Migration
      */
     public function up()
     {
-        Schema::table('agency', function($table) {
-            $table->float('lat', 9, 6)->nullable(1)->change();
-            $table->float('lng', 9, 6)->nullable(1)->change();
+        Schema::table('agency', function(Blueprint $table) {
+            $table->decimal('lat', 9, 6)->nullable(1)->change();
+            $table->decimal('lng', 9, 6)->nullable(1)->change();
         });
     }
 

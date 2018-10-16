@@ -289,9 +289,6 @@ class CreateNewCafe extends Component {
 
                 <Modal id="map-modal" title="Chọn vị trí trên bản đồ">
                     <Map onChangeAddress={(address, coordinates) => this.onChangeAddress(address, coordinates)}></Map>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
                 </Modal>
             </CafeLayout>
         );

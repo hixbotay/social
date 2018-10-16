@@ -54,7 +54,7 @@ class CafeDetail extends Component {
 
                         <div className="author-date">
                             <h3>{agency.name}</h3>
-                            <p>{agency.params}</p>
+                            <p>{agency.type}</p>
                         </div>
                     </div>
                     <div className="row">

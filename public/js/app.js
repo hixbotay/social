@@ -11062,7 +11062,7 @@ var Modal = function (_Component) {
         value: function render() {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 "div",
-                { id: this.props.id, className: "modal fade", role: "dialog" },
+                { id: this.props.id, className: "modal fade", role: "dialog", "data-keyboard": "false", "data-backdrop": "static" },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "div",
                     { className: "modal-dialog" },
@@ -73184,24 +73184,44 @@ var DatingCouple = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
                                 { className: 'row btn-dating-group' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                event.status !== 'forthcoming' ? event.status !== 'finished' ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',
-                                    { className: 'col-7' },
+                                    { className: 'text-center' },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'button',
-                                        { className: 'btn btn-primary btn-sm ' },
-                                        'T\xECm hi\u1EC3u th\xEAm'
+                                        { className: 'btn btn-primary btn-sm' },
+                                        'H\u1EB9n l\u1EA1i'
                                     )
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',
-                                    { className: 'col-5' },
+                                    { className: 'text-center' },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'button',
-                                        { className: 'btn btn-primary btn-sm ', onClick: function onClick() {
-                                                return _this2.props.joinDating(event.id);
-                                            } },
-                                        'Tham gia'
+                                        { className: 'btn btn-primary btn-sm' },
+                                        'Xem k\u1EBFt qu\u1EA3'
+                                    )
+                                ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    null,
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'div',
+                                        { className: 'col-7' },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'button',
+                                            { className: 'btn btn-primary btn-sm' },
+                                            'T\xECm hi\u1EC3u th\xEAm'
+                                        )
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'div',
+                                        { className: 'col-5' },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'button',
+                                            { className: 'btn btn-primary btn-sm', onClick: function onClick() {
+                                                    return _this2.props.joinDating(event.id);
+                                                } },
+                                            'Tham gia'
+                                        )
                                     )
                                 )
                             )
@@ -73240,6 +73260,7 @@ function mapDispatchToProps(dispatch) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helper_cookie__ = __webpack_require__(449);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -73247,6 +73268,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -73261,8 +73283,16 @@ var CafeCard = function (_Component) {
     }
 
     _createClass(CafeCard, [{
+        key: 'createDating',
+        value: function createDating(id) {
+            Object(__WEBPACK_IMPORTED_MODULE_2__helper_cookie__["c" /* setCookie */])('cafe_id', id, 1);
+            window.location.href = '/dating/create';
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var agency = this.props.agency;
 
 
@@ -73282,7 +73312,9 @@ var CafeCard = function (_Component) {
                         { className: 'image-card-btn cafe-btn' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'button',
-                            { className: 'btn btn-sm' },
+                            { className: 'btn btn-sm', onClick: function onClick() {
+                                    return _this2.createDating(agency.id);
+                                } },
                             'H\u1EB9n h\xF2'
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -76889,16 +76921,7 @@ var CreateNewCafe = function (_Component) {
                     { id: "map-modal", title: "Ch\u1ECDn v\u1ECB tr\xED tr\xEAn b\u1EA3n \u0111\u1ED3" },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__Map__["a" /* default */], { onChangeAddress: function onChangeAddress(address, coordinates) {
                             return _this5.onChangeAddress(address, coordinates);
-                        } }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "div",
-                        { className: "modal-footer" },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            "button",
-                            { type: "button", className: "btn btn-secondary", "data-dismiss": "modal" },
-                            "Close"
-                        )
-                    )
+                        } })
                 )
             );
         }
@@ -77039,8 +77062,18 @@ var Map = function (_Component) {
             }
         }
     }, {
+        key: 'checkAddress',
+        value: function checkAddress() {
+            if (this.state.address && this.state.coordinates) {
+                var button = document.getElementById('close-map-modal');
+                button.setAttribute('data-dismiss', "modal");
+                button.click();
+            } else alert("Có vẻ bạn chưa điền địa chỉ hoặc chưa nhấn Enter sau khi điền?");
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -77051,7 +77084,18 @@ var Map = function (_Component) {
                     'Nh\u1EADp \u0111\u1ECBa ch\u1EC9 v\xE0o \xF4 b\xEAn d\u01B0\u1EDBi, b\u1EA1n c\xF3 th\u1EC3 \u0111i\u1EC1u ch\u1EC9nh marker cho ph\xF9 h\u1EE3p:'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: 'pac-input', className: 'controls', type: 'text', placeholder: 'Nh\u1EADp \u0111\u1ECBa ch\u1EC9 v\xE0 nh\u1EA5n Enter' }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'map' })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'map' }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: '' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { type: 'button', className: 'btn btn-secondary', id: 'close-map-modal', onClick: function onClick() {
+                                return _this2.checkAddress();
+                            } },
+                        'Close'
+                    )
+                )
             );
         }
     }]);
@@ -80299,10 +80343,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
-
 var FriendsVisited = function (_Component) {
     _inherits(FriendsVisited, _Component);
 
@@ -80315,7 +80355,6 @@ var FriendsVisited = function (_Component) {
     _createClass(FriendsVisited, [{
         key: 'render',
         value: function render() {
-            var temp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -80328,22 +80367,7 @@ var FriendsVisited = function (_Component) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_1__components_Card__["d" /* CardWithTitle */],
                     { title: '\u0110\xC3 GH\xC9 TH\u0102M B\u1EA0N' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'row' },
-                        temp.map(function (item, index) {
-                            var number = getRandomInt(20);
-                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'col-3 col-md-3 mb-4', key: index },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__components_Card__["f" /* ImageCard */], {
-                                    img: 'https://picsum.photos/400/300?image=' + number,
-                                    heading: 'Lorem Ipsum',
-                                    subHeading: 'Lorem ipsum lositdomet'
-                                })
-                            );
-                        })
-                    )
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'row' })
                 )
             );
         }
@@ -81510,6 +81534,7 @@ function mapDispatchToProps(dispatch) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__actions_EventActions__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__actions_AddressActions__ = __webpack_require__(159);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_Modal__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__helper_cookie__ = __webpack_require__(449);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -81521,6 +81546,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -81558,6 +81584,11 @@ var CreateCoupleDating = function (_Component) {
         value: function componentDidMount() {
             this.props.getAllJobs();
             this.props.getAllProvinces();
+
+            var cafe_id = Object(__WEBPACK_IMPORTED_MODULE_10__helper_cookie__["a" /* getCookie */])('cafe_id');
+            if (cafe_id) {
+                this.props.getCafeDetail(cafe_id);
+            }
         }
     }, {
         key: 'selectTheme',
@@ -81667,6 +81698,7 @@ var CreateCoupleDating = function (_Component) {
             e.preventDefault();
             if (this.state.selectedTheme && this.state.newEvent.agency_id) {
                 this.props.createNewEvent({ event: this.state.newEvent, event_meta: this.state.metadata });
+                Object(__WEBPACK_IMPORTED_MODULE_10__helper_cookie__["b" /* removeCookie */])('cafe_id');
                 document.getElementById('open-modal').click();
             } else {
                 window.alert("Vui lòng xem lại chủ đề hoặc địa chỉ");
@@ -81676,6 +81708,9 @@ var CreateCoupleDating = function (_Component) {
         key: 'render',
         value: function render() {
             var _this6 = this;
+
+            var current_cafe = this.props.current_cafe;
+
 
             var age = [];
             for (var $i = 18; $i <= 60; $i++) {
@@ -81798,7 +81833,24 @@ var CreateCoupleDating = function (_Component) {
                                     } })
                             )
                         ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        Object(__WEBPACK_IMPORTED_MODULE_10__helper_cookie__["a" /* getCookie */])('cafe_id') ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'row' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'col-4' },
+                                '\u0110\u1ECBa \u0111i\u1EC3m \u0111\xE3 ch\u1ECDn s\u1EB5n:'
+                            ),
+                            current_cafe ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                null,
+                                current_cafe.address,
+                                ', ',
+                                current_cafe.district_name,
+                                ', ',
+                                current_cafe.province_name
+                            ) : null
+                        ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'row' },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -82142,6 +82194,7 @@ function mapStateToProps(state) {
     return {
         jobs: state.job.jobs,
         cafes: state.cafe.cafes,
+        current_cafe: state.cafe.currentCafe,
         provinces: state.address.provinces,
         districts: state.address.districts
     };
@@ -82154,6 +82207,9 @@ function mapDispatchToProps(dispatch) {
         },
         getAllCafe: function getAllCafe(filter, page) {
             return dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__actions_CafeActions__["b" /* getAllCafe */])(filter, page));
+        },
+        getCafeDetail: function getCafeDetail(id) {
+            return dispatch(Object(__WEBPACK_IMPORTED_MODULE_6__actions_CafeActions__["c" /* getCafeDetail */])(id));
         },
         getAllProvinces: function getAllProvinces() {
             return dispatch(Object(__WEBPACK_IMPORTED_MODULE_8__actions_AddressActions__["c" /* getAllProvinces */])());
@@ -82285,7 +82341,7 @@ var CafeDetail = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
                                 null,
-                                agency.params
+                                agency.type
                             )
                         )
                     ),
@@ -83003,6 +83059,48 @@ var getEducations = function getEducations() {
         });
     };
 };
+
+/***/ }),
+/* 449 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["c"] = setCookie;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getCookie;
+/* harmony export (immutable) */ __webpack_exports__["b"] = removeCookie;
+// set cookie
+function setCookie(cname, cvalue, exdays) {
+    console.log("set cookie");
+    var d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    var expires = d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";expires=" + expires + ";path=/";
+}
+
+// get cookie
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+// delete cookie
+function removeCookie(cname) {
+    var cvalue = getCookie(cname);
+    var d = new Date();
+    d.setTime(d.getTime() - 24 * 60 * 60 * 1000); // reduce 1 day
+    var expires = d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";expires=" + expires + ";path=/;";
+}
 
 /***/ })
 /******/ ]);

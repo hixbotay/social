@@ -4,10 +4,11 @@ import { Card } from '../../components/Card';
 import Slider from "react-slick";
 import connect from 'react-redux/es/connect/connect';
 import { getAllJobs } from '../../actions/JobActions';
-import { getAllCafe } from '../../actions/CafeActions';
+import { getAllCafe, getCafeDetail } from '../../actions/CafeActions';
 import { createNewEvent } from '../../actions/EventActions';
 import { getAllDistricts, getAllProvinces } from "../../actions/AddressActions";
 import Modal from '../../components/Modal';
+import { getCookie, removeCookie } from '../../helper/cookie';
 
 class CreateCoupleDating extends Component {
     constructor(props) {
@@ -26,6 +27,11 @@ class CreateCoupleDating extends Component {
     componentDidMount() {
         this.props.getAllJobs();
         this.props.getAllProvinces();
+
+        var cafe_id = getCookie('cafe_id');
+        if (cafe_id) {
+            this.props.getCafeDetail(cafe_id);
+        }
     }
 
     selectTheme(item) {
@@ -46,11 +52,11 @@ class CreateCoupleDating extends Component {
             }
         }, () => {
             this.props.getAllDistricts(this.province_id.value);
-        }); 
+        });
     }
 
     changeDistrict() {
-        this.props.getAllCafe({district_id: this.district_id.value}, 1);
+        this.props.getAllCafe({ district_id: this.district_id.value }, 1);
     }
 
     changeAddress() {
@@ -134,6 +140,7 @@ class CreateCoupleDating extends Component {
         e.preventDefault();
         if (this.state.selectedTheme && this.state.newEvent.agency_id) {
             this.props.createNewEvent({ event: this.state.newEvent, event_meta: this.state.metadata });
+            removeCookie('cafe_id');
             document.getElementById('open-modal').click();
         } else {
             window.alert("Vui lòng xem lại chủ đề hoặc địa chỉ");
@@ -141,6 +148,7 @@ class CreateCoupleDating extends Component {
     }
 
     render() {
+        const {current_cafe} = this.props;
 
         var age = [];
         for (let $i = 18; $i <= 60; $i++) {
@@ -200,52 +208,68 @@ class CreateCoupleDating extends Component {
                             </div>
                         </div>
 
-                        <div className="row">
-                            <label className="col-md-3 control-label" htmlFor="province">Chọn địa chỉ</label>
-                            <div className="col-md-3">
-                                <select className="custom-select" name="province_id" ref={select => this.province_id = select} onChange={() => this.changeProvince()} required>
-                                    <option>Tỉnh/TP</option>
-                                    {
-                                        this.props.provinces.map((data, index) => {
-                                            return (<option value={data.matp} key={index}>{data.name}</option>);
-                                        })
-                                    }
+                        {
+                            getCookie('cafe_id') ?
+                                (
+                                    <div className="row">
+                                        <div className="col-4">Địa điểm đã chọn sẵn:</div>
+                                        {
+                                            current_cafe ? (
+                                                <div>{current_cafe.address}, {current_cafe.district_name}, {current_cafe.province_name}</div>
+                                            ) : null
+                                        }
+                                        
+                                    </div>
+                                ) : (
+                                    <div className="row">
+                                        <label className="col-md-3 control-label" htmlFor="province">Chọn địa chỉ</label>
+                                        <div className="col-md-3">
+                                            <select className="custom-select" name="province_id" ref={select => this.province_id = select} onChange={() => this.changeProvince()} required>
+                                                <option>Tỉnh/TP</option>
+                                                {
+                                                    this.props.provinces.map((data, index) => {
+                                                        return (<option value={data.matp} key={index}>{data.name}</option>);
+                                                    })
+                                                }
 
-                                </select>
-                            </div>
-                            <div className="col-md-3">
-                                <select className="custom-select" name="district_id" ref={select => this.district_id = select} onChange={() => this.changeDistrict()} required>
-                                    <option>Quận/Huyện</option>
-                                    {
-                                        this.props.districts.map((data, index) => {
-                                            return (<option value={data.maqh} key={index}>{data.name}</option>);
-                                        })
-                                    }
-                                </select>
-                            </div>
-                            <div className="col-md-3">
-                                <select className="custom-select" name="cafe" ref={select => this.cafe = select} onChange={() => this.changeAddress()} required>
-                                    <option>Quán</option>
-                                    {
-                                        this.props.cafes.map((data, index) => {
-                                            return (<option value={data.id} key={index}>{data.name}</option>);
-                                        })
-                                    }
-                                </select>
-                            </div>
-                        </div>
+                                            </select>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <select className="custom-select" name="district_id" ref={select => this.district_id = select} onChange={() => this.changeDistrict()} required>
+                                                <option>Quận/Huyện</option>
+                                                {
+                                                    this.props.districts.map((data, index) => {
+                                                        return (<option value={data.maqh} key={index}>{data.name}</option>);
+                                                    })
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <select className="custom-select" name="cafe" ref={select => this.cafe = select} onChange={() => this.changeAddress()} required>
+                                                <option>Quán</option>
+                                                {
+                                                    this.props.cafes.map((data, index) => {
+                                                        return (<option value={data.id} key={index}>{data.name}</option>);
+                                                    })
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                )
+                        }
+
 
                         <div className="row form-group">
                             <div className="col-4">Giới tính:</div>
                             <div className="col-4">
                                 <div className="custom-radio">
-                                    <input type="radio" name="gender" className="custom-control-input" value="M" onChange={(e) => this.onChangeRadioInput(e)}/>
+                                    <input type="radio" name="gender" className="custom-control-input" value="M" onChange={(e) => this.onChangeRadioInput(e)} />
                                     <label className="custom-control-label">Nam</label>
                                 </div>
                             </div>
                             <div className="col-4">
                                 <div className="custom-radio">
-                                    <input type="radio" name="gender" className="custom-control-input" value="F" onChange={(e) => this.onChangeRadioInput(e)}/>
+                                    <input type="radio" name="gender" className="custom-control-input" value="F" onChange={(e) => this.onChangeRadioInput(e)} />
                                     <label className="custom-control-label">Nữ</label>
                                 </div>
                             </div>
@@ -290,13 +314,13 @@ class CreateCoupleDating extends Component {
                             <div className="col-4">Tình trạng hôn nhân</div>
                             <div className="col-4">
                                 <div className="custom-radio">
-                                    <input type="radio" name="marital_status" className="custom-control-input" value={1} onChange={(e) => this.onChangeRadioInput(e)}/>
+                                    <input type="radio" name="marital_status" className="custom-control-input" value={1} onChange={(e) => this.onChangeRadioInput(e)} />
                                     <label className="custom-control-label">Đã kết hôn</label>
                                 </div>
                             </div>
                             <div className="col-4">
                                 <div className="custom-radio">
-                                    <input type="radio" name="marital_status" className="custom-control-input" value={0} onChange={(e) => this.onChangeRadioInput(e)}/>
+                                    <input type="radio" name="marital_status" className="custom-control-input" value={0} onChange={(e) => this.onChangeRadioInput(e)} />
                                     <label className="custom-control-label">Độc thân</label>
                                 </div>
                             </div>
@@ -305,13 +329,13 @@ class CreateCoupleDating extends Component {
                             <div className="col-4">Người thanh toán hẹn đôi</div>
                             <div className="col-4">
                                 <div className="custom-radio">
-                                    <input type="radio" name="payer" className="custom-control-input" value={1} onChange={(e) => this.onChangeRadioInput(e)}/>
+                                    <input type="radio" name="payer" className="custom-control-input" value={1} onChange={(e) => this.onChangeRadioInput(e)} />
                                     <label className="custom-control-label">Bạn</label>
                                 </div>
                             </div>
                             <div className="col-4">
                                 <div className="custom-radio">
-                                    <input type="radio" name="payer" className="custom-control-input" value={0} onChange={(e) => this.onChangeRadioInput(e)}/>
+                                    <input type="radio" name="payer" className="custom-control-input" value={0} onChange={(e) => this.onChangeRadioInput(e)} />
                                     <label className="custom-control-label">Người ấy</label>
                                 </div>
                             </div>
@@ -350,6 +374,7 @@ function mapStateToProps(state) {
     return {
         jobs: state.job.jobs,
         cafes: state.cafe.cafes,
+        current_cafe: state.cafe.currentCafe,
         provinces: state.address.provinces,
         districts: state.address.districts,
     }
@@ -359,6 +384,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getAllJobs: () => dispatch(getAllJobs()),
         getAllCafe: (filter, page) => dispatch(getAllCafe(filter, page)),
+        getCafeDetail: (id) => dispatch(getCafeDetail(id)),
         getAllProvinces: () => dispatch(getAllProvinces()),
         getAllDistricts: (id) => dispatch(getAllDistricts(id)),
         createNewEvent: (data) => dispatch(createNewEvent(data))

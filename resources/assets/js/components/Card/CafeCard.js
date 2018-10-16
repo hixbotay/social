@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import {seCookie, setCookie} from '../../helper/cookie';
 
 class CafeCard extends Component {
+
+    createDating(id) {
+        setCookie('cafe_id', id, 1);
+        window.location.href = '/dating/create';
+    }
     
     render() {
         const {agency} = this.props;
@@ -13,7 +19,7 @@ class CafeCard extends Component {
                         <img src={agency.avatar}/>
                     </Link>
                     <div className="image-card-btn cafe-btn">
-                        <button className="btn btn-sm">Hẹn hò</button>
+                        <button className="btn btn-sm" onClick={() => this.createDating(agency.id)}>Hẹn hò</button>
                         <button className="btn btn-sm">Đặt chố</button>
                     </div>
                 </div>

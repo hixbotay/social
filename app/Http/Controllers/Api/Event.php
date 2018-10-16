@@ -11,12 +11,20 @@ class Event extends Controller {
     public function list($status) {
         $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
             ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
-            ->leftjoin('agency_photos', 'events.agency_id', '=', 'agency_photos.agency_id')
-            ->where([
-                ['agency_photos.type', '=', 'avatar'],
-                ['status', '=', $status]
-            ])
-            ->select(DB::raw('events.*, users.name as creator_name, users.avatar as creator_avatar, agency.address as address, agency_photos.source as address_avatar'))
+            ->leftjoin('agency_photos', function ($join) {
+                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                $join->on(function($query) {
+                    $query->where('agency_photos.type', '=', 'avatar'); 
+                });
+            })
+            ->where('status', '=', $status)
+            ->select(DB::raw('
+                events.*, 
+                users.name as creator_name, 
+                users.avatar as creator_avatar, 
+                agency.address as address, 
+                agency_photos.source as address_avatar
+            '))
             ->paginate(10);
 
         $events_id = [];

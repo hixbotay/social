@@ -72,11 +72,22 @@ class Cafe extends Controller
     }
 
     public function get($id) {
-        $agency = \App\Agency::find($id);
+        $agency = \App\Agency::leftjoin('devvn_tinhthanhpho', 'matp', '=', 'province_id')
+            ->leftjoin('devvn_quanhuyen', 'maqh', '=', 'district_id')
+            ->select(DB::raw('
+                agency.*,
+                devvn_tinhthanhpho.name as province_name,
+                devvn_quanhuyen.name as district_name
+            '))
+            ->where('id', '=', $id)
+            ->first();
+
         $agency['avatar'] = '';
         $agency['cover'] = '';
 
-        $images = DB::table('agency_photos')->where('agency_id', '=', $id)->orderBy('id', 'DESC')->get();
+        $images = DB::table('agency_photos')
+            ->where('agency_id', '=', $id)
+            ->orderBy('id', 'DESC')->get();
 
         $temp = [];
         foreach($images as $image) {
