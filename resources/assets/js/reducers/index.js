@@ -8,6 +8,7 @@ import coupleReducer from './CoupleReducer';
 import eventReducer from './EventReducer';
 import jobReducer from './JobReducer';
 import addressReducer from './AddressReducer';
+import educationReducer from './EducationReducer';
 
 const rootReducer = combineReducers({
     post: postReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
     couple: coupleReducer,
     event: eventReducer, 
     job: jobReducer,
-    address: addressReducer
+    address: addressReducer,
+    education: educationReducer
 });
 
 export default rootReducer;

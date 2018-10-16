@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Controller
 {
@@ -79,9 +80,12 @@ class User extends Controller
         $users = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
             ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
+            ->leftjoin('education', 'users.education', '=', 'education.id')
             ->select(DB::raw(
                 'users.*, 
+                user_jobs.id AS job_id,
                 user_jobs.name AS job_name, 
+                education.name AS education_name,
                 SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                 SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
             ))
@@ -90,7 +94,7 @@ class User extends Controller
         $hobbies =  DB::table('user_hobby_map')
                     ->where('user_hobby_map.user_id', $id)
                     ->leftjoin('user_hobby', 'hobby_id', '=', 'user_hobby.id')
-                    ->select('user_hobby.name')
+                    ->select(DB::raw('user_hobby.*'))
                     ->get();
         $result = [
             'user' => $users[0],
@@ -169,6 +173,41 @@ class User extends Controller
         else $results = [];
         
         return json_encode($results);
+    }
+
+    public function uploadIdCardPhoto(Request $request, $id) {
+        $data = json_decode($request->getContent());
+
+        $base64_image = explode(',', $data->image)[1];
+
+        $firstChar = substr($base64_image, 0, 1);
+
+        switch($firstChar) {
+            case '/': {
+				$extension = 'jpg';
+				break;
+			}
+			case 'i': {
+				$extension = 'png';
+				break;
+			}
+			case 'R': {
+				$extension = 'gif';
+				break;
+			}
+			default: {
+				$extension = 'jpg';
+				break;
+			}
+        }
+ 
+        $filename = (string) time().'.'.$extension;
+        
+        Storage::disk('local')->put('user'.$id.'/id-card/'.$filename, base64_decode($base64_image));
+
+        $user = \App\User::find($id);
+        $user->id_card_photos = 'storage/app/user'.$id.'/id-card/'.$filename;
+        return json_encode($user);
     }
 }
 

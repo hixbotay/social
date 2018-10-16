@@ -94,3 +94,11 @@ export const getListFriends = (type) => (dispatch) => {
     })
 }
 
+export const uploadIdCardPhoto = (data, id) => dispatch => {
+    api.post(`/user/${id}/upload-id-card`, data).then(res => {
+        dispatch({type: UPDATE_USER_DETAIL, payload: res.data});
+    }).catch(err => {
+        console.log(err);
+    })
+}
+

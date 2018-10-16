@@ -4,13 +4,13 @@ import { withRouter } from 'react-router-dom';
 
 import {CardWithIcon} from '../../components/Card';
 import CurrentUserLayout from './CurrentUserLayout';
-import InputRange from 'react-input-range';
-import '../../../../../node_modules/react-input-range/lib/css/index.css';
 import Modal from 'react-responsive-modal';
 
 // action
 import { getCurrentUserDetail, updateUser } from '../../actions/UserActions';
 import {getAllHobbies} from '../../actions/HobbyActions';
+import {getAllJobs} from '../../actions/JobActions';
+import {getEducations} from '../../actions/EducationActions';
 
 class UserSetting extends Component {
     constructor(props) {
@@ -20,7 +20,6 @@ class UserSetting extends Component {
             isOpenSecondModal: false,
             data: {
                 user: {},
-                hobby: {}
             }
         };
     }
@@ -28,6 +27,8 @@ class UserSetting extends Component {
     componentDidMount() {
         this.props.getCurrentUserDetail();
         this.props.getAllHobbies();
+        this.props.getAllJobs();
+        this.props.getEducations();
     }
 
     openFirstModal() {
@@ -55,17 +56,24 @@ class UserSetting extends Component {
                     [event.target.name]: event.target.value
                 }
             }
+        }, () => {
+            console.log(this.state.data);
         });
     }
 
     onChangeHobby(event, user_id) {
+        var options = Array.apply(null, event.target.options);
+        var temp = [];
+        options.map((option) => {
+            if (option.selected) {
+                temp.push({user_id: user_id, hobby_id: option.value});
+            }
+        });
+        
         this.setState({
             data: {
                 ...this.state.data,
-                hobby: {
-                    user_id: user_id,
-                    hobby_id: event.target.value
-                }
+                hobby: temp
             }
         });
     }
@@ -75,8 +83,12 @@ class UserSetting extends Component {
     }
 
     render() {
-        const { user, user_hobbies, hobbies } = this.props;
+        const { user, user_hobbies, hobbies, jobs, educations } = this.props;
         if(user.id != this.props.match.params.id) window.location.href = `#/profile/${user.id}/setting`;
+
+        var hobbies_arr =  user_hobbies.map(hobby => {
+            return hobby.id;
+        });
         
         return (
             <CurrentUserLayout
@@ -98,7 +110,7 @@ class UserSetting extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Giới tính</div>
-                                    <div className="col-8">{user.gender == 'M' ? "Nam" : "Nữ"}</div>
+                                    <div className="col-8">{user.gender ? (user.gender == 'M' ? "Nam" : "Nữ") : null}</div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Quê quán</div>
@@ -138,30 +150,20 @@ class UserSetting extends Component {
                             <CardWithIcon leftIcon="fas fa-user" rightIcon="fas fa-pen-square" hasLine={true} rightIconAction={() => this.openSecondModal()}>
                                 <h6>Tiêu chí tìm người ấy của bạn</h6>
                                 <div className="row">
-                                    <div className="col-4">Chiều cao (cm)</div>
+                                    <div className="col-4">Chiều cao</div>
                                     <div className="col-8">
-                                        <InputRange
-                                            maxValue={200}
-                                            minValue={140}
-                                            value={parseInt(user.height)}
-                                            onChange={value => this.setState({ user_height: value })}
-                                        />
+                                        {user.height ? `${user.height} cm` : "Chưa xác định"}
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-4">Cân nặng (kg)</div>
+                                    <div className="col-4">Cân nặng</div>
                                     <div className="col-8">
-                                        <InputRange
-                                            maxValue={100}
-                                            minValue={30}
-                                            value={parseFloat(user.weight)}
-                                            onChange={value => this.setState({ user_weight: value })}
-                                        />
+                                        {user.weight ? `${user.weight} kg` : "Chưa xác định"}
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Học vấn</div>
-                                    <div className="col-8">{user.education}</div>
+                                    <div className="col-8">{user.education_name}</div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Sở thích</div>
@@ -222,6 +224,7 @@ class UserSetting extends Component {
                                 </div>
                                 <div className="col-8">
                                     <select className="custom-select" name="gender" onChange={(event) => this.editUser(event)} defaultValue={user.gender}>
+                                        <option>Chọn giới tính</option>
                                         <option value="M">Nam</option>
                                         <option value="F">Nữ</option>
                                     </select>
@@ -254,7 +257,16 @@ class UserSetting extends Component {
                                     <label>Nghề nghiệp</label>
                                 </div>
                                 <div className="col-8">
-                                    <input type="text" className="form-control" name="job" defaultValue={user.job_name} onChange={(event) => this.editUser(event)} />
+                                    <select name="jobs" className="custom-select" value={user.job_id}>
+                                        <option>Chọn một nghề nghiệp</option>
+                                        {
+                                            jobs.map(job => {
+                                                return (
+                                                    <option key={job.id} value={job.id}>{job.name}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +276,11 @@ class UserSetting extends Component {
                                     <label>Tình trạng hôn nhân</label>
                                 </div>
                                 <div className="col-8">
-                                    <input type="text" className="form-control" name="marital_status" defaultValue={user.marital_status} onChange={(event) => this.editUser(event)} />
+                                    <select className="custom-select" name="marital_status" defaultValue={user.marital_status} onChange={(event) => this.editUser(event)}>
+                                        <option>Chọn một trạng thái</option>
+                                        <option value={0}>Độc thân</option>
+                                        <option value={1}>Đã kết hôn</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -279,7 +295,7 @@ class UserSetting extends Component {
                             </div>
                         </div>
                         <div className="form-group">
-                            <button className="btn btn-success float-right" type="button" onClick={() => this.submit()}>Gửi</button>
+                            <button className="btn btn-success float-right" type="button" onClick={() => this.submit()}>Cập nhật</button>
                         </div>
                     </form>
                 </Modal>
@@ -315,7 +331,16 @@ class UserSetting extends Component {
                                     <label>Học vấn</label>
                                 </div>
                                 <div className="col-8">
-                                    <input type="text" className="form-control" name="education" defaultValue={user.education} onChange={(event) => this.editUser(event)} />
+                                    <select className="custom-select" name="education" defaultValue={user.education} onChange={(event) => this.editUser(event)}>
+                                        <option>Chọn học vấn</option>
+                                        {
+                                            educations.map(item => {
+                                                return (
+                                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                                )
+                                            })
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -325,14 +350,14 @@ class UserSetting extends Component {
                                     <label>Sở thích</label>
                                 </div>
                                 <div className="col-8">
-                                    <select name="hobby_id" onChange={(event) => this.onChangeHobby(event, user.id)}>
-                                    {
-                                        hobbies.map((item, index) => {
-                                            return (
-                                                <option value={item.id} key={index}>{item.name}</option>
-                                            )
-                                        })
-                                    }
+                                    <select name="hobby_id" className="custom-select" defaultValue={hobbies_arr} onChange={(event) => this.onChangeHobby(event, user.id)} multiple>
+                                        {
+                                            hobbies.map((item, index) => {
+                                                return (
+                                                    <option value={item.id} key={index}>{item.name}</option>
+                                                )
+                                            })
+                                        }
                                     </select>
                                 </div>
                             </div>
@@ -372,6 +397,8 @@ function mapStateToProps(state) {
         user: state.user.user,
         user_hobbies: state.user.user_hobbies,
         hobbies: state.hobby.hobbies,
+        jobs: state.job.jobs,
+        educations: state.education.educations
     }
 }
 
@@ -379,6 +406,8 @@ function mapDispatchToProps(dispatch) {
     return {
         getCurrentUserDetail: () => dispatch(getCurrentUserDetail()),
         getAllHobbies: () => dispatch(getAllHobbies()),
+        getAllJobs: () => dispatch(getAllJobs()),
+        getEducations: () => dispatch(getEducations()),
         updateUser: (data, id) => dispatch(updateUser(data, id)),
     }
 }

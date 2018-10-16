@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {Card, CardWithIcon} from '../../components/Card';
 import {RoundAvatar} from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
 import {withRouter} from 'react-router-dom';
+import {uploadIdCardPhoto} from '../../actions/UserActions'; 
 
 class ProfileLayout extends Component {
 
     redirect() {
-        window.location.href = `/profile/${this.props.match.params.id}/setting`;
-        // console.log(this.props);
+        var user_id = this.props.match.params.id;
+        this.props.history.push(`/profile/${user_id}/setting`);
+    }
+
+    uploadIdCard(event) {
+        var component = this;
+        var file = event.target.files[0];
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            component.props.uploadIdCardPhoto({ image: reader.result }, component.props.match.params.id);
+        };
+        reader.onerror = function (error) {
+            window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
+        };
     }
     
     render() {
+        const {user} = this.props;
         return (
             <div className="row">
                 <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
@@ -57,7 +74,25 @@ class ProfileLayout extends Component {
                             <div className="col-md-2"></div>
                             <div className="col-md-8">
                                 <h5>Xác thực CMT để dễ dàng tham gia các cuộc hẹn tốc độ</h5>
-                                <button className="btn btn-primary"><i className="fas fa-camera"></i> Mở webcam</button>
+                                {
+                                    user.is_id_verify ? (
+                                        <div className="alert alert-success">
+                                            Bạn đã được phê duyệt Chứng minh thư
+                                        </div>
+                                    ) : (
+                                        user.id_card_photos ? (
+                                            <div className="alert alert-warning">
+                                                Đang chờ phê duyệt Chứng minh thư 
+                                            </div>
+                                        ) : (
+                                            <label className="btn-add-image"> 
+                                                <i className="fas fa-camera"></i> Upload
+                                                <input type="file" className="d-none" name="image" onChange={(e) => this.uploadIdCard(e)} />
+                                            </label>
+                                        )
+                                    )
+                                }
+                                
                             </div>
                             <div className="col-md-2"></div>
                         </div>
@@ -101,4 +136,16 @@ class ProfileLayout extends Component {
     }
 }
 
-export default withRouter(ProfileLayout);
+function mapStateToProps(state) {
+    return {
+        user: state.user.current_user
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        uploadIdCardPhoto: (data, id) => dispatch(uploadIdCardPhoto(data, id))
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileLayout));

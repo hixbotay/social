@@ -67,16 +67,16 @@ class User extends Authenticatable
     public static function updateUser($data, $id) {
         $user = User::find($id);
 
-        $data_arr = json_decode($data);
+        $data_arr = json_decode($data, true);
 
-        $hobby = json_decode(json_encode($data_arr->hobby), true);
-        $user_data = json_decode(json_encode($data_arr->user), true);
-
-        // insert hobby
-        DB::table('user_hobby_map')->insert( $hobby );
+        // remove old hobyy and insert new hobby
+        if(array_key_exists('hobby', $data_arr)) {
+            DB::table('user_hobby_map')->where('user_id', '=', $id)->delete();
+            $result = DB::table('user_hobby_map')->insert( $data_arr['hobby'] );
+        }
 
         // insert user property
-        foreach ($user_data as $key => $value) {
+        foreach ($data_arr['user'] as $key => $value) {
             $user->$key = $value;
         }
 

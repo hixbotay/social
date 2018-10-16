@@ -32,6 +32,9 @@ export const GET_ALL_HOBBIES = 'GET_ALL_HOBBIES';
 // jobs
 export const GET_ALL_JOBS = 'GET_ALL_JOBS';
 
+// education
+export const GET_EDUCATION = 'GET_EDUCATION';
+
 // couple
 export const GET_COUPLE_RESULTS = 'GET_COUPLE_RESULTS';
 export const GET_COUPLE_DETAIL = 'GET_COUPLE_DETAIL';

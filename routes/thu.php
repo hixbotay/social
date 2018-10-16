@@ -45,6 +45,8 @@ Route::post('user/{id}', function (Request $request, $id){
     return ($result);
 });
 
+Route::post('user/{id}/upload-id-card', 'Api\User@uploadIdCardPhoto');
+
 Route::get('couple/search/{keyword}', function($keyword) {
     $results = \App\Http\Controllers\Api\Couple::find($keyword);
     return json_encode($results);
