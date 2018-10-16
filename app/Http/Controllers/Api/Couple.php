@@ -12,6 +12,7 @@ class Couple extends Controller {
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
                 ->select(DB::raw(
                     'users.id, users.name, users.address, users.avatar, users.birthday,
+                    user_relationship.is_like, user_relationship.is_loved,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))

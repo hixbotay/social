@@ -5,7 +5,8 @@ import {
     UPDATE_USER_DETAIL,
     UPDATE_RELATIONSHIP,
     GET_FRIENDS_LIKED_YOU,
-    GET_FRIENDS_YOU_LIKED
+    GET_FRIENDS_YOU_LIKED,
+    GET_FRIENDS_VISITED
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -18,7 +19,8 @@ const INIT_STATE = {
         posts: [],
         relationship: {},
         friendsYouLiked: [],
-        friendsLikeYou: []
+        friendsLikeYou: [],
+        friendsVisited: []
     }
 }
 
@@ -49,6 +51,9 @@ export default (state = INIT_STATE, action) => {
         }
         case GET_FRIENDS_YOU_LIKED: {
             return {...state, friendsYouLiked: action.payload}
+        }
+        case GET_FRIENDS_VISITED: {
+            return {...state, friendsVisited: action.payload}
         }
         default: {
             return {...state};

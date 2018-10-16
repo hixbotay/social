@@ -144,30 +144,45 @@ class User extends Controller
     public function listFriends($type) {
         $user_id = Auth::id();
         if($type == 'you-like') {
-            $results = \App\UserRelationship::where('is_like', '=', $user_id)           
+            $results = \App\UserRelationship::where('is_like', '=', 1)           
                 ->orWhere('is_loved', '=', 1)
                 ->leftjoin('users', 'user_relationship.to_user_id', '=', 'users.id')
                 ->select(DB::raw(
                     'users.id, users.name, users.address, users.avatar, users.birthday,
-                    user_relationship.from_user_id, 
+                    user_relationship.from_user_id, user_relationship.is_like, user_relationship.is_loved,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))
                 ->groupBy('users.id')
-                ->having('from_user_id', '=', 1)
+                ->having('from_user_id', '=', $user_id)
                 ->get();
         } else if ($type == 'like-you') {
-            $results = \App\UserRelationship::where('is_like', '=', $user_id)           
+            $results = \App\UserRelationship::where('is_like', '=', 1)           
                 ->orWhere('is_loved', '=', 1)
                 ->leftjoin('users', 'user_relationship.to_user_id', '=', 'users.id')
                 ->select(DB::raw(
                     'users.id, users.name, users.address, users.avatar, users.birthday,
-                    user_relationship.to_user_id,
+                    user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))
                 ->groupBy('users.id')
-                ->having('to_user_id', '=', 1)
+                ->having('to_user_id', '=', $user_id)
+                ->get();
+        } else if ($type == 'visited') {
+            // print_r($user_id);
+            $results = DB::table('profile_visitor')
+                ->where('profile_id', '=', $user_id)
+                ->leftjoin('users', 'visitor_id', '=', 'users.id')
+                ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'visitor_id')
+                ->select(DB::raw(
+                    'users.id, users.name, users.address, users.avatar, users.birthday,
+                    user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved,
+                    SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                    SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                ))
+                ->groupBy('users.id')
+                // ->having('from_user_id', '=', $user_id)
                 ->get();
         }
         else $results = [];

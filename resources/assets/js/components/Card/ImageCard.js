@@ -9,8 +9,8 @@ class ImageCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoved: false,
-            isLiked: false,
+            isLoved: props.user.is_loved,
+            isLiked: props.user.is_like,
             loveNumber: props.user.loveNumber ? parseInt(props.user.loveNumber) : 0,
             likeNumber: props.user.likeNumber ? parseInt(props.user.likeNumber) : 0
         }

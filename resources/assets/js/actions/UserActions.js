@@ -6,7 +6,8 @@ import {
     GET_CURRENT_USER_DETAIL,
     UPDATE_RELATIONSHIP,
     GET_FRIENDS_YOU_LIKED,
-    GET_FRIENDS_LIKED_YOU
+    GET_FRIENDS_LIKED_YOU,
+    GET_FRIENDS_VISITED
 } from './types';
 
 export const getCurrentUser = () => (dispatch) => {
@@ -87,6 +88,8 @@ export const getListFriends = (type) => (dispatch) => {
             dispatch({type: GET_FRIENDS_YOU_LIKED, payload: response.data});
         } else if(type == 'like-you') {
             dispatch({type: GET_FRIENDS_LIKED_YOU, payload: response.data});
+        } else if (type == 'visited') {
+            dispatch({type: GET_FRIENDS_VISITED, payload: response.data});
         }
     })
     .catch(err => {
