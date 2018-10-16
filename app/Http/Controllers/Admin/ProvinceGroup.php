@@ -30,6 +30,23 @@ class ProvinceGroup extends Controller
     {
         $class = new \App\ProvinceGroup();
         $province = $class->get_list_province();
+        $existProvince = \App\ProvinceGroup::all();
+        $result = array();
+        foreach ($existProvince AS $value){
+            $data = json_decode($value->province_ids);
+            $result = array_merge($result, $data);
+        }
+
+        if (!empty($result)){
+            foreach ($result AS $value){
+                foreach ($province AS $key => $val){
+                    if ($val->matp == $value){
+                        unset($province[$key]);
+                    }
+                }
+            }
+        }
+
         return view('admin.provincegroup.create', ['province' => $province]);
     }
 
@@ -43,8 +60,14 @@ class ProvinceGroup extends Controller
     {
         $data = request()->get('data');
         $data['province_ids'] = json_encode($data['province_ids']);
-        \App\ProvinceGroup::create($data);
-        return redirect('admin?view=ProvinceGroup');
+        $result = \App\ProvinceGroup::create($data);
+        $url = url('admin?view=ProvinceGroup');
+
+        if ($result->id){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
     }
 
     /**
@@ -78,6 +101,25 @@ class ProvinceGroup extends Controller
 
         $class = new \App\ProvinceGroup();
         $province = $class->get_list_province();
+        $existProvince = \App\ProvinceGroup::all();
+        $result = array();
+
+        foreach ($existProvince AS $value){
+            if ($value->id != $id){
+                $data = json_decode($value->province_ids);
+                $result = array_merge($result, $data);
+            }
+        }
+
+        if (!empty($result)){
+            foreach ($result AS $value){
+                foreach ($province AS $key => $val){
+                    if ($val->matp == $value){
+                        unset($province[$key]);
+                    }
+                }
+            }
+        }
 
         // show the view and pass the nerd to it
         return view('admin.provincegroup.detail', ['item' => $user, 'province' => $province]);
