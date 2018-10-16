@@ -194,4 +194,12 @@ class User extends Controller
         // $user->save();
         // return redirect('admin?view=User');
     }
+
+    public function checkVip(){
+        $id = 1;
+        $data = \App\User::checkVip($id);
+        echo "<pre>";
+        print_r($data);
+        die;
+    }
 }
