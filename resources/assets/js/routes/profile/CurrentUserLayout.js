@@ -8,12 +8,11 @@ import {withRouter} from 'react-router-dom';
 class ProfileLayout extends Component {
 
     redirect() {
-        window.location.href = `${window.location.href}/setting`;
+        window.location.href = `/profile/${this.props.match.params.id}/setting`;
         // console.log(this.props);
     }
     
     render() {
-
         return (
             <div className="row">
                 <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">

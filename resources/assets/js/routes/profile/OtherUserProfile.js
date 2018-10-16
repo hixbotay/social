@@ -22,11 +22,19 @@ class OtherPerson extends Component {
 
     componentDidMount() {
         this.props.getUserInfo(this.props.match.params.id).then(data => {
-            this.setState({
-                isLoved: data.relationship.is_loved,
-                isLiked: data.relationship.is_like,
-                isBlocked:  data.relationship.is_block,
-            })
+            if(data.relationship) {
+                this.setState({
+                    isLoved: data.relationship.is_loved,
+                    isLiked: data.relationship.is_like,
+                    isBlocked:  data.relationship.is_block,
+                })
+            } else {
+                this.setState({
+                    isLoved: false,
+                    isLiked: false,
+                    isBlocked: false
+                })
+            }
         });
     }
 

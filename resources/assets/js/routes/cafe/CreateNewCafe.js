@@ -49,7 +49,7 @@ class CreateNewCafe extends Component {
         this.setState({
             data: {
                 ...this.state.data,
-                params: this.type.value
+                type: this.type.value
             }
         });
     }
@@ -155,7 +155,7 @@ class CreateNewCafe extends Component {
 
                             <div className={"form-horizontal"}>
                                 <div className="row">
-                                    <label className="col-md-3 control-label" htmlFor="params">Loại hình</label>
+                                    <label className="col-md-3 control-label" htmlFor="type">Loại hình</label>
                                     <div className="col-md-9">
                                         <select className="custom-select" ref={select => this.type = select} onChange={() => this.onChangeCafeType()}>
                                             <option>Chọn một loại hình</option>
