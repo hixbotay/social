@@ -25,7 +25,6 @@ class ListFeatureDating extends Component {
     }
 
     render() {
-
         return (
             <DatingLayout>
                 <DatingCard title="CUỘC HẸN GẦN BẠN" events={this.props.aroundEvents}></DatingCard>

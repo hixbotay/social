@@ -11,7 +11,7 @@ class ProfileLayout extends Component {
 
     redirect() {
         var user_id = this.props.match.params.id;
-        this.props.history.push(`/profile/${user_id}/setting`);
+        window.location.href = `${APP_URL}/profile/${user_id}/setting`;
     }
 
     uploadIdCard(event) {
