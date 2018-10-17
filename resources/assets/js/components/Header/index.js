@@ -13,17 +13,12 @@ class Header extends Component {
         
         return (
             <header className="header" id="site-header">
-
-                {/*<div className="page-title">*/}
-                    {/*<Link to='/'><h6>Homepage</h6></Link>*/}
-                {/*</div>*/}
-
                 <div className="header-content-wrapper">
                     <div className="control-block">
 
                         <div>
                             <Link to="/">
-                                <img src={"storage/app/public/logo.png"}
+                                <img src={`${APP_URL}/storage/app/public/logo.png`}
                                 style={{
                                     width:150, height: 'auto',
                                     marginRight: 80,
@@ -33,7 +28,7 @@ class Header extends Component {
                         </div>
 
                         <div className="control-icon more has-items">
-                            <a href={"/"}>TRANG CHỦ</a>
+                            <Link to={"/"}>TRANG CHỦ</Link>
                         </div>
 
                         <div className="control-icon more has-items">

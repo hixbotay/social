@@ -119,6 +119,8 @@ class CreateGroupDating extends Component {
     render() {
         const { cafes } = this.props;
 
+        console.log(APP_URL)
+
         //setting for slider
         var settings = {
             accessibility: true,
