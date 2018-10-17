@@ -5,7 +5,10 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">% Lợi nhuận</h4>
+                <h4 class="m-t-0">Quà tặng</h4>
+
+                @include('layouts.admin.notice')
+
                 <div class="table-responsive">
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
@@ -16,9 +19,8 @@
                                     <label for="action-checkbox"></label>
                                 </div>
                             </th>
-                            <th>Nhóm</th>
-                            <th>Loại thu nhập</th>
-                            <th>Giá trị(%)</th>
+                            <th>Tên</th>
+                            <th>Giá</th>
                         </tr>
                         </thead>
 
@@ -32,13 +34,8 @@
                                     </div>
 
                                 </td>
-                                <td>
-                                    <a href="{{'admin?view=Finance&layout=edit&id='.$item->id}}">
-                                        {{BookproHelper::get_group_name_by_id($item->group_id)}}
-                                    </a>
-                                </td>
-                                <td> {{BookproHelper::get_finance_type_name($item->type)}}</td>
-                                <td>{{$item->value}}</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         @endforeach
                         </tbody>

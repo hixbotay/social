@@ -3,38 +3,32 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h4 class="m-b-20 header-title"></h4>
-                <form method="post" action="{{url('admin?controller=Finance&task=update&id='.$item->id)}}" class="form-horizontal">
-
+            <div class="col-sm-12">
+                <h4 class="m-b-20 header-title">Danh mục</h4>
+                @include('layouts.admin.notice')
+                <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=GifCategories&task=update&id='.$item->id)}}">
                     {{ csrf_field() }}
+                    <div class="col-sm-12">
 
-                    <div class="form-group">
-                        <label>Tên nhóm <span>*</span></label>
-                        <label>{{BookproHelper::get_group_name_by_id($item->group_id)}}</label>
+                        <div class="form-group">
+                            <label>Tên danh mục<span></span></label>
+                            <input type="text" class="form-control" value="{{$item->name}}" name="data[name]">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mô tả<span></span></label>
+                            <textarea class="form-control" name="data[description]">{{$item->description}}</textarea>
+                        </div>
+
                     </div>
-
-                    <div class="form-group">
-                        <label>Loại thu nhập <span></span></label>
-
-                        {{BookproHelper::get_finance_type_name($item->type)}}
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>Giá trị % <span></span></label>
-                        <input type="number" step="0.01" class="form-control" name="data[value]" value="{{$item->value}}">
-                    </div>
-
-                    <div class="form-group">
+                    <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="reset" class="btn btn-dark">Reset</button>
+                        <a href="{{ url()->previous() }}">
+                            <button type="button" class="btn btn-primary">Back</button>
+                        </a>
                     </div>
-
-
                 </form>
             </div>
-
         </div>
     </div>
 @endsection

@@ -5,7 +5,24 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">% Lợi nhuận</h4>
+                <h4 class="m-t-0">Danh mục quà tặng</h4>
+
+                @include('layouts.admin.notice')
+
+                <div class="row">
+                    <div class="col-sm-6">
+                    </div>
+                    <div class="col-sm-6">
+                        <div id="datatable-responsive_filter" class="dataTables_filter">
+                            <a href="<?= url('/admin?controller=GifCategories&task=create') ?>" type="button" class="btn btn-primary">
+                                Thêm
+                            </a>
+                            <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">Xóa</button>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="table-responsive">
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
@@ -16,9 +33,9 @@
                                     <label for="action-checkbox"></label>
                                 </div>
                             </th>
-                            <th>Nhóm</th>
-                            <th>Loại thu nhập</th>
-                            <th>Giá trị(%)</th>
+                            <th>Danh mục</th>
+                            <th>Mô tả</th>
+                            <th>Lựa chọn</th>
                         </tr>
                         </thead>
 
@@ -33,12 +50,12 @@
 
                                 </td>
                                 <td>
-                                    <a href="{{'admin?view=Finance&layout=edit&id='.$item->id}}">
-                                        {{BookproHelper::get_group_name_by_id($item->group_id)}}
+                                    <a href="{{url('admin?view=GifCategories&layout=edit&id='.$item->id)}}">
+                                    {{$item->name}}
                                     </a>
                                 </td>
-                                <td> {{BookproHelper::get_finance_type_name($item->type)}}</td>
-                                <td>{{$item->value}}</td>
+                                <td>{{$item->description}}</td>
+                                <td></td>
                             </tr>
                         @endforeach
                         </tbody>

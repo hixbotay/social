@@ -4,29 +4,28 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="m-b-20 header-title">Thêm cấu hình Finance</h4>
-                <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=Finance&task=store')}}">
+                <h4 class="m-b-20 header-title">Thêm danh mục</h4>
+                @include('layouts.admin.notice')
+                <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=GifCategories&task=store')}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">
 
                         <div class="form-group">
-                            <label>Nhóm lợi ích <span>*</span></label>
-                            {{BookproHtml::select_user_groups('data[group_id]')}}
+                            <label>Tên danh mục<span></span></label>
+                            <input type="text" class="form-control" name="data[name]">
                         </div>
 
                         <div class="form-group">
-                            <label>Loại thu nhập <span></span></label>
-                            <input type="text" class="form-control" name="data[type]">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Giá trị % <span></span></label>
-                            <input type="number" step="0.01" class="form-control" name="data[value]">
+                            <label>Mô tả<span></span></label>
+                            <textarea class="form-control" name="data[description]"></textarea>
                         </div>
 
                     </div>
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="{{ url()->previous() }}">
+                            <button type="button" class="btn btn-primary">Back</button>
+                        </a>
                     </div>
                 </form>
             </div>
