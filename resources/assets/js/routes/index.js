@@ -52,7 +52,7 @@ class MainApp extends Component {
 	}
 	
 	render() {
-
+        console.log(APP_URL);
 		var route = (
         <div className={'row'}>
             <div className={'col-sm-12'}>
