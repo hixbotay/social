@@ -4,15 +4,17 @@ import {
     GET_FORTHCOMING_EVENTS,
     GET_FINISHED_EVENTS,
     GET_CANCELLED_EVENTS,
+    GET_AROUND_EVENTS,
+    GET_EVENTS_HAS_YOUR_CRUSH,
     CREATE_NEW_EVENT,
     JOIN_EVENT
 } from './types';
 
-export const getAllEvents = (status) => dispatch => {
-    return api.get(`/events/${status}`)
+export const getAllEvents = (type) => dispatch => {
+    return api.get(`/events/${type}`)
         .then((response) => {
-            var type = GET_ALL_EVENTS;
-            switch(status) {
+            // var type = GET_ALL_EVENTS;
+            switch(type) {
                 case 'forthcoming': {
                     type = GET_FORTHCOMING_EVENTS;
                     break;
@@ -25,7 +27,18 @@ export const getAllEvents = (status) => dispatch => {
                     type = GET_CANCELLED_EVENTS;
                     break;
                 }
-                default: break;
+                case 'around': {
+                    type = GET_AROUND_EVENTS;
+                    break;
+                }
+                case 'crush': {
+                    type = GET_EVENTS_HAS_YOUR_CRUSH;
+                    break;
+                }
+                default: {
+                    type = GET_ALL_EVENTS;
+                    break;
+                }
             }
             dispatch({type: type, payload: response.data.data})
         })

@@ -8,7 +8,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class Event extends Controller {
+    // list events forthcoming, finished, cancelled which current_user joined
     public function list($status) {
+        $event_id = DB::table('event_register')->where('user_id', '=', Auth::id())->get();
+        $temp = [];
+        foreach($event_id as $item) {
+            array_push($temp, $item->event_id);
+        }
+
         $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
             ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
             ->leftjoin('agency_photos', function ($join) {
@@ -18,8 +25,150 @@ class Event extends Controller {
                 });
             })
             ->where('status', '=', $status)
+            ->whereIn('events.id', $temp)
+            ->select(DB::raw('
+                events.*,
+                users.name as creator_name, 
+                users.avatar as creator_avatar, 
+                agency.address as address, 
+                agency_photos.source as address_avatar
+            '))
+            ->paginate(10);
+
+        $events_id = [];
+        foreach($events as $key => $event) {
+            $event['is_joined'] = 1;
+            array_push($events_id, $event->id);
+        }
+
+        $event_meta = DB::table('event_meta')
+                    ->whereIn('event_id', $events_id)
+                    ->leftJoin('user_jobs', function($join) {
+                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
+                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
+                    })
+                    ->get();
+
+        $events->map( function ($event, $key) use ($event_meta) {
+            $job = [];
+            $marital_status = [];
+            foreach($event_meta as $metadata) {
+                if($metadata->event_id == $event->id) {
+                    $key = $metadata->meta_key;
+
+                    if($key == 'job_conditional') {
+                        array_push($job, $metadata->name);
+                    } else if($key == 'marital_status') {
+                        array_push($marital_status, $metadata->meta_value);
+                    } else {
+                        $event[$key] = $metadata->meta_value;
+                    }
+
+                    $event['job'] = $job;
+                    $event['marital_status'] = $marital_status;
+                }
+            }
+        });
+        return json_encode($events);
+    }
+
+    // list events around here and current user does not join 
+    public function listEventsAround() {
+        $event_registers = DB::table('event_register')->where('user_id', '=', Auth::id())->get();
+        $temp = [];
+        foreach($event_registers as $item) {
+            array_push($temp, $item->event_id);
+        }
+
+        // print_r($event_id);
+
+        $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+            ->leftjoin('agency_photos', function ($join) {
+                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                $join->on(function($query) {
+                    $query->where('agency_photos.type', '=', 'avatar'); 
+                });
+            })
+            ->where('status', '=', 'forthcoming')
+            ->whereNotIn('events.id', $temp)
             ->select(DB::raw('
                 events.*, 
+                users.name as creator_name, 
+                users.avatar as creator_avatar, 
+                agency.address as address, 
+                agency_photos.source as address_avatar
+            '))
+            ->paginate(10);
+
+        $events_id = [];
+        foreach($events as $key => $event) {
+            $event['is_joined'] = 0;
+            array_push($events_id, $event->id);
+        }
+
+        $event_meta = DB::table('event_meta')
+                    ->whereIn('event_id', $events_id)
+                    ->leftJoin('user_jobs', function($join) {
+                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
+                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
+                    })
+                    ->get();
+
+        $events->map( function ($event, $key) use ($event_meta) {
+            $job = [];
+            $marital_status = [];
+            foreach($event_meta as $metadata) {
+                if($metadata->event_id == $event->id) {
+                    $key = $metadata->meta_key;
+
+                    if($key == 'job_conditional') {
+                        array_push($job, $metadata->name);
+                    } else if($key == 'marital_status') {
+                        array_push($marital_status, $metadata->meta_value);
+                    } else {
+                        $event[$key] = $metadata->meta_value;
+                    }
+
+                    $event['job'] = $job;
+                    $event['marital_status'] = $marital_status;
+                }
+            }
+        });
+        return json_encode($events);
+    }
+
+    // list events around here and current user does not join 
+    public function listEventsHasYourCrush() {
+        $event_registers = DB::table('event_register')
+            ->leftjoin('user_relationship', function($join) {
+                $join->on('to_user_id', '=', 'event_register.user_id');
+                $join->on(function($query) {
+                    $query->where('from_user_id', '=', Auth::id()); 
+                });
+            })
+            ->select(DB::raw('event_register.*'))
+            ->get();
+
+        $temp = [];
+        foreach($event_registers as $item) {
+            array_push($temp, $item->event_id);
+        }
+
+        $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+            ->leftjoin('event_register', 'events.id', '=', 'event_register.event_id')
+            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+            ->leftjoin('agency_photos', function ($join) {
+                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                $join->on(function($query) {
+                    $query->where('agency_photos.type', '=', 'avatar'); 
+                });
+            })
+            ->where('events.status', '=', 'forthcoming')
+            ->whereIn('events.id', $temp)
+            ->select(DB::raw('
+                events.*,
+                (CASE event_register.user_id WHEN '.Auth::id().' THEN 1 ELSE 0 END) AS is_joined,
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
@@ -135,5 +284,43 @@ class Event extends Controller {
                 'created' => date('Y-m-d h:i:s')
             ]);
         return json_encode($result);
+    }
+
+    public function listUserByEvent($event_id) {
+        $event_registers = DB::table('event_register')
+            ->where('event_id', '=', $event_id)
+            ->get();
+        
+        $temp = [];
+        foreach($event_registers as $item) {
+            array_push($temp, $item->user_id);
+        }
+        $users = \App\User::whereIn('users.id', $temp)
+            ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
+            ->select(DB::raw(
+                'users.id, users.name, users.address, users.avatar, users.birthday,
+                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+            ))
+            ->groupBy('users.id')
+            ->paginate(10);
+
+        foreach($users as $user) {
+            $user['is_like'] = 0;
+            $user['is_loved'] = 0;
+
+            $temp = DB::table('user_relationship')
+                ->where([
+                    ['from_user_id', '=', Auth::id()],
+                    ['to_user_id', '=', $user->id]
+                ])
+                ->first();
+            if($temp != null) {
+                $user['is_like'] = $temp->is_like;
+                $user['is_loved'] = $temp->is_loved;
+            }
+        }
+
+        return json_encode($users);
     }
 }

@@ -8,7 +8,7 @@ export const getCoupleResults = (keyword) => (dispatch) => {
     api.get(`/couple/search/${keyword}`)
     .then(response => {
         console.log(response.data);
-        dispatch({type: GET_COUPLE_RESULTS, payload: response.data});
+        dispatch({type: GET_COUPLE_RESULTS, payload: response.data.data});
     })
     .catch(error => {
         console.log(error);

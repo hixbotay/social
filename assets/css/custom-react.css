@@ -691,3 +691,12 @@ input[type=radio], input[type=checkbox] {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.social-share {
+    margin-top: 15px
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+}

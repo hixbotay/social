@@ -31,6 +31,12 @@ Route::middleware(['web'])->group(function() {
     Route::post('/event', 'Api\Event@create');
     Route::post('/event/{event_id}', 'Api\Event@joinEvent');
     
+    Route::get('/events/around', 'Api\Event@listEventsAround');
+    Route::get('/events/crush', 'Api\Event@listEventsHasYourCrush');
+    Route::get('/events/{status}', 'Api\Event@list');
+    Route::get('/event/{event_id}/registers', 'Api\Event@listUserByEvent');
+
+    Route::get('/couple/search/{keyword}', 'Api\Couple@find');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
@@ -47,10 +53,7 @@ Route::post('user/{id}', function (Request $request, $id){
 
 Route::post('user/{id}/upload-id-card', 'Api\User@uploadIdCardPhoto');
 
-Route::get('couple/search/{keyword}', function($keyword) {
-    $results = \App\Http\Controllers\Api\Couple::find($keyword);
-    return json_encode($results);
-});
+
 
 Route::get('couple/view/{id}', function($id) {
     $results = \App\Http\Controllers\Api\Couple::findOne($id);
@@ -59,7 +62,7 @@ Route::get('couple/view/{id}', function($id) {
 
 Route::post('/post', 'Api\Post@createPost');
 
-Route::get('/events/{status}', 'Api\Event@list');
+
 Route::get('/jobs', 'Api\Job@list');
 
 Route::get('cafes', 'Api\Cafe@list');

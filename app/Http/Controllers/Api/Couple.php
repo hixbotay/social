@@ -5,20 +5,37 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Couple extends Controller {
-    public static function find($keyword) {
+    public function find($keyword) {
         $results = \App\User::where('name', 'like', DB::raw("BINARY '%".$keyword."%'"))
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
                 ->select(DB::raw(
                     'users.id, users.name, users.address, users.avatar, users.birthday,
-                    user_relationship.is_like, user_relationship.is_loved,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))
                 ->groupBy('users.id')
-                ->get();
-        return $results;
+                ->paginate(10);
+        
+        foreach($results as $user) {
+            $user['is_like'] = 0;
+            $user['is_loved'] = 0;
+
+            $temp = DB::table('user_relationship')
+                ->where([
+                    ['from_user_id', '=', Auth::id()],
+                    ['to_user_id', '=', $user->id]
+                ])
+                ->first();
+            if($temp != null) {
+                $user['is_like'] = $temp->is_like;
+                $user['is_loved'] = $temp->is_loved;
+            }
+        }
+
+        return json_encode($results);
     }
 
     public static function findOne($id) {

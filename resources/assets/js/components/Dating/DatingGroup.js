@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import {joinDating} from '../../actions/EventActions';
 import {connect} from 'react-redux';
 import { RoundAvatar } from '../Avatar';
+import Modal from '../../components/Modal';
 
 class DatingGroup extends Component {
+
+    join() {
+        var button =  document.getElementById('open-modal');
+        console.log(button);
+        button.click();
+    }
+
     render() {
         const { event } = this.props;
         return (
@@ -76,34 +84,56 @@ class DatingGroup extends Component {
                             </div>
                             <div className="row btn-dating-group">
                                 {
-                                    (event.status !== 'forthcoming') ? 
-                                    (
-                                        event.status !== 'finished' ? 
-                                        (
-                                            <div className="text-center">
-                                                <button className="btn btn-primary btn-sm">Hẹn lại</button>
-                                            </div>
-                                        )
-                                        :
-                                        (
-                                            <div className="text-center">
-                                                <button className="btn btn-primary btn-sm">Xem kết quả</button>
-                                            </div>
-                                        )
+                                    event.is_joined ? (
+                                        <div>>
+                                        {
+                                            (event.status !== 'forthcoming') ? 
+                                            (
+                                                event.status !== 'finished' ? 
+                                                (
+                                                    <div className="text-center">
+                                                        <button className="btn btn-primary btn-sm">Hẹn lại</button>
+                                                    </div>
+                                                )
+                                                :
+                                                (
+                                                    <div className="text-center">
+                                                        <button className="btn btn-primary btn-sm">Xem kết quả</button>
+                                                    </div>
+                                                )
+                                            ) : (
+                                                <div className="row">
+                                                    <div className="col-6">
+                                                        <button className="btn btn-primary btn-sm">Quy định</button>
+                                                    </div>
+                                                    <div className="col-6">
+                                                        <button className="btn btn-primary btn-sm" onClick={() => {document.getElementById('open-invite-modal').click()}}>
+                                                            Mời
+                                                        </button>
+                                                        <button type="button" id="open-invite-modal" className="d-none" 
+                                                            data-toggle="modal" data-target="#invite-modal">
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                        </div>
                                     ) : (
-                                        <div>
-                                            <div className="col-7">
-                                                <button className="btn btn-primary btn-sm">Tìm hiểu thêm</button>
+                                        <div className="row">
+                                            <div className="col-6">
+                                                <button className="btn btn-primary btn-sm">Tìm hiểu</button>
                                             </div>
-                                            <div className="col-5">
-                                                <button className="btn btn-primary btn-sm" onClick={() => this.props.joinDating(event.id)}>
+                                            <div className="col-6">
+                                                <button className="btn btn-primary btn-sm" onClick={() => {document.getElementById('open-verify-modal').click()}}>
                                                     Tham gia
+                                                </button>
+                                                <button type="button" id="open-verify-modal" className="d-none" 
+                                                    data-toggle="modal" data-target="#verify-id-modal">
                                                 </button>
                                             </div>
                                         </div>
                                     )
                                 }
-                                
                             </div>
                         </div>
                     </div>

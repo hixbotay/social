@@ -35,6 +35,7 @@ import {getCurrentUser} from '../actions/UserActions';
 import CreateEvent from './dating/CreateEvent';
 import CafeDetail from './cafe/CafeDetail';
 import CafeList from './cafe/CafeList';
+import ListFeatureDating from './dating/ListFeatureDating';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -74,6 +75,7 @@ class MainApp extends Component {
                     <AppRoute exact path="/cafe/create" layout={ThirdLayout} component={CreateNewCafe} />
                     {/* Dating */}
                     <AppRoute exact path={'/dating'} layout={SecondLayout} component={Dating} />
+                    <AppRoute exact path={'/dating/feature'} layout={SecondLayout} component={ListFeatureDating} />
                     <AppRoute exact path={'/dating/create'} layout={SecondLayout} component={CreateEvent} />
                     {/* Messages */}
                     <AppRoute exact path="/messages" layout={ThirdLayout} component={Messages} />
