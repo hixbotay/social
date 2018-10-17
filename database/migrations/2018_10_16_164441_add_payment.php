@@ -17,6 +17,7 @@ class AddPayment extends Migration
             $table->dateTime('from_time')->nullable(1);
             $table->dateTime('to_time')->nullable(1);
             $table->integer('to_user')->nullable(1);
+            $table->integer('coupon_id')->nullable(1);
         });
     }
 

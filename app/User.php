@@ -104,8 +104,16 @@ class User extends Authenticatable
             ->where('pay_status', 1)
             ->where('from_time', '<=', $dt)
             ->where('to_time', '>=', $dt)
-            ->get();
+            ->first();
 
-        return $data;
+        $vipInfo = array();
+
+        if ($data->id){
+            $vipInfo['from_time'] = $data->from_time;
+            $vipInfo['to_time'] = $data->to_time;
+            return $vipInfo;
+        }else{
+            return false;
+        }
     }
 }
