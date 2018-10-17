@@ -36,10 +36,11 @@ class Cafe extends Controller
     }
 
     public function list(Request $request) {
-        $query = $request->all();
-        unset($query['page']);
+        // $query = $request->all();
+        // unset($query['page']);
 
-        $data = \App\Agency::where($query)->paginate(10);
+        // $data = \App\Agency::where($query)->paginate(10);
+        $data = \App\Agency::paginate(10);
         $temp = $data->items();
 
         foreach($temp as $key => $agency) {
