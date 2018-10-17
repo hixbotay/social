@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
@@ -93,5 +94,18 @@ class User extends Authenticatable
         catch (\Exception $e) {
             return false;
         }
+    }
+
+    public static function checkVip($userID){
+        $dt = Carbon::now();
+        $data = \App\Payments::select('*')
+            ->where('user_id', $userID)
+            ->where('pay_type', 'VIP')
+            ->where('pay_status', 1)
+            ->where('from_time', '<=', $dt)
+            ->where('to_time', '>=', $dt)
+            ->get();
+
+        return $data;
     }
 }
