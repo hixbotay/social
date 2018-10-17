@@ -4,14 +4,14 @@ import {Card, CardWithIcon} from '../../components/Card';
 import {RoundAvatar} from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Redirect } from 'react-router-dom';
 import {uploadIdCardPhoto} from '../../actions/UserActions'; 
 
 class ProfileLayout extends Component {
 
     redirect() {
         var user_id = this.props.match.params.id;
-        window.location.href = `${APP_URL}/profile/${user_id}/setting`;
+        window.location = `${APP_URL}/profile/${user_id}/setting`;
     }
 
     uploadIdCard(event) {
