@@ -46,8 +46,8 @@
 }
 
 .avatar-large {
-    width: 100px;
-    height: 100px;
+    width: 125px;
+    height: 125px;
 }
 
 .info-number-line {
@@ -699,4 +699,8 @@ input[type=radio], input[type=checkbox] {
 .social-icon {
     width: 40px;
     height: 40px;
+}
+
+.event-status-icon {
+    margin-left: 0.75em;
 }

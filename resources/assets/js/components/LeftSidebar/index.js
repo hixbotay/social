@@ -19,12 +19,12 @@ class LeftSidebar extends Component {
                 <img className={"imgMenu1"} src={"http://125.212.227.39/social/public/images/main/hen-toc-do.png"} />
 
                 <ul className="list-group">
-                    <li className="list-group-item">Cafe nhóm</li>
+                    <li className="list-group-item"><Link to='/dating'>Cafe nhóm</Link></li>
                     <li className="list-group-item">Lời mời</li>
-                    <li className="list-group-item">Lịch hẹn</li>
-                    <li className="list-group-item">Tạo cuộc hẹn</li>
-                    <li className="list-group-item-custom"><i className="fas fa-heartbeat fa-2x"></i> KẾT ĐÔI</li>
-                    <li className="list-group-item-custom"><i className="fas fa-coffee fa-2x"></i> ĐẠI LÝ CAFE</li>
+                    <li className="list-group-item"><Link to="/dating/feature">Lịch hẹn</Link></li>
+                    <li className="list-group-item"><Link to="/dating/create">Tạo cuộc hẹn</Link></li>
+                    <li className="list-group-item-custom"><Link to="/couple"><i className="fas fa-heartbeat fa-2x"></i> KẾT ĐÔI</Link></li>
+                    <li className="list-group-item-custom"><Link to="/cafe"><i className="fas fa-coffee fa-2x"></i> ĐẠI LÝ CAFE</Link></li>
                 </ul>
             </aside>
         );

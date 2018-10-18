@@ -286,7 +286,53 @@ class Event extends Controller {
         return json_encode($result);
     }
 
-    public function listUserByEvent($event_id) {
+    public function get($event_id) {
+        $event = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+            ->leftjoin('agency_photos', function ($join) {
+                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                $join->on(function($query) {
+                    $query->where('agency_photos.type', '=', 'avatar'); 
+                });
+            })
+            ->where('events.id', '=', $event_id)
+            ->select(DB::raw('
+                events.*,
+                users.name as creator_name, 
+                users.avatar as creator_avatar, 
+                agency.address as address, 
+                agency_photos.source as address_avatar
+            '))
+            ->first();
+
+        $event_meta = DB::table('event_meta')
+                    ->where('event_id', '=', $event_id)
+                    ->leftJoin('user_jobs', function($join) {
+                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
+                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
+                    })
+                    ->get();
+
+
+        $job = [];
+        $marital_status = [];
+        foreach($event_meta as $metadata) {
+            if($metadata->event_id == $event->id) {
+                $key = $metadata->meta_key;
+
+                if($key == 'job_conditional') {
+                    array_push($job, $metadata->name);
+                } else if($key == 'marital_status') {
+                    array_push($marital_status, $metadata->meta_value);
+                } else {
+                    $event[$key] = $metadata->meta_value;
+                }
+
+                $event['job'] = $job;
+                $event['marital_status'] = $marital_status;
+            }
+        }
+
         $event_registers = DB::table('event_register')
             ->where('event_id', '=', $event_id)
             ->get();
@@ -306,6 +352,8 @@ class Event extends Controller {
             ->paginate(10);
 
         foreach($users as $user) {
+            if($user->id == Auth::id()) $event['is_joined'] = 1;
+
             $user['is_like'] = 0;
             $user['is_loved'] = 0;
 
@@ -321,6 +369,8 @@ class Event extends Controller {
             }
         }
 
-        return json_encode($users);
+        $event['registers'] = $users->items();
+
+        return json_encode($event);
     }
 }

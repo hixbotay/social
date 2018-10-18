@@ -8,18 +8,20 @@ class DatingCouple extends Component {
         const { event, user } = this.props;
         return (
             <div>
-                <div className={"row next-dating-header-row1"}>
-                    <div className={"col-md-2 align-middle dating-header"}>
-                        <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
+                <a href={`${APP_URL}/dating/${event.id}`}>
+                    <div className={"row next-dating-header-row1"}>
+                        <div className={"col-md-2 align-middle dating-header"}>
+                            <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
+                        </div>
+                        <div className={"col-md-7 dating-header"}>
+                            <h5>{event.name}</h5>
+                            <div>{event.address}</div>
+                        </div>
+                        <div className={"col-md-3 align-right dating-time"}>
+                            <p>{event.start_time}</p>
+                        </div>
                     </div>
-                    <div className={"col-md-7 dating-header"}>
-                        <h5>{event.name}</h5>
-                        <div>{event.address}</div>
-                    </div>
-                    <div className={"col-md-3 align-right dating-time"}>
-                        <p>{event.start_time}</p>
-                    </div>
-                </div>
+                </a>
 
                 <div className={"row"}>
                     <div className={"col-md-7 dating-img"}>

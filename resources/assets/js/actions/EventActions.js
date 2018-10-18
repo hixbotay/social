@@ -7,7 +7,8 @@ import {
     GET_AROUND_EVENTS,
     GET_EVENTS_HAS_YOUR_CRUSH,
     CREATE_NEW_EVENT,
-    JOIN_EVENT
+    JOIN_EVENT,
+    GET_EVENT_DETAIL
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -64,6 +65,16 @@ export const joinDating = (id) => dispatch => {
     .then(response => {
         console.log(response);
         dispatch({type: JOIN_EVENT, payload: response.data});
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+export const getEventDetail = (id) => dispatch => {
+    api.get(`/event/${id}`)
+    .then(response => {
+        dispatch({type: GET_EVENT_DETAIL, payload: response.data});
     })
     .catch(err => {
         console.log(err);
