@@ -139,6 +139,62 @@
                             <input type="text" name="data[address]" class="form-control" required>
                         </div>
 
+                        <div class="form-group">
+                            <label>Hotline<span></span></label>
+                            <input type="text" name="data[hotline]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email<span></span></label>
+                            <input type="text" name="data[email]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Website<span></span></label>
+                            <input type="text" name="data[website]" class="form-control" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Chủ<span></span></label>
+                            <input type="text" name="data[website]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Owner mobile<span></span></label>
+                            <input type="text" name="data[owner_mobile]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tên quản lý<span></span></label>
+                            <input type="text" name="data[manager]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>SĐT quản lý<span></span></label>
+                            <input type="text" name="data[manager_mobile]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Giá max<span></span></label>
+                            <input type="text" name="data[max_price]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Giá min<span></span></label>
+                            <input type="text" name="data[min_price]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mở cửa<span></span></label>
+                            <input type="text" name="data[open]" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Đóng cửa<span></span></label>
+                            <input type="text" name="data[close]" class="form-control" required>
+                        </div>
+
 
                     </div>
                     <div class="col-sm-12">
