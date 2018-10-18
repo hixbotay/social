@@ -17,7 +17,6 @@ class Agency extends Model
         'village_id',
         'authorized_dealer', 
         'contract', 
-        'image', 
         'params',
         'hotline',
         'email',

@@ -86,6 +86,7 @@ class Post extends Controller
         $post = PostModel::find($id);
         $data = $request->get('data');
 
+        unset($data['user_id']);
         $post['content'] = trim(strip_tags($data['content']));
 
         $post->save();

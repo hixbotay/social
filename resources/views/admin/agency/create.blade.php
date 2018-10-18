@@ -38,6 +38,25 @@
             $("#province").change(function () {
                 loadDistrict();
             })
+            
+            
+            $("#district").change(function () {
+                jQuery.ajax({
+                    type:'POST',
+                    url:'?controller=Agency&task=ajaxLoadVillage',
+                    data: {districtID: $(this).val()},
+                    success:function(response){
+                        console.log(response);
+                        // return;
+                        var data = JSON.parse(response);
+                        jQuery("#village").html('<option>Chọn xã/phường</option>');
+                        for (let i = 0; i < data.length; i ++){
+                            jQuery("#village").append('<option value="'+data[i].xaid+'">'+data[i].name+'</option>');
+                        }
+
+                    }
+                });
+            })
         });
 
         function loadDistrict(){
@@ -81,7 +100,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Name <span>*</span></label>
+                            <label>Tên quán <span>*</span></label>
                             <input type="text" class="form-control" name="data[name]" required/>
                         </div>
 
@@ -102,9 +121,15 @@
 
                             <select name="data[district_id]" id="district" class="form-control" required>
                                 <option>Chọn quận/huyện</option>
-                                {{--@foreach(App\ProvinceGroup::all_district() AS $value)--}}
-                                    {{--<option value="{{$value->maqh}}">{{$value->name}}</option>--}}
-                                {{--@endforeach--}}
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>Xã/Phường<span></span></label>
+
+                            <select name="data[village_id]" id="village" class="form-control" required>
+                                <option>Chọn xã/phường</option>
                             </select>
                         </div>
 
@@ -112,20 +137,6 @@
                         <div class="form-group">
                             <label>Địa chỉ<span></span></label>
                             <input type="text" name="data[address]" class="form-control" required>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label>Ảnh đại diện<span></span></label>
-                            <div class="bootstrap-filestyle input-group">
-                                <input type="text" class="form-control" name="data[image]" id="ckfinder-popup-1">
-                                <span class="group-span-filestyle input-group-btn" tabindex="0" onclick="selectFileWithCKFinder('ckfinder-popup-1')">
-                                    <label for="filestyle-5" class="btn btn-primary">
-                                        <span class="icon-span-filestyle glyphicon glyphicon-folder-open"></span>
-                                        <span class="buttonText">Choose file</span>
-                                    </label>
-                                </span>
-                            </div>
                         </div>
 
 

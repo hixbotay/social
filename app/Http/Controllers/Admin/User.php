@@ -67,11 +67,13 @@ class User extends Controller
         $favourite = $request->get('favourite');
 
         $plans = array();
-        foreach ($favourite AS $value){
-            $plans[] = array(
-                'user_id' => $id,
-                'hobby_id' => $value
-            );
+        if (!empty($favourite)){
+            foreach ($favourite AS $value){
+                $plans[] = array(
+                    'user_id' => $id,
+                    'hobby_id' => $value
+                );
+            }
         }
         if (!empty($plans))DB::table('user_hobby_map')->insert( $plans );
 
@@ -135,11 +137,14 @@ class User extends Controller
             $favourite = $request->get('favourite');
 
             $plans = array();
-            foreach ($favourite AS $value){
-                $plans[] = array(
-                    'user_id' => $id,
-                    'hobby_id' => $value
-                );
+            $plans = array();
+            if (!empty($favourite)){
+                foreach ($favourite AS $value){
+                    $plans[] = array(
+                        'user_id' => $id,
+                        'hobby_id' => $value
+                    );
+                }
             }
 
             DB::table('user_hobby_map')->insert( $plans );

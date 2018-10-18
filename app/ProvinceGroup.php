@@ -34,6 +34,15 @@ class ProvinceGroup extends Model
         // return $districts;
     }
 
+    public static function getListVillageByDistrict($id){
+        $data = DB::table('devvn_xaphuongthitran')
+            ->select('xaid', 'name', 'maqh')
+            ->where('maqh', '=', $id)
+            ->get();
+
+        return $data;
+    }
+
     public static function all_commune($district_id){
         $communes = DB::table('devvn_xaphuongthitran')
             ->select('xaid', 'name', 'maqh')

@@ -96,8 +96,13 @@ class BookproHelper{
 
 
 	public static function get_group_name_by_id($id){
-	    $result = UserGroup::find($id);
-	    return $result->name;
+        try{
+            $result = UserGroup::find($id);
+            return $result->name;
+        }catch (Exception $exception){
+
+        }
+
     }
 
     function generate_url($string) {

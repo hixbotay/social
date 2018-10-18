@@ -116,4 +116,11 @@ class Agency extends Controller
         print_r(json_encode($data));
         die;
     }
+
+    public function ajaxLoadVillage(){
+        $district = $_POST['districtID'];
+        $data = \App\ProvinceGroup::getListVillageByDistrict($district);
+        print_r( response()->json($data) );
+        die;
+    }
 }
