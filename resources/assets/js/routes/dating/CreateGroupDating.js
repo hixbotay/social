@@ -282,7 +282,7 @@ class CreateGroupDating extends Component {
                         <div className="row form-group">
                             <div className="col-4">Độ tuổi của nữ từ:</div>
                             <div className="col-4">
-                                <select className="custom-select" name="min_female_number" onChange={(e) => this.onChangeMetadata(e)}>
+                                <select className="custom-select" name="min_female_age" onChange={(e) => this.onChangeMetadata(e)}>
                                     <option>Nhỏ nhất</option>
                                     {
                                         age.map(item => {
@@ -292,7 +292,7 @@ class CreateGroupDating extends Component {
                                 </select>
                             </div>
                             <div className="col-4">
-                                <select className="custom-select" name="max_female_number" onChange={(e) => this.onChangeMetadata(e)}>
+                                <select className="custom-select" name="max_female_age" onChange={(e) => this.onChangeMetadata(e)}>
                                     <option>Lớn nhất</option>
                                     {
                                         age.map(item => {

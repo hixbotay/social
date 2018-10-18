@@ -4,22 +4,33 @@ import connect from 'react-redux/es/connect/connect';
 import {joinDating} from '../../actions/EventActions';
 
 class DatingCouple extends Component {
+    join(event_id) {
+        if(this.props.user.is_id_verified) {
+            this.props.joinDating(event_id);
+            window.alert("Tham gia cuộc hẹn thành công!");
+            document.getElementById(`event-${event_id}`).click();
+        }
+        else document.getElementById('open-verify-modal').click();
+    }
+
     render() {
         const { event, user } = this.props;
         return (
             <div>
-                <div className={"row next-dating-header-row1"}>
-                    <div className={"col-md-2 align-middle dating-header"}>
-                        <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
+                <a href={`${APP_URL}/dating/${event.id}`} id={`event-${event_id}`}> 
+                    <div className={"row next-dating-header-row1"}>
+                        <div className={"col-md-2 align-middle dating-header"}>
+                            <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
+                        </div>
+                        <div className={"col-md-7 dating-header"}>
+                            <h5>{event.name}</h5>
+                            <div>{event.address}</div>
+                        </div>
+                        <div className={"col-md-3 align-right dating-time"}>
+                            <p>{event.start_time}</p>
+                        </div>
                     </div>
-                    <div className={"col-md-7 dating-header"}>
-                        <h5>{event.name}</h5>
-                        <div>{event.address}</div>
-                    </div>
-                    <div className={"col-md-3 align-right dating-time"}>
-                        <p>{event.start_time}</p>
-                    </div>
-                </div>
+                </a>
 
                 <div className={"row"}>
                     <div className={"col-md-7 dating-img"}>
@@ -84,7 +95,7 @@ class DatingCouple extends Component {
                                                 <button className="btn btn-primary btn-sm">Tìm hiểu</button>
                                             </div>
                                             <div className="col-6">
-                                                <button className="btn btn-primary btn-sm" onClick={() => {document.getElementById('open-verify-modal').click()}}>
+                                                <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
                                                     Tham gia
                                                 </button>
                                                 <button type="button" id="open-verify-modal" className="d-none" 

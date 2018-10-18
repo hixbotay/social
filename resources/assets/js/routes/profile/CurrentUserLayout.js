@@ -4,14 +4,13 @@ import {Card, CardWithIcon} from '../../components/Card';
 import {RoundAvatar} from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
-import {withRouter, Redirect } from 'react-router-dom';
+import {withRouter, Link } from 'react-router-dom';
 import {uploadIdCardPhoto} from '../../actions/UserActions'; 
 
 class ProfileLayout extends Component {
 
     redirect() {
-        var user_id = this.props.match.params.id;
-        window.location = `${APP_URL}/profile/${user_id}/setting`;
+        document.getElementById('redirect-user-setting').click();
     }
 
     uploadIdCard(event) {
@@ -36,7 +35,16 @@ class ProfileLayout extends Component {
                     {this.props.children}
                 </div>
                 <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                    
+                    <div className="d-none">
+                        {
+                            user ? (
+                                <Link to={`/profile/${user.id}/setting`}>
+                                    <button id='redirect-user-setting'></button>
+                                </Link>
+                            ) : null
+                        }
+                        
+                    </div>
                     <CardWithIcon rightIcon="fas fa-cog user-setting" rightIconAction={() => this.redirect()}>
                         <div className="author vcard inline-items profile-heading-info">
                             <RoundAvatar img={this.props.avatar} size='large'></RoundAvatar>

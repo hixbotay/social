@@ -6,11 +6,17 @@ import {
     GET_AROUND_EVENTS,
     GET_EVENTS_HAS_YOUR_CRUSH,
     CREATE_NEW_EVENT,
-    JOIN_EVENT
+    JOIN_EVENT,
+    GET_EVENT_DETAIL
 } from '../actions/types';
 
 const INIT_STATE = {
     events: [],
+    currentEvent: {
+        job: [],
+        marital_status: [],
+        registers: []
+    },
     forthcomingEvents: [],
     finishedEvents: [],
     cancelledEvents: [],
@@ -44,6 +50,9 @@ export default (state=INIT_STATE, action) => {
         }
         case JOIN_EVENT: {
             return {...state}
+        }
+        case GET_EVENT_DETAIL: {
+            return {...state, currentEvent: action.payload}
         }
         default: {
             return {...state}

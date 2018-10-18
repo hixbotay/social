@@ -43,7 +43,7 @@ class ListFeatureDating extends Component {
                                 Trước khi tham gia một cuộc hẹn, hãy chắc chấn đó là bạn.
                             </div>
                             <div className="text-center create-event-alert-content">
-                                <button className="btn btn-primary">OK</button>
+                                <button className="btn btn-primary" data-dismiss="modal">OK</button>
                             </div>
                         </div>
                     </div>
