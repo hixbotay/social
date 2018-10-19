@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
 import {CardWithIcon} from '../../components/Card';
 import CurrentUserLayout from './CurrentUserLayout';
@@ -84,7 +84,11 @@ class UserSetting extends Component {
 
     render() {
         const { user, user_hobbies, hobbies, jobs, educations } = this.props;
-        if(user.id != this.props.match.params.id) window.location.href = `#/profile/${user.id}/setting`;
+        if(this.props.match.params.id) {
+            if(user.id != this.props.match.params.id) {
+                return <Redirect to={`/profile/${user.id}/setting`}/>
+            }
+        }
 
         var hobbies_arr =  user_hobbies.map(hobby => {
             return hobby.id;
@@ -257,7 +261,7 @@ class UserSetting extends Component {
                                     <label>Nghề nghiệp</label>
                                 </div>
                                 <div className="col-8">
-                                    <select name="jobs" className="custom-select" value={user.job_id}>
+                                    <select name="jobs" className="custom-select" defaltValue={user.job_id}>
                                         <option>Chọn một nghề nghiệp</option>
                                         {
                                             jobs.map(job => {
