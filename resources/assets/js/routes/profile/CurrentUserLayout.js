@@ -10,7 +10,11 @@ import {uploadIdCardPhoto} from '../../actions/UserActions';
 class ProfileLayout extends Component {
 
     redirect() {
-        document.getElementById('redirect-user-setting').click();
+        // if(document.getElementById('redirect-user-setting')) {
+
+        // }
+        // document.getElementById('redirect-user-setting').click();
+        window.location.href = `/profile/${this.props.match.params.id}/setting`;
     }
 
     uploadIdCard(event) {
