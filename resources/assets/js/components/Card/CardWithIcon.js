@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class CardWithIcon extends Component {
     
     render() {
-        const {backgroundImage, className, leftIcon, rightIcon, rightIconAction, children, hasLine} = this.props;
+        const {backgroundImage, className, leftIcon, rightIcon, children, hasLine} = this.props;
 
         var style = backgroundImage ? {backgroundImage: backgroundImage} : {};
         return (
@@ -13,7 +13,7 @@ class CardWithIcon extends Component {
                     <div className="">
                         <div className="float-left"><i className={leftIcon}></i></div>
                         <div className="float-right">
-                            <div className="btn-icon-card" onClick={() => rightIconAction}>
+                            <div className="btn-icon-card" onClick={() => this.props.rightIconAction()}>
                                 <i className={rightIcon}></i>
                             </div>
                         </div>
