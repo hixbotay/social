@@ -17,7 +17,7 @@ class DatingCouple extends Component {
         const { event, user } = this.props;
         return (
             <div>
-                <a href={`${APP_URL}/dating/${event.id}`} id={`event-${event_id}`}> 
+                <a href={`${APP_URL}/dating/${event.id}`} id={`event-${event.id}`}> 
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
                             <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
