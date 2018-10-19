@@ -56,7 +56,11 @@
 
                                 </td>
                                 <td>{{$item->user_id}}</td>
-                                <td>{{$item->name}}</td>
+                                <td>
+                                    <a href="{{url('admin?view=Agency&layout=edit&id='.$item->id)}}">
+                                    {{$item->name}}
+                                    </a>
+                                </td>
                                 <td>{{$item->address}}</td>
                                 <td>{{$item->image}}</td>
                             </tr>

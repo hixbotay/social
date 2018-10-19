@@ -40,9 +40,15 @@ class Agency extends Controller
     {
         $data = $request->get('data');
 
-        \App\Agency::create($data);
+        $result = \App\Agency::create($data);
 
-        return redirect('/admin?view=Agency');
+        $url = url('admin?view=Agency');
+
+        if ($result->id){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
+        }
     }
 
     /**
@@ -64,8 +70,19 @@ class Agency extends Controller
      */
     public function edit($id)
     {
-        $item = \App\DatingPrice::find($id);
-        return view('admin.datingprice.detail', ['item' => $item]);
+        $item = \App\Agency::find($id);
+        $users = User::get_list_user_by_key(12);
+        $village = \App\ProvinceGroup::getListVillageByDistrict($item->district_id);
+        $district = \App\ProvinceGroup::getListDistrictByProvince($item->province_id);
+//        echo "<pre>";
+//        print_r($district);
+//        die;
+        return view('admin.agency.detail', [
+            'item' => $item,
+            'users' => $users,
+            'district' => $district,
+            'village' => $village
+        ]);
     }
 
     /**
@@ -78,20 +95,22 @@ class Agency extends Controller
     public function update(Request $request)
     {
         $id =  $request->input('id');
-        $item = \App\DatingPrice::find($id);
+        $item = \App\Agency::find($id);
 
         $data = $request->get('data');
 
-        if ($item->id){
+        foreach ($data as $key => $value) {
+            if ($value)$item->$key = $value;
+        }
+        $result = $item->save();
+        $url = url('admin?view=Agency');
 
-            foreach ($data as $key => $value) {
-                $item->$key = $value;
-            }
-            $item->save();
-
+        if ($result){
+            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect($url)->withErrors('SAVE_FAIL');
         }
 
-        return redirect('admin?view=DatingPrice');
     }
 
     /**
@@ -120,7 +139,7 @@ class Agency extends Controller
     public function ajaxLoadVillage(){
         $district = $_POST['districtID'];
 //        $data = \App\ProvinceGroup::getListVillageByDistrict($district);
-        $data = DB::table('devvn_quanhuyen')->where('maqh', $district)->get();
+        $data = DB::table('devvn_xaphuongthitran')->where('maqh', $district)->get();
 //        print_r( response()->json($data) );
         print_r(json_encode($data));
         die;

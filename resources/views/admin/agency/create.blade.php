@@ -157,7 +157,7 @@
 
                         <div class="form-group">
                             <label>Chủ<span></span></label>
-                            <input type="text" name="data[website]" class="form-control" required>
+                            <input type="text" name="data[owner]" class="form-control" required>
                         </div>
 
                         <div class="form-group">
@@ -177,22 +177,22 @@
 
                         <div class="form-group">
                             <label>Giá max<span></span></label>
-                            <input type="text" name="data[max_price]" class="form-control" required>
+                            <input type="number" step="0.01" name="data[max_price]" class="form-control" required>
                         </div>
 
                         <div class="form-group">
                             <label>Giá min<span></span></label>
-                            <input type="text" name="data[min_price]" class="form-control" required>
+                            <input type="number" step="0.01" name="data[min_price]" class="form-control" required>
                         </div>
 
                         <div class="form-group">
                             <label>Mở cửa<span></span></label>
-                            <input type="text" name="data[open]" class="form-control" required>
+                            <input type="time" name="data[open]" class="form-control" required>
                         </div>
 
                         <div class="form-group">
                             <label>Đóng cửa<span></span></label>
-                            <input type="text" name="data[close]" class="form-control" required>
+                            <input type="time" name="data[close]" class="form-control" required>
                         </div>
 
 
