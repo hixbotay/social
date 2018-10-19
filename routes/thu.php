@@ -36,7 +36,7 @@ Route::middleware(['web'])->group(function() {
     Route::get('/events/{status}', 'Api\Event@list');
     Route::get('/event/{event_id}', 'Api\Event@get');
 
-    Route::get('/couple/search/{keyword}', 'Api\Couple@find');
+    Route::get('/couple/search', 'Api\Couple@search');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
@@ -66,7 +66,9 @@ Route::post('/post', 'Api\Post@createPost');
 Route::get('/jobs', 'Api\Job@list');
 
 Route::get('cafes', 'Api\Cafe@list');
+Route::get('cafe/search', 'Api\Cafe@search');
 Route::get('cafe/{id}', 'Api\Cafe@get');
+
 
 
 

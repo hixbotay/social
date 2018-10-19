@@ -162,4 +162,45 @@ class Cafe extends Controller
         $cafe->$type = 'storage/app/user'.$user_id.'/cafe/'.$filename;
         return json_encode($cafe);
     }
+
+    public function search(Request $request) {
+        $query = $request->all();
+
+        $name = '';
+        if(array_key_exist('name', $query)) {
+            $name = $query['name'];
+            unset($query['name']);
+        }
+
+        $results = \App\Agency::where($query)->where('name', 'LIKE',  DB::raw("BINARY '%".$name."%'"))->paginate(10);
+
+        foreach($results as $key => $agency) {
+            $agency->avatar = '';
+            $agency->cover = '';
+
+            $images = DB::table('agency_photos')
+                ->where('agency_id', '=', $agency->id)
+                ->whereIn('type', ['cover', 'avatar'])
+                ->orderBy('id', 'DESC')
+                ->get();
+
+            foreach($images as $image) {
+                switch($image->type) {
+                    case 'cover': {
+                        $agency->cover = $image->source;
+                        break;
+                    }
+                    case 'avatar': {
+                        $agency->avatar = $image->source;
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return json_encode($results);
+    }
 }

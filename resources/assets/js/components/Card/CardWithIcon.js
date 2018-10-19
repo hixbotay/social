@@ -13,7 +13,7 @@ class CardWithIcon extends Component {
                     <div className="">
                         <div className="float-left"><i className={leftIcon}></i></div>
                         <div className="float-right">
-                            <div className="btn-icon-card" onClick={rightIconAction}>
+                            <div className="btn-icon-card" onClick={() => rightIconAction}>
                                 <i className={rightIcon}></i>
                             </div>
                         </div>
