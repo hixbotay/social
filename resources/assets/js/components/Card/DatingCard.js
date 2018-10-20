@@ -29,8 +29,8 @@ class DatingCard extends Component {
                                 return (
                                     <div key={index}>
                                     {
-                                        event.type === 'group' ? <DatingGroup event={event}></DatingGroup>
-                                            : <DatingCouple event={event}></DatingCouple>
+                                        event.type === 'group' ? <DatingGroup event={event} action={(event_id) => this.props.action(event_id)}></DatingGroup>
+                                            : <DatingCouple event={event} action={(event_id) => this.props.action(event_id)}></DatingCouple>
                                     }
                                     </div>
                                 )

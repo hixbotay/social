@@ -5,9 +5,11 @@ import {
     GET_CANCELLED_EVENTS,
     GET_AROUND_EVENTS,
     GET_EVENTS_HAS_YOUR_CRUSH,
+    GET_INVITED_EVENTS,
     CREATE_NEW_EVENT,
     JOIN_EVENT,
-    GET_EVENT_DETAIL
+    GET_EVENT_DETAIL,
+    INVITE_INTO_EVENT
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -22,7 +24,8 @@ const INIT_STATE = {
     cancelledEvents: [],
     aroundEvents:  [],
     eventsHasYourCrush: [],
-    newEvent: {}
+    newEvent: {},
+    invitedEvents: []
 }
 
 export default (state=INIT_STATE, action) => {
@@ -53,6 +56,12 @@ export default (state=INIT_STATE, action) => {
         }
         case GET_EVENT_DETAIL: {
             return {...state, currentEvent: action.payload}
+        }
+        // case INVITE_INTO_EVENT: {
+        //     return {...state, newInvitation: action.payload}
+        // }
+        case GET_INVITED_EVENTS: {
+            return {...state, invitedEvents: action.payload}
         }
         default: {
             return {...state}

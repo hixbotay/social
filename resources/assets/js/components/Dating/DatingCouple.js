@@ -2,22 +2,27 @@ import React, { Component } from 'react';
 import { RoundAvatar, SquareAvatar } from '../Avatar';
 import connect from 'react-redux/es/connect/connect';
 import {joinDating} from '../../actions/EventActions';
+import {withRouter} from 'react-router-dom';
 
 class DatingCouple extends Component {
     join(event_id) {
         if(this.props.user.is_id_verified) {
             this.props.joinDating(event_id);
-            window.alert("Tham gia cuộc hẹn thành công!");
-            document.getElementById(`event-${event_id}`).click();
+            window.location.href = `/dating/${event_id}`;
         }
         else document.getElementById('open-verify-modal').click();
+    }
+
+    invite(event_id) {
+        this.props.action(event_id);
+        document.getElementById('open-invite-modal').click();
     }
 
     render() {
         const { event, user } = this.props;
         return (
             <div>
-                <a href={`${APP_URL}/dating/${event.id}`} id={`event-${event.id}`}> 
+                <a href={`${APP_URL}/dating/${event.id}`} > 
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
                             <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
@@ -78,7 +83,7 @@ class DatingCouple extends Component {
                                                         <button className="btn btn-primary btn-sm">Quy định</button>
                                                     </div>
                                                     <div className="col-6">
-                                                        <button className="btn btn-primary btn-sm" onClick={() => {document.getElementById('open-invite-modal').click()}}>
+                                                        <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
                                                             Mời
                                                         </button>
                                                         <button type="button" id="open-invite-modal" className="d-none" 
@@ -126,4 +131,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatingCouple);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DatingCouple));

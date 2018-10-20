@@ -704,3 +704,21 @@ input[type=radio], input[type=checkbox] {
 .event-status-icon {
     margin-left: 0.75em;
 }
+
+#invitation-search-result {
+    position: absolute;
+    z-index: 5;
+    padding: 5px 10px;
+    width: 100%;
+    background: aliceblue;
+    border-radius: 10px;
+}
+
+.invitation-search-result-item {
+    cursor: pointer;
+}
+
+.invitation-search-result-item:hover {
+    background-color: #2980b9;
+    color: #fff;
+}

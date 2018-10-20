@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class Couple extends Controller {
-    public function find(Request $request) {
+    public function search(Request $request) {
         $query = $request->all();
         if(array_key_exists('name', $query)) {
             $name = $query['name'];
             unset($query['name']);
         }
+
         $results = \App\User::where($query)
                 ->where('name', 'like', DB::raw("BINARY '%".$name."%'"))
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')

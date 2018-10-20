@@ -6,9 +6,11 @@ import {
     GET_CANCELLED_EVENTS,
     GET_AROUND_EVENTS,
     GET_EVENTS_HAS_YOUR_CRUSH,
+    GET_INVITED_EVENTS,
     CREATE_NEW_EVENT,
     JOIN_EVENT,
-    GET_EVENT_DETAIL
+    GET_EVENT_DETAIL,
+    INVITE_INTO_EVENT
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -34,6 +36,10 @@ export const getAllEvents = (type) => dispatch => {
                 }
                 case 'crush': {
                     type = GET_EVENTS_HAS_YOUR_CRUSH;
+                    break;
+                }
+                case 'invited': {
+                    type = GET_INVITED_EVENTS;
                     break;
                 }
                 default: {
@@ -75,6 +81,22 @@ export const getEventDetail = (id) => dispatch => {
     api.get(`/event/${id}`)
     .then(response => {
         dispatch({type: GET_EVENT_DETAIL, payload: response.data});
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+export const invite = (event_id, content) => dispatch => {
+    console.log(content);
+    api.post(`/invite/${event_id}`, content)
+    .then(res => {
+        // dispatch({type: INVITE_INTO_EVENT, payload: res.data});
+        if(res.data.result) {
+            window.alert("Gửi lời mời thành công!");
+        } else {
+            window.alert("Bạn đã mời người này trước đó hoặc đã có lỗi xảy ra, vui lòng thử lại!");
+        }
     })
     .catch(err => {
         console.log(err);

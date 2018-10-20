@@ -276,13 +276,24 @@ class Event extends Controller {
     }
 
     public function joinEvent($event_id) {
-        $result = DB::table('event_register')
+        // check if exist 
+        $register= DB::table('event_register')
+            ->where([
+                ['user_id' => Auth::id()],
+                ['event_id' => $event_id],
+            ])
+            ->get();
+        
+        if(count($register)) {
+            $result = DB::table('event_register')
             ->insert([
                 'user_id' => Auth::id(),
                 'event_id' => $event_id,
                 'status' => 1,
                 'created' => date('Y-m-d h:i:s')
             ]);
+        } else $result = false;
+        
         return json_encode($result);
     }
 
@@ -372,5 +383,120 @@ class Event extends Controller {
         $event['registers'] = $users->items();
 
         return json_encode($event);
+    }
+
+    public function invite(Request $request, $event_id) {
+        // find if exists
+        $invitation = DB::table('event_invitations')
+            ->where([
+                ['event_id', '=', $event_id],
+                ['inviter', '=', Auth::id()],
+                ['invitee', '=', $request->input('user_id')]
+            ])
+            ->get();
+        if(count($invitation) == 0) {
+            $result = DB::table('event_invitations')
+            ->insert([
+                'event_id' => $event_id,
+                'inviter' => Auth::id(),
+                'invitee' => $request->input('user_id'),
+                'content' => $request->input('content'),
+                "created_at" =>  \Carbon\Carbon::now(), # \Datetime()
+                "updated_at" => \Carbon\Carbon::now(),  # \Datetime()
+            ]);
+        } else $result = false; 
+        
+        return json_encode(['result' => $result]);
+    }
+
+    // accept or reject invitation 
+    public function updateInvitation(Request $request, $id) {
+        $type = $request->input('type');
+
+        if($type === 'accept') {
+            $invitation = DB::table('event_invitations')
+                ->where([
+                    ['id', '=', $id],
+                    ['invitee', '=', Auth::id()]
+                ])
+                ->update(['status' =>  1]);
+        } else {
+            $invitation = DB::table('event_invitations')
+                ->where([
+                    ['id', '=', $id],
+                    ['invitee', '=', Auth::id()]
+                ])
+                ->update(['status' =>  2]);
+        }
+        return json_encode($invitation);
+    }
+
+    public function listInvitation() {
+        $invitations = DB::table('event_invitations')
+            ->where([
+                ['invitee', '=', Auth::id()],
+                ['status', '=', 0]    
+            ])
+            ->get();
+
+        $temp = [];
+        foreach($invitations as $invitation) {
+            array_push($temp, $invitation->event_id);
+        }
+
+        $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+            ->leftjoin('agency_photos', function ($join) {
+                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                $join->on(function($query) {
+                    $query->where('agency_photos.type', '=', 'avatar'); 
+                });
+            })
+            ->where('status', '=', 'forthcoming')
+            ->whereIn('events.id', $temp)
+            ->select(DB::raw('
+                events.*, 
+                users.name as creator_name, 
+                users.avatar as creator_avatar, 
+                agency.address as address, 
+                agency_photos.source as address_avatar
+            '))
+            ->paginate(10);
+
+        $events_id = [];
+        foreach($events as $key => $event) {
+            $event['is_joined'] = 0;
+            array_push($events_id, $event->id);
+        }
+
+        $event_meta = DB::table('event_meta')
+                    ->whereIn('event_id', $events_id)
+                    ->leftJoin('user_jobs', function($join) {
+                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
+                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
+                    })
+                    ->get();
+
+        $events->map( function ($event, $key) use ($event_meta) {
+            $job = [];
+            $marital_status = [];
+            foreach($event_meta as $metadata) {
+                if($metadata->event_id == $event->id) {
+                    $key = $metadata->meta_key;
+
+                    if($key == 'job_conditional') {
+                        array_push($job, $metadata->name);
+                    } else if($key == 'marital_status') {
+                        array_push($marital_status, $metadata->meta_value);
+                    } else {
+                        $event[$key] = $metadata->meta_value;
+                    }
+
+                    $event['job'] = $job;
+                    $event['marital_status'] = $marital_status;
+                }
+            }
+        });
+        return json_encode($events);
     }
 }

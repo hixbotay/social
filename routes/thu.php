@@ -33,10 +33,16 @@ Route::middleware(['web'])->group(function() {
     
     Route::get('/events/around', 'Api\Event@listEventsAround');
     Route::get('/events/crush', 'Api\Event@listEventsHasYourCrush');
+    Route::get('/events/invited', 'Api\Event@listInvitation');
     Route::get('/events/{status}', 'Api\Event@list');
     Route::get('/event/{event_id}', 'Api\Event@get');
+    
+    Route::post('/invite/{event_id}', 'Api\Event@invite');
+    Route::post('/invite/{event_id}/update', 'Api\Event@updateInvitation');
 
     Route::get('/couple/search', 'Api\Couple@search');
+
+
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

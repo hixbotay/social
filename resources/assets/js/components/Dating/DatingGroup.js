@@ -2,23 +2,28 @@ import React, { Component } from 'react';
 import {joinDating} from '../../actions/EventActions';
 import {connect} from 'react-redux';
 import { RoundAvatar } from '../Avatar';
+import {withRouter} from 'react-router-dom';
 
 class DatingGroup extends Component {
 
     join(event_id) {
         if(this.props.user.is_id_verified) {
             this.props.joinDating(event_id);
-            window.alert("Tham gia cuộc hẹn thành công!");
-            document.getElementById(`event-${event_id}`).click();
+            window.location.href = `/dating/${event_id}`;
         }
         else document.getElementById('open-verify-modal').click();
+    }
+
+    invite(event_id) {
+        this.props.action(event_id);
+        document.getElementById('open-invite-modal').click();
     }
 
     render() {
         const { event } = this.props;
         return (
             <div>
-                <a href={`${APP_URL}/dating/${event.id}`} id={`event-${event.id}`}>
+                <a href={`${APP_URL}/dating/${event.id}`}>
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
                             <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
@@ -89,7 +94,7 @@ class DatingGroup extends Component {
                             <div className="row btn-dating-group">
                                 {
                                     event.is_joined ? (
-                                        <div>>
+                                        <div>
                                         {
                                             (event.status !== 'forthcoming') ? 
                                             (
@@ -111,7 +116,7 @@ class DatingGroup extends Component {
                                                         <button className="btn btn-primary btn-sm">Quy định</button>
                                                     </div>
                                                     <div className="col-6">
-                                                        <button className="btn btn-primary btn-sm" onClick={() => {document.getElementById('open-invite-modal').click()}}>
+                                                        <button className="btn btn-primary btn-sm" onClick={() => this.invite()}>
                                                             Mời
                                                         </button>
                                                         <button type="button" id="open-invite-modal" className="d-none" 
@@ -159,4 +164,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DatingGroup);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DatingGroup));

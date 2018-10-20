@@ -20,7 +20,7 @@ class LeftSidebar extends Component {
 
                 <ul className="list-group">
                     <li className="list-group-item"><Link to='/dating'>Cafe nhóm</Link></li>
-                    <li className="list-group-item">Lời mời</li>
+                    <li className="list-group-item"><Link to="/dating/invited">Lời mời</Link></li>
                     <li className="list-group-item"><Link to="/dating/feature">Lịch hẹn</Link></li>
                     <li className="list-group-item"><Link to="/dating/create">Tạo cuộc hẹn</Link></li>
                     <li className="list-group-item-custom"><Link to="/couple"><i className="fas fa-heartbeat fa-2x"></i> KẾT ĐÔI</Link></li>

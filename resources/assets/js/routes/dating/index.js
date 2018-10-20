@@ -2,23 +2,24 @@ import React, {Component} from 'react';
 
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
-import {getAllEvents} from "../../actions/EventActions";
+import {getAllEvents, invite} from "../../actions/EventActions";
+import {getCoupleResults} from '../../actions/CoupleActions';
 import 'react-image-lightbox/style.css';
 import 'react-animated-slider/build/horizontal.css';
 import { DatingCard } from '../../components/Card';
 import DatingLayout from './DatingLayout';
-// import {joinDating} from '../../actions/EventActions';
+
 import Modal from '../../components/Modal';
 import CircleButton from '../../components/Button/CircleButton';
-
+import {RoundAvatar} from '../../components/Avatar';
 class Dating extends Component {
 
     constructor(props) {
         super(props);
-        this.state =  {};
+        this.state =  {
+            results: []
+        };
     }
-
-
 
     componentDidMount() {
         this.props.getAllEvents('forthcoming');
@@ -26,31 +27,89 @@ class Dating extends Component {
         this.props.getAllEvents('cancelled');
     }
 
+    onSearch(event) {
+        if(event.target.value != '') {
+            this.props.getCoupleResults({name: event.target.value}).then(data => {
+                this.setState({results: data.slice(0, 5)});
+                document.getElementById("invitation-search-result").classList.remove('d-none');
+            }).catch(err => {
+                console.log(err);
+            }) 
+        } else {
+            this.setState({results: []});
+            document.getElementById("invitation-search-result").classList.add('d-none');
+        }
+    }
+
+    changeKeyword(item) {
+        document.getElementById('keyword').value = item.name;
+        document.getElementById("invitation-search-result").classList.add('d-none');
+        this.setState({
+            data: {
+                ...this.state.data,
+                user_id: item.id
+            }
+        })
+    }
+
+    onChangeContent(e) {
+        this.setState({
+            data: {
+                ...this.state.data,
+                content: e.target.value
+            }
+        })
+    }
+
+    onChangeEvent(event_id) {
+        this.setState({ event_id: event_id });
+    }
+
+    submit() {
+        this.props.invite(this.state.event_id, this.state.data);
+    }
+
     render() {
 
         return (
             <DatingLayout>
-                <DatingCard title="CUỘC HẸN SẮP TỚI" events={this.props.forthcomingEvents}></DatingCard>
+                <DatingCard title="CUỘC HẸN SẮP TỚI" events={this.props.forthcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
                 <DatingCard title="CUỘC HẸN ĐÃ KẾT THÚC" events={this.props.finishedEvents}></DatingCard>
                 <DatingCard title="CUỘC HẸN ĐÃ HỦY" events={this.props.cancelledEvents}></DatingCard>
 
                 <Modal id="invite-modal">
                     <div className="row">
                         <div className="col-md-10">
-                            <input type="text" className="form-control" placeholder="Tìm kiếm" onChange={(event) => this.changeKeyword(event)}/>
-                        </div>
-                        <div className="col-md-2">
-                            <button className='btn' onClick={() => this.onSearch()}>
-                                <i className="fas fa-search"></i>
-                            </button>
+                            <input type="text" className="form-control" id="keyword" 
+                                placeholder="Tìm kiếm" 
+                                onChange={(event) => this.onSearch(event)} 
+                            />
+                            <div id="invitation-search-result" className="">
+                                <ul className="list-group">
+                                    {
+                                        this.state.results.map((item, index) => {
+                                            return (
+                                                <li key={index} className="list-group-item invitation-search-result-item" onClick={() => this.changeKeyword(item)}>
+                                                    <div className="row">
+                                                        <div className="col-2">
+                                                            <RoundAvatar img={item.avatar} size="small"></RoundAvatar>
+                                                        </div>
+                                                        <div className="col-10"><b>{item.name}</b></div>
+                                                    </div>
+                                                </li>
+                                            )
+                                        })
+                                    }
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-10">
-                            <input className="form-control" placeholder="Nhập lời mời tham gia..."/>
+                            <input className="form-control" placeholder="Nhập lời mời tham gia..." onChange={(e) => this.onChangeContent(e)} />
                         </div>
                         <div className="col-md-2">
-                            <CircleButton icon="fab fa-telegram-plane"></CircleButton>
+                            <CircleButton icon="fab fa-telegram-plane" action={() => this.submit()}></CircleButton>
                         </div>
                     </div>
                     <img id="invite-cover" src="https://www.shona.ie/app/uploads/2018/02/love-photos-wallpaper-5.jpg" />
@@ -80,13 +139,16 @@ function mapStateToProps(state) {
     return {
         forthcomingEvents: state.event.forthcomingEvents,
         finishedEvents: state.event.finishedEvents,
-        cancelledEvents: state.event.cancelledEvents
+        cancelledEvents: state.event.cancelledEvents,
+        // results: state.couple.search_results,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getAllEvents: (status) => dispatch(getAllEvents(status)),
+        getCoupleResults: (filter) => dispatch(getCoupleResults(filter)),
+        invite: (event_id, data) => dispatch(invite(event_id, data))
     }
 }
 
