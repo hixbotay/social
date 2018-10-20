@@ -107,7 +107,7 @@ class Header extends Component {
 
                         <div className="author-page author vcard inline-items more">
                             {/*<i className="fa fa-caret-down"></i>*/}
-                            <img src={"http://125.212.227.39/social/public/images/main/header-menu.png"}
+                            <img src={"/public/images/main/header-menu.png"}
                                 style={{width: 30, height: 30}}
                             />
                             <div className="author-thumb"> 
