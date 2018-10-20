@@ -18,7 +18,7 @@ class DatingCard extends Component {
             // adaptiveHeight: true
         };
 
-        const { title, text, events } = this.props;
+        const { title, type, events } = this.props;
 
         return (
             <CardWithTitle hasLine={true} title={title}>
@@ -29,8 +29,9 @@ class DatingCard extends Component {
                                 return (
                                     <div key={index}>
                                     {
-                                        event.type === 'group' ? <DatingGroup event={event} action={(event_id) => this.props.action(event_id)}></DatingGroup>
-                                            : <DatingCouple event={event} action={(event_id) => this.props.action(event_id)}></DatingCouple>
+                                        event.type === 'group' ? 
+                                            <DatingGroup event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingGroup>
+                                            : <DatingCouple event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingCouple>
                                     }
                                     </div>
                                 )

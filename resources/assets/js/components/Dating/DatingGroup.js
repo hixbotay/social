@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import {joinDating} from '../../actions/EventActions';
-import {connect} from 'react-redux';
+import { joinDating } from '../../actions/EventActions';
+import { connect } from 'react-redux';
 import { RoundAvatar } from '../Avatar';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class DatingGroup extends Component {
 
     join(event_id) {
-        if(this.props.user.is_id_verified) {
+        if (this.props.user.is_id_verified) {
             this.props.joinDating(event_id);
             window.location.href = `/dating/${event_id}`;
         }
@@ -20,7 +20,81 @@ class DatingGroup extends Component {
     }
 
     render() {
-        const { event } = this.props;
+        const { event, type } = this.props;
+        var button = null;
+
+        if (type == 'invitation') {
+            console.log('=============')
+            button = (
+                <div className="row">
+                    <div className="col-6">
+                        <button className="btn btn-primary btn-sm">Chấp nhận</button>
+                    </div>
+                    <div className="col-6">
+                        <button className="btn btn-primary btn-sm">
+                            Từ chối
+                        </button>
+                    </div>
+                </div>
+            )
+        } else {
+            if (event.is_joined) {
+                switch (event.status) {
+                    case 'forthcoming': {
+                        button = (
+                            <div className="row">
+                                <div className="col-6">
+                                    <button className="btn btn-primary btn-sm">Quy định</button>
+                                </div>
+                                <div className="col-6">
+                                    <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
+                                        Mời
+                                    </button>
+                                    <button type="button" id="open-invite-modal" className="d-none"
+                                        data-toggle="modal" data-target="#invite-modal">
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                        break;
+                    }
+                    case 'cancelled': {
+                        button = (
+                            <div className="text-center">
+                                <button className="btn btn-primary btn-sm">Hẹn lại</button>
+                            </div>
+                        );
+                        break;
+                    }
+                    case 'finished': {
+                        button = (
+                            <div className="text-center">
+                                <button className="btn btn-primary btn-sm">Xem kết quả</button>
+                            </div>
+                        );
+                        break;
+                    }
+                }
+            } else {
+                button = (
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm">Tìm hiểu</button>
+                        </div>
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
+                                Tham gia
+                            </button>
+                            <button type="button" id="open-verify-modal" className="d-none"
+                                data-toggle="modal" data-target="#verify-id-modal">
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
+
+        }
+
         return (
             <div>
                 <a href={`${APP_URL}/dating/${event.id}`}>
@@ -92,57 +166,7 @@ class DatingGroup extends Component {
                                 </div>
                             </div>
                             <div className="row btn-dating-group">
-                                {
-                                    event.is_joined ? (
-                                        <div>
-                                        {
-                                            (event.status !== 'forthcoming') ? 
-                                            (
-                                                event.status !== 'finished' ? 
-                                                (
-                                                    <div className="text-center">
-                                                        <button className="btn btn-primary btn-sm">Hẹn lại</button>
-                                                    </div>
-                                                )
-                                                :
-                                                (
-                                                    <div className="text-center">
-                                                        <button className="btn btn-primary btn-sm">Xem kết quả</button>
-                                                    </div>
-                                                )
-                                            ) : (
-                                                <div className="row">
-                                                    <div className="col-6">
-                                                        <button className="btn btn-primary btn-sm">Quy định</button>
-                                                    </div>
-                                                    <div className="col-6">
-                                                        <button className="btn btn-primary btn-sm" onClick={() => this.invite()}>
-                                                            Mời
-                                                        </button>
-                                                        <button type="button" id="open-invite-modal" className="d-none" 
-                                                            data-toggle="modal" data-target="#invite-modal">
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                        </div>
-                                    ) : (
-                                        <div className="row">
-                                            <div className="col-6">
-                                                <button className="btn btn-primary btn-sm">Tìm hiểu</button>
-                                            </div>
-                                            <div className="col-6">
-                                                <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
-                                                    Tham gia
-                                                </button>
-                                                <button type="button" id="open-verify-modal" className="d-none" 
-                                                    data-toggle="modal" data-target="#verify-id-modal">
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )
-                                }
+                                {button}
                             </div>
                         </div>
                     </div>

@@ -279,12 +279,12 @@ class Event extends Controller {
         // check if exist 
         $register= DB::table('event_register')
             ->where([
-                ['user_id' => Auth::id()],
-                ['event_id' => $event_id],
+                ['user_id', '=', Auth::id()],
+                ['event_id', '=', $event_id],
             ])
             ->get();
         
-        if(count($register)) {
+        if(count($register) == 0) {
             $result = DB::table('event_register')
             ->insert([
                 'user_id' => Auth::id(),
@@ -390,23 +390,38 @@ class Event extends Controller {
         $invitation = DB::table('event_invitations')
             ->where([
                 ['event_id', '=', $event_id],
-                ['inviter', '=', Auth::id()],
                 ['invitee', '=', $request->input('user_id')]
             ])
             ->get();
         if(count($invitation) == 0) {
-            $result = DB::table('event_invitations')
-            ->insert([
-                'event_id' => $event_id,
-                'inviter' => Auth::id(),
-                'invitee' => $request->input('user_id'),
-                'content' => $request->input('content'),
-                "created_at" =>  \Carbon\Carbon::now(), # \Datetime()
-                "updated_at" => \Carbon\Carbon::now(),  # \Datetime()
-            ]);
-        } else $result = false; 
-        
-        return json_encode(['result' => $result]);
+            $register = DB::table('event_register')->where([
+                ['user_id', '=', Auth::id()],
+                ['event_id', '=', $event_id]    
+            ])->get();
+
+            if(count($register)) {
+                $message = 'Bạn chưa đăng ký cuộc hẹn này, hãy đăng  ký trước khi mời.';
+            } else {
+                $result = DB::table('event_invitations')
+                    ->insert([
+                        'event_id' => $event_id,
+                        'inviter' => Auth::id(),
+                        'invitee' => $request->input('user_id'),
+                        'content' => $request->input('content'),
+                        "created_at" =>  \Carbon\Carbon::now(), # \Datetime()
+                        "updated_at" => \Carbon\Carbon::now(),  # \Datetime()
+                    ]);
+
+                if($result) {
+                    $message = "Bạn đã gửi lời mời thành công!";
+                } 
+                else $message = "Đã có lỗi xảy ra, vui lòng thử lại";
+            }
+            
+
+        } else $message = "Người này đã được mời tham gia vào cuộc hẹn này!"; 
+
+        return json_encode(['message' => $message]);
     }
 
     // accept or reject invitation 

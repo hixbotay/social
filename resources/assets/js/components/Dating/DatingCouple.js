@@ -19,7 +19,84 @@ class DatingCouple extends Component {
     }
 
     render() {
-        const { event, user } = this.props;
+        const { event, user, type } = this.props;
+        var button = null;
+
+        if (type == 'invitation') {
+            button = (
+                <div className="row">
+                    <div className="col-6">
+                        <button className="btn btn-primary btn-sm">
+                            Chấp nhận
+                        </button>
+                    </div>
+                    <div className="col-6">
+                        <button className="btn btn-primary btn-sm">
+                            Từ chối
+                        </button>
+                    </div>
+                </div>
+            )
+        } else {
+            if (event.is_joined) {
+                switch (event.status) {
+                    case 'forthcoming': {
+                        button = (
+                            <div className="row">
+                                <div className="col-6">
+                                    <button className="btn btn-primary btn-sm">Quy định</button>
+                                </div>
+                                <div className="col-6">
+                                    <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
+                                        Mời
+                                    </button>
+                                    <button type="button" id="open-invite-modal" className="d-none"
+                                        data-toggle="modal" data-target="#invite-modal">
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                        break;
+                    }
+                    case 'cancelled': {
+                        button = (
+                            <div className="text-center">
+                                <button className="btn btn-primary btn-sm">Hẹn lại</button>
+                            </div>
+                        );
+                        break;
+                    }
+                    case 'finished': {
+                        button = (
+                            <div className="text-center">
+                                <button className="btn btn-primary btn-sm">Xem kết quả</button>
+                            </div>
+                        );
+                        break;
+                    }
+                }
+            } else {
+                button = (
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm">
+                                Tìm hiểu
+                            </button>
+                        </div>
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
+                                Tham gia
+                            </button>
+                            <button type="button" id="open-verify-modal" className="d-none"
+                                data-toggle="modal" data-target="#verify-id-modal">
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
+
+        }
+
         return (
             <div>
                 <a href={`${APP_URL}/dating/${event.id}`} > 
@@ -59,57 +136,7 @@ class DatingCouple extends Component {
                                 </div>
                             </div>
                             <div className="btn-dating-group">
-                                {
-                                    event.is_joined ? (
-                                        <div>>
-                                        {
-                                            (event.status !== 'forthcoming') ? 
-                                            (
-                                                event.status !== 'finished' ? 
-                                                (
-                                                    <div className="text-center">
-                                                        <button className="btn btn-primary btn-sm">Hẹn lại</button>
-                                                    </div>
-                                                )
-                                                :
-                                                (
-                                                    <div className="text-center">
-                                                        <button className="btn btn-primary btn-sm">Xem kết quả</button>
-                                                    </div>
-                                                )
-                                            ) : (
-                                                <div className="row">
-                                                    <div className="col-6">
-                                                        <button className="btn btn-primary btn-sm">Quy định</button>
-                                                    </div>
-                                                    <div className="col-6">
-                                                        <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
-                                                            Mời
-                                                        </button>
-                                                        <button type="button" id="open-invite-modal" className="d-none" 
-                                                            data-toggle="modal" data-target="#invite-modal">
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                        </div>
-                                    ) : (
-                                        <div className="row">
-                                            <div className="col-6">
-                                                <button className="btn btn-primary btn-sm">Tìm hiểu</button>
-                                            </div>
-                                            <div className="col-6">
-                                                <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
-                                                    Tham gia
-                                                </button>
-                                                <button type="button" id="open-verify-modal" className="d-none" 
-                                                    data-toggle="modal" data-target="#verify-id-modal">
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )
-                                }
+                                {button}
                             </div>
                         </div>
                     </div>

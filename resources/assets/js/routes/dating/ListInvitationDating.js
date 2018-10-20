@@ -38,8 +38,8 @@ class ListInvitationDating extends Component {
         
         return (
             <DatingLayout>
-                <DatingCard title="LỜI MỜI CAFE ĐÔI" events={coupleEvents}></DatingCard>
-                <DatingCard title="LỜI MỜI CAFE NHÓM" events={groupEvents}></DatingCard>
+                <DatingCard title="LỜI MỜI CAFE ĐÔI" events={coupleEvents} type="invitation"></DatingCard>
+                <DatingCard title="LỜI MỜI CAFE NHÓM" events={groupEvents} type="invitation"></DatingCard>
             </DatingLayout>
         );
     }

@@ -12,6 +12,7 @@ import DatingLayout from './DatingLayout';
 import Modal from '../../components/Modal';
 import CircleButton from '../../components/Button/CircleButton';
 import {RoundAvatar} from '../../components/Avatar';
+
 class Dating extends Component {
 
     constructor(props) {

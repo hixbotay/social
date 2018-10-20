@@ -92,11 +92,7 @@ export const invite = (event_id, content) => dispatch => {
     api.post(`/invite/${event_id}`, content)
     .then(res => {
         // dispatch({type: INVITE_INTO_EVENT, payload: res.data});
-        if(res.data.result) {
-            window.alert("Gửi lời mời thành công!");
-        } else {
-            window.alert("Bạn đã mời người này trước đó hoặc đã có lỗi xảy ra, vui lòng thử lại!");
-        }
+        window.alert(res.data.message);
     })
     .catch(err => {
         console.log(err);
