@@ -722,3 +722,7 @@ input[type=radio], input[type=checkbox] {
     background-color: #2980b9;
     color: #fff;
 }
+
+.post__author {
+    cursor: pointer;
+}

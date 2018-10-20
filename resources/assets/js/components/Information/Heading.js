@@ -23,7 +23,7 @@ class Heading extends Component {
         }
         return (
             <div>
-                <a href='#'>{heading}</a>
+                <div>{heading}</div>
                 <div><small>{this.props.subHeading}</small></div>
             </div>
         );
