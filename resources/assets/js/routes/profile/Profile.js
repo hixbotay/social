@@ -8,7 +8,6 @@ class Profile extends Component {
 
     render() {
         const {current_user} = this.props;
-        console.log(current_user.id.toString() == this.props.match.params.id);
 
         var content = "Loading...";
         if(current_user.id) {

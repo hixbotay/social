@@ -29,6 +29,7 @@ export default (state = INIT_STATE, action) => {
         case GET_CURRENT_USER: {
             return {...state, current_user: action.payload}
         }
+        // when view other user profile
         case GET_USER_DETAIL: {
             return {...state, other_user_data: action.payload}
         }
@@ -40,6 +41,7 @@ export default (state = INIT_STATE, action) => {
                 relationship: action.payload.relationship
             }
         }
+        // view current user profile
         case UPDATE_USER_DETAIL: {
             return {...state, user: action.payload}
         }

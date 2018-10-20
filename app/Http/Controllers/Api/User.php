@@ -222,6 +222,7 @@ class User extends Controller
 
         $user = \App\User::find($id);
         $user->id_card_photos = 'storage/app/user'.$id.'/id-card/'.$filename;
+        $user->save();
         return json_encode($user);
     }
 }

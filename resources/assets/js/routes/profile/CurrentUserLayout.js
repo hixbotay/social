@@ -85,7 +85,7 @@ class ProfileLayout extends Component {
                             <div className="col-md-8">
                                 <h5>Xác thực CMT để dễ dàng tham gia các cuộc hẹn tốc độ</h5>
                                 {
-                                    user.is_id_verify ? (
+                                    user.is_id_verified ? (
                                         <div className="alert alert-success">
                                             Bạn đã được phê duyệt Chứng minh thư
                                         </div>
