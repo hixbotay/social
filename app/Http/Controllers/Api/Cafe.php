@@ -172,7 +172,7 @@ class Cafe extends Controller
             unset($query['name']);
         }
 
-        $results = \App\Agency::where($query)->where('name', 'LIKE',  DB::raw("BINARY '%".$name."%'"))->paginate(10);
+        $results = \App\Agency::where($query)->where('name', 'LIKE',  DB::raw("'%".$name."%'"))->paginate(10);
 
         foreach($results as $key => $agency) {
             $agency->avatar = '';

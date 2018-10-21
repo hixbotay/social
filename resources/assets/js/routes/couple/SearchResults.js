@@ -23,7 +23,7 @@ class SearchResults extends Component {
     }
 
     onSearch() {
-        this.props.getCoupleResults(this.state.keyword);
+        this.props.getCoupleResults({name: this.state.keyword});
     }
 
     componentWillReceiveProps(nextProps) {

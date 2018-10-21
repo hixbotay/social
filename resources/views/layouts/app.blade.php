@@ -28,7 +28,7 @@
     {{-- <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBc-l_-IyaKNzygWGRnOXMPBLEvTAVIv4E&callback=initMap">
     </script> --}}
-    <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBc-l_-IyaKNzygWGRnOXMPBLEvTAVIv4E&libraries=places'></script>
+    <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCfIb1qabz1cPUHX3Fq0ecohOGi_QaEiBY'></script>
     
     {{-- <script>
         function initMap() {

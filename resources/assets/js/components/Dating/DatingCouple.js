@@ -85,9 +85,11 @@ class DatingCouple extends Component {
                 button = (
                     <div className="row">
                         <div className="col-6">
-                            <button className="btn btn-primary btn-sm">
-                                Tìm hiểu
-                            </button>
+                            <a href={`/dating/${event.id}`}>
+                                <button className="btn btn-primary btn-sm">
+                                    Tìm hiểu
+                                </button>
+                            </a>
                         </div>
                         <div className="col-6">
                             <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
