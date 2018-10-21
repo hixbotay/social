@@ -31,6 +31,12 @@ class CreateCoupleDating extends Component {
         var cafe_id = getCookie('cafe_id');
         if (cafe_id) {
             this.props.getCafeDetail(cafe_id);
+            this.setState({
+                newEvent: {
+                    ...this.state.newEvent,
+                    agency_id: cafe_id
+                }
+            })
         }
     }
 
@@ -177,7 +183,7 @@ class CreateCoupleDating extends Component {
                                     return (
                                         <div className="col-4 event-theme" key={item}>
                                             <img
-                                                src={`storage/app/public/event-theme/theme_${item}.jpg`}
+                                                src={`/storage/app/public/event-theme/theme_${item}.jpg`}
                                                 className={this.state.selectedTheme == item ? `selected-image` : ``}
                                                 onClick={() => this.selectTheme(item)}
                                             />

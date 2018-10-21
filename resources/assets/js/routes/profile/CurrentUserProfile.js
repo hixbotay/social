@@ -54,26 +54,21 @@ class UserProfile extends Component {
             >
                 <Card>
                     <SimpleSlider images={images} slidesToShow={3}></SimpleSlider>
-                    <div className="row">
-
-                        <div className="float-left">Ngày sinh</div>
-                        <div className="float-right">{current_user.birthday}</div>
-
+                    <div className="flex">
+                        <div className="left">Ngày sinh</div>
+                        <div className="right">{current_user.birthday}</div>
                     </div>
-                    <div className="row">
-
-                        <div className="float-left">Giới tính</div>
-                        <div className="float-right">{current_user.gender}</div>
-
+                    <div className="flex">
+                        <div className="left">Giới tính</div>
+                        <div className="right">{(current_user.gender === 'M') ? "Nam" : "Nữ" }</div>
                     </div>
-                    <div className="row">
-                        <div className="float-left">Tình trạng hôn nhân</div>
-                        <div className="float-right">{current_user.marial_status}</div>
-
+                    <div className="flex">
+                        <div className="left">Tình trạng hôn nhân</div>
+                        <div className="right">{(current_user.marial_status === 0) ? 'Độc thân' : "Đã kết hôn"}</div>
                     </div>
-                    <div className="row">
-                        <div className="float-left">Nơi sống</div>
-                        <div className="float-right">{current_user.address}</div>
+                    <div className="flex">
+                        <div className="left">Nơi sống</div>
+                        <div className="right">{current_user.address}</div>
                     </div>
                 </Card>
                 <Card>

@@ -19,6 +19,11 @@ class CafeDetail extends Component {
         this.props.getCafeDetail(this.props.match.params.id);
     }
 
+    createDating(id) {
+        setCookie('cafe_id', id, 1);
+        window.location.href = '/dating/create';
+    }
+
     handleImage(event, type) {
         var component = this;
         var file = event.target.files[0];
@@ -74,8 +79,12 @@ class CafeDetail extends Component {
                             </div>
                         </div>
                         <div className="col-6">
-                            <button className="btn btn-primary" id="btn-cafe-1">Hẹn hò</button>
-                            <button className="btn btn-primary" id="btn-cafe-2">Đặt chố</button>
+                            <button className="btn btn-primary" id="btn-cafe-1" onClick={() => this.createDating(agency.id)}>
+                                Hẹn hò
+                            </button>
+                            <button className="btn btn-primary" id="btn-cafe-2">
+                                Đặt chố
+                            </button>
                         </div>
                     </div>
                 </Card>

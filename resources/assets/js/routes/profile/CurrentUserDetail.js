@@ -114,7 +114,7 @@ class UserSetting extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Giới tính</div>
-                                    <div className="col-8">{user.gender ? (user.gender == 'M' ? "Nam" : "Nữ") : null}</div>
+                                    <div className="col-8">{(user.gender === 'M') ? "Nam" : "Nữ"}</div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Quê quán</div>
@@ -130,7 +130,7 @@ class UserSetting extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Tình trạng hôn nhân</div>
-                                    <div className="col-8">{user.marital_status}</div>
+                                    <div className="col-8">{(user.marital_status == 0) ? "Độc thân" : "Đã kết hôn"}</div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Số điện thoại</div>

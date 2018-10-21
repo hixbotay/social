@@ -730,3 +730,12 @@ input[type=radio], input[type=checkbox] {
 .register-item {
     margin-bottom: 15px
 }
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.right {
+    text-align: right;
+}
