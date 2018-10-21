@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { RoundAvatar, SquareAvatar } from '../Avatar';
 import connect from 'react-redux/es/connect/connect';
-import {joinDating} from '../../actions/EventActions';
-import {withRouter} from 'react-router-dom';
+import {joinDating, updateInvitation} from '../../actions/EventActions';
+import {withRouter,  Link} from 'react-router-dom';
 
 class DatingCouple extends Component {
     join(event_id) {
@@ -26,12 +26,12 @@ class DatingCouple extends Component {
             button = (
                 <div className="row">
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm">
+                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, {type: 'accept'})}>
                             Chấp nhận
                         </button>
                     </div>
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm">
+                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, {type: 'reject'})}>
                             Từ chối
                         </button>
                     </div>
@@ -44,7 +44,11 @@ class DatingCouple extends Component {
                         button = (
                             <div className="row">
                                 <div className="col-6">
-                                    <button className="btn btn-primary btn-sm">Quy định</button>
+                                    <a href={`/dating/${event.id}`}>
+                                        <button className="btn btn-primary btn-sm">
+                                            Quy định
+                                        </button>
+                                    </a>
                                 </div>
                                 <div className="col-6">
                                     <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
@@ -69,7 +73,9 @@ class DatingCouple extends Component {
                     case 'finished': {
                         button = (
                             <div className="text-center">
-                                <button className="btn btn-primary btn-sm">Xem kết quả</button>
+                                <a href={`/dating/${event.id}/result`}>
+                                    <button className="btn btn-primary btn-sm">Xem kết quả</button>
+                                </a>
                             </div>
                         );
                         break;
@@ -99,7 +105,7 @@ class DatingCouple extends Component {
 
         return (
             <div>
-                <a href={`${APP_URL}/dating/${event.id}`} > 
+                <Link to={`/dating/${event.id}`} > 
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
                             <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
@@ -112,7 +118,7 @@ class DatingCouple extends Component {
                             <p>{event.start_time}</p>
                         </div>
                     </div>
-                </a>
+                </Link>
 
                 <div className={"row"}>
                     <div className={"col-md-7 dating-img"}>
@@ -122,19 +128,29 @@ class DatingCouple extends Component {
                     </div>
                     <div className={"col-md-5 dating-info"}>
                         <div>
-                            <div className="row text-center couple-dating-info">
-                                <div className="col-5 couple-avatar">
-                                    <SquareAvatar img={event.creator_avatar} size="medium"></SquareAvatar>
-                                    <h6>{event.creator_name}</h6>
-                                </div>
-                                <div className="col-2">
-                                    <i className="far fa-heart" id="couple-icon"></i>
-                                </div>
-                                <div className="col-5 couple-avatar">
-                                    <SquareAvatar img={user.avatar} size="medium"></SquareAvatar>
-                                    <h6>{user.name}</h6>
-                                </div>
-                            </div>
+                            {
+                                (user.id.toString() == event.creator.toString()) ? (
+                                    <div className="row text-center couple-dating-info">
+                                        Cuộc hẹn này do bạn tạo ra, hãy mời bạn bè vào cuộc hẹn này!
+                                    </div>
+                                    
+                                ) : (
+                                    <div className="row text-center couple-dating-info">
+                                        <div className="col-5 couple-avatar">
+                                            <SquareAvatar img={event.creator_avatar} size="medium"></SquareAvatar>
+                                            <h6>{event.creator_name}</h6>
+                                        </div>
+                                        <div className="col-2">
+                                            <i className="far fa-heart" id="couple-icon"></i>
+                                        </div>
+                                        <div className="col-5 couple-avatar">
+                                            <SquareAvatar img={user.avatar} size="medium"></SquareAvatar>
+                                            <h6>{user.name}</h6>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            
                             <div className="btn-dating-group">
                                 {button}
                             </div>
@@ -154,7 +170,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        joinDating: (event_id) => dispatch(joinDating(event_id))
+        joinDating: (event_id) => dispatch(joinDating(event_id)),
+        updateInvitation: (id, type) => dispatch(updateInvitation(id, type))
     }
 }
 

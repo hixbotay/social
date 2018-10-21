@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { joinDating } from '../../actions/EventActions';
+import { joinDating, updateInvitation } from '../../actions/EventActions';
 import { connect } from 'react-redux';
 import { RoundAvatar } from '../Avatar';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 class DatingGroup extends Component {
 
@@ -24,14 +24,15 @@ class DatingGroup extends Component {
         var button = null;
 
         if (type == 'invitation') {
-            console.log('=============')
             button = (
                 <div className="row">
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm">Chấp nhận</button>
+                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, {type: 'accept'})}>
+                            Chấp nhận
+                        </button>
                     </div>
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm">
+                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, {type: 'reject'})}>
                             Từ chối
                         </button>
                     </div>
@@ -44,7 +45,11 @@ class DatingGroup extends Component {
                         button = (
                             <div className="row">
                                 <div className="col-6">
-                                    <button className="btn btn-primary btn-sm">Quy định</button>
+                                    <a href={`/dating/${event.id}`}>
+                                        <button className="btn btn-primary btn-sm">
+                                            Quy định
+                                        </button>
+                                    </a>
                                 </div>
                                 <div className="col-6">
                                     <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
@@ -69,7 +74,11 @@ class DatingGroup extends Component {
                     case 'finished': {
                         button = (
                             <div className="text-center">
-                                <button className="btn btn-primary btn-sm">Xem kết quả</button>
+                                <a href={`/dating/${event.id}/result`}>
+                                    <button className="btn btn-primary btn-sm">
+                                        Xem kết quả
+                                    </button>
+                                </a>
                             </div>
                         );
                         break;
@@ -97,7 +106,7 @@ class DatingGroup extends Component {
 
         return (
             <div>
-                <a href={`${APP_URL}/dating/${event.id}`}>
+                <Link to={`/dating/${event.id}`}>
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
                             <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
@@ -110,7 +119,7 @@ class DatingGroup extends Component {
                             <p>{event.start_time}</p>
                         </div>
                     </div>
-                </a>
+                </Link>
 
                 <div className={"row"}>
                     <div className={"col-md-7 dating-img"}>
@@ -184,7 +193,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        joinDating: (event_id) => dispatch(joinDating(event_id))
+        joinDating: (event_id) => dispatch(joinDating(event_id)),
+        updateInvitation: (id, type) => dispatch(updateInvitation(id, type))
     }
 }
 

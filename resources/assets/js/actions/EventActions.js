@@ -98,3 +98,16 @@ export const invite = (event_id, content) => dispatch => {
         console.log(err);
     })
 }
+
+export const updateInvitation = (event_id, data) => (dispatch) => {
+    api.post(`/invite/${event_id}/update`, data).then(response => {
+        if(data.type === 'accept') {
+            window.location.href = `/dating/${event_id}`;
+        } else {
+            window.alert("Từ chối lời mời thành công");
+        }
+    }).catch(err => {
+        console.log(err);
+        window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
+    })
+}

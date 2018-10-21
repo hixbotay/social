@@ -10,7 +10,7 @@ class Event extends Model
 
     public $timestamps = false;
 
-    protected $hidden = ['creator', 'agency_id'];
+    protected $hidden = ['agency_id'];
 
     protected $fillable = [
         'name', 

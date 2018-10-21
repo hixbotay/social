@@ -3,9 +3,11 @@ import connect from 'react-redux/es/connect/connect';
 import {Card, CardWithIcon, CardWithTitle} from '../../components/Card';
 import DatingLayout from './DatingLayout';
 import {RoundAvatar, SquareAvatar} from '../../components/Avatar';
-import {withRouter} from 'react-router-dom';
-import {getEventDetail} from '../../actions/EventActions';
+import {withRouter, Link} from 'react-router-dom';
 import CircleButton from '../../components/Button/CircleButton';
+import RegisterItem from '../../components/Dating/RegisterItem';
+import {getEventDetail} from '../../actions/EventActions';
+import {updateRelationship} from '../../actions/UserActions';
 
 class DatingDetail extends Component {
     componentDidMount() {
@@ -186,7 +188,7 @@ class DatingDetail extends Component {
                                             Giới tính
                                         </div>
                                         <div className="col-8">
-                                            {event.gender}
+                                            {event.gender === 'M' ? "Nam" : "Nữ"}
                                         </div>
                                     </div>
                                     <div className="row">
@@ -219,37 +221,11 @@ class DatingDetail extends Component {
                             {
                                 event.registers.map((user, index) => {
                                     return (
-                                        <div className="row" key={index}>
-                                            <div className="col-3">
-                                                <SquareAvatar img={user.avatar} size="large"></SquareAvatar>
-                                            </div>
-                                            <div className="col-9">
-                                                <h5>{user.name}</h5>
-                                                <div>{user.address}</div>
-                                                {
-                                                    user.is_loved ? (
-                                                        <p>{user.name} thích bạn. Hãy nhắn tin và hẹn đôi với anh ấy!</p>
-                                                    ) : null
-                                                }
-                                                <div>
-                                                    <CircleButton
-                                                        icon="fas fa-heart"
-                                                        color={user.is_loved ? '#e74c3c' : '#34495e'}
-                                                        action={() => this.onUpdateRelationship('love')}
-                                                    ></CircleButton>
-                                                    <CircleButton
-                                                        icon="fas fa-thumbs-up"
-                                                        color={user.is_like ? '#2980b9' : '#34495e'}
-                                                        action={() => this.onUpdateRelationship('like')}
-                                                    ></CircleButton>
-                                                    <CircleButton
-                                                        icon="fas fa-comments"
-                                                        color='#34495e'
-                                                        // action
-                                                    ></CircleButton>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <RegisterItem 
+                                            user={user} 
+                                            key={index}
+                                            action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                        ></RegisterItem>
                                     )
                                 })
                             }
@@ -269,7 +245,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getEventDetail: (id) => dispatch(getEventDetail(id))
+        getEventDetail: (id) => dispatch(getEventDetail(id)),
+        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id))
     }
 }
 

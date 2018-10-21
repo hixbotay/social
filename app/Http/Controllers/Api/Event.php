@@ -399,7 +399,7 @@ class Event extends Controller {
                 ['event_id', '=', $event_id]    
             ])->get();
 
-            if(count($register)) {
+            if(count($register) == 0) {
                 $message = 'Bạn chưa đăng ký cuộc hẹn này, hãy đăng  ký trước khi mời.';
             } else {
                 $result = DB::table('event_invitations')
@@ -425,20 +425,26 @@ class Event extends Controller {
     }
 
     // accept or reject invitation 
-    public function updateInvitation(Request $request, $id) {
+    public function updateInvitation(Request $request, $event_id) {
         $type = $request->input('type');
 
         if($type === 'accept') {
             $invitation = DB::table('event_invitations')
                 ->where([
-                    ['id', '=', $id],
+                    ['event_id', '=', $event_id],
                     ['invitee', '=', Auth::id()]
                 ])
                 ->update(['status' =>  1]);
+            DB::table('event_register')->insert([
+                'event_id' => $event_id,
+                'user_id' => Auth::id(),
+                "created" =>  \Carbon\Carbon::now(), # \Datetime()
+                "status" => 1
+            ]);
         } else {
             $invitation = DB::table('event_invitations')
                 ->where([
-                    ['id', '=', $id],
+                    ['event_id', '=', $event_id],
                     ['invitee', '=', Auth::id()]
                 ])
                 ->update(['status' =>  2]);

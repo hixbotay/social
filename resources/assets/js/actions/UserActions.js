@@ -103,6 +103,7 @@ export const uploadIdCardPhoto = (data, id) => dispatch => {
         window.location.reload();
     }).catch(err => {
         console.log(err);
+        window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
     })
 }
 

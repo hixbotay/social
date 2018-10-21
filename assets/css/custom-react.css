@@ -726,3 +726,7 @@ input[type=radio], input[type=checkbox] {
 .post__author {
     cursor: pointer;
 }
+
+.register-item {
+    margin-bottom: 15px
+}
