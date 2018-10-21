@@ -739,3 +739,9 @@ input[type=radio], input[type=checkbox] {
 .right {
     text-align: right;
 }
+
+#upload-id-card {
+    position: unset;
+    color: #fff;
+    font-weight: 600
+}

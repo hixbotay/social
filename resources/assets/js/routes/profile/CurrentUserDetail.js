@@ -261,7 +261,7 @@ class UserSetting extends Component {
                                     <label>Nghề nghiệp</label>
                                 </div>
                                 <div className="col-8">
-                                    <select name="jobs" className="custom-select" defaltValue={user.job_id}>
+                                    <select name="job" className="custom-select" defaultValue={user.job_id} onChange={(event) => this.editUser(event)}>
                                         <option>Chọn một nghề nghiệp</option>
                                         {
                                             jobs.map(job => {

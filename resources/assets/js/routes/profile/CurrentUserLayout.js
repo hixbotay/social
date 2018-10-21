@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import {Card, CardWithIcon} from '../../components/Card';
+import {Card, CardWithIcon, CardWithTitle} from '../../components/Card';
 import {RoundAvatar} from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
@@ -75,15 +75,15 @@ class ProfileLayout extends Component {
                         
                     </Card>
                     <img src="http://file.hstatic.net/1000184601/file/457__1_.jpg" className="vip-upgrade"/>
-                    <Card 
+                    {/* <Card 
                         backgroundImage={"url('https://thumb9.shutterstock.com/display_pic_with_logo/176475360/779963938/stock-vector-geometric-abstract-background-geometric-pattern-shapes-art-geometric-background-mosaic-pattern-779963938.jpg')"}
                         className="verify-user"
                     >
-                        <button className="btn btn-primary">Xác thực CMT</button>    
+                        <button className="btn btn-primary">Xác thực CMT</button>     */}
+                    <CardWithTitle title="Xác thực CMT" hasLine={true}> 
                         <div className="row">
-                            <div className="col-md-2"></div>
-                            <div className="col-md-8">
-                                <h5>Xác thực CMT để dễ dàng tham gia các cuộc hẹn tốc độ</h5>
+                            <div className="col-md-12">
+                                <p>Xác thực CMT để dễ dàng tham gia các cuộc hẹn tốc độ</p>
                                 {
                                     user.is_id_verified ? (
                                         <div className="alert alert-success">
@@ -95,18 +95,26 @@ class ProfileLayout extends Component {
                                                 Đang chờ phê duyệt Chứng minh thư 
                                             </div>
                                         ) : (
-                                            <label className="btn-add-image"> 
-                                                <i className="fas fa-camera"></i> Upload
-                                                <input type="file" className="d-none" name="image" onChange={(e) => this.uploadIdCard(e)} />
-                                            </label>
+                                            <div>
+                                                <div className="alert alert-danger">
+                                                    Bạn chưa xác thực Chứng minh thư. Hãy xác minh ngay!
+                                                
+                                            
+                                                    <div className="text-center">
+                                                        <label className="btn-add-image" id="upload-id-card"> 
+                                                            <i className="fas fa-camera"></i> Upload
+                                                            <input type="file" className="d-none" name="image" onChange={(e) => this.uploadIdCard(e)} />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         )
                                     )
                                 }
                                 
                             </div>
-                            <div className="col-md-2"></div>
                         </div>
-                    </Card>
+                    </CardWithTitle>
                     <div>
                         <div className="row pending-list">
                             <div className="container">
