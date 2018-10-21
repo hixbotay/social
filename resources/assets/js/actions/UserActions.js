@@ -10,6 +10,16 @@ import {
     GET_FRIENDS_VISITED
 } from './types';
 
+export const logout = () => dispatch => {
+    api.post(`${APP_URL}/logout`).then(response => {
+        // window.location.href = '/login';
+        console.log(response);
+        window.location.replace(`${APP_URL}/login`);
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
 export const getCurrentUser = () => (dispatch) => {
     api.get('auth/user')
     .then(response => {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import ListItem from '../../components/Notification/ListItem';
+import {logout} from '../../actions/UserActions';
+import {connect} from 'react-redux';
 
 class Header extends Component {
 
@@ -129,7 +131,7 @@ class Header extends Component {
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#">
+                                                <a href="#" onClick={() => this.props.logout()}>
                                                     <span>Log Out</span>
                                                 </a>
                                             </li>
@@ -145,4 +147,10 @@ class Header extends Component {
     }
 }
 
-export default Header;
+function mapDispatchToProps(dispatch) {
+    return {
+        logout: () => dispatch(logout())
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Header);
