@@ -25,7 +25,7 @@ class Post extends Controller
             ->leftjoin('user_photos', 'user_photos.id', '=', 'post_photos.photo_id')
             ->select('users.name AS author', 'users.avatar AS author_avatar', 'posts.*', 'user_photos.id AS photo_id', 'user_photos.source')
             ->orderBy('id', 'DESC')
-            ->having('author_id', '=', Auth::id())
+            ->having('posts.user_id', '=', Auth::id())
             ->get();
         
         return json_encode($result);
