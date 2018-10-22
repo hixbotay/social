@@ -8,11 +8,11 @@
 <body>
     <div class="row additional-info-screen">
         <div class="col-md-4">
-            <img id="additional-image1" src={{env('APP_URL').'/storage/app/public/additional-info/image1.png'}}/>
+            <img id="additional-image1" src="{{env('APP_URL')}}/public/images/main/main-01.png"/>
         </div>
         <div class="col-md-4">
             <div class="additional-info-logo text-center ">
-                <img src="http://125.212.227.39/social/public/images/main/logo.png"/>
+                <img src="{{env('APP_URL')}}/public/images/main/logo.png"/>
                 <br/>
                 @yield('text')
             </div>
@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="col-md-4">
-            <img id="additional-image2" src={{env('APP_URL').'/storage/app/public/additional-info/image2.png'}}/>
+            <img id="additional-image2" src="{{env('APP_URL')}}/public/images/main/main-02.png"/>
         </div>
     </div>
 </body>

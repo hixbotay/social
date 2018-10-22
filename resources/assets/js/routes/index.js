@@ -51,11 +51,13 @@ const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 class MainApp extends Component {
 	constructor(props) {
         super(props);
-        props.getCurrentUser();
-	}
+    }
+    
+    componentDidMount() {
+        this.props.getCurrentUser();
+    }
 	
 	render() {
-        console.log(APP_URL);
 		var route = (
         <div className={'row'}>
             <div className={'col-sm-12'}>
@@ -63,7 +65,7 @@ class MainApp extends Component {
             </div>
         </div>);
 
-		if (this.props.user.id){
+		if (this.props.user){
             route = (
                 <Switch>
                     {/* Home */}

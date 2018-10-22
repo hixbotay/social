@@ -5,7 +5,7 @@
 <div>
     <div class="form-top">
         <div class="col-sm-offset-2 col-sm-12">
-            <img src="storage/app/public/logo.png" id="logo-form">
+        <img src="{{env('APP_URL')}}/public/images/main/logo.png" id="logo-form">
         </div>
     </div>
     <div class="form-bottom">

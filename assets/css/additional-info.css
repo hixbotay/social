@@ -1,5 +1,5 @@
 .additional-info-screen {
-    background: url('../../storage/app/public/additional-info/background.jpg');
+    background: url('../../../public/images/main/background-02.jpg');
     padding-top: 50px;
     /* height: 100vh; */
 }

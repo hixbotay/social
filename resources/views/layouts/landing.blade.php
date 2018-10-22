@@ -80,7 +80,7 @@
                                 <iframe max-width="100%" class="embed-responsive-item" src="https://www.youtube.com/embed/FGIun-VbbJM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                             </div>
                             <div>
-                                <img id="landing-animation-img" src="storage/app/public/additional-info/image2.png">
+                                <img id="landing-animation-img" src="{{env('APP_URL')}}/public/images/main/main-02.png">
                             </div>
                             
                         </div>
