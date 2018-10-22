@@ -27,6 +27,7 @@ class NewFeeds extends Component {
     }
 
     addPost(post) {
+        post.author_id = this.props.current_user.id;
         this.state.posts.unshift(post);
         this.setState({
             posts: this.state.posts

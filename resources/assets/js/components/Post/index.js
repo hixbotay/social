@@ -48,7 +48,7 @@ class Post extends Component {
                     <div className="col-12">
                         <div className="float-left">
                             <PostHeader
-                                user_id={post.author_id}
+                                user_id={post.user_id}
                                 avatar={post.author_avatar}
                                 name={post.author}
                                 heartNumber={this.state.love}
