@@ -22,9 +22,9 @@ import {HashRouter, BrowserRouter} from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>
-        <HashRouter>
+        <BrowserRouter basename="/social">
             <MainApp />
-        </HashRouter>
+        </BrowserRouter>
     </Provider>,
     document.getElementById('app')
 );

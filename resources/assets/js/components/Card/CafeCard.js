@@ -6,7 +6,7 @@ class CafeCard extends Component {
 
     createDating(id) {
         setCookie('cafe_id', id, 1);
-        window.location.href = '/dating/create';
+        window.location.href = `${baseUrl}/dating/create`;
     }
     
     render() {
@@ -15,7 +15,7 @@ class CafeCard extends Component {
         return (
             <div className="image-card cafe-card">
                 <div>
-                    <Link to={`cafe/${agency.id}/view`}>
+                    <Link to={`/cafe/${agency.id}/view`}>
                         <img src={agency.avatar}/>
                     </Link>
                     <div className="image-card-btn cafe-btn">

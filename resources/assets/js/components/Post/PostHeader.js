@@ -5,9 +5,6 @@ import InformationNumber from '../Information/InformationNumber';
 import { Redirect, Link } from 'react-router-dom';
 
 class PostHeader extends Component {
-    onClick() {
-        window.location.href = `/profile/${this.props.user_id}`;
-    }
 
     render() {
         return (

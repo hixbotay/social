@@ -67,13 +67,17 @@ export const createNewEvent = (data) => dispatch => {
 }
 
 export const joinDating = (id) => dispatch => {
-    api.post(`/event/${id}`)
-    .then(response => {
-        console.log(response);
-        dispatch({type: JOIN_EVENT, payload: response.data});
-    })
-    .catch(err => {
-        console.log(err);
+    return new Promise((resolve, reject) => {
+        api.post(`/event/${id}`)
+        .then(response => {
+            console.log(response);
+            dispatch({type: JOIN_EVENT, payload: response.data});
+            resolve(response.data)
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err);
+        })
     })
 }
 
@@ -102,7 +106,7 @@ export const invite = (event_id, content) => dispatch => {
 export const updateInvitation = (event_id, data) => (dispatch) => {
     api.post(`/invite/${event_id}/update`, data).then(response => {
         if(data.type === 'accept') {
-            window.location.href = `/dating/${event_id}`;
+            window.location.href = `${baseUrl}/dating/${event_id}`;
         } else {
             window.alert("Từ chối lời mời thành công");
         }

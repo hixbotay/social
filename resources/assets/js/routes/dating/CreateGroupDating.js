@@ -47,7 +47,7 @@ class CreateGroupDating extends Component {
             selectedTheme: item,
             newEvent: {
                 ...this.state.newEvent,
-                image: `storage/app/public/event-theme/theme_${item}.jpg`
+                image: `public/images/dating-theme/theme-${item}.jpg`
             }
         });
     }
@@ -170,7 +170,7 @@ class CreateGroupDating extends Component {
                                     return (
                                         <div className="col-4 event-theme" key={item}>
                                             <img
-                                                src={`/storage/app/public/event-theme/theme_${item}.jpg`}
+                                                src={`${baseUrl}/public/images/dating-theme/theme-${item}.jpg`}
                                                 className={this.state.selectedTheme == item ? `selected-image` : ``}
                                                 onClick={() => this.selectTheme(item)}
                                             />

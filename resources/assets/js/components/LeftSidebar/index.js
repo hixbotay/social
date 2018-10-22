@@ -16,7 +16,7 @@ class LeftSidebar extends Component {
                     <h4>{user.name}</h4>
                 </Link>
 
-                <img className={"imgMenu1"} src={"/public/images/main/hen-toc-do.png"} />
+                <img className={"imgMenu1"} src={`${baseUrl}/public/images/main/hen-toc-do.png`} />
 
                 <ul className="list-group">
                     <li className="list-group-item"><Link to='/dating'>Cafe nhóm</Link></li>

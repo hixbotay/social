@@ -21,7 +21,7 @@ class CafeDetail extends Component {
 
     createDating(id) {
         setCookie('cafe_id', id, 1);
-        window.location.href = '/dating/create';
+        window.location.href = `${baseUrl}/dating/create`;
     }
 
     handleImage(event, type) {
@@ -45,14 +45,14 @@ class CafeDetail extends Component {
         return (
             <CafeLayout>
                 <div className={"add-cafe-banner"}>
-                    <img src={agency.cover ? APP_URL + '/' + agency.cover : 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'} />
+                    <img src={agency.cover ? baseUrl + '/' + agency.cover : 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'} />
                     <label className="btn-add-image"> <i className="fas fa-camera fa-2x"></i>
                         <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'cover')} />
                     </label>
                 </div>
                 <Card>
                     <div className="post__author author vcard inline-items" id="cafe-avatar">
-                        <RoundAvatar img={APP_URL + '/' + agency.avatar} size="large"></RoundAvatar>
+                        <RoundAvatar img={baseUrl + '/' + agency.avatar} size="large"></RoundAvatar>
                         <label className="btn-change-avatar">
                             <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'avatar')} />
                         </label>

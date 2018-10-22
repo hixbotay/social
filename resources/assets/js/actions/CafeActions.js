@@ -42,7 +42,7 @@ export const createCafe = (data) => (dispatch) => {
         .then(response => {
             console.log(response.data);
             dispatch({type: CREATE_NEW_CAFE, payload: response.data});
-            window.location.href = `cafe/${response.data.id}/view`;
+            window.location.href = `${baseUrl}/cafe/${response.data.id}/view`;
         })
         .catch(error => {
             console.log(error);

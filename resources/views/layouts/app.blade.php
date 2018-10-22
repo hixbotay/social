@@ -8,6 +8,9 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <base href="{{url_root()}}/">
+    <script>
+        var baseUrl = "{{url('')}}";
+    </script>
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 

@@ -8,8 +8,9 @@ class DatingGroup extends Component {
 
     join(event_id) {
         if (this.props.user.is_id_verified) {
-            this.props.joinDating(event_id);
-            window.location.href = `/dating/${event_id}`;
+            this.props.joinDating(event_id).then(data => {
+                window.location.href = `${baseUrl}/dating/${event_id}`;
+            });
         }
         else document.getElementById('open-verify-modal').click();
     }
@@ -45,11 +46,11 @@ class DatingGroup extends Component {
                         button = (
                             <div className="row">
                                 <div className="col-6">
-                                    <a href={`/dating/${event.id}`}>
+                                    <Link to={`/dating/${event.id}`}>
                                         <button className="btn btn-primary btn-sm">
                                             Quy định
                                         </button>
-                                    </a>
+                                    </Link>
                                 </div>
                                 <div className="col-6">
                                     <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
@@ -74,11 +75,11 @@ class DatingGroup extends Component {
                     case 'finished': {
                         button = (
                             <div className="text-center">
-                                <a href={`/dating/${event.id}/result`}>
+                                <Link to={`/dating/${event.id}/result`}>
                                     <button className="btn btn-primary btn-sm">
                                         Xem kết quả
                                     </button>
-                                </a>
+                                </Link>
                             </div>
                         );
                         break;
@@ -88,9 +89,9 @@ class DatingGroup extends Component {
                 button = (
                     <div className="row">
                         <div className="col-6">
-                            <a href={`/dating/${event.id}`}>
+                            <Link to={`/dating/${event.id}`}>
                                 <button className="btn btn-primary btn-sm">Tìm hiểu</button>
-                            </a>
+                            </Link>
                         </div>
                         <div className="col-6">
                             <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
