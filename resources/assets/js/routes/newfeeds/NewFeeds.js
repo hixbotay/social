@@ -6,7 +6,6 @@ import CreatePostForm from '../../components/Post/CreatePostForm';
 import Post from '../../components/Post';
 // action
 import { getAllPosts } from '../../actions/PostActions';
-import HomeNavigator from '../../components/HomeNavigator';
 
 class NewFeeds extends Component {
     constructor(props) {
