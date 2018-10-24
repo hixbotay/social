@@ -38,7 +38,7 @@ class CoupleView extends Component {
             }
         }
 
-        this.props.action(data, this.props.user.id);
+        this.props.action(data, this.props.item.id);
     }
 
     render() {
@@ -108,5 +108,11 @@ class CoupleView extends Component {
         );
     }
 }
+
+// function mapStateToProps(state) {
+//     return {
+//         user: state.user.current_user
+//     }
+// }
 
 export default CoupleView;

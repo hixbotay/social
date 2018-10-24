@@ -18,7 +18,7 @@ import MainApp from './routes/index';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store/index';
-import {HashRouter, BrowserRouter} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>

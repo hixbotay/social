@@ -224,9 +224,6 @@ class SearchResults extends Component {
                             </Slider>
                         )
                 }
-
-
-
             </div>
         );
     }
@@ -237,7 +234,8 @@ function mapStateToProps(state) {
         results: state.couple.search_results,
         jobs: state.job.jobs,
         provinces: state.address.provinces,
-        districts: state.address.districts
+        districts: state.address.districts,
+
     }
 }
 
