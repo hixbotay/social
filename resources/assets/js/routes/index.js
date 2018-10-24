@@ -27,7 +27,6 @@ import Dating from './dating';
 import FriendsLikeYou from './relationship/FriendsLikeYou';
 import FriendsYouLike from './relationship/FriendsYouLike';
 import FriendsVisited from './relationship/FriendsVisited';
-import ViewCouple from './couple/ViewCouple';
 import SearchResults from './couple/SearchResults';
 import OtherPerson from './profile/OtherUserProfile';
 import {connect} from 'react-redux';
@@ -93,7 +92,6 @@ class MainApp extends Component {
                     <AppRoute exact path="/friends/visited" layout={MainLayout} component={FriendsVisited} />
                     {/* Couple */}
                     <AppRoute exact path="/couple" layout={SecondLayout} component={SearchResults} />
-                    <AppRoute exact path="/couple/:id" layout={SecondLayout} component={ViewCouple} />
                 </Switch>
 			);
 		}

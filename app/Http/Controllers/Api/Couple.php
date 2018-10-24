@@ -22,7 +22,7 @@ class Couple extends Controller {
                 ->where('name', 'like', DB::raw("'%".$name."%'"))
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
                 ->select(DB::raw(
-                    'users.id, users.name, users.address, users.avatar, users.birthday,
+                    'users.id, users.name, users.address, users.avatar, users.birthday, users.type, users.philosophy,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))
@@ -43,6 +43,14 @@ class Couple extends Controller {
                 $user['is_like'] = $temp->is_like;
                 $user['is_loved'] = $temp->is_loved;
             }
+
+            $photos = \App\UserPhoto::select(['source'])->where('user_id', $user->id)->paginate(10);
+            $temp_1 = [];
+
+            foreach($photos as $photo) {
+                array_push($temp_1, $photo->source);
+            }
+            $user['photos'] = $temp_1;
         }
 
         return json_encode($results);

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+* @augments {Component<{    backgroundImage:string,    className:string,    // children:array>}
+*/
 class Card extends Component {
 
     render() {

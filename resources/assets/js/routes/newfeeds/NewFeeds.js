@@ -42,8 +42,6 @@ class NewFeeds extends Component {
             {
                 current_user.id ? (
                     <div>
-                        <HomeNavigator></HomeNavigator>
-                        
                         <div className="ui-block">
                             <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
                             <hr />

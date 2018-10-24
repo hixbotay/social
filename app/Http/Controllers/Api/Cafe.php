@@ -166,8 +166,8 @@ class Cafe extends Controller
     public function search(Request $request) {
         $query = $request->all();
 
-        $name = '';
-        if(array_key_exist('name', $query)) {
+        // $name = '';
+        if(array_key_exists('name', $query)) {
             $name = $query['name'];
             unset($query['name']);
         }
