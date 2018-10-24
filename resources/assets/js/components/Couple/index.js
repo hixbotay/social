@@ -48,6 +48,8 @@ class CoupleView extends Component {
         ];
 
         let images = item.photos.length ? item.photos : defaultImages;
+        console.log(`=======${item.id}========`);
+        console.log(images);
         return (
             <Card>
                 <div className="container">
