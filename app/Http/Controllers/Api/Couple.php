@@ -13,6 +13,11 @@ class Couple extends Controller {
         if(array_key_exists('q', $query)) {
             unset($query['q']);
         }
+    
+        if(array_key_exists('page', $query)) {
+            unset($query['page']);
+        }
+
         if(array_key_exists('name', $query)) {
             $name = $query['name'];
             unset($query['name']);

@@ -48,6 +48,7 @@ class CoupleView extends Component {
         ];
 
         let images = item.photos.length ? item.photos : defaultImages;
+        images = images.filter(Boolean);
         console.log(`=======${item.id}========`);
         console.log(images);
         return (
