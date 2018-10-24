@@ -47,7 +47,7 @@ class ImageCard extends Component {
         return (
             <div className="image-card">
                 <div>
-                    <Link to={`couple/${user.id}`}>
+                    <Link to={`profile/${user.id}`}>
                         <img src={this.props.user.avatar}/>
                     </Link>
                     <div className="image-card-btn">
