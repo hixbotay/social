@@ -172,6 +172,13 @@ class Cafe extends Controller
             unset($query['name']);
         }
 
+        // remove q params in vps
+        if(array_key_exists('q', $query)) {
+            $name = $query['q'];
+            unset($query['q']);
+        }
+        
+
         $results = \App\Agency::where($query)->where('name', 'LIKE',  DB::raw("'%".$name."%'"))->paginate(10);
 
         foreach($results as $key => $agency) {
