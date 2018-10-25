@@ -107,6 +107,8 @@
 <section>
     <div id="change_username">
         <input id="username" type="text" value="<?= isset($_GET['name'])?$_GET['name']:"random" . mt_rand(1000, 9999) ?>" />
+        <button id="subscribe">JOIN</button>
+        <button id="checkroom">CHECKROOM</button>
     </div>
 </section>
 
@@ -136,10 +138,24 @@
         var send_username = $("#send_username")
         var chatroom = $("#chatroom")
         var feedback = $("#feedback")
+        var subscribe = $("#subscribe")
+        var checkroom = $("#checkroom")
+
+
+        checkroom.click(function () {
+            socket.emit('vantu19000')
+        })
 
         //Emit message
         send_message.click(function(){
             socket.emit('new_message', {message : message.val()})
+        })
+
+        subscribe.click(function () {
+            // var subcriber = {room_id: '5bd0924c27b16b4644a5acb8', user: [1,2,3]};
+            var subcriber = {room_id: '', user: [1,2,3]};
+            console.log(subcriber);
+            socket.emit('subscribe', subcriber)
         })
 
         //Listen on new_message
