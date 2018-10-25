@@ -1,10 +1,175 @@
-<?php
-$string = '[{"name":"Th\u00e0nh ph\u1ed1 H\u00e0 N\u1ed9i","matp":"01"},{"name":"T\u1ec9nh H\u00e0 Giang","matp":"02"},{"name":"T\u1ec9nh Cao B\u1eb1ng","matp":"04"},{"name":"T\u1ec9nh B\u1eafc K\u1ea1n","matp":"06"},{"name":"T\u1ec9nh Tuy\u00ean Quang","matp":"08"},{"name":"T\u1ec9nh L\u00e0o Cai","matp":"10"},{"name":"T\u1ec9nh \u0110i\u1ec7n Bi\u00ean","matp":"11"},{"name":"T\u1ec9nh Lai Ch\u00e2u","matp":"12"},{"name":"T\u1ec9nh S\u01a1n La","matp":"14"},{"name":"T\u1ec9nh Y\u00ean B\u00e1i","matp":"15"},{"name":"T\u1ec9nh Ho\u00e0 B\u00ecnh","matp":"17"},{"name":"T\u1ec9nh Th\u00e1i Nguy\u00ean","matp":"19"},{"name":"T\u1ec9nh L\u1ea1ng S\u01a1n","matp":"20"},{"name":"T\u1ec9nh Qu\u1ea3ng Ninh","matp":"22"},{"name":"T\u1ec9nh B\u1eafc Giang","matp":"24"},{"name":"T\u1ec9nh Ph\u00fa Th\u1ecd","matp":"25"},{"name":"T\u1ec9nh V\u0129nh Ph\u00fac","matp":"26"},{"name":"T\u1ec9nh B\u1eafc Ninh","matp":"27"},{"name":"T\u1ec9nh H\u1ea3i D\u01b0\u01a1ng","matp":"30"},{"name":"Th\u00e0nh ph\u1ed1 H\u1ea3i Ph\u00f2ng","matp":"31"},{"name":"T\u1ec9nh H\u01b0ng Y\u00ean","matp":"33"},{"name":"T\u1ec9nh Th\u00e1i B\u00ecnh","matp":"34"},{"name":"T\u1ec9nh H\u00e0 Nam","matp":"35"},{"name":"T\u1ec9nh Nam \u0110\u1ecbnh","matp":"36"},{"name":"T\u1ec9nh Ninh B\u00ecnh","matp":"37"},{"name":"T\u1ec9nh Thanh H\u00f3a","matp":"38"},{"name":"T\u1ec9nh Ngh\u1ec7 An","matp":"40"},{"name":"T\u1ec9nh H\u00e0 T\u0129nh","matp":"42"},{"name":"T\u1ec9nh Qu\u1ea3ng B\u00ecnh","matp":"44"},{"name":"T\u1ec9nh Qu\u1ea3ng Tr\u1ecb","matp":"45"},{"name":"T\u1ec9nh Th\u1eeba Thi\u00ean Hu\u1ebf","matp":"46"},{"name":"Th\u00e0nh ph\u1ed1 \u0110\u00e0 N\u1eb5ng","matp":"48"},{"name":"T\u1ec9nh Qu\u1ea3ng Nam","matp":"49"},{"name":"T\u1ec9nh Qu\u1ea3ng Ng\u00e3i","matp":"51"},{"name":"T\u1ec9nh B\u00ecnh \u0110\u1ecbnh","matp":"52"},{"name":"T\u1ec9nh Ph\u00fa Y\u00ean","matp":"54"},{"name":"T\u1ec9nh Kh\u00e1nh H\u00f2a","matp":"56"},{"name":"T\u1ec9nh Ninh Thu\u1eadn","matp":"58"},{"name":"T\u1ec9nh B\u00ecnh Thu\u1eadn","matp":"60"},{"name":"T\u1ec9nh Kon Tum","matp":"62"},{"name":"T\u1ec9nh Gia Lai","matp":"64"},{"name":"T\u1ec9nh \u0110\u1eafk L\u1eafk","matp":"66"},{"name":"T\u1ec9nh \u0110\u1eafk N\u00f4ng","matp":"67"},{"name":"T\u1ec9nh L\u00e2m \u0110\u1ed3ng","matp":"68"},{"name":"T\u1ec9nh B\u00ecnh Ph\u01b0\u1edbc","matp":"70"},{"name":"T\u1ec9nh T\u00e2y Ninh","matp":"72"},{"name":"T\u1ec9nh B\u00ecnh D\u01b0\u01a1ng","matp":"74"},{"name":"T\u1ec9nh \u0110\u1ed3ng Nai","matp":"75"},{"name":"T\u1ec9nh B\u00e0 R\u1ecba - V\u0169ng T\u00e0u","matp":"77"},{"name":"Th\u00e0nh ph\u1ed1 H\u1ed3 Ch\u00ed Minh","matp":"79"},{"name":"T\u1ec9nh Long An","matp":"80"},{"name":"T\u1ec9nh Ti\u1ec1n Giang","matp":"82"},{"name":"T\u1ec9nh B\u1ebfn Tre","matp":"83"},{"name":"T\u1ec9nh Tr\u00e0 Vinh","matp":"84"},{"name":"T\u1ec9nh V\u0129nh Long","matp":"86"},{"name":"T\u1ec9nh \u0110\u1ed3ng Th\u00e1p","matp":"87"},{"name":"T\u1ec9nh An Giang","matp":"89"},{"name":"T\u1ec9nh Ki\u00ean Giang","matp":"91"},{"name":"Th\u00e0nh ph\u1ed1 C\u1ea7n Th\u01a1","matp":"92"},{"name":"T\u1ec9nh H\u1eadu Giang","matp":"93"},{"name":"T\u1ec9nh S\u00f3c Tr\u0103ng","matp":"94"},{"name":"T\u1ec9nh B\u1ea1c Li\u00eau","matp":"95"},{"name":"T\u1ec9nh C\u00e0 Mau","matp":"96"}]';
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" const="text/html;charset=UTF-8" />
+    <link href="http://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
+    <style>
+        @mixin vertical-align {
+            position: relative;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
 
-$string = '[1,2,3,4,5,6,7,8,9,10]';
+        * {
+            box-sizing: border-box;
+        }
 
-$data = json_decode($string);
-echo "<pre>";
-print_r($data);
-die;
-?>
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0px;
+            height: 100%;
+        }
+
+        header {
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Comfortaa', sans-serif;
+            margin: 0px;
+        }
+
+        div#change_username, section#input_zone {
+            border: 5px outset #8258FA;
+        }
+
+        div#change_username {
+            height: 3%;
+            display: inline-block;
+            background-color: #BCA9F5;
+        }
+
+        section#chatroom {
+            border: 5px inset #8258FA;
+            height: 85%;
+            overflow: auto;
+        }
+
+        section#input_zone {
+            height: 7%;
+            text-align: center;
+            background-color: #BCA9F5;
+        }
+
+        .vertical-align {
+            position: relative;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+        input#username {
+            font-family: 'Comfortaa', sans-serif;
+        }
+
+        input#message {
+            display: inline-block;
+            width: 88%;
+            height: 100%;
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 2vh;
+        }
+
+        button#send_message {
+            display: inline-block;
+            height: 70%;
+            width: 10%;
+        }
+
+        p.message {
+            margin: 0px;
+            width: 100%;
+            height: 40px;
+            font-size: 2vh;
+            font-family: 'Comfortaa', sans-serif;
+            padding: 1vh;
+        }
+
+        .message:nth-child(even) {
+            background-color: #81DAF5;
+        }
+
+        .message:nth-child(odd) {
+            background-color: #81BEF7;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+</head>
+
+<body>
+
+<section>
+    <div id="change_username">
+        <input id="username" type="text" value="<?= isset($_GET['name'])?$_GET['name']:"random" . mt_rand(1000, 9999) ?>" />
+    </div>
+</section>
+
+<section id="chatroom">
+    <section id="feedback"></section>
+</section>
+
+
+
+<section id="input_zone" style="height: 100px;">
+    <input id="message" class="vertical-align" type="text" />
+    <button id="send_message" class="vertical-align" type="button">Send</button>
+</section>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script>
+
+    $(function(){
+        //make connection
+        var socket = io.connect('http://localhost:9327')
+
+        //buttons and inputs
+        var message = $("#message")
+        var username = $("#username")
+        var send_message = $("#send_message")
+        var send_username = $("#send_username")
+        var chatroom = $("#chatroom")
+        var feedback = $("#feedback")
+
+        //Emit message
+        send_message.click(function(){
+            socket.emit('new_message', {message : message.val()})
+        })
+
+        //Listen on new_message
+        socket.on("new_message", (data) => {
+            feedback.html('');
+            message.val('');
+            chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
+        })
+
+        //Emit a username
+        // send_username.click(function(){
+            socket.emit('change_username', {username : username.val()})
+        // })
+
+        socket.emit('check_session', {session_id: '<?= mt_rand(10000, 99999) ?>'})
+
+        //Emit typing
+        message.bind("keypress", () => {
+            socket.emit('typing')
+        })
+
+        //Listen on typing
+        socket.on('typing', (data) => {
+            feedback.html("<p><i>" + data.username + " is typing a message..." + "</i></p>")
+        })
+    });
+
+
+
+</script>
+
+</body>
+</html>
