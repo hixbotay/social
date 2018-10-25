@@ -38,6 +38,7 @@ import ListFeatureDating from './dating/ListFeatureDating';
 import ListInvitationDating from './dating/ListInvitationDating';
 import DatingDetail from './dating/DatingDetail';
 import DatingResult from './dating/DatingResult';
+import SearchResult from './cafe/SearchResult';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -77,6 +78,7 @@ class MainApp extends Component {
                     <AppRoute exact path="/cafe" layout={ThirdLayout} component={CafeList} />
                     <AppRoute exact path="/cafe/:id/view" layout={ThirdLayout} component={CafeDetail} />
                     <AppRoute exact path="/cafe/create" layout={ThirdLayout} component={CreateNewCafe} />
+                    <AppRoute exact path="/cafe/search" layout={ThirdLayout} component={SearchResult} />
                     {/* Dating */}
                     <AppRoute exact path={'/dating'} layout={SecondLayout} component={Dating} /> 
                     <AppRoute exact path={'/dating/feature'} layout={SecondLayout} component={ListFeatureDating} />

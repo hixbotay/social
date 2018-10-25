@@ -3,7 +3,8 @@ import {
     GET_CAFE_DETAIL,
     GET_ALL_CAFE, 
     CREATE_NEW_CAFE,
-    UPDATE_CAFE_IMAGE
+    UPDATE_CAFE_IMAGE,
+    SEARCH_CAFE
 } from './types'
 
 export const getAllCafe = (filter = {}, page = 1) => (dispatch) => {
@@ -58,3 +59,23 @@ export const updateImage = (data, id) => (dispatch) => {
             console.log(error);
         })
 } 
+
+export const searchCafe = (filter = {}, page = 1) => (dispatch) => {
+    var filter_string = '';
+    Object.keys(filter).map(key => {
+        if(Array.isArray(filter[key])) {
+            filter[key].map(item => {
+                filter_string = filter_string.concat(`&${key}=${item}`);
+            })
+        } else {
+            filter_string = filter_string.concat(`&${key}=${filter[key]}`);
+        }
+    });
+    return api.get(`/cafe/search?${filter_string}`)
+        .then(response => {
+            dispatch({type: SEARCH_CAFE, payload: response.data.data});
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}

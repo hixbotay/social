@@ -778,3 +778,7 @@ input[type=radio], input[type=checkbox] {
 .couple-button button {
     margin: 10px
 }
+
+#cafe-address-icon {
+    font-size: 2em !important;
+}

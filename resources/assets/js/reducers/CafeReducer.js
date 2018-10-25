@@ -2,13 +2,15 @@ import {
     GET_ALL_CAFE,
     GET_CAFE_DETAIL,
     CREATE_NEW_CAFE,
-    UPDATE_CAFE_IMAGE
+    UPDATE_CAFE_IMAGE,
+    SEARCH_CAFE
 } from '../actions/types';
 
 const INIT_STATE = {
     cafes: [],
     newCafe: {},
     currentCafe: {},
+    results: []
 }
 
 export default (state = INIT_STATE, action) => {
@@ -24,6 +26,9 @@ export default (state = INIT_STATE, action) => {
         }
         case UPDATE_CAFE_IMAGE: {
             return {...state, currentCafe: action.payload}
+        }
+        case SEARCH_CAFE: {
+            return {...state, results: action.payload}
         }
         default: {
             return {...state};
