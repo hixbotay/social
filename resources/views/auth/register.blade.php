@@ -13,10 +13,20 @@
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Tên của bạn" name="name" required/>
+                @if ($errors->has('name'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
+                @endif
             </div>      
             <div class="form-group row">
                 <div class="col-sm-12">
                     <input type="date" class="form-control" name="birthday"  required/>
+                    @if ($errors->has('birthday'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('birthday') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
             <div class="form-group row">
@@ -26,6 +36,11 @@
                         <option value="0">Độc thân</option>
                         <option value="1">Đã kết hôn</option>
                     </select>
+                    @if ($errors->has('marital_status'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('marital_status') }}</strong>
+                    </span>
+                    @endif
                 </div>
                 <div class="col-sm-5">
                     <select class="form-control" name="gender" required>
@@ -33,6 +48,11 @@
                         <option value="M">Nam</option>
                         <option value="F">Nữ</option>
                     </select>
+                    @if ($errors->has('gender'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('gender') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
             <div class="form-group row">
@@ -42,33 +62,49 @@
                         @foreach(App\ProvinceGroup::all_province() AS $value)
                             <option value="{{$value->matp}}">{{$value->name}}</option>
                         @endforeach
-                        {{-- @foreach ($provinces as $item)
-                            <option value={{$item->matp}}>{{$item->name}}</option>
-                        @endforeach --}}
                     </select>
+                    @if ($errors->has('province_id'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('province_id') }}</strong>
+                    </span>
+                    @endif
                 </div>
                 <div class="col-sm-4">
                     <select class="form-control" name="district_id" id="district" required>
                         <option value="">Huyện/Quận</option>
-                        {{-- @foreach ($districts as $item)
-                            <option value={{$item->maqh}}>{{$item->name}}</option>
-                        @endforeach --}}
                     </select>
+                    @if ($errors->has('district_id'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('district_id') }}</strong>
+                    </span>
+                    @endif
                 </div>
                 <div class="col-sm-4">
                     <select class="form-control" name="village_id" id="village" required>
                         <option value="">Xã/Phường</option>
-                        {{-- @foreach ($villages as $item)
-                            <option value={{$item->xaid}}>{{$item->name}}</option>
-                        @endforeach --}}
                     </select>
+                    @if ($errors->has('village_id'))
+                    <span class="help-block">
+                        <strong>{{ $errors->first('village_id') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
             <div class="form-group">
                 <input type="number" name="mobile" class="form-control" placeholder="Số điện thoại"  required/>
+                @if ($errors->has('mobile'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('mobile') }}</strong>
+                </span>
+                @endif
             </div>
             <div class="form-group">
                 <input type="password" name="password" class="form-control" placeholder="Mật khẩu"  required/>
+                @if ($errors->has('password'))
+                <span class="help-block">
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
+                @endif
             </div>
             <div class="form-group">
                 <button type="submit" class="btn">ĐĂNG KÝ</button>
