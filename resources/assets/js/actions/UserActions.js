@@ -11,9 +11,9 @@ import {
 } from './types';
 
 export const logout = () => dispatch => {
-    api.post(`/logout`).then(response => {
+    api.get(`/logout`).then(response => {
         console.log(response);
-        window.location.href = `${baseUrl}/login`;
+        window.location.reload();
     }).catch(err => {
         console.log(err);
     })

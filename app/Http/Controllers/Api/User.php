@@ -229,5 +229,11 @@ class User extends Controller
         $user->save();
         return json_encode($user);
     }
+
+    public function logout() {
+        Auth::logout();
+        return json_encode(['ok' => 1]);
+        // return redirect('/login');
+    }
 }
 

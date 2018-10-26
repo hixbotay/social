@@ -42,7 +42,7 @@ Route::middleware(['web'])->group(function() {
 
     Route::get('/couple/search', 'Api\Couple@search');
 
-
+    Route::get('logout', 'Api\User@logout');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
