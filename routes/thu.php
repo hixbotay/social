@@ -46,6 +46,8 @@ Route::middleware(['web'])->group(function() {
 
     Route::get('logout', 'Api\User@logout');
     Route::post('/update-avatar', 'Api\User@updateAvatar');
+
+    Route::post('/post', 'Api\Post@createPost');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
@@ -69,9 +71,6 @@ Route::get('couple/view/{id}', function($id) {
     $results = \App\Http\Controllers\Api\Couple::findOne($id);
     return json_encode($results);
 });
-
-Route::post('/post', 'Api\Post@createPost');
-
 
 Route::get('/jobs', 'Api\Job@list');
 

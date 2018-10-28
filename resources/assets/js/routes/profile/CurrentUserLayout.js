@@ -8,6 +8,12 @@ import {withRouter, Link, Redirect } from 'react-router-dom';
 import {uploadIdCardPhoto, updateAvatar} from '../../actions/UserActions'; 
 
 class ProfileLayout extends Component {
+    constructor() {
+        super();
+        this.state = {
+            img: ''
+        }
+    }
 
     redirect() {
         if(document.getElementById('redirect-user-setting')) {

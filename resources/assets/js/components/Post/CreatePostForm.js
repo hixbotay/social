@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createPost, getAllPosts } from '../../actions/PostActions';
+import { cleanObject } from '../../helper/function';
 
 class CreatePostForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             newPost: {
-                user_id: props.user.id,
-                content: ''
+                content: '',
+                image: ''
             }
         }
     }
@@ -24,21 +25,55 @@ class CreatePostForm extends Component {
 
     createPost(e) {
         e.preventDefault();
-        
-        this.props.createPost(this.state.newPost).then(data => {
-            var post = {
-                ...data,
-                author: this.props.user.name,
-                author_avatar: this.props.user.avatar
-            };
+        let newPost = this.state.newPost;
+        if(newPost.content == '' && newPost.image == '') {
+            window.alert("Không thể đăng bài viết rỗng!");
+        } else {
+            this.props.createPost(newPost).then(data => {
+                var post = {
+                    ...data,
+                    author: this.props.user.name,
+                    author_avatar: this.props.user.avatar
+                };
+                // console.log(post);
+                this.props.addPost(post);
+            });
     
-            this.props.addPost(post);
-        });
+            this.setState({
+                newPost: {
+                    ...this.state.newPost,
+                    content: '',
+                    image: ''
+                }
+            })
+        }
+    }
 
+    handleImage(event) {
+        var component = this;
+        var file = event.target.files[0];
+
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            console.log(component.state);
+            component.setState({ 
+                newPost: {
+                    ...component.state.newPost,
+                    image: reader.result
+                }
+            });
+        };
+        reader.onerror = function (error) {
+            window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
+        };
+    }
+
+    removeImage() {
         this.setState({
             newPost: {
                 ...this.state.newPost,
-                content: ''
+                image: ""
             }
         })
     }
@@ -49,22 +84,23 @@ class CreatePostForm extends Component {
                 <ul className="nav nav-tabs" role="tablist">
                     <li className="nav-item">
                         <a className="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab" aria-expanded="true">
-                            <span>Status</span>
+                            <i className="fas fa-pencil-alt fa-2x"></i> <span>Viết gì đó</span>
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link inline-items" data-toggle="tab" href="#profile-1" role="tab" aria-expanded="false">
-
-                            <span>Multimedia</span>
+                        <a className="nav-link inline-items" >
+                            <div onClick={() => { document.getElementById('add-photo').click() }}>
+                                <i className="fas fa-camera fa-2x"></i> <span>Tải ảnh</span>
+                            </div>
+                            <input type="file" className="d-none" id="add-photo" onChange={(e) => this.handleImage(e)}/>
                         </a>
                     </li>
 
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <a className="nav-link inline-items" data-toggle="tab" href="#blog" role="tab" aria-expanded="false">
-
-                            <span>Blog Post</span>
+                            <span>Tải video</span>
                         </a>
-                    </li>
+                    </li> */}
                 </ul>
 
                 <div className="tab-content">
@@ -80,11 +116,23 @@ class CreatePostForm extends Component {
                                     value={this.state.newPost.content}
                                 ></textarea>
                             </div>
+
+                            {
+                                this.state.newPost.image ? (
+                                    <div className="preview-img col-4">
+                                        <img src={this.state.newPost.image} />
+                                        <button onClick={() => this.removeImage()}>
+                                            <i className="fas fa-times-circle fa-2x"></i>
+                                        </button>
+                                    </div>
+                                ) : null
+                            }
+                            
                             <div className="add-options-message">
                                 <button type="submit" className="btn btn-primary btn-md-2">Post Status</button>
-                                <button className="btn btn-md-2 btn-border-think btn-transparent c-grey">Preview</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
