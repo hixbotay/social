@@ -82,6 +82,7 @@ class RegisterController extends Controller
         //     'village_id' => $data['village_id'],
         //     'password' => bcrypt($data['password']),
         // ]);
+        $data['password'] = bcrypt($data['password']);
         
         return User::create($data);
     }

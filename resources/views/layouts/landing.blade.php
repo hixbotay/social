@@ -57,8 +57,8 @@
         <!-- Top content -->
         <div class="top-content">
         	<div class="auth-link">
-                <a href="/login">Đăng nhập</a> 
-                <a href="/register">Đăng ký</a>
+            <a href="{{url('')}}/login">Đăng nhập</a> 
+                <a href="{{url('')}}/register">Đăng ký</a>
             </div>
             <div class="inner-bg">
                 <div class="container">
