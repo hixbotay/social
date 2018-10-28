@@ -9,11 +9,14 @@ import {
     GET_FRIENDS_LIKED_YOU,
     GET_FRIENDS_VISITED
 } from './types';
+import {cleanObject} from '../helper/function';
+
+const modelFieldNumber = 23;
 
 export const logout = () => dispatch => {
     api.get(`/logout`).then(response => {
         console.log(response);
-        window.location.reload();
+        window.location.href = `${baseUrl}/login`;
     }).catch(err => {
         console.log(err);
     })
@@ -22,6 +25,16 @@ export const logout = () => dispatch => {
 export const getCurrentUser = () => (dispatch) => {
     api.get('auth/user')
     .then(response => {
+        // tinh muc do hoan thien profile
+        let user = Object.assign({}, response.data);
+        var excludeOptions = ['id', 'is_admin', 'group_id', 'is_verify', 'is_id_verified', 'provider', 'provider_id', 'created_at', 'updated_at'];
+        excludeOptions.map(item => {
+            delete user[item];
+        });
+        cleanObject(user);
+        var percentage = (Object.keys(user).length / modelFieldNumber) * 100;
+        localStorage.setItem('percentage', percentage);
+
         dispatch({type: GET_CURRENT_USER, payload: response.data});
     })
     .catch(error => {
@@ -110,6 +123,15 @@ export const uploadIdCardPhoto = (data, id) => dispatch => {
     api.post(`/user/${id}/upload-id-card`, data).then(res => {
         dispatch({type: UPDATE_USER_DETAIL, payload: res.data});
         window.location.reload();
+    }).catch(err => {
+        console.log(err);
+        window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
+    })
+}
+
+export const updateAvatar = (data) => (dispatch) => {
+    api.post(`/update-avatar`, data).then(res => {
+        dispatch({type: UPDATE_USER_DETAIL, payload: res.data});
     }).catch(err => {
         console.log(err);
         window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");

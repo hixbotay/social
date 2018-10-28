@@ -8,6 +8,7 @@ import InformationNumber from '../../components/Information/InformationNumber';
 import CenterModeSlider from '../../components/Slider/CenterModeSlider';
 import {getOtherUserDetail, updateRelationship} from '../../actions/UserActions';
 import Post from '../../components/Post';
+import Modal from '../../components/Modal';
 import {withRouter} from 'react-router-dom';
 
 class OtherPerson extends Component {
@@ -38,46 +39,40 @@ class OtherPerson extends Component {
         });
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     this.setState({
-    //         isLoved: nextProps.user_data.relationship.is_loved,
-    //         isLiked: nextProps.user_data.relationship.is_like,
-    //         isBlocked: nextProps.user_data.relationship.is_block,
-    //     })
-    // }
-
     updateRelationship(actionType) {
+        if(localStorage.getItem('percentage') < 70) {
+            document.getElementById('open-relationship-modal').click();
+        } else {
+            var data = {};
 
-        var data = {};
+            if(actionType == 'love') {
+                if(this.state.isLoved) {
+                    data = {'is_loved': 0};
+                    this.setState({isLoved: false});
+                } else {
+                    data = {'is_loved': 1};
+                    this.setState({isLoved: true});
+                }
+            } else if(actionType == 'like') {
+                if(this.state.isLiked) {
+                    data = {'is_like': 0};
+                    this.setState({isLiked: false});
+                } else {
+                    data = {'is_like': 1};
+                    this.setState({isLiked: true});
+                }
+            } else if(actionType == 'block') {
+                if(this.state.isBlocked) {
+                    data = {'is_block': 0};
+                    this.setState({isBlocked: false});
+                } else {
+                    data = {'is_block': 1};
+                    this.setState({isBlocked: true});
+                }
+            }
 
-        if(actionType == 'love') {
-            if(this.state.isLoved) {
-                data = {'is_loved': 0};
-                this.setState({isLoved: false});
-            } else {
-                data = {'is_loved': 1};
-                this.setState({isLoved: true});
-            }
-        } else if(actionType == 'like') {
-            if(this.state.isLiked) {
-                data = {'is_like': 0};
-                this.setState({isLiked: false});
-            } else {
-                data = {'is_like': 1};
-                this.setState({isLiked: true});
-            }
-        } else if(actionType == 'block') {
-            if(this.state.isBlocked) {
-                data = {'is_block': 0};
-                this.setState({isBlocked: false});
-            } else {
-                data = {'is_block': 1};
-                this.setState({isBlocked: true});
-            }
+            this.props.updateRelationship(data, this.props.match.params.id);
         }
-
-        this.props.updateRelationship(data, this.props.match.params.id);
-        
     }
 
     render() {
@@ -192,6 +187,25 @@ class OtherPerson extends Component {
                         </ul>
                     </CardWithTitle>
                 </div>
+                <button type="button" id="open-relationship-modal" className="d-none" data-toggle="modal" data-target="#relationship-alert"></button>
+                <Modal id="relationship-alert">
+                    <div className="row">
+                        <div className="col-6">
+                            <img src="https://us.123rf.com/450wm/anwarsikumbang/anwarsikumbang1408/anwarsikumbang140800671/31358550-love-couple-romance-cartoon.jpg" id="create-event-alert-img" />
+                        </div>
+                        <div className="col-6">
+                            <div className="text-center">
+                                CHƯA XONG!
+                            </div>
+                            <div className="text-center create-event-alert-content">
+                                Bạn cần hoàn thiện hồ sơ đến 70% để có thể thả tim một ai đó!
+                            </div>
+                            <div className="text-center create-event-alert-content">
+                                <button className="btn btn-primary" onClick={() => {document.getElementById('open-relationship-modal').click()}}>OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         );
     }

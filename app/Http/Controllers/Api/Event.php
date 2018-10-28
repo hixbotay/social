@@ -520,4 +520,49 @@ class Event extends Controller {
         });
         return json_encode($events);
     }
+
+    public function search(Request $request) {
+        $data = $request->all();
+        $temp_1 = array_key_exists('marital_status', $data);
+        $temp_2 = array_key_exists('job_conditional', $data);
+
+        if($temp_1 && $temp_2) {
+            $results = DB::select("SELECT event_id FROM event_meta WHERE event_id IN 
+                    (SELECT event_id FROM event_meta WHERE meta_key = 'marital_status' AND meta_value = ?
+                    AND meta_key = 'job_conditional' AND meta_value = ?)", [$data['marital_status'], $data['job_conditional']]);
+        } else if ($temp_1) {
+            $results = DB::select("SELECT event_id FROM event_meta WHERE meta_key = 'marital_status' AND meta_value = ?", [$data['marital_status']]);
+        } else if ($temp_2) {
+            $results = DB::select("SELECT event_id FROM event_meta WHERE meta_key = 'job_conditional' AND meta_value = ?", [$data['job_conditional']]);
+        } else {
+            $results = [];
+        }
+
+        unset($data['marital_status']);
+        unset($data['job_conditional']);
+
+        $event_id = [];
+        foreach($results as $item) {
+            array_push($event_id, $item->event_id);
+        }
+
+        $cafe_id = [];
+        if($data['province_id'] && $data['district_id']) {
+            $cafes = \App\Agency::select(['id'])->where(['province_id' => $data['province_id'], 'district_id' => $data['district_id']])->get();
+            foreach($cafes as $item) {
+                array_push($cafe_id, $item->id);
+            }
+        }
+            
+        if(count($event_id)) {
+            $events = DB::table('events')
+                        ->whereIn('id', $event_id)
+                        ->whereIn('agency_id', $cafe_id)
+                        ->get();
+        } else {
+            $events = DB::table('events')::whereIn('agency_id', $cafe_id)->get();
+        }
+
+        return json_encode($events);
+    }
 }

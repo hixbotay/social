@@ -17,28 +17,31 @@ class ImageCard extends Component {
     }
 
     onUpdateRelationship(actionType) {
+        if(localStorage.getItem('percentage') < 70) {
+            document.getElementById('open-relationship-modal').click();
+        } else {
+            var data = {};
 
-        var data = {};
+            if(actionType == 'love') {
+                if(this.state.isLoved) {
+                    data = {'is_loved': 0};
+                    this.setState({isLoved: false, loveNumber: this.state.loveNumber - 1});
+                } else {
+                    data = {'is_loved': 1};
+                    this.setState({isLoved: true, loveNumber: this.state.loveNumber + 1});
+                }
+            } else if(actionType == 'like') {
+                if(this.state.isLiked) {
+                    data = {'is_like': 0};
+                    this.setState({isLiked: false, likeNumber: this.state.likeNumber - 1});
+                } else {
+                    data = {'is_like': 1};
+                    this.setState({isLiked: true, likeNumber: this.state.likeNumber + 1});
+                }
+            }
 
-        if(actionType == 'love') {
-            if(this.state.isLoved) {
-                data = {'is_loved': 0};
-                this.setState({isLoved: false, loveNumber: this.state.loveNumber - 1});
-            } else {
-                data = {'is_loved': 1};
-                this.setState({isLoved: true, loveNumber: this.state.loveNumber + 1});
-            }
-        } else if(actionType == 'like') {
-            if(this.state.isLiked) {
-                data = {'is_like': 0};
-                this.setState({isLiked: false, likeNumber: this.state.likeNumber - 1});
-            } else {
-                data = {'is_like': 1};
-                this.setState({isLiked: true, likeNumber: this.state.likeNumber + 1});
-            }
+            this.props.action(data, this.props.user.id);
         }
-
-        this.props.action(data, this.props.user.id);
     }
 
     render() {

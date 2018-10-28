@@ -12,6 +12,18 @@ class User extends Controller
 {
     public function getCurrentUser() {
         $user = Auth::user();
+
+        // check complete percentage
+        $user->hasHobby = false;
+        $user->hasJob = false;
+
+        $hobbies = DB::table('user_hobby_map')->where('user_id', '=', $user->id)->get();
+        if(count($hobbies)) {
+            $user->hasHobby = true;
+        }
+        if($user->job) {
+            $user->hasJob = true;
+        }
         return json_encode($user);
     }
 
@@ -132,8 +144,14 @@ class User extends Controller
                         ['to_user_id', '=', $id]
                     ])
                     ->first();
-                    
-        
+
+        // add to visitor table
+        DB::table('profile_visitor')->insert([
+            'profile_id' => $id,
+            'visitor_id' => Auth::id(),
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
+        ]);
 
         $result = [
             'user' => $user,
@@ -174,7 +192,6 @@ class User extends Controller
                 ->having('to_user_id', '=', $user_id)
                 ->get();
         } else if ($type == 'visited') {
-            // print_r($user_id);
             $results = DB::table('profile_visitor')
                 ->where('profile_id', '=', $user_id)
                 ->leftjoin('users', 'visitor_id', '=', 'users.id')
@@ -233,7 +250,42 @@ class User extends Controller
     public function logout() {
         Auth::logout();
         return json_encode(['ok' => 1]);
-        // return redirect('/login');
+    }
+
+    public function updateAvatar(Request $request) {
+        $user = Auth::user();
+        $data = json_decode($request->getContent());
+
+        $base64_image = explode(',', $data->image)[1];
+
+        $firstChar = substr($base64_image, 0, 1);
+
+        switch($firstChar) {
+            case '/': {
+				$extension = 'jpg';
+				break;
+			}
+			case 'i': {
+				$extension = 'png';
+				break;
+			}
+			case 'R': {
+				$extension = 'gif';
+				break;
+			}
+			default: {
+				$extension = 'jpg';
+				break;
+			}
+        }
+ 
+        $filename = (string) time().'.'.$extension;
+        
+        Storage::disk('local')->put('user'.$user->id.'/avatar/'.$filename, base64_decode($base64_image));
+
+        $user->avatar = 'storage/app/user'.$user->id.'/avatar/'.$filename;
+        $user->save();
+        return json_encode($user);
     }
 }
 

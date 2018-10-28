@@ -7,6 +7,7 @@ import { updateRelationship } from '../../actions/UserActions';
 import Slider from "react-slick";
 import * as qs from 'query-string';
 import CoupleView from '../../components/Couple';
+import Modal from '../../components/Modal';
 import {getAllJobs} from '../../actions/JobActions';
 import {getAllProvinces, getAllDistricts} from '../../actions/AddressActions';
 import {Link} from 'react-router-dom';
@@ -74,6 +75,15 @@ class SearchResults extends Component {
     toggleFilter() {
         document.getElementById('couple-filter').classList.toggle('d-none');
     }
+
+    // onUpdateRelationship(data, user_id) {
+    //     if(localStorage.getItem('percentage') < 70) {
+    //         document.getElementById('open-relationship-modal').click();
+    //     } else {
+    //         this.props.updateRelationship(data, user_id)
+    //     }
+
+    // }
 
     render() {
         var view = qs.parse(this.props.location.search).view;
@@ -216,7 +226,7 @@ class SearchResults extends Component {
                                         return (
                                             <CoupleView 
                                                 item={item} key={index}
-                                                action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                                action={(data, user_id) => this.oprops.udateRelationship(data, user_id)}
                                             ></CoupleView>
                                         )
                                     })
@@ -224,6 +234,25 @@ class SearchResults extends Component {
                             </Slider>
                         )
                 }
+                <button type="button" id="open-relationship-modal" className="d-none" data-toggle="modal" data-target="#relationship-alert"></button>
+                <Modal id="relationship-alert">
+                    <div className="row">
+                        <div className="col-6">
+                            <img src="https://us.123rf.com/450wm/anwarsikumbang/anwarsikumbang1408/anwarsikumbang140800671/31358550-love-couple-romance-cartoon.jpg" id="create-event-alert-img" />
+                        </div>
+                        <div className="col-6">
+                            <div className="text-center">
+                                CHƯA XONG!
+                            </div>
+                            <div className="text-center create-event-alert-content">
+                                Bạn cần hoàn thiện hồ sơ đến 70% để có thể thả tim một ai đó!
+                            </div>
+                            <div className="text-center create-event-alert-content">
+                                <button className="btn btn-primary" onClick={() => {document.getElementById('open-relationship-modal').click()}}>OK</button>
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         );
     }

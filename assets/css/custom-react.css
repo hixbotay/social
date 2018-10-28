@@ -782,3 +782,25 @@ input[type=radio], input[type=checkbox] {
 #cafe-address-icon {
     font-size: 2em !important;
 }
+
+/* slick slider */
+.slick-center {
+    transform: scale(1.5);
+    border: solid white;
+}
+
+.slick-slide:not(.slick-active) { 
+  margin: 20px 0; 
+}
+
+.child { 
+  width:100%; 
+}
+
+.slide:not(.slick-active) { 
+  cursor: pointer; 
+}
+
+.slick-active { 
+  padding: 20px 0; 
+}

@@ -16,17 +16,14 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{url('')}}/public/css/app.css" type="text/css">
-    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
+    <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" />
 </head>
 <body>
     <div id="app"></div>
     
     
     <!-- Scripts -->
-    <script>
-        const APP_URL = "{{ env("APP_URL") }}"
-    </script>
     <script src="{{url('')}}/public/js/app.js"></script>
     {{-- <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBc-l_-IyaKNzygWGRnOXMPBLEvTAVIv4E&callback=initMap">

@@ -6,12 +6,13 @@ class CenterModeSlider extends Component {
     render() {
         // See more at: https://react-slick.neostack.com/docs/api
         const settings = {
-            className: "center",
-            centerMode: true,
-            infinite: true,
             centerPadding: '50px',
+            speed: 500,
+            centerMode: true,
             slidesToShow: 3,
-            speed: 500
+            focusOnSelect: true,
+            dots: false,
+            infinite: true,
         };
         return (
             <div>
