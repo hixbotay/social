@@ -50,7 +50,7 @@ class ImageCard extends Component {
         return (
             <div className="image-card">
                 <div>
-                    <Link to={`profile/${user.id}`}>
+                    <Link to={`/profile/${user.id}`}>
                         <img src={this.props.user.avatar}/>
                     </Link>
                     <div className="image-card-btn">
@@ -73,7 +73,7 @@ class ImageCard extends Component {
                 </div>
                 <div className="row image-card-content">
                     <div className="container">
-                        <Link to={`couple/${user.id}`}>
+                        <Link to={`/profile/${user.id}`}>
                             <h5>
                                 {user.name}, {user.age}
                             </h5>

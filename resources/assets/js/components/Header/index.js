@@ -38,18 +38,12 @@ class Header extends Component {
                             <div className="label-avatar bg-blue">6</div>
 
                             <div className="more-dropdown more-with-triangle triangle-top-center">
-                                <div className="ui-block-title ui-block-title-small">
-                                    <h6 className="title">FRIEND REQUESTS</h6>
-                                    <a href="#">Find Friends</a>
-                                    <a href="#">Settings</a>
-                                </div>
-
                                 <div className="mCustomScrollbar" data-mcs-theme="dark">
                                     <ul className="list-group">
-                                        <li className="list-group-item list-group-item-warning">This is a warning list group item</li>
-                                        <li className="list-group-item list-group-item-info">This is a info list group item</li>
-                                        <li className="list-group-item list-group-item-light">This is a light list group item</li>
-                                        <li className="list-group-item list-group-item-dark">This is a dark list group item</li>
+                                        <li className="list-group-item list-group-item-info">
+                                            <i className="far fa-check-circle"></i>
+                                        </li>
+                                        
                                     </ul>
                                 </div>
 
@@ -58,47 +52,45 @@ class Header extends Component {
                         </div>
 
                         <div className="control-icon more has-items">
-                            <i className="fa fa-users"></i>
-                            <div className="label-avatar bg-blue">6</div>
-
-                            <div className="more-dropdown more-with-triangle triangle-top-center">
-                                <div className="ui-block-title ui-block-title-small">
-                                    <h6 className="title">FRIEND REQUESTS</h6>
-                                    <a href="#">Find Friends</a>
-                                    <a href="#">Settings</a>
-                                </div>
-
-                                <div className="mCustomScrollbar" data-mcs-theme="dark">
-                                    <ul className="list-group">
-                                        <li className="list-group-item list-group-item-warning">This is a warning list group item</li>
-                                        <li className="list-group-item list-group-item-info">This is a info list group item</li>
-                                        <li className="list-group-item list-group-item-light">This is a light list group item</li>
-                                        <li className="list-group-item list-group-item-dark">This is a dark list group item</li>
-                                    </ul>
-                                </div>
-
-                                <a href="#" className="view-all bg-blue">Check all your Events</a>
-                            </div>
+                            <a href={`${baseUrl}/friends/like-you`}>
+                                <i className="fas fa-thumbs-up"></i>
+                                <div className="label-avatar bg-blue">6</div>
+                            </a>
                         </div>
 
+                        <div className="control-icon more has-items">
+                            <a href={`${baseUrl}/friends/visited`}>
+                                <i className="fas fa-eye"></i>
+                                <div className="label-avatar bg-blue">6</div>
+                            </a>
+                        </div>
+
+                        <div className="control-icon more has-items">
+                            <a href={`${baseUrl}/friends/you-like`}>
+                                <i className="fas fa-heart"></i>
+                                <div className="label-avatar bg-blue">6</div>
+                            </a>
+                        </div>
+                                    
+                        {/* Notifications */}
                         <div className="control-icon more has-items">
                             <i className="fa fa-bell"></i>
                             <div className="label-avatar bg-blue">6</div>
 
                             <div className="more-dropdown more-with-triangle triangle-top-center">
-                                <div className="ui-block-title ui-block-title-small">
-                                    <h6 className="title">FRIEND REQUESTS</h6>
-                                    <a href="#">Find Friends</a>
-                                    <a href="#">Settings</a>
-                                </div>
-
                                 <div className="mCustomScrollbar" data-mcs-theme="dark">
                                     <ul className="list-group">
-                                        <li className="list-group-item list-group-item-warning">This is a warning list group item</li>
-                                        <li className="list-group-item list-group-item-info">This is a info list group item</li>
-                                        <li className="list-group-item list-group-item-light">This is a light list group item</li>
-                                        <li className="list-group-item list-group-item-dark">
-                                            <ListItem notification={notification}></ListItem>
+                                        <li className="list-group-item list-group-item-info">
+                                            List-group-item list-group-item-info
+                                        </li>
+                                        <li className="list-group-item list-group-item-info">
+                                            List-group-item list-group-item-info
+                                        </li>
+                                        <li className="list-group-item list-group-item-info">
+                                            List-group-item list-group-item-info
+                                        </li>
+                                        <li className="list-group-item list-group-item-info">
+                                            List-group-item list-group-item-info
                                         </li>
                                     </ul>
                                 </div>
@@ -119,21 +111,57 @@ class Header extends Component {
                                             <h6 className="title">Your Account</h6>
                                         </div>
 
-                                        <ul className="account-settings">
-                                            <li>
-                                                <a href="29-YourAccount-AccountSettings.html">
-                                                    <span>Profile Settings</span>
-                                                </a>
+                                        <ul className="list-group">
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="far fa-check-circle"></i>
+                                                    </div>
+                                                    <div className="col-10">
+                                                        Đặc quyền dành cho VIP
+                                                    </div>
+                                                </div>
                                             </li>
-                                            <li>
-                                                <a href="36-FavPage-SettingsAndCreatePopup.html">
-                                                    <span>Create Fav Page</span>
-                                                </a>
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="fas fa-bolt"></i>
+                                                    </div>
+                                                    <div className="col-10">
+                                                        Kích hoạt VIP
+                                                    </div>
+                                                </div>
                                             </li>
-                                            <li>
-                                                <a href="#" onClick={() => this.props.logout()}>
-                                                    <span>Log Out</span>
-                                                </a>
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="fas fa-dollar-sign"></i>
+                                                    </div>
+                                                    <div className="col-10">
+                                                        Lịch sử thanh toán
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="fas fa-cogs"></i>
+                                                    </div>
+                                                    <div className="col-10">
+                                                        Cài đặt
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="fas fa-sign-out-alt"></i>
+                                                    </div>
+                                                    <div className="col-10" onClick={() => this.props.logout()}>
+                                                        Log Out
+                                                    </div>
+                                                </div>
+                                                
                                             </li>
                                         </ul>
                                     </div>
