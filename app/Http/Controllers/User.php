@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Validator;
 use App\User as UserModel;
 
 class User extends Controller
@@ -48,6 +49,17 @@ class User extends Controller
         $user = UserModel::find($id);
 		$data = $request->get('data');
 
+		$validator = Validator::make($data, [
+			'mobile' => 'unique:users',
+			'password' => 'min:6'
+		]);
+
+		if ($validator->fails()) {
+            return redirect('/registration?step=2')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
         foreach ($data as $key => $value) {
 			if($key == 'password') {
 				$user->$key =  Hash::make($value);
@@ -62,7 +74,7 @@ class User extends Controller
 		if($next_step == 7) {
 			return redirect('/');
 		} else {
-			return view('registration-step.step_'.$next_step);
+			return redirect('/registration?step='.$next_step);
 		}
 	}
 	
@@ -86,7 +98,7 @@ class User extends Controller
 		if($next_step == 7) {
 			return redirect('/');
 		} else {
-			return view('registration-step.step_'.$next_step);
+			return redirect('/registration?step='.$next_step);
 		}
 	}
 	
@@ -103,7 +115,7 @@ class User extends Controller
 		if($next_step == 7 || $user->provider == null) {
 			return redirect('/');
 		} else {
-			return view('registration-step.step_'.$next_step);
+			return redirect('/registration?step='.$next_step);
 		}
 	}
 

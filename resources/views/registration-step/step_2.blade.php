@@ -16,14 +16,19 @@
             <input type="hidden" name="step" value="2"/>
             <div class="form-group">
                 <input class="form-control" name="data[mobile]" type="text" placeholder="Số điện thoại"/>
-                @if ($errors->has('data[mobile]'))
+                @if ($errors->has('mobile'))
                 <span class="help-block">
-                    <strong>{{ $errors->first('data[mobile]') }}</strong>
+                    <div class="alert alert-danger mt-2">{{ $errors->first('mobile') }}</div>
                 </span>
                 @endif
             </div>
             <div class="form-group">
                 <input class="form-control" name="data[password]" type="password" placeholder="Mật khẩu"/>
+                @if ($errors->has('password'))
+                <span class="help-block">
+                    <div class="alert alert-danger mt-2">{{ $errors->first('password') }}</div>
+                </span>
+                @endif
             </div>
             <div class="form-group text-center">
                 <button class="btn btn-primary" type="submit">Xác nhận</button>
