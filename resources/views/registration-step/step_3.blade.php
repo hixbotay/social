@@ -6,7 +6,15 @@
             <div class="text-center">
                 <h4>Người ấy chỉ muốn hẹn hò khi nhìn thấy ảnh của bạn!</h4>
             </div>
-            <img id="temp-avatar" src="#" width="50%" class="d-none"/>
+            <img id="temp-avatar" src="{{$user->avatar}}" width="50%"/>
+            <div class="text-center mt-2">
+                <a href="{{url('')}}/registration?step=4">
+                    <button class="btn btn-success" type="button">
+                        Sử dụng ảnh mặc định
+                    </button>
+                </a>
+                <h4>hoặc tải ảnh mới lên</h4>
+            </div>
         </div>
 
         <form enctype="multipart/form-data" method="POST" action={{url('/upload-avatar')}}>
@@ -24,7 +32,7 @@
     <script>
         function readURL(input) {
             var element = document.getElementById('temp-avatar');
-            element.classList.remove("d-none");
+            // element.classList.remove("d-none");
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 

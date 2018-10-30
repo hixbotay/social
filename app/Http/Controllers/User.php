@@ -21,7 +21,10 @@ class User extends Controller
 	public function getRegistrationStep(Request $request) {
 		$step = $request->input('step');
 
-		if($step == 5 || $step == 6) {
+		if($step == 3) {
+			$user = Auth::user();
+			return view('registration-step.step_'.$step, ['user' => $user]);
+		} else if($step == 5 || $step == 6) {
 			$jobs = \App\Job::all();
 			$provinces = DB::table('devvn_tinhthanhpho')->get();
 

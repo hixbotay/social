@@ -51,14 +51,14 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'mobile' => 'required|numeric|unique:users',
+            // 'mobile' => 'required|numeric|unique:users',
             'gender' => ['required', Rule::in(['M', 'F'])],
             'marital_status' => ['required', Rule::in([0, 1])],
             'birthday' => 'required|date',
             'province_id' => 'required|numeric',
             'district_id' => 'required|numeric',
             'village_id' => 'required|numeric',
-            'password' => 'required|string|min:6',
+            // 'password' => 'required|string|min:6',
         ]);
     }
 
@@ -82,7 +82,8 @@ class RegisterController extends Controller
         //     'village_id' => $data['village_id'],
         //     'password' => bcrypt($data['password']),
         // ]);
-        $data['password'] = bcrypt($data['password']);
+        $data['avatar'] = env('APP_URL').'/public/images/default-avatar-heart.png';
+        // $data['password'] = bcrypt($data['password']);
         
         return User::create($data);
     }

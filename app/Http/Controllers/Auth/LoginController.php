@@ -102,6 +102,7 @@ class LoginController extends Controller
         $newUser =  User::create([
             'name'     => $user->name,
             'email'    => $user->email,
+            'avatar' => $user->avatar,
             'password' => Hash::make($user->email),
             'is_verify' => 1,
             'provider' => $provider,
