@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Parent_;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use App\User as UserModel;
 
 class User extends Controller
@@ -14,6 +16,23 @@ class User extends Controller
 	public function __construct(){
 		$this->input = request();
 	}
+
+	public function getRegistrationStep(Request $request) {
+		$step = $request->input('step');
+
+		if($step == 5 || $step == 6) {
+			$jobs = \App\Job::all();
+			$provinces = DB::table('devvn_tinhthanhpho')->get();
+
+			return view('registration-step.step_'.$step, [
+				'jobs' => $jobs, 
+				'provinces' => $provinces,
+			]);
+		} else {
+			return view('registration-step.step_'.$step);
+		}
+	}
+
 	public function execute($method = null){
 		if(!$method){
 			$url = url()->current();
@@ -27,15 +46,25 @@ class User extends Controller
     {
         $id =  Auth::id();
         $user = UserModel::find($id);
-        $data = $request->get('data');
+		$data = $request->get('data');
 
         foreach ($data as $key => $value) {
-            $user->$key = $value;
+			if($key == 'password') {
+				$user->$key =  Hash::make($value);
+			} else {
+				$user->$key = $value;
+			}
         }
 
-        $user->save();
-        return redirect('upload-avatar');
-    }
+		$user->save();
+
+		$next_step = $request->get('step') + 1;
+		if($next_step == 7) {
+			return redirect('/');
+		} else {
+			return view('registration-step.step_'.$next_step);
+		}
+	}
 	
 	public function uploadAvatar(Request $request) {
 		$id = Auth::id();
@@ -52,9 +81,32 @@ class User extends Controller
 		$user->avatar = 'storage/app/user'.$id.'/avatar/'.$filename;
 
         $user->save();
-        return redirect('/');
+		
+		$next_step = $request->get('step') + 1;
+		if($next_step == 7) {
+			return redirect('/');
+		} else {
+			return view('registration-step.step_'.$next_step);
+		}
 	}
 	
+	public function updateIdealPerson(Request $request) {
+		$id = Auth::id();
+		$user = UserModel::find($id);
+
+		$data = json_encode($request->get('data'));
+		$user->ideal_person = $data;
+		$user->save();
+		
+		$next_step = $request->get('step') + 1;
+
+		if($next_step == 7 || $user->provider == null) {
+			return redirect('/');
+		} else {
+			return view('registration-step.step_'.$next_step);
+		}
+	}
+
 // 	public function update(){
 // 		$data = \Request::all();
 // 		$user = \Auth::user();

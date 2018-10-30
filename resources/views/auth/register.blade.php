@@ -58,7 +58,7 @@
             <div class="form-group row">
                 <div class="col-sm-4">
                     <select class="form-control" name="province_id" id="register-province" required>
-                        <option>Tỉnh/TP</option>
+                        <option id="first-option">Tỉnh/TP</option>
                         @foreach(App\ProvinceGroup::all_province() AS $value)
                             <option value="{{$value->matp}}">{{$value->name}}</option>
                         @endforeach
@@ -70,7 +70,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4">
-                    <select class="form-control" name="district_id" id="district" required>
+                    <select class="form-control" name="district_id" id="register-district" required>
                         <option value="">Huyện/Quận</option>
                     </select>
                     @if ($errors->has('district_id'))
@@ -80,7 +80,7 @@
                     @endif
                 </div>
                 <div class="col-sm-4">
-                    <select class="form-control" name="village_id" id="village" required>
+                    <select class="form-control" name="village_id" id="register-village" required>
                         <option value="">Xã/Phường</option>
                     </select>
                     @if ($errors->has('village_id'))
@@ -89,22 +89,6 @@
                     </span>
                     @endif
                 </div>
-            </div>
-            <div class="form-group">
-                <input type="number" name="mobile" class="form-control" placeholder="Số điện thoại"  required/>
-                @if ($errors->has('mobile'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('mobile') }}</strong>
-                </span>
-                @endif
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="Mật khẩu"  required/>
-                @if ($errors->has('password'))
-                <span class="help-block">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </span>
-                @endif
             </div>
             <div class="form-group">
                 <button type="submit" class="btn">ĐĂNG KÝ</button>
@@ -133,39 +117,23 @@
 <script>
     var districts = [];
     $('#register-province').change(function() {
+        $('#first-option').remove();
         $.getJSON('api/districts/' + $('#register-province').find(":selected").val(), function(data) {
-            // var items = [];
-            // $.each( data, function( key, val ) {
-            //     items.push(value);
-            // });
+            $('#register-district').empty();
             for (let i = 0; i < data.length; i ++){
-                jQuery("#district").append('<option value="'+data[i].maqh+'">'+data[i].name+'</option>');
+                $("#register-district").append('<option value="'+data[i].maqh+'">'+data[i].name+'</option>');
             }
             console.log(data);
         }).fail(function (jqxhr, status, error) {
             console.log('error', status, error) }
-        );
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            }
-        });
-        jQuery.ajax({
-            url: 'api/districts/' + $('#register-province').find(":selected").val(),
-            type: 'GET',
-            dataType: "json",
-            data: {districts: districts},
-        }).done(function(data) {
-            console.log(data);
-        }).fail(function (jqxhr, status, error) {
-            console.log('error', status, error)
-        });
+        );;
     })
 
-    $('#district').change(function() {
-        $.getJSON('api/communes/' + $('#district').find(":selected").val(), function(data) {
+    $('#register-district').change(function() {
+        $.getJSON('api/communes/' + $('#register-district').find(":selected").val(), function(data) {
+            $('#register-village').empty();
             for (let i = 0; i < data.length; i ++){
-                jQuery("#village").append('<option value="'+data[i].maqh+'">'+data[i].name+'</option>');
+                $("#register-village").append('<option value="'+data[i].xaid+'">'+data[i].name+'</option>');
             }
             console.log(data);
         }).fail(function (jqxhr, status, error) {

@@ -14,7 +14,7 @@ class Controller extends BaseController
     public function __construct(){
     	$this->input = request();
 	}
-	
+
     public function execute(Request $request){
         $this->authorize(config('auth.action.ACCESS_ADMIN'));
     	//khoi tao controller hoac view qua URL

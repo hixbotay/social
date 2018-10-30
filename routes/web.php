@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,14 +33,10 @@ Route::middleware(['guest'])->group(function() {
 });
 
 Route::middleware(['web', 'auth'])->group(function() {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/update-information', function() {
-        return view('additional');
-    });
+    Route::get('/registration', 'User@getRegistrationStep');
+
     Route::post('/update-information', 'User@update');
-    Route::get('/upload-avatar', function() {
-        return view('avatar');
-    });
+    Route::post('/update-ideal-person', 'User@updateIdealPerson');
     Route::post('/upload-avatar', 'User@uploadAvatar');
 });
 

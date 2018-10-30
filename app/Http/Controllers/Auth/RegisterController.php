@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/upload-avatar';
+    protected $redirectTo = '/registration?step=2';
 
     /**
      * Create a new controller instance.

@@ -1,5 +1,5 @@
 .additional-info-screen {
-    background: url('../../../public/images/main/background-02.jpg');
+    background: url('../../public/images/main/background-02.jpg');
     padding-top: 50px;
     /* height: 100vh; */
 }
@@ -30,4 +30,10 @@ img#additional-image2 {
     left: 0;
     width: 225px;
     bottom: -50px;
+}
+
+#temp-avatar {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
