@@ -1,7 +1,7 @@
 import api from '../api';
 import {
     GET_COUPLE_RESULTS,
-    GET_COUPLE_DETAIL
+    DISMISS_COUPLE
 } from './types';
 
 export const getCoupleResults = (filter) => (dispatch) => {
@@ -29,13 +29,10 @@ export const getCoupleResults = (filter) => (dispatch) => {
     }) 
 }
 
-export const getCoupleDetail = (id) => (dispatch) => {
-    api.get(`/couple/view/${id}`)
-    .then(response => {
-        console.log(response.data);
-        dispatch({type: GET_COUPLE_DETAIL, payload: response.data});
-    })
-    .catch(error => {
-        console.log(error);
+export const dismiss = (user_id) => (dispatch) => {
+    api.post('/couple/dismiss', {user_id}).then(res => {
+        dispatch({type: DISMISS_COUPLE});
+    }).catch(err => {
+        console.log(err);
     })
 }

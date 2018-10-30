@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, ImageCard, CardWithIcon } from '../../components/Card';
-import { getCoupleResults } from '../../actions/CoupleActions';
+import { getCoupleResults, dismiss } from '../../actions/CoupleActions';
 import { withRouter } from 'react-router-dom';
 import { updateRelationship } from '../../actions/UserActions';
 import Slider from "react-slick";
@@ -76,14 +76,10 @@ class SearchResults extends Component {
         document.getElementById('couple-filter').classList.toggle('d-none');
     }
 
-    // onUpdateRelationship(data, user_id) {
-    //     if(localStorage.getItem('percentage') < 70) {
-    //         document.getElementById('open-relationship-modal').click();
-    //     } else {
-    //         this.props.updateRelationship(data, user_id)
-    //     }
-
-    // }
+    getNextUser(user_id) {
+        this.props.dismiss(user_id);
+        this.refs.coupleSlider.slickNext();
+    }
 
     render() {
         var view = qs.parse(this.props.location.search).view;
@@ -91,12 +87,13 @@ class SearchResults extends Component {
 
         var settings = {
             accessibility: true,
+            draggable: false,
             dots: false,
             infinite: false,
             speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1,
-            arrows: true
+            arrows: false,
             // adaptiveHeight: true
         };
 
@@ -219,14 +216,15 @@ class SearchResults extends Component {
                             </div>
                         </Card>
                     ) : (
-                            <Slider {...settings}>
+                            <Slider {...settings} ref="coupleSlider">
                                 {
                                     this.state.results.map((item, index) => {
                                         
                                         return (
                                             <CoupleView 
                                                 item={item} key={index}
-                                                action={(data, user_id) => this.oprops.udateRelationship(data, user_id)}
+                                                action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                                dismissAction = {(user_id) => this.getNextUser(user_id)}
                                             ></CoupleView>
                                         )
                                     })
@@ -264,13 +262,13 @@ function mapStateToProps(state) {
         jobs: state.job.jobs,
         provinces: state.address.provinces,
         districts: state.address.districts,
-
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getCoupleResults: (keyword) => dispatch(getCoupleResults(keyword)),
+        dismiss: (user_id) => dispatch(dismiss(user_id)),
         updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id)),
         getAllJobs: () => dispatch(getAllJobs()),
         getAllProvinces: () => dispatch(getAllProvinces()),

@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class Couple extends Controller {
     public function search(Request $request) {
+        $user = Auth::user();
+        if($user->dismiss_users != "") {
+            $dismissUsers = explode(",", $user->dismiss_users);
+        } else {
+            $dismissUsers = [];
+        }
+
         $query = $request->query->all();
         if(array_key_exists('q', $query)) {
             unset($query['q']);
@@ -24,6 +31,7 @@ class Couple extends Controller {
         }
 
         $results = \App\User::where($query)
+                ->whereNotIn('users.id', $dismissUsers)
                 ->where('name', 'like', DB::raw("'%".$name."%'"))
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
                 ->select(DB::raw(
@@ -61,9 +69,15 @@ class Couple extends Controller {
         return json_encode($results);
     }
 
-    public static function findOne($id) {
-        $user = \App\User::find($id);
-        $photos = \App\UserPhoto::select(['source'])->where('user_id', $id)->get();
-        return ['user' => $user, 'photos' => $photos];
+    public function dismiss(Request $request) {
+        $user = Auth::user();
+        if($user->dismiss_users == "") {
+            $user->dismiss_users .= $request->get('user_id');
+        } else {
+            $user->dismiss_users .= ','.$request->get('user_id');
+        }
+        $user->save();
+        return json_encode(['ok' => 1]);
     }
 }
+

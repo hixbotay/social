@@ -43,6 +43,7 @@ Route::middleware(['web'])->group(function() {
     Route::post('/invite/{event_id}/update', 'Api\Event@updateInvitation');
 
     Route::get('/couple/search', 'Api\Couple@search');
+    Route::post('/couple/dismiss', 'Api\Couple@dismiss');
 
     Route::get('logout', 'Api\User@logout');
     Route::post('/update-avatar', 'Api\User@updateAvatar');

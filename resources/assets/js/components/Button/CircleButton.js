@@ -9,7 +9,11 @@ class CircleButton extends Component {
         }
 
         return (
-            <button className="circle-button btn" name={this.props.name} onClick={this.props.action} style={style}>
+            <button className="circle-button btn" 
+                name={this.props.name} 
+                onClick={this.props.action} 
+                style={style} 
+                id={this.props.id}>
                 <i className={this.props.icon}></i>
             </button>
         );

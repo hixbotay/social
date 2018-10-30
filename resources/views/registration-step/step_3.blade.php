@@ -21,7 +21,7 @@
             {{csrf_field()}}
             <input type="hidden" name="step" value="3"/>
             <div class="form-group">
-                <input class="form-control" name="avatar" type="file" onchange="readURL(this);"/>
+                <input class="form-control" name="avatar" type="file" onchange="readURL(this);" required>
             </div>
             <div class="form-group text-center">
                 <button class="btn btn-primary" type="submit">Upload</button>

@@ -39,7 +39,7 @@ export const GET_EDUCATION = 'GET_EDUCATION';
 
 // couple
 export const GET_COUPLE_RESULTS = 'GET_COUPLE_RESULTS';
-export const GET_COUPLE_DETAIL = 'GET_COUPLE_DETAIL';
+export const DISMISS_COUPLE = 'DISMISS_COUPLE';
 
 // dating
 export const GET_ALL_EVENTS = 'GET_ALL_EVENTS';

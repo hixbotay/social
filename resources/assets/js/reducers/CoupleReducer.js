@@ -1,14 +1,10 @@
 import {
     GET_COUPLE_RESULTS,
-    GET_COUPLE_DETAIL
+    DISMISS_COUPLE
 } from '../actions/types';
 
 const INIT_STATE = {
     search_results : [],
-    coupleDetail: {
-        user: {},
-        photos: []
-    }
 }
 
 export default (state=INIT_STATE, action) => {
@@ -16,11 +12,9 @@ export default (state=INIT_STATE, action) => {
         case GET_COUPLE_RESULTS: {
             return {...state, search_results: action.payload};
         }
-
-        case GET_COUPLE_DETAIL: {
-            return {...state, coupleDetail: action.payload};
+        case DISMISS_COUPLE: {
+            return {...state};
         }
-
         default: {
             return {...state};
         }

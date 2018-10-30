@@ -820,3 +820,12 @@ input[type=radio], input[type=checkbox] {
     border: none;
     background: none;
 }
+
+button.slick-arrow {
+    width: 80px;
+    z-index: 100;
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: xx-large !important;
+}

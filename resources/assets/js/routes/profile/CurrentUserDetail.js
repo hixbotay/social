@@ -114,7 +114,7 @@ class UserSetting extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Giới tính</div>
-                                    <div className="col-8">{(user.gender === 'M') ? "Nam" : "Nữ"}</div>
+                                    <div className="col-8">{(user.gender === 'M') ? "Nam" : (user.gender === 'F' ? "Nữ" : "Chưa xác định")}</div>
                                 </div>
                                 <div className="row">
                                     <div className="col-4">Quê quán</div>

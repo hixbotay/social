@@ -41,6 +41,7 @@ class CoupleView extends Component {
             }
 
             this.props.action(data, this.props.item.id);
+            document.getElementById(`next-couple-${this.props.item.id}`).click();
         }
     }
 
@@ -52,8 +53,7 @@ class CoupleView extends Component {
 
         let images = item.photos.length ? item.photos : defaultImages;
         images = images.filter(Boolean);
-        console.log(`=======${item.id}========`);
-        console.log(images);
+
         return (
             <Card>
                 <div className="container">
@@ -65,6 +65,11 @@ class CoupleView extends Component {
                             
                             <div className="couple-button">
                                 <CircleButton
+                                    icon="fas fa-comments"
+                                    color='#34495e'
+                                    // action
+                                ></CircleButton>
+                                <CircleButton
                                     icon="fas fa-heart"
                                     color={this.state.isLoved ? '#e74c3c' : '#34495e'}
                                     action={() => this.onUpdateRelationship('love')}
@@ -75,9 +80,10 @@ class CoupleView extends Component {
                                     action={() => this.onUpdateRelationship('like')}
                                 ></CircleButton>
                                 <CircleButton
-                                    icon="fas fa-comments"
-                                    color='#34495e'
-                                    // action
+                                    icon="fas fa-times"
+                                    action={() => this.props.dismissAction(item.id)}
+                                    class="next-couple"
+                                    id={`next-couple-${item.id}`}
                                 ></CircleButton>
                             </div>
                         </div>
@@ -111,11 +117,5 @@ class CoupleView extends Component {
         );
     }
 }
-
-// function mapStateToProps(state) {
-//     return {
-//         user: state.user.current_user
-//     }
-// }
 
 export default CoupleView;
