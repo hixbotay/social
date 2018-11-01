@@ -107,16 +107,17 @@
 <section>
     <div id="change_username">
         <input id="username" type="text" value="<?= isset($_GET['name'])?$_GET['name']:"random" . mt_rand(1000, 9999) ?>" />
-        <button id="subscribe">JOIN</button>
-        <button id="checkroom">CHECKROOM</button>
+<!--        <button id="subscribe">JOIN</button>-->
+<!--        <button id="checkroom">CHECKROOM</button>-->
+        <button id="user1">user1</button>
+        <button id="user2">user2</button>
+        <button id="user3">user3</button>
     </div>
 </section>
 
 <section id="chatroom">
     <section id="feedback"></section>
 </section>
-
-
 
 <section id="input_zone" style="height: 100px;">
     <input id="message" class="vertical-align" type="text" />
@@ -129,7 +130,7 @@
 
     $(function(){
         //make connection
-        var socket = io.connect('http://localhost:9327')
+        var socket = io.connect('http://localhost:9327/')
 
         //buttons and inputs
         var message = $("#message")
@@ -141,9 +142,32 @@
         var subscribe = $("#subscribe")
         var checkroom = $("#checkroom")
 
+        var user1 = $("#user1")
+        var user2 = $("#user2")
+        var user3 = $("#user3")
+
+        //middleware
+
+        user1.click(function () {
+            var subcriber = {user_id: '1'};
+            console.log(subcriber);
+            socket.emit('check_session', subcriber)
+        })
+
+        user2.click(function () {
+            var subcriber = {user_id: '2'};
+            console.log(subcriber);
+            socket.emit('check_session', subcriber)
+        })
+
+        user3.click(function () {
+            var subcriber = {user_id: '3'};
+            console.log(subcriber);
+            socket.emit('check_session', subcriber)
+        })
 
         checkroom.click(function () {
-            socket.emit('vantu19000')
+            socket.emit('vantu19000', 'string hihi');
         })
 
         //Emit message
@@ -152,14 +176,15 @@
         })
 
         subscribe.click(function () {
-            // var subcriber = {room_id: '5bd0924c27b16b4644a5acb8', user: [1,2,3]};
-            var subcriber = {room_id: '', user: [1,2,3]};
+            var subcriber = {room_id: '5bd0924c27b16b4644a5acb8', user: [1,2,3]};
+            // var subcriber = {room_id: '', user: [1,2,3]};
             console.log(subcriber);
             socket.emit('subscribe', subcriber)
         })
 
         //Listen on new_message
         socket.on("new_message", (data) => {
+            console.log(data);
             feedback.html('');
             message.val('');
             chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
@@ -170,7 +195,7 @@
             socket.emit('change_username', {username : username.val()})
         // })
 
-        socket.emit('check_session', {session_id: '<?= mt_rand(10000, 99999) ?>'})
+        //socket.emit('check_session', {session_id: '<?//= mt_rand(10000, 99999) ?>//'})
 
         //Emit typing
         message.bind("keypress", () => {
