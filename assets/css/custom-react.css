@@ -829,3 +829,7 @@ button.slick-arrow {
 .slick-prev:before, .slick-next:before {
     font-size: xx-large !important;
 }
+
+.chat_people {
+    cursor: pointer;
+}

@@ -16,28 +16,37 @@ class Messages extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            conversation: [
+                {
+                    user_id: this.props.current_user.id,
+                    content: 'Which is a new approach to have all solutions astrology under one roof.',
+                    created_at: '20-12-20178'
+                },
+                {
+                    user_id: this.props.current_user.id,
+                    content: 'Which is a new approach to have all solutions astrology under one roof.',
+                    created_at: '20-11-20178'
+                }
+            ],
+            activeChat: 0,
         };
+        if (this.props.current_user.id){
+            var subcriber = {room_id: this.props.current_user.id};
+            socket.emit('subscribe', subcriber);
+        }
     }
-
     typingMessage(){
         socket.emit('typing');
         console.log("Typing message ...");
         console.log(this.props.current_user);
     }
-
     componentDidMount(){
         this.props.getListChat();
         console.log(this.props.current_user);
-        // var subcriber = {room_id: this.props.current_user};
-        // socket.emit('subscribe', subcriber);
     }
 
     render() {
-        if (this.props.current_user.id){
-            var subcriber = {room_id: this.props.current_user.id};
-            socket.emit('subscribe', subcriber);
-        }
+
         var sampleData = {
             message: {
                 sender: {
@@ -48,6 +57,7 @@ class Messages extends Component {
                 content: "Test, which is a new approach to have all solutions astrology under one roof."
             }
         }
+
 
         return (
             <Card>
@@ -101,17 +111,17 @@ class Messages extends Component {
                             <hr />
                             <div className="msg_history">
                                 {
-                                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => {
+                                    this.state.conversation.map((item, index)=> {
                                         return (
-                                            <div key={item}>
+                                            <div key={index}>
                                                 {
-                                                    item % 2 ? (
+                                                    (item.user_id === this.props.current_user.id) ? (
                                                         <IncomingMessage
-                                                            message={sampleData.message}
+                                                            message={item.content}
                                                         />
                                                     ) : (
                                                             <OutgoingMessage
-                                                                message={sampleData.message}
+                                                                message={item.content}
                                                             />
                                                         )
                                                 }
