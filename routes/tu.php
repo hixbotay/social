@@ -31,6 +31,7 @@ Route::get('chat/session', function (Request $request){
 
 Route::get('chat/list', function (){
     $list = DB::table('users')->select(
+        'id',
         'name',
         'email',
         'name'
