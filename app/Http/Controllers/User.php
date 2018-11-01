@@ -75,7 +75,7 @@ class User extends Controller
 
 		$next_step = $request->get('step') + 1;
 		if($next_step == 7) {
-			return redirect('/');
+			return redirect('/couple');
 		} else {
 			return redirect('/registration?step='.$next_step);
 		}
@@ -99,7 +99,7 @@ class User extends Controller
 		
 		$next_step = $request->get('step') + 1;
 		if($next_step == 7) {
-			return redirect('/');
+			return redirect('/couple');
 		} else {
 			return redirect('/registration?step='.$next_step);
 		}
@@ -116,7 +116,7 @@ class User extends Controller
 		$next_step = $request->get('step') + 1;
 
 		if($next_step == 7 || $user->provider == null) {
-			return redirect('/');
+			return redirect('/couple');
 		} else {
 			return redirect('/registration?step='.$next_step);
 		}

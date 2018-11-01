@@ -4,7 +4,7 @@
     <div class="container">
         <div class="mt-2">
             <div class="text-center">
-                <a href="{{url('')}}">
+                <a href="{{url('')}}/couple">
                     <button class="btn btn-sm btn-light">Bỏ qua</button>
                 </a>
                 <hr/>

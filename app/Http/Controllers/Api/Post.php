@@ -11,7 +11,21 @@ use Illuminate\Support\Facades\DB;
 class Post extends Controller
 {
     public static function list() {
-        $result = \App\Post::leftjoin('users', 'posts.user_id', '=', 'users.id')
+        $user_id = Auth::id();
+
+        $friends = DB::table('user_relationship')
+            ->where('is_like', '=', 1)
+            ->orWhere('is_loved', '=', 1)
+            ->having('from_user_id', '=', $user_id)
+            ->get();
+
+        $friend_id_arr = [];
+        foreach($friends as $friend) {
+            array_push($friend_id_arr, $friend->id);
+        }
+
+        $result = \App\Post::whereIn('posts.user_id', $friend_id_arr)
+            ->leftjoin('users', 'posts.user_id', '=', 'users.id')
             ->leftjoin('post_photos', 'posts.id', '=', 'post_photos.post_id')
             ->leftjoin('user_photos', 'user_photos.id', '=', 'post_photos.photo_id')
             ->select('users.name AS author', 'users.avatar AS author_avatar', 'posts.*', 'user_photos.id AS photo_id', 'user_photos.source')
@@ -27,7 +41,7 @@ class Post extends Controller
             ->leftjoin('user_photos', 'user_photos.id', '=', 'post_photos.photo_id')
             ->select('users.name AS author', 'users.avatar AS author_avatar', 'posts.*', 'user_photos.id AS photo_id', 'user_photos.source')
             ->orderBy('id', 'DESC')
-            ->having('posts.user_id', '=', Auth::id())
+            ->having('posts.user_id', '=', $user_id)
             ->get();
         
         return json_encode($result);

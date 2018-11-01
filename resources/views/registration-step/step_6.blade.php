@@ -7,7 +7,7 @@
 @section('card')
 <div class="text-center">
     <br/>
-    <a href={{url('')}}><button class="btn btn-light">Bỏ qua</button></a>
+    <a href="{{url('')}}/couple"><button class="btn btn-light">Bỏ qua</button></a>
 </div>
 <hr />
 <div class="container">

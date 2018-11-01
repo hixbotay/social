@@ -10,7 +10,6 @@ Route::get('job', 'Api\User@getJob');
 //load relationship
 // Route::get('relationship/{from_user_id}/{to_user_id}', 'Api\User@index');
 
-Route::get('/posts', 'Api\Post@list');
 /*
  * post/like/{post_id}
  * input:
@@ -48,6 +47,7 @@ Route::middleware(['web'])->group(function() {
     Route::get('logout', 'Api\User@logout');
     Route::post('/update-avatar', 'Api\User@updateAvatar');
 
+    Route::get('/posts', 'Api\Post@list');
     Route::post('/post', 'Api\Post@createPost');
 });
 
