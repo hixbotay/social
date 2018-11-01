@@ -3,10 +3,39 @@ import { Card } from '../../components/Card';
 import MessageItem from '../../components/Message/MessageItem';
 import IncomingMessage from '../../components/Message/IncomingMessage';
 import OutgoingMessage from '../../components/Message/OutgoingMessage';
+import io from 'socket.io-client';
+import {getAllPosts} from "../../actions/PostActions";
+import {withRouter} from "react-router-dom";
+import connect from "react-redux/es/connect/connect";
+
+const socket = io('http://localhost:9327/');
 
 class Messages extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+    }
+
+    typingMessage(){
+        socket.emit('typing');
+        console.log("Typing message ...");
+        console.log(this.props.current_user);
+    }
+
+    componentDidMount(){
+        console.log(this.props.current_user);
+        // var subcriber = {room_id: this.props.current_user};
+        // socket.emit('subscribe', subcriber);
+    }
+
     render() {
+        if (this.props.current_user.id){
+            var subcriber = {room_id: this.props.current_user.id};
+            socket.emit('subscribe', subcriber);
+        }
         var sampleData = {
             message: {
                 sender: {
@@ -76,8 +105,15 @@ class Messages extends Component {
                             </div>
                             <div className="type_msg">
                                 <div className="input_msg_write">
-                                    {/* <input type="text" className="write_msg" id="input-msg" placeholder="Type a message" /> */}
-                                    <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                    <input type="text"
+                                           className="write_msg"
+                                           id="input-msg"
+                                           placeholder="Type a message"
+                                           onKeyPress={(text) => this.typingMessage(text)}
+                                    />
+                                    <button onClick={() => {console.log(this.props.current_user)}} className="msg_send_btn" type="button">
+                                        <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -88,4 +124,18 @@ class Messages extends Component {
     }
 }
 
-export default Messages;
+
+function mapStateToProps(state) {
+    return {
+        current_user: state.user.current_user
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Messages));
+
+// export default Messages;

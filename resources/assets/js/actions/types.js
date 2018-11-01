@@ -53,3 +53,6 @@ export const JOIN_EVENT = 'JOIN_EVENT';
 export const GET_EVENT_DETAIL = 'GET_EVENT_DETAIL';
 export const GET_INVITED_EVENTS = 'GET_INVITED_EVENTS';
 export const INVITE_INTO_EVENT = 'INVITE_INTO_EVENT';
+
+// Message
+export const GET_LIST_CHAT = 'GET_LIST_CHAT';
