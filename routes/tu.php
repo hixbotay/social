@@ -20,5 +20,12 @@ Route::middleware(['web'])->group(function() {
     Route::post('cafe/create', 'Api\Cafe@create');
 });
 
+Route::post('chat/auth', function (Request $request){
 
+});
+
+Route::get('chat/session', function (Request $request){
+//    laravel_session
+    return Session::getId();
+});
 
