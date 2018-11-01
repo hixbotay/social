@@ -30,25 +30,10 @@ class Header extends Component {
                         </div>
 
                         <div className="control-icon more has-items">
-                            <Link to={"/"}>TRANG CHỦ</Link>
-                        </div>
-
-                        <div className="control-icon more has-items">
-                            <i className="fa fa-comments"></i>
-                            <div className="label-avatar bg-blue">6</div>
-
-                            <div className="more-dropdown more-with-triangle triangle-top-center">
-                                <div className="mCustomScrollbar" data-mcs-theme="dark">
-                                    <ul className="list-group">
-                                        <li className="list-group-item list-group-item-info">
-                                            <i className="far fa-check-circle"></i>
-                                        </li>
-                                        
-                                    </ul>
-                                </div>
-
-                                <a href="#" className="view-all bg-blue">Check all your Events</a>
-                            </div>
+                            <a href={`${baseUrl}/messages`}>
+                                <i className="fa fa-comments"></i>
+                                <div className="label-avatar bg-blue">6</div>
+                            </a>
                         </div>
 
                         <div className="control-icon more has-items">

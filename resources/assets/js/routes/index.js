@@ -9,6 +9,7 @@ import "../../../../assets/css/react-main.css";
 import "../../../../assets/css/custom-react.css";
 // import "../../../../../assets/css/fonts.css";
 import "../../../../assets/fonts/fontawesome-all";
+import '../../../../assets/css/chat.css';
 
 import MainLayout from '../layouts/MainLayout';
 import SecondLayout from '../layouts/SecondLayout';

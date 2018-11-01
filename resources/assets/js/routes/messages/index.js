@@ -1,76 +1,91 @@
-import React, {Component} from 'react';
-
-import {withRouter} from "react-router-dom";
-import connect from "react-redux/es/connect/connect";
-// import {getAllDistricts, getAllProvinces} from "../../actions/CafeActions";
-import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css';
+import React, { Component } from 'react';
+import { Card } from '../../components/Card';
+import MessageItem from '../../components/Message/MessageItem';
+import IncomingMessage from '../../components/Message/IncomingMessage';
+import OutgoingMessage from '../../components/Message/OutgoingMessage';
 
 class Messages extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            photoIndex: 0,
-            openLightBox: false,
-            images: [
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-                'https://vicbrokers.com.au/wp-content/uploads/2018/03/11-1.jpg',
-            ]
-        };
-    }
-
-    componentDidMount() {
-
-    }
-
     render() {
+        var sampleData = {
+            message: {
+                sender: {
+                    name: "Pham Anh Thu",
+                    avatar: "https://www.w3schools.com/howto/img_avatar.png"
+                },
+                date: "01/11/2018",
+                content: "Test, which is a new approach to have all solutions astrology under one roof."
+            }
+        }
 
         return (
-            <div className="row">
-
-                {/* <div className="col-md-5">
-
-                    <div className="ui-block">
-
-                        <div className={"chat-list-title"}>
-
-                            <div className={"row"}>
-                                <ul>
-                                    <li>Tất cả</li>
-                                    <li>Chưa đọc</li>
-                                    <li>Online</li>
-                                    <li>Soạn tin</li>
-                                    <li><i className="fas fa-star"></i></li>
-                                </ul>
+            <Card>
+                <div className="messaging">
+                    <div className="inbox_msg">
+                        <div className="inbox_people">
+                            <div className="headind_srch">
+                                <div className="recent_heading">
+                                    <h4>Recent</h4>
+                                </div>
+                            </div>
+                            <div className="inbox_chat">
+                                {
+                                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => {
+                                        return (
+                                            <MessageItem
+                                                key={item}
+                                                message={sampleData.message}
+                                                isActive={item % 4 != 0}
+                                            />
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
-
+                        <div className="mesgs">
+                            <div>
+                                <img src="https://www.w3schools.com/howto/img_avatar.png" id="sender-avatar" />
+                                <span className="h4">
+                                    Pham Anh Thu, 23
+                                </span>
+                                <div className="float-right">
+                                    <i className="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                            <hr />
+                            <div className="msg_history">
+                                {
+                                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => {
+                                        return (
+                                            <div key={item}>
+                                                {
+                                                    item % 2 ? (
+                                                        <IncomingMessage
+                                                            message={sampleData.message}
+                                                        />
+                                                    ) : (
+                                                            <OutgoingMessage
+                                                                message={sampleData.message}
+                                                            />
+                                                        )
+                                                }
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <div className="type_msg">
+                                <div className="input_msg_write">
+                                    {/* <input type="text" className="write_msg" id="input-msg" placeholder="Type a message" /> */}
+                                    <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-
-                <div className="col col-md-7">
-                    <div className="ui-block">
-                        <p>Nội dung chát</p>
-                    </div>
-                </div> */}
-
-            </div>
+            </Card>
         );
     }
-
 }
 
-
-function mapStateToProps(state) {
-    // return {
-    //     province: state.cafe.allprovince,
-    //     district: state.cafe.alldistrict
-    // };
-}
-
-export default withRouter(connect(mapStateToProps, null)(Messages));
+export default Messages;
