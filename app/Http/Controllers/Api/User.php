@@ -21,7 +21,8 @@ class User extends Controller
                 SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
             ))
             ->first();
-            
+        $user->loveNumber = (int) $user->loveNumber;
+        $user->likeNumber = (int) $user->likeNumber;
         $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $user->id)->count();
 
         // check complete percentage
@@ -163,24 +164,31 @@ class User extends Controller
                         ['to_user_id', '=', $id]
                     ])
                     ->first();
-
-        // add to visitor table
-        DB::table('profile_visitor')->insert([
-            'profile_id' => $id,
-            'visitor_id' => Auth::id(),
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s"),
-        ]);
         
-        // notify
-        Notification::insert([
-            'user_id' => $id,
-            'actor' => Auth::id(), 
-            'content' => "Đã ghé thăm trang cá nhân của bạn",
-            'type' => "visit",
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ]);
+        $temp = DB::table('profile_visitor')->where([
+            ['profile_id', '=', $id],
+            ['visitor_id', '=', Auth::id()]
+        ])->get();
+
+        if(count($temp) == 0) {
+            // add to visitor table
+            DB::table('profile_visitor')->insert([
+                'profile_id' => $id,
+                'visitor_id' => Auth::id(),
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s"),
+            ]);
+            
+            // notify
+            Notification::insert([
+                'user_id' => $id,
+                'actor' => Auth::id(), 
+                'content' => "Đã ghé thăm trang cá nhân của bạn",
+                'type' => "visit",
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+        }
 
         $result = [
             'user' => $user,

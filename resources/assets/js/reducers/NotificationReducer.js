@@ -2,7 +2,8 @@ import {
     GET_NOTIFICATIONS,
     MARK_READ,
     MARK_ALL_AS_READ,
-    GET_UNREAD_NUMBER
+    GET_UNREAD_NUMBER,
+    UPDATE_UNREAD_NUMBER
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -23,6 +24,9 @@ export default (state = INIT_STATE, action) => {
         }
         case GET_UNREAD_NUMBER: {
             return {...state, unreadNumber: action.payload}
+        }
+        case UPDATE_UNREAD_NUMBER: {
+            return {...state, unreadNumber: state.unreadNumber - 1}
         }
         default: {
             return {...state};

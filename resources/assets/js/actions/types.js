@@ -59,5 +59,6 @@ export const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';
 export const MARK_READ = 'MARK_READ';
 export const MARK_ALL_AS_READ = 'MARK_ALL_AS_READ';
 export const GET_UNREAD_NUMBER = 'GET_UNREAD_NUMBER';
+export const UPDATE_UNREAD_NUMBER = 'UPDATE_UNREAD_NUMBER';
 // Message
 export const GET_LIST_CHAT = 'GET_LIST_CHAT';

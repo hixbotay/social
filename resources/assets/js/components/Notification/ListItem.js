@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import { RoundAvatar } from '../Avatar';
 
 import {markRead} from '../../actions/NotificationActions';
+import {UPDATE_UNREAD_NUMBER} from '../../actions/types';
 
 class ListItem extends Component {
     constructor(props) {
@@ -15,25 +16,30 @@ class ListItem extends Component {
     }
 
     handleNotification() {
-        this.props.markRead(this.props.notification.id);
+        this.props.markRead(this.props.notification.id).then(data => {
+            this.props.updateUnreadNumber();
+            this.setState({isRead: true});
+            
+            var link = '#';
+            switch (this.props.notification.type) {
+                case 'visit': {
+                    link = '/friends/visited';
+                    break;
+                }
+                case 'status': {
+                    link = `/profile/${this.props.notification.actor_id}`;
+                    break;
+                }
+                case 'relationship': {
+                    link = '/friends/like-you';
+                    break;
+                }
+            }
 
-        var link = '#';
-        switch (this.props.notification.type) {
-            case 'visit': {
-                link = '/friends/visited';
-                break;
-            }
-            case 'status': {
-                link = `/profile/${this.props.notification.actor_id}`;
-                break;
-            }
-            case 'relationship': {
-                link = '/friends/like-you';
-                break;
-            }
-        }
+            this.props.history.push(link);
+        });
 
-        this.props.history.push(link);
+        
     }
 
     render() {
@@ -41,8 +47,8 @@ class ListItem extends Component {
         
 
         return (
-            <div className="notification-list-item" onClick={() => this.handleNotification()}>
-                <div className={`row ${this.state.isRead ? "" : "active"}`}>
+            <div className={`notification-list-item ${this.state.isRead ? "" : "active"}`} onClick={() => this.handleNotification()}>
+                <div className="row">
                     <div className="col-3">
                         <RoundAvatar img={notification.actor_avatar} size="medium"></RoundAvatar>
                     </div>
@@ -53,17 +59,18 @@ class ListItem extends Component {
                             <i className="fas fa-heart"></i>
                         </div>
                     </div>
-                    
                 </div>
                 <hr />
             </div>
+            
         );
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        markRead: () => dispatch(markRead())
+        markRead: (id) => dispatch(markRead(id)),
+        updateUnreadNumber: () => dispatch({type: UPDATE_UNREAD_NUMBER})
     }
 }
 
