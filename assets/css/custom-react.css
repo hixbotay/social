@@ -847,6 +847,10 @@ button.slick-arrow {
 
 .notification-list {
     z-index: 1000;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 300px;
+    padding-top: 15px!important;
 }
 
 .notification-list-item.active {
