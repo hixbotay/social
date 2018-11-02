@@ -9,7 +9,7 @@
     <title>Đăng nhập</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" >
     <link rel="stylesheet" href="{{asset('assets/landing/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/landing/css/form-elements.css')}}">

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" const="text/html;charset=UTF-8" />
-    <link href="http://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet" type="text/css">
     <style>
         @mixin vertical-align {
             position: relative;

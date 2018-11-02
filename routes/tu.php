@@ -29,3 +29,12 @@ Route::get('chat/session', function (Request $request){
     return Session::getId();
 });
 
+Route::get('chat/list', function (){
+    $list = DB::table('users')->select(
+        'id',
+        'name',
+        'email',
+        'name'
+    )->get();
+    return $list;
+});

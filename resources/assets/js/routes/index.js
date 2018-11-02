@@ -68,7 +68,7 @@ class MainApp extends Component {
             </div>
         </div>);
 
-		if (this.props.user){
+		if (this.props.user.id){
             route = (
                 <Switch>
                     {/* Home */}

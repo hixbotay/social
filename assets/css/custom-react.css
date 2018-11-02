@@ -844,3 +844,7 @@ button.slick-arrow {
 .notification-list {
     z-index: 1000;
 }
+
+.chat_people {
+    cursor: pointer;
+}

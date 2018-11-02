@@ -3,10 +3,50 @@ import { Card } from '../../components/Card';
 import MessageItem from '../../components/Message/MessageItem';
 import IncomingMessage from '../../components/Message/IncomingMessage';
 import OutgoingMessage from '../../components/Message/OutgoingMessage';
+import io from 'socket.io-client';
+import {getListChat} from "../../actions/MessageActions";
+import {withRouter} from "react-router-dom";
+import connect from "react-redux/es/connect/connect";
+import {getCafeDetail} from "../../actions/CafeActions";
+
+const socket = io('http://localhost:9327/');
 
 class Messages extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            conversation: [
+                {
+                    user_id: this.props.current_user.id,
+                    content: 'Which is a new approach to have all solutions astrology under one roof.',
+                    created_at: '20-12-20178'
+                },
+                {
+                    user_id: this.props.current_user.id,
+                    content: 'Which is a new approach to have all solutions astrology under one roof.',
+                    created_at: '20-11-20178'
+                }
+            ],
+            activeChat: 0,
+        };
+        if (this.props.current_user.id){
+            var subcriber = {room_id: this.props.current_user.id};
+            socket.emit('subscribe', subcriber);
+        }
+    }
+    typingMessage(){
+        socket.emit('typing');
+        console.log("Typing message ...");
+        console.log(this.props.current_user);
+    }
+    componentDidMount(){
+        this.props.getListChat();
+        console.log(this.props.current_user);
+    }
+
     render() {
+
         var sampleData = {
             message: {
                 sender: {
@@ -17,6 +57,7 @@ class Messages extends Component {
                 content: "Test, which is a new approach to have all solutions astrology under one roof."
             }
         }
+
 
         return (
             <Card>
@@ -30,14 +71,29 @@ class Messages extends Component {
                             </div>
                             <div className="inbox_chat">
                                 {
-                                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => {
-                                        return (
-                                            <MessageItem
-                                                key={item}
-                                                message={sampleData.message}
-                                                isActive={item % 4 != 0}
-                                            />
-                                        )
+                                    this.props.chatList.map(item => {
+                                        if (item.id === this.props.current_user.id){
+
+                                        }else{
+                                            var lastMessage = {
+                                                message: {
+                                                    sender: {
+                                                        name: item.name,
+                                                        avatar: "https://www.w3schools.com/howto/img_avatar.png"
+                                                    },
+                                                    date: "01/11/2018",
+                                                    content: "Test, which is a new approach to have all solutions astrology under one roof."
+                                                }
+                                            }
+                                            return (
+                                                <MessageItem
+                                                    key={item.id}
+                                                    message={lastMessage.message}
+                                                    isActive={item.id % 4 != 0}
+                                                />
+                                            )
+                                        }
+
                                     })
                                 }
                             </div>
@@ -55,17 +111,17 @@ class Messages extends Component {
                             <hr />
                             <div className="msg_history">
                                 {
-                                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => {
+                                    this.state.conversation.map((item, index)=> {
                                         return (
-                                            <div key={item}>
+                                            <div key={index}>
                                                 {
-                                                    item % 2 ? (
+                                                    (item.user_id === this.props.current_user.id) ? (
                                                         <IncomingMessage
-                                                            message={sampleData.message}
+                                                            message={item.content}
                                                         />
                                                     ) : (
                                                             <OutgoingMessage
-                                                                message={sampleData.message}
+                                                                message={item.content}
                                                             />
                                                         )
                                                 }
@@ -76,8 +132,15 @@ class Messages extends Component {
                             </div>
                             <div className="type_msg">
                                 <div className="input_msg_write">
-                                    {/* <input type="text" className="write_msg" id="input-msg" placeholder="Type a message" /> */}
-                                    <button className="msg_send_btn" type="button"><i className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                    <input type="text"
+                                           className="write_msg"
+                                           id="input-msg"
+                                           placeholder="Type a message"
+                                           onKeyPress={(text) => this.typingMessage(text)}
+                                    />
+                                    <button onClick={() => {console.log(this.props.chatList)}} className="msg_send_btn" type="button">
+                                        <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -88,4 +151,20 @@ class Messages extends Component {
     }
 }
 
-export default Messages;
+
+function mapStateToProps(state) {
+    return {
+        current_user: state.user.current_user,
+        chatList: state.chat.chatList
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getListChat: (id) => dispatch(getListChat()),
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Messages));
+
+// export default Messages;

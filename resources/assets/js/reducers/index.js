@@ -10,6 +10,7 @@ import jobReducer from './JobReducer';
 import addressReducer from './AddressReducer';
 import educationReducer from './EducationReducer';
 import notificationReducer from './NotificationReducer';
+import messageReducer from './MessageReducer';
 
 const rootReducer = combineReducers({
     post: postReducer,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
     job: jobReducer,
     address: addressReducer,
     education: educationReducer,
-    notification: notificationReducer
+    notification: notificationReducer,
+    chat: messageReducer,
 });
 
 export default rootReducer;
