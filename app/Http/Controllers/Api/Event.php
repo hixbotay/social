@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use \App\Notification;
 
 class Event extends Controller {
     // list events forthcoming, finished, cancelled which current_user joined
@@ -414,6 +415,14 @@ class Event extends Controller {
 
                 if($result) {
                     $message = "Bạn đã gửi lời mời thành công!";
+                    Notification::insert([
+                        'user_id' => $request->input('user_id'),
+                        'actor' => Auth::id(),
+                        'content' => "Bạn nhận được lời mời tham gia cuộc hẹn mới",
+                        'type' => 'event',
+                        'created_at' => date("Y-m-d H:i:s"),
+                        'updated_at' => date("Y-m-d H:i:s")
+                    ]);
                 } 
                 else $message = "Đã có lỗi xảy ra, vui lòng thử lại";
             }

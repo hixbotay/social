@@ -21,13 +21,21 @@ class ListItem extends Component {
             this.setState({isRead: true});
             
             var link = '#';
+            var icon = 'fas fa-heart';
             switch (this.props.notification.type) {
                 case 'visit': {
                     link = '/friends/visited';
+                    icon = "far fa-eye";
                     break;
                 }
                 case 'status': {
                     link = `/profile/${this.props.notification.actor_id}`;
+                    icon = "far fa-newspaper";
+                    break;
+                }
+                case 'event': {
+                    link = '/dating/invited';
+                    icon = "fas fa-coffee";
                     break;
                 }
                 case 'relationship': {
@@ -45,6 +53,24 @@ class ListItem extends Component {
     render() {
         const { notification } = this.props;
         
+        var icon = 'fas fa-heart';
+        switch (this.props.notification.type) {
+            case 'visit': {
+                icon = "far fa-eye";
+                break;
+            }
+            case 'status': {
+                icon = "far fa-newspaper";
+                break;
+            }
+            case 'event': {
+                icon = "fas fa-coffee";
+                break;
+            }
+            case 'relationship': {
+                break;
+            }
+        }
 
         return (
             <div className={`notification-list-item ${this.state.isRead ? "" : "active"}`} onClick={() => this.handleNotification()}>
@@ -56,7 +82,7 @@ class ListItem extends Component {
                         <div className="notification-heading">{notification.actor_name}</div>
                         <div className="notification-content">{notification.content}</div>
                         <div className="notification-icon">
-                            <i className="fas fa-heart"></i>
+                            <i className={icon}></i>
                         </div>
                     </div>
                 </div>
