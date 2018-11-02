@@ -381,7 +381,7 @@ Description: "HTML-template"
 .author-page {
   margin-left: 50px; }
   .author-page .more-dropdown {
-    width: 230px;
+    width: 300px;
     top: calc(100% + 5px);
     right: -30px;
     padding: 0; }

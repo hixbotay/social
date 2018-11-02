@@ -17,7 +17,7 @@ class FriendsVisited extends Component {
                 <div className="row">
                     <div className="banner"></div>
                 </div>
-                <CardWithTitle title="ĐÃ GHÉ THĂM BẠN">
+                <CardWithTitle title="ĐÃ GHÉ THĂM BẠN" hasLine={true}>
                     <div className="row">
                     {
                         users ? users.map((user, index) => {

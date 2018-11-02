@@ -81,7 +81,7 @@ class ListItem extends Component {
                     <div className="col-9 notification-item">
                         <div className="notification-heading">{notification.actor_name}</div>
                         <div className="notification-content">{notification.content}</div>
-                        <div className="notification-icon">
+                        <div className="custom-notification-icon">
                             <i className={icon}></i>
                         </div>
                     </div>

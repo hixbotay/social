@@ -830,14 +830,14 @@ button.slick-arrow {
     font-size: xx-large !important;
 }
 
-.notification-icon {
+.custom-notification-icon {
     position: absolute;
     right: 0;
     top: 0;
     bottom: auto;
 }
 
-.notification-list-item, .view-all {
+.notification-list-item, .view-all, .author-page .more-dropdown li {
     cursor: pointer;
 }
 
@@ -845,7 +845,7 @@ button.slick-arrow {
     padding: 15px 15px 0px;
 }
 
-.notification-list {
+.custom-notification-list {
     z-index: 1000;
     overflow-y: scroll;
     overflow-x: hidden;
