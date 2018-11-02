@@ -20,32 +20,85 @@ class Messages extends Component {
                 {
                     user_id: this.props.current_user.id,
                     content: 'Which is a new approach to have all solutions astrology under one roof.',
-                    created_at: '20-12-20178'
+                    created_at: '20-12-2018'
                 },
                 {
                     user_id: this.props.current_user.id,
                     content: 'Which is a new approach to have all solutions astrology under one roof.',
-                    created_at: '20-11-20178'
+                    created_at: '20-11-2018'
                 }
             ],
             activeChat: 0,
+            current_message: '',
         };
+
         if (this.props.current_user.id){
             var subcriber = {room_id: this.props.current_user.id};
             socket.emit('subscribe', subcriber);
         }
     }
-    typingMessage(){
-        socket.emit('typing');
-        console.log("Typing message ...");
-        console.log(this.props.current_user);
+
+    enterMessage(evt){
+        if (evt.key === 'Enter') {
+            this.emitMessage();
+        }
     }
+
+    typingMessage(evt){
+        this.setState({
+            current_message: evt.target.value
+        }, () => {
+
+        });
+        socket.emit('typing');
+    }
+
+    emitMessage(){
+        socket.emit('new_message', {
+            username: this.props.current_user.name,
+            message : this.state.current_message,
+            to_id: [this.state.activeChat.id],
+            conversation_id: "",
+        })
+        this.setState({current_message: ""});
+    }
+
     componentDidMount(){
-        this.props.getListChat();
-        console.log(this.props.current_user);
+        this.props.getListChat()
+            .then(response => {
+                for (let i = 0; i < response.length; i++ ){
+                    if (response[i].id !== this.props.current_user.id){
+                        this.setState({
+                            activeChat: response[i]
+                        })
+                        break;
+                    }
+                }
+            })
+        // Lang nghe xem co tin nhan moi khoong
+        socket.on("new_message", (data) => {
+            console.log(data);
+            this.state.conversation.push(
+                {
+                    user_id: data.user_id,
+                    content: data.message,
+                    created_at: '20-11-2018'
+                }
+            );
+            this.setState({
+                status: Math.random()
+            })
+
+        })
+
+        socket.on('typing', (data) => {
+            console.log('typing ...');
+        })
     }
 
     render() {
+
+        console.log("_______RENDER______");
 
         var sampleData = {
             message: {
@@ -66,7 +119,7 @@ class Messages extends Component {
                         <div className="inbox_people">
                             <div className="headind_srch">
                                 <div className="recent_heading">
-                                    <h4>Recent</h4>
+                                    <h4>GẦN ĐÂY</h4>
                                 </div>
                             </div>
                             <div className="inbox_chat">
@@ -89,7 +142,7 @@ class Messages extends Component {
                                                 <MessageItem
                                                     key={item.id}
                                                     message={lastMessage.message}
-                                                    isActive={item.id % 4 != 0}
+                                                    isActive={item.id === this.state.activeChat.id}
                                                 />
                                             )
                                         }
@@ -102,7 +155,7 @@ class Messages extends Component {
                             <div>
                                 <img src="https://www.w3schools.com/howto/img_avatar.png" id="sender-avatar" />
                                 <span className="h4">
-                                    Pham Anh Thu, 23
+                                    {this.state.activeChat.id?this.state.activeChat.name:"Loading ..."}
                                 </span>
                                 <div className="float-right">
                                     <i className="fas fa-ellipsis-h"></i>
@@ -117,11 +170,11 @@ class Messages extends Component {
                                                 {
                                                     (item.user_id === this.props.current_user.id) ? (
                                                         <IncomingMessage
-                                                            message={item.content}
+                                                            message={item}
                                                         />
                                                     ) : (
                                                             <OutgoingMessage
-                                                                message={item.content}
+                                                                message={item}
                                                             />
                                                         )
                                                 }
@@ -133,12 +186,14 @@ class Messages extends Component {
                             <div className="type_msg">
                                 <div className="input_msg_write">
                                     <input type="text"
+                                           value={this.state.current_message}
                                            className="write_msg"
                                            id="input-msg"
                                            placeholder="Type a message"
-                                           onKeyPress={(text) => this.typingMessage(text)}
+                                           onChange={(evt) => this.typingMessage(evt)}
+                                           onKeyPress={(evt) => this.enterMessage(evt)}
                                     />
-                                    <button onClick={() => {console.log(this.props.chatList)}} className="msg_send_btn" type="button">
+                                    <button onClick={() => { this.emitMessage() }} className="msg_send_btn" type="button">
                                         <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
                                     </button>
                                 </div>
