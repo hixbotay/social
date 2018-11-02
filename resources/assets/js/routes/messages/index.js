@@ -9,8 +9,8 @@ import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getCafeDetail} from "../../actions/CafeActions";
 
-// const socket = io('http://103.97.124.105:9327/');
-const socket = io('http://localhost:9327/');
+const socket = io('http://103.97.124.105:9327/');
+// const socket = io('http://localhost:9327/');
 
 class Messages extends Component {
 
@@ -20,14 +20,9 @@ class Messages extends Component {
             conversation: [
                 {
                     user_id: this.props.current_user.id,
-                    content: 'Which is a new approach to have all solutions astrology under one roof.',
+                    content: 'Start friend connect :)',
                     created_at: '20-12-2018'
                 },
-                {
-                    user_id: this.props.current_user.id,
-                    content: 'Which is a new approach to have all solutions astrology under one roof.',
-                    created_at: '20-11-2018'
-                }
             ],
             activeChat: 0,
             current_message: '',
@@ -110,7 +105,6 @@ class Messages extends Component {
                     typing: data.username + " typing ..."
                 })
             }
-            console.log(data);
         })
 
         socket.on('stop_typing', (data) => {
@@ -119,13 +113,10 @@ class Messages extends Component {
                     typing: "",
                 })
             }
-            console.log(data);
         })
     }
 
     render() {
-
-        console.log("_______RENDER______");
 
         var sampleData = {
             message: {
