@@ -8,7 +8,7 @@ class IncomingMessage extends Component {
                 <div className="received_msg">
                     <div className="received_withd_msg">
                         <p>{message.content}</p>
-                        <span className="time_date">{message.created_at}</span></div>
+                        <span className="time_date">{/*message.created_at*/}</span></div>
                 </div>
             </div>
         );

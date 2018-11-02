@@ -136,6 +136,7 @@ img{ max-width:100%;}
 .msg_history {
   height: 420px;
   overflow-y: auto;
+
 }
 
 #sender-avatar {

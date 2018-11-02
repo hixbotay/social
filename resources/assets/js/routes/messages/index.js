@@ -9,7 +9,8 @@ import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getCafeDetail} from "../../actions/CafeActions";
 
-const socket = io('http://103.97.124.105:9327/');
+// const socket = io('http://103.97.124.105:9327/');
+const socket = io('http://localhost:9327/');
 
 class Messages extends Component {
 
@@ -30,10 +31,12 @@ class Messages extends Component {
             ],
             activeChat: 0,
             current_message: '',
+            typing: "",
+            typingStatus: false,
         };
 
         if (this.props.current_user.id){
-            var subcriber = {room_id: this.props.current_user.id};
+            var subcriber = {room_id: this.props.current_user.id, username: this.props.current_user.name};
             socket.emit('subscribe', subcriber);
         }
     }
@@ -45,12 +48,18 @@ class Messages extends Component {
     }
 
     typingMessage(evt){
+        var c11 = this.state.current_message;
         this.setState({
             current_message: evt.target.value
         }, () => {
-
         });
-        socket.emit('typing');
+
+        if (evt.target.value.length > 0){
+            socket.emit('typing', {to_id: [this.state.activeChat.id]});
+        }
+        if (evt.target.value.length === 0){
+            socket.emit('stop_typing');
+        }
     }
 
     emitMessage(){
@@ -60,7 +69,12 @@ class Messages extends Component {
             to_id: [this.state.activeChat.id],
             conversation_id: "",
         })
-        this.setState({current_message: ""});
+        this.setState({
+            current_message: "",
+        }, () => {
+            socket.emit('stop_typing');
+            this.setState({typing: ""});
+        });
     }
 
     componentDidMount(){
@@ -77,7 +91,6 @@ class Messages extends Component {
             })
         // Lang nghe xem co tin nhan moi khoong
         socket.on("new_message", (data) => {
-            console.log(data);
             this.state.conversation.push(
                 {
                     user_id: data.user_id,
@@ -92,7 +105,21 @@ class Messages extends Component {
         })
 
         socket.on('typing', (data) => {
-            console.log('typing ...');
+            if (data.user_id === this.state.activeChat.id){
+                this.setState({
+                    typing: data.username + " typing ..."
+                })
+            }
+            console.log(data);
+        })
+
+        socket.on('stop_typing', (data) => {
+            if (data.user_id === this.state.activeChat.id){
+                this.setState({
+                    typing: "",
+                })
+            }
+            console.log(data);
         })
     }
 
@@ -143,6 +170,21 @@ class Messages extends Component {
                                                     key={item.id}
                                                     message={lastMessage.message}
                                                     isActive={item.id === this.state.activeChat.id}
+                                                    changeActive={() => {this.setState({
+                                                        activeChat: item,
+                                                        conversation: [
+                                                            {
+                                                                user_id: this.props.current_user.id,
+                                                                content: 'Which is a new approach to have all solutions astrology under one roof.',
+                                                                created_at: '20-12-2018'
+                                                            },
+                                                            {
+                                                                user_id: this.props.current_user.id,
+                                                                content: 'Which is a new approach to have all solutions astrology under one roof.',
+                                                                created_at: '20-11-2018'
+                                                            }
+                                                        ]
+                                                    })}}
                                                 />
                                             )
                                         }
@@ -183,6 +225,7 @@ class Messages extends Component {
                                     })
                                 }
                             </div>
+                            <p>{this.state.typing}</p>
                             <div className="type_msg">
                                 <div className="input_msg_write">
                                     <input type="text"
@@ -193,6 +236,7 @@ class Messages extends Component {
                                            onChange={(evt) => this.typingMessage(evt)}
                                            onKeyPress={(evt) => this.enterMessage(evt)}
                                     />
+
                                     <button onClick={() => { this.emitMessage() }} className="msg_send_btn" type="button">
                                         <i className="fa fa-paper-plane-o" aria-hidden="true"></i>
                                     </button>
