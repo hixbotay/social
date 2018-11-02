@@ -9,7 +9,7 @@ import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getCafeDetail} from "../../actions/CafeActions";
 
-const socket = io('http://103.97.124.105:9327/');
+const socket = io('http://localhost:9327/');
 
 class Messages extends Component {
 
