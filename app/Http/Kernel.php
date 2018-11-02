@@ -59,5 +59,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => Middleware\AdminMiddleware::class,
         'verify' => Middleware\VerifyMiddleware::class,
+        'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,
     ];
 }

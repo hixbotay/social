@@ -16,6 +16,9 @@ class Couple extends Controller {
             $dismissUsers = [];
         }
 
+        // dismiss current user 
+        array_push($dismissUsers, $user->id);
+
         $query = $request->query->all();
         if(array_key_exists('q', $query)) {
             unset($query['q']);

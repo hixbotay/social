@@ -7,11 +7,22 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use ImageOptimizer;
+use \App\Notification;
 
 class User extends Controller
 {
     public function getCurrentUser() {
-        $user = Auth::user();
+        $user = \App\User::where('users.id', '=', Auth::id())
+            ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
+            ->select(DB::raw(
+                'users.*,
+                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+            ))
+            ->first();
+            
+        $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $user->id)->count();
 
         // check complete percentage
         $user->hasHobby = false;
@@ -24,6 +35,7 @@ class User extends Controller
         if($user->job) {
             $user->hasJob = true;
         }
+
         return json_encode($user);
     }
 
@@ -37,21 +49,21 @@ class User extends Controller
         return \App\Job::all();
     }
 
-    public function index(Request $request){
-        return array('code' => 200);
-    }
+    // public function index(Request $request){
+    //     return array('code' => 200);
+    // }
 
-    public function visitProfile(Request $request){
-        $data = $request->getContent();
-        $data = json_decode($data, true);
-        $data['created_at'] = $data['updated_at'] = date("Y-m-d H:i:s");
-        $result = \App\User::visitProfile($data);
-        if ($result){
-            return (array('message' => 'Thành công'));
-        }else{
-            return (array('message' => 'Không thành công'));
-        }
-    }
+    // public function visitProfile(Request $request){
+    //     $data = $request->getContent();
+    //     $data = json_decode($data, true);
+    //     $data['created_at'] = $data['updated_at'] = date("Y-m-d H:i:s");
+    //     $result = \App\User::visitProfile($data);
+    //     if ($result){
+    //         return (array('message' => 'Thành công'));
+    //     }else{
+    //         return (array('message' => 'Không thành công'));
+    //     }
+    // }
 
     /*
      * Function to like/love/follow ... profile
@@ -85,6 +97,15 @@ class User extends Controller
                 $newRelationship[$key] = $value;
             }          
             $relationship = \App\UserRelationship::create($newRelationship);
+            // create notification
+            Notification::insert([
+                'user_id' => $user_id,
+                'actor' => $from_user_id, // Auth::id()
+                'content' => "Đã bày tỏ cảm xúc dành cho bạn",
+                'type' => "relationship",
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
         }
         
         return $relationship;
@@ -101,9 +122,7 @@ class User extends Controller
                 'users.*, 
                 user_jobs.id AS job_id,
                 user_jobs.name AS job_name, 
-                education.name AS education_name,
-                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
-                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                education.name AS education_name'
             ))
             ->get();
 
@@ -151,6 +170,16 @@ class User extends Controller
             'visitor_id' => Auth::id(),
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
+        ]);
+        
+        // notify
+        Notification::insert([
+            'user_id' => $id,
+            'actor' => Auth::id(), 
+            'content' => "Đã ghé thăm trang cá nhân của bạn",
+            'type' => "visit",
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
 
         $result = [
@@ -283,8 +312,11 @@ class User extends Controller
         
         Storage::disk('local')->put('user'.$user->id.'/avatar/'.$filename, base64_decode($base64_image));
 
+        ImageOptimizer::optimize('storage/app/user'.$user->id.'/avatar/'.$filename);
+
         $user->avatar = 'storage/app/user'.$user->id.'/avatar/'.$filename;
         $user->save();
+
         return json_encode($user);
     }
 }

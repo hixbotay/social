@@ -297,8 +297,8 @@ Description: "HTML-template"
     top: 35px;
     right: -180px;
     padding: 0 0 70px 0; }
-    .control-icon .more-dropdown .view-all {
-      padding: 20px;
+    .control-icon .more-dropdown .view-all{
+      /* padding: 20px; */
       color: #fff; }
       .control-icon .more-dropdown .view-all:hover {
         color: #fff; }

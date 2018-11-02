@@ -25,9 +25,6 @@ Route::middleware(['web'])->group(function() {
     Route::post('post/like/{post_id}', 'Api\Post@like');
     Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
 
-    Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
-
-    Route::post('/event', 'Api\Event@create');
     Route::post('/event/{event_id}', 'Api\Event@joinEvent');
     
     Route::get('/events/around', 'Api\Event@listEventsAround');
@@ -37,7 +34,6 @@ Route::middleware(['web'])->group(function() {
     Route::get('/events/{status}', 'Api\Event@list');
     Route::get('/event/{event_id}', 'Api\Event@get');
     
-    
     Route::post('/invite/{event_id}', 'Api\Event@invite');
     Route::post('/invite/{event_id}/update', 'Api\Event@updateInvitation');
 
@@ -45,10 +41,20 @@ Route::middleware(['web'])->group(function() {
     Route::post('/couple/dismiss', 'Api\Couple@dismiss');
 
     Route::get('logout', 'Api\User@logout');
-    Route::post('/update-avatar', 'Api\User@updateAvatar');
-
+    
     Route::get('/posts', 'Api\Post@list');
+
+    Route::get('/notifications', 'Api\Notification@list');
+    Route::post('/notifications/all', 'Api\Notification@markAllAsRead');
+    Route::post('/notification/{id}', 'Api\Notification@markRead');
+    Route::get('/notifications/count-unread', 'Api\Notification@countUnread');
+});
+
+Route::middleware(['web', 'optimizeImages'])->group(function() {
+    Route::post('/update-avatar', 'Api\User@updateAvatar');
     Route::post('/post', 'Api\Post@createPost');
+    Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
+    Route::post('/event', 'Api\Event@create');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

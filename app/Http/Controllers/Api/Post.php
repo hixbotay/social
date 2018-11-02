@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use \App\Notification;
 
 class Post extends Controller
 {
@@ -19,7 +20,7 @@ class Post extends Controller
             ->having('from_user_id', '=', $user_id)
             ->get();
 
-        $friend_id_arr = [];
+        $friend_id_arr = [$user_id];
         foreach($friends as $friend) {
             array_push($friend_id_arr, $friend->id);
         }
@@ -41,7 +42,7 @@ class Post extends Controller
             ->leftjoin('user_photos', 'user_photos.id', '=', 'post_photos.photo_id')
             ->select('users.name AS author', 'users.avatar AS author_avatar', 'posts.*', 'user_photos.id AS photo_id', 'user_photos.source')
             ->orderBy('id', 'DESC')
-            ->having('posts.user_id', '=', $user_id)
+            ->having('posts.user_id', '=', Auth::id())
             ->get();
         
         return json_encode($result);
@@ -163,6 +164,30 @@ class Post extends Controller
             $post->photo_id = $photo->id;
             $post->source = $photo->source;
         }
+
+        // Notify to person who follows the author
+        $followers = DB::table('user_relationship')
+            ->where('is_loved', '=', 1)
+            ->orWhere('is_like', '=', 1)
+            ->having('to_user_id', '=', $user_id)
+            ->get();
+
+        $notifications = [];
+        foreach($followers as $follower) {
+            array_push(
+                $notifications, 
+                [
+                    'user_id' => $follower->from_user_id,
+                    'actor' => $user_id, // Auth::id()
+                    'content' => "Đã đăng status mới",
+                    'type' => "status",
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]
+            );
+        }
+        Notification::insert($notifications);
+
         return json_encode($post);
     }
 }

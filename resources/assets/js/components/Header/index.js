@@ -3,16 +3,24 @@ import {Link} from 'react-router-dom';
 import ListItem from '../../components/Notification/ListItem';
 import {logout} from '../../actions/UserActions';
 import {connect} from 'react-redux';
+import {Card} from '../Card';
+import {markAllAsRead, getUnreadNumber}  from '../../actions/NotificationActions';
 
 class Header extends Component {
+    constructor() {
+        super();
+        this.state = {
+            unreadNumber: 0
+        }
+    }
+
+    componentDidMount() {
+        this.props.getUnreadNumber().then(data => {
+            this.setState({unreadNumber: data})
+        });
+    }
 
     render() {
-        const notification = {
-            img: "https://www.w3schools.com/w3images/avatar2.png",
-            heading: "Hello World",
-            content: "bdjs adjshd jhsdgjs dsjahdjsd djsjhdjsdj"
-        }
-        
         return (
             <header className="header" id="site-header">
                 <div className="header-content-wrapper">
@@ -39,48 +47,48 @@ class Header extends Component {
                         <div className="control-icon more has-items">
                             <a href={`${baseUrl}/friends/like-you`}>
                                 <i className="fas fa-thumbs-up"></i>
-                                <div className="label-avatar bg-blue">6</div>
                             </a>
                         </div>
 
                         <div className="control-icon more has-items">
                             <a href={`${baseUrl}/friends/visited`}>
                                 <i className="fas fa-eye"></i>
-                                <div className="label-avatar bg-blue">6</div>
                             </a>
                         </div>
 
                         <div className="control-icon more has-items">
                             <a href={`${baseUrl}/friends/you-like`}>
                                 <i className="fas fa-heart"></i>
-                                <div className="label-avatar bg-blue">6</div>
                             </a>
                         </div>
                                     
                         {/* Notifications */}
                         <div className="control-icon more has-items">
                             <i className="fa fa-bell"></i>
-                            <div className="label-avatar bg-blue">6</div>
+                            {
+                                this.state.unreadNumber ? (
+                                    <div className="label-avatar bg-blue">{this.state.unreadNumber}</div>
+                                ) : null
+                            }
 
                             <div className="more-dropdown more-with-triangle triangle-top-center">
-                                <div className="mCustomScrollbar" data-mcs-theme="dark">
-                                    <ul className="list-group">
-                                        <li className="list-group-item list-group-item-info">
-                                            List-group-item list-group-item-info
-                                        </li>
-                                        <li className="list-group-item list-group-item-info">
-                                            List-group-item list-group-item-info
-                                        </li>
-                                        <li className="list-group-item list-group-item-info">
-                                            List-group-item list-group-item-info
-                                        </li>
-                                        <li className="list-group-item list-group-item-info">
-                                            List-group-item list-group-item-info
-                                        </li>
-                                    </ul>
+                                <Card className="notification-list">
+                                    <div className="mCustomScrollbar" data-mcs-theme="dark">
+                                        {
+                                            this.props.notifications.map((item, index) => {
+                                                return (
+                                                    <ListItem
+                                                        notification={item}
+                                                        key={index}
+                                                    />
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </Card>
+                                <div className="view-all bg-blue" onClick={() => this.props.markAllAsRead()}>
+                                    Check all your Events
                                 </div>
-
-                                <a href="#" className="view-all bg-blue">Check all your Events</a>
                             </div>
                         </div>
 
@@ -162,8 +170,17 @@ class Header extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        logout: () => dispatch(logout())
+        logout: () => dispatch(logout()),
+        markAllAsRead: () => dispatch(markAllAsRead()),
+        getUnreadNumber: () => dispatch(getUnreadNumber())
     }
 }
 
-export default connect(null, mapDispatchToProps)(Header);
+function mapStateToProps(state) {
+    return {
+        notifications: state.notification.notifications,
+        unreadNumber: state.notification.unreadNumber 
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

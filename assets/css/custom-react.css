@@ -829,3 +829,18 @@ button.slick-arrow {
 .slick-prev:before, .slick-next:before {
     font-size: xx-large !important;
 }
+
+.notification-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: auto;
+}
+
+.notification-list-item {
+    cursor: pointer;
+}
+
+.notification-list {
+    z-index: 1000;
+}

@@ -53,3 +53,9 @@ export const JOIN_EVENT = 'JOIN_EVENT';
 export const GET_EVENT_DETAIL = 'GET_EVENT_DETAIL';
 export const GET_INVITED_EVENTS = 'GET_INVITED_EVENTS';
 export const INVITE_INTO_EVENT = 'INVITE_INTO_EVENT';
+
+// notification
+export const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';
+export const MARK_READ = 'MARK_READ';
+export const MARK_ALL_AS_READ = 'MARK_ALL_AS_READ';
+export const GET_UNREAD_NUMBER = 'GET_UNREAD_NUMBER';

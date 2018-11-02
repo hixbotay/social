@@ -76,7 +76,7 @@ class ProfileLayout extends Component {
 
                             <div className="author-date">
                                 <Heading heading={this.props.heading} subHeading={this.props.subHeading} size='medium'></Heading>
-                                <InformationNumber likeNumber={100} viewNumber={200} heartNumber={300}></InformationNumber>
+                                <InformationNumber likeNumber={user.likeNumber} viewNumber={user.viewNumber} heartNumber={user.loveNumber}></InformationNumber>
                             </div>
                         </div>
                     </CardWithIcon>

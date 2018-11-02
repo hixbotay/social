@@ -9,6 +9,7 @@ import eventReducer from './EventReducer';
 import jobReducer from './JobReducer';
 import addressReducer from './AddressReducer';
 import educationReducer from './EducationReducer';
+import notificationReducer from './NotificationReducer';
 
 const rootReducer = combineReducers({
     post: postReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
     event: eventReducer, 
     job: jobReducer,
     address: addressReducer,
-    education: educationReducer
+    education: educationReducer,
+    notification: notificationReducer
 });
 
 export default rootReducer;

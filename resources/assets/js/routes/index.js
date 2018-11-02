@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
 
 // css file
@@ -7,7 +8,6 @@ import "../../../../assets/css/bootstrap.css";
 import "../../../../assets/css/bootstrap-grid.css";
 import "../../../../assets/css/react-main.css";
 import "../../../../assets/css/custom-react.css";
-// import "../../../../../assets/css/fonts.css";
 import "../../../../assets/fonts/fontawesome-all";
 import '../../../../assets/css/chat.css';
 
@@ -29,9 +29,6 @@ import FriendsLikeYou from './relationship/FriendsLikeYou';
 import FriendsYouLike from './relationship/FriendsYouLike';
 import FriendsVisited from './relationship/FriendsVisited';
 import SearchResults from './couple/SearchResults';
-import OtherPerson from './profile/OtherUserProfile';
-import {connect} from 'react-redux';
-import {getCurrentUser} from '../actions/UserActions';
 import CreateEvent from './dating/CreateEvent';
 import CafeDetail from './cafe/CafeDetail';
 import CafeList from './cafe/CafeList';
@@ -40,6 +37,10 @@ import ListInvitationDating from './dating/ListInvitationDating';
 import DatingDetail from './dating/DatingDetail';
 import DatingResult from './dating/DatingResult';
 import SearchResult from './cafe/SearchResult';
+
+//action
+import {getCurrentUser} from '../actions/UserActions';
+import {getNotifications} from '../actions/NotificationActions';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -56,6 +57,7 @@ class MainApp extends Component {
     
     componentDidMount() {
         this.props.getCurrentUser();
+        this.props.getNotifications(1);
     }
 	
 	render() {
@@ -114,13 +116,14 @@ class MainApp extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCurrentUser: () => dispatch(getCurrentUser())
+        getCurrentUser: () => dispatch(getCurrentUser()),
+        getNotifications: (page) => dispatch(getNotifications(page)),
     }
 }
 
 function mapStateToProps(state) {
     return {
-        user: state.user.current_user
+        user: state.user.current_user,
     };
 }
 
