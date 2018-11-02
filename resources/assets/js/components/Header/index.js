@@ -72,8 +72,8 @@ class Header extends Component {
                             }
 
                             <div className="more-dropdown more-with-triangle triangle-top-center">
-                                <Card className="notification-list">
-                                    <div className="mCustomScrollbar" data-mcs-theme="dark">
+                                <div className="notification-list">
+                                    {/* <div className="mCustomScrollbar" data-mcs-theme="dark"> */}
                                         {
                                             this.props.notifications.map((item, index) => {
                                                 return (
@@ -84,8 +84,8 @@ class Header extends Component {
                                                 )
                                             })
                                         }
-                                    </div>
-                                </Card>
+                                    {/* </div> */}
+                                </div>
                                 <div className="view-all bg-blue" onClick={() => this.props.markAllAsRead()}>
                                     Check all your Events
                                 </div>

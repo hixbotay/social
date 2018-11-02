@@ -21,7 +21,8 @@ class User extends Controller
                 SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
             ))
             ->first();
-            
+        $user->loveNumber = (int) $user->loveNumber;
+        $user->likeNumber = (int) $user->likeNumber;
         $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $user->id)->count();
 
         // check complete percentage

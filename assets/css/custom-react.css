@@ -837,12 +837,20 @@ button.slick-arrow {
     bottom: auto;
 }
 
-.notification-list-item {
+.notification-list-item, .view-all {
     cursor: pointer;
+}
+
+.notification-list-item {
+    padding: 0 15px;
 }
 
 .notification-list {
     z-index: 1000;
+}
+
+.notification-list-item.active {
+    background: aliceblue;
 }
 
 .chat_people {

@@ -41,8 +41,8 @@ class ListItem extends Component {
         
 
         return (
-            <div className="notification-list-item" onClick={() => this.handleNotification()}>
-                <div className={`row ${this.state.isRead ? "" : "active"}`}>
+            <div className={`notification-list-item ${this.state.isRead ? "" : "active"}`} onClick={() => this.handleNotification()}>
+                <div className="row">
                     <div className="col-3">
                         <RoundAvatar img={notification.actor_avatar} size="medium"></RoundAvatar>
                     </div>
@@ -53,10 +53,10 @@ class ListItem extends Component {
                             <i className="fas fa-heart"></i>
                         </div>
                     </div>
-                    
                 </div>
                 <hr />
             </div>
+            
         );
     }
 }
