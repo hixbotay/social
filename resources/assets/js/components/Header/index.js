@@ -7,17 +7,9 @@ import {Card} from '../Card';
 import {markAllAsRead, getUnreadNumber}  from '../../actions/NotificationActions';
 
 class Header extends Component {
-    constructor() {
-        super();
-        this.state = {
-            unreadNumber: 0
-        }
-    }
 
     componentDidMount() {
-        this.props.getUnreadNumber().then(data => {
-            this.setState({unreadNumber: data})
-        });
+        this.props.getUnreadNumber();
     }
 
     render() {
@@ -66,8 +58,8 @@ class Header extends Component {
                         <div className="control-icon more has-items">
                             <i className="fa fa-bell"></i>
                             {
-                                this.state.unreadNumber ? (
-                                    <div className="label-avatar bg-blue">{this.state.unreadNumber}</div>
+                                this.props.unreadNumber ? (
+                                    <div className="label-avatar bg-blue">{this.props.unreadNumber}</div>
                                 ) : null
                             }
 

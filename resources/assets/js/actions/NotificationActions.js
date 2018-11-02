@@ -23,11 +23,15 @@ export const markAllAsRead = () => dispatch => {
 }
 
 export const markRead = (id) => dispatch => {
-    api.get(`/notification/${id}`).then(response => {
-        dispatch({type: MARK_READ});
-    }).catch(err => {
-        console.log(err);
-    })
+    return new Promise((resolve, reject) => {
+        api.post(`/notification/${id}`).then(response => {
+            dispatch({type: MARK_READ});
+            resolve(response.data);
+        }).catch(err => {
+            console.log(err);
+            reject(err);
+        })
+    });
 }
 
 export const getUnreadNumber = () => (dispatch) => {

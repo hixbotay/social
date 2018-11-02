@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import { RoundAvatar } from '../Avatar';
 
 import {markRead} from '../../actions/NotificationActions';
+import {UPDATE_UNREAD_NUMBER} from '../../actions/types';
 
 class ListItem extends Component {
     constructor(props) {
@@ -15,25 +16,30 @@ class ListItem extends Component {
     }
 
     handleNotification() {
-        this.props.markRead(this.props.notification.id);
+        this.props.markRead(this.props.notification.id).then(data => {
+            this.props.updateUnreadNumber();
+            this.setState({isRead: true});
+            
+            var link = '#';
+            switch (this.props.notification.type) {
+                case 'visit': {
+                    link = '/friends/visited';
+                    break;
+                }
+                case 'status': {
+                    link = `/profile/${this.props.notification.actor_id}`;
+                    break;
+                }
+                case 'relationship': {
+                    link = '/friends/like-you';
+                    break;
+                }
+            }
 
-        var link = '#';
-        switch (this.props.notification.type) {
-            case 'visit': {
-                link = '/friends/visited';
-                break;
-            }
-            case 'status': {
-                link = `/profile/${this.props.notification.actor_id}`;
-                break;
-            }
-            case 'relationship': {
-                link = '/friends/like-you';
-                break;
-            }
-        }
+            this.props.history.push(link);
+        });
 
-        this.props.history.push(link);
+        
     }
 
     render() {
@@ -63,7 +69,8 @@ class ListItem extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        markRead: () => dispatch(markRead())
+        markRead: (id) => dispatch(markRead(id)),
+        updateUnreadNumber: () => dispatch({type: UPDATE_UNREAD_NUMBER})
     }
 }
 
