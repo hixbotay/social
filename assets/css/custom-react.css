@@ -842,7 +842,7 @@ button.slick-arrow {
 }
 
 .notification-list-item {
-    padding: 0 15px;
+    padding: 15px 15px 0px;
 }
 
 .notification-list {
@@ -850,11 +850,14 @@ button.slick-arrow {
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 300px;
-    padding-top: 15px!important;
 }
 
 .notification-list-item.active {
     background: aliceblue;
+}
+
+.notification-list-item hr {
+    margin-bottom: 0px;
 }
 
 .chat_people {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createPost, getAllPosts } from '../../actions/PostActions';
 import { cleanObject } from '../../helper/function';
+import ImageCompressor from 'image-compressor.js';
 
 class CreatePostForm extends Component {
     constructor(props) {
@@ -53,20 +54,25 @@ class CreatePostForm extends Component {
         var component = this;
         var file = event.target.files[0];
 
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            console.log(component.state);
-            component.setState({ 
-                newPost: {
-                    ...component.state.newPost,
-                    image: reader.result
-                }
-            });
-        };
-        reader.onerror = function (error) {
-            window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
-        };
+        new ImageCompressor(file, {
+            quality: 0.6,
+            convertSize: 400000,
+            success(result) {
+                var reader = new FileReader();
+                reader.readAsDataURL(result);
+                reader.onload = function () {
+                    component.setState({ 
+                        newPost: {
+                            ...component.state.newPost,
+                            image: reader.result
+                        }
+                    });
+                };
+                reader.onerror = function (error) {
+                    window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
+                };
+            }
+        });
     }
 
     removeImage() {

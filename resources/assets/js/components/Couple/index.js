@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {Card, CardWithIcon} from '../Card';
 import InformationNumber from '../Information/InformationNumber';
-import SimpleSlider from '../Slider/SimpleSlider';
+import Slider from "react-slick";
 import CircleButton from '../Button/CircleButton';
 import {Link} from 'react-router-dom';
+import Image from 'react-image-resizer';
 
 class CoupleView extends Component {
     constructor(props) {
@@ -47,6 +48,17 @@ class CoupleView extends Component {
 
     render() {
         const {item} = this.props;
+
+        var settings = {
+            accessibility: true,
+            dots: false,
+            infinite: false,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true
+        };
+
         var defaultImages = [
             'http://www.lebenshilfe-sz.de/wp-content/uploads/2017/01/noimg.jpg'
         ];
@@ -60,7 +72,17 @@ class CoupleView extends Component {
                     <div className="row">
                         <div className="col-8 couple-img-slider">
                             <div>
-                                <SimpleSlider slidesToShow={1} images={images}></SimpleSlider>
+                                <Slider {...settings}>
+                                {
+                                    images.map((item, index) => {
+                                        return (
+                                            <div key={index} className="custom-slider-item">
+                                                <Image src={item} width={580} height={400}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                </Slider>
                             </div>
                             
                             <div className="couple-button">

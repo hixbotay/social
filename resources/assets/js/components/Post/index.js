@@ -41,6 +41,13 @@ class Post extends Component {
 
     render() {
         const {post} = this.props;
+
+        const style = {
+            image: {
+              border: '1px solid #ccc',
+              background: '#fefefe',
+            },
+          };
         
         return (
             <article className="hentry post">
@@ -61,14 +68,14 @@ class Post extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="post-photo">
-                    {post.photo_id ? <img src={post.source} /> : null}
-                </div>
                 <p>
                     {post.content}
                 </p>
+                <div className="post-photo">
+                    {post.photo_id ? <img src={post.source}/> : null}
+                </div>
                 <div className="row">
-                    <div className="col">
+                    <div className="col text-center">
                         <CircleButton 
                             icon="fas fa-heart" 
                             name='love' 
@@ -76,7 +83,7 @@ class Post extends Component {
                             action={() => this.changeReaction('love', post.id)}
                         ></CircleButton>
                     </div>
-                    <div className="col">
+                    <div className="col text-center">
                         <CircleButton 
                             icon="fas fa-thumbs-up"
                             name='like' 
@@ -84,10 +91,10 @@ class Post extends Component {
                             action={() => this.changeReaction('like', post.id)}
                         ></CircleButton>
                     </div>
-                    <div className="col">
+                    <div className="col text-center">
                         <CircleButton icon="fas fa-comment"></CircleButton>
                     </div>
-                    <div className="col">
+                    <div className="col text-center">
                         <CircleButton icon="fas fa-times"></CircleButton>
                     </div>
                 </div>

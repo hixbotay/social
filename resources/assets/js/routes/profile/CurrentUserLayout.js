@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import ImageCompressor from 'image-compressor.js';
 import {Card, CardWithIcon, CardWithTitle} from '../../components/Card';
 import {RoundAvatar} from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
@@ -39,14 +40,23 @@ class ProfileLayout extends Component {
         var component = this;
         var file = event.target.files[0];
 
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            component.props.updateAvatar({ image: reader.result });
-        };
-        reader.onerror = function (error) {
-            window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
-        };
+        // optimizer image upload
+        new ImageCompressor(file, {
+            quality: 0.6,
+            convertSize: 400000,
+            success(result) {
+                var reader = new FileReader();
+                reader.readAsDataURL(result);
+                reader.onload = function () {
+                    component.props.updateAvatar({ image: reader.result });
+                };
+                reader.onerror = function (error) {
+                    window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
+                };
+            }
+        });
+
+        
     }
     
     render() {

@@ -6,6 +6,7 @@ import connect from 'react-redux/es/connect/connect';
 import { getCafeDetail, updateImage } from '../../actions/CafeActions';
 import { withRouter } from 'react-router-dom';
 import SimpleSlider from '../../components/Slider/SimpleSlider';
+import ImageCompressor from 'image-compressor.js';
 
 class CafeDetail extends Component {
     constructor(props) {
@@ -28,14 +29,20 @@ class CafeDetail extends Component {
         var component = this;
         var file = event.target.files[0];
 
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            component.props.updateCafeImage({ image: reader.result, type: type }, component.props.match.params.id);
-        };
-        reader.onerror = function (error) {
-            window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
-        };
+        new ImageCompressor(file, {
+            quality: 0.6,
+            convertSize: 400000,
+            success(result) {
+                var reader = new FileReader();
+                reader.readAsDataURL(result);
+                reader.onload = function () {
+                    component.props.updateCafeImage({ image: reader.result, type: type }, component.props.match.params.id);
+                };
+                reader.onerror = function (error) {
+                    window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
+                };
+            }
+        });
     }
 
     render() {

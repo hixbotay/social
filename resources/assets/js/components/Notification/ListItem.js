@@ -56,7 +56,7 @@ class ListItem extends Component {
         var icon = 'fas fa-heart';
         switch (this.props.notification.type) {
             case 'visit': {
-                icon = "far fa-eye";
+                icon = "fas fa-eye";
                 break;
             }
             case 'status': {
