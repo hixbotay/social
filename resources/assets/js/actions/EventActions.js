@@ -10,7 +10,8 @@ import {
     CREATE_NEW_EVENT,
     JOIN_EVENT,
     GET_EVENT_DETAIL,
-    INVITE_INTO_EVENT
+    INVITE_INTO_EVENT,
+    SEARCH_EVENTS
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -114,4 +115,14 @@ export const updateInvitation = (event_id, data) => (dispatch) => {
         console.log(err);
         window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
     })
+}
+
+export const searchEvent = (filter_string) => (dispatch) => {
+    return api.get(`/event/search?${filter_string}`)
+        .then(response => {
+            dispatch({type: SEARCH_EVENTS, payload: response.data.data});
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }

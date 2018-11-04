@@ -491,6 +491,7 @@ class Event extends Controller {
                 agency.address as address, 
                 agency_photos.source as address_avatar
             '))
+            ->orderBy('start_time', 'DESC')
             ->paginate(10);
 
         $events_id = [];
@@ -532,45 +533,137 @@ class Event extends Controller {
 
     public function search(Request $request) {
         $data = $request->all();
+
+        // search from event_meta
         $temp_1 = array_key_exists('marital_status', $data);
         $temp_2 = array_key_exists('job_conditional', $data);
 
         if($temp_1 && $temp_2) {
-            $results = DB::select("SELECT event_id FROM event_meta WHERE event_id IN 
-                    (SELECT event_id FROM event_meta WHERE meta_key = 'marital_status' AND meta_value = ?
-                    AND meta_key = 'job_conditional' AND meta_value = ?)", [$data['marital_status'], $data['job_conditional']]);
+            $results = DB::select("SELECT DISTINCT event_id FROM event_meta WHERE event_id IN 
+                    (SELECT event_id FROM event_meta WHERE meta_key = 'marital_status' AND meta_value = ? )
+                    AND meta_key = 'job_conditional' AND meta_value = ?", [$data['marital_status'], $data['job_conditional']]);
         } else if ($temp_1) {
             $results = DB::select("SELECT event_id FROM event_meta WHERE meta_key = 'marital_status' AND meta_value = ?", [$data['marital_status']]);
         } else if ($temp_2) {
             $results = DB::select("SELECT event_id FROM event_meta WHERE meta_key = 'job_conditional' AND meta_value = ?", [$data['job_conditional']]);
         } else {
-            $results = [];
+            $results = null;
         }
 
         unset($data['marital_status']);
         unset($data['job_conditional']);
 
-        $event_id = [];
-        foreach($results as $item) {
-            array_push($event_id, $item->event_id);
+        if($results !== null) {
+            $event_id = [];
+            foreach($results as $item) {
+                array_push($event_id, $item->event_id);
+            }
         }
 
+        // search from agency
         $cafe_id = [];
-        if($data['province_id'] && $data['district_id']) {
+        if(array_key_exists('province_id', $data) && array_key_exists('district_id', $data)) {
             $cafes = \App\Agency::select(['id'])->where(['province_id' => $data['province_id'], 'district_id' => $data['district_id']])->get();
             foreach($cafes as $item) {
                 array_push($cafe_id, $item->id);
             }
+        } else {
+            return json_encode(['error' => "Mising province and district"]);
         }
             
-        if(count($event_id)) {
-            $events = DB::table('events')
-                        ->whereIn('id', $event_id)
-                        ->whereIn('agency_id', $cafe_id)
-                        ->get();
+        unset($data['province_id']);
+        unset($data['district_id']);
+
+        if($results !== null) {
+            $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+                ->leftjoin('event_register', function ($join) {
+                    $join->on('events.id', '=', 'event_register.event_id');
+                    $join->on(function($query) {
+                        $query->where('user_id', '=', Auth::id());
+                    });
+                })
+                ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+                ->leftjoin('agency_photos', function ($join) {
+                    $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                    $join->on(function($query) {
+                        $query->where('agency_photos.type', '=', 'avatar'); 
+                    });
+                })
+                ->where($data)
+                ->whereIn('events.id', $event_id)
+                ->whereIn('events.agency_id', $cafe_id)
+                ->select(DB::raw('
+                    events.*, 
+                    (CASE event_register.user_id WHEN '.Auth::id().' THEN 1 ELSE 0 END) AS is_joined,
+                    users.name as creator_name, 
+                    users.avatar as creator_avatar, 
+                    agency.address as address, 
+                    agency_photos.source as address_avatar
+                '))
+                ->orderBy('start_time', 'DESC')
+                ->paginate(10);
         } else {
-            $events = DB::table('events')::whereIn('agency_id', $cafe_id)->get();
+            $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+                ->leftjoin('event_register', function ($join) {
+                    $join->on('events.id', '=', 'event_register.event_id');
+                    $join->on(function($query) {
+                        $query->where('user_id', '=', Auth::id());
+                    });
+                })
+                ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+                ->leftjoin('agency_photos', function ($join) {
+                    $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                    $join->on(function($query) {
+                        $query->where('agency_photos.type', '=', 'avatar'); 
+                    });
+                })
+                ->where($data)
+                ->whereIn('events.agency_id', $cafe_id)
+                ->select(DB::raw('
+                    events.*, 
+                    (CASE event_register.user_id WHEN '.Auth::id().' THEN 1 ELSE 0 END) AS is_joined,
+                    users.name as creator_name, 
+                    users.avatar as creator_avatar, 
+                    agency.address as address, 
+                    agency_photos.source as address_avatar
+                '))
+                ->orderBy('start_time', 'DESC')
+                ->paginate(10);
         }
+
+        $events_id = [];
+        foreach($events as $key => $event) {
+            array_push($events_id, $event->id);
+        }
+
+        $event_meta = DB::table('event_meta')
+                    ->whereIn('event_id', $events_id)
+                    ->leftJoin('user_jobs', function($join) {
+                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
+                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
+                    })
+                    ->get();
+
+        $events->map( function ($event, $key) use ($event_meta) {
+            $job = [];
+            $marital_status = [];
+            foreach($event_meta as $metadata) {
+                if($metadata->event_id == $event->id) {
+                    $key = $metadata->meta_key;
+
+                    if($key == 'job_conditional') {
+                        array_push($job, $metadata->name);
+                    } else if($key == 'marital_status') {
+                        array_push($marital_status, $metadata->meta_value);
+                    } else {
+                        $event[$key] = $metadata->meta_value;
+                    }
+
+                    $event['job'] = $job;
+                    $event['marital_status'] = $marital_status;
+                }
+            }
+        });
 
         return json_encode($events);
     }

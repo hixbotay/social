@@ -16,13 +16,17 @@ export const getAllProvinces = () => (dispatch) => {
 }
 
 export const getAllDistricts = (province_id) => (dispatch) => {
-    api.get(`/districts/${province_id}`)
+    return new Promise((resolve, reject) => {
+        api.get(`/districts/${province_id}`)
         .then(response => {
+            resolve(response.data);
             dispatch({type: GET_ALL_DISTRICTS, payload: response.data});
         })
         .catch(err => {
+            reject(err);
             console.log(err);
         })
+    })
 }
 
 export const getAllCommunes = (district_id) => (dispatch) => {

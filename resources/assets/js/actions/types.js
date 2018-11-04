@@ -53,6 +53,7 @@ export const JOIN_EVENT = 'JOIN_EVENT';
 export const GET_EVENT_DETAIL = 'GET_EVENT_DETAIL';
 export const GET_INVITED_EVENTS = 'GET_INVITED_EVENTS';
 export const INVITE_INTO_EVENT = 'INVITE_INTO_EVENT';
+export const SEARCH_EVENTS = 'SEARCH_EVENTS';
 
 // notification
 export const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';

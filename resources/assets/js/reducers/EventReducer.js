@@ -9,7 +9,8 @@ import {
     CREATE_NEW_EVENT,
     JOIN_EVENT,
     GET_EVENT_DETAIL,
-    INVITE_INTO_EVENT
+    INVITE_INTO_EVENT,
+    SEARCH_EVENTS
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -25,7 +26,8 @@ const INIT_STATE = {
     aroundEvents:  [],
     eventsHasYourCrush: [],
     newEvent: {},
-    invitedEvents: []
+    invitedEvents: [],
+    results: []
 }
 
 export default (state=INIT_STATE, action) => {
@@ -62,6 +64,9 @@ export default (state=INIT_STATE, action) => {
         // }
         case GET_INVITED_EVENTS: {
             return {...state, invitedEvents: action.payload}
+        }
+        case SEARCH_EVENTS: {
+            return {...state, results: action.payload}
         }
         default: {
             return {...state}
