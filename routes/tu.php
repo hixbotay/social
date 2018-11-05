@@ -38,3 +38,6 @@ Route::get('chat/list', function (){
     )->get();
     return $list;
 });
+
+Route::get('chat/hello', 'Api\Chat@hello');
+Route::post('chat/conversation/create', 'Api\Chat@createConversation');

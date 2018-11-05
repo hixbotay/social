@@ -4,13 +4,15 @@ import MessageItem from '../../components/Message/MessageItem';
 import IncomingMessage from '../../components/Message/IncomingMessage';
 import OutgoingMessage from '../../components/Message/OutgoingMessage';
 import io from 'socket.io-client';
-import {getListChat} from "../../actions/MessageActions";
+import {getListChat, createConversation, DanhSach} from "../../actions/MessageActions";
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getCafeDetail} from "../../actions/CafeActions";
+import axios from 'axios';
+import chatApi from "../../api/chat";
 
-const socket = io('http://103.97.124.105:9327/');
-// const socket = io('http://localhost:9327/');
+// const socket = io('http://chat.noiduyen.vn:443/');
+const socket = io('http://chat.noiduyen.vn:443/');
 
 class Messages extends Component {
 
@@ -73,6 +75,24 @@ class Messages extends Component {
     }
 
     componentDidMount(){
+
+        // axios.get('https://cors-anywhere.herokuapp.com/http://chat.noiduyen.vn/hello')
+        //     .then(response => {
+        //         console.log(response);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
+
+        // fetch('http://chat.noiduyen.vn/hello')
+        //     .then(function(response) {
+        //         return response.json()
+        //     }).then(function(json) {
+        //     console.log('parsed json', json)
+        // }).catch(function(ex) {
+        //     console.log('parsing failed', ex)
+        // })
+
         this.props.getListChat()
             .then(response => {
                 for (let i = 0; i < response.length; i++ ){
@@ -80,6 +100,16 @@ class Messages extends Component {
                         this.setState({
                             activeChat: response[i]
                         })
+
+                        this.props.createConversation({
+                            name: this.state.activeChat + "_" + this.props.current_user.id,
+                            creator_id: this.props.current_user.id,
+                            user: [this.props.current_user.id, this.state.activeChat.id]
+                        })
+                            .then(response => {
+                                console.log(response);
+                            })
+
                         break;
                     }
                 }
@@ -161,19 +191,15 @@ class Messages extends Component {
                                                     key={item.id}
                                                     message={lastMessage.message}
                                                     isActive={item.id === this.state.activeChat.id}
+                                                    unRead={false}
                                                     changeActive={() => {this.setState({
                                                         activeChat: item,
                                                         conversation: [
                                                             {
                                                                 user_id: this.props.current_user.id,
-                                                                content: 'Which is a new approach to have all solutions astrology under one roof.',
+                                                                content: 'Connect friend :)',
                                                                 created_at: '20-12-2018'
                                                             },
-                                                            {
-                                                                user_id: this.props.current_user.id,
-                                                                content: 'Which is a new approach to have all solutions astrology under one roof.',
-                                                                created_at: '20-11-2018'
-                                                            }
                                                         ]
                                                     })}}
                                                 />
@@ -252,6 +278,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getListChat: (id) => dispatch(getListChat()),
+        createConversation: (data) => dispatch(createConversation(data)),
+        DanhSach: (id) => dispatch(DanhSach()),
     }
 }
 
