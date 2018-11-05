@@ -4,7 +4,7 @@ import {
 import api from '../api';
 import chatApi from '../api/chat';
 
-var chatURL = 'https://cors-anywhere.herokuapp.com/http://chat.noiduyen.vn/';
+var chatURL = 'http://chat.noiduyen.vn/';
 
 export const getListChat = () => (dispatch) => {
     return new Promise((resolve, reject) => {
