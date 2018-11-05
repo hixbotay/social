@@ -4,7 +4,12 @@ import MessageItem from '../../components/Message/MessageItem';
 import IncomingMessage from '../../components/Message/IncomingMessage';
 import OutgoingMessage from '../../components/Message/OutgoingMessage';
 import io from 'socket.io-client';
-import {getListChat, createConversation, DanhSach} from "../../actions/MessageActions";
+import {
+    getListChat,
+    createConversation,
+    DanhSach,
+    changeListChast
+} from "../../actions/MessageActions";
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getCafeDetail} from "../../actions/CafeActions";
@@ -26,7 +31,7 @@ class Messages extends Component {
                     created_at: '20-12-2018'
                 },
             ],
-            activeChat: 0,
+            activeChat: {},
             current_message: '',
             typing: "",
             typingStatus: false,
@@ -74,6 +79,33 @@ class Messages extends Component {
         });
     }
 
+    changeActive(item){
+        if (!item.conversation_id) {
+            this.props.createConversation({
+                name: this.state.activeChat + "_" + this.props.current_user.id,
+                creator_id: this.props.current_user.id,
+                user: [this.props.current_user.id, this.state.activeChat.id]
+            })
+                .then(response => {
+                    console.log(response);
+                    for(let i = 0; i < this.prop.chatList; i ++){
+
+                    }
+                })
+            this.setState({
+                activeChat: item,
+                conversation: [
+                    {
+                        user_id: this.props.current_user.id,
+                        content: 'Connect friend :)',
+                        created_at: '20-12-2018'
+                    },
+                ]
+            })
+        }
+
+    }
+
     componentDidMount(){
 
         // axios.get('https://cors-anywhere.herokuapp.com/http://chat.noiduyen.vn/hello')
@@ -84,31 +116,26 @@ class Messages extends Component {
         //         console.log(err);
         //     })
 
-        // fetch('http://chat.noiduyen.vn/hello')
-        //     .then(function(response) {
-        //         return response.json()
-        //     }).then(function(json) {
-        //     console.log('parsed json', json)
-        // }).catch(function(ex) {
-        //     console.log('parsing failed', ex)
-        // })
+        fetch('http://chat.noiduyen.vn/hello')
+            .then(function(response) {
+                return response.json()
+            }).then(function(json) {
+            console.log('parsed json', json)
+        }).catch(function(ex) {
+            console.log('parsing failed', ex)
+        })
 
         this.props.getListChat()
             .then(response => {
+                console.log(" V a n t u = ");
                 for (let i = 0; i < response.length; i++ ){
                     if (response[i].id !== this.props.current_user.id){
                         this.setState({
                             activeChat: response[i]
                         })
 
-                        this.props.createConversation({
-                            name: this.state.activeChat + "_" + this.props.current_user.id,
-                            creator_id: this.props.current_user.id,
-                            user: [this.props.current_user.id, this.state.activeChat.id]
-                        })
-                            .then(response => {
-                                console.log(response);
-                            })
+
+
 
                         break;
                     }
@@ -192,16 +219,9 @@ class Messages extends Component {
                                                     message={lastMessage.message}
                                                     isActive={item.id === this.state.activeChat.id}
                                                     unRead={false}
-                                                    changeActive={() => {this.setState({
-                                                        activeChat: item,
-                                                        conversation: [
-                                                            {
-                                                                user_id: this.props.current_user.id,
-                                                                content: 'Connect friend :)',
-                                                                created_at: '20-12-2018'
-                                                            },
-                                                        ]
-                                                    })}}
+                                                    changeActive={() => {
+                                                        this.changeActive(item);
+                                                    }}
                                                 />
                                             )
                                         }
@@ -280,6 +300,7 @@ function mapDispatchToProps(dispatch) {
         getListChat: (id) => dispatch(getListChat()),
         createConversation: (data) => dispatch(createConversation(data)),
         DanhSach: (id) => dispatch(DanhSach()),
+        changeListChast: (data) => dispatch(changeListChast(data))
     }
 }
 

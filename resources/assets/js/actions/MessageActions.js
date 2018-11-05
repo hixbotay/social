@@ -25,7 +25,6 @@ export const createConversation = (data) => (dispatch) => {
 
         fetch(chatURL + 'conversation/create', {
             method: 'POST',
-            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -39,14 +38,14 @@ export const createConversation = (data) => (dispatch) => {
             console.log('parsing failed', ex)
         })
 
-        // chatApi.post('conversation/create', data)
-        //     .then(response => {
-        //         resolve(response.data);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
     })
+}
+
+export const changeListChast = (data) => (dispatch) =>{
+    return new Promise((resolve, reject) => {
+        dispatch({type: CHANGE_LIST_CHAT, payload: data});
+        resolve(data);
+    });
 }
 
 

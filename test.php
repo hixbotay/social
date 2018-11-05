@@ -1,3 +1,10 @@
+<?php
+
+echo file_get_contents('http://localhost:8000/hello');
+die;
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Chat extends Controller
 {
@@ -19,6 +21,14 @@ class Chat extends Controller
         $url = $this->root . 'conversation/create';
 //        return $data;
         return $this->POST($url, $data);
+    }
+
+    public function listChat(){
+        $list = DB::table('users')->select(
+            'id','name','email','name'
+        )->get();
+//        return Auth::id();
+        return $list;
     }
 
     public function hello(Request $request){
