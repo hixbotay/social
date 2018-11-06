@@ -1,5 +1,6 @@
 import {
-    GET_LIST_CHAT
+    GET_LIST_CHAT,
+    CHANGE_LIST_CHAT
 } from './types';
 import api from '../api';
 import chatApi from '../api/chat';
@@ -33,7 +34,7 @@ export const createConversation = (data) => (dispatch) => {
             .then(function(response) {
                 return response.json()
             }).then(function(json) {
-            console.log('parsed json', json)
+            resolve(json);
         }).catch(function(ex) {
             console.log('parsing failed', ex)
         })
@@ -41,6 +42,8 @@ export const createConversation = (data) => (dispatch) => {
     })
 }
 
+
+// data {conversation_id: xxxxx, last_message: YYYYYY}
 export const changeListChast = (data) => (dispatch) =>{
     return new Promise((resolve, reject) => {
         dispatch({type: CHANGE_LIST_CHAT, payload: data});
@@ -56,7 +59,6 @@ export const DanhSach = (data) => (dispatch) => {
                 resolve(response.data);
             })
             .catch(err => {
-                console.log("__________________________");
                 console.log(err);
             })
     })

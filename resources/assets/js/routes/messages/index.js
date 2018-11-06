@@ -82,27 +82,39 @@ class Messages extends Component {
     changeActive(item){
         if (!item.conversation_id) {
             this.props.createConversation({
-                name: this.state.activeChat + "_" + this.props.current_user.id,
+                name: item.id + "_" + this.props.current_user.id,
                 creator_id: this.props.current_user.id,
-                user: [this.props.current_user.id, this.state.activeChat.id]
+                user: [this.props.current_user.id, item.id]
             })
                 .then(response => {
-                    console.log(response);
-                    for(let i = 0; i < this.prop.chatList; i ++){
-
+                    var payload = {
+                        index: null,
+                        conversation_id: response.conversation_id,
+                        last_message: "Welcome NOIDUYEN :)"
+                    };
+                    for(let i = 0; i < this.props.chatList.length; i ++){
+                        console.log(i);
+                        if (this.props.chatList[i].id == this.state.activeChat.id){
+                            payload.index = i;
+                            break;
+                        }
                     }
+                    this.props.changeListChast(payload)
+                        .then(resState => {
+                            // do nothing
+                        })
                 })
-            this.setState({
-                activeChat: item,
-                conversation: [
-                    {
-                        user_id: this.props.current_user.id,
-                        content: 'Connect friend :)',
-                        created_at: '20-12-2018'
-                    },
-                ]
-            })
         }
+        this.setState({
+            activeChat: item,
+            conversation: [
+                {
+                    user_id: this.props.current_user.id,
+                    content: 'Connect friend :)',
+                    created_at: '20-12-2018'
+                },
+            ]
+        })
 
     }
 
@@ -133,10 +145,6 @@ class Messages extends Component {
                         this.setState({
                             activeChat: response[i]
                         })
-
-
-
-
                         break;
                     }
                 }
@@ -194,7 +202,7 @@ class Messages extends Component {
                         <div className="inbox_people">
                             <div className="headind_srch">
                                 <div className="recent_heading">
-                                    <h4>GẦN ĐÂY</h4>
+                                    <h4 onClick={() => {console.log(this.props.chatList)}}>GẦN ĐÂY</h4>
                                 </div>
                             </div>
                             <div className="inbox_chat">

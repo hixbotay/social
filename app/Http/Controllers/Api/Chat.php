@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class Chat extends Controller
 {
     protected $root;
 
     public function __construct(){
-        $this->root = 'http://localhost:8000/';
+        $this->root = 'http://chat.noiduyen.vn/';
     }
 
     public function createConversation(Request $request){
@@ -27,8 +27,40 @@ class Chat extends Controller
         $list = DB::table('users')->select(
             'id','name','email','name'
         )->get();
-//        return Auth::id();
-        return $list;
+
+        $logged_id = Auth::id();
+
+        try{
+            $result = $this->GET($this->root.'conversation/load/'.$logged_id);
+            $result = json_decode($result);
+            if (empty($result)){
+                return $list;
+            }
+
+            foreach ($list AS $key => $value){
+
+                foreach ($result AS $res){
+                    foreach ($res->users_id AS $user){
+                        if ($value->id == $user){
+                            $list[$key]->conversation_id = $res->conversation_id;
+                            $list[$key]->content = $res->content;
+                        }
+                    }
+                }
+            }
+            return ($list);
+
+        }catch (\Exception $exception){
+            return "Die";
+
+        }
+
+//        Get Conversation last message
+
+//        Post user_id, last_message
+
+//        Get coupon chat
+
     }
 
     public function hello(Request $request){
@@ -45,12 +77,16 @@ class Chat extends Controller
     }
     private function POST($url, $data, $headers = array()){
 
-        $ch = curl_init( $url );
-        curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode(array('vantu'=>1993)) );
-        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-        return $result = curl_exec($ch);
-        curl_close($ch);
+//         Chuwa hoanf thienj
+
+//        $ch = curl_init( $url );
+//        curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($data) );
+//        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+//        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+//        curl_close($ch);
+//
+//        return curl_exec($ch);
+
 
         $options = [
             CURLOPT_URL        => $url,
@@ -64,6 +100,7 @@ class Chat extends Controller
         curl_setopt_array($curl, $options);
         $results = curl_exec($curl);
         curl_close($curl);
+        return $results;
 
     }
 }

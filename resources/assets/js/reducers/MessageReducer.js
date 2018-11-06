@@ -10,10 +10,11 @@ export default (state = INIT_STATE, action) => {
             return {...state, chatList: action.payload};
         }
         case CHANGE_LIST_CHAT: {
+            var data = action.payload;
             return {
                 ...state,
                 chatList: state.chatList.map(
-                    (content, i) => i === 1 ? {...content, text: action.payload}
+                    (content, i) => i === data.index ? {...content, conversation_id: data.conversation_id, last_message: data.last_message}
                         : content
                 )
             }
