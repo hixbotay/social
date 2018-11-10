@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default axios.create({
     // baseURL: `${baseUrl}/api/chat/`,
-    baseURL: `http://chat.noiduyen.vn/`,
+    baseURL: `https://chat.noiduyen.vn/`,
     timeout: 10000,
     withCredentials: true,
     crossdomain: true,

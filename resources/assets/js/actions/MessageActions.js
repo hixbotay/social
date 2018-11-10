@@ -5,7 +5,7 @@ import {
 import api from '../api';
 import chatApi from '../api/chat';
 
-var chatURL = 'http://chat.noiduyen.vn/';
+var chatURL = 'https://chat.noiduyen.vn/';
 
 export const getListChat = () => (dispatch) => {
     return new Promise((resolve, reject) => {

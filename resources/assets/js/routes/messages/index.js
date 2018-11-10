@@ -17,7 +17,7 @@ import axios from 'axios';
 import chatApi from "../../api/chat";
 
 // const socket = io('http://chat.noiduyen.vn:443/');
-const socket = io('http://chat.noiduyen.vn:443/');
+const socket = io('https://chat.noiduyen.vn:80/', {secure: true, reconnect: true});
 
 class Messages extends Component {
 
@@ -65,11 +65,15 @@ class Messages extends Component {
     }
 
     emitMessage(){
+        if (this.state.current_message === "") {
+            alert("Gõ thông điệp đi bạn ");
+            return;
+        }
         socket.emit('new_message', {
             username: this.props.current_user.name,
             message : this.state.current_message,
             to_id: [this.state.activeChat.id],
-            conversation_id: "",
+            conversation_id: this.state.activeChat.conversation_id,
         })
         this.setState({
             current_message: "",
@@ -120,23 +124,6 @@ class Messages extends Component {
 
     componentDidMount(){
 
-        // axios.get('https://cors-anywhere.herokuapp.com/http://chat.noiduyen.vn/hello')
-        //     .then(response => {
-        //         console.log(response);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
-
-        fetch('http://chat.noiduyen.vn/hello')
-            .then(function(response) {
-                return response.json()
-            }).then(function(json) {
-            console.log('parsed json', json)
-        }).catch(function(ex) {
-            console.log('parsing failed', ex)
-        })
-
         this.props.getListChat()
             .then(response => {
                 console.log(" V a n t u = ");
@@ -149,7 +136,9 @@ class Messages extends Component {
                     }
                 }
             })
+
         // Lang nghe xem co tin nhan moi khoong
+
         socket.on("new_message", (data) => {
             this.state.conversation.push(
                 {
@@ -218,7 +207,7 @@ class Messages extends Component {
                                                         avatar: "https://www.w3schools.com/howto/img_avatar.png"
                                                     },
                                                     date: "01/11/2018",
-                                                    content: "Test, which is a new approach to have all solutions astrology under one roof."
+                                                    content: item.content
                                                 }
                                             }
                                             return (
