@@ -406,7 +406,13 @@ li.list-group-item {
 
 .dating-img {
     padding: 10px 0px;
+    
+}
+
+.dating-img img {
+    object-fit: cover;
     height: 250px;
+    overflow: hidden;
 }
 
 .dating-info {
@@ -420,7 +426,7 @@ li.list-group-item {
 
 .btn-dating-group {
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
 }
 
 .btn-dating-group button {
@@ -862,4 +868,26 @@ button.slick-arrow {
 
 .chat_people {
     cursor: pointer;
+}
+
+.countdown-timer p{
+    color: #2c3e50;
+    font-size: xx-large;
+    font-weight: 900;
+    -webkit-text-stroke: 2px #fffbfb;
+    
+}
+
+.countdown-timer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center!important;
+}
+
+.dating-description {
+    border: 2px solid #2980b9;
+    border-radius: 10px;
+    min-height: 100px;
+    padding: 10px;
 }

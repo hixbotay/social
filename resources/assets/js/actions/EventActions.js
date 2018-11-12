@@ -11,7 +11,8 @@ import {
     JOIN_EVENT,
     GET_EVENT_DETAIL,
     INVITE_INTO_EVENT,
-    SEARCH_EVENTS
+    SEARCH_EVENTS,
+    UPDATE_EVENT_STATUS
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -121,6 +122,17 @@ export const searchEvent = (filter_string) => (dispatch) => {
     return api.get(`/event/search?${filter_string}`)
         .then(response => {
             dispatch({type: SEARCH_EVENTS, payload: response.data.data});
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+export const updateEventStatus = (event_id, status) => (dispatch) => {
+    return api.post(`/event/status/${event_id}`, status)
+        .then(response => {
+            dispatch({type: UPDATE_EVENT_STATUS, payload: response.data});
+            window.location.reload();
         })
         .catch(err => {
             console.log(err);

@@ -3,6 +3,21 @@ import { joinDating, updateInvitation } from '../../actions/EventActions';
 import { connect } from 'react-redux';
 import { RoundAvatar } from '../Avatar';
 import { withRouter, Link } from 'react-router-dom';
+import Countdown from 'react-countdown-now';
+
+const renderCountdown = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+        // Render a completed state
+        return null;
+    } else {
+        // Render a countdown
+        return (
+            <div className="countdown-timer">
+                {hours}:{minutes}:{seconds}
+            </div>
+        );
+    }
+}
 
 class DatingGroup extends Component {
 
@@ -129,6 +144,11 @@ class DatingGroup extends Component {
                         <img
                             src={event.image}
                         />
+                        {
+                            (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48*60*60*1000)) ? (
+                                <Countdown date={new Date(event.start_time)} renderer={renderCountdown}></Countdown>
+                            ) : null
+                        }
                     </div>
                     <div className={"col-md-5 dating-info"}>
                         <div>

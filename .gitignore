@@ -20,3 +20,4 @@ composer.json
 package-lock.json
 resources/assets/js/api/index.js
 public/js/app.js
+package-lock.json

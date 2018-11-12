@@ -317,6 +317,32 @@ class Event extends Controller {
             '))
             ->first();
 
+        $creator = \App\User::where('users.id', '=', $event->creator)
+            ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
+            ->select(DB::raw(
+                'users.id, users.name, users.address, users.avatar, users.birthday,
+                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+            ))
+            ->first();
+        $creator['is_like'] = 0;
+        $creator['is_loved'] = 0;
+
+        if($creator->id != Auth::id()) {
+            $temp = DB::table('user_relationship')
+                ->where([
+                    ['from_user_id', '=', Auth::id()],
+                    ['to_user_id', '=', $creator->id]
+                ])
+                ->first();
+            if($temp != null) {
+                $creator['is_like'] = $temp->is_like;
+                $creator['is_loved'] = $temp->is_loved;
+            }
+        }
+
+        $event->creator = $creator;
+
         $event_meta = DB::table('event_meta')
                     ->where('event_id', '=', $event_id)
                     ->leftJoin('user_jobs', function($join) {
@@ -379,6 +405,8 @@ class Event extends Controller {
                 $user['is_like'] = $temp->is_like;
                 $user['is_loved'] = $temp->is_loved;
             }
+
+            $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $user->id)->count();
         }
 
         $event['registers'] = $users->items();
@@ -666,5 +694,12 @@ class Event extends Controller {
         });
 
         return json_encode($events);
+    }
+
+    public function updateStatus(Request $request, $id) {
+        $event = \App\Event::find($id);
+        $event->status = $request->get('status');
+        $event->save();
+        return json_encode($event);
     }
 }

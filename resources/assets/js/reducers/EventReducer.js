@@ -18,7 +18,8 @@ const INIT_STATE = {
     currentEvent: {
         job: [],
         marital_status: [],
-        registers: []
+        registers: [],
+        creator: {}
     },
     forthcomingEvents: [],
     finishedEvents: [],

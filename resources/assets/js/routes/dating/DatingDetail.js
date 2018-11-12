@@ -1,24 +1,30 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
-import {Card, CardWithIcon, CardWithTitle} from '../../components/Card';
+import { Card, CardWithIcon, CardWithTitle } from '../../components/Card';
 import DatingLayout from './DatingLayout';
-import {RoundAvatar, SquareAvatar} from '../../components/Avatar';
-import {withRouter, Link} from 'react-router-dom';
+import { RoundAvatar, SquareAvatar } from '../../components/Avatar';
+import { withRouter, Link } from 'react-router-dom';
 import CircleButton from '../../components/Button/CircleButton';
 import RegisterItem from '../../components/Dating/RegisterItem';
-import {getEventDetail} from '../../actions/EventActions';
-import {updateRelationship} from '../../actions/UserActions';
+import { getEventDetail } from '../../actions/EventActions';
+import { updateRelationship } from '../../actions/UserActions';
+import Fragment from 'react-dot-fragment';
+import {updateEventStatus} from '../../actions/EventActions';
 
 class DatingDetail extends Component {
     componentDidMount() {
         this.props.getEventDetail(this.props.match.params.id);
     }
 
+    cancelDating(event_id) {
+        this.props.updateEventStatus(event_id, {status: "cancelled"});
+    }
+
     render() {
-        const {event} = this.props;
+        const { event } = this.props;
 
         var status = "Sắp diễn ra";
-        switch(event.status) {
+        switch (event.status) {
             case "forthcoming": {
                 status = "Sắp diễn ra";
                 break;
@@ -46,12 +52,12 @@ class DatingDetail extends Component {
                         </div>
                         <div className={"col-md-7 dating-header"}>
                             <h5>
-                                {event.name} 
+                                {event.name}
                                 {
-                                    event.is_approved ? 
-                                    <i className="fas fa-check-circle event-status-icon" style={{color: '#27ae60'}}></i>
-                                    : <i className="fas fa-ellipsis-h event-status-icon" style={{color: '#f1c40f'}}></i>
-                                } 
+                                    event.is_approved ?
+                                        <i className="fas fa-check-circle event-status-icon" style={{ color: '#27ae60' }}></i>
+                                        : <i className="fas fa-ellipsis-h event-status-icon" style={{ color: '#f1c40f' }}></i>
+                                }
                             </h5>
                             <div>{event.address}</div>
                         </div>
@@ -59,7 +65,7 @@ class DatingDetail extends Component {
                             <p>{event.start_time}</p>
                         </div>
                     </div>
-                    <br/>
+                    <br />
                     <div className="row">
                         <div className="col-6">
                             <div className="row">
@@ -112,8 +118,8 @@ class DatingDetail extends Component {
                                             return (
                                                 <span className="tag" key={index}>{item}</span>
                                             )
-                                        }) 
-                                    }    
+                                        })
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -180,49 +186,90 @@ class DatingDetail extends Component {
                             </div>
                         </div>
                     ) : (
-                        <Card>
-                            <div className="row">
-                                <div className="col-6">
-                                    <div className="row">
-                                        <div className="col-4">
-                                            Giới tính
+                            <Card>
+                                <div className="row">
+                                    <div className="col-6">
+                                        <div className="row">
+                                            <div className="col-4">
+                                                Giới tính
                                         </div>
-                                        <div className="col-8">
-                                            {event.gender === 'M' ? "Nam" : "Nữ"}
+                                            <div className="col-8">
+                                                {event.gender === 'M' ? "Nam" : "Nữ"}
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-4">
+                                                Độ tuổi
+                                        </div>
+                                            <div className="col-8">
+                                                {event.min_age} - {event.max_age}
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-4">
-                                            Độ tuổi
+                                    <div className="col-6">
+                                        <div className="row">
+                                            <div className="col-6">
+                                                Người thanh toán
                                         </div>
-                                        <div className="col-8">
-                                            {event.min_age} - {event.max_age}
+                                            <div className="col-6">
+                                                {event.payer ? "Bạn" : "Người kia"}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-6">
-                                    <div className="row">
-                                        <div className="col-6">
-                                            Người thanh toán
-                                        </div>
-                                        <div className="col-6">
-                                            {event.payer ? "Bạn" : "Người kia"}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Card>
-                    )
+                            </Card>
+                        )
                 }
-                
+
+                <CardWithTitle hasLine={true} title="NGƯỜI TỔ CHỨC CUỘC HẸN">
+                    {
+                        (event.creator != {}) ? (
+                            <Fragment>
+                                <RegisterItem
+                                    type="creator"
+                                    user={event.creator}
+                                    isSecret={false}
+                                    action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                ></RegisterItem>
+                                {
+                                    event.status == 'forthcoming' ? (
+                                        <div className="row">
+                                            <div className="col-3"></div>
+                                            <div className="col-9">
+                                                <div className="text-center">
+                                                    <button className="btn btn-primary mr-2">Nhắn tin chung</button>
+                                                    <button className="btn btn-primary mr-2" onClick={() => this.cancelDating(event.id)}>
+                                                        Hủy cuộc hẹn
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : null
+                                }
+                            </Fragment>
+                        ) : (
+                            <div>Loading....</div>
+                        )
+                    }
+                    {
+                        
+                    }
+                    <div className="dating-description">
+                        <b>Mô tả về cuộc hẹn này:</b>
+                        <div>{event.description ? event.description : "Không có mô tả nào về cuộc hẹn này"}</div>
+                    </div>
+                </CardWithTitle>
+
                 <CardWithTitle hasLine={true} title="DANH SÁCH NGƯỜI ĐÃ ĐĂNG KÝ">
-                    <div className="row"> 
+                    <div className="row">
                         <div className="container">
                             {
                                 event.registers.map((user, index) => {
                                     return (
-                                        <RegisterItem 
-                                            user={user} 
+                                        <RegisterItem
+                                            type="register"
+                                            user={user}
+                                            isSecret={event.is_secret}
                                             key={index}
                                             action={(data, user_id) => this.props.updateRelationship(data, user_id)}
                                         ></RegisterItem>
@@ -239,14 +286,16 @@ class DatingDetail extends Component {
 
 function mapStateToProps(state) {
     return {
-        event: state.event.currentEvent
+        event: state.event.currentEvent,
+        current_user: state.user.current_user
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getEventDetail: (id) => dispatch(getEventDetail(id)),
-        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id))
+        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id)),
+        updateEventStatus: (event_id, status) => dispatch(updateEventStatus(event_id, status))
     }
 }
 

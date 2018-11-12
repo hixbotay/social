@@ -1,12 +1,27 @@
 import React, { Component } from 'react';
 import { RoundAvatar, SquareAvatar } from '../Avatar';
 import connect from 'react-redux/es/connect/connect';
-import {joinDating, updateInvitation} from '../../actions/EventActions';
-import {withRouter,  Link} from 'react-router-dom';
+import { joinDating, updateInvitation } from '../../actions/EventActions';
+import { withRouter, Link } from 'react-router-dom';
+import Countdown from 'react-countdown-now';
+
+const renderCountdown = ({ hours, minutes, seconds, completed }) => {
+    if (completed) {
+        // Render a completed state
+        return null;
+    } else {
+        // Render a countdown
+        return (
+            <div className="countdown-timer">
+                <p>{hours}:{minutes}:{seconds}</p>
+            </div>
+        );
+    }
+}
 
 class DatingCouple extends Component {
     join(event_id) {
-        if(this.props.user.is_id_verified) {
+        if (this.props.user.is_id_verified) {
             this.props.joinDating(event_id).then(data => {
                 window.location.href = `${baseUrl}/dating/${event_id}`;
             });
@@ -21,18 +36,19 @@ class DatingCouple extends Component {
 
     render() {
         const { event, user, type } = this.props;
+
         var button = null;
 
         if (type == 'invitation') {
             button = (
                 <div className="row">
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, {type: 'accept'})}>
+                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, { type: 'accept' })}>
                             Chấp nhận
                         </button>
                     </div>
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, {type: 'reject'})}>
+                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, { type: 'reject' })}>
                             Từ chối
                         </button>
                     </div>
@@ -108,7 +124,7 @@ class DatingCouple extends Component {
 
         return (
             <div>
-                <Link to={`/dating/${event.id}`} > 
+                <Link to={`/dating/${event.id}`} >
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
                             <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
@@ -125,9 +141,12 @@ class DatingCouple extends Component {
 
                 <div className={"row"}>
                     <div className={"col-md-7 dating-img"}>
-                        <img
-                            src={event.image}
-                        />
+                        <img src={event.image} />
+                        {
+                            (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48 * 60 * 60 * 1000)) ? (
+                                <Countdown date={new Date(event.start_time)} renderer={renderCountdown}></Countdown>
+                            ) : null
+                        }
                     </div>
                     <div className={"col-md-5 dating-info"}>
                         <div>
@@ -136,24 +155,24 @@ class DatingCouple extends Component {
                                     <div className="row text-center couple-dating-info">
                                         Cuộc hẹn này do bạn tạo ra, hãy mời bạn bè vào cuộc hẹn này!
                                     </div>
-                                    
+
                                 ) : (
-                                    <div className="row text-center couple-dating-info">
-                                        <div className="col-5 couple-avatar">
-                                            <SquareAvatar img={event.creator_avatar} size="medium"></SquareAvatar>
-                                            <h6>{event.creator_name}</h6>
+                                        <div className="row text-center couple-dating-info">
+                                            <div className="col-5 couple-avatar">
+                                                <SquareAvatar img={event.creator_avatar} size="medium"></SquareAvatar>
+                                                <h6>{event.creator_name}</h6>
+                                            </div>
+                                            <div className="col-2">
+                                                <i className="far fa-heart" id="couple-icon"></i>
+                                            </div>
+                                            <div className="col-5 couple-avatar">
+                                                <SquareAvatar img={user.avatar} size="medium"></SquareAvatar>
+                                                <h6>{user.name}</h6>
+                                            </div>
                                         </div>
-                                        <div className="col-2">
-                                            <i className="far fa-heart" id="couple-icon"></i>
-                                        </div>
-                                        <div className="col-5 couple-avatar">
-                                            <SquareAvatar img={user.avatar} size="medium"></SquareAvatar>
-                                            <h6>{user.name}</h6>
-                                        </div>
-                                    </div>
-                                )
+                                    )
                             }
-                            
+
                             <div className="btn-dating-group">
                                 {button}
                             </div>
