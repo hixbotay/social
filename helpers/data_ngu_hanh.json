@@ -1,0 +1,20 @@
+{
+	"cung": {
+		"kham":"Khảm",
+		"ly":"Ly",
+		"can":"Cấn",
+		"doai":"Đoài",
+		"can_f":"Càn",
+		"khon":"Khôn",
+		"ton":"Tốn",
+		"chan":"Chấn"
+	},
+	"can":{
+		"canh":"Canh","tan":"Tân","nham":"Nhâm","quy":"Quý","giap":"Giáp","at":"Ất","binh":"Bính","dinh":"Đinh","mau":"Mậu","ky":"Kỷ"}
+	"chi":{
+		"ti":"Tí","suu":"Sửu","dan":"Dần","mao":"Mão","thin":"Thìn","ty":"Tỵ","ngo":"Ngọ","mui":"Mùi","than":"Thân","dau":"Dậu","tuat":"Tuất","hoi":"Hợi"
+		},
+	"ngu_hanh":{
+		"kim":"Kim","thuy":"Thủy","hoa":"Hỏa","tho":"Thổ","moc":"Mộc"
+	}
+}
