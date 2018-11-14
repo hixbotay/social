@@ -34,8 +34,6 @@ class Chat extends Controller
 
             $result = $this->GET($this->root.'conversation/load/'.$logged_id);
 
-            $result = file_get_contents($this->root.'conversation/load/'.$logged_id);
-            return $result;
             $result = json_decode($result);
 
             if (empty($result)){
