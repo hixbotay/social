@@ -2,11 +2,14 @@
 
 
 return [
-  'name' => 'VTC PAY',
-  'admin_name' => 'VTC PAY',
-  'internalname' => 'VTC PAY',
-  'function' => 'gateway_vtcpay',
-  'function' => 'VTC PAY',
-  'payment_type' => 'vtcpay',
-  'display_name' => 'VTC Pay',
+    'name' => 'VTC PAY',
+    'website_id' => 'VTC PAY',
+    'reference_number' => 'VTC PAY',
+    'receiver_account' => 'gateway_vtcpay',
+    'url_return' => 'VTC PAY',
+    'language' => 'vi',
+    'code' => [
+        0 => __(""),
+
+    ],
 ];
