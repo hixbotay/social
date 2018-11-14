@@ -125,14 +125,14 @@ class Messages extends Component {
     componentDidMount(){
 
 
-        axios({
-            method:'get',
-            url:'http://35.187.254.248/thoxaydung/',
-            responseType:'stream'
-        })
-            .then(function (response) {
-                console.log(response)
-            });
+        // axios({
+        //     method:'get',
+        //     url:'http://35.187.254.248/thoxaydung/',
+        //     responseType:'stream'
+        // })
+        //     .then(function (response) {
+        //         console.log(response)
+        //     });
 
         this.props.getListChat()
             .then(response => {

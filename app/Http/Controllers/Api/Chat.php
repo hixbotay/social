@@ -12,7 +12,7 @@ class Chat extends Controller
     protected $root;
 
     public function __construct(){
-        $this->root = 'http://chat.noiduyen.vn/';
+        $this->root = 'https://chat.noiduyen.vn/';
     }
 
     public function createConversation(Request $request){
@@ -31,8 +31,13 @@ class Chat extends Controller
         $logged_id = Auth::id();
 
         try{
+
             $result = $this->GET($this->root.'conversation/load/'.$logged_id);
+
+            $result = file_get_contents($this->root.'conversation/load/'.$logged_id);
+            return $result;
             $result = json_decode($result);
+
             if (empty($result)){
                 return $list;
             }
@@ -51,16 +56,32 @@ class Chat extends Controller
             return ($list);
 
         }catch (\Exception $exception){
+            return $exception->getMessage();
             return "Die";
 
         }
 
-//        Get Conversation last message
+    }
 
-//        Post user_id, last_message
 
-//        Get coupon chat
+    public static function requestAPI($url,$header="",$body="",$method=""){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+        if(isset($method) && $method != ""){
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST,$method);
+        }
+        if (isset($header) && !empty($header)){
+            curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+        }
 
+        if(isset($body) && !empty($body)){
+            curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($body));
+        }
+        $results = curl_exec($ch);
+        curl_close($ch);
+
+        return json_encode($results);
     }
 
     public function hello(Request $request){
@@ -68,12 +89,18 @@ class Chat extends Controller
     }
 
     private function GET($url){
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $output = curl_exec($ch);
-        curl_close($ch);
-        return $output;
+        try{
+            $ch = curl_init();
+            return json_encode($ch);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($ch);
+            curl_close($ch);
+            return json_encode($output);
+        }catch (\Exception $e){
+            return json_encode($e);
+        }
+
     }
     private function POST($url, $data, $headers = array()){
 
