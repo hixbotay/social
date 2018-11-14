@@ -9,7 +9,6 @@ return [
     'url_return' => 'VTC PAY',
     'language' => 'vi',
     'code' => [
-        0 => __(""),
 
     ],
 ];
