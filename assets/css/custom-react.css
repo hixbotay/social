@@ -891,3 +891,8 @@ button.slick-arrow {
     min-height: 100px;
     padding: 10px;
 }
+
+.custom-input {
+    display: block !important;
+    height: 1.5em;
+}

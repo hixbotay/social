@@ -42,6 +42,7 @@ import SearchResult from './cafe/SearchResult';
 import {getCurrentUser} from '../actions/UserActions';
 import {getNotifications} from '../actions/NotificationActions';
 import DatingSearchResults from './dating/DatingSearchResults';
+import SubscribeDating from './dating/SubscribeDating';
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -88,6 +89,7 @@ class MainApp extends Component {
                     <AppRoute exact path={'/dating/feature'} layout={SecondLayout} component={ListFeatureDating} />
                     <AppRoute exact path={'/dating/invited'} layout={SecondLayout} component={ListInvitationDating} />
                     <AppRoute exact path={'/dating/create'} layout={SecondLayout} component={CreateEvent} />
+                    <AppRoute exact path={'/dating/subscribe'} layout={SecondLayout} component={SubscribeDating} />
                     <AppRoute exact path={'/dating/search'} layout={SecondLayout} component={DatingSearchResults} />
                     <AppRoute exact path={'/dating/:id'} layout={SecondLayout} component={DatingDetail} />
                     <AppRoute exact path={'/dating/:id/result'} layout={SecondLayout} component={DatingResult} />

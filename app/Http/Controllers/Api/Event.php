@@ -702,4 +702,11 @@ class Event extends Controller {
         $event->save();
         return json_encode($event);
     }
+
+    public function subscribeEvent(Request $request) {
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+        $response = DB::table('event_subscribers')->insert($data);
+        return json_encode($response);
+    }
 }

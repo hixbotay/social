@@ -26,6 +26,7 @@ Route::middleware(['web'])->group(function() {
     Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
 
     Route::post('/event/status/{id}', 'Api\Event@updateStatus');
+    Route::post('/event/subscribe', 'Api\Event@subscribeEvent');
     Route::post('/event/{event_id}', 'Api\Event@joinEvent');
     
     Route::get('/events/around', 'Api\Event@listEventsAround');

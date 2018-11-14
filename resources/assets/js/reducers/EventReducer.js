@@ -10,7 +10,8 @@ import {
     JOIN_EVENT,
     GET_EVENT_DETAIL,
     INVITE_INTO_EVENT,
-    SEARCH_EVENTS
+    SEARCH_EVENTS,
+    SUBSCRIBE_EVENT
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -68,6 +69,9 @@ export default (state=INIT_STATE, action) => {
         }
         case SEARCH_EVENTS: {
             return {...state, results: action.payload}
+        }
+        case SUBSCRIBE_EVENT: {
+            return {...state}
         }
         default: {
             return {...state}

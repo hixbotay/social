@@ -12,7 +12,8 @@ import {
     GET_EVENT_DETAIL,
     INVITE_INTO_EVENT,
     SEARCH_EVENTS,
-    UPDATE_EVENT_STATUS
+    UPDATE_EVENT_STATUS,
+    SUBSCRIBE_EVENT
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -136,5 +137,18 @@ export const updateEventStatus = (event_id, status) => (dispatch) => {
         })
         .catch(err => {
             console.log(err);
+        })
+}
+
+export const subscribeEvent = (data) => (dispatch) => {
+    return api.post('/event/subscribe', data)
+        .then(response => {
+            dispatch({type: SUBSCRIBE_EVENT, payload: response.data});
+            window.alert('Bạn đã đăng ký thành công');
+            window.location.reload();
+        })
+        .catch(err => {
+            console.log(err);
+            window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
         })
 }
