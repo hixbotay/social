@@ -10,16 +10,22 @@ use Illuminate\Support\Facades\Auth;
 class Chat extends Controller
 {
     protected $root;
+    protected $ssl;
 
     public function __construct(){
         $this->root = 'https://chat.noiduyen.vn/';
+        $this->ssl = $stream_opts = [
+            "ssl" => [
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ]
+        ];
     }
 
     public function createConversation(Request $request){
 
         $data = $request->getContent();
         $url = $this->root . 'conversation/create';
-//        return $data;
         return $this->POST($url, $data);
     }
 
@@ -32,19 +38,8 @@ class Chat extends Controller
 
         try{
 
-//            $result = file_get_contents($this->root.'conversation/load/'.$logged_id);
-
-            $stream_opts = [
-                "ssl" => [
-                    "verify_peer"=>false,
-                    "verify_peer_name"=>false,
-                ]
-            ];
-
             $result = file_get_contents($this->root.'conversation/load/'.$logged_id,
-                false, stream_context_create($stream_opts));
-
-//            return $response;
+                false, stream_context_create($this->ssl));
 
             $result = json_decode($result);
 
@@ -67,9 +62,17 @@ class Chat extends Controller
 
         }catch (\Exception $exception){
             return $exception->getMessage();
-            return "Die";
+        }
+
+    }
+
+
+    public static function loadConversation($conversationID){
+        return $conversationID;
+        if ($conversationID){
 
         }
+        $logged_id = Auth::id();
 
     }
 

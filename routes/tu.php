@@ -30,6 +30,7 @@ Route::get('chat/session', function (Request $request){
 });
 Route::middleware(['web'])->group(function() {
     Route::get('chat/list', 'Api\Chat@listChat');
+    Route::get('chat/message/load/{conversation_id}', 'Api\Chat@loadConversation');
 });
 
 Route::get('chat/hello', 'Api\Chat@hello');
