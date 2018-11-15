@@ -32,7 +32,19 @@ class Chat extends Controller
 
         try{
 
-            $result = $this->GET($this->root.'conversation/load/'.$logged_id);
+//            $result = file_get_contents($this->root.'conversation/load/'.$logged_id);
+
+            $stream_opts = [
+                "ssl" => [
+                    "verify_peer"=>false,
+                    "verify_peer_name"=>false,
+                ]
+            ];
+
+            $result = file_get_contents($this->root.'conversation/load/'.$logged_id,
+                false, stream_context_create($stream_opts));
+
+//            return $response;
 
             $result = json_decode($result);
 
