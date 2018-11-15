@@ -52,7 +52,7 @@ Route::middleware(['web'])->group(function() {
     Route::get('/notifications/count-unread', 'Api\Notification@countUnread');
 });
 
-Route::middleware(['web', 'optimizeImages'])->group(function() {
+Route::middleware(['web'])->group(function() {
     Route::post('/update-avatar', 'Api\User@updateAvatar');
     Route::post('/post', 'Api\Post@createPost');
     Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');

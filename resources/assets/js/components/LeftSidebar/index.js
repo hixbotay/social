@@ -23,7 +23,11 @@ class LeftSidebar extends Component {
                     <li className="list-group-item"><Link to="/dating/invited">Lời mời</Link></li>
                     <li className="list-group-item"><Link to="/dating/feature">Lịch hẹn</Link></li>
                     <li className="list-group-item"><Link to="/dating/subscribe">Đăng ký hẹn</Link></li>
-                    <li className="list-group-item"><Link to="/dating/create">Tạo cuộc hẹn</Link></li>
+                    {
+                        (user.group_id === 12) ? (
+                            <li className="list-group-item"><Link to="/dating/create">Tạo cuộc hẹn</Link></li>
+                        ) : null
+                    }
                     <li className="list-group-item-custom"><Link to="/couple"><i className="fas fa-heartbeat fa-2x"></i> KẾT ĐÔI</Link></li>
                     <li className="list-group-item-custom"><Link to="/cafe"><i className="fas fa-coffee fa-2x"></i> ĐẠI LÝ CAFE</Link></li>
                 </ul>

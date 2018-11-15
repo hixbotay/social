@@ -29,7 +29,7 @@ import FriendsLikeYou from './relationship/FriendsLikeYou';
 import FriendsYouLike from './relationship/FriendsYouLike';
 import FriendsVisited from './relationship/FriendsVisited';
 import SearchResults from './couple/SearchResults';
-import CreateEvent from './dating/CreateEvent';
+import CreateDating from './dating/CreateDating';
 import CafeDetail from './cafe/CafeDetail';
 import CafeList from './cafe/CafeList';
 import ListFeatureDating from './dating/ListFeatureDating';
@@ -37,12 +37,14 @@ import ListInvitationDating from './dating/ListInvitationDating';
 import DatingDetail from './dating/DatingDetail';
 import DatingResult from './dating/DatingResult';
 import SearchResult from './cafe/SearchResult';
+import DatingSearchResults from './dating/DatingSearchResults';
+import SubscribeDating from './dating/SubscribeDating';
 
 //action
 import {getCurrentUser} from '../actions/UserActions';
 import {getNotifications} from '../actions/NotificationActions';
-import DatingSearchResults from './dating/DatingSearchResults';
-import SubscribeDating from './dating/SubscribeDating';
+
+
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -88,7 +90,7 @@ class MainApp extends Component {
                     <AppRoute exact path={'/dating'} layout={SecondLayout} component={Dating} /> 
                     <AppRoute exact path={'/dating/feature'} layout={SecondLayout} component={ListFeatureDating} />
                     <AppRoute exact path={'/dating/invited'} layout={SecondLayout} component={ListInvitationDating} />
-                    <AppRoute exact path={'/dating/create'} layout={SecondLayout} component={CreateEvent} />
+                    <AppRoute exact path={'/dating/create'} layout={SecondLayout} component={CreateDating} />
                     <AppRoute exact path={'/dating/subscribe'} layout={SecondLayout} component={SubscribeDating} />
                     <AppRoute exact path={'/dating/search'} layout={SecondLayout} component={DatingSearchResults} />
                     <AppRoute exact path={'/dating/:id'} layout={SecondLayout} component={DatingDetail} />

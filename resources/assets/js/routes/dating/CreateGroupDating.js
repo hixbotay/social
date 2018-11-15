@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DatingLayout from './DatingLayout';
-import { Card } from '../../components/Card';
+import { CardWithTitle } from '../../components/Card';
 import Slider from "react-slick";
 import connect from 'react-redux/es/connect/connect';
 import { getAllJobs } from '../../actions/JobActions';
@@ -150,15 +150,7 @@ class CreateGroupDating extends Component {
 
         return (
             <DatingLayout>
-                <Card>
-                    <div className="row">
-                        <div className="col-6">
-                            TẠO CUỘC HẸN NHÓM
-                        </div>
-                        <div className="col-6">
-                            TẠO CUỘC HẸN ĐÔI
-                        </div>
-                    </div>
+                <CardWithTitle hasLine={true} title="TẠO CUỘC HẸN TỐC ĐỘ">
                     <form onSubmit={(e) => this.createNewEvent(e)}>
                         <div>
                             <div className="float-left"><i className="fas fa-folder"></i> Chọn chủ đề</div>
@@ -374,7 +366,7 @@ class CreateGroupDating extends Component {
                         </div>
                     </form>
                     <button type="button" id="open-modal" className="d-none" data-toggle="modal" data-target="#create-event-alert"></button>
-                </Card>
+                </CardWithTitle>
                 <Modal id="create-event-alert">
                     <div className="row">
                         <div className="col-6">

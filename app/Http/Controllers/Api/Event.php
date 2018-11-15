@@ -238,19 +238,22 @@ class Event extends Controller {
         $result = \App\Event::create($newEvent);
 
         // if type is couple, creator is first event register
-        if($result['type'] == 'couple') {
-            DB::table('event_register')
-            ->insert([
-                'user_id' => $user_id,
-                'event_id' => $result['id'],
-                'status' => 1,
-                'created' => date('Y-m-d h:i:s')
-            ]);
-        }
+        // if($result['type'] == 'couple') {
+        //     DB::table('event_register')
+        //     ->insert([
+        //         'user_id' => $user_id,
+        //         'event_id' => $result['id'],
+        //         'status' => 1,
+        //         'created' => date('Y-m-d h:i:s')
+        //     ]);
+        // }
 
+        $job_arr = []; //temp array for query subscriber
         foreach($data->event_meta as $key => $value) {
             if($key === 'job_conditional') {
                 foreach($value as $temp) {
+                    array_push($job_arr, $temp);
+
                     array_push(
                         $metadata, 
                         [
@@ -273,7 +276,30 @@ class Event extends Controller {
         }
         $result_1 = DB::table('event_meta')->insert($metadata);
 
-        return json_encode($result);
+        // invite user who subscribe event in region
+        $subscribers = DB::table('event_subscribers')
+            ->where([
+                ['is_subscribe_group_dating', '=',  1],
+                ['agency_id', '=', $result['agency_id']],
+                ['expect_marital_status', '=', $data->event_meta->marital_status],
+                ['expect_date_from', '<=', $result['start_time']],
+                ['expect_date_to', '>=', $result['start_time']]
+            ])
+            ->whereIn('expect_job', $job_arr)
+            ->get();
+        $invitations = [];
+        foreach($subscribers as $subscriber) {
+            array_push($invitations, [
+                'event_id' => $result['id'],
+                'inviter' => $user_id,
+                'invitee' => $subscriber->user_id,
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s')
+            ]);
+        }
+        DB::table('event_invitations')->insert($invitations);
+
+        return json_encode($invitations);
     }
 
     public function joinEvent($event_id) {
