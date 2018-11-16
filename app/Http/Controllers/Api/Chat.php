@@ -67,12 +67,14 @@ class Chat extends Controller
     }
 
 
-    public static function loadConversation($conversationID){
-        return $conversationID;
+    public function loadConversation($conversationID){
         if ($conversationID){
-
+            $url = $this->root . 'message/load/'.$conversationID;
+            $result = file_get_contents($url,
+                false, stream_context_create($this->ssl));
+            return $result;
         }
-        $logged_id = Auth::id();
+        return false;
 
     }
 

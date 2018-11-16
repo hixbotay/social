@@ -8,7 +8,8 @@ import {
     getListChat,
     createConversation,
     DanhSach,
-    changeListChast
+    changeListChast,
+    loadMessage
 } from "../../actions/MessageActions";
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
@@ -25,11 +26,6 @@ class Messages extends Component {
         super(props);
         this.state = {
             conversation: [
-                {
-                    user_id: this.props.current_user.id,
-                    content: 'Start friend connect :)',
-                    created_at: '20-12-2018'
-                },
             ],
             activeChat: {},
             current_message: '',
@@ -141,6 +137,18 @@ class Messages extends Component {
                     if (response[i].id !== this.props.current_user.id){
                         this.setState({
                             activeChat: response[i]
+                        }, () => {
+                        //    get conversation here
+                        //    conversation
+
+                            this.props.loadMessage({conversation_id: this.state.activeChat.conversation_id})
+                                .then(response => {
+                                    this.setState({
+                                        conversation: response
+                                    });
+                                    console.log(response);
+                                })
+
                         })
                         break;
                     }
@@ -150,13 +158,18 @@ class Messages extends Component {
         // Lang nghe xem co tin nhan moi khoong
 
         socket.on("new_message", (data) => {
-            this.state.conversation.push(
-                {
-                    user_id: data.user_id,
-                    content: data.message,
-                    created_at: '20-11-2018'
-                }
-            );
+            if (data.conversation_id === this.state.activeChat.conversation_id)
+            {
+                this.state.conversation.push(
+                    {
+                        user_id: data.user_id,
+                        content: data.message,
+                        created_at: '20-11-2018'
+                    }
+                );
+            } else {
+
+            }
             this.setState({
                 status: Math.random()
             })
@@ -307,7 +320,8 @@ function mapDispatchToProps(dispatch) {
         getListChat: (id) => dispatch(getListChat()),
         createConversation: (data) => dispatch(createConversation(data)),
         DanhSach: (id) => dispatch(DanhSach()),
-        changeListChast: (data) => dispatch(changeListChast(data))
+        changeListChast: (data) => dispatch(changeListChast(data)),
+        loadMessage: (data) => dispatch(loadMessage(data))
     }
 }
 
