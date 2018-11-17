@@ -25,8 +25,7 @@ class Messages extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            conversation: [
-            ],
+            conversation: [],
             activeChat: {},
             current_message: '',
             typing: "",
@@ -43,6 +42,10 @@ class Messages extends Component {
         if (evt.key === 'Enter') {
             this.emitMessage();
         }
+    }
+
+    scrollToBottom = () => {
+        this.messagesEnd.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     typingMessage(evt){
@@ -80,6 +83,7 @@ class Messages extends Component {
     }
 
     changeActive(item){
+        // console.log(item);
         if (!item.conversation_id) {
             this.props.createConversation({
                 name: item.id + "_" + this.props.current_user.id,
@@ -93,28 +97,34 @@ class Messages extends Component {
                         last_message: "Welcome NOIDUYEN :)"
                     };
                     for(let i = 0; i < this.props.chatList.length; i ++){
-                        console.log(i);
                         if (this.props.chatList[i].id == this.state.activeChat.id){
                             payload.index = i;
                             break;
                         }
                     }
+                    this.props.loadMessage({conversation_id: response.conversation_id})
+                        .then(response => {
+                            this.setState({
+                                conversation: response
+                            });
+                            // console.log(response);
+                        })
                     this.props.changeListChast(payload)
                         .then(resState => {
                             // do nothing
                         })
                 })
+        } else {
+            this.setState({
+                activeChat: item,
+            })
+            this.props.loadMessage({conversation_id: item.conversation_id})
+                .then(response => {
+                    this.setState({
+                        conversation: response
+                    });
+                })
         }
-        this.setState({
-            activeChat: item,
-            conversation: [
-                {
-                    user_id: this.props.current_user.id,
-                    content: 'Connect friend :)',
-                    created_at: '20-12-2018'
-                },
-            ]
-        })
 
     }
 
@@ -146,7 +156,7 @@ class Messages extends Component {
                                     this.setState({
                                         conversation: response
                                     });
-                                    console.log(response);
+                                    // console.log(response);
                                 })
 
                         })
