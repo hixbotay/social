@@ -8,7 +8,8 @@ import {
     getListChat,
     createConversation,
     DanhSach,
-    changeListChast
+    changeListChast,
+    loadMessage
 } from "../../actions/MessageActions";
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
@@ -24,13 +25,7 @@ class Messages extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            conversation: [
-                {
-                    user_id: this.props.current_user.id,
-                    content: 'Start friend connect :)',
-                    created_at: '20-12-2018'
-                },
-            ],
+            conversation: [],
             activeChat: {},
             current_message: '',
             typing: "",
@@ -47,6 +42,10 @@ class Messages extends Component {
         if (evt.key === 'Enter') {
             this.emitMessage();
         }
+    }
+
+    scrollToBottom = () => {
+        this.messagesEnd.current.scrollIntoView({ behavior: 'smooth' })
     }
 
     typingMessage(evt){
@@ -84,6 +83,7 @@ class Messages extends Component {
     }
 
     changeActive(item){
+        // console.log(item);
         if (!item.conversation_id) {
             this.props.createConversation({
                 name: item.id + "_" + this.props.current_user.id,
@@ -97,28 +97,34 @@ class Messages extends Component {
                         last_message: "Welcome NOIDUYEN :)"
                     };
                     for(let i = 0; i < this.props.chatList.length; i ++){
-                        console.log(i);
                         if (this.props.chatList[i].id == this.state.activeChat.id){
                             payload.index = i;
                             break;
                         }
                     }
+                    this.props.loadMessage({conversation_id: response.conversation_id})
+                        .then(response => {
+                            this.setState({
+                                conversation: response
+                            });
+                            // console.log(response);
+                        })
                     this.props.changeListChast(payload)
                         .then(resState => {
                             // do nothing
                         })
                 })
+        } else {
+            this.setState({
+                activeChat: item,
+            })
+            this.props.loadMessage({conversation_id: item.conversation_id})
+                .then(response => {
+                    this.setState({
+                        conversation: response
+                    });
+                })
         }
-        this.setState({
-            activeChat: item,
-            conversation: [
-                {
-                    user_id: this.props.current_user.id,
-                    content: 'Connect friend :)',
-                    created_at: '20-12-2018'
-                },
-            ]
-        })
 
     }
 
@@ -141,6 +147,18 @@ class Messages extends Component {
                     if (response[i].id !== this.props.current_user.id){
                         this.setState({
                             activeChat: response[i]
+                        }, () => {
+                        //    get conversation here
+                        //    conversation
+
+                            this.props.loadMessage({conversation_id: this.state.activeChat.conversation_id})
+                                .then(response => {
+                                    this.setState({
+                                        conversation: response
+                                    });
+                                    // console.log(response);
+                                })
+
                         })
                         break;
                     }
@@ -150,13 +168,18 @@ class Messages extends Component {
         // Lang nghe xem co tin nhan moi khoong
 
         socket.on("new_message", (data) => {
-            this.state.conversation.push(
-                {
-                    user_id: data.user_id,
-                    content: data.message,
-                    created_at: '20-11-2018'
-                }
-            );
+            if (data.conversation_id === this.state.activeChat.conversation_id)
+            {
+                this.state.conversation.push(
+                    {
+                        user_id: data.user_id,
+                        content: data.message,
+                        created_at: '20-11-2018'
+                    }
+                );
+            } else {
+
+            }
             this.setState({
                 status: Math.random()
             })
@@ -307,7 +330,8 @@ function mapDispatchToProps(dispatch) {
         getListChat: (id) => dispatch(getListChat()),
         createConversation: (data) => dispatch(createConversation(data)),
         DanhSach: (id) => dispatch(DanhSach()),
-        changeListChast: (data) => dispatch(changeListChast(data))
+        changeListChast: (data) => dispatch(changeListChast(data)),
+        loadMessage: (data) => dispatch(loadMessage(data))
     }
 }
 

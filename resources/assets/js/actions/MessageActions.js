@@ -42,6 +42,24 @@ export const createConversation = (data) => (dispatch) => {
     })
 }
 
+export const loadMessage = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        fetch(chatURL + 'message/load/' + data.conversation_id, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(function(response) {
+                resolve(response.json());
+            }).then(function(json) {
+                resolve(json);
+            }).catch(function(ex) {
+                console.log('parsing failed', ex)
+            })
+    })
+}
+
 
 // data {conversation_id: xxxxx, last_message: YYYYYY}
 export const changeListChast = (data) => (dispatch) =>{
