@@ -44,7 +44,7 @@ class Messages extends Component {
         }
     }
 
-    scrollToBottom = () => {
+    scrollToBottom() {
         this.messagesEnd.current.scrollIntoView({ behavior: 'smooth' })
     }
 
