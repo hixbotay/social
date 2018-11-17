@@ -25,7 +25,7 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where('status', '=', $status)
+            ->where([['status', '=', $status], ['type', '=', 'group']])
             ->whereIn('events.id', $temp)
             ->select(DB::raw('
                 events.*,
@@ -213,7 +213,7 @@ class Event extends Controller {
         return json_encode($events);
     }
 
-    public function create(Request $request) {
+    public function createGroupEvent(Request $request) {
         $user_id = Auth::id();
         $newEvent = [
             'creator' => $user_id,
@@ -236,17 +236,6 @@ class Event extends Controller {
             $newEvent[$key] = $value;
         }
         $result = \App\Event::create($newEvent);
-
-        // if type is couple, creator is first event register
-        // if($result['type'] == 'couple') {
-        //     DB::table('event_register')
-        //     ->insert([
-        //         'user_id' => $user_id,
-        //         'event_id' => $result['id'],
-        //         'status' => 1,
-        //         'created' => date('Y-m-d h:i:s')
-        //     ]);
-        // }
 
         $job_arr = []; //temp array for query subscriber
         foreach($data->event_meta as $key => $value) {
@@ -299,7 +288,77 @@ class Event extends Controller {
         }
         DB::table('event_invitations')->insert($invitations);
 
-        return json_encode($invitations);
+        return json_encode($result);
+    }
+
+    public function createCoupleEvent(Request $request) {
+        $user_id = Auth::id();
+        $newEvent = [
+            'creator' => $user_id,
+            'status' => 'forthcoming'
+        ];
+        $metadata = [];
+
+        $data = json_decode($request->getContent());
+
+        // dating type is couple
+        $newEvent['limit_number'] = 2;
+        $newEvent['min_number'] = 2;
+
+        foreach($data->event as $key => $value) {
+            $newEvent[$key] = $value;
+        }
+        $result = \App\Event::create($newEvent);
+
+        // creator is first event register
+        if($result['type'] == 'couple') {
+            DB::table('event_register')
+            ->insert([
+                'user_id' => $user_id,
+                'event_id' => $result['id'],
+                'status' => 1,
+                'created' => date('Y-m-d h:i:s')
+            ]);
+        }
+
+        $job_arr = []; //temp array for query subscriber
+        foreach($data->event_meta as $key => $value) {
+            if($key === 'job_conditional') {
+                foreach($value as $temp) {
+                    array_push($job_arr, $temp);
+
+                    array_push(
+                        $metadata, 
+                        [
+                            'event_id' => $result['id'],
+                            'meta_key' => $key,
+                            'meta_value' => $temp
+                        ]
+                    );
+                }
+            } else {
+                array_push(
+                    $metadata, 
+                    [
+                        'event_id' => $result['id'],
+                        'meta_key' => $key,
+                        'meta_value' => $value
+                    ]
+                );
+            }
+        }
+        $result_1 = DB::table('event_meta')->insert($metadata);
+
+        DB::table('event_invitations')
+            ->insert([
+                'event_id' => $result['id'],
+                'inviter' => $user_id,
+                'invitee' => $data->subscriber,
+                'created_at' => date('Y-m-d h:i:s'),
+                'updated_at' => date('Y-m-d h:i:s')
+            ]);
+
+        return json_encode($result);
     }
 
     public function joinEvent($event_id) {
@@ -734,5 +793,42 @@ class Event extends Controller {
         $data['user_id'] = Auth::id();
         $response = DB::table('event_subscribers')->insert($data);
         return json_encode($response);
+    }
+
+    public function listSubscribers() {
+        $user = Auth::user();
+        // find user is invited by current user and that event is forthcoming
+        $excludeInvitee = DB::table('event_invitations')
+            ->join('events', 'event_id', '=', 'events.id')
+            ->where([
+                ['status', '<>', 'finished'],
+                ['inviter', '=', $user->id]
+            ])
+            ->select('invitee')
+            ->get();
+        $temp = [];
+        foreach($excludeInvitee as $item) {
+            array_push($temp, $item->invitee);
+        }
+
+        $subscribers = DB::table('event_subscribers')
+            ->join('users', 'users.id', '=', 'user_id')
+            ->join('devvn_tinhthanhpho', 'matp', '=', 'event_subscribers.province_id')
+            ->join('devvn_quanhuyen', 'maqh', '=', 'event_subscribers.district_id')
+            ->join('agency', 'agency.id', '=', 'event_subscribers.agency_id')
+            ->where([
+                ['is_subscribe_couple_dating', '=', 1],
+                ['expect_date_from', '<=', date("Y-m-d H:i:s")],
+                ['expect_date_to', '>=', date("Y-m-d H:i:s")],
+                ['event_subscribers.province_id', '=', $user->province_id]
+            ])
+            ->whereNotIn('user_id', $temp)
+            ->select(DB::raw('event_subscribers.*, 
+                users.name, users.avatar, users.address, 
+                devvn_tinhthanhpho.name AS province, devvn_quanhuyen.name AS district,
+                agency.name AS agency_name    
+            '))
+            ->paginate(5);
+        return json_encode($subscribers);
     }
 }

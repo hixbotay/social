@@ -25,6 +25,8 @@ Route::middleware(['web'])->group(function() {
     Route::post('post/like/{post_id}', 'Api\Post@like');
     Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
 
+    Route::post('/event/group', 'Api\Event@createGroupEvent');
+    Route::post('/event/couple', 'Api\Event@createCoupleEvent');
     Route::post('/event/status/{id}', 'Api\Event@updateStatus');
     Route::post('/event/subscribe', 'Api\Event@subscribeEvent');
     Route::post('/event/{event_id}', 'Api\Event@joinEvent');
@@ -45,18 +47,17 @@ Route::middleware(['web'])->group(function() {
     Route::get('logout', 'Api\User@logout');
     
     Route::get('/posts', 'Api\Post@list');
+    Route::post('/post', 'Api\Post@createPost');
 
     Route::get('/notifications', 'Api\Notification@list');
     Route::post('/notifications/all', 'Api\Notification@markAllAsRead');
     Route::post('/notification/{id}', 'Api\Notification@markRead');
     Route::get('/notifications/count-unread', 'Api\Notification@countUnread');
-});
 
-Route::middleware(['web'])->group(function() {
     Route::post('/update-avatar', 'Api\User@updateAvatar');
-    Route::post('/post', 'Api\Post@createPost');
+    
     Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
-    Route::post('/event', 'Api\Event@create');
+    Route::get('/subscribers', 'Api\Event@listSubscribers');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import CreateGroupDating from './CreateGroupDating';
-import CreateCoupleDating from './CreateCoupleDating';
 import DatingIntro from './DatingIntro';
 import Fragment from 'react-dot-fragment';
 import VerifyAlert from './VerifyAlert';
@@ -55,13 +54,5 @@ function mapStateToProps(state) {
         user: state.user.current_user
     }
 }
-
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         getAllJobs: () => dispatch(getAllJobs()),
-//         getAllCafe: (filter, page) => dispatch(getAllCafe(filter, page)),
-//         createNewEvent: (data) => dispatch(createNewEvent(data))
-//     }
-// }
 
 export default connect(mapStateToProps, null)(CreateEvent);

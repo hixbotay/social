@@ -6,12 +6,14 @@ import {
     GET_AROUND_EVENTS,
     GET_EVENTS_HAS_YOUR_CRUSH,
     GET_INVITED_EVENTS,
-    CREATE_NEW_EVENT,
+    CREATE_GROUP_EVENT,
+    CREATE_COUPLE_EVENT,
     JOIN_EVENT,
     GET_EVENT_DETAIL,
     INVITE_INTO_EVENT,
     SEARCH_EVENTS,
-    SUBSCRIBE_EVENT
+    SUBSCRIBE_EVENT,
+    GET_SUBSCRIBERS
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -29,7 +31,8 @@ const INIT_STATE = {
     eventsHasYourCrush: [],
     newEvent: {},
     invitedEvents: [],
-    results: []
+    results: [],
+    subscribers: []
 }
 
 export default (state=INIT_STATE, action) => {
@@ -52,7 +55,10 @@ export default (state=INIT_STATE, action) => {
         case GET_EVENTS_HAS_YOUR_CRUSH: {
             return {...state, eventsHasYourCrush: action.payload}
         }
-        case CREATE_NEW_EVENT: {
+        case CREATE_GROUP_EVENT: {
+            return {...state, newEvent: action.payload}
+        }
+        case CREATE_COUPLE_EVENT: {
             return {...state, newEvent: action.payload}
         }
         case JOIN_EVENT: {
@@ -72,6 +78,9 @@ export default (state=INIT_STATE, action) => {
         }
         case SUBSCRIBE_EVENT: {
             return {...state}
+        }
+        case GET_SUBSCRIBERS: {
+            return {...state, subscribers: action.payload}
         }
         default: {
             return {...state}

@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
-import {getAllEvents} from "../../actions/EventActions";
+import {getAllEvents, listSubscribers, createCoupleEvent} from "../../actions/EventActions";
 import 'react-image-lightbox/style.css';
 import 'react-animated-slider/build/horizontal.css';
-import { DatingCard } from '../../components/Card';
+import { DatingCard, CardWithTitle } from '../../components/Card';
 import DatingLayout from './DatingLayout';
 import Modal from '../../components/Modal';
 import CircleButton from '../../components/Button/CircleButton';
+import Subscriber from '../../components/Dating/Subscriber';
 
 class ListInvitationDating extends Component {
 
@@ -19,10 +20,11 @@ class ListInvitationDating extends Component {
 
     componentDidMount() {
         this.props.getAllEvents('invited');
+        this.props.listSubscribers();
     }
 
     render() {
-        const {events} = this.props;
+        const {events, subscribers, user} = this.props;
         var coupleEvents = [];
         var groupEvents = [];
         
@@ -39,6 +41,20 @@ class ListInvitationDating extends Component {
         return (
             <DatingLayout>
                 <DatingCard title="LỜI MỜI CAFE ĐÔI" events={coupleEvents} type="invitation"></DatingCard>
+                <CardWithTitle hasLine={true} title="CÁC THÀNH VIÊN ĐANG MUỐN HẸN HÒ">
+                    {
+                        subscribers.map((subscriber, item) => {
+                            return (
+                                <Subscriber 
+                                    subscriber={subscriber} 
+                                    user={user} 
+                                    key={subscriber.id}
+                                    createDating={(data) => this.props.createCoupleEvent(data)}
+                                />
+                            )
+                        }) 
+                    }
+                </CardWithTitle>
                 <DatingCard title="LỜI MỜI CAFE NHÓM" events={groupEvents} type="invitation"></DatingCard>
             </DatingLayout>
         );
@@ -49,13 +65,17 @@ class ListInvitationDating extends Component {
 
 function mapStateToProps(state) {
     return {
+        user:  state.user.current_user,
         events: state.event.invitedEvents,
+        subscribers: state.event.subscribers
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getAllEvents: (status) => dispatch(getAllEvents(status)),
+        listSubscribers: () => dispatch(listSubscribers()),
+        createCoupleEvent: (data) => dispatch(createCoupleEvent(data))
     }
 }
 

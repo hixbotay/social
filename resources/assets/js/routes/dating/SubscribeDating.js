@@ -77,10 +77,10 @@ class SubscribeDating extends Component {
         }
 
         if(this.state.is_subscribe_couple_dating || this.state.is_subscribe_group_dating) {
-            const { is_you_pay, expect_gender } = this.form;
+            const { payer, expect_gender } = this.form;
             this.setState({
                 ...this.state,
-                is_you_pay: is_you_pay.value,
+                payer: payer.value,
                 expect_gender: expect_gender.value
             }, () => {
                 console.log(this.state);
@@ -123,13 +123,13 @@ class SubscribeDating extends Component {
                                 Người thanh toán hẹn đôi
                             </div>
                             <div className="col-1">
-                                <input className="custom-input" type="radio" name="is_you_pay" value={1} required/>
+                                <input className="custom-input" type="radio" name="payer" value="self" required/>
                             </div>
                             <div className="col-3">
                                 <label>Bạn thanh toán</label>
                             </div>
                             <div className="col-1">
-                                <input className="custom-input" type="radio" name="is_you_pay" value={0} required/>
+                                <input className="custom-input" type="radio" name="payer" value="partner" required/>
                             </div>
                             <div className="col-3">
                                 <label>Người ấy thanh toán</label>

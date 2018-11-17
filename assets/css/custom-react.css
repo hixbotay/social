@@ -883,6 +883,10 @@ button.slick-arrow {
     position: absolute;
     bottom: 0;
     text-align: center!important;
+    font-size: 3em;
+    -webkit-text-stroke: black 2px;
+    color: #fff;
+    font-weight: 800;
 }
 
 .dating-description {

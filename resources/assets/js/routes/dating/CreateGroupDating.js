@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import connect from 'react-redux/es/connect/connect';
 import { getAllJobs } from '../../actions/JobActions';
 import { getAllCafe, getCafeDetail } from '../../actions/CafeActions';
-import { createNewEvent } from '../../actions/EventActions';
+import { createGroupEvent } from '../../actions/EventActions';
 import { RoundAvatar } from '../../components/Avatar';
 import Modal from '../../components/Modal';
 import { getCookie } from '../../helper/cookie';
@@ -122,7 +122,7 @@ class CreateGroupDating extends Component {
     createNewEvent(e) {
         e.preventDefault();
         if (this.state.selectedTheme && (this.state.selectedAddress >= 0)) {
-            this.props.createNewEvent({event: this.state.newEvent, event_meta: this.state.metadata});
+            this.props.createGroupEvent({event: this.state.newEvent, event_meta: this.state.metadata});
             document.getElementById('open-modal').click();
         } else {
             window.alert("Bạn chọn thiếu chủ đề hoặc địa chỉ");
@@ -403,7 +403,7 @@ function mapDispatchToProps(dispatch) {
         getAllJobs: () => dispatch(getAllJobs()),
         getAllCafe: (filter, page) => dispatch(getAllCafe(filter, page)),
         getCafeDetail: (id) =>  dispatch(getCafeDetail(id)),
-        createNewEvent: (data) => dispatch(createNewEvent(data))
+        createGroupEvent: (data) => dispatch(createGroupEvent(data))
     }
 }
 

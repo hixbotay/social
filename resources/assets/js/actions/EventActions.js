@@ -7,13 +7,15 @@ import {
     GET_AROUND_EVENTS,
     GET_EVENTS_HAS_YOUR_CRUSH,
     GET_INVITED_EVENTS,
-    CREATE_NEW_EVENT,
+    CREATE_GROUP_EVENT,
+    CREATE_COUPLE_EVENT,
     JOIN_EVENT,
     GET_EVENT_DETAIL,
     INVITE_INTO_EVENT,
     SEARCH_EVENTS,
     UPDATE_EVENT_STATUS,
-    SUBSCRIBE_EVENT
+    SUBSCRIBE_EVENT,
+    GET_SUBSCRIBERS
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -57,12 +59,20 @@ export const getAllEvents = (type) => dispatch => {
         })
 }
 
-export const createNewEvent = (data) => dispatch => {
-    console.log(data);
-    return api.post('/event', data)
+export const createGroupEvent = (data) => dispatch => {
+    return api.post('/event/group', data)
     .then((response) => {
-        dispatch({type: CREATE_NEW_EVENT, payload: response.data});
-        // window.location.reload();
+        dispatch({type: CREATE_GROUP_EVENT, payload: response.data});
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+export const createCoupleEvent = (data) => dispatch => {
+    return api.post('/event/couple', data)
+    .then((response) => {
+        dispatch({type: CREATE_COUPLE_EVENT, payload: response.data});
     })
     .catch(err => {
         console.log(err);
@@ -151,4 +161,12 @@ export const subscribeEvent = (data) => (dispatch) => {
             console.log(err);
             window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
         })
+}
+
+export const listSubscribers = (page = 1) => dispatch => {
+    return api.get(`/subscribers?page=${page}`).then(res => {
+        dispatch({type: GET_SUBSCRIBERS, payload: res.data.data});
+    }).catch(err => {
+        console.log(err);
+    })
 }

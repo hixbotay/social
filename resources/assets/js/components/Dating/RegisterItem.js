@@ -10,8 +10,8 @@ class RegisterItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoved: props.user.is_loved,
-            isLiked: props.user.is_like,
+            isLoved: parseInt(props.user.is_loved) ? true : false,
+            isLiked: parseInt(props.user.is_like) ? true : false, 
         }
     }
 
@@ -46,6 +46,8 @@ class RegisterItem extends Component {
             isShowUser = true;
         }
 
+        console.log(this.state.isLoved)
+
         return (
             <div className="row register-item">
             {
@@ -79,27 +81,35 @@ class RegisterItem extends Component {
                                 ) : (
                                     <Fragment>
                                         {
-                                            this.state.isLoved ? (
-                                                <p>Bạn thích <b>{user.name}</b>. Hãy nhắn tin và hẹn đôi với anh ấy!</p>
-                                            ) : null
+                                            (type == 'creator') ? (
+                                                <div>{user.address}</div>
+                                            ) : (
+                                                <div>
+                                                    {
+                                                        this.state.isLoved ? (
+                                                            <p>Bạn thích <b>{user.name}</b>. Hãy nhắn tin và hẹn đôi với anh ấy!</p>
+                                                        ) : null
+                                                    }
+                                                    <div>
+                                                        <CircleButton
+                                                            icon="fas fa-heart"
+                                                            color={this.state.isLoved ? '#e74c3c' : '#34495e'}
+                                                            action={() => this.onUpdateRelationship('love')}
+                                                        ></CircleButton>
+                                                        <CircleButton
+                                                            icon="fas fa-thumbs-up"
+                                                            color={this.state.isLiked ? '#2980b9' : '#34495e'}
+                                                            action={() => this.onUpdateRelationship('like')}
+                                                        ></CircleButton>
+                                                        <CircleButton
+                                                            icon="fas fa-comments"
+                                                            color='#34495e'
+                                                        // action
+                                                        ></CircleButton>
+                                                    </div>
+                                                </div>
+                                            )
                                         }
-                                        <div>
-                                            <CircleButton
-                                                icon="fas fa-heart"
-                                                color={this.state.isLoved ? '#e74c3c' : '#34495e'}
-                                                action={() => this.onUpdateRelationship('love')}
-                                            ></CircleButton>
-                                            <CircleButton
-                                                icon="fas fa-thumbs-up"
-                                                color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                                                action={() => this.onUpdateRelationship('like')}
-                                            ></CircleButton>
-                                            <CircleButton
-                                                icon="fas fa-comments"
-                                                color='#34495e'
-                                            // action
-                                            ></CircleButton>
-                                        </div>
                                     </Fragment>
                                 )
                             }

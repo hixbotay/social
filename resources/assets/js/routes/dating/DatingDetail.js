@@ -21,7 +21,7 @@ class DatingDetail extends Component {
     }
 
     render() {
-        const { event } = this.props;
+        const { event, current_user } = this.props;
 
         var status = "Sắp diễn ra";
         switch (event.status) {
@@ -122,6 +122,20 @@ class DatingDetail extends Component {
                                     }
                                 </div>
                             </div>
+                            {
+                                event.type === 'couple' ? (
+                                    <div className="row">
+                                        <div className="col-4">
+                                            Người thanh toán
+                                        </div>
+                                        <div className="col-8">
+                                            {
+                                                (parseInt(event.payer) === parseInt(current_user.id)) ? "Bạn" : "Người kia"
+                                            }
+                                        </div>
+                                    </div>
+                                ) : null
+                             }
                         </div>
                     </div>
                 </Card>
@@ -185,40 +199,7 @@ class DatingDetail extends Component {
                                 </CardWithIcon>
                             </div>
                         </div>
-                    ) : (
-                            <Card>
-                                <div className="row">
-                                    <div className="col-6">
-                                        <div className="row">
-                                            <div className="col-4">
-                                                Giới tính
-                                        </div>
-                                            <div className="col-8">
-                                                {event.gender === 'M' ? "Nam" : "Nữ"}
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-4">
-                                                Độ tuổi
-                                        </div>
-                                            <div className="col-8">
-                                                {event.min_age} - {event.max_age}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div className="row">
-                                            <div className="col-6">
-                                                Người thanh toán
-                                        </div>
-                                            <div className="col-6">
-                                                {event.payer ? "Bạn" : "Người kia"}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Card>
-                        )
+                    ) : null
                 }
 
                 <CardWithTitle hasLine={true} title="NGƯỜI TỔ CHỨC CUỘC HẸN">
@@ -232,7 +213,7 @@ class DatingDetail extends Component {
                                     action={(data, user_id) => this.props.updateRelationship(data, user_id)}
                                 ></RegisterItem>
                                 {
-                                    event.status == 'forthcoming' ? (
+                                    (event.status == 'forthcoming' && current_user.id == event.creator.id) ? (
                                         <div className="row">
                                             <div className="col-3"></div>
                                             <div className="col-9">
