@@ -36,6 +36,7 @@ class Messages extends Component {
             var subcriber = {room_id: this.props.current_user.id, username: this.props.current_user.name};
             socket.emit('subscribe', subcriber);
         }
+        this.messagesEnd = React.createRef();
     }
 
     enterMessage(evt){
@@ -45,7 +46,8 @@ class Messages extends Component {
     }
 
     scrollToBottom() {
-        this.messagesEnd.current.scrollIntoView({ behavior: 'smooth' })
+        console.log(this.messagesEnd);
+        // this.messagesEnd.current.scrollIntoView({behavior: "instant", block: "end", inline: "nearest"})
     }
 
     typingMessage(evt){
@@ -130,6 +132,7 @@ class Messages extends Component {
 
     componentDidMount(){
 
+        this.scrollToBottom();
 
         // axios({
         //     method:'get',
@@ -271,7 +274,7 @@ class Messages extends Component {
                                 </div>
                             </div>
                             <hr />
-                            <div className="msg_history">
+                            <div className="msg_history" ref={this.messagesEnd}>
                                 {
                                     this.state.conversation.map((item, index)=> {
                                         return (
