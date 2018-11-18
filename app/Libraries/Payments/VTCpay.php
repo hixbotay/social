@@ -1,17 +1,18 @@
 <?php
 
+namespace App\Libraries\Payments;
 
-class VTCPay_Checkout
+class VTCPay
 {
 
-    protected $securityCode = "RMdEwvuWUvYcMewczVB0SVT78SzdxacNZUtcKHyc";
-    protected $websiteId = 6606;
+    protected static $securityCode = "RMdEwvuWUvYcMewczVB0SVT78SzdxacNZUtcKHyc";
+    protected static $websiteId = 6606;
 
     //Hàm xây dựng url
-    public function buildCheckoutUrl($return_url, $receiver, $transaction_info, $order_code, $amount)
+    public static function buildCheckoutUrl($return_url, $receiver, $transaction_info, $order_code, $amount)
     {
-        $websiteid = $this->websiteId;
-        $secret_key = $this->securityCode;
+        $websiteid = self::$websiteId;
+        $secret_key = self::$securityCode;
         // Mảng các tham số chuyển tới VTC Pay
         $arr_param = array(
             'return_url'		=>	strtolower(urlencode($return_url)),
