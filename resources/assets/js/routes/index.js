@@ -39,6 +39,8 @@ import DatingResult from './dating/DatingResult';
 import SearchResult from './cafe/SearchResult';
 import DatingSearchResults from './dating/DatingSearchResults';
 import SubscribeDating from './dating/SubscribeDating';
+import Payment from './payment/index';
+import NotFound from './404';
 
 //action
 import {getCurrentUser} from '../actions/UserActions';
@@ -103,6 +105,13 @@ class MainApp extends Component {
                     <AppRoute exact path="/friends/visited" layout={MainLayout} component={FriendsVisited} />
                     {/* Couple */}
                     <AppRoute exact path="/couple" layout={SecondLayout} component={SearchResults} />
+
+                    {/*Payment*/}
+                    <AppRoute exact path={"/payment"} layout={MainLayout} component={Payment} />
+
+                    <Route component={NotFound} />
+
+
                 </Switch>
 			);
 		}
