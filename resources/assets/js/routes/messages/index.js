@@ -193,9 +193,6 @@ class Messages extends Component {
                         created_at: '20-11-2018'
                     }
                 );
-            } else {
-                    //    do gi thi do
-
             }
 
             const dataMess = {conversation_id: data.conversation_id, last_message: data.message};

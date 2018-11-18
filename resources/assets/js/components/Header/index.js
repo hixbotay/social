@@ -19,14 +19,14 @@ class Header extends Component {
                     <div className="control-block">
 
                         <div>
-                            <Link to="/">
+                            <a href={`${baseUrl}`}>
                                 <img src={`${baseUrl}/public/images/main/logo.png`}
                                 style={{
                                     width:150, height: 'auto',
                                     marginRight: 80,
                                 }}
                                 />
-                            </Link>
+                            </a>
                         </div>
 
                         <div className="control-icon more has-items">
