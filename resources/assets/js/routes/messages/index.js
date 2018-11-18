@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Card } from '../../components/Card';
 import MessageItem from '../../components/Message/MessageItem';
 import IncomingMessage from '../../components/Message/IncomingMessage';
@@ -45,9 +46,20 @@ class Messages extends Component {
         }
     }
 
-    scrollToBottom() {
+    scrollToBottom2() {
         console.log(this.messagesEnd);
-        // this.messagesEnd.current.scrollIntoView({behavior: "instant", block: "end", inline: "nearest"})
+        this.messagesEnd.current.scrollIntoView({behavior: 'smooth'});
+    }
+
+    scrollToBottom() {
+
+        const messagesEnd = this.messagesEnd.current;
+        console.log(messagesEnd);
+        const scrollHeight = messagesEnd.scrollHeight;
+        const height = messagesEnd.clientHeight;
+        var maxScrollTop = scrollHeight - height;
+        messagesEnd.scrollTop = maxScrollTop;
+        // ReactDOM.findDOMNode(messagesEnd).scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
     }
 
     typingMessage(evt){
@@ -171,6 +183,7 @@ class Messages extends Component {
         // Lang nghe xem co tin nhan moi khoong
 
         socket.on("new_message", (data) => {
+
             if (data.conversation_id === this.state.activeChat.conversation_id)
             {
                 this.state.conversation.push(
@@ -181,11 +194,23 @@ class Messages extends Component {
                     }
                 );
             } else {
+                    //    do gi thi do
 
             }
-            this.setState({
-                status: Math.random()
-            })
+
+            const dataMess = {conversation_id: data.conversation_id, last_message: data.message};
+            for(let i = 0; i < this.props.chatList.length; i ++){
+                if (this.props.chatList[i].conversation_id === data.conversation_id){
+                    this.props.changeListChast(dataMess)
+                        .then(resState => {
+                            console.log(resState);
+                            this.setState({
+                                status: Math.random()
+                            })
+                        })
+                }
+            }
+
 
         })
 
@@ -294,6 +319,10 @@ class Messages extends Component {
                                         )
                                     })
                                 }
+
+                                <div className={"endconversation"} style={{ float:"left", clear: "both" }}>
+                                </div>
+
                             </div>
                             <p>{this.state.typing}</p>
                             <div className="type_msg">

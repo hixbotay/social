@@ -11,10 +11,19 @@ export default (state = INIT_STATE, action) => {
         }
         case CHANGE_LIST_CHAT: {
             var data = action.payload;
+            console.log(data);
+
+            for (let i = 0; i < state.chatList.length; i ++) {
+                if (state.chatList[i].conversation_id === data.conversation_id){
+                    data.index = i;
+                    break;
+                }
+            }
+
             return {
                 ...state,
                 chatList: state.chatList.map(
-                    (content, i) => i === data.index ? {...content, conversation_id: data.conversation_id, last_message: data.last_message}
+                    (content, i) => i === data.index ? {...content, content: data.last_message}
                         : content
                 )
             }
