@@ -19,7 +19,10 @@ class VTCPay
             'receiver'			=>	strval($receiver),
             'transaction_info'	=>	strval($transaction_info),
             'order_code'		=>	strval($order_code),
-            'amount'			=>	strval($amount)
+            'amount'			=>	strval($amount),
+            'currency'          => 'VND',
+            'reference_number'  => 'awetgwerherh'
+
         );
         $currency = 1;
         $vtcpay_url  = "http://sandbox1.vtcebank.vn/pay.vtc.vn/gate/checkout.html";
@@ -29,7 +32,8 @@ class VTCPay
             . "&payment_method=" . $currency
             . "&order_code=" . $arr_param['order_code']
             . "&amount=" . $arr_param['amount']
-            . "&receiver_acc=" .  $arr_param['receiver'];
+            . "&receiver_account=" .  $arr_param['receiver']
+            . "&return_url=".$arr_param['return_url'];
         $customer_name = "";
         $customer_mobile = "";
         $data = $data . "&customer_name=" . $customer_name. "&customer_mobile=" . $customer_mobile . "&order_des=" . $arr_param['transaction_info'] . "&sign=" . $sign;

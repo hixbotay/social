@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <base href="{{url_root()}}/">
+    <base href="{{url('')}}/">
     <script>
         var baseUrl = "{{url('')}}";
     </script>
