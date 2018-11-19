@@ -48,16 +48,18 @@ class DatingDetail extends Component {
                 <Card>
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
-                            <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
+                            <RoundAvatar size={"medium"} img={baseUrl + '/' + event.address_avatar}></RoundAvatar>
                         </div>
                         <div className={"col-md-7 dating-header"}>
                             <h5>
                                 {event.name}
+                                <span>
                                 {
                                     event.is_approved ?
                                         <i className="fas fa-check-circle event-status-icon" style={{ color: '#27ae60' }}></i>
                                         : <i className="fas fa-ellipsis-h event-status-icon" style={{ color: '#f1c40f' }}></i>
                                 }
+                                </span>
                             </h5>
                             <div>{event.address}</div>
                         </div>
@@ -209,7 +211,7 @@ class DatingDetail extends Component {
                                 <RegisterItem
                                     type="creator"
                                     user={event.creator}
-                                    isSecret={false}
+                                    isSecretEvent={false}
                                     action={(data, user_id) => this.props.updateRelationship(data, user_id)}
                                 ></RegisterItem>
                                 {
@@ -250,7 +252,7 @@ class DatingDetail extends Component {
                                         <RegisterItem
                                             type="register"
                                             user={user}
-                                            isSecret={event.is_secret}
+                                            isSecretEvent={event.is_secret}
                                             key={index}
                                             action={(data, user_id) => this.props.updateRelationship(data, user_id)}
                                         ></RegisterItem>

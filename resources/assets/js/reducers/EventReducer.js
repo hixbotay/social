@@ -13,7 +13,8 @@ import {
     INVITE_INTO_EVENT,
     SEARCH_EVENTS,
     SUBSCRIBE_EVENT,
-    GET_SUBSCRIBERS
+    GET_SUBSCRIBERS,
+    REVIEW_DATING
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -81,6 +82,9 @@ export default (state=INIT_STATE, action) => {
         }
         case GET_SUBSCRIBERS: {
             return {...state, subscribers: action.payload}
+        }
+        case REVIEW_DATING: {
+            return {...state};
         }
         default: {
             return {...state}

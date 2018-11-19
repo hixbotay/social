@@ -25,7 +25,7 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where([['status', '=', $status], ['type', '=', 'group']])
+            ->where([['status', '=', $status], ['events.type', '=', 'group']])
             ->whereIn('events.id', $temp)
             ->select(DB::raw('
                 events.*,
@@ -384,6 +384,9 @@ class Event extends Controller {
     }
 
     public function get($event_id) {
+        // $current_user_id = Auth::id();
+        $current_user_id  =1;
+
         $event = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
             ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
             ->leftjoin('agency_photos', function ($join) {
@@ -406,17 +409,18 @@ class Event extends Controller {
             ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
             ->select(DB::raw(
                 'users.id, users.name, users.address, users.avatar, users.birthday,
-                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
-                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE 0 END) AS loveNumber, 
+                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE 0 END) AS likeNumber'
+                
             ))
             ->first();
         $creator['is_like'] = 0;
         $creator['is_loved'] = 0;
 
-        if($creator->id != Auth::id()) {
+        if($creator->id != $current_user_id) {
             $temp = DB::table('user_relationship')
                 ->where([
-                    ['from_user_id', '=', Auth::id()],
+                    ['from_user_id', '=', $current_user_id],
                     ['to_user_id', '=', $creator->id]
                 ])
                 ->first();
@@ -468,33 +472,52 @@ class Event extends Controller {
             ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
             ->select(DB::raw(
                 'users.id, users.name, users.address, users.avatar, users.birthday,
-                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
-                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE 0 END) AS loveNumber, 
+                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE 0 END) AS likeNumber'
             ))
             ->groupBy('users.id')
             ->paginate(10);
 
         foreach($users as $user) {
-            if($user->id == Auth::id()) $event['is_joined'] = 1;
+            if($user->id == $current_user_id) $event['is_joined'] = 1;
 
             $user['is_like'] = 0;
             $user['is_loved'] = 0;
+            $user['is_couple'] = 0;
+
+            $temp1 = DB::table('user_relationship')
+                ->where([
+                    ["from_user_id", '=', $user->id], 
+                    ["to_user_id",'=', $current_user_id]
+                ])
+                ->having('is_loved', '=', 1);
 
             $temp = DB::table('user_relationship')
-                ->where([
-                    ['from_user_id', '=', Auth::id()],
-                    ['to_user_id', '=', $user->id]
-                ])
-                ->first();
-            if($temp != null) {
-                $user['is_like'] = $temp->is_like;
-                $user['is_loved'] = $temp->is_loved;
+                ->where([["from_user_id", '=', $current_user_id], ["to_user_id", '=', $user->id]])
+                ->union($temp1)
+                ->get();
+
+            if(count($temp)) {
+                $user['is_like'] = $temp[0]->is_like;
+                $user['is_loved'] = $temp[0]->is_loved;
+                if(count($temp) === 2) $user['is_partner_loved'] = $temp[1]->is_loved;
             }
 
             $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $user->id)->count();
         }
 
         $event['registers'] = $users->items();
+
+        $event['reviews'] = [];
+        if($event->type == 'couple' && $event->status == 'finished') {
+            $reviews = DB::table('event_review')
+                ->leftjoin('users', 'user_id', '=', 'users.id')
+                ->where('event_id', $event_id)
+                ->select(DB::raw('event_review.*, users.name AS user_name, users.avatar AS user_avatar'))
+                ->orderBy('created_at', 'DESC')
+                ->get();
+            $event['reviews'] = $reviews;
+        }
 
         return json_encode($event);
     }
@@ -830,5 +853,18 @@ class Event extends Controller {
             '))
             ->paginate(5);
         return json_encode($subscribers);
+    }
+
+    public function reviewEvent(Request $request, $id) {
+        // $data = $request->all();
+        $data['user_id'] = 1;
+        $data['event_id'] = $id;
+        $data['rating'] = $request->get('rating');
+        $data['content'] = $request->get('content');
+        $data['created_at'] = date("Y-m-d H:i:s");
+        $data['updated_at'] = date("Y-m-d H:i:s");
+
+        $result = DB::table('event_review')->insert($data);
+        return json_encode($result);
     }
 }

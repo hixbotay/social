@@ -12,6 +12,9 @@ class RegisterItem extends Component {
         this.state = {
             isLoved: parseInt(props.user.is_loved) ? true : false,
             isLiked: parseInt(props.user.is_like) ? true : false, 
+            loveNumber: parseInt(props.user.loveNumber),
+            likeNumber: parseInt(props.user.likeNumber),
+            isSecret: props.isSecretEvent && !(props.user.is_partner_loved && props.user.is_loved) // 2 person is couple if they love each other
         }
     }
 
@@ -21,18 +24,32 @@ class RegisterItem extends Component {
         if(actionType == 'love') {
             if(this.state.isLoved) {
                 data = {'is_loved': 0};
-                this.setState({isLoved: false});
+                this.setState({
+                    isLoved: false,
+                    loveNumber: this.state.loveNumber - 1,
+                    isSecret: this.props.isSecretEvent && !(this.props.user.is_partner_loved && false)
+                });
             } else {
                 data = {'is_loved': 1};
-                this.setState({isLoved: true });
+                this.setState({
+                    isLoved: true,
+                    loveNumber: this.state.loveNumber + 1,
+                    isSecret: this.props.isSecretEvent && !(this.props.user.is_partner_loved && true)
+                });
             }
         } else if(actionType == 'like') {
             if(this.state.isLiked) {
                 data = {'is_like': 0};
-                this.setState({isLiked: false});
+                this.setState({
+                    isLiked: false,
+                    likeNumber: this.state.likeNumber - 1,
+                });
             } else {
                 data = {'is_like': 1};
-                this.setState({isLiked: true});
+                this.setState({
+                    isLiked: true,
+                    likeNumber: this.state.likeNumber + 1,
+                });
             }
         }
 
@@ -40,25 +57,30 @@ class RegisterItem extends Component {
     }
 
     render() {
-        const {user, current_user, type, isSecret, isForthcoming} = this.props; 
-        var isShowUser = !isSecret && (this.state.isLoved || this.state.isLiked);
-        if(type === 'creator' || (user.id === current_user.id)) {
-            isShowUser = true;
-        }
+        const {user, current_user, type} = this.props; 
 
-        console.log(this.state.isLoved)
+        console.log(this.state)
 
         return (
             <div className="row register-item">
+                <div className="col-1">
+                    {
+                        (user.id !== current_user.id) ? (
+                            <span onClick={() => this.onUpdateRelationship('love')} className={`love-btn ${this.state.isLoved ? 'active' : ''}`}>
+                                <i className={`fas fa-heart`} ></i>
+                            </span>
+                        ) : null
+                    }
+                </div>
             {
-                isShowUser ? (
+                (!this.state.isSecret || (user.id === current_user.id)) ? (
                     <Fragment>
                         <div className="col-3">
                             <Link to={`/profile/${user.id}`}>
                                 <SquareAvatar img={user.avatar} size="large"></SquareAvatar>
                             </Link>
                         </div>
-                        <div className="col-9">
+                        <div className="col-8">
                             <Link to={`/profile/${user.id}`}>
                                 <h5>{user.name}</h5>
                             </Link>
@@ -85,6 +107,7 @@ class RegisterItem extends Component {
                                                 <div>{user.address}</div>
                                             ) : (
                                                 <div>
+                                                    <div>{user.address}</div>
                                                     {
                                                         this.state.isLoved ? (
                                                             <p>Bạn thích <b>{user.name}</b>. Hãy nhắn tin và hẹn đôi với anh ấy!</p>
@@ -120,10 +143,10 @@ class RegisterItem extends Component {
                         <div className="col-3">
                             <SquareAvatar img={`${baseUrl}/public/images/default-avatar-heart.png`} size="large"></SquareAvatar>
                         </div>
-                        <div className="col-9">
+                        <div className="col-8">
                             <h5>{`ID-${user.id}`}</h5>
-                            <div>{user.address}</div>
-                            <InformationNumber heartNumber={parseInt(user.loveNumber)} likeNumber={parseInt(user.likeNumber)} viewNumber={user.viewNumber}/>
+                            {/* <div>{user.address}</div> */}
+                            <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/>
                         </div>
                     </Fragment>
                 )

@@ -15,7 +15,8 @@ import {
     SEARCH_EVENTS,
     UPDATE_EVENT_STATUS,
     SUBSCRIBE_EVENT,
-    GET_SUBSCRIBERS
+    GET_SUBSCRIBERS,
+    REVIEW_DATING
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -166,6 +167,15 @@ export const subscribeEvent = (data) => (dispatch) => {
 export const listSubscribers = (page = 1) => dispatch => {
     return api.get(`/subscribers?page=${page}`).then(res => {
         dispatch({type: GET_SUBSCRIBERS, payload: res.data.data});
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
+export const reviewDating = (data, event_id) => dispatch => {
+    return api.post(`/event/review/${event_id}`, data).then(response => {
+        dispatch({type: REVIEW_DATING, payload: response.data});
+        window.location.reload();
     }).catch(err => {
         console.log(err);
     })

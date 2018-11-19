@@ -900,3 +900,16 @@ button.slick-arrow {
     display: block !important;
     height: 1.5em;
 }
+
+.love-btn {
+    font-size: 2em!important;
+    cursor: pointer;
+}
+
+.love-btn.active {
+    color: #c0392b;
+}
+
+.form-check-input {
+    margin-left: -10px!important
+}
