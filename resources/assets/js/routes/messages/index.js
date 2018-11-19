@@ -4,7 +4,9 @@ import { Card } from '../../components/Card';
 import MessageItem from '../../components/Message/MessageItem';
 import IncomingMessage from '../../components/Message/IncomingMessage';
 import OutgoingMessage from '../../components/Message/OutgoingMessage';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
+import socket from '../../helper/socket';
+import {vantutest} from '../../helper/socket';
 import {
     getListChat,
     createConversation,
@@ -18,8 +20,7 @@ import {getCafeDetail} from "../../actions/CafeActions";
 import axios from 'axios';
 import chatApi from "../../api/chat";
 
-// const socket = io('http://chat.noiduyen.vn:443/');
-const socket = io('https://chat.noiduyen.vn:80/', {secure: true, reconnect: true});
+// const socket = io('https://chat.noiduyen.vn:80/', {secure: true, reconnect: true});
 
 class Messages extends Component {
 
@@ -47,14 +48,14 @@ class Messages extends Component {
     }
 
     scrollToBottom2() {
-        console.log(this.messagesEnd);
+        // console.log(this.messagesEnd);
         this.messagesEnd.current.scrollIntoView({behavior: 'smooth'});
     }
 
     scrollToBottom() {
 
         const messagesEnd = this.messagesEnd.current;
-        console.log(messagesEnd);
+        // console.log(messagesEnd);
         const scrollHeight = messagesEnd.scrollHeight;
         const height = messagesEnd.clientHeight;
         var maxScrollTop = scrollHeight - height;
@@ -155,6 +156,11 @@ class Messages extends Component {
         //         console.log(response)
         //     });
 
+        socket.on("notify", (data) => {
+            console.log("Data return la = ");
+            console.log(data);
+        })
+
         this.props.getListChat()
             .then(response => {
                 console.log(" V a n t u = ");
@@ -200,7 +206,7 @@ class Messages extends Component {
                 if (this.props.chatList[i].conversation_id === data.conversation_id){
                     this.props.changeListChast(dataMess)
                         .then(resState => {
-                            console.log(resState);
+                            // console.log(resState);
                             this.setState({
                                 status: Math.random()
                             })
