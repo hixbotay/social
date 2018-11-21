@@ -149,7 +149,7 @@ class DatingGroup extends Component {
                                 <Countdown 
                                     date={new Date(event.start_time)} 
                                     renderer={renderCountdown}
-                                    daysInHours={24}
+                                    daysInHours={true}
                                 ></Countdown>
                             ) : null
                         }
