@@ -58,7 +58,8 @@ class CreateGroupDating extends Component {
             newEvent: {
                 ...this.state.newEvent,
                 agency_id: item.id, 
-                name: item.name
+                name: item.name,
+                image: ""
             },
             themes: item.images
         }, () => {
