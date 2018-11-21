@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 class LeftSidebar extends Component {
 
     render() {
-        const {user} = this.props;
+        const {user, match} = this.props;
 
         return (
             <aside className="col col-xl-2 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-12 col-12 leftslider">
@@ -19,15 +19,11 @@ class LeftSidebar extends Component {
                 <img className={"imgMenu1"} src={`${baseUrl}/public/images/main/hen-toc-do.png`} />
 
                 <ul className="list-group">
-                    <li className="list-group-item"><Link to='/dating'>Cafe nhóm</Link></li>
-                    <li className="list-group-item"><Link to="/dating/invited">Lời mời</Link></li>
-                    <li className="list-group-item"><Link to="/dating/feature">Lịch hẹn</Link></li>
-                    <li className="list-group-item"><Link to="/dating/subscribe">Đăng ký hẹn</Link></li>
-                    {
-                        (user.group_id === 12) ? (
-                            <li className="list-group-item"><Link to="/dating/create">Tạo cuộc hẹn</Link></li>
-                        ) : null
-                    }
+                    <li className={`dating-menu list-group-item ${match.path === '/dating/feature' ? 'active' : ''}`}><Link to='/dating/feature'>Cafe nhóm</Link></li>
+                    <li className={`dating-menu list-group-item ${match.path === '/dating/invited' ? 'active' : ''}`}><Link to="/dating/invited">Lời mời</Link></li>
+                    <li className={`dating-menu list-group-item ${match.path === '/dating' ? 'active' : ''}`}><Link to="/dating">Lịch hẹn</Link></li>
+                    <li className={`dating-menu list-group-item ${match.path === '/dating/subscribe' ? 'active' : ''}`}><Link to="/dating/subscribe">Đăng ký hẹn</Link></li>
+                    <li className={`dating-menu list-group-item ${match.path === '/dating/create' ? 'active' : ''}`}><Link to="/dating/create">Tạo cuộc hẹn</Link></li>
                     <li className="list-group-item-custom"><Link to="/couple"><i className="fas fa-heartbeat fa-2x"></i> KẾT ĐÔI</Link></li>
                     <li className="list-group-item-custom"><Link to="/cafe"><i className="fas fa-coffee fa-2x"></i> ĐẠI LÝ CAFE</Link></li>
                 </ul>
@@ -42,4 +38,4 @@ function mapStateToProps(state) {
     }
 } 
 
-export default connect(mapStateToProps, null)(LeftSidebar);
+export default withRouter(connect(mapStateToProps, null)(LeftSidebar));

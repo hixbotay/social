@@ -25,7 +25,7 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where([['status', '=', $status], ['events.type', '=', 'group']])
+            ->where([['status', '=', $status]])
             ->whereIn('events.id', $temp)
             ->select(DB::raw('
                 events.*,
@@ -75,13 +75,18 @@ class Event extends Controller {
 
     // list events around here and current user does not join 
     public function listEventsAround() {
-        $event_registers = DB::table('event_register')->where('user_id', '=', Auth::id())->get();
-        $temp = [];
-        foreach($event_registers as $item) {
-            array_push($temp, $item->event_id);
+        $user = Auth::user();
+        // looking for event that current_user is joined
+        $temp = DB::table('event_register')
+            ->where([
+                ['user_id', '=', $user->id],
+                ['status', '=', 1]
+            ])
+            ->get();
+        $excludeEvents = [];
+        foreach($temp as $item) {
+            array_push($excludeEvents, $item->event_id);
         }
-
-        // print_r($event_id);
 
         $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
             ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
@@ -91,8 +96,12 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where('status', '=', 'forthcoming')
-            ->whereNotIn('events.id', $temp)
+            ->where([
+                ['status', '=', 'forthcoming'],
+                ['events.type', '=', 'group'],
+                ['agency.province_id', '=', $user->province_id]
+            ])
+            ->whereNotIn('events.id', $excludeEvents)
             ->select(DB::raw('
                 events.*, 
                 users.name as creator_name, 
@@ -139,8 +148,21 @@ class Event extends Controller {
         return json_encode($events);
     }
 
-    // list events around here and current user does not join 
+    // list events has current user's crush and current user does not join 
     public function listEventsHasYourCrush() {
+        $user_id = Auth::id();
+        // looking for event that current_user is joined
+        $temp = DB::table('event_register')
+            ->where([
+                ['user_id', '=', $user_id],
+                ['status', '=', 1]
+            ])
+            ->get();
+        $excludeEvents = [];
+        foreach($temp as $item) {
+            array_push($excludeEvents, $item->event_id);
+        }
+        
         $event_registers = DB::table('event_register')
             ->leftjoin('user_relationship', function($join) {
                 $join->on('to_user_id', '=', 'event_register.user_id');
@@ -148,6 +170,7 @@ class Event extends Controller {
                     $query->where('from_user_id', '=', Auth::id()); 
                 });
             })
+            ->whereNotIn('event_register.event_id', $excludeEvents)
             ->select(DB::raw('event_register.*'))
             ->get();
 
@@ -165,11 +188,83 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where('events.status', '=', 'forthcoming')
+            ->where([['events.status', '=', 'forthcoming'], ['events.type', '=', 'group']])
             ->whereIn('events.id', $temp)
             ->select(DB::raw('
                 events.*,
-                (CASE event_register.user_id WHEN '.Auth::id().' THEN 1 ELSE 0 END) AS is_joined,
+                (CASE event_register.user_id WHEN '.$user_id.' THEN 1 ELSE 0 END) AS is_joined,
+                users.name as creator_name, 
+                users.avatar as creator_avatar, 
+                agency.address as address, 
+                agency_photos.source as address_avatar
+            '))
+            ->paginate(10);
+
+        $events_id = [];
+        foreach($events as $key => $event) {
+            array_push($events_id, $event->id);
+        }
+
+        $event_meta = DB::table('event_meta')
+                    ->whereIn('event_id', $events_id)
+                    ->leftJoin('user_jobs', function($join) {
+                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
+                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
+                    })
+                    ->get();
+
+        $events->map( function ($event, $key) use ($event_meta) {
+            $job = [];
+            $marital_status = [];
+            foreach($event_meta as $metadata) {
+                if($metadata->event_id == $event->id) {
+                    $key = $metadata->meta_key;
+
+                    if($key == 'job_conditional') {
+                        array_push($job, $metadata->name);
+                    } else if($key == 'marital_status') {
+                        array_push($marital_status, $metadata->meta_value);
+                    } else {
+                        $event[$key] = $metadata->meta_value;
+                    }
+
+                    $event['job'] = $job;
+                    $event['marital_status'] = $marital_status;
+                }
+            }
+        });
+        return json_encode($events);
+    }
+
+    // list upcoming group event and current user does not join 
+    public function listEventsUpcoming() {
+        $user_id = Auth::id();
+
+        $temp = DB::table('event_register')
+            ->where([
+                ['user_id', '=', $user_id],
+                ['status', '=', 1]
+            ])
+            ->get();
+        $excludeEvents = [];
+        foreach($temp as $item) {
+            array_push($excludeEvents, $item->event_id);
+        }
+
+        $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+            ->leftjoin('event_register', 'events.id', '=', 'event_register.event_id')
+            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+            ->leftjoin('agency_photos', function ($join) {
+                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                $join->on(function($query) {
+                    $query->where('agency_photos.type', '=', 'avatar'); 
+                });
+            })
+            ->where([['events.status', '=', 'forthcoming'], ['events.type', '=', 'group']])
+            ->whereNotIn('events.id', $excludeEvents)
+            ->select(DB::raw('
+                events.*,
+                (CASE event_register.user_id WHEN '.$user_id.' THEN 1 ELSE 0 END) AS is_joined,
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
@@ -264,6 +359,15 @@ class Event extends Controller {
             }
         }
         $result_1 = DB::table('event_meta')->insert($metadata);
+
+        // creator is first register in event
+        DB::table('event_register')
+            ->insert([
+                'user_id' => $user_id,
+                'event_id' => $result['id'],
+                'status' => 1,
+                'created' => date('Y-m-d h:i:s')
+            ]);
 
         // invite user who subscribe event in region
         $subscribers = DB::table('event_subscribers')
@@ -843,6 +947,12 @@ class Event extends Controller {
             ->join('devvn_tinhthanhpho', 'matp', '=', 'event_subscribers.province_id')
             ->join('devvn_quanhuyen', 'maqh', '=', 'event_subscribers.district_id')
             ->join('agency', 'agency.id', '=', 'event_subscribers.agency_id')
+            ->leftjoin('agency_photos', function ($join) {
+                $join->on('event_subscribers.agency_id', '=', 'agency_photos.agency_id');
+                $join->on(function($query) {
+                    $query->where('agency_photos.type', '=', 'cover'); 
+                });
+            })
             ->where([
                 ['is_subscribe_couple_dating', '=', 1],
                 ['expect_date_from', '<=', date("Y-m-d H:i:s")],
@@ -853,7 +963,8 @@ class Event extends Controller {
             ->select(DB::raw('event_subscribers.*, 
                 users.name, users.avatar, users.address, 
                 devvn_tinhthanhpho.name AS province, devvn_quanhuyen.name AS district,
-                agency.name AS agency_name    
+                agency.name AS agency_name,
+                agency_photos.source AS agency_image    
             '))
             ->paginate(5);
         return json_encode($subscribers);

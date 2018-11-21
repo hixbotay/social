@@ -34,6 +34,7 @@ Route::middleware(['web'])->group(function() {
     
     Route::get('/events/around', 'Api\Event@listEventsAround');
     Route::get('/events/crush', 'Api\Event@listEventsHasYourCrush');
+    Route::get('/events/upcoming', 'Api\Event@listEventsUpcoming');
     Route::get('/events/invited', 'Api\Event@listInvitation');
     Route::get('/event/search', 'Api\Event@search');
     Route::get('/events/{status}', 'Api\Event@list');

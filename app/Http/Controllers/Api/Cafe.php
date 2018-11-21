@@ -36,11 +36,14 @@ class Cafe extends Controller
     }
 
     public function list(Request $request) {
-        // $query = $request->all();
-        // unset($query['page']);
+        $query = $request->all();
+        unset($query['page']);
 
-        // $data = \App\Agency::where($query)->paginate(10);
-        $data = \App\Agency::paginate(10);
+        if(array_key_exists('q', $query)) {
+            unset($query['q']);
+        }
+
+        $data = \App\Agency::where($query)->paginate(10);
         $temp = $data->items();
 
         foreach($temp as $key => $agency) {
@@ -49,10 +52,10 @@ class Cafe extends Controller
 
             $images = DB::table('agency_photos')
                 ->where('agency_id', '=', $agency->id)
-                ->whereIn('type', ['cover', 'avatar'])
                 ->orderBy('id', 'DESC')
                 ->get();
 
+            $image_arr = [];
             foreach($images as $image) {
                 switch($image->type) {
                     case 'cover': {
@@ -64,11 +67,14 @@ class Cafe extends Controller
                         break;
                     }
                     default: {
+                        array_push($image_arr, $image->source);
                         break;
                     }
                 }
             }
+            $agency['images'] = $image_arr;
         }
+
         return(json_encode($temp));
     }
 

@@ -9,7 +9,8 @@ import RegisterItem from '../../components/Dating/RegisterItem';
 import { getEventDetail } from '../../actions/EventActions';
 import { updateRelationship } from '../../actions/UserActions';
 import Fragment from 'react-dot-fragment';
-import {updateEventStatus} from '../../actions/EventActions';
+import { updateEventStatus } from '../../actions/EventActions';
+import InformationNumber from '../../components/Information/InformationNumber';
 
 class DatingDetail extends Component {
     componentDidMount() {
@@ -17,7 +18,7 @@ class DatingDetail extends Component {
     }
 
     cancelDating(event_id) {
-        this.props.updateEventStatus(event_id, {status: "cancelled"});
+        this.props.updateEventStatus(event_id, { status: "cancelled" });
     }
 
     render() {
@@ -56,11 +57,11 @@ class DatingDetail extends Component {
                                     <h5>
                                         {event.name}
                                         <span>
-                                        {
-                                            event.is_approved ?
-                                                <i className="fas fa-check-circle event-status-icon" style={{ color: '#27ae60' }}></i>
-                                                : <i className="fas fa-ellipsis-h event-status-icon" style={{ color: '#f1c40f' }}></i>
-                                        }
+                                            {
+                                                event.is_approved ?
+                                                    <i className="fas fa-check-circle event-status-icon" style={{ color: '#27ae60' }}></i>
+                                                    : <i className="fas fa-ellipsis-h event-status-icon" style={{ color: '#f1c40f' }}></i>
+                                            }
                                         </span>
                                     </h5>
                                     <div>{event.address}</div>
@@ -209,37 +210,49 @@ class DatingDetail extends Component {
                         <CardWithTitle hasLine={true} title="NGƯỜI TỔ CHỨC CUỘC HẸN">
                             {
                                 (event.creator != {}) ? (
-                                    <Fragment>
-                                        <RegisterItem
-                                            type="creator"
-                                            user={event.creator}
-                                            isSecretEvent={false}
-                                            action={(data, user_id) => this.props.updateRelationship(data, user_id)}
-                                        ></RegisterItem>
-                                        {
-                                            (event.status == 'forthcoming' && current_user.id == event.creator.id) ? (
-                                                <div className="row">
-                                                    <div className="col-3"></div>
-                                                    <div className="col-9">
+                                    <div className="row">
+                                        <div className="col-3">
+                                            <Link to={`/profile/${event.creator.id}`}>
+                                                <SquareAvatar img={event.creator.avatar} size="large"></SquareAvatar>
+                                            </Link>
+                                        </div>
+                                        <div className="col-9">
+                                            <Link to={`/profile/${event.creator.id}`}>
+                                                <h5>{event.creator.name}</h5>
+                                            </Link>
+                                            {
+                                                (event.status == 'forthcoming' && current_user.id == event.creator.id) ? (
+                                                    <React.Fragment>
+                                                        <div className="mb-4">
+                                                            Bạn có thể hủy hẹn nếu không thể tổ chức cuộc hẹn này. Bạn sẽ bị phạt 100k
+                                                            nếu hủy trước thời điểm chốt đăng ký. Sau thời điểm chốt, bạn sẽ bị phạt 200k.
+                                                            Và nếu bạn không hủy hẹn mà không tổ chức thì chúng tôi sẽ không cho phép bạn
+                                                            tạo cuộc hẹn nữa!
+                                                        </div>
                                                         <div className="text-center">
                                                             <button className="btn btn-primary mr-2">Nhắn tin chung</button>
                                                             <button className="btn btn-primary mr-2" onClick={() => this.cancelDating(event.id)}>
                                                                 Hủy cuộc hẹn
                                                             </button>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            ) : null
-                                        }
-                                    </Fragment>
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <React.Fragment>
+                                                        <div>{event.creator.address}</div>
+                                                        <InformationNumber heartNumber={parseInt(event.creator.loveNumber)} likeNumber={parseInt(event.creator.likeNumber)} viewNumber={event.creator.viewNumber}/>
+                                                    </React.Fragment>
+                                                )
+                                            }
+                                        </div>
+                                    </div>
                                 ) : (
-                                    <div>Loading....</div>
-                                )
+                                        <div>Loading....</div>
+                                    )
                             }
                             {
-                                
+
                             }
-                            <div className="dating-description">
+                            <div className="dating-description mt-2">
                                 <b>Mô tả về cuộc hẹn này:</b>
                                 <div>{event.description ? event.description : "Không có mô tả nào về cuộc hẹn này"}</div>
                             </div>
@@ -252,7 +265,6 @@ class DatingDetail extends Component {
                                         event.registers.map((user, index) => {
                                             return (
                                                 <RegisterItem
-                                                    type="register"
                                                     user={user}
                                                     isSecretEvent={event.is_secret}
                                                     key={index}
@@ -266,8 +278,8 @@ class DatingDetail extends Component {
                         </CardWithTitle>
                     </DatingLayout>
                 ) : (
-                    <Redirect to={`/dating/${this.props.match.params.id}/result`} />
-                ) 
+                        <Redirect to={`/dating/${this.props.match.params.id}/result`} />
+                    )
             ) : null
         );
     }

@@ -57,7 +57,7 @@ class RegisterItem extends Component {
     }
 
     render() {
-        const {user, current_user, type} = this.props; 
+        const {user, current_user} = this.props; 
 
         console.log(this.state)
 
@@ -84,57 +84,37 @@ class RegisterItem extends Component {
                             <Link to={`/profile/${user.id}`}>
                                 <h5>{user.name}</h5>
                             </Link>
-                            
+                            <div>{user.address}</div>
+                            <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/>
                             {
-                                (user.id === current_user.id) ? (
+                                (user.id !== current_user.id) ? (
                                     <Fragment>
+                                        <div>          
                                         {
-                                            (type == 'creator') ? (
-                                                <div>
-                                                    Bạn có thể hủy hẹn nếu không thể tổ chức cuộc hẹn này. Bạn sẽ bị phạt 100k
-                                                    nếu hủy trước thời điểm chốt đăng ký. Sau thời điểm chốt, bạn sẽ bị phạt 200k.
-                                                    Và nếu bạn không hủy hẹn mà không tổ chức thì chúng tôi sẽ không cho phép bạn tạo cuộc hẹn nữa!
-                                                </div>
-                                            ) : (
-                                                <div>{user.address}</div>
-                                            )
+                                            this.state.isLoved ? (
+                                                <p>Bạn thích <b>{user.name}</b>. Hãy nhắn tin và hẹn đôi với anh ấy!</p>
+                                            ) : null
                                         }
+                                            <div>
+                                                <CircleButton
+                                                    icon="fas fa-heart"
+                                                    color={this.state.isLoved ? '#e74c3c' : '#34495e'}
+                                                    action={() => this.onUpdateRelationship('love')}
+                                                ></CircleButton>
+                                                <CircleButton
+                                                    icon="fas fa-thumbs-up"
+                                                    color={this.state.isLiked ? '#2980b9' : '#34495e'}
+                                                    action={() => this.onUpdateRelationship('like')}
+                                                ></CircleButton>
+                                                <CircleButton
+                                                    icon="fas fa-comments"
+                                                    color='#34495e'
+                                                    // action
+                                                ></CircleButton>
+                                            </div>
+                                        </div>
                                     </Fragment>
-                                ) : (
-                                    <Fragment>
-                                        {
-                                            (type == 'creator') ? (
-                                                <div>{user.address}</div>
-                                            ) : (
-                                                <div>
-                                                    <div>{user.address}</div>
-                                                    {
-                                                        this.state.isLoved ? (
-                                                            <p>Bạn thích <b>{user.name}</b>. Hãy nhắn tin và hẹn đôi với anh ấy!</p>
-                                                        ) : null
-                                                    }
-                                                    <div>
-                                                        <CircleButton
-                                                            icon="fas fa-heart"
-                                                            color={this.state.isLoved ? '#e74c3c' : '#34495e'}
-                                                            action={() => this.onUpdateRelationship('love')}
-                                                        ></CircleButton>
-                                                        <CircleButton
-                                                            icon="fas fa-thumbs-up"
-                                                            color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                                                            action={() => this.onUpdateRelationship('like')}
-                                                        ></CircleButton>
-                                                        <CircleButton
-                                                            icon="fas fa-comments"
-                                                            color='#34495e'
-                                                        // action
-                                                        ></CircleButton>
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                    </Fragment>
-                                )
+                                ) : null
                             }
                         </div>
                     </Fragment>
@@ -145,7 +125,7 @@ class RegisterItem extends Component {
                         </div>
                         <div className="col-8">
                             <h5>{`ID-${user.id}`}</h5>
-                            {/* <div>{user.address}</div> */}
+                            <div>{user.address}</div>
                             <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/>
                         </div>
                     </Fragment>

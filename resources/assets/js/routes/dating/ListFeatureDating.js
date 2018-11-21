@@ -24,6 +24,7 @@ class ListFeatureDating extends Component {
     componentDidMount() {
         this.props.getAllEvents('around');
         this.props.getAllEvents('crush');
+        this.props.getAllEvents('upcoming');
     }
 
     onSearch(event) {
@@ -73,6 +74,7 @@ class ListFeatureDating extends Component {
             <DatingLayout>
                 <DatingCard title="CUỘC HẸN GẦN BẠN" events={this.props.aroundEvents}  action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
                 <DatingCard title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" events={this.props.eventsHasYourCrush} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                <DatingCard title="CUỘC HẸN SẮP TỚI" events={this.props.upcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
 
                 <Modal id="verify-id-modal">
                     <div className="row">
@@ -155,6 +157,7 @@ function mapStateToProps(state) {
     return {
         aroundEvents: state.event.aroundEvents,
         eventsHasYourCrush: state.event.eventsHasYourCrush,
+        upcomingEvents: state.event.upcomingEvents
     };
 }
 

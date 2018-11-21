@@ -7,6 +7,7 @@ import {
     GET_AROUND_EVENTS,
     GET_EVENTS_HAS_YOUR_CRUSH,
     GET_INVITED_EVENTS,
+    GET_UPCOMING_EVENTS,
     CREATE_GROUP_EVENT,
     CREATE_COUPLE_EVENT,
     JOIN_EVENT,
@@ -48,6 +49,10 @@ export const getAllEvents = (type) => dispatch => {
                     type = GET_INVITED_EVENTS;
                     break;
                 }
+                case 'upcoming': {
+                    type = GET_UPCOMING_EVENTS;
+                    break;
+                }
                 default: {
                     type = GET_ALL_EVENTS;
                     break;
@@ -61,12 +66,16 @@ export const getAllEvents = (type) => dispatch => {
 }
 
 export const createGroupEvent = (data) => dispatch => {
-    return api.post('/event/group', data)
-    .then((response) => {
-        dispatch({type: CREATE_GROUP_EVENT, payload: response.data});
-    })
-    .catch(err => {
-        console.log(err);
+    return new Promise((resolve, reject) => {
+        return api.post('/event/group', data)
+        .then((response) => {
+            dispatch({type: CREATE_GROUP_EVENT, payload: response.data});
+            resolve(response.data);
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err);
+        })
     })
 }
 

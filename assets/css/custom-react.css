@@ -917,3 +917,14 @@ button.slick-arrow {
 .form-check-input {
     margin-left: -10px!important
 }
+
+.dating-menu.active a {
+    color: #fff;
+}
+
+.event-theme img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    padding: 5px;
+}

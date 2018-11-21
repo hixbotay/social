@@ -46,23 +46,31 @@ class CafeDetail extends Component {
     }
 
     render() {
-        const { agency } = this.props;
+        const { user, agency } = this.props;
         var now = new Date().getHours();
 
         return (
             <CafeLayout>
                 <div className={"add-cafe-banner"}>
                     <img src={agency.cover ? baseUrl + '/' + agency.cover : 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'} />
-                    <label className="btn-add-image"> <i className="fas fa-camera fa-2x"></i>
-                        <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'cover')} />
-                    </label>
+                    {
+                        (user.id === agency.user_id) ? (
+                            <label className="btn-add-image"> <i className="fas fa-camera fa-2x"></i>
+                                <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'cover')} />
+                            </label>
+                        ) : null
+                    }
                 </div>
                 <Card>
                     <div className="post__author author vcard inline-items" id="cafe-avatar">
                         <RoundAvatar img={baseUrl + '/' + agency.avatar} size="large"></RoundAvatar>
-                        <label className="btn-change-avatar">
-                            <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'avatar')} />
-                        </label>
+                        {
+                            (user.id === agency.user_id) ? (
+                                <label className="btn-change-avatar">
+                                    <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'avatar')} />
+                                </label>
+                            ) : null
+                        }
 
                         <div className="author-date">
                             <h3>{agency.name}</h3>
@@ -116,6 +124,7 @@ class CafeDetail extends Component {
 
 function mapStateToProps(state) {
     return {
+        user: state.user.current_user,
         agency: state.cafe.currentCafe
     }
 }

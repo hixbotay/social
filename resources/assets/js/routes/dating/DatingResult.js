@@ -45,6 +45,11 @@ class DatingResult extends Component {
     render() {
         const { event, user } = this.props;
 
+        var canReview = true;
+        if(new Date() - new Date(event.start_time) > 48*60*60*1000) {
+            canReview = false;
+        }
+
         return (
             (event.id != undefined) ? (
                 (event.status === "finished") ? (
@@ -80,45 +85,57 @@ class DatingResult extends Component {
                             {
                                 (event.type === 'couple') ? (
                                     <div className="row">
-                                        <div className="col-3">
-                                            <SquareAvatar img={user.avatar} size="large"></SquareAvatar>
-                                        </div>
-                                        <div className="col-9">
-                                            <form onSubmit={(e) => this.review(e)} ref={form => this.form = form}  >
-                                                <div className="form-group">
-                                                    <label>Bạn đánh giá thế nào về cuộc hẹn này?</label>
-                                                    <div className="row">
-                                                        <div className="col-1">
-                                                            <input className="form-check-input" type="radio" name="rating" value={3} required/>
-                                                        </div>
-                                                        <div className="col-3">
-                                                            <label className="form-check-label" htmlFor="rating">Thú vị</label>
-                                                        </div>
-                                                        <div className="col-1">
-                                                            <input className="form-check-input" type="radio" name="rating" value={2} required/>
-                                                        </div>
-                                                        <div className="col-3">
-                                                            <label className="form-check-label" htmlFor="rating">Bình thường</label>
-                                                        </div>
-                                                        <div className="col-1">
-                                                            <input className="form-check-input" type="radio" name="rating" value={1} required/>
-                                                        </div>
-                                                        <div className="col-3">
-                                                            <label className="form-check-label" htmlFor="rating">Thất vọng</label>
-                                                        </div>
-                                                    </div>
+                                    {
+                                        (canReview) ? (
+                                            <React.Fragment>
+                                                <div className="col-3">
+                                                    <SquareAvatar img={user.avatar} size="large"></SquareAvatar>
                                                 </div>
-                                                <div className="form-group">
-                                                    <label>Bạn có muốn nói gì với người ấy không:</label>
-                                                    <textarea className="form-control" name="content" onChange={(e) => this.changeData(e)}></textarea>
+                                                <div className="col-9">
+                                                    <form onSubmit={(e) => this.review(e)} ref={form => this.form = form}  >
+                                                        <div className="form-group">
+                                                            <label>Bạn đánh giá thế nào về cuộc hẹn này?</label>
+                                                            <div className="row">
+                                                                <div className="col-1">
+                                                                    <input className="form-check-input" type="radio" name="rating" value={3} required/>
+                                                                </div>
+                                                                <div className="col-3">
+                                                                    <label className="form-check-label" htmlFor="rating">Thú vị</label>
+                                                                </div>
+                                                                <div className="col-1">
+                                                                    <input className="form-check-input" type="radio" name="rating" value={2} required/>
+                                                                </div>
+                                                                <div className="col-3">
+                                                                    <label className="form-check-label" htmlFor="rating">Bình thường</label>
+                                                                </div>
+                                                                <div className="col-1">
+                                                                    <input className="form-check-input" type="radio" name="rating" value={1} required/>
+                                                                </div>
+                                                                <div className="col-3">
+                                                                    <label className="form-check-label" htmlFor="rating">Thất vọng</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label>Bạn có muốn nói gì với người ấy không:</label>
+                                                            <textarea className="form-control" name="content" onChange={(e) => this.changeData(e)}></textarea>
+                                                        </div>
+                                                        <button type="submit" className="btn btn-sm btn-primary">Gửi</button>
+                                                    </form>
                                                 </div>
-                                                <button type="submit" className="btn btn-sm btn-primary">Gửi</button>
-                                            </form>
-                                        </div>
+                                            </React.Fragment>
+                                        ) : (
+                                            <div className="alert alert-danger col-12">
+                                                Đã quá thời hạn 48h sau khi kết thúc cuộc hẹn để có thể đánh giá!
+                                            </div>
+                                        )
+                                    }
+                                        
                                         <hr/>
                                         <p>
-                                            Nếu bạn có điều gì đó không hài lòng về tổ chức cuộc hẹn, vui lòng phản hồi về email: abc@gmil.com hoặc số điện thoại
-                                            090138092830. Chúc bạn có những phút giây vui vẻ trên noiduyen.vn
+                                            Nếu bạn có điều gì đó không hài lòng về tổ chức cuộc hẹn, vui lòng phản hồi về 
+                                            email: abc@gmail.com hoặc số điện thoại 090138092830. Chúc bạn có những phút giây 
+                                            vui vẻ trên noiduyen.vn
                                         </p>
                                         <hr/>
                                         {

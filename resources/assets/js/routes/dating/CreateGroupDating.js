@@ -42,12 +42,12 @@ class CreateGroupDating extends Component {
         }
     }
 
-    selectTheme(item) {
+    selectTheme(item, index) {
         this.setState({
-            selectedTheme: item,
+            selectedTheme: index,
             newEvent: {
                 ...this.state.newEvent,
-                image: `public/images/dating-theme/theme-${item}.jpg`
+                image: item
             }
         });
     }
@@ -57,8 +57,12 @@ class CreateGroupDating extends Component {
             selectedAddress: index,
             newEvent: {
                 ...this.state.newEvent,
-                agency_id: item.id
-            }
+                agency_id: item.id, 
+                name: item.name
+            },
+            themes: item.images
+        }, () => {
+            console.log(this.state.newEvent);
         })
     }
 
@@ -121,12 +125,21 @@ class CreateGroupDating extends Component {
 
     createNewEvent(e) {
         e.preventDefault();
-        if (this.state.selectedTheme && (this.state.selectedAddress >= 0)) {
-            this.props.createGroupEvent({event: this.state.newEvent, event_meta: this.state.metadata});
-            document.getElementById('open-modal').click();
-        } else {
-            window.alert("Bạn chọn thiếu chủ đề hoặc địa chỉ");
-        }
+        const {is_secret} = this.form;
+        this.setState({
+            newEvent: {
+                ...this.state.newEvent,
+                is_secret: parseInt(is_secret.value)
+            }
+        }, () => {
+            if (this.state.selectedTheme && (this.state.selectedAddress >= 0)) {
+                this.props.createGroupEvent({event: this.state.newEvent, event_meta: this.state.metadata}).then(data => {
+                    document.getElementById('open-modal').click();
+                });
+            } else {
+                window.alert("Bạn chọn thiếu chủ đề hoặc địa chỉ");
+            }
+        })
     }
 
     render() {
@@ -151,8 +164,8 @@ class CreateGroupDating extends Component {
         return (
             <DatingLayout>
                 <CardWithTitle hasLine={true} title="TẠO CUỘC HẸN TỐC ĐỘ">
-                    <form onSubmit={(e) => this.createNewEvent(e)}>
-                        <div>
+                    <form onSubmit={(e) => this.createNewEvent(e)} ref={form => this.form = form}>
+                        {/* <div>
                             <div className="float-left"><i className="fas fa-folder"></i> Chọn chủ đề</div>
                             <div className="float-right"><i className="fas fa-camera"></i> Tải ảnh/video</div>
                         </div>
@@ -170,14 +183,23 @@ class CreateGroupDating extends Component {
                                     );
                                 })
                             }
-                        </div>
+                        </div> */}
                         <div className="row">
                             <h5><i className="far fa-calendar-check"></i> Cuộc hẹn</h5>
                         </div>
                         <div className="row form-group">
-                            <div className="col-4">Tên cuộc hẹn</div>
-                            <div className="col-8">
-                                <input className="form-control" type="text" name="name" required onChange={(e) => this.onChangeData(e)}/>
+                            <div className="col-4">Kiểu cuộc hẹn</div>
+                            <div className="col-1">
+                                <input className="custom-input" type="radio" name="is_secret" value={0} required/>
+                            </div>
+                            <div className="col-3">
+                                <label>Công khai</label>
+                            </div>
+                            <div className="col-1">
+                                <input className="custom-input" type="radio" name="is_secret" value={1} required/>
+                            </div>
+                            <div className="col-3">
+                                <label>Bí mật</label>
                             </div>
                         </div>
                         <div className="row form-group">
@@ -223,6 +245,29 @@ class CreateGroupDating extends Component {
                                     }
                                 </Slider>
                             )
+                        }
+
+                        {
+                            (this.state.themes) ? (
+                                <React.Fragment>
+                                    <h5>Chọn chủ đề cuộc hẹn</h5>
+                                    <Slider {...settings}>
+                                        {
+                                            this.state.themes.map((item, index) => {
+                                                return (
+                                                    <div className="event-theme" key={index}>
+                                                        <img
+                                                            src={item}
+                                                            className={this.state.selectedTheme == index ? `selected-image` : ``}
+                                                            onClick={() => this.selectTheme(item, index)}
+                                                        />
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </Slider>
+                                </React.Fragment>
+                            ) : null
                         }
 
                         <div className="row form-group">
@@ -380,7 +425,9 @@ class CreateGroupDating extends Component {
                                 Khởi tạo cuộc hẹn của bạn đang chờ admin duyệt!
                             </div>
                             <div className="text-center create-event-alert-content">
-                                <button className="btn btn-primary" onClick={() => window.location.reload()}>OK</button>
+                                <a href={`${baseUrl}/dating`}>
+                                    <button className="btn btn-primary">OK</button>
+                                </a>
                             </div>
                         </div>
                     </div>

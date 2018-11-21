@@ -22,10 +22,6 @@ class CreateEvent extends Component {
     render() {
         const {user} = this.props;
 
-        if(this.props.user.group_id != 12) {
-            return <Redirect to='/dating/subscribe'/>
-        }
-
         return (
             <div>
                 {

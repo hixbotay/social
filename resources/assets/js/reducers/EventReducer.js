@@ -6,6 +6,7 @@ import {
     GET_AROUND_EVENTS,
     GET_EVENTS_HAS_YOUR_CRUSH,
     GET_INVITED_EVENTS,
+    GET_UPCOMING_EVENTS,
     CREATE_GROUP_EVENT,
     CREATE_COUPLE_EVENT,
     JOIN_EVENT,
@@ -30,6 +31,7 @@ const INIT_STATE = {
     cancelledEvents: [],
     aroundEvents:  [],
     eventsHasYourCrush: [],
+    upcomingEvents: [],
     newEvent: {},
     invitedEvents: [],
     results: [],
@@ -55,6 +57,9 @@ export default (state=INIT_STATE, action) => {
         }
         case GET_EVENTS_HAS_YOUR_CRUSH: {
             return {...state, eventsHasYourCrush: action.payload}
+        }
+        case GET_UPCOMING_EVENTS: {
+            return {...state, upcomingEvents: action.payload}
         }
         case CREATE_GROUP_EVENT: {
             return {...state, newEvent: action.payload}

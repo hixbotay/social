@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {withRouter} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getAllEvents, listSubscribers, createCoupleEvent} from "../../actions/EventActions";
+import {getAllProvinces} from '../../actions/AddressActions';
 import 'react-image-lightbox/style.css';
 import 'react-animated-slider/build/horizontal.css';
 import { DatingCard, CardWithTitle } from '../../components/Card';
@@ -21,10 +22,11 @@ class ListInvitationDating extends Component {
     componentDidMount() {
         this.props.getAllEvents('invited');
         this.props.listSubscribers();
+        this.props.getAllProvinces();
     }
 
     render() {
-        const {events, subscribers, user} = this.props;
+        const {events, subscribers, user, provinces} = this.props;
         var coupleEvents = [];
         var groupEvents = [];
         
@@ -47,7 +49,8 @@ class ListInvitationDating extends Component {
                             return (
                                 <Subscriber 
                                     subscriber={subscriber} 
-                                    user={user} 
+                                    user={user}
+                                    provinces={provinces} 
                                     key={subscriber.id}
                                     createDating={(data) => this.props.createCoupleEvent(data)}
                                 />
@@ -67,7 +70,8 @@ function mapStateToProps(state) {
     return {
         user:  state.user.current_user,
         events: state.event.invitedEvents,
-        subscribers: state.event.subscribers
+        subscribers: state.event.subscribers,
+        provinces: state.address.provinces
     };
 }
 
@@ -75,7 +79,8 @@ function mapDispatchToProps(dispatch) {
     return {
         getAllEvents: (status) => dispatch(getAllEvents(status)),
         listSubscribers: () => dispatch(listSubscribers()),
-        createCoupleEvent: (data) => dispatch(createCoupleEvent(data))
+        createCoupleEvent: (data) => dispatch(createCoupleEvent(data)),
+        getAllProvinces: () => dispatch(getAllProvinces()),
     }
 }
 
