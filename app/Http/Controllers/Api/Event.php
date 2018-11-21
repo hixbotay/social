@@ -816,7 +816,7 @@ class Event extends Controller {
         if(array_key_exists('q', $data)) {
             unset($data['q']);
         }
-        
+
         $data['user_id'] = Auth::id();
         $response = DB::table('event_subscribers')->insert($data);
         return json_encode($response);
@@ -828,7 +828,7 @@ class Event extends Controller {
         $excludeInvitee = DB::table('event_invitations')
             ->join('events', 'event_id', '=', 'events.id')
             ->where([
-                ['status', '<>', 'finished'],
+                ['events.status', '<>', 'finished'],
                 ['inviter', '=', $user->id]
             ])
             ->select('invitee')
