@@ -813,6 +813,10 @@ class Event extends Controller {
 
     public function subscribeEvent(Request $request) {
         $data = $request->all();
+        if(array_key_exists('q', $data)) {
+            unset($data['q']);
+        }
+        
         $data['user_id'] = Auth::id();
         $response = DB::table('event_subscribers')->insert($data);
         return json_encode($response);
