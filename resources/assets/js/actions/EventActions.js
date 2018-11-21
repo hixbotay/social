@@ -71,13 +71,18 @@ export const createGroupEvent = (data) => dispatch => {
 }
 
 export const createCoupleEvent = (data) => dispatch => {
-    return api.post('/event/couple', data)
-    .then((response) => {
-        dispatch({type: CREATE_COUPLE_EVENT, payload: response.data});
+    return new Promise((resolve, reject) => {
+        return api.post('/event/couple', data)
+        .then((response) => {
+            dispatch({type: CREATE_COUPLE_EVENT, payload: response.data});
+            resolve(response.data);
+        })
+        .catch(err => {
+            console.log(err);
+            reject(err);
+        })
     })
-    .catch(err => {
-        console.log(err);
-    })
+    
 }
 
 export const joinDating = (id) => dispatch => {

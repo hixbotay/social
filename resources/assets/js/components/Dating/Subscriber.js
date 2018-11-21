@@ -55,7 +55,9 @@ class Subscriber extends Component {
             subscriber: this.props.subscriber.user_id
         }
 
-        this.props.createDating(data);
+        this.props.createDating(data).then(data => {
+            window.location.href = `${baseUrl}/dating/feature`;
+        });
     }
 
     render() {
@@ -81,7 +83,7 @@ class Subscriber extends Component {
                                         <label>Chọn ngày hẹn</label>
                                         <input 
                                             className="form-control" 
-                                            type="date" 
+                                            type="datetime-local" 
                                             min={subscriber.expect_date_from} 
                                             max={subscriber.expect_date_to} 
                                             required

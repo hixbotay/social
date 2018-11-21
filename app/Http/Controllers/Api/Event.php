@@ -833,13 +833,13 @@ class Event extends Controller {
             ])
             ->select('invitee')
             ->get();
-        $temp = [];
+        $temp = [$user->id];
         foreach($excludeInvitee as $item) {
             array_push($temp, $item->invitee);
         }
 
         $subscribers = DB::table('event_subscribers')
-            ->join('users', 'users.id', '=', 'user_id')
+            ->join('users', 'users.id', '=', 'event_subscribers.user_id')
             ->join('devvn_tinhthanhpho', 'matp', '=', 'event_subscribers.province_id')
             ->join('devvn_quanhuyen', 'maqh', '=', 'event_subscribers.district_id')
             ->join('agency', 'agency.id', '=', 'event_subscribers.agency_id')
@@ -849,7 +849,7 @@ class Event extends Controller {
                 ['expect_date_to', '>=', date("Y-m-d H:i:s")],
                 ['event_subscribers.province_id', '=', $user->province_id]
             ])
-            ->whereNotIn('user_id', $temp)
+            ->whereNotIn('event_subscribers.user_id', $temp)
             ->select(DB::raw('event_subscribers.*, 
                 users.name, users.avatar, users.address, 
                 devvn_tinhthanhpho.name AS province, devvn_quanhuyen.name AS district,
