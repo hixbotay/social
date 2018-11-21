@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use ImageOptimizer;
 use \App\Notification;
-use Redis;
 
 class User extends Controller
 {
@@ -111,12 +110,7 @@ class User extends Controller
                 'updated_at' => date("Y-m-d H:i:s")
             ];
 
-            // Notification::insert($notification);
-            // socket
-            if($relationship->is_loved || $relationship->is_like) {
-                $redis = Redis::connection();
-                $redis->publish('notify', json_encode(["data" => $notification]));
-            }
+            Notification::insert($notification);
         }
         
         return $relationship;

@@ -109,11 +109,13 @@ return [
         'client' => 'predis',
 
         'default' => [
-            'scheme' => 'unix',
+            'scheme' => 'tcp',
             'host' => env('REDIS_HOST', 'chat.noiduyen.vn'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 80),
             'database' => 0,
+            'read_write_timeout' => -1,
+            'timeout' => -1
         ],
 
     ],
