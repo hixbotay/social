@@ -413,6 +413,7 @@ li.list-group-item {
     object-fit: cover;
     height: 250px;
     overflow: hidden;
+    width: 100%;
 }
 
 .dating-info {
@@ -595,6 +596,9 @@ div#this-month {
 img.address-image {
     position: relative;
     padding: 2px;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
 }
 
 .address-avatar {

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use ImageOptimizer;
 use \App\Notification;
+use Redis;
 
 class User extends Controller
 {
@@ -71,7 +72,8 @@ class User extends Controller
      */
     public function createOrUpdateRelationship(Request $request, $user_id){
         $data = json_decode($request->getContent());
-        $from_user_id = Auth::id();
+        // $from_user_id = Auth::id();
+        $from_user_id  = 1;
 
         if($from_user_id == $user_id) {
             return json_encode(['message' => 'Đã có lỗi xảy ra']);
@@ -98,15 +100,23 @@ class User extends Controller
                 $newRelationship[$key] = $value;
             }          
             $relationship = \App\UserRelationship::create($newRelationship);
+
             // create notification
-            Notification::insert([
+            $notification = [
                 'user_id' => $user_id,
                 'actor' => $from_user_id, // Auth::id()
                 'content' => "Đã bày tỏ cảm xúc dành cho bạn",
                 'type' => "relationship",
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
-            ]);
+            ];
+
+            // Notification::insert($notification);
+            // socket
+            if($relationship->is_loved || $relationship->is_like) {
+                $redis = Redis::connection();
+                $redis->publish('notify', json_encode(["data" => $notification]));
+            }
         }
         
         return $relationship;

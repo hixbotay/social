@@ -5,14 +5,20 @@ import {logout} from '../../actions/UserActions';
 import {connect} from 'react-redux';
 import {Card} from '../Card';
 import {markAllAsRead, getUnreadNumber}  from '../../actions/NotificationActions';
+import socket from '../../helper/socket';
 
 class Header extends Component {
 
     componentDidMount() {
         this.props.getUnreadNumber();
+        socket.on("notify", (data) => {
+            console.log("Data return la = ");
+            console.log(data);
+        });
     }
 
     render() {
+
         return (
             <header className="header" id="site-header">
                 <div className="header-content-wrapper">

@@ -37,7 +37,7 @@ class CreateEvent extends Component {
                                 (user.mobile && user.is_id_verified) ? (
                                     <CreateGroupDating></CreateGroupDating>
                                 ) : (
-                                    <VerifyAlert></VerifyAlert>
+                                    <VerifyAlert user={user}></VerifyAlert>
                                 )
                             }
                         </Fragment>

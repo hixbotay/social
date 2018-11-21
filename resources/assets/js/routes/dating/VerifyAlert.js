@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardWithTitle } from '../../components/Card';
 import DatingLayout from './DatingLayout';
+import {Link} from 'react-router-dom';
 
 class VerifyAlert extends Component {
     render() {
@@ -25,10 +26,12 @@ class VerifyAlert extends Component {
                     <div>
                         <b>Nếu cần hỗ trợ hoặc tư vấn, vui lòng liên hệ noiduyen.vn thông qua các kênh sau:</b><br/>
                         <i>Email: admin@noiduyen.vn</i><br/>
-                        <i>Phone: <phone>0193023092</phone></i>
+                        <i>Phone: <span>0193023092</span></i>
                     </div>
                     <div className="text-center mt-4">
-                        <button className="btn btn-primary">Chuyển tới mục xác minh</button>
+                        <Link to={`/profile/${this.props.user.id}`}>
+                            <button className="btn btn-primary">Chuyển tới mục xác minh</button>
+                        </Link>
                     </div>
                 </CardWithTitle>
             </DatingLayout>

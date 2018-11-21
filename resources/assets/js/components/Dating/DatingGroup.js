@@ -146,7 +146,11 @@ class DatingGroup extends Component {
                         />
                         {
                             (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48*60*60*1000)) ? (
-                                <Countdown date={new Date(event.start_time)} renderer={renderCountdown}></Countdown>
+                                <Countdown 
+                                    date={new Date(event.start_time)} 
+                                    renderer={renderCountdown}
+                                    daysInHours={24}
+                                ></Countdown>
                             ) : null
                         }
                     </div>

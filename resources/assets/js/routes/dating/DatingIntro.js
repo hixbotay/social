@@ -27,7 +27,7 @@ class DatingIntro extends Component {
                             đến mọi người. Chúng tôi luôn chào đón bạn.
                         </h5>
                         <i>Email: admin@noiduyen.vn</i><br/>
-                        <i>Phone: <phone>0941.121.666</phone></i>
+                        <i>Phone: <span>0941.121.666</span></i>
                         <div className="text-center">
                             <h4><b>Hãy cho đi để nhận lại!</b></h4>
                         </div>

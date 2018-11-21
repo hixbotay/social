@@ -40,7 +40,8 @@ class Subscriber extends Component {
                 payment_f: 0,
                 type: 'couple',
                 agency_id: this.props.subscriber.agency_id,
-                is_secret: 0
+                is_secret: 0,
+                image: "/public/images/dating-theme/couple-theme.jpg"
             },
             event_meta: {
                 job_conditional: [this.props.subscriber.expect_job],
