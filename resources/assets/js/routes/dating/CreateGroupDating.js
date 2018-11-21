@@ -55,6 +55,7 @@ class CreateGroupDating extends Component {
     selectAddress(item, index) {
         this.setState({
             selectedAddress: index,
+            selectedTheme: -1,
             newEvent: {
                 ...this.state.newEvent,
                 agency_id: item.id, 
@@ -133,7 +134,7 @@ class CreateGroupDating extends Component {
                 is_secret: parseInt(is_secret.value)
             }
         }, () => {
-            if (this.state.selectedTheme && (this.state.selectedAddress >= 0)) {
+            if (this.state.selectedTheme >=0 && (this.state.selectedAddress >= 0)) {
                 this.props.createGroupEvent({event: this.state.newEvent, event_meta: this.state.metadata}).then(data => {
                     document.getElementById('open-modal').click();
                 });
