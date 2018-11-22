@@ -311,8 +311,7 @@ class Event extends Controller {
     }
 
     public function createGroupEvent(Request $request) {
-        // $user_id = Auth::id();
-        $user_id = 1;
+        $user_id = Auth::id();
         $newEvent = [
             'creator' => $user_id,
             'status' => 'forthcoming'
