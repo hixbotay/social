@@ -36,3 +36,29 @@ Route::middleware(['web'])->group(function() {
     Route::post('payment/getresult', 'Api\Payment@returnPayment');
     Route::get('payment/request', 'Api\Payment@requestUrl');
 });
+
+
+Route::get('testsocket', function (Request $request){
+
+
+    $context = stream_context_create([
+        'ssl' => [
+            'verify_peer' => false,
+            'verify_peer_name' => false
+        ]
+    ]);
+
+    $hostname = "tls://chat.noiduyen.vn:80";
+    $socket = stream_socket_client($hostname, $errno, $errstr, ini_get("default_socket_timeout"), STREAM_CLIENT_CONNECT, $context);
+    $result = fwrite($socket, 'notify');
+    fwrite($socket, 'notify'."\r\n");
+    return fread($socket, 4096)."\n";
+
+
+//    $fp = fsockopen("tls://chat.noiduyen.vn", 80, $errno, $errstr);
+//    return $result;
+
+    return $data;
+
+});
+

@@ -104,13 +104,13 @@ return [
     |
     */
 
-    'redis' => [
+    'redis2' => [
 
         'client' => 'predis',
 
         'default' => [
             'scheme' => 'tcp',
-            'host' => env('REDIS_HOST', 'chat.noiduyen.vn'),
+            'host' => env('REDIS_HOST', 'https://chat.noiduyen.vn'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 80),
             'database' => 0,
@@ -119,5 +119,18 @@ return [
         ],
 
     ],
+
+    'redis' => array(
+        'cluster' => false,
+        'client' => 'predis',
+        'default' => array(
+            'scheme' => 'tls',
+            'ssl'    => ['cafile' => 'cacert.pem', 'verify_peer' => false, 'verify_peer_name' => false],
+            'host'     => 'chat.noiduyen.vn',
+            'port'     => 80,
+            'database' => 0,
+            'read_write_timeout' => 60,
+        ),
+    )
 
 ];

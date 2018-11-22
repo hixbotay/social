@@ -23,11 +23,14 @@ class Payment extends Controller
         }
 
         $url = VTCPay::buildCheckoutUrl(
-            'https://noiduyen.vn', 123134534, 23245, 'order_code', 10000000
+            'https://noiduyen.vn', "0977119830", 23245, '987623435849', 10000000
         );
 
-
-
         return $url;
+    }
+
+    public function verifyPayment(){
+//        process here
+        return redirect(\url('payment'));
     }
 }

@@ -38,6 +38,7 @@ Route::middleware(['web', 'auth'])->group(function() {
     Route::post('/update-information', 'User@update');
     Route::post('/update-ideal-person', 'User@updateIdealPerson');
     Route::post('/upload-avatar', 'User@uploadAvatar');
+    Route::get('/payment/validate', 'Api\Payment@verifyPayment');
 });
 
 Route::middleware(['admin', 'verify'])->group(function() {

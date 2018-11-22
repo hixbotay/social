@@ -5,8 +5,11 @@ namespace App\Libraries\Payments;
 class VTCPay
 {
 
-    protected static $securityCode = "RMdEwvuWUvYcMewczVB0SVT78SzdxacNZUtcKHyc";
-    protected static $websiteId = 6606;
+    protected static $securityCode = "izW5yYUkplywaHiS2CZoFA2D1dYfunxe2be3l7LI";
+    protected static $websiteId = 84180;
+
+//http://alpha1.vtcpay.vn/portalgateway/checkout.html?website_id=83178&reference_number=330760&receiver_account=0963465816&url_return=http%3A%2F%2Fthaipart.webike.vn%2F%3Fwc-api%3Dwc_gateway_vtcpay&bill_to_phone=3902435439634958&payment_type=&language=vi&amount=13601014&currency=VND&signature=F9DAA36E1CC0DA8335BE9C45BE3DD22AEEAA65B13D8C26F19727580BDE233B84
+
 
     //Hàm xây dựng url
     public static function buildCheckoutUrl($return_url, $receiver, $transaction_info, $order_code, $amount)
@@ -15,32 +18,42 @@ class VTCPay
         $secret_key = self::$securityCode;
         // Mảng các tham số chuyển tới VTC Pay
         $arr_param = array(
-            'return_url'		=>	strtolower(urlencode($return_url)),
+            'url_return'		=>	strtolower(urlencode($return_url)),
             'receiver'			=>	strval($receiver),
             'transaction_info'	=>	strval($transaction_info),
             'order_code'		=>	strval($order_code),
             'amount'			=>	strval($amount),
-            'currency'          => 'VND',
-            'reference_number'  => 'awetgwerherh'
 
         );
         $currency = 1;
-        $vtcpay_url  = "http://sandbox1.vtcebank.vn/pay.vtc.vn/gate/checkout.html";
-        $plaintext = $websiteid . "-" . $currency . "-" . $arr_param['order_code'] . "-" . $arr_param['amount'] . "-" . $arr_param['receiver'] . "-" . "-" . $secret_key;
+        $vtcpay_url  = "http://alpha1.vtcpay.vn/portalgateway/checkout.html";
+//        $vtcpay_url  = "http://sandbox1.vtcebank.vn/pay.vtc.vn/gate/checkout.html";
+        $plaintext = $websiteid . "|" . $currency . "|" . $arr_param['order_code'] . "|" . $arr_param['amount'] . "|" . $arr_param['receiver'] . "|" . "|" . $secret_key;
+
+        $plaintext = $amount. "|VND" ."|".$arr_param['receiver']."|33076088975"."|".$websiteid."|".$secret_key;
+//        return $plaintext;
+
+//        amount - bill_to_phone - currency - language - receiver_account - reference_number - url_return
+//         - website_id
         $sign = strtoupper(hash('sha256', $plaintext));
         $data = "?website_id=" . $websiteid
-            . "&payment_method=" . $currency
-            . "&order_code=" . $arr_param['order_code']
-            . "&amount=" . $arr_param['amount']
-            . "&receiver_account=" .  $arr_param['receiver']
-            . "&return_url=".$arr_param['return_url'];
-        $customer_name = "";
-        $customer_mobile = "";
-        $data = $data . "&customer_name=" . $customer_name. "&customer_mobile=" . $customer_mobile . "&order_des=" . $arr_param['transaction_info'] . "&sign=" . $sign;
+            . "&reference_number=" . '33076088975'
+            . "&receiver_account=" . $arr_param['receiver']
+//            . "&bill_to_phone=" .  '0977119830'
+//            . "&url_return=".$arr_param['url_return']
+//            . "&language=vi"
+            . "&amount=" . $amount
+            . "&currency=VND";
+        $data = $data . "&signature=" . $sign;
         $destinationUrl = $vtcpay_url . $data;
         $destinationUrl = str_replace("%3a",":",$destinationUrl);
         $destinationUrl = str_replace("%2f","/",$destinationUrl);
         return $destinationUrl;
+    }
+
+
+    public static function verifyPayment(){
+        return 1;
     }
 
     /*Hàm thực hiện xác minh tính đúng đắn của các tham số trả về từ VTC Pay*/
@@ -59,6 +72,7 @@ class VTCPay
 
         return false;
     }
+
 
 }
 ?>

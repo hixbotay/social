@@ -167,5 +167,23 @@ class BookproHelper{
         }
     }
 
+    static function write_log($log_file, $error, $type = E_USER_NOTICE){
+        date_default_timezone_set('Europe/Paris');
+        $date = date('d/m/Y H:i:s');
+        $error = $date.": ".$error."\n";
+
+        $log_file = base_path()."/logs/".$log_file;
+        if(!file_exists($log_file) || filesize($log_file) > 1048576){
+            $fh = fopen($log_file, 'w');
+        }
+        else{
+            //echo "Append log to log file ".$log_file;
+            $fh = fopen($log_file, 'a');
+        }
+
+        fwrite($fh, $error);
+        fclose($fh);
+    }
+
 
 }
