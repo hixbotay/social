@@ -26,6 +26,8 @@ class Event extends Model
         'creator', 
         'is_approved',
         'status',
-        'agency_id'
+        'agency_id',
+        'is_secret',
+        'description'
     ];
 }
