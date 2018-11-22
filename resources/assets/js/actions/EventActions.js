@@ -67,15 +67,16 @@ export const getAllEvents = (type) => dispatch => {
 
 export const createGroupEvent = (data) => dispatch => {
     return new Promise((resolve, reject) => {
-        return api.post('/event/group', data)
-        .then((response) => {
-            dispatch({type: CREATE_GROUP_EVENT, payload: response.data});
-            resolve(response.data);
-        })
-        .catch(err => {
-            console.log(err);
-            reject(err);
-        })
+        console.log(data);
+        // return api.post('/event/group', data)
+        // .then((response) => {
+        //     dispatch({type: CREATE_GROUP_EVENT, payload: response.data});
+        //     resolve(response.data);
+        // })
+        // .catch(err => {
+        //     console.log(err);
+        //     reject(err);
+        // })
     })
 }
 

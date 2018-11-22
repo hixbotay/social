@@ -311,7 +311,8 @@ class Event extends Controller {
     }
 
     public function createGroupEvent(Request $request) {
-        $user_id = Auth::id();
+        // $user_id = Auth::id();
+        $user_id = 1;
         $newEvent = [
             'creator' => $user_id,
             'status' => 'forthcoming'
@@ -372,15 +373,15 @@ class Event extends Controller {
             ]);
 
         // invite user who subscribe event in region
+        $date = date("Y-m-d", strtotime($result['start_time']));
         $subscribers = DB::table('event_subscribers')
             ->where([
                 ['is_subscribe_group_dating', '=',  1],
-                ['province_id', '=', $result['province_id']],
-                ['expect_marital_status', '=', $data->event_meta->marital_status],
-                ['expect_date_from', '<=', $result['start_time']],
-                ['expect_date_to', '>=', $result['start_time']]
+                // ['province_id', '=', $result['province_id']],
+                ['expect_marital_status', '=', $data->event_meta->marital_status]
             ])
-            ->whereIn('expect_job', $job_arr)
+            ->whereRaw("DATE(expect_date_from) <= DATE('".$date."') AND DATE(expect_date_to) >= DATE('".$date."')")
+            // ->whereIn('expect_job', $job_arr)
             ->get();
         $invitations = [];
         foreach($subscribers as $subscriber) {
@@ -393,7 +394,6 @@ class Event extends Controller {
             ]);
         }
         DB::table('event_invitations')->insert($invitations);
-
         return json_encode($result);
     }
 
