@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {withRouter} from "react-router-dom";
+import {withRouter, Link} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getAllEvents, listSubscribers, createCoupleEvent} from "../../actions/EventActions";
 import {getAllProvinces} from '../../actions/AddressActions';
@@ -8,7 +8,7 @@ import 'react-image-lightbox/style.css';
 import 'react-animated-slider/build/horizontal.css';
 import { DatingCard, CardWithTitle } from '../../components/Card';
 import DatingLayout from './DatingLayout';
-import Modal from '../../components/Modal';
+import Modal from 'react-responsive-modal';
 import CircleButton from '../../components/Button/CircleButton';
 import Subscriber from '../../components/Dating/Subscriber';
 
@@ -16,7 +16,9 @@ class ListInvitationDating extends Component {
 
     constructor(props) {
         super(props);
-        this.state =  {};
+        this.state =  {
+            isOpenModal: !parseInt(props.user.province_id)
+        };
     }
 
     componentDidMount() {
@@ -25,8 +27,15 @@ class ListInvitationDating extends Component {
         this.props.getAllProvinces();
     }
 
+    closeModal() {
+        this.setState({isOpenModal: false});
+    }
+
     render() {
         const {events, subscribers, user, provinces} = this.props;
+
+        console.log(this.state);
+
         var coupleEvents = [];
         var groupEvents = [];
         
@@ -59,6 +68,17 @@ class ListInvitationDating extends Component {
                     }
                 </CardWithTitle>
                 <DatingCard title="LỜI MỜI CAFE NHÓM" events={groupEvents} type="invitation"></DatingCard>
+                <Modal open={this.state.isOpenModal} onClose={() => this.closeModal()}>
+                    <div className="page-header">
+                        <h5>Thông báo</h5>
+                    </div>
+                    <div className="alert alert-warning">
+                        Bạn nên cập nhật địa chỉ tỉnh, huyện để có thể nhìn thấy các thành viên đang đăng ký hẹn
+                    </div>
+                    <Link to={`/profile/${user.id}/setting`}>
+                        <button className="btn btn-primary">Cập nhật ngay</button>
+                    </Link>
+                </Modal>
             </DatingLayout>
         );
     }

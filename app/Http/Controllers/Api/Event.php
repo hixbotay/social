@@ -490,8 +490,7 @@ class Event extends Controller {
     }
 
     public function get($event_id) {
-        // $current_user_id = Auth::id();
-        $current_user_id  =1;
+        $current_user_id = Auth::id();
 
         $event = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
             ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
@@ -571,7 +570,11 @@ class Event extends Controller {
             ->get();
         
         $temp = [];
+        $event['is_joined'] = 0;
         foreach($event_registers as $item) {
+            if(($item->user_id == $current_user_id)) {
+                $event['is_joined'] = 1;
+            }
             array_push($temp, $item->user_id);
         }
         $users = \App\User::whereIn('users.id', $temp)
@@ -585,8 +588,6 @@ class Event extends Controller {
             ->paginate(10);
 
         foreach($users as $user) {
-            if($user->id == $current_user_id) $event['is_joined'] = 1;
-
             $user['is_like'] = 0;
             $user['is_loved'] = 0;
             $user['is_couple'] = 0;
@@ -614,6 +615,7 @@ class Event extends Controller {
 
         $event['registers'] = $users->items();
 
+        // get review if type is couple
         $event['reviews'] = [];
         if($event->type == 'couple' && $event->status == 'finished') {
             $reviews = DB::table('event_review')

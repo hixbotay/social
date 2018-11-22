@@ -53,9 +53,9 @@ class User extends Authenticatable
         'password', 
         'remember_token', 
         'job', 
-        'province_id',
-        'district_id',
-        'village_id',
+        // 'province_id',
+        // 'district_id',
+        // 'village_id',
     ];
 
     public static function get_list_user_by_key($group){

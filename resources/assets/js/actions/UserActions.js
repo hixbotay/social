@@ -58,12 +58,16 @@ export const getOtherUserDetail = (id) => (dispatch) => {
 }
 
 export const getCurrentUserDetail = () => (dispatch) => {
-    api.get('/user')
-    .then(response => {
-        dispatch({type: GET_CURRENT_USER_DETAIL, payload: response.data});
-    })
-    .catch(err => {
-        console.log(err);
+    return new Promise((resolve, reject) => {
+        return api.get('/user')
+        .then(response => {
+            resolve(response.data);
+            dispatch({type: GET_CURRENT_USER_DETAIL, payload: response.data});
+        })
+        .catch(err => {
+            reject(err);
+            console.log(err);
+        })
     })
 }
 

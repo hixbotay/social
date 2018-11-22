@@ -24,6 +24,11 @@ class DatingDetail extends Component {
     render() {
         const { event, current_user } = this.props;
 
+        var isSecretEvent = event.is_secret;
+        if(event.creator.id === current_user.id) {
+            isSecretEvent = 0;
+        }
+
         var status = "Sắp diễn ra";
         switch (event.status) {
             case "forthcoming": {
@@ -266,7 +271,7 @@ class DatingDetail extends Component {
                                             return (
                                                 <RegisterItem
                                                     user={user}
-                                                    isSecretEvent={event.is_secret}
+                                                    isSecretEvent={isSecretEvent}
                                                     key={index}
                                                     action={(data, user_id) => this.props.updateRelationship(data, user_id)}
                                                 ></RegisterItem>
@@ -275,6 +280,13 @@ class DatingDetail extends Component {
                                     }
                                 </div>
                             </div>
+                            {
+                                event.is_joined ? null : (
+                                    <div className="mt-4 text-center">
+                                        <button className="btn btn-primary">THAM GIA NGAY!</button>
+                                    </div>
+                                )
+                            }
                         </CardWithTitle>
                     </DatingLayout>
                 ) : (

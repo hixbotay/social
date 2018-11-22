@@ -11,6 +11,7 @@ import { getCurrentUserDetail, updateUser } from '../../actions/UserActions';
 import {getAllHobbies} from '../../actions/HobbyActions';
 import {getAllJobs} from '../../actions/JobActions';
 import {getEducations} from '../../actions/EducationActions';
+import {getAllProvinces, getAllDistricts, getAllCommunes} from '../../actions/AddressActions';
 
 class UserSetting extends Component {
     constructor(props) {
@@ -25,10 +26,14 @@ class UserSetting extends Component {
     }
 
     componentDidMount() {
-        this.props.getCurrentUserDetail();
+        this.props.getCurrentUserDetail().then(data => {
+            this.props.getAllDistricts(data.user.province_id);
+            this.props.getAllCommunes(data.user.district_id);
+        });
         this.props.getAllHobbies();
         this.props.getAllJobs();
         this.props.getEducations();
+        this.props.getAllProvinces();
     }
 
     openFirstModal() {
@@ -78,12 +83,42 @@ class UserSetting extends Component {
         });
     }
 
+    onChangeProvince(e) {
+        var province_id = e.target.value;
+        this.setState({
+            data: {
+                ...this.state.data,
+                user: {
+                    ...this.state.data.user,
+                    province_id: province_id
+                }
+            }
+        }, () => {
+            this.props.getAllDistricts(province_id);
+        });
+    }
+
+    onChangeDistrict(e) {
+        var district_id = e.target.value;
+        this.setState({
+            data: {
+                ...this.state.data,
+                user: {
+                    ...this.state.data.user,
+                    district_id: district_id
+                }
+            }
+        }, () => {
+            this.props.getAllCommunes(district_id);
+        });
+    }
+
     submit() {
         this.props.updateUser(this.state.data, this.props.user.id);
     }
 
     render() {
-        const { user, user_hobbies, hobbies, jobs, educations } = this.props;
+        const { user, user_hobbies, hobbies, jobs, educations, provinces, districts, communes } = this.props;
         if(this.props.match.params.id) {
             if(user.id != this.props.match.params.id) {
                 return <Redirect to={`/profile/${user.id}/setting`}/>
@@ -116,10 +151,10 @@ class UserSetting extends Component {
                                     <div className="col-4">Giới tính</div>
                                     <div className="col-8">{(user.gender === 'M') ? "Nam" : (user.gender === 'F' ? "Nữ" : "Chưa xác định")}</div>
                                 </div>
-                                <div className="row">
+                                {/* <div className="row">
                                     <div className="col-4">Quê quán</div>
                                     <div className="col-8">{user.home_town}</div>
-                                </div>
+                                </div> */}
                                 <div className="row">
                                     <div className="col-4">Chỗ ở hiện tại</div>
                                     <div className="col-8">{user.address}</div>
@@ -236,14 +271,53 @@ class UserSetting extends Component {
                             </div>
                         </div>
                         <div className="form-group">
-                            <div className="row align-items-center">
+                            {/* <div className="row align-items-center">
                                 <div className="col-4">
                                     <label>Quê quán</label>
                                 </div>
                                 <div className="col-8">
                                     <input type="text" className="form-control" name="home_town" defaultValue={user.home_town} onChange={(event) => this.editUser(event)} />
                                 </div>
-                            </div>
+                            </div> */}
+                            <div className="row">
+                                    <label className="col-12">Chọn địa chỉ</label>
+                                    <div className="col-4">
+                                        <select className="custom-select" defaultValue={user.province_id} onChange={(e) => this.onChangeProvince(e)}>
+                                            <option value="">Chọn tỉnh/TP</option>
+                                            {
+                                                provinces.map((province, index) => {
+                                                    return (
+                                                        <option value={province.matp} key={index}>{province.name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="col-4">
+                                        <select className="custom-select" defaultValue={user.district_id} onChange={(e) => this.onChangeDistrict(e)}>
+                                            <option value="">Chọn quận/huyện</option>
+                                            {
+                                                districts.map((item, index) => {
+                                                    return (
+                                                        <option value={item.maqh} key={index}>{item.name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="col-4">
+                                        <select className="custom-select" defaultValue={user.village_id} name="village_id" onChange={(e) => this.editUser(e)}>
+                                            <option value="">Chọn xã/phường</option>
+                                            {
+                                                communes.map((item, index) => {
+                                                    return (
+                                                        <option value={item.xaid} key={index}>{item.name}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
                         </div>
                         <div className="form-group">
                             <div className="row align-items-center">
@@ -402,7 +476,10 @@ function mapStateToProps(state) {
         user_hobbies: state.user.user_hobbies,
         hobbies: state.hobby.hobbies,
         jobs: state.job.jobs,
-        educations: state.education.educations
+        educations: state.education.educations,
+        provinces: state.address.provinces,
+        districts: state.address.districts,
+        communes: state.address.communes
     }
 }
 
@@ -413,6 +490,9 @@ function mapDispatchToProps(dispatch) {
         getAllJobs: () => dispatch(getAllJobs()),
         getEducations: () => dispatch(getEducations()),
         updateUser: (data, id) => dispatch(updateUser(data, id)),
+        getAllProvinces: () => dispatch(getAllProvinces()),
+        getAllDistricts: (province_id) => dispatch(getAllDistricts(province_id)),
+        getAllCommunes: (district_id)  => dispatch(getAllCommunes(district_id))
     }
 }
 
