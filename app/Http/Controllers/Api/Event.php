@@ -957,11 +957,10 @@ class Event extends Controller {
             })
             ->where([
                 ['is_subscribe_couple_dating', '=', 1],
-                ['expect_date_from', '<=', date("Y-m-d")],
-                ['expect_date_to', '>=', date("Y-m-d")],
                 ['expect_gender','=', $user->gender],
                 ['event_subscribers.province_id', '=', $user->province_id]
             ])
+            ->whereRaw('DATE(expect_date_from) <= DATE(NOW()) AND DATE(expect_date_to) >= DATE(NOW())')
             ->whereNotIn('event_subscribers.user_id', $temp)
             ->select(DB::raw('event_subscribers.*, 
                 users.name, users.avatar, users.address, 
@@ -969,6 +968,7 @@ class Event extends Controller {
                 agency.name AS agency_name,
                 agency_photos.source AS agency_image    
             '))
+            // ->toSql();
             ->paginate(5);
         return json_encode($subscribers);
     }
