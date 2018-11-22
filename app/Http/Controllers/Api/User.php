@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use ImageOptimizer;
 use \App\Notification;
 
+date_default_timezone_set('Asia/Saigon');
+
 class User extends Controller
 {
     public function getCurrentUser() {

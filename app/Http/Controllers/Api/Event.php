@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use \App\Notification;
 
+date_default_timezone_set('Asia/Saigon');
+
 class Event extends Controller {
     // list events forthcoming, finished, cancelled which current_user joined
     public function list($status) {
@@ -957,7 +959,7 @@ class Event extends Controller {
                 ['is_subscribe_couple_dating', '=', 1],
                 ['expect_date_from', '<=', date("Y-m-d")],
                 ['expect_date_to', '>=', date("Y-m-d")],
-                ['expect_gender','<>', $user->gender],
+                ['expect_gender','=', $user->gender],
                 ['event_subscribers.province_id', '=', $user->province_id]
             ])
             ->whereNotIn('event_subscribers.user_id', $temp)

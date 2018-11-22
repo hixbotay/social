@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use \App\Notification;
 
+date_default_timezone_set('Asia/Saigon');
+
 class Post extends Controller
 {
     public static function list() {
