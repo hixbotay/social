@@ -9,8 +9,9 @@ import RegisterItem from '../../components/Dating/RegisterItem';
 import { getEventDetail } from '../../actions/EventActions';
 import { updateRelationship } from '../../actions/UserActions';
 import Fragment from 'react-dot-fragment';
-import { updateEventStatus } from '../../actions/EventActions';
+import { updateEventStatus, joinDating } from '../../actions/EventActions';
 import InformationNumber from '../../components/Information/InformationNumber';
+import Modal from '../../components/Modal';
 
 class DatingDetail extends Component {
     componentDidMount() {
@@ -19,6 +20,15 @@ class DatingDetail extends Component {
 
     cancelDating(event_id) {
         this.props.updateEventStatus(event_id, { status: "cancelled" });
+    }
+
+    join(event_id) {
+        if (this.props.current_user.is_id_verified) {
+            this.props.joinDating(event_id).then(data => {
+                window.location.href = `${baseUrl}/dating/${event_id}`;
+            });
+        }
+        else document.getElementById('open-verify-modal').click();
     }
 
     render() {
@@ -283,11 +293,36 @@ class DatingDetail extends Component {
                             {
                                 event.is_joined ? null : (
                                     <div className="mt-4 text-center">
-                                        <button className="btn btn-primary">THAM GIA NGAY!</button>
+                                        <button className="btn btn-primary" onClick={() => this.join(event.id)}>
+                                            THAM GIA NGAY!
+                                        </button>
                                     </div>
                                 )
                             }
                         </CardWithTitle>
+                        <button type="button" id="open-verify-modal" className="d-none"
+                                data-toggle="modal" data-target="#verify-id-modal">
+                        </button>
+                        <Modal id="verify-id-modal">
+                            <div className="row">
+                                <div className="col-6">
+                                    <img src="https://img.freepik.com/free-vector/funny-couple-making-a-selfie_1045-571.jpg?size=338&ext=jpg" id="create-event-alert-img"/>
+                                </div>
+                                <div className="col-6">
+                                    <div className="text-center" id="create-event-alert-header">
+                                        VUI LÒNG XÁC MINH CMT
+                                    </div>
+                                    <div className="text-center create-event-alert-content">
+                                        Trước khi tham gia một cuộc hẹn, hãy chắc chấn đó là bạn.
+                                    </div>
+                                    <div className="text-center create-event-alert-content">
+                                        {/* <Link to={`/profile/${current_user.id}`}> */}
+                                            <button className="btn btn-primary" data-dismiss="modal">OK</button>
+                                        {/* </Link> */}
+                                    </div>
+                                </div>
+                            </div>
+                        </Modal>
                     </DatingLayout>
                 ) : (
                         <Redirect to={`/dating/${this.props.match.params.id}/result`} />
@@ -308,7 +343,8 @@ function mapDispatchToProps(dispatch) {
     return {
         getEventDetail: (id) => dispatch(getEventDetail(id)),
         updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id)),
-        updateEventStatus: (event_id, status) => dispatch(updateEventStatus(event_id, status))
+        updateEventStatus: (event_id, status) => dispatch(updateEventStatus(event_id, status)),
+        joinDating: (event_id) => dispatch(joinDating(event_id)),
     }
 }
 
