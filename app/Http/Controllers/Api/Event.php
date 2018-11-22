@@ -373,7 +373,7 @@ class Event extends Controller {
         $subscribers = DB::table('event_subscribers')
             ->where([
                 ['is_subscribe_group_dating', '=',  1],
-                ['agency_id', '=', $result['agency_id']],
+                ['province_id', '=', $result['province_id']],
                 ['expect_marital_status', '=', $data->event_meta->marital_status],
                 ['expect_date_from', '<=', $result['start_time']],
                 ['expect_date_to', '>=', $result['start_time']]
@@ -955,8 +955,9 @@ class Event extends Controller {
             })
             ->where([
                 ['is_subscribe_couple_dating', '=', 1],
-                ['expect_date_from', '<=', date("Y-m-d H:i:s")],
-                ['expect_date_to', '>=', date("Y-m-d H:i:s")],
+                ['expect_date_from', '<=', date("Y-m-d")],
+                ['expect_date_to', '>=', date("Y-m-d")],
+                ['expect_gender','<>', $user->gender],
                 ['event_subscribers.province_id', '=', $user->province_id]
             ])
             ->whereNotIn('event_subscribers.user_id', $temp)
