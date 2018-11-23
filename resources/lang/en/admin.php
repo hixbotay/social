@@ -30,6 +30,8 @@ return [
     'LIST' => 'Danh sách',
     'ACCOUNT_GROUP' => 'Nhóm tài khoản',
     'POST' => 'Bài viết',
+    'TOTAL_USER' => 'Tổng thành viên',
+    'USER_TYPE' => 'Loại tài khoản'
 
 
 ];

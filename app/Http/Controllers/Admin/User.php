@@ -22,7 +22,9 @@ class User extends Controller
         $users = DB::table('users')->paginate(10);
         $users->withPath('admin?view=User');
 
-        return view('admin.user.list', ['items' => $users]);
+        $total = $users->total();
+
+        return view('admin.user.list', ['items' => $users, 'total' => $total]);
     }
 
     /**
