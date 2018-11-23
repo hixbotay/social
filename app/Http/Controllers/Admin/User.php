@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\User as UserModel;
+use App\UserGroup;
 use Session;    
 use URL;
 use Illuminate\Support\Facades\Hash;
@@ -21,10 +23,15 @@ class User extends Controller
     {
         $users = DB::table('users')->paginate(10);
         $users->withPath('admin?view=User');
-
         $total = $users->total();
 
-        return view('admin.user.list', ['items' => $users, 'total' => $total]);
+        $userGroup = UserGroup::all();
+
+        return view('admin.user.list', [
+            'items' => $users,
+            'total' => $total,
+            'group' => $userGroup
+        ]);
     }
 
     /**

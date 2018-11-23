@@ -9,11 +9,8 @@
 
 	<title>{{ config('app.name', 'Laravel') }}</title>
 
-	<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<meta
-	content="{{env('description')}}"
-	name="description" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta content="{{env('description')}}" name="description" />
 	<meta content="Coderthemes" name="author" />
 
 	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
@@ -35,6 +32,15 @@
 	{{--<script src="{{ asset('js/app.js') }}"></script>--}}
 
 	<script src="{{ asset('assets/js/jquery-2.1.4.min.js') }}"></script>
+
+	{{--Date picker--}}
+
+	<script src="{{ asset('assets/js/bootstrap-datepicker.min.js') }}"></script>
+	<script src="{{ asset('assets/js/daterangepicker.js') }}"></script>
+
+	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap-datepicker.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap-timepicker.min.css') }}">
+
 
 	@yield('header')
 </head>
@@ -80,5 +86,7 @@
 	<!-- App Js -->
 	<script src="{{ asset('assets/js/jquery.app.js') }}"></script>
 	@yield('footer')
+
+	@yield('javascript')
 </body>
 </html>

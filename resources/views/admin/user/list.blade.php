@@ -7,49 +7,64 @@
             <div class="card-box">
                 <h4 class="m-t-0">Danh sách user</h4>
 
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label for="user_type">Loại User</label>
-                            <select class="form-control" id="user_type">
-                                <option value="">@lang('admin.USER_TYPE')</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
+                <form name="filterUser" action="{{url('admin?view=User')}}" method="GET">
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="user_type">Loại User</label>
+                                <select class="form-control" id="user_type" name="group_id">
+                                    <option value="">@lang('admin.USER_TYPE')</option>
+                                    @foreach($group AS $value)
+                                        <option value="{{$value->id}}">{{$value->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>Ngày đăng ký</label>
-                            <div>
-                                <div class="input-daterange input-group" id="date-range">
-                                    <input type="text" class="form-control" name="start">
-                                    <span class="input-group-addon b-0">Tới</span>
-                                    <input type="text" class="form-control" name="end">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Ngày đăng ký</label>
+                                <div>
+                                    <div class="input-daterange input-group" id="date-range">
+                                        <input type="text" class="form-control" name="start">
+                                        <span class="input-group-addon b-0">Tới</span>
+                                        <input type="text" class="form-control" name="end">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Tuổi</label>
+                                <div>
+                                    <div class="input-group" name="age" id="age">
+                                        <input type="text" class="form-control" name="start" placeholder="15">
+                                        <span class="input-group-addon b-0">Tới</span>
+                                        <input type="text" class="form-control" name="end" placeholder="35">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label for="user_type">Loại User</label>
-                            <select class="form-control" id="user_type">
-                                <option value="">@lang('admin.USER_TYPE')</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                            </select>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="user_type">@lang('admin.GENDER')</label>
+                                <select class="form-control" id="gender">
+                                    <option value="">@lang('admin.GENDER')</option>
+                                    <option value="M">Nam</option>
+                                    <option value="F">Nữ</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="mdi mdi-filter-outline"></i> Lọc</button>
+                            <button type="submit" class="btn btn-primary"><i class="mdi mdi-notification-clear-all"></i> Reset</button>
                         </div>
-                        <button type="submit" class="btn btn-primary"><i class="mdi mdi-filter-outline"></i> Lọc</button>
-                        <button type="submit" class="btn btn-primary"><i class="mdi mdi-notification-clear-all"></i> Reset</button>
                     </div>
-                </div>
+
+                    <input type="hidden" name="view" value="User">
+
+                </form>
 
                 <div style="height: 20px;"></div>
 
@@ -139,3 +154,10 @@
         </div>
     </div>
 @endsection
+
+
+@section('javascript')
+    <script type="text/javascript">
+        $('.input-daterange').datepicker();
+    </script>
+@stop
