@@ -34,6 +34,7 @@ return [
     'USER_TYPE' => 'Loại tài khoản',
     'AGE' => 'Tuổi',
     'GENDER' => 'Giới tính',
+    'SELECT_USER' => 'Chọn user'
 
 
 ];

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Post as PostModel;
-use Session;    
+use Illuminate\Support\Facades\DB;
+use App\User;
+use Session;
 use URL;
 
 class Post extends Controller
@@ -17,8 +19,15 @@ class Post extends Controller
     public function index()
     {
         $this->authorize(config('auth.action.LIST_POST'));
-        $posts = PostModel::paginate(10);
-        return view('admin.post.list', ['items' => $posts]);
+//        $posts = PostModel::paginate(10);
+        $posts = DB::table('posts')
+            ->join('users', 'posts.user_id', '=', 'users.id')
+            ->select('posts.*', 'users.name', 'users.id')
+            ->paginate(20);
+
+        $users = User::all();
+
+        return view('admin.post.list', ['items' => $posts, 'users' => $users]);
     }
 
     /**

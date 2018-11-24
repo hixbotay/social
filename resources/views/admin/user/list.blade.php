@@ -2,10 +2,19 @@
 
 @section('content')
 
+
+    <?php
+//    echo "<pre>";
+//    print_r($filter);
+//    die;
+    ?>
+
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
                 <h4 class="m-t-0">Danh sách user</h4>
+
+                <hr />
 
                 <form name="filterUser" action="{{url('admin?view=User')}}" method="GET">
 
@@ -13,10 +22,12 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="user_type">Loại User</label>
-                                <select class="form-control" id="user_type" name="group_id">
+                                <select class="form-control" id="user_type" name="filter[group_id]">
                                     <option value="">@lang('admin.USER_TYPE')</option>
                                     @foreach($group AS $value)
-                                        <option value="{{$value->id}}">{{$value->name}}</option>
+                                        <option value="{{$value->id}}"
+                                        @if(isset($filter['group_id']) && $value->id == $filter['group_id']) selected @endif
+                                        >{{$value->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -26,9 +37,9 @@
                                 <label>Ngày đăng ký</label>
                                 <div>
                                     <div class="input-daterange input-group" id="date-range">
-                                        <input type="text" class="form-control" name="start">
+                                        <input type="text" class="form-control" name="filter[start]" value="<?= isset($filter['start'])?$filter['start']:null ?>">
                                         <span class="input-group-addon b-0">Tới</span>
-                                        <input type="text" class="form-control" name="end">
+                                        <input type="text" class="form-control" name="filter[end]" value="<?= isset($filter['end'])?$filter['end']:null ?>">
                                     </div>
                                 </div>
                             </div>
@@ -38,9 +49,9 @@
                                 <label>Tuổi</label>
                                 <div>
                                     <div class="input-group" name="age" id="age">
-                                        <input type="text" class="form-control" name="start" placeholder="15">
+                                        <input type="text" class="form-control" name="age_from" placeholder="15" value="<?= isset($filter['age_from'])?$filter['age_from']:null ?>">
                                         <span class="input-group-addon b-0">Tới</span>
-                                        <input type="text" class="form-control" name="end" placeholder="35">
+                                        <input type="text" class="form-control" name="age_to" placeholder="35" value="<?= isset($filter['age_to'])?$filter['age_to']:null ?>">
                                     </div>
                                 </div>
                             </div>
@@ -51,14 +62,18 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="user_type">@lang('admin.GENDER')</label>
-                                <select class="form-control" id="gender">
+                                <select class="form-control" id="gender" name="filter[gender]">
                                     <option value="">@lang('admin.GENDER')</option>
-                                    <option value="M">Nam</option>
-                                    <option value="F">Nữ</option>
+                                    <option value="M" @if(isset($filter['gender']) && $filter['gender'] == 'M') selected @endif>Nam</option>
+                                    <option value="F" @if(isset($filter['gender']) && $filter['gender'] == 'F') selected @endif>Nữ</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary"><i class="mdi mdi-filter-outline"></i> Lọc</button>
-                            <button type="submit" class="btn btn-primary"><i class="mdi mdi-notification-clear-all"></i> Reset</button>
+                            <a href="{{url('/admin?view=User')}}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-notification-clear-all"></i> Reset
+                                </button>
+                            </a>
                         </div>
                     </div>
 

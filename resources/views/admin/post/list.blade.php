@@ -6,6 +6,58 @@
         <div class="col-sm-12">
             <div class="card-box">
                 <h4 class="m-t-0">Bài viết</h4>
+
+                <hr />
+
+
+                <form name="filterUser" action="{{url('admin?view=User')}}" method="GET">
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Users</label>
+                                <div>
+                                    <select class="form-control">
+                                        <option value="">@lang('admin.SELECT_USER')</option>
+                                        @foreach($users AS $user)
+                                            <option value="{{$user->id}}">{{$user->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>Thời gian</label>
+                                <div>
+                                    <div class="input-daterange input-group" id="date-range">
+                                        <input type="text" class="form-control" name="filter[start]">
+                                        <span class="input-group-addon b-0">Tới</span>
+                                        <input type="text" class="form-control" name="filter[end]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <button type="submit" class="btn btn-primary"><i class="mdi mdi-filter-outline"></i> Lọc</button>
+                            <a href="{{url('/admin?view=Post')}}">
+                                <button type="button" class="btn btn-primary">
+                                    <i class="mdi mdi-notification-clear-all"></i> Reset
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="view" value="Post">
+
+                </form>
+
+
                 <div class="table-responsive">
 
                     <div class="row">
@@ -57,7 +109,9 @@
                                 </td>
 
                                 <td>
-                                    {{$item->user_id}}
+                                    <a href="{{url('/admin?view=User&layout=edit&id=' . $item->id)}}" target="_blank">
+                                        {{$item->name}}
+                                    </a>
                                 </td>
 
                                 <td>
@@ -76,7 +130,7 @@
                                     {{$item->updated_at}}
                                 </td>
                                 <td>
-                                    <a href="{{url('admin?controller=Post&task=destroy&id='.$item->id)}}">
+                                    <a onclick="return confirm('Want to delete?')" href="{{url('admin?controller=Post&task=destroy&id='.$item->id)}}">
                                         <button class="btn btn-sm btn-danger">Delete</button>
                                     </a>
                                 </td>
@@ -94,3 +148,11 @@
         </div>
     </div>
 @endsection
+
+
+@section('javascript')
+    <script type="text/javascript">
+        $('.input-daterange').datepicker();
+    </script>
+@stop
+

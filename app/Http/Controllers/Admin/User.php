@@ -27,10 +27,16 @@ class User extends Controller
 
         $userGroup = UserGroup::all();
 
+        $filterData = isset($_GET['filter'])?$_GET['filter']:array();
+//        echo "<pre>";
+//        print_r($filterData);
+//        die;
+
         return view('admin.user.list', [
             'items' => $users,
             'total' => $total,
-            'group' => $userGroup
+            'group' => $userGroup,
+            'filter' => $filterData
         ]);
     }
 
