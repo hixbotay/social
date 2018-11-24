@@ -9,7 +9,6 @@
 
                 <hr />
 
-
                 <form name="filterUser" action="{{url('admin?view=User')}}" method="GET">
 
                     <div class="row">
@@ -22,10 +21,10 @@
                                         <option value="">@lang('admin.SELECT_USER')</option>
                                         @foreach($users AS $user)
                                             <option
-                                                    @if(isset($filter['user_id']) && $filter['user_id'] == $user->id)
-                                                            selected
-                                                    @endif
-                                                    value="{{$user->id}}">{{$user->name}}</option>
+                                                @if(isset($filter['user_id']) && $filter['user_id'] == $user->id)
+                                                    selected
+                                                @endif
+                                                value="{{$user->id}}">{{$user->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -70,9 +69,11 @@
                         <div class="col-sm-6">
                             <div id="datatable-responsive_filter" class="dataTables_filter">
                                 <a href="<?= url('/admin?controller=Post&task=create') ?>" type="button" class="btn btn-primary">
-                                    Thêm
+                                    @lang('admin.ADD')
                                 </a>
-                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">Xóa</button>
+                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">
+                                    @lang('admin.DELETE')
+                                </button>
                             </div>
 
                         </div>
@@ -87,12 +88,12 @@
                                         <label for="action-checkbox"></label>
                                     </div>
                                 </th>
-                                <th>User</th>
-                                <th>Content</th>
-                                <th>Reaction</th>
-                                <th>Created</th>
-                                <th>Updated</th>
-                                <th>Option</th>
+                                <th>@lang('admin.USER')</th>
+                                <th>@lang('admin.CONTENT')</th>
+                                <th>Like/Love</th>
+                                <th>@lang('admin.CREATED_AT')</th>
+                                <th>@lang('admin.UPDATED_AT')</th>
+                                <th>@lang('admin.OPTION')</th>
                             </tr>
                         </thead>
 
@@ -122,17 +123,12 @@
                                     <a href="{{url('admin?view=Post&layout=edit&id='.$item->id)}}" class="text-muted">{{substr($item->content, 0, 200)}}...</a>
                                 </td>
 
-                                <td>
-                                    
-                                </td>
+                                <td></td>
 
-                                <td>
-                                    {{$item->created_at}}
-                                </td>
+                                <td>{{$item->created_at}}</td>
 
-                                <td>
-                                    {{$item->updated_at}}
-                                </td>
+                                <td>{{$item->updated_at}}</td>
+
                                 <td>
                                     <a onclick="return confirm('Want to delete?')" href="{{url('admin?controller=Post&task=destroy&id='.$item->id)}}">
                                         <button class="btn btn-sm btn-danger">Delete</button>

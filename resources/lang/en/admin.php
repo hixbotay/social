@@ -35,7 +35,14 @@ return [
     'AGE' => 'Tuổi',
     'GENDER' => 'Giới tính',
     'SELECT_USER' => 'Chọn user',
-    'POST' => 'Bài viết'
+    'POST' => 'Bài viết',
+    'ADD' => 'Thêm',
+    'DELETE' => 'Xóa',
+    'USER' => 'Thành viên',
+    'CONTENT' => 'Nội dung',
+    'CREATED_AT' => 'Ngày tạo',
+    'UPDATED_AT' => 'Ngày sửa',
+    'OPTION' => 'Lựa chọn'
 
 
 ];

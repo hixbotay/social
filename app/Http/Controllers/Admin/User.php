@@ -111,6 +111,21 @@ class User extends Controller
         // show the view and pass the nerd to it
         return view('admin.user.detail', ['item' => $user]);
     }
+
+    public static function block($id){
+        $user = UserModel::find($id);
+
+        $user->is_blocked = 1;
+        $result = $user->save();
+
+        if ($result)
+        {
+            return redirect('admin?view=Users')->with('success', ['SAVE_SUCCESS']);
+        }else{
+            return redirect('admin?view=Users')->withErrors('SAVE_FAIL');
+        }
+
+    }
     
     
 

@@ -150,6 +150,15 @@
                                 <td>{{$item->address}}</td>
 
                                 <td>
+                                    <a href="{{url('admin?controller=User&task=block&id='.$item->id)}}">
+                                        <button class="btn btn-danger">
+                                            @if($item->is_blocked == 1)
+                                                Unblock
+                                            @else
+                                                Block
+                                            @endif
+                                        </button>
+                                    </a>
                                     {{--<a href="{{url('admin?controller=User&task=destroy&id='.$item->id)}}">--}}
                                     {{--<button class="btn btn-sm btn-danger">Delete</button>--}}
                                     {{--</a>--}}
