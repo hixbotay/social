@@ -22,12 +22,18 @@ class Post extends Controller
 //        $posts = PostModel::paginate(10);
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
-            ->select('posts.*', 'users.name', 'users.id')
+            ->select('posts.*', 'users.name')
             ->paginate(20);
 
         $users = User::all();
 
-        return view('admin.post.list', ['items' => $posts, 'users' => $users]);
+        $filter = isset($_GET['filter'])?$_GET['filter']:array();
+
+        return view('admin.post.list', [
+            'items' => $posts,
+            'users' => $users,
+            'filter' => $filter
+        ]);
     }
 
     /**

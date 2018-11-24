@@ -34,7 +34,8 @@ return [
     'USER_TYPE' => 'Loại tài khoản',
     'AGE' => 'Tuổi',
     'GENDER' => 'Giới tính',
-    'SELECT_USER' => 'Chọn user'
+    'SELECT_USER' => 'Chọn user',
+    'POST' => 'Bài viết'
 
 
 ];

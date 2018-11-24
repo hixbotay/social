@@ -18,10 +18,14 @@
                             <div class="form-group">
                                 <label>Users</label>
                                 <div>
-                                    <select class="form-control">
+                                    <select class="form-control" name="filter[user_id]">
                                         <option value="">@lang('admin.SELECT_USER')</option>
                                         @foreach($users AS $user)
-                                            <option value="{{$user->id}}">{{$user->name}}</option>
+                                            <option
+                                                    @if(isset($filter['user_id']) && $filter['user_id'] == $user->id)
+                                                            selected
+                                                    @endif
+                                                    value="{{$user->id}}">{{$user->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -33,9 +37,9 @@
                                 <label>Thời gian</label>
                                 <div>
                                     <div class="input-daterange input-group" id="date-range">
-                                        <input type="text" class="form-control" name="filter[start]">
+                                        <input type="text" class="form-control" name="filter[time_from]" value="<?= isset($filter['time_from'])?$filter['time_from']:null ?>">
                                         <span class="input-group-addon b-0">Tới</span>
-                                        <input type="text" class="form-control" name="filter[end]">
+                                        <input type="text" class="form-control" name="filter[time_to]" value="<?= isset($filter['time_to'])?$filter['time_to']:null ?>">
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +113,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{url('/admin?view=User&layout=edit&id=' . $item->id)}}" target="_blank">
+                                    <a href="{{url('/admin?view=User&layout=edit&id=' . $item->user_id)}}" target="_blank">
                                         {{$item->name}}
                                     </a>
                                 </td>

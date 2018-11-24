@@ -4,7 +4,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h4 class="m-b-20 header-title">Post Detail</h4>
+			<h4 class="m-b-20 header-title">@lang('admin.POST')</h4>
 			<form method="post" action="{{url('admin?controller=Post&task=update&id='.$item->id)}}" class="form-horizontal">
 
 				{{ csrf_field() }}
