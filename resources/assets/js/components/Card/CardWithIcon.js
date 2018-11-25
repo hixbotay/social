@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 class CardWithIcon extends Component {
     
     render() {
-        const {backgroundImage, className, leftIcon, rightIcon, children, hasLine} = this.props;
+        const {backgroundImage, className, leftIcon, rightIcon, children, hasLine, title} = this.props;
 
         var style = backgroundImage ? {backgroundImage: backgroundImage} : {};
         return (
             <div className={`ui-block custom-card ${className}`} style={style}>
                 <div className="container">
                     <div className="">
-                        <div className="float-left"><i className={leftIcon}></i></div>
+                        <div className="float-left"><i className={leftIcon}></i> {title}</div>
                         <div className="float-right">
                             <div className="btn-icon-card" onClick={this.props.rightIconAction}>
                                 <i className={rightIcon}></i>
@@ -35,6 +35,7 @@ CardWithIcon.propTypes = {
     rightIcon: PropTypes.string,
     rightIconAction: PropTypes.func,
     hasLine: PropTypes.bool,
+    title: PropTypes.string,
     // children: PropTypes.array
 }
 

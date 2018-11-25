@@ -35,11 +35,40 @@ class DatingCouple extends Component {
     }
 
     render() {
-        const { event, user, type } = this.props;
+        const { event, user } = this.props;
 
         var button = null;
 
-        if (type == 'invitation') {
+        if (event.is_joined) {
+            switch (event.status) {
+                case 'forthcoming': {
+                    button = (
+                        <div className="text-center">
+                            <button className="btn btn-primary btn-sm">Tìm hiểu thêm</button>
+                        </div>
+                    );
+                    break;
+                }
+                case 'cancelled': {
+                    button = (
+                        <div className="text-center">
+                            <button className="btn btn-primary btn-sm">Hẹn lại</button>
+                        </div>
+                    );
+                    break;
+                }
+                case 'finished': {
+                    button = (
+                        <div className="text-center">
+                            <Link to={`/dating/${event.id}/result`}>
+                                <button className="btn btn-primary btn-sm">Xem kết quả</button>
+                            </Link>
+                        </div>
+                    );
+                    break;
+                }
+            }
+        } else {
             button = (
                 <div className="row">
                     <div className="col-6">
@@ -53,73 +82,7 @@ class DatingCouple extends Component {
                         </button>
                     </div>
                 </div>
-            )
-        } else {
-            if (event.is_joined) {
-                switch (event.status) {
-                    case 'forthcoming': {
-                        button = (
-                            <div className="row">
-                                <div className="col-6">
-                                    <Link to={`/dating/${event.id}`}>
-                                        <button className="btn btn-primary btn-sm">
-                                            Quy định
-                                        </button>
-                                    </Link>
-                                </div>
-                                <div className="col-6">
-                                    <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
-                                        Mời
-                                    </button>
-                                    <button type="button" id="open-invite-modal" className="d-none"
-                                        data-toggle="modal" data-target="#invite-modal">
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                        break;
-                    }
-                    case 'cancelled': {
-                        button = (
-                            <div className="text-center">
-                                <button className="btn btn-primary btn-sm">Hẹn lại</button>
-                            </div>
-                        );
-                        break;
-                    }
-                    case 'finished': {
-                        button = (
-                            <div className="text-center">
-                                <Link to={`/dating/${event.id}/result`}>
-                                    <button className="btn btn-primary btn-sm">Xem kết quả</button>
-                                </Link>
-                            </div>
-                        );
-                        break;
-                    }
-                }
-            } else {
-                button = (
-                    <div className="row">
-                        <div className="col-6">
-                            <Link to={`/dating/${event.id}`}>
-                                <button className="btn btn-primary btn-sm">
-                                    Tìm hiểu
-                                </button>
-                            </Link>
-                        </div>
-                        <div className="col-6">
-                            <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
-                                Tham gia
-                            </button>
-                            <button type="button" id="open-verify-modal" className="d-none"
-                                data-toggle="modal" data-target="#verify-id-modal">
-                            </button>
-                        </div>
-                    </div>
-                )
-            }
-
+            );
         }
 
         return (
@@ -127,7 +90,7 @@ class DatingCouple extends Component {
                 <Link to={`/dating/${event.id}`} >
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
-                            <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
+                            <RoundAvatar size={"medium"} img={event.creator_avatar}></RoundAvatar>
                         </div>
                         <div className={"col-md-7 dating-header"}>
                             <h5>{event.name}</h5>
@@ -144,8 +107,8 @@ class DatingCouple extends Component {
                         <img src={event.image} />
                         {
                             (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48 * 60 * 60 * 1000)) ? (
-                                <Countdown 
-                                    date={new Date(event.start_time)} 
+                                <Countdown
+                                    date={new Date(event.start_time)}
                                     renderer={renderCountdown}
                                     daysInHours={true}
                                 ></Countdown>
@@ -161,7 +124,18 @@ class DatingCouple extends Component {
                                     </div>
 
                                 ) : (
-                                        <div className="row text-center couple-dating-info">
+                                    <React.Fragment>
+                                        {
+                                            event.is_joined ? (
+                                                <div >
+                                                    <b>
+                                                    Bạn đã đồng ý tham gia cuộc hẹn này, hãy đến đúng hẹn và 
+                                                    tặng cho người ấy những điều bất ngờ nhé! 
+                                                    </b>
+                                                </div>
+                                            ) : null
+                                        }
+                                        <div className="row text-center couple-dating-info mt-4">
                                             <div className="col-5 couple-avatar">
                                                 <SquareAvatar img={event.creator_avatar} size="medium"></SquareAvatar>
                                                 <h6>{event.creator_name}</h6>
@@ -174,8 +148,11 @@ class DatingCouple extends Component {
                                                 <h6>{user.name}</h6>
                                             </div>
                                         </div>
-                                    )
+                                    </React.Fragment>
+                                )
                             }
+
+                            
 
                             <div className="btn-dating-group">
                                 {button}

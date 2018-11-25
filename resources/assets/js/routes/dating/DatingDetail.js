@@ -14,8 +14,23 @@ import InformationNumber from '../../components/Information/InformationNumber';
 import Modal from '../../components/Modal';
 
 class DatingDetail extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLikedCreator: false,
+            isLovedCreator: false
+        }
+    }
+
     componentDidMount() {
-        this.props.getEventDetail(this.props.match.params.id);
+        this.props.getEventDetail(this.props.match.params.id).then(creator => {
+            this.setState({
+                isLikedCreator: creator.is_like,
+                isLovedCreator: creator.is_loved,
+                loveNumber: parseInt(creator.loveNumber),
+                likeNumber: parseInt(creator.likeNumber)
+            })
+        });
     }
 
     cancelDating(event_id) {
@@ -29,6 +44,42 @@ class DatingDetail extends Component {
             });
         }
         else document.getElementById('open-verify-modal').click();
+    }
+
+    onUpdateRelationship(actionType) {
+        var data = {};
+
+        if(actionType == 'love') {
+            if(this.state.isLovedCreator) {
+                data = {'is_loved': 0};
+                this.setState({
+                    isLovedCreator: false,
+                    loveNumber: this.state.loveNumber - 1,
+                });
+            } else {
+                data = {'is_loved': 1};
+                this.setState({
+                    isLovedCreator: true,
+                    loveNumber: this.state.loveNumber + 1,
+                });
+            }
+        } else if(actionType == 'like') {
+            if(this.state.isLikedCreator) {
+                data = {'is_like': 0};
+                this.setState({
+                    isLikedCreator: false,
+                    likeNumber: this.state.likeNumber - 1,
+                });
+            } else {
+                data = {'is_like': 1};
+                this.setState({
+                    isLikedCreator: true,
+                    likeNumber: this.state.likeNumber + 1,
+                });
+            }
+        }
+
+        this.props.updateRelationship(data, this.props.event.creator_user.id);
     }
 
     render() {
@@ -98,7 +149,7 @@ class DatingDetail extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-6">
-                                            Trạng thái
+                                            Kiểu hẹn
                                         </div>
                                         <div className="col-6">
                                             {status}
@@ -106,7 +157,7 @@ class DatingDetail extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-6">
-                                            Kiểu cuộc hẹn
+                                            Hình thức cuộc hẹn
                                         </div>
                                         <div className="col-6">
                                             {event.type === 'group' ? 'Hẹn nhóm' : 'Hẹn đôi'}
@@ -154,7 +205,16 @@ class DatingDetail extends Component {
                                                     }
                                                 </div>
                                             </div>
-                                        ) : null
+                                        ) : (
+                                            <div className="row">
+                                                <div className="col-4">
+                                                    Người tổ chức
+                                                </div>
+                                                <div className="col-8">
+                                                    Thành viên tự tổ chức
+                                                </div>
+                                            </div>
+                                        )
                                     }
                                 </div>
                             </div>
@@ -163,13 +223,13 @@ class DatingDetail extends Component {
                             event.type === 'group' ? (
                                 <div className='row'>
                                     <div className="col-6">
-                                        <CardWithIcon leftIcon={'fa fa-mars fa-2x'} hasLine={true}>
+                                        <CardWithIcon leftIcon={'fa fa-mars fa-2x'} hasLine={true} title="Nam">
                                             <div className="row">
                                                 <div className="col-4">
                                                     Số lượng
                                                 </div>
                                                 <div className="col-8">
-                                                    {event.min_male_number} - {event.max_male_number}
+                                                    Min {event.min_male_number} - Max {event.max_male_number}
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -188,16 +248,24 @@ class DatingDetail extends Component {
                                                     {event.payment_m} VND
                                                 </div>
                                             </div>
+                                            <div className="row">
+                                                <div className="col-4">
+                                                    Đã tham gia
+                                                </div>
+                                                <div className="col-8">
+                                                    {event.male_joined_number} người
+                                                </div>
+                                            </div>
                                         </CardWithIcon>
                                     </div>
                                     <div className="col-6">
-                                        <CardWithIcon leftIcon={'fa fa-venus fa-2x'} hasLine={true}>
+                                        <CardWithIcon leftIcon={'fa fa-venus fa-2x'} hasLine={true} title="Nữ">
                                             <div className="row">
                                                 <div className="col-4">
                                                     Số lượng
                                                 </div>
                                                 <div className="col-8">
-                                                    {event.min_female_number} - {event.max_female_number}
+                                                    Min {event.min_female_number} - Max {event.max_female_number}
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -216,6 +284,14 @@ class DatingDetail extends Component {
                                                     {event.payment_f} VND
                                                 </div>
                                             </div>
+                                            <div className="row">
+                                                <div className="col-4">
+                                                    Đã tham gia
+                                                </div>
+                                                <div className="col-8">
+                                                    {event.female_joined_number} người
+                                                </div>
+                                            </div>
                                         </CardWithIcon>
                                     </div>
                                 </div>
@@ -224,19 +300,25 @@ class DatingDetail extends Component {
 
                         <CardWithTitle hasLine={true} title="NGƯỜI TỔ CHỨC CUỘC HẸN">
                             {
-                                (event.creator != {}) ? (
+                                (event.creator_user != {}) ? (
                                     <div className="row">
                                         <div className="col-3">
-                                            <Link to={`/profile/${event.creator.id}`}>
-                                                <SquareAvatar img={event.creator.avatar} size="large"></SquareAvatar>
+                                            <Link to={`/profile/${event.creator_user.id}`}>
+                                                <SquareAvatar img={event.creator_user.avatar} size="large"></SquareAvatar>
                                             </Link>
                                         </div>
                                         <div className="col-9">
-                                            <Link to={`/profile/${event.creator.id}`}>
-                                                <h5>{event.creator.name}</h5>
+                                            <Link to={`/profile/${event.creator_user.id}`}>
+                                                <h5>{event.creator_user.name}</h5>
                                             </Link>
+                                            <InformationNumber 
+                                                heartNumber={this.state.loveNumber} 
+                                                likeNumber={this.state.likeNumber} 
+                                                viewNumber={event.creator_user.viewNumber}
+                                            />
+
                                             {
-                                                (event.status == 'forthcoming' && current_user.id == event.creator.id) ? (
+                                                (event.status == 'forthcoming' && current_user.id == event.creator_user.id) ? (
                                                     <React.Fragment>
                                                         <div className="mb-4">
                                                             Bạn có thể hủy hẹn nếu không thể tổ chức cuộc hẹn này. Bạn sẽ bị phạt 100k
@@ -252,10 +334,23 @@ class DatingDetail extends Component {
                                                         </div>
                                                     </React.Fragment>
                                                 ) : (
-                                                    <React.Fragment>
-                                                        <div>{event.creator.address}</div>
-                                                        <InformationNumber heartNumber={parseInt(event.creator.loveNumber)} likeNumber={parseInt(event.creator.likeNumber)} viewNumber={event.creator.viewNumber}/>
-                                                    </React.Fragment>
+                                                    <div>
+                                                        <CircleButton
+                                                            icon="fas fa-heart"
+                                                            color={this.state.isLovedCreator ? '#e74c3c' : '#34495e'}
+                                                            action={() => this.onUpdateRelationship('love')}
+                                                        ></CircleButton>
+                                                        <CircleButton
+                                                            icon="fas fa-thumbs-up"
+                                                            color={this.state.isLikedCreator ? '#2980b9' : '#34495e'}
+                                                            action={() => this.onUpdateRelationship('like')}
+                                                        ></CircleButton>
+                                                        <CircleButton
+                                                            icon="fas fa-comments"
+                                                            color='#34495e'
+                                                            // action
+                                                        ></CircleButton>
+                                                    </div>
                                                 )
                                             }
                                         </div>
@@ -291,13 +386,13 @@ class DatingDetail extends Component {
                                 </div>
                             </div>
                             {
-                                event.is_joined ? null : (
+                                (!event.is_joined && (event.type == "group") && (event.creator.id !== current_user.id)) ? (
                                     <div className="mt-4 text-center">
                                         <button className="btn btn-primary" onClick={() => this.join(event.id)}>
                                             THAM GIA NGAY!
                                         </button>
                                     </div>
-                                )
+                                ) : null
                             }
                         </CardWithTitle>
                         <button type="button" id="open-verify-modal" className="d-none"

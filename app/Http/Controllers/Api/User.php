@@ -73,8 +73,7 @@ class User extends Controller
      */
     public function createOrUpdateRelationship(Request $request, $user_id){
         $data = json_decode($request->getContent());
-        // $from_user_id = Auth::id();
-        $from_user_id  = 1;
+        $from_user_id = Auth::id();
 
         if($from_user_id == $user_id) {
             return json_encode(['message' => 'Đã có lỗi xảy ra']);

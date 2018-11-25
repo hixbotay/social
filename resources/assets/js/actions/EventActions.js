@@ -110,12 +110,16 @@ export const joinDating = (id) => dispatch => {
 }
 
 export const getEventDetail = (id) => dispatch => {
-    api.get(`/event/${id}`)
-    .then(response => {
-        dispatch({type: GET_EVENT_DETAIL, payload: response.data});
-    })
-    .catch(err => {
-        console.log(err);
+    return new Promise((resolve, reject) => {
+        api.get(`/event/${id}`)
+        .then(response => {
+            dispatch({type: GET_EVENT_DETAIL, payload: response.data});
+            resolve(response.data.creator_user);
+        })
+        .catch(err => {
+            console.log(err);
+            reject(error);
+        })
     })
 }
 

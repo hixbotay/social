@@ -4,6 +4,18 @@ import { connect } from 'react-redux';
 import { RoundAvatar } from '../Avatar';
 import { withRouter, Link } from 'react-router-dom';
 import Countdown from 'react-countdown-now';
+import {
+    FacebookShareCount,
+    GooglePlusShareCount,
+
+    FacebookShareButton,
+    GooglePlusShareButton,
+    TwitterShareButton,
+
+    FacebookIcon,
+    TwitterIcon,
+    GooglePlusIcon,
+  } from 'react-share';
 
 const renderCountdown = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -36,90 +48,73 @@ class DatingGroup extends Component {
     }
 
     render() {
-        const { event, type } = this.props;
+        const { event } = this.props;
         var button = null;
+        var shareUrl = `${baseUrl}/dating/${event.id}`;
 
-        if (type == 'invitation') {
+        if (event.is_joined) {
+            switch (event.status) {
+                case 'forthcoming': {
+                    button = (
+                        <div className="row">
+                            <div className="col-6">
+                                <Link to={`/dating/${event.id}`}>
+                                    <button className="btn btn-primary btn-sm">
+                                        Quy định
+                                    </button>
+                                </Link>
+                            </div>
+                            <div className="col-6">
+                                <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
+                                    Mời
+                                </button>
+                                <button type="button" id="open-invite-modal" className="d-none"
+                                    data-toggle="modal" data-target="#invite-modal">
+                                </button>
+                            </div>
+                        </div>
+                    );
+                    break;
+                }
+                case 'cancelled': {
+                    button = (
+                        <div className="text-center">
+                            <button className="btn btn-primary btn-sm">Hẹn lại</button>
+                        </div>
+                    );
+                    break;
+                }
+                case 'finished': {
+                    button = (
+                        <div className="text-center">
+                            <Link to={`/dating/${event.id}/result`}>
+                                <button className="btn btn-primary btn-sm">
+                                    Xem kết quả
+                                </button>
+                            </Link>
+                        </div>
+                    );
+                    break;
+                }
+            }
+        } else {
             button = (
                 <div className="row">
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, {type: 'accept'})}>
-                            Chấp nhận
-                        </button>
+                        <Link to={`/dating/${event.id}`}>
+                            <button className="btn btn-primary btn-sm">Tìm hiểu</button>
+                        </Link>
                     </div>
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, {type: 'reject'})}>
-                            Từ chối
+                        <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
+                            Tham gia
+                            </button>
+                        <button type="button" id="open-verify-modal" className="d-none"
+                            data-toggle="modal" data-target="#verify-id-modal">
                         </button>
                     </div>
                 </div>
             )
-        } else {
-            if (event.is_joined) {
-                switch (event.status) {
-                    case 'forthcoming': {
-                        button = (
-                            <div className="row">
-                                <div className="col-6">
-                                    <Link to={`/dating/${event.id}`}>
-                                        <button className="btn btn-primary btn-sm">
-                                            Quy định
-                                        </button>
-                                    </Link>
-                                </div>
-                                <div className="col-6">
-                                    <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
-                                        Mời
-                                    </button>
-                                    <button type="button" id="open-invite-modal" className="d-none"
-                                        data-toggle="modal" data-target="#invite-modal">
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                        break;
-                    }
-                    case 'cancelled': {
-                        button = (
-                            <div className="text-center">
-                                <button className="btn btn-primary btn-sm">Hẹn lại</button>
-                            </div>
-                        );
-                        break;
-                    }
-                    case 'finished': {
-                        button = (
-                            <div className="text-center">
-                                <Link to={`/dating/${event.id}/result`}>
-                                    <button className="btn btn-primary btn-sm">
-                                        Xem kết quả
-                                    </button>
-                                </Link>
-                            </div>
-                        );
-                        break;
-                    }
-                }
-            } else {
-                button = (
-                    <div className="row">
-                        <div className="col-6">
-                            <Link to={`/dating/${event.id}`}>
-                                <button className="btn btn-primary btn-sm">Tìm hiểu</button>
-                            </Link>
-                        </div>
-                        <div className="col-6">
-                            <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
-                                Tham gia
-                            </button>
-                            <button type="button" id="open-verify-modal" className="d-none"
-                                data-toggle="modal" data-target="#verify-id-modal">
-                            </button>
-                        </div>
-                    </div>
-                )
-            }
-
         }
 
         return (
@@ -127,7 +122,7 @@ class DatingGroup extends Component {
                 <Link to={`/dating/${event.id}`}>
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
-                            <RoundAvatar size={"medium"} img={event.address_avatar}></RoundAvatar>
+                            <RoundAvatar size={"medium"} img={event.creator_avatar}></RoundAvatar>
                         </div>
                         <div className={"col-md-7 dating-header"}>
                             <h5>{event.name}</h5>
@@ -145,9 +140,9 @@ class DatingGroup extends Component {
                             src={event.image}
                         />
                         {
-                            (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48*60*60*1000)) ? (
-                                <Countdown 
-                                    date={new Date(event.start_time)} 
+                            (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48 * 60 * 60 * 1000)) ? (
+                                <Countdown
+                                    date={new Date(event.start_time)}
                                     renderer={renderCountdown}
                                     daysInHours={true}
                                 ></Countdown>
@@ -181,7 +176,7 @@ class DatingGroup extends Component {
                                     Tuổi {event.min_female_age} - {event.max_female_age}
                                 </div>
                             </div>
-                            <div>
+                            <div className="mt-2">
                                 <i className="far fa-heart"></i>
                                 <span>
                                     {
@@ -191,14 +186,43 @@ class DatingGroup extends Component {
                                     }
                                 </span>
                             </div>
-                            <div>
+                            <div className="mt-2">
                                 <i className="fas fa-suitcase"></i>
                                 <div>
                                     {
                                         event.job.map((item, index) => {
-                                            return (<div key={index} className="tag">{item}</div>)
+                                            return (<span key={index} className="mr-2">{item}, </span>)
                                         })
+                                        
                                     }
+                                </div>
+                            </div>
+                            <div className="mt-2 row">
+                                <div className="col">
+                                    <FacebookShareButton
+                                        url={shareUrl}
+                                        quote="Cuộc hẹn nhóm vui vẻ với noiduyen.vn"
+                                        className="Demo__some-network__share-button">
+                                        <FacebookIcon size={32} round />
+                                    </FacebookShareButton>
+                                </div>
+                                <div className="col">
+                                    <GooglePlusShareButton
+                                        url={shareUrl}
+                                        quote="Cuộc hẹn nhóm vui vẻ với noiduyen.vn"
+                                        className="Demo__some-network__share-button"
+                                    >
+                                        <GooglePlusIcon size={32} round/>
+                                    </GooglePlusShareButton>
+                                </div>
+                                <div className="col">
+                                    <TwitterShareButton
+                                        url={shareUrl}
+                                        quote="Cuộc hẹn nhóm vui vẻ với noiduyen.vn"
+                                        className="Demo__some-network__share-button"
+                                    >
+                                        <TwitterIcon size={32} round/>
+                                    </TwitterShareButton>
                                 </div>
                             </div>
                             <div className="row btn-dating-group">

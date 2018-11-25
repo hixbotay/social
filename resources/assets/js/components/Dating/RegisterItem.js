@@ -14,7 +14,7 @@ class RegisterItem extends Component {
             isLiked: parseInt(props.user.is_like) ? true : false, 
             loveNumber: parseInt(props.user.loveNumber),
             likeNumber: parseInt(props.user.likeNumber),
-            isSecret: props.isSecretEvent && !(props.user.is_partner_loved && props.user.is_loved) // 2 person is couple if they love each other
+            isSecret: props.isSecretEvent && !(props.user.is_partner_loved) // 2 person is couple if they love each other
         }
     }
 
@@ -27,14 +27,12 @@ class RegisterItem extends Component {
                 this.setState({
                     isLoved: false,
                     loveNumber: this.state.loveNumber - 1,
-                    isSecret: this.props.isSecretEvent && !(this.props.user.is_partner_loved && false)
                 });
             } else {
                 data = {'is_loved': 1};
                 this.setState({
                     isLoved: true,
                     loveNumber: this.state.loveNumber + 1,
-                    isSecret: this.props.isSecretEvent && !(this.props.user.is_partner_loved && true)
                 });
             }
         } else if(actionType == 'like') {
@@ -59,13 +57,11 @@ class RegisterItem extends Component {
     render() {
         const {user, current_user} = this.props; 
 
-        console.log(this.state)
-
         return (
             <div className="row register-item">
                 <div className="col-1">
                     {
-                        (user.id !== current_user.id) ? (
+                        (user.id !== current_user.id && event.status == 'finished') ? (
                             <span onClick={() => this.onUpdateRelationship('love')} className={`love-btn ${this.state.isLoved ? 'active' : ''}`}>
                                 <i className={`fas fa-heart`} ></i>
                             </span>
@@ -76,14 +72,10 @@ class RegisterItem extends Component {
                 (!this.state.isSecret || (user.id === current_user.id)) ? (
                     <Fragment>
                         <div className="col-3">
-                            <Link to={`/profile/${user.id}`}>
-                                <SquareAvatar img={user.avatar} size="large"></SquareAvatar>
-                            </Link>
+                            <SquareAvatar img={user.avatar} size="large"></SquareAvatar>
                         </div>
                         <div className="col-8">
-                            <Link to={`/profile/${user.id}`}>
-                                <h5>{user.name}</h5>
-                            </Link>
+                            <h5>{user.name}</h5>
                             <div>{user.address}</div>
                             <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/>
                             {
