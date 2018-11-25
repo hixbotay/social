@@ -9,6 +9,8 @@
 
                 <hr />
 
+                @include('layouts.admin.notice')
+
                 <form name="filterUser" action="{{url('admin?view=User')}}" method="GET">
 
                     <div class="row">

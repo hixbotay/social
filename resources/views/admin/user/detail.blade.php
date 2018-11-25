@@ -6,9 +6,7 @@
 		<div class="col-sm-12">
 			<h4 class="m-b-20 header-title">Form Elements</h4>
 
-
 			@include('layouts.admin.notice')
-
 
 			<form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=User&task=update&id='.$item->id)}}">
 				{{ csrf_field() }}
@@ -17,7 +15,7 @@
 					<div class="row">
 						<div class="container">
 							<div class="col-md-3 user-details">
-								<button class="btn btn-default waves-effect waves-light avatar-button" id="custom-html-alert" type="button">
+								<button class="btn btn-defau`lt waves-effect waves-light avatar-button" id="custom-html-alert" type="button">
 									<img src="{{$item->avatar}}" class="thumb-md img-circle">
 								</button>
 							</div>

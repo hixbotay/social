@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\User as UserModel;
 use App\UserGroup;
@@ -112,17 +113,19 @@ class User extends Controller
         return view('admin.user.detail', ['item' => $user]);
     }
 
-    public static function block($id){
+    public static function block(Request $request){
+        $current = Auth::id();
+        $id =  $request->input('id');
+        if ($id == $current){
+            return redirect(url('admin?view=User'))->withErrors('CANNOT_BLOCK_YOURSELF');
+        }
         $user = UserModel::find($id);
-
-        $user->is_blocked = 1;
+        $user->is_blocked = !$user->is_blocked;
         $result = $user->save();
-
-        if ($result)
-        {
-            return redirect('admin?view=Users')->with('success', ['SAVE_SUCCESS']);
+        if ($result) {
+            return redirect('admin?view=User')->with('success', ['SAVE_SUCCESS']);
         }else{
-            return redirect('admin?view=Users')->withErrors('SAVE_FAIL');
+            return redirect('admin?view=User')->withErrors('SAVE_FAIL');
         }
 
     }
