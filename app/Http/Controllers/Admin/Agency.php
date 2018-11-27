@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Agency AS AgencyModel;
 use Illuminate\Support\Facades\DB;
 
 
@@ -15,8 +16,32 @@ class Agency extends Controller
      */
     public function index()
     {
-        $items = \App\Agency::all();
-        return view('admin.agency.list', ['items' => $items]);
+        $filterData = isset($_GET['filter'])?$_GET['filter']:array();
+
+//        echo "<pre>";
+//        print_r($filterData);
+//        die;
+
+        $items = DB::table('agency')
+            ->join('users', 'agency.user_id', '=', 'users.id')
+            ->leftjoin('agency_photos', 'agency.id', '=', 'agency_photos.agency_id')
+            ->select('agency.*', 'users.name AS username', 'agency_photos.source AS image')
+            ->orderBy('agency.id', 'DESC')
+            ->paginate(20);
+
+//        if (!empty($filterData)){
+//            foreach ($filterData AS $key => $value):
+//                if ($value)$items->orWhere('agency'.$key, 'like', '%' . DB::raw($value) . '%');
+//            endforeach;
+//        }
+
+        $items->withPath('admin?view=Agency');
+        $users = User::get_list_user_by_key(12);
+        return view('admin.agency.list', [
+            'items' => $items,
+            'users' => $users,
+            'filter' => $filterData
+        ]);
     }
 
     /**

@@ -2,13 +2,6 @@
 
 @section('content')
 
-
-    <?php
-//    echo "<pre>";
-//    print_r($filter);
-//    die;
-    ?>
-
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">

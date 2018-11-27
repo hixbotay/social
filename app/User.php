@@ -59,12 +59,7 @@ class User extends Authenticatable
     ];
 
     public static function get_list_user_by_key($group){
-        $data = User::select('users.name', 'users.email', 'users.id')
-            ->join('user_groups', 'users.group_id', '=', 'user_groups.id')
-            ->where('user_groups.key', $group)->get();
-//        echo "<pre>";
-//        print_r($data);
-//        die;
+        $data = User::select('name', 'email', 'id')->where('group_id', $group)->get();
         return $data;
     }
 
