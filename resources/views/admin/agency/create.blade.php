@@ -1,81 +1,6 @@
 @extends('layouts.admin')
 
-
-
 @section('content')
-
-    <script src="{{ asset('public/ckfinder/ckfinder.js') }}"></script>
-
-    <script>
-
-        function selectFileWithCKFinder(elementId) {
-            CKFinder.popup({
-                chooseFiles: true,
-                width: 800,
-                height: 600,
-                onInit: function (finder) {
-                    finder.on('files:choose', function (evt) {
-                        var file = evt.data.files.first();
-                        console.log(file.get( 'folder' ).attributes.name);
-                        var output = document.getElementById(elementId);
-                        var path = 'public/images/'+ file.get( 'folder' ).attributes.name + '/' +file.get( 'name' );
-                        output.value = path;
-                    });
-
-                    finder.on('file:choose:resizedImage', function (evt) {
-                        var output = document.getElementById(elementId);
-                        output.value = evt.data.resizedUrl;
-                    });
-                }
-            });
-        }
-    </script>
-
-    <script>
-
-
-        $(document).ready(function(){
-            $("#province").change(function () {
-                loadDistrict();
-            })
-            
-            
-            $("#district").change(function () {
-                jQuery.ajax({
-                    type:'POST',
-                    url:'?controller=Agency&task=ajaxLoadVillage',
-                    data: {districtID: $(this).val()},
-                    success:function(response){
-                        console.log(response);
-                        // return;
-                        var data = JSON.parse(response);
-                        jQuery("#village").html('<option>Chọn xã/phường</option>');
-                        for (let i = 0; i < data.length; i ++){
-                            jQuery("#village").append('<option value="'+data[i].xaid+'">'+data[i].name+'</option>');
-                        }
-
-                    }
-                });
-            })
-        });
-
-        function loadDistrict(){
-            jQuery.ajax({
-                type:'POST',
-                url:'?controller=Agency&task=ajaxLoadDistrict',
-                data: {provinceID: jQuery("#province").val()},
-                success:function(response){
-                    var data = JSON.parse(response);
-                    jQuery("#district").html('<option>Chọn quận/huyện</option>');
-                    for (let i = 0; i < data.length; i ++){
-                        jQuery("#district").append('<option value="'+data[i].maqh+'">'+data[i].name+'</option>');
-                    }
-
-                }
-            });
-        }
-    </script>
-
 
     <div class="container">
         <div class="row">
@@ -205,3 +130,78 @@
         </div>
     </div>
 @endsection
+
+
+@section('javascript')
+    <script src="{{ asset('public/ckfinder/ckfinder.js') }}"></script>
+
+    <script>
+
+        function selectFileWithCKFinder(elementId) {
+            CKFinder.popup({
+                chooseFiles: true,
+                width: 800,
+                height: 600,
+                onInit: function (finder) {
+                    finder.on('files:choose', function (evt) {
+                        var file = evt.data.files.first();
+                        console.log(file.get( 'folder' ).attributes.name);
+                        var output = document.getElementById(elementId);
+                        var path = 'public/images/'+ file.get( 'folder' ).attributes.name + '/' +file.get( 'name' );
+                        output.value = path;
+                    });
+
+                    finder.on('file:choose:resizedImage', function (evt) {
+                        var output = document.getElementById(elementId);
+                        output.value = evt.data.resizedUrl;
+                    });
+                }
+            });
+        }
+    </script>
+
+    <script>
+
+
+        $(document).ready(function(){
+            $("#province").change(function () {
+                loadDistrict();
+            })
+
+
+            $("#district").change(function () {
+                jQuery.ajax({
+                    type:'POST',
+                    url:'?controller=Agency&task=ajaxLoadVillage',
+                    data: {districtID: $(this).val()},
+                    success:function(response){
+                        console.log(response);
+                        // return;
+                        var data = JSON.parse(response);
+                        jQuery("#village").html('<option>Chọn xã/phường</option>');
+                        for (let i = 0; i < data.length; i ++){
+                            jQuery("#village").append('<option value="'+data[i].xaid+'">'+data[i].name+'</option>');
+                        }
+
+                    }
+                });
+            })
+        });
+
+        function loadDistrict(){
+            jQuery.ajax({
+                type:'POST',
+                url:'?controller=Agency&task=ajaxLoadDistrict',
+                data: {provinceID: jQuery("#province").val()},
+                success:function(response){
+                    var data = JSON.parse(response);
+                    jQuery("#district").html('<option>Chọn quận/huyện</option>');
+                    for (let i = 0; i < data.length; i ++){
+                        jQuery("#district").append('<option value="'+data[i].maqh+'">'+data[i].name+'</option>');
+                    }
+
+                }
+            });
+        }
+    </script>
+@stop

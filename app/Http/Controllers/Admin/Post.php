@@ -22,7 +22,7 @@ class Post extends Controller
 //        $posts = PostModel::paginate(10);
         $posts = DB::table('posts')
             ->join('users', 'posts.user_id', '=', 'users.id')
-            ->select('posts.*', 'users.name')
+            ->select('posts.*', 'users.name')->orderBy('id', 'DESC')
             ->paginate(20);
 
         $users = User::all();
@@ -82,6 +82,7 @@ class Post extends Controller
      */
     public function edit($id)
     {
+
         $post = PostModel::find($id);
 
         // show the view and pass the nerd to it

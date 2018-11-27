@@ -15,6 +15,53 @@
 
                 <div class="table-responsive">
 
+
+                    <form name="filterUser" action="{{url('admin?view=User')}}" method="GET">
+
+                        <div class="row">
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Đại lý</label>
+                                    <div>
+                                        <select>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Thời gian</label>
+                                    <div>
+                                        <div class="input-daterange input-group" id="date-range">
+                                            <input type="text" class="form-control" name="filter[time_from]" value="<?= isset($filter['time_from'])?$filter['time_from']:null ?>">
+                                            <span class="input-group-addon b-0">Tới</span>
+                                            <input type="text" class="form-control" name="filter[time_to]" value="<?= isset($filter['time_to'])?$filter['time_to']:null ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <button type="submit" class="btn btn-primary"><i class="mdi mdi-filter-outline"></i> Lọc</button>
+                                <a href="{{url('/admin?view=Agency')}}">
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="mdi mdi-notification-clear-all"></i> Reset
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="view" value="Agency">
+
+                    </form>
+
+
+
                     <div class="row">
                         <div class="col-sm-6">
                         </div>

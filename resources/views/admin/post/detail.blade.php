@@ -21,7 +21,9 @@
 				<div class="form-group">
 					<div class="col-md-2 control-label">Like</div>
 					<div class="col-md-10">
-						{{$item->like}}
+						@if($item->like)
+							{{$item->like}}
+						@endif
 					</div>
 				</div>
 

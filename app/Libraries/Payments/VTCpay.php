@@ -43,7 +43,7 @@ class VTCPay
 //            . "&url_return=".$arr_param['url_return']
 //            . "&language=vi"
             . "&amount=" . $amount
-            . "&currency=VND";
+            . "&amp;currency=VND";
         $data = $data . "&signature=" . $sign;
         $destinationUrl = $vtcpay_url . $data;
         $destinationUrl = str_replace("%3a",":",$destinationUrl);
