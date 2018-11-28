@@ -70,3 +70,5 @@ export const UPDATE_UNREAD_NUMBER = 'UPDATE_UNREAD_NUMBER';
 // Message
 export const GET_LIST_CHAT = 'GET_LIST_CHAT';
 export const CHANGE_LIST_CHAT = 'CHANGE_LIST_CHAT';
+
+export const CHARGE_PAYMENT = 'CHARGE_PAYMENT';

@@ -12,15 +12,15 @@ class VTCPay
 
 
     //Hàm xây dựng url
-    public static function buildCheckoutUrl($return_url, $receiver, $transaction_info, $order_code, $amount)
+    public static function buildCheckoutUrl($reference_number, $order_code, $amount)
     {
         $websiteid = self::$websiteId;
         $secret_key = self::$securityCode;
         // Mảng các tham số chuyển tới VTC Pay
         $arr_param = array(
-            'url_return'		=>	strtolower(urlencode($return_url)),
-            'receiver'			=>	strval($receiver),
-            'transaction_info'	=>	strval($transaction_info),
+            'url_return'		=>	strtolower(urlencode(config('payment.vtc.url_return'))),
+            'receiver_account'	=>	strval(config('payment.vtc.receiver_account')),
+            'reference_number'	=>	strval($reference_number),
             'order_code'		=>	strval($order_code),
             'amount'			=>	strval($amount),
 
@@ -28,17 +28,14 @@ class VTCPay
         $currency = 1;
         $vtcpay_url  = "http://alpha1.vtcpay.vn/portalgateway/checkout.html";
 //        $vtcpay_url  = "http://sandbox1.vtcebank.vn/pay.vtc.vn/gate/checkout.html";
-        $plaintext = $websiteid . "|" . $currency . "|" . $arr_param['order_code'] . "|" . $arr_param['amount'] . "|" . $arr_param['receiver'] . "|" . "|" . $secret_key;
+        $plaintext = $websiteid . "|" . $currency . "|" . $arr_param['order_code'] . "|" . $arr_param['amount'] . "|" . $arr_param['receiver_account'] . "|" . "|" . $secret_key;
 
-        $plaintext = $amount. "|VND" ."|".$arr_param['receiver']."|33076088975"."|".$websiteid."|".$secret_key;
-//        return $plaintext;
+        $plaintext = $amount. "|VND" ."|".$arr_param['receiver_account']."|".$reference_number."|".$websiteid."|".$secret_key;
 
-//        amount - bill_to_phone - currency - language - receiver_account - reference_number - url_return
-//         - website_id
         $sign = strtoupper(hash('sha256', $plaintext));
         $data = "?website_id=" . $websiteid
-            . "&reference_number=" . '33076088975'
-            . "&receiver_account=" . $arr_param['receiver']
+            . "&reference_number=" . $reference_number
+            . "&receiver_account=" . $arr_param['receiver_account']
 //            . "&bill_to_phone=" .  '0977119830'
 //            . "&url_return=".$arr_param['url_return']
 //            . "&language=vi"

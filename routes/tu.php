@@ -34,7 +34,7 @@ Route::middleware(['web'])->group(function() {
     Route::get('chat/hello', 'Api\Chat@hello');
     Route::post('chat/conversation/create', 'Api\Chat@createConversation');
     Route::post('payment/getresult', 'Api\Payment@returnPayment');
-    Route::get('payment/request', 'Api\Payment@requestUrl');
+    Route::post('payment/request', 'Api\Payment@requestUrl');
 });
 
 
