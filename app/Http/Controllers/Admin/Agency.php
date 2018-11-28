@@ -16,10 +16,10 @@ class Agency extends Controller
      */
     public function index()
     {
-        $filterData = isset($_GET['filter'])?$_GET['filter']:array();
+        $filter = isset($_GET['filter'])?$_GET['filter']:array();
 
 //        echo "<pre>";
-//        print_r($filterData);
+//        print_r($filter);
 //        die;
 
         $items = DB::table('agency')
@@ -29,18 +29,12 @@ class Agency extends Controller
             ->orderBy('agency.id', 'DESC')
             ->paginate(20);
 
-//        if (!empty($filterData)){
-//            foreach ($filterData AS $key => $value):
-//                if ($value)$items->orWhere('agency'.$key, 'like', '%' . DB::raw($value) . '%');
-//            endforeach;
-//        }
-
         $items->withPath('admin?view=Agency');
         $users = User::get_list_user_by_key(12);
         return view('admin.agency.list', [
             'items' => $items,
             'users' => $users,
-            'filter' => $filterData
+            'filter' => $filter
         ]);
     }
 

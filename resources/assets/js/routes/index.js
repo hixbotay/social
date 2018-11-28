@@ -40,6 +40,7 @@ import SearchResult from './cafe/SearchResult';
 import DatingSearchResults from './dating/DatingSearchResults';
 import SubscribeDating from './dating/SubscribeDating';
 import Payment from './payment/index';
+import PaymentHistory from './payment/history';
 import NotFound from './404';
 
 //action
@@ -108,6 +109,7 @@ class MainApp extends Component {
 
                     {/*Payment*/}
                     <AppRoute exact path={"/payment"} layout={MainLayout} component={Payment} />
+                    <AppRoute exact path={"/payment/history"} layout={MainLayout} component={PaymentHistory} />
 
                     <Route component={NotFound} />
 

@@ -953,3 +953,18 @@ button.slick-arrow {
     width:32px;
     height:32px;
   }
+
+.paymentHistory .sodu {
+    background: #2A2371;
+    padding: 30px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.paymentHistory .action {
+    font-size: 18px;
+    color: #2a2371;
+    padding: 30px;
+    background: white;
+    cursor: pointer;
+}
