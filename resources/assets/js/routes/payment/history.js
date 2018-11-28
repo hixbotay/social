@@ -47,6 +47,54 @@ class PaymentHistory extends Component {
                     </div>
                 </div>
 
+                <div className="mb-3"></div>
+
+                <div className={"row historyBox"}>
+                    <div className={"col-md-12 title"}>
+                        Hom nay
+                    </div>
+                    <div className={"col-md-12 content"}>
+                        <div className="row">
+                            <div className={"col-md-8"}>
+                                <div className={"row"}>
+                                    <div className="col-md-4 text-right">
+                                        <i className="fab fa-500px"></i>
+                                    </div>
+                                    <div className="col-md-8">
+
+                                        <p>Nang cap tai khoan vip</p>
+                                        <p>15h 15p</p>
+                                        <p>Viettinbank</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={"col-md-4"}>
+                                <p className="text-danger">- 300.000 VND</p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className={"col-md-8"}>
+                                <div className={"row"}>
+                                    <div className="col-md-4 text-right">
+                                        <i className="fab fa-500px"></i>
+                                    </div>
+                                    <div className="col-md-8">
+
+                                        <h6>Nang cap tai khoan vip</h6>
+                                        <p>15h 15p</p>
+                                        <p>Viettinbank</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className={"col-md-4"}>
+                                <p className={"text-success"}>+ 600.000 VND</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         );
     }

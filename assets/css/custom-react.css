@@ -968,3 +968,20 @@ button.slick-arrow {
     background: white;
     cursor: pointer;
 }
+
+.paymentHistory .title{
+    background: #018fe5;
+    padding: 10px;
+    border-radius: 5px 5px 0px 0px;
+    color: #fff;
+    font-size: 16px;
+}
+.paymentHistory .historyBox .content {
+    background: #fff;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 0px 0px 5px 5px;
+}
+.paymentHistory .historyBox .content i{
+    font-size: 40px;
+}
