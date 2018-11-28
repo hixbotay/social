@@ -185,6 +185,7 @@ class DatingResult extends Component {
                                                     event.registers.map((user, index) => {
                                                         return (
                                                             <RegisterItem
+                                                                event={event}
                                                                 key={index}
                                                                 type="register"
                                                                 user={user}

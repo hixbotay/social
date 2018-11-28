@@ -375,6 +375,7 @@ class DatingDetail extends Component {
                                         event.registers.map((user, index) => {
                                             return (
                                                 <RegisterItem
+                                                    event={event}
                                                     user={user}
                                                     isSecretEvent={isSecretEvent}
                                                     key={index}

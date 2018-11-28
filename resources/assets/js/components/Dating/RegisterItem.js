@@ -14,7 +14,7 @@ class RegisterItem extends Component {
             isLiked: parseInt(props.user.is_like) ? true : false, 
             loveNumber: parseInt(props.user.loveNumber),
             likeNumber: parseInt(props.user.likeNumber),
-            isSecret: props.isSecretEvent && !(props.user.is_partner_loved) // 2 person is couple if they love each other
+            isSecret: props.isSecretEvent && !(props.user.is_partner_loved && props.user.is_loved) // 2 person is couple if they love each other
         }
     }
 
@@ -27,12 +27,14 @@ class RegisterItem extends Component {
                 this.setState({
                     isLoved: false,
                     loveNumber: this.state.loveNumber - 1,
+                    isSecret: this.props.isSecretEvent && !(this.props.user.is_partner_loved && false)
                 });
             } else {
                 data = {'is_loved': 1};
                 this.setState({
                     isLoved: true,
                     loveNumber: this.state.loveNumber + 1,
+                    isSecret: this.props.isSecretEvent && !(this.props.user.is_partner_loved && true)
                 });
             }
         } else if(actionType == 'like') {
@@ -55,13 +57,13 @@ class RegisterItem extends Component {
     }
 
     render() {
-        const {user, current_user} = this.props; 
+        const {user, current_user, event} = this.props; 
 
         return (
             <div className="row register-item">
                 <div className="col-1">
                     {
-                        (user.id !== current_user.id && event.status == 'finished') ? (
+                        (user.id !== current_user.id && event.status === "finished") ? (
                             <span onClick={() => this.onUpdateRelationship('love')} className={`love-btn ${this.state.isLoved ? 'active' : ''}`}>
                                 <i className={`fas fa-heart`} ></i>
                             </span>
