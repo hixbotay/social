@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getAllPosts } from '../../actions/PostActions';
 import { formatMoney } from '../../helper/function'
@@ -14,12 +14,14 @@ class PaymentHistory extends Component {
         }
     }
 
+    componentDidMount() {
+        document.title = "Lich su thanh toan"
+    }
+
     render() {
 
         return (
             <div className={"paymentHistory"}>
-                <h2>Trang PAYMENT History</h2>
-                <p>THÔNG TIN History</p>
 
                 <div className="row">
                     <div className={"col-md-9 sodu"}>
@@ -42,6 +44,17 @@ class PaymentHistory extends Component {
                             </div>
                         </div>
 
+                    </div>
+                </div>
+
+
+                <div className="mb-3"></div>
+
+                <div className={"row"}>
+                    <div className={"col-md-12"}>
+                        <button type="button" className="btn btn-secondary">
+                            <Link to={'/payment/charge'}>Nap tien</Link>
+                        </button>
                     </div>
                 </div>
 
