@@ -51,20 +51,17 @@ class Payment extends Controller
 
         $data = $request;
 
-        $ketqua = VTCPay::verifyPayment($data);
+        $check = VTCPay::verifyPayment($data);
 
-        return $ketqua;
+        if ($check == true){
+            return array(
+                'status' => 0,
+                'statusCode' => 200,
+                'message' => 'Invalid token'
+            );
+        }
 
-        $result = VTCPay::verifyPayment(
-            $request->amount,
-            config('payment.vtc.receiver_account'),
-            $request->reference_number,
-            config('payment.vtc.website_id'),
-            config('payment.vtc.security_code'),
-            $request->signature
-        );
-
-        return \GuzzleHttp\json_encode($result);
+        return $check;
 
         return redirect(\url('payment'));
     }

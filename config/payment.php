@@ -9,7 +9,7 @@ return [
         'receiver_account' => 'gateway_vtcpay',
         'url_return' => 'https://noiduyen.vn/payment/proccess',
         'language' => 'vi',
-        'security_code' => 'RMdEwvuWUvYcMewczVB0SVT78SzdxacNZUtcKHyc',
+        'security_code' => 'izW5yYUkplywaHiS2CZoFA2D1dYfunxe2be3l7LI',
         'receiver_account' => '0977119830',
         'currency' => 'VND',
     ]

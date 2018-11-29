@@ -56,12 +56,9 @@ class VTCPay
         $sign = $data->signature;
         $secret_key = config('payment.vtc.security_code');
 
-        $plaintext = $data->amount ."|".$data->message."|".$data->payment_type."|".$data->reference_number."|";
-        $plaintext .= $data->status."|".$data->trans_ref_no."|".$data->website_id."|".$secret_key;
+        $plaintext = $data->amount ."|" . $data->message ."|".$data->payment_type."|".$data->reference_number."|" . $data->status."|".$data->trans_ref_no."|".$data->website_id."|".$secret_key;
 
         $code = strtoupper(hash('sha256', $plaintext));
-
-        return $plaintext;
 
         if ($code === $sign){
             return true;
@@ -72,10 +69,10 @@ class VTCPay
 
     /*Hàm thực hiện xác minh tính đúng đắn của các tham số trả về từ VTC Pay*/
 
-    public function verifyPaymentUrl($status, $order_code, $amount, $website_id, $sign)
+    public static function verifyPaymentUrl($status, $order_code, $amount, $website_id, $sign)
     {
         // My plaintext
-        $secret_key = $this->securityCode;
+        $secret_key = config('payment.vtc.security_code');
         $plaintext = $status . "-" . $website_id . "-" . $order_code . "-" . $amount . "-" . $secret_key;
         //print $plaintext;
         // Mã hóa sign
