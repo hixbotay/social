@@ -33,6 +33,7 @@ class Payment extends Controller
             'total' => $data->amount,
             'pay_type' => 'CHARGE',
             'pay_status' => 0,
+            'currency' => config('payment.vtc.currency'),
             'pay_number' => \BookproHelper::createPaymentNumber()
         );
 
@@ -40,17 +41,31 @@ class Payment extends Controller
 
         $order = PaymentModel::create($paymentData);
 
-        return $order;
-
-        $url = VTCPay::buildCheckoutUrl(
-            '12wawegawegwe53543e', 'wegaw4t43t34t', '21232434'
-        );
+        $url = VTCPay::buildCheckoutUrl($order->pay_number, $order->total);
 
         return $url;
     }
 
-    public function verifyPayment(){
+    public function verifyPayment(Request $request){
 //        process here
+
+        $data = $request;
+
+        $ketqua = VTCPay::verifyPayment($data);
+
+        return $ketqua;
+
+        $result = VTCPay::verifyPayment(
+            $request->amount,
+            config('payment.vtc.receiver_account'),
+            $request->reference_number,
+            config('payment.vtc.website_id'),
+            config('payment.vtc.security_code'),
+            $request->signature
+        );
+
+        return \GuzzleHttp\json_encode($result);
+
         return redirect(\url('payment'));
     }
 }

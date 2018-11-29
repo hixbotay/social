@@ -10,6 +10,7 @@ return [
         'url_return' => 'https://noiduyen.vn/payment/proccess',
         'language' => 'vi',
         'security_code' => 'RMdEwvuWUvYcMewczVB0SVT78SzdxacNZUtcKHyc',
-        'receiver_account' => '0977119830'
+        'receiver_account' => '0977119830',
+        'currency' => 'VND',
     ]
 ];

@@ -25,7 +25,7 @@ class PaymentCharge extends Component {
         }
         this.props.chargePayment({amount: amount})
             .then( (response) => {
-                console.log(response);
+                window.location.href = response;
             });
     }
 
@@ -50,6 +50,7 @@ class PaymentCharge extends Component {
                             <small id="amountHelp" className="form-text text-danger">{this.state.error}</small>
                         </div>
                         <button type="button" className="btn btn-primary" onClick={this.charge.bind(this)}>NAP TIEN</button>
+                        <button type="button" className="btn btn-primary" onClick={() => {console.log(this.props.payment)}}>Check</button>
                     </form>
                 </div>
 
@@ -60,7 +61,7 @@ class PaymentCharge extends Component {
 
 function mapStateToProps(state) {
     return {
-        posts: state.post.posts,
+        payment: state.payment,
         current_user: state.user.current_user
     }
 }

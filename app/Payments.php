@@ -15,7 +15,9 @@ class Payments extends Model
         'params',
         'from_time',
         'to_time',
-        'to_user'
+        'to_user',
+        'currency',
+        'pay_number'
     ];
 
     public function checkVIP(){
