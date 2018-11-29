@@ -185,5 +185,20 @@ class BookproHelper{
         fclose($fh);
     }
 
+    static function createPaymentNumber(){
+
+        $order = '';
+        $chars = "0123456789";
+        srand((double)microtime()*1000000);
+        $i = 0;
+        while ($i <= 10) {
+            $num = rand() % 10;
+            $tmp = substr($chars, $num, 1);
+            $order = $order . $tmp;
+            $i++;
+        }
+        return $order;
+    }
+
 
 }

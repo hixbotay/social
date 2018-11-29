@@ -8,9 +8,9 @@ Class BoiToan{
 	static function get_cung($birthday,$gender){
 		$year = self::get_year($birthday);
 		$phan_du = array_sum(str_split($year)) % 9;
-		$cung_nam = array('1'=>'kham','2'=>'ly','3'=>'can'=>'4'=>'doai','5'=>'can_f',
+		$cung_nam = array('1'=>'kham','2'=>'ly','3'=>'can', '4'=>'doai','5'=>'can_f',
 		'6'=>'khon','7'=>'ton','8'=>'chan','9'=>'khon');
-		$cung_nu = array('1'=>'can','2'=>'can_f','3'=>'doai'=>'4'=>'can','5'=>'ly',
+		$cung_nu = array('1'=>'can','2'=>'can_f','3'=>'doai', '4'=>'can','5'=>'ly',
 		'6'=>'kham','7'=>'khon','8'=>'chan','9'=>'ton');
 		if($gender=='F'){
 			$cung = $cung_nam[$phan_du];
@@ -38,19 +38,19 @@ Class BoiToan{
 		return self::get_can($birthday).' '.self::get_chi($birthday);
 	}
 	
-	static get_thien_can($birthday){
+	static function get_thien_can($birthday){
 		$can = self::get_can($birthday);
 		$data_thien_can = ['giap'=>1,'at'=>'1','binh'=>2,'dinh'=>2,'mau'=>3,'ky'=>3,'can'=>4,'tan'=>4,'nham'=>5,'quy'=>5];
 		return $data_thien_can[$can];
 	}
 	
-	static get_dia_chi($birthday){
+	static function get_dia_chi($birthday){
 		$can = self::get_can($birthday);
 		$data_thien_can = ['ty'=>1,'suu'=>'1','ngo'=>1,'mui'=>1,'dan'=>1,'mao'=>1,'than'=>1,'dau'=>1,'thin'=>2,'ty'=>2,'tuat'=>2,'hoi'=>2];
 		return $data_thien_can[$can];
 	}
 	
-	static get_ngu_hanh($birthday){
+	static function get_ngu_hanh($birthday){
 		$number = self::get_thien_can($birthday) + self::get_dia_chi($birthday);
 		$data = [1=>'kim','2'=>'thuy','3'=>'hoa','4'=>'tho','5'=>'moc'];
 		
@@ -58,7 +58,7 @@ Class BoiToan{
 		return $data[$number];
 	}
 	
-	static get_text($type,$value){
+	static function get_text($type,$value){
 		static $data_ngu_hanh;
 		if(!$data_ngu_hanh){
 			$data_ngu_hanh = json_decode(file_get_contents('data_ngu_hanh.json'));

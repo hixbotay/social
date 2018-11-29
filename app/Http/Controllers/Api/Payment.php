@@ -20,7 +20,8 @@ class Payment extends Controller
 
     public function requestUrl(Request $request) {
 
-        return $request->getContent();
+        $data = $request->getContent();
+        $data = json_decode($data);
 
         $logged_id = Auth::id();
         if (!$logged_id){
@@ -29,10 +30,13 @@ class Payment extends Controller
 
         $paymentData = array(
             'user_id' => $logged_id,
-            'total' => 12323,
+            'total' => $data->amount,
             'type' => 'CHARGE',
             'pay_status' => 0,
+            'pay_number' => \BookproHelper::createPaymentNumber()
         );
+
+        return $paymentData;
 
         $order = PaymentModel::saved($paymentData);
 

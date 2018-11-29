@@ -11,6 +11,7 @@ import addressReducer from './AddressReducer';
 import educationReducer from './EducationReducer';
 import notificationReducer from './NotificationReducer';
 import messageReducer from './MessageReducer';
+import PaymentReducer from './PaymentReducer';
 
 const rootReducer = combineReducers({
     post: postReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
     education: educationReducer,
     notification: notificationReducer,
     chat: messageReducer,
+    payment: PaymentReducer,
 });
 
 export default rootReducer;

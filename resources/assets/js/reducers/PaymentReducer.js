@@ -3,16 +3,14 @@ import {
 } from '../actions/types';
 
 const INIT_STATE = {
-    cafes: [],
-    newCafe: {},
-    currentCafe: {},
-    results: []
+    amount: 0,
+    transaction: []
 }
 
 export default (state = INIT_STATE, action) => {
     switch(action.type) {
         case CHARGE_PAYMENT: {
-            return {...state, cafes: action.payload}
+            return {...state, payment: action.payload}
         }
         default: {
             return {...state};
