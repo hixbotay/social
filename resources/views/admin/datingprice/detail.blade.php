@@ -32,7 +32,7 @@
 
                     <div class="form-group">
                         <label>Giá hẹn đôi<span></span></label>
-                        <input type="number" value="{{$item->double_dating_price}}" step="0.01" class="form-control" name="data[double_dating_price]">
+                        <input type="number" value="{{$item->couple_dating_price}}" step="0.01" class="form-control" name="data[couple_dating_price]">
                     </div>
 
 

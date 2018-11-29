@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Payments extends Model
 {
@@ -21,7 +22,7 @@ class Payments extends Model
     ];
 
     public function checkVIP(){
-
+        $userID = Auth::id();
     }
 
 }

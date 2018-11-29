@@ -33,7 +33,7 @@
 
                         <div class="form-group">
                             <label>Giá hẹn đôi<span></span></label>
-                            <input type="number" step="0.01" class="form-control" name="data[double_dating_price]" required>
+                            <input type="number" step="0.01" class="form-control" name="data[couple_dating_price]" required>
                         </div>
 
 
