@@ -27,3 +27,7 @@ export function cleanObject(obj) {
     }
     return obj;
 }
+
+export function formatMoney(number) {
+    return number.toLocaleString();
+}

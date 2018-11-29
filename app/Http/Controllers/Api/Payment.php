@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Libraries\Payments\VTCPay;
 use App\Payments AS PaymentModel;
 use Illuminate\Support\Facades\URL;
+use App\User AS UserModel;
 
 class Payment extends Controller
 {
@@ -47,22 +48,41 @@ class Payment extends Controller
     }
 
     public function verifyPayment(Request $request){
-//        process here
-
         $data = $request;
+        $logged_id = Auth::id();
+        if (!$logged_id){
+            return redirect(URL());
+        }
 
         $check = VTCPay::verifyPayment($data);
 
-        if ($check == true){
-            return array(
-                'status' => 0,
-                'statusCode' => 200,
-                'message' => 'Invalid token'
-            );
+        $payment = PaymentModel::where('pay_number', $data->reference_number)
+            ->first();
+
+        if ($check == true && $payment->pay_status != 1){
+           if ($data->status == 1){
+               $user = UserModel::find($logged_id);
+               $user->credit = $user->credit + $data->amount;
+               $user->save();
+
+               $params = array(
+                   'amount' => $data->amount,
+                   'message' => $data->message,
+                   'payment_type' => $data->payment_type,
+                   'reference_number' => $data->reference_number,
+                   'status' => $data->status,
+                   'trans_ref_no' => $data->trans_ref_no,
+                   'website_id' => $data->website_id,
+                   'signature' => $data->signature
+               );
+
+               $payment->pay_status = 1;
+               $payment->tx_id = $data->trans_ref_no;
+               $payment->params = \GuzzleHttp\json_encode($params);
+               $payment->save();
+
+           }
         }
-
-        return $check;
-
-        return redirect(\url('payment'));
+        return redirect(URL('payment/history'));
     }
 }

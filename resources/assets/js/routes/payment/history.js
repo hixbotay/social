@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-// component
-import CreatePostForm from '../../components/Post/CreatePostForm';
-import Post from '../../components/Post';
-// action
 import { getAllPosts } from '../../actions/PostActions';
+import { formatMoney } from '../../helper/function'
+
 
 class PaymentHistory extends Component {
 
@@ -29,8 +27,8 @@ class PaymentHistory extends Component {
                             <div className={"col-md-1"}>
                                 <i className="fas fa-money-bill-alt"></i>
                             </div>
-                            <div className={"col-md-11"}>
-                                So du hien tai: 2.000.000 VND
+                            <div className={"col-md-11"} onClick={() => {console.log(this.props)}}>
+                                So du hien tai: {formatMoney(this.props.current_user.credit)} VND
                             </div>
                         </div>
                     </div>
