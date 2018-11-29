@@ -12,7 +12,7 @@ class VTCPay
 
 
     //Hàm xây dựng url
-    public static function buildCheckoutUrl($reference_number, $order_code, $amount)
+    public static function buildCheckoutUrl($reference_number, $amount)
     {
         $websiteid = self::$websiteId;
         $secret_key = self::$securityCode;
@@ -21,14 +21,13 @@ class VTCPay
             'url_return'		=>	strtolower(urlencode(config('payment.vtc.url_return'))),
             'receiver_account'	=>	strval(config('payment.vtc.receiver_account')),
             'reference_number'	=>	strval($reference_number),
-            'order_code'		=>	strval($order_code),
             'amount'			=>	strval($amount),
 
         );
         $currency = 1;
         $vtcpay_url  = "http://alpha1.vtcpay.vn/portalgateway/checkout.html";
 //        $vtcpay_url  = "http://sandbox1.vtcebank.vn/pay.vtc.vn/gate/checkout.html";
-        $plaintext = $websiteid . "|" . $currency . "|" . $arr_param['order_code'] . "|" . $arr_param['amount'] . "|" . $arr_param['receiver_account'] . "|" . "|" . $secret_key;
+        $plaintext = $websiteid . "|" . $currency . "|". "|" . $arr_param['amount'] . "|" . $arr_param['receiver_account'] . "|" . "|" . $secret_key;
 
         $plaintext = $amount. "|VND" ."|".$arr_param['receiver_account']."|".$reference_number."|".$websiteid."|".$secret_key;
 

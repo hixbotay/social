@@ -15,6 +15,7 @@ class AddPaymentNumber extends Migration
     {
         Schema::table('user_payments', function(Blueprint $table) {
             $table->string('pay_number')->nullable(0);
+            $table->string('currency')->nullable(0);
         });
     }
 

@@ -31,14 +31,14 @@ class Payment extends Controller
         $paymentData = array(
             'user_id' => $logged_id,
             'total' => $data->amount,
-            'type' => 'CHARGE',
+            'pay_type' => 'CHARGE',
             'pay_status' => 0,
             'pay_number' => \BookproHelper::createPaymentNumber()
         );
 
-        return $paymentData;
+//        return $paymentData;
 
-        $order = PaymentModel::saved($paymentData);
+        $order = PaymentModel::create($paymentData);
 
         return $order;
 
