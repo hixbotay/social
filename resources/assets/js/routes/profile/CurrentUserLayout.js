@@ -7,6 +7,7 @@ import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
 import {withRouter, Link, Redirect } from 'react-router-dom';
 import {uploadIdCardPhoto, updateAvatar} from '../../actions/UserActions'; 
+import VerificationBlock from '../../components/RightSidebar/VerificationBlock';
 
 class ProfileLayout extends Component {
     constructor() {
@@ -108,11 +109,7 @@ class ProfileLayout extends Component {
                         
                     </Card>
                     <img src="http://file.hstatic.net/1000184601/file/457__1_.jpg" className="vip-upgrade"/>
-                    {/* <Card 
-                        backgroundImage={"url('https://thumb9.shutterstock.com/display_pic_with_logo/176475360/779963938/stock-vector-geometric-abstract-background-geometric-pattern-shapes-art-geometric-background-mosaic-pattern-779963938.jpg')"}
-                        className="verify-user"
-                    >
-                        <button className="btn btn-primary">Xác thực CMT</button>     */}
+                    <VerificationBlock user={user}/>
                     <CardWithTitle title="Xác thực CMT" hasLine={true}> 
                         <div className="row">
                             <div className="col-md-12">

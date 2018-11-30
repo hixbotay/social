@@ -995,3 +995,7 @@ button.slick-arrow {
     border: none;
     background: none;
 }
+
+#regulations-btn {
+    width: 100%;
+}

@@ -129,6 +129,12 @@ class User extends Controller
             ->leftjoin('devvn_tinhthanhpho', 'users.province_id', '=', 'devvn_tinhthanhpho.matp')
             ->leftjoin('devvn_quanhuyen', 'users.district_id', '=', 'devvn_quanhuyen.maqh')
             ->leftjoin('devvn_xaphuongthitran', 'users.village_id', '=', 'devvn_xaphuongthitran.xaid')
+            ->leftjoin('id_card_verification', function ($join) {
+                $join->on('users.id', '=', 'id_card_verification.user_id');
+                $join->on(function($query) {
+                    $query->where('id_card_verification.is_verified', '=', 1); 
+                });
+            })
             ->select(DB::raw(
                 'users.*, 
                 user_jobs.id AS job_id,
@@ -136,7 +142,8 @@ class User extends Controller
                 education.name AS education_name,
                 devvn_tinhthanhpho.name AS province_name,
                 devvn_quanhuyen.name AS district_name,
-                devvn_xaphuongthitran.name AS village_name'
+                devvn_xaphuongthitran.name AS village_name,
+                (CASE is_verified WHEN 1 THEN 1 ELSE 0 END) AS is_id_card_verified'
             ))
             ->first();
 

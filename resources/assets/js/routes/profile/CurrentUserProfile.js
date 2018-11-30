@@ -9,6 +9,7 @@ import SimpleSlider from '../../components/Slider/SimpleSlider';
 import Post from '../../components/Post';
 import CreatePostForm from '../../components/Post/CreatePostForm';
 import ToggleDisplay from 'react-toggle-display';
+import { Line } from 'rc-progress';
 
 class UserProfile extends Component {
     constructor(props) {
@@ -82,6 +83,7 @@ class UserProfile extends Component {
         const { current_user } = this.props;
         var ideal_person = JSON.parse(current_user.ideal_person);
         var curent_year = new Date().getFullYear();
+        var completePercentage = localStorage.getItem("percentage");
 
         var {show_1, show_2, show_3, show_4, show_5, show_6} = this.state;
 
@@ -100,6 +102,20 @@ class UserProfile extends Component {
             >
                 <Card>
                     <SimpleSlider images={images} slidesToShow={3}></SimpleSlider>
+                    <div className="mb-4">
+                        <div className="row">
+                            <div className="col-8">
+                                <div><b>Hồ sơ đã hoàn thiện: <span>{Math.round(completePercentage)}%</span></b></div>
+                                <Line percent={completePercentage} strokeWidth="4" strokeColor="#2ecc71" trailWidth="4" trailColor="#bdc3c7"/>
+                            </div>
+                            <div className="col-4">
+                                <button className="btn btn-primary" id="regulations-btn">
+                                    <i className="fas fa-fire"></i> Quy định hồ sơ
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </div>
                     <div className="mb-4">
                         <div className="flex">
                             <h5 className="page-header left">Thông tin ban đầu</h5>
@@ -160,6 +176,14 @@ class UserProfile extends Component {
                                 }
                                 </div>
                             </div>
+                            <div className="flex">
+                                <div className="left">Dân tộc</div>
+                                <div className="right">{ideal_person.ethnicity}</div>
+                            </div>
+                            <div className="flex">
+                                <div className="left">Tôn giáo</div>
+                                <div className="right">{ideal_person.religion}</div>
+                            </div>
                         </ToggleDisplay>
                     </div>
                     <div className="mb-4">
@@ -186,6 +210,10 @@ class UserProfile extends Component {
                             <div className="flex">
                                 <div className="left">Dân tộc</div>
                                 <div className="right">{current_user.ethnicity}</div>
+                            </div>
+                            <div className="flex">
+                                <div className="left">Tôn giáo</div>
+                                <div className="right">{current_user.religion}</div>
                             </div>
                         </ToggleDisplay>
                     </div>
