@@ -5,7 +5,12 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">Nghề nghiệp</h4>
+                <h4 class="m-t-0">@lang('admin.JOB')</h4>
+
+                <hr />
+
+                @include('layouts.admin.notice')
+
                 <div class="table-responsive">
 
                     <div class="row">
@@ -14,9 +19,11 @@
                         <div class="col-sm-6">
                             <div id="datatable-responsive_filter" class="dataTables_filter">
                                 <a href="<?= url('/admin?controller=Job&task=create') ?>" type="button" class="btn btn-primary">
-                                    Thêm
+                                    @lang('admin.ADD')
                                 </a>
-                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">Xóa</button>
+                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">
+                                    @lang('admin.DELETE')
+                                </button>
                             </div>
 
                         </div>
@@ -32,6 +39,7 @@
                                 </div>
                             </th>
                             <th>Name</th>
+                            <th></th>
                         </tr>
                         </thead>
 
@@ -43,10 +51,17 @@
                                         <input id="checkbox1" type="checkbox">
                                         <label for="checkbox1"></label>
                                     </div>
-
-                                    <img src="assets/images/users/avatar-1.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
                                 </td>
-                                <td>{{$item->name}}</td>
+                                <td>
+                                    <a href="{{url('admin?view=Job&layout=edit&id=').$item->id}}">
+                                        {{$item->name}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a onclick="return confirm('@lang('admin.CONFIGM_DELETE')')" href="{{url('admin?controller=Job&task=destroy&id='.$item->id)}}">
+                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
