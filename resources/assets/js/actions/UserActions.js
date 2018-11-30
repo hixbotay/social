@@ -23,7 +23,7 @@ export const logout = () => dispatch => {
 }
 
 export const getCurrentUser = () => (dispatch) => {
-    api.get('auth/user')
+    api.get('user')
     .then(response => {
         // tinh muc do hoan thien profile
         let user = Object.assign({}, response.data);

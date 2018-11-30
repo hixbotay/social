@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PostHeader from '../../components/Post/PostHeader';
 import CircleButton from '../../components/Button/CircleButton';
 
-import {likePost, unlikePost} from '../../actions/PostActions';
+import {reactPost, unreactPost} from '../../actions/PostActions';
 
 class Post extends Component {
 
@@ -11,30 +11,40 @@ class Post extends Component {
         super(props);
         this.state = {
             like: props.post.like ? JSON.parse(props.post.like).length : 0,
+            dislike: props.post.dislike  ? JSON.parse(props.post.dislike).length : 0,
             love: props.post.love ? JSON.parse(props.post.love).length : 0,
             view: props.post.view ? JSON.parse(props.post.view).length : 0,
             isLoved: (props.post.love === null || props.post.love.indexOf(props.user_id) < 0) ? false : true,
             isLiked: (props.post.like === null || props.post.like.indexOf(props.user_id) < 0) ? false : true,
+            isDisliked: (props.post.dislike === null || props.post.dislike.indexOf(props.user_id) < 0) ? false : true,
         }
     }
 
     changeReaction(actionType, post_id) {
         if (actionType === 'love') {
             if(this.state.isLoved) {
-                this.props.unlikePost({type: actionType}, post_id);
+                this.props.unreactPost({type: actionType}, post_id);
                 this.setState(prevState => ({ love: prevState.love - 1, isLoved: false}));
             } else {
-                this.props.likePost({type: actionType}, post_id);
+                this.props.reactPost({type: actionType}, post_id);
                 this.setState(prevState => ({ love: prevState.love + 1, isLoved: true}));
             }
         }
         else if (actionType === 'like') {
             if(this.state.isLiked) {
-                this.props.unlikePost({type: actionType}, post_id);
+                this.props.unreactPost({type: actionType}, post_id);
                 this.setState(prevState => ({ like: prevState.like - 1, isLiked: false}));
             } else {
-                this.props.likePost({type: actionType}, post_id);
+                this.props.reactPost({type: actionType}, post_id);
                 this.setState(prevState => ({ like: prevState.like + 1, isLiked: true}));
+            }
+        } else if(actionType === 'dislike') {
+            if(this.state.isDisliked) {
+                this.props.unreactPost({type: actionType}, post_id);
+                this.setState(prevState => ({ dislike: prevState.dislike - 1, isDisliked: false}));
+            } else {
+                this.props.reactPost({type: actionType}, post_id);
+                this.setState(prevState => ({ dislike: prevState.dislike + 1, isDisliked: true}));
             }
         }
     }
@@ -61,6 +71,7 @@ class Post extends Component {
                                 heartNumber={this.state.love}
                                 viewNumber={this.state.view}
                                 likeNumber={this.state.like}
+                                dislikeNumber={this.state.dislike}
                             />
                         </div>
                         <div className="float-right">
@@ -92,7 +103,12 @@ class Post extends Component {
                         ></CircleButton>
                     </div>
                     <div className="col text-center">
-                        <CircleButton icon="fas fa-comment"></CircleButton>
+                        <CircleButton 
+                            icon="fas fa-thumbs-down"
+                            name="dislike"
+                            color={this.state.isDisliked ? '#2980b9' : '#34495e'}
+                            action={() => this.changeReaction('dislike', post.id)}
+                        ></CircleButton>
                     </div>
                     <div className="col text-center">
                         <CircleButton icon="fas fa-times"></CircleButton>
@@ -105,8 +121,8 @@ class Post extends Component {
 
 function mapDispatchToProps(dispatch) {
     return {
-        likePost: (type, post_id) => dispatch(likePost(type, post_id)),
-        unlikePost: (type, post_id) => dispatch(unlikePost(type, post_id))
+        reactPost: (type, post_id) => dispatch(reactPost(type, post_id)),
+        unreactPost: (type, post_id) => dispatch(unreactPost(type, post_id))
     }
 }
 

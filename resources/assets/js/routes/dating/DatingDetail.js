@@ -12,6 +12,7 @@ import Fragment from 'react-dot-fragment';
 import { updateEventStatus, joinDating } from '../../actions/EventActions';
 import InformationNumber from '../../components/Information/InformationNumber';
 import Modal from '../../components/Modal';
+import _ from "lodash";
 
 class DatingDetail extends Component {
     constructor(props) {
@@ -90,6 +91,10 @@ class DatingDetail extends Component {
             isSecretEvent = 0;
         }
 
+        var registers = _.partition(event.registers, (register) => {return register.gender === "M"});
+        var maleRegisters = registers[0];
+        var femaleRegisters = registers[1];
+
         var status = "Sắp diễn ra";
         switch (event.status) {
             case "forthcoming": {
@@ -149,10 +154,18 @@ class DatingDetail extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-6">
-                                            Kiểu hẹn
+                                            Tình trạng cuộc hẹn
                                         </div>
                                         <div className="col-6">
                                             {status}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-6">
+                                            Kiểu cuộc hẹn
+                                        </div>
+                                        <div className="col-6">
+                                            {event.is_secret ? "Bí mật" : "Công khai"}
                                         </div>
                                     </div>
                                     <div className="row">
@@ -370,9 +383,10 @@ class DatingDetail extends Component {
 
                         <CardWithTitle hasLine={true} title="DANH SÁCH NGƯỜI ĐÃ ĐĂNG KÝ">
                             <div className="row">
-                                <div className="container">
+                                {/* <div className="container"> */}
+                                    <div className="col-6">
                                     {
-                                        event.registers.map((user, index) => {
+                                        maleRegisters.map((user, index) => {
                                             return (
                                                 <RegisterItem
                                                     event={event}
@@ -384,7 +398,23 @@ class DatingDetail extends Component {
                                             )
                                         })
                                     }
-                                </div>
+                                    </div>
+                                    <div className="col-6">
+                                    {
+                                        femaleRegisters.map((user, index) => {
+                                            return (
+                                                <RegisterItem
+                                                    event={event}
+                                                    user={user}
+                                                    isSecretEvent={isSecretEvent}
+                                                    key={index}
+                                                    action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                                ></RegisterItem>
+                                            )
+                                        })
+                                    }
+                                    </div>
+                                {/* </div> */}
                             </div>
                             {
                                 (!event.is_joined && (event.type == "group") && (event.creator.id !== current_user.id)) ? (

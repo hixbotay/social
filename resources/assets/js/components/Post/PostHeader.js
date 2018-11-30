@@ -14,11 +14,12 @@ class PostHeader extends Component {
 
                     <div className="author-date">
                         <Heading heading={this.props.name}></Heading>
-                        <InformationNumber
-                            likeNumber={this.props.likeNumber}
-                            viewNumber={this.props.viewNumber}
-                            heartNumber={this.props.heartNumber}
-                        ></InformationNumber>
+                        <div className="row">
+                            <div className="post-info-item col"><i className="fas fa-heart"></i> {this.props.heartNumber}</div>
+                            <div className="post-info-item col"><i className="fas fa-eye"></i> {this.props.viewNumber}</div>
+                            <div className="post-info-item col"><i className="fas fa-thumbs-up"></i> {this.props.likeNumber}</div>
+                            <div className="post-info-item col"><i className="fas fa-thumbs-down"></i> {this.props.dislikeNumber}</div>
+                        </div>
                     </div>
                 </div>
             </Link>

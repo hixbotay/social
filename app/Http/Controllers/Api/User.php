@@ -120,29 +120,32 @@ class User extends Controller
     public function getCurrentUserDetail() {
         $id = Auth::id();
 
-        $users = \App\User::where('users.id', $id)
+        $user = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
             ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
             ->leftjoin('education', 'users.education', '=', 'education.id')
+            ->leftjoin('devvn_tinhthanhpho', 'users.province_id', '=', 'devvn_tinhthanhpho.matp')
+            ->leftjoin('devvn_quanhuyen', 'users.district_id', '=', 'devvn_quanhuyen.maqh')
+            ->leftjoin('devvn_xaphuongthitran', 'users.village_id', '=', 'devvn_xaphuongthitran.xaid')
             ->select(DB::raw(
                 'users.*, 
                 user_jobs.id AS job_id,
                 user_jobs.name AS job_name, 
-                education.name AS education_name'
+                education.name AS education_name,
+                devvn_tinhthanhpho.name AS province_name,
+                devvn_quanhuyen.name AS district_name,
+                devvn_xaphuongthitran.name AS village_name'
             ))
-            ->get();
+            ->first();
 
         $hobbies =  DB::table('user_hobby_map')
                     ->where('user_hobby_map.user_id', $id)
                     ->leftjoin('user_hobby', 'hobby_id', '=', 'user_hobby.id')
                     ->select(DB::raw('user_hobby.*'))
                     ->get();
-        $result = [
-            'user' => $users[0],
-            'hobbies' => $hobbies
-        ];
+        $user->hobbies = $hobbies;
 
-        return json_encode($result);
+        return json_encode($user);
     }
 
     public function getOtherUserDetail($id) {

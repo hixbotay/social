@@ -50,7 +50,7 @@ class Post extends Controller
         return json_encode($result);
     }
 
-    public function like(Request $request, $post_id){
+    public function react(Request $request, $post_id){
         $user_id = Auth::id();
         // $user_id = 1;
         $data = json_decode($request->getContent());
@@ -83,7 +83,7 @@ class Post extends Controller
         }
     }
 
-    public function unlike(Request $request, $post_id){
+    public function unreact(Request $request, $post_id){
         $data = json_decode($request->getContent());
         $post = \App\Post::find($post_id);
         $type = $data->type;

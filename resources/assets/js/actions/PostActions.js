@@ -1,8 +1,8 @@
 import api from '../api';
 import {
     GET_ALL_POSTS,
-    LIKE_POST,
-    UNLIKE_POST,
+    REACT_POST,
+    UNREACT_POST,
     CREATE_NEW_POST,
     GET_MY_POSTS
 } from './types'
@@ -27,24 +27,24 @@ export const getMyPosts = () => (dispatch) => {
         })
 }
 
-export const likePost = (actionType, id) => (dispatch) => {
+export const reactPost = (actionType, id) => (dispatch) => {
     console.log(actionType);
-    api.post(`/post/like/${id}`, JSON.stringify(actionType))
+    api.post(`/post/react/${id}`, JSON.stringify(actionType))
         .then(response => {
             console.log(response.data);
-            dispatch({ type: LIKE_POST });
+            dispatch({ type: REACT_POST });
         })
         .catch(error => {
             console.log(error);
         });
 }
 
-export const unlikePost = (actionType, id) => (dispatch) => {
+export const unreactPost = (actionType, id) => (dispatch) => {
     console.log(actionType);
-    api.post(`/post/unlike/${id}`, JSON.stringify(actionType))
+    api.post(`/post/unreact/${id}`, JSON.stringify(actionType))
         .then(response => {
             console.log(response.data);
-            dispatch({ type: UNLIKE_POST });
+            dispatch({ type: UNREACT_POST });
         })
         .catch(error => {
             console.log(error);

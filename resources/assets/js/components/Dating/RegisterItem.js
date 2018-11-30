@@ -74,13 +74,13 @@ class RegisterItem extends Component {
                 (!this.state.isSecret || (user.id === current_user.id)) ? (
                     <Fragment>
                         <div className="col-3">
-                            <SquareAvatar img={user.avatar} size="large"></SquareAvatar>
+                            <SquareAvatar img={user.avatar} size="medium"></SquareAvatar>
                         </div>
                         <div className="col-8">
                             <h5>{user.name}</h5>
                             <div>{user.address}</div>
                             <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/>
-                            {
+                            {/* {
                                 (user.id !== current_user.id) ? (
                                     <Fragment>
                                         <div>          
@@ -109,13 +109,13 @@ class RegisterItem extends Component {
                                         </div>
                                     </Fragment>
                                 ) : null
-                            }
+                            } */}
                         </div>
                     </Fragment>
                 ) : (
                     <Fragment>
                         <div className="col-3">
-                            <SquareAvatar img={`${baseUrl}/public/images/default-avatar-heart.png`} size="large"></SquareAvatar>
+                            <SquareAvatar img={`${baseUrl}/public/images/default-avatar-heart.png`} size="medium"></SquareAvatar>
                         </div>
                         <div className="col-8">
                             <h5>{`ID-${user.id}`}</h5>

@@ -22,8 +22,8 @@ Route::middleware(['web'])->group(function() {
     Route::get('friends/{type}', 'Api\User@listFriends');
 
     Route::get('my-posts', 'Api\Post@getMyPosts');
-    Route::post('post/like/{post_id}', 'Api\Post@like');
-    Route::post('post/unlike/{post_id}', 'Api\Post@unlike');
+    Route::post('post/react/{post_id}', 'Api\Post@react');
+    Route::post('post/unreact/{post_id}', 'Api\Post@unreact');
 
     Route::post('/event/group', 'Api\Event@createGroupEvent');
     Route::post('/event/couple', 'Api\Event@createCoupleEvent');

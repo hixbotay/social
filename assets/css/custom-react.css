@@ -985,3 +985,13 @@ button.slick-arrow {
 .paymentHistory .historyBox .content i{
     font-size: 40px;
 }
+
+.profile-horizontal {
+    margin-top: 0!important;
+    margin-bottom: 0!important;
+}
+
+.btn-show {
+    border: none;
+    background: none;
+}

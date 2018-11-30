@@ -45,6 +45,10 @@ class DatingResult extends Component {
     render() {
         const { event, user } = this.props;
 
+        var registers = _.partition(event.registers, (register) => {return register.gender === "M"});
+        var maleRegisters = registers[0];
+        var femaleRegisters = registers[1];
+
         var canReview = true;
         if(new Date() - new Date(event.start_time) > 48*60*60*1000) {
             canReview = false;
@@ -178,11 +182,27 @@ class DatingResult extends Component {
                                             <div className="alert alert-success">
                                                 Nếu bạn thích ai hãy nhấn vào trái tim để người ấy biết bạn thích họ.
                                                 Và ngược lại bạn chỉ thấy người ấy nếu họ thích bạn.
-                                        </div>
+                                            </div>
                                             <br />
-                                            <div className="container">
+                                            <div className="col-6">
                                                 {
-                                                    event.registers.map((user, index) => {
+                                                    maleRegisters.map((user, index) => {
+                                                        return (
+                                                            <RegisterItem
+                                                                event={event}
+                                                                key={index}
+                                                                type="register"
+                                                                user={user}
+                                                                isSecretEvent = {event.is_secret}
+                                                                action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                                            ></RegisterItem>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                            <div className="col-6">
+                                                {
+                                                    femaleRegisters.map((user, index) => {
                                                         return (
                                                             <RegisterItem
                                                                 event={event}
