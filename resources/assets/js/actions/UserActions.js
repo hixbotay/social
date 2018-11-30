@@ -25,14 +25,20 @@ export const logout = () => dispatch => {
 export const getCurrentUser = () => (dispatch) => {
     api.get('user')
     .then(response => {
+        const user = response.data;
         // tinh muc do hoan thien profile
-        let user = Object.assign({}, response.data);
-        var excludeOptions = ['id', 'is_admin', 'group_id', 'is_verify', 'is_id_verified', 'provider', 'provider_id', 'created_at', 'updated_at'];
-        excludeOptions.map(item => {
-            delete user[item];
-        });
-        cleanObject(user);
-        var percentage = (Object.keys(user).length / modelFieldNumber) * 100;
+        var arr_1 = ["name", 'email', 'birthday', 'gender', 'marital_status', 'address', 'job', 'education', 'ethnicity', 'religion', 'mobile', 'province_id', 'district_id', 'village_id'];
+        var arr_2 = ['weight', 'height', 'hobbies', 'lifestyle'];
+
+        var temp = 0;
+        Object.keys(user).map(key => {
+            if(user[key]) {
+                if(arr_1.indexOf(key) >= 0) temp += 5;
+                else if(arr_2.indexOf(key) >= 0) temp += 2;
+            }
+        })
+        // arr_1 decrease 2 beacause province_id, distrcit_id, village_id are considered as home_town field
+        var percentage = temp/((arr_1.length - 2) * 5 + arr_2.length * 2)*100;
         localStorage.setItem('percentage', percentage);
 
         dispatch({type: GET_CURRENT_USER, payload: response.data});
