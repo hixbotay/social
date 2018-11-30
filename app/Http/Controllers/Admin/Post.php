@@ -18,16 +18,31 @@ class Post extends Controller
      */
     public function index()
     {
+        $request = Request::capture();
+
+        $filter = isset($_GET['filter'])?$_GET['filter']:array();
+
         $this->authorize(config('auth.action.LIST_POST'));
 //        $posts = PostModel::paginate(10);
         $posts = DB::table('posts')
+            ->where(function ($query) use ($filter) {
+                if (isset($filter['user_id']) && $filter['user_id']){
+                    $query->where('posts.user_id', '=', $filter['user_id']);
+                }
+                if (isset($filter['time_from']) && isset($filter['time_to']) && $filter['time_from'] && $filter['time_to']){
+                    $query->where('posts.created_at', '>=', $filter['time_from']);
+                    $query->where('posts.created_at', '<=', $filter['time_to']);
+                }
+            })
             ->join('users', 'posts.user_id', '=', 'users.id')
             ->select('posts.*', 'users.name')->orderBy('id', 'DESC')
             ->paginate(20);
 
         $users = User::all();
+        $dataURL = $request->query();
+        unset($dataURL['page']);
+        $posts->withPath('admin?'.http_build_query($dataURL));
 
-        $filter = isset($_GET['filter'])?$_GET['filter']:array();
 
         return view('admin.post.list', [
             'items' => $posts,

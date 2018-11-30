@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\Types\Object_;
+use App\Configuration;
 
 class Payments extends Model
 {
@@ -59,7 +59,12 @@ class Payments extends Model
         $vipData['expire'] = $result[0]->to_time;
 
         return (object)$vipData;
+    }
 
+    public static function getPriceConfig(){
+        $price = Configuration::where('name', 'price')->first();
+        $data = \GuzzleHttp\json_decode($price->params);
+        return $data;
     }
 
 }

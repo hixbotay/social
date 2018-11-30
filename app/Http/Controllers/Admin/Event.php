@@ -19,13 +19,14 @@ class Event extends Controller
      */
     public function listEvent()
     {
-        $events = EventModel::paginate(10);
+        $events = EventModel::paginate(20);
+        $events->withPath('admin?view=Event&layout=listEvent');
         return view('admin.event.list-event', ['items' => $events]);
     }
 
     public function listEventSchedules()
     {
-        $events = EventSchedulesModel::paginate(10);
+        $events = EventSchedulesModel::paginate(20);
         return view('admin.event.list-event-schedules', ['items' => $events]);
     }
 
