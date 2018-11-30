@@ -44,9 +44,9 @@
                                 <label>Tuổi</label>
                                 <div>
                                     <div class="input-group" name="age" id="age">
-                                        <input type="text" class="form-control" name="age_from" placeholder="15" value="<?= isset($filter['age_from'])?$filter['age_from']:null ?>">
+                                        <input type="text" class="form-control" name="filter[age_from]" placeholder="15" value="<?= isset($filter['age_from'])?$filter['age_from']:null ?>">
                                         <span class="input-group-addon b-0">Tới</span>
-                                        <input type="text" class="form-control" name="age_to" placeholder="35" value="<?= isset($filter['age_to'])?$filter['age_to']:null ?>">
+                                        <input type="text" class="form-control" name="filter[age_to]" placeholder="35" value="<?= isset($filter['age_to'])?$filter['age_to']:null ?>">
                                     </div>
                                 </div>
                             </div>

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\User as UserModel;
 use App\UserGroup;
+use Illuminate\Support\Facades\Input;
 use Session;    
 use URL;
 use Illuminate\Support\Facades\Hash;
@@ -22,13 +23,39 @@ class User extends Controller
      */
     public function index()
     {
-        $users = DB::table('users')->paginate(10);
-        $users->withPath('admin?view=User');
+        $request = Request::capture();
+        $filterData = isset($_GET['filter'])?$_GET['filter']:array();
+        $users = UserModel::where(function ($query) use ($filterData) {
+
+            foreach ($filterData AS $key => $value){
+                if (isset($value) && $value){
+//                    $query->where($key, $value);
+                }
+            }
+
+            if (isset($filterData['group_id']) && $filterData['group_id']){
+                $query->where('group_id', $filterData['group_id']);
+            }
+            if (isset($filterData['gender']) && $filterData['gender']){
+                $query->where('gender', $filterData['gender']);
+            }
+            if (isset($filterData['start']) && isset($filterData['end']) && $filterData['start'] && $filterData['end']){
+                $query->where('created_at', '>=', $filterData['start']);
+                $query->where('created_at', '<=', $filterData['end']);
+            }
+
+            if (isset($filterData['age_from']) && isset($filterData['age_to']) && $filterData['age_to'] && $filterData['age_from']){
+//                $query->where('YEAR(CURDATE()) - YEAR(birthdate)', '>=', $filterData['age_from']);
+            }
+
+
+            })
+            ->paginate(10);
+        $users->withPath('admin?'.http_build_query($request->query()));
         $total = $users->total();
 
         $userGroup = UserGroup::all();
 
-        $filterData = isset($_GET['filter'])?$_GET['filter']:array();
 
         return view('admin.user.list', [
             'items' => $users,
