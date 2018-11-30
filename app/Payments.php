@@ -55,7 +55,7 @@ class Payments extends Model
         }
 
         $vipData = array();
-        $vipData['vip'] = $vip;
+        $vipData['status'] = $vip;
         $vipData['expire'] = $result[0]->to_time;
 
         return (object)$vipData;

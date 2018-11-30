@@ -35,7 +35,10 @@ class PaymentHistory extends Component {
                         </div>
                     </div>
                     <div className="col-md-3 action">
-                        <div className={"row"} onClick={() => {alert("Dang hoan thien")}}>
+                        <div className={"row"} onClick={() => {
+                            alert("Dang hoan thien");
+                            console.log(this.props)
+                        }}>
                             <div className={"col-md-10"}>
                                 Rut tien
                             </div>
