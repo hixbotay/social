@@ -50,8 +50,10 @@ class User extends Controller
 
 
             })
-            ->paginate(10);
-        $users->withPath('admin?'.http_build_query($request->query()));
+            ->paginate(20);
+        $dataURL = $request->query();
+        unset($dataURL['page']);
+        $users->withPath('admin?'.http_build_query($dataURL));
         $total = $users->total();
 
         $userGroup = UserGroup::all();

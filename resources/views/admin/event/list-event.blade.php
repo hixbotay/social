@@ -49,9 +49,11 @@
                                 <td>
                                     {{$item->limit_number}}
                                 </td>
+
+                                <td></td>
                                 
                                 <td>
-                                    <a href="{{url('admin?controller=Post&task=destroy&id='.$item->id)}}">
+                                    <a href="{{url('admin?controller=Post&task=destroy&id='.$item->id)}}" onclick="return confirm('Want to delete?')">
                                         <button class="btn btn-sm btn-danger">Delete</button>
                                     </a>
                                 </td>
