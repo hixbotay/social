@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">@lang('admin.EVENT_SCHEDULE')</h4>
+                <h4 class="m-t-0">Contacts</h4>
                 <div class="table-responsive">
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>

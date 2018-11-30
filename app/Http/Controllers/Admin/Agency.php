@@ -18,15 +18,11 @@ class Agency extends Controller
     {
         $filter = isset($_GET['filter'])?$_GET['filter']:array();
 
+//        echo "<pre>";
+//        print_r($filter);
+//        die;
+
         $items = DB::table('agency')
-            ->where(function ($query) use ($filter) {
-                if (isset($filter['user_id']) && $filter['user_id']){
-                    $query->where('agency.user_id', $filter['user_id']);
-                }
-                if (isset($filter['name']) && $filter['name']){
-                    $query->where('agency.name', 'like', '%' . $filter['name'] .'%');
-                }
-            })
             ->join('users', 'agency.user_id', '=', 'users.id')
             ->leftjoin('agency_photos', 'agency.id', '=', 'agency_photos.agency_id')
             ->select('agency.*', 'users.name AS username', 'agency_photos.source AS image')
@@ -34,7 +30,7 @@ class Agency extends Controller
             ->paginate(20);
 
         $items->withPath('admin?view=Agency');
-        $users = User::getUserByGroup(12);
+        $users = User::get_list_user_by_key(12);
         return view('admin.agency.list', [
             'items' => $items,
             'users' => $users,
@@ -49,7 +45,7 @@ class Agency extends Controller
      */
     public function create()
     {
-        $users = User::getUserByGroup(12);
+        $users = User::get_list_user_by_key(12);
         return view('admin.agency.create', ['users' => $users]);
     }
 
@@ -94,7 +90,7 @@ class Agency extends Controller
     public function edit($id)
     {
         $item = \App\Agency::find($id);
-        $users = User::getUserByGroup(12);
+        $users = User::get_list_user_by_key(12);
         $village = \App\ProvinceGroup::getListVillageByDistrict($item->district_id);
         $district = \App\ProvinceGroup::getListDistrictByProvince($item->province_id);
 //        echo "<pre>";

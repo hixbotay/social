@@ -42,16 +42,7 @@ return [
     'CONTENT' => 'Nội dung',
     'CREATED_AT' => 'Ngày tạo',
     'UPDATED_AT' => 'Ngày sửa',
-    'OPTION' => 'Lựa chọn',
-    'EVENT' => 'Sự kiện',
-    'EVENT_SCHEDULE' => 'Lịch sự kiện',
-    'JOB' => 'Nghề nghiệp',
-    'EDIT_JOB' => 'Chỉnh nghề nghiệp',
-    'NAME' => 'Tên',
-    'DESCRIPTION' => 'Mô tả',
-    'BACK' => 'Trở lại',
-    'SUBMIT' => 'Gửi đi',
-    'CONFIGM_DELETE' => 'Bạn chắc chắn muốn xóa?'
+    'OPTION' => 'Lựa chọn'
 
 
 ];

@@ -6,7 +6,6 @@ use Faker\Factory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Job AS JobModel;
-use App\UserGroup;
 
 class Job extends Controller
 {
@@ -57,7 +56,7 @@ class Job extends Controller
      */
     public function show($id)
     {
-        $user = JobModel::find($id);
+        $user = UserGroupModel::find($id);
 
         // show the view and pass the nerd to it
         return View::make('admin.job.detail')
@@ -76,9 +75,10 @@ class Job extends Controller
     {
         // $id = request()->input('id');
 
-        $job = JobModel::find($id);
+        $user = UserGroupModel::find($id);
 
-        return view('admin.job.detail')->with('item', $job);
+        // show the view and pass the nerd to it
+        return view('admin.job.detail')->with('item', $user);
     }
 
     /**
@@ -93,17 +93,13 @@ class Job extends Controller
         $id = $request->input('id');
         $data = $request->get('data');
 
-        $job = JobModel::find($id);
+        $usergroup = UserGroupModel::find($id);
         foreach ($data as $key => $value) {
-            $job->$key = $value;
+            $usergroup->$key = $value;
         }
-        $result = $job->save();
+        $usergroup->save();
 
-        if ($result){
-            return redirect('admin?view=Job&layout=edit&id='.$id)->with('success', ['SAVE_SUCCESS']);
-        }
-
-        return redirect('admin?view=job')->withErrors('SAVE_FAIL');
+        return redirect('admin?view=job');
 
     }
 
@@ -116,10 +112,7 @@ class Job extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
-        $result = JobModel::destroy($id);
-        if ($result){
-            return redirect('admin?view=Job')->with('success', ['SAVE_SUCCESS']);
-        }
-        return redirect('admin?view=Job')->withErrors('SAVE_FAIL');
+        UserGroupModel::destroy($id);
+        return redirect('admin?view=usergroup');
     }
 }
