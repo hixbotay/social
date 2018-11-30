@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Education AS EducationModel;
 
 class education extends Controller
 {
     public function index()
     {
-        $items = \App\Education::all();
+        $items = EducationModel::paginate(20);
         return view('admin.education.list', ['items' => $items]);
     }
 
@@ -33,7 +34,7 @@ class education extends Controller
     {
         $data = $request->get('data');
 
-        $result = \App\Education::create($data);
+        $result = EducationModel::create($data);
 
         $url = url('admin?view=Education');
 
@@ -63,7 +64,7 @@ class education extends Controller
      */
     public function edit($id)
     {
-        $item = \App\Education::find($id);
+        $item = EducationModel::find($id);
         return view('admin.education.detail', ['item' => $item]);
     }
 
@@ -77,7 +78,7 @@ class education extends Controller
     public function update(Request $request)
     {
         $id =  $request->input('id');
-        $item = \App\Education::find($id);
+        $item = EducationModel::find($id);
 
         $data = $request->get('data');
 

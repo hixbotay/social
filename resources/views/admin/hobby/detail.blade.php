@@ -21,9 +21,11 @@
                         </div>
                     </div>
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">
+                            @lang('admin.SUBMIT')
+                        </button>
                         <a href="{{ url()->previous() }}">
-                            <button type="button" class="btn btn-dark">Back</button>
+                            <button type="button" class="btn btn-dark">@lang('admin.BACK')</button>
                         </a>
                     </div>
                 </form>

@@ -51,7 +51,6 @@ return [
     'DESCRIPTION' => 'Mô tả',
     'BACK' => 'Trở lại',
     'SUBMIT' => 'Gửi đi',
-    'CONFIGM_DELETE' => 'Bạn chắc chắn muốn xóa?'
-
+    'CONFIGM_DELETE' => 'Bạn chắc chắn muốn xóa?',
 
 ];

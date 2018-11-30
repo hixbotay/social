@@ -5,7 +5,8 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">Học vấn</h4>
+                <h4 class="m-t-0">@lang('admin.EDUCATION')</h4>
+                <hr />
                 @include('layouts.admin.notice')
                 <div class="table-responsive">
 
@@ -32,8 +33,8 @@
                                         <label for="action-checkbox"></label>
                                     </div>
                                 </th>
-                                <th>Tên</th>
-                                <th>Mô tả</th>
+                                <th>@lang('admin.NAME')</th>
+                                <th>@lang('admin.DESCRIPTION')</th>
                             </tr>
                         </thead>
 
