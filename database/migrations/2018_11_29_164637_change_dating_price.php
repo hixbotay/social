@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class DatingPrice extends Migration
+class ChangeDatingPrice extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,8 @@ class DatingPrice extends Migration
      */
     public function up()
     {
-        Schema::create('dating_price', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('type');
-            $table->integer('province_group_id');
+        Schema::table('dating_price', function(Blueprint $table) {
             $table->float('couple_dating_price');
-            $table->float('group_dating_m_price');
-            $table->float('group_dating_f_price');
-            $table->timestamps();
         });
     }
 
@@ -31,6 +25,6 @@ class DatingPrice extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dating_price');
+        //
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Payments;
 use ImageOptimizer;
 use \App\Notification;
 
@@ -26,6 +27,7 @@ class User extends Controller
         $user->loveNumber = (int) $user->loveNumber;
         $user->likeNumber = (int) $user->likeNumber;
         $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $user->id)->count();
+        $user->vip = Payments::checkVIP(Auth::id());
 
         // check complete percentage
         $user->hasHobby = false;

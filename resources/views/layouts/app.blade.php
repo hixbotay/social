@@ -12,7 +12,7 @@
         var baseUrl = "{{url('')}}";
     </script>
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'NOI DUYEN') }}</title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{url('')}}/public/css/app.css" type="text/css">

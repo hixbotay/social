@@ -58,7 +58,7 @@
                                     {{$item->type}}
                                 </td>
                                 <td>{{$item->province_group_id}}</td>
-                                <td>{{$item->double_dating_price}}</td>
+                                <td>{{$item->couple_dating_price}}</td>
                                 <td>{{$item->group_dating_m_price}}</td>
                                 <td>{{$item->group_dating_f_price}}</td>
                                 <td>
