@@ -118,7 +118,7 @@ class index extends Component {
 
     render() {
         const {user, hobbies, jobs, educations, provinces, districts, communes, ethnicities, religions} = this.props;
-        var ideal_person = JSON.parse(user.ideal_person);
+        var ideal_person = user.ideal_person ? JSON.parse(user.ideal_person) : {};
         var curent_year = new Date().getFullYear();
 
         var hobbies_arr =  user.hobbies.map(hobby => {
@@ -247,7 +247,11 @@ class index extends Component {
                         <div className="row">
                             <div className="col-4">Độ tuổi</div>
                             <div className="col-8">
-                                {curent_year - ideal_person.yearOfBirth.max} - {curent_year - ideal_person.yearOfBirth.min}
+                                {
+                                    ideal_person.yearOfBirth ? (
+                                        curent_year - ideal_person.yearOfBirth.max + "-" + curent_year - ideal_person.yearOfBirth.min
+                                    ) : "Chưa xác định"
+                                }
                             </div>
                         </div>
                         <div className="row">
@@ -274,11 +278,13 @@ class index extends Component {
                             <div className="col-4">Nghề nghiệp</div>
                             <div className="col-8">
                                 {
-                                    ideal_person.jobs.map((item, index) => {
-                                        return (
-                                            <span key={index} className="mr-1">{item},</span>
-                                        )
-                                    })
+                                    ideal_person.jobs ? (
+                                        ideal_person.jobs.map((item, index) => {
+                                            return (
+                                                <span key={index} className="mr-1">{item},</span>
+                                            )
+                                        })
+                                    ) : "Chưa xác định"
                                 }
                             </div>
                         </div>
