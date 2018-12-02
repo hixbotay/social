@@ -81,7 +81,7 @@ class UserProfile extends Component {
         ];
 
         const { current_user } = this.props;
-        var ideal_person = JSON.parse(current_user.ideal_person);
+        var ideal_person = current_user.ideal_person ? JSON.parse(current_user.ideal_person) : {};
         var curent_year = new Date().getFullYear();
         var completePercentage = localStorage.getItem("percentage");
 
@@ -131,11 +131,22 @@ class UserProfile extends Component {
                             </div>
                             <div className="flex">
                                 <div className="left">Giới tính</div>
-                                <div className="right">{(current_user.gender === 'M') ? "Nam" : "Nữ" }</div>
+                                <div className="right">
+                                {
+                                    current_user.gender ? (
+                                        (current_user.gender === 'M') ? "Nam" : "Nữ" 
+                                    ) : "Chưa xác định"
+                                }
+                                </div>
                             </div>
                             <div className="flex">
                                 <div className="left">Tình trạng hôn nhân</div>
-                                <div className="right">{(current_user.marial_status === 0) ? 'Độc thân' : "Đã kết hôn"}</div>
+                                <div className="right">
+                                {
+                                    (current_user.marial_status != null) ? ( 
+                                        (current_user.marial_status === 0) ? 'Độc thân' : "Đã kết hôn"
+                                    ) : "Chưa xác định"
+                                }</div>
                             </div>
                             <div className="flex">
                                 <div className="left">Nơi sống</div>
@@ -154,35 +165,56 @@ class UserProfile extends Component {
                         <ToggleDisplay   show={show_2}>
                             <div className="flex">
                                 <div className="left">Độ tuổi</div>
-                                <div className="right">{curent_year - ideal_person.yearOfBirth.max} - {curent_year - ideal_person.yearOfBirth.min}</div>
+                                <div className="right">
+                                    {
+                                        ideal_person.yearOfBirth ? (
+                                            (curent_year - ideal_person.yearOfBirth.max) + "-" + (curent_year - ideal_person.yearOfBirth.min)
+                                        ) : "Chưa xác định"
+                                    }
+                                </div>
                             </div>
                             <div className="flex">
                                 <div className="left">Giới tính</div>
-                                <div className="right">{(ideal_person.gender === 'M') ? "Nam" : "Nữ" }</div>
+                                <div className="right">
+                                {
+                                    ideal_person.gender ? (
+                                        (ideal_person.gender === 'M') ? "Nam" : "Nữ"
+                                    ) : "Chưa xác định"
+                                }
+                                    
+                                </div>
                             </div>
                             <div className="flex">
                                 <div className="left">Tình trạng hôn nhân</div>
-                                <div className="right">{(ideal_person.marial_status === 0) ? 'Độc thân' : "Đã kết hôn"}</div>
+                                <div className="right">
+                                    {
+                                        ideal_person.marial_status ? (
+                                            (ideal_person.marial_status === 0) ? 'Độc thân' : "Đã kết hôn"
+                                        ) : "Chưa xác định"
+                                    }
+                                </div>
                             </div>
                             <div className="flex">
                                 <div className="left">Nghề nghiệp</div>
                                 <div className="right">
                                 {
-                                    ideal_person.jobs.map((item, index) => {
-                                        return (
-                                            <span key={index} className="mr-1">{item},</span>
-                                        )
-                                    })
+                                    ideal_person.jobs ? (
+                                        ideal_person.jobs.map((item, index) => {
+                                            return (
+                                                <span key={index} className="mr-1">{item},</span>
+                                            )
+                                        })
+                                    ) : "Chưa xác định"
                                 }
                                 </div>
                             </div>
                             <div className="flex">
                                 <div className="left">Dân tộc</div>
-                                <div className="right">{ideal_person.ethnicity}</div>
+                                <div className="right">{ideal_person.ethnicity ? ideal_person.ethnicity : "Chưa xác định"}</div>
                             </div>
                             <div className="flex">
                                 <div className="left">Tôn giáo</div>
-                                <div className="right">{ideal_person.religion}</div>
+                                <div className="right">{ideal_person.religion ? ideal_person.religion : "Chưa xác định"}</div>
                             </div>
                         </ToggleDisplay>
                     </div>
