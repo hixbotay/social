@@ -17,12 +17,6 @@ class ProfileLayout extends Component {
         }
     }
 
-    redirect() {
-        if(document.getElementById('redirect-user-setting')) {
-            document.getElementById('redirect-user-setting').click();
-        }
-    }
-
     uploadIdCard(event) {
         var component = this;
         var file = event.target.files[0];
@@ -68,17 +62,7 @@ class ProfileLayout extends Component {
                     {this.props.children}
                 </div>
                 <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                    <div className="d-none">
-                        {
-                            user ? (
-                                <Link to={`/profile/${user.id}/setting`}>
-                                    <button id='redirect-user-setting'></button>
-                                </Link>
-                            ) : null
-                        }
-                        
-                    </div>
-                    <CardWithIcon rightIcon="fas fa-cog user-setting" rightIconAction={() => this.redirect()}>
+                    <CardWithIcon>
                         <div className="author vcard inline-items profile-heading-info">
                             <RoundAvatar img={this.props.avatar} size='large'></RoundAvatar>
                             <label className="btn-change-avatar">

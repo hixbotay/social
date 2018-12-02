@@ -71,3 +71,8 @@ export const GET_LIST_CHAT = 'GET_LIST_CHAT';
 export const CHANGE_LIST_CHAT = 'CHANGE_LIST_CHAT';
 
 export const CHARGE_PAYMENT = 'CHARGE_PAYMENT';
+
+// ethnicity
+export const GET_ETHNICITY = 'GET_ETHNICITY';
+// religion
+export const GET_RELIGION = 'GET_RELIGION';

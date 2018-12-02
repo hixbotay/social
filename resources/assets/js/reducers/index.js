@@ -12,6 +12,8 @@ import educationReducer from './EducationReducer';
 import notificationReducer from './NotificationReducer';
 import messageReducer from './MessageReducer';
 import PaymentReducer from './PaymentReducer';
+import ethnicityReducer from './EthnicityReducer';
+import religionReducer from './ReligionReducer';
 
 const rootReducer = combineReducers({
     post: postReducer,
@@ -26,6 +28,8 @@ const rootReducer = combineReducers({
     notification: notificationReducer,
     chat: messageReducer,
     payment: PaymentReducer,
+    ethnicity: ethnicityReducer,
+    religion: religionReducer
 });
 
 export default rootReducer;

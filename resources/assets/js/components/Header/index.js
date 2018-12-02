@@ -133,13 +133,13 @@ class Header extends Component {
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li className="list-group-item list-group-item-info">
+                                            <li className="list-group-item list-group-item-info">                            
                                                 <div className="row">
                                                     <div className="col-2">
                                                         <i className="fas fa-cogs"></i>
                                                     </div>
                                                     <div className="col-10">
-                                                        Cài đặt
+                                                        <Link to="/settings">Cài đặt</Link>
                                                     </div>
                                                 </div>
                                             </li>
@@ -149,7 +149,9 @@ class Header extends Component {
                                                         <i className="fas fa-sign-out-alt"></i>
                                                     </div>
                                                     <div className="col-10" onClick={() => this.props.logout()}>
-                                                        Log Out
+                                                        <a href="javascript:void();">
+                                                            Log Out
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 

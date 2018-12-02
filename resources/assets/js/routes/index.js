@@ -19,7 +19,6 @@ import Header from '../components/Header';
 
 import Home from './newfeeds/NewFeeds';
 import Profile from './profile/Profile';
-import UserSetting from './profile/CurrentUserDetail';
 
 import CreateNewCafe from './cafe/CreateNewCafe';
 import Messages from './messages';
@@ -42,6 +41,7 @@ import SubscribeDating from './dating/SubscribeDating';
 import Payment from './payment/index';
 import PaymentHistory from './payment/history';
 import PaymentCharge from './payment/charge';
+import Settings from './settings';
 import NotFound from './404';
 
 //action
@@ -83,8 +83,6 @@ class MainApp extends Component {
                     <AppRoute exact path="/" layout={MainLayout} component={Home} />
                     {/* Profile */}
                     <AppRoute exact path="/profile/:id" layout={SecondLayout} component={Profile} />
-                    <AppRoute exact path="/profile/:id/setting" layout={SecondLayout} component={UserSetting} />
-                    {/* <AppRoute exact path="/other/:id" layout={SecondLayout} component={OtherPerson} /> */}
                     {/* Cafe */}
                     <AppRoute exact path="/cafe" layout={ThirdLayout} component={CafeList} />
                     <AppRoute exact path="/cafe/:id/view" layout={ThirdLayout} component={CafeDetail} />
@@ -112,6 +110,8 @@ class MainApp extends Component {
                     <AppRoute exact path={"/payment"} layout={MainLayout} component={Payment} />
                     <AppRoute exact path={"/payment/history"} layout={MainLayout} component={PaymentHistory} />
                     <AppRoute exact path={"/payment/charge"} layout={MainLayout} component={PaymentCharge} />
+
+                    <AppRoute exact path={"/settings"} layout={MainLayout} component={Settings} />
 
                     <Route component={NotFound} />
 

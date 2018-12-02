@@ -76,6 +76,8 @@ Route::post('user/{id}', function (Request $request, $id){
 });
 
 Route::post('user/{id}/upload-id-card', 'Api\User@uploadIdCardPhoto');
+Route::get('/ethnicities', 'Api\User@getAllEthnicity');
+Route::get('/religion', 'Api\User@getAllReligion');
 
 
 

@@ -15,6 +15,16 @@ date_default_timezone_set('Asia/Saigon');
 
 class User extends Controller
 {
+    public function getAllEthnicity() {
+        $ethnicities = DB::table("ethnicity")->get();
+        return ['ethnicities' => $ethnicities];
+    }
+
+    public function getAllReligion() {
+        $religions = DB::table("religion")->get();
+        return ['religions' => $religions];
+    }
+
     public function getCurrentUser() {
         $user = \App\User::where('users.id', '=', Auth::id())
             ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
@@ -126,6 +136,8 @@ class User extends Controller
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
             ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
             ->leftjoin('education', 'users.education', '=', 'education.id')
+            ->leftjoin('ethnicity', 'users.ethnicity', '=', 'ethnicity.id')
+            ->leftjoin('religion', 'users.religion', '=', 'religion.id')
             ->leftjoin('devvn_tinhthanhpho', 'users.province_id', '=', 'devvn_tinhthanhpho.matp')
             ->leftjoin('devvn_quanhuyen', 'users.district_id', '=', 'devvn_quanhuyen.maqh')
             ->leftjoin('devvn_xaphuongthitran', 'users.village_id', '=', 'devvn_xaphuongthitran.xaid')
@@ -140,6 +152,8 @@ class User extends Controller
                 user_jobs.id AS job_id,
                 user_jobs.name AS job_name, 
                 education.name AS education_name,
+                ethnicity.name AS ethnicity_name,
+                religion.name AS religion_name,
                 devvn_tinhthanhpho.name AS province_name,
                 devvn_quanhuyen.name AS district_name,
                 devvn_xaphuongthitran.name AS village_name,
