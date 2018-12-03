@@ -17,8 +17,12 @@ class index extends Component {
         this.state = { 
             isOpenFirstModal: false, 
             isOpenSecondModal: false,
+            isOpenThirdModal: false,
             data: {
                 user: {},
+            },
+            ideal_person: {
+                religion: 0
             }
         };
     }
@@ -48,6 +52,14 @@ class index extends Component {
 
     closeSecondModal() {
         this.setState({ isOpenSecondModal: false });
+    }
+
+    openThirdModal() {
+        this.setState({isOpenThirdModal: true});
+    }
+
+    closeThirdModal() {
+        this.setState({ isOpenThirdModal: false });
     }
 
     editUser(event) {
@@ -111,15 +123,50 @@ class index extends Component {
         });
     }
 
+    onChangeIdealPerson(e) {
+        if(e.target.name === 'jobs') {
+            var options = Array.apply(null, e.target.options);
+            var temp = [];
+            options.map((option) => {
+                if (option.selected) {
+                    temp.push(option.value);
+                }
+            });
+            
+            this.setState({
+                ideal_person: {
+                    ...this.state.ideal_person,
+                    jobs: temp
+                }
+            });
+        } else {
+            this.setState({
+                ideal_person: {
+                    ...this.state.ideal_person,
+                    [e.target.name]: e.target.value
+                }
+            })
+        }
+        console.log(this.state.ideal_person);
+    }
+
     submit() {
         this.props.updateUser(this.state.data, this.props.user.id);
     }
 
+    submitIdealPerson(e) {
+        e.preventDefault();
+        this.props.updateUser({user: {ideal_person: JSON.stringify(this.state.ideal_person)}}, this.props.user.id);
+    }
 
     render() {
         const {user, hobbies, jobs, educations, provinces, districts, communes, ethnicities, religions} = this.props;
         var ideal_person = user.ideal_person ? JSON.parse(user.ideal_person) : {};
         var curent_year = new Date().getFullYear();
+        var year_arr = [];
+        for(let i=curent_year-18; i>=1950; i--) {
+            year_arr.push(i);
+        }
 
         var hobbies_arr =  user.hobbies.map(hobby => {
             return hobby.id;
@@ -241,7 +288,7 @@ class index extends Component {
                         leftIcon="fas fa-user" 
                         rightIcon="fas fa-pen-square" 
                         hasLine={true} 
-                        rightIconAction={() => this.openSecondModal()}
+                        rightIconAction={() => this.openThirdModal()}
                         title="TIÊU CHÍ TÌM NGƯỜI ẤY"
                     >
                         <div className="row">
@@ -556,6 +603,120 @@ class index extends Component {
                         </div>
                         <div className="form-group">
                             <button className="btn btn-success float-right" type="button" onClick={() => this.submit()}>Gửi</button>
+                        </div>
+                    </form>
+                </Modal>
+                {/* edit ideal person */}
+                <Modal open={this.state.isOpenThirdModal} onClose={() => this.closeThirdModal()} center>
+                    <div className="page-header">
+                        <h5>Tiêu chí tìm người ấy</h5>
+                    </div>
+                    <form onSubmit={(e) => this.submitIdealPerson(e)}>
+                        <div className="form-group row">
+                            <div className="col-4">
+                                Năm sinh
+                            </div> 
+                            <div className="col-4">
+                                <select className="custom-select" name="min_year" value={ideal_person.min_year} onChange={(e) => this.onChangeIdealPerson(e)} required>
+                                    <option value="">Nhỏ nhất</option>
+                                {
+                                    year_arr.map(item => {
+                                        return (
+                                           <option value={item} key={item}>{item}</option>
+                                        )
+                                    }) 
+                                }
+                                </select>
+                            </div>     
+                            <div className="col-4">
+                                <select className="custom-select" name="max_year" value={ideal_person.max_year}  onChange={(e) => this.onChangeIdealPerson(e)} required>
+                                    <option value="">Lớn nhất</option>  
+                                {
+                                    year_arr.map(item => {
+                                        return (
+                                           <option value={item} key={item}>{item}</option>
+                                        )
+                                    }) 
+                                }
+                                </select>
+                            </div>               
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-4">
+                                Giới tính
+                            </div>
+                            <div className="col-8">
+                                <select className="custom-select" name="gender" value={ideal_person.gender} onChange={(e) => this.onChangeIdealPerson(e)} required>
+                                    <option value="">Chọn một</option>
+                                    <option value="M">Nam</option>
+                                    <option value="F">Nữ</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-4">
+                                Tình trạng hôn nhân
+                            </div>
+                            <div className="col-8">
+                                <select className="custom-select" name="marital_status" value={ideal_person.marital_status} onChange={(e) => this.onChangeIdealPerson(e)} required>
+                                    <option value="">Chọn một</option>
+                                    <option value={0}>Độc thân</option>
+                                    <option value={1}>Đã kết hôn</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-4">
+                                Nghề nghiệp
+                            </div>
+                            <div className="col-8">
+                                <select className="custom-select" name="jobs" value={ideal_person.jobs} onChange={(e) => this.onChangeIdealPerson(e)} required multiple>
+                                    {
+                                        jobs.map(job => {
+                                            return (
+                                                <option key={job.id} value={job.id}>{job.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-4">
+                                Dân tộc
+                            </div>
+                            <div className="col-8">
+                                <select className="custom-select" name="ethnicity" value={ideal_person.ethnicity} onChange={(e) => this.onChangeIdealPerson(e)} required>
+                                    <option value="">Chọn một</option>
+                                    {
+                                        ethnicities.map(item => {
+                                            return (
+                                                <option key={item.id} value={item.id}>{item.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-4">
+                                Tôn giáo
+                            </div>
+                            <div className="col-8">
+                                <select className="custom-select" name="religion" value={ideal_person.religion} onChange={(e) => this.onChangeIdealPerson(e)} required>
+                                    <option value={0}>Không tôn giáo</option>
+                                    {
+                                        religions.map(item => {
+                                            return (
+                                                <option key={item.id} value={item.id}>{item.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <button className="btn btn-success float-right" type="submit">Gửi</button>
                         </div>
                     </form>
                 </Modal>
