@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\URL;
 use App\User AS UserModel;
 use App\Configuration;
 use App\DatingFee;
+use App\ProvinceGroup;
 use App\DatingPrice;
 
 class Payment extends Controller
@@ -91,13 +92,24 @@ class Payment extends Controller
 
 
     public function getPriceConfig(){
+        $id = Auth::id();
+        if (!$id){
+            return array(
+                'status' => 0,
+                'message' => 'Invalid access'
+            );
+        }
+
+        $provinceID = UserModel::select('province_id')->where('id', '=', $id)->first();
+//        $provinceGroup = ProvinceGroup::select('id')->where('')
+
         $price = array();
         $config = Configuration::select('params')->where('name', '=', 'price')->first();
 
 //        get price of group dating and couple dating
 
         $datingPrice = DatingPrice::all();
-        return $datingPrice;
+        return $provinceID;
 
 
 
