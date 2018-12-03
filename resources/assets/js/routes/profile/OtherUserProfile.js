@@ -1,226 +1,68 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { Card, CardWithIcon, CardWithTitle } from '../../components/Card';
-import CircleButton from '../../components/Button/CircleButton';
-import { RoundAvatar } from '../../components/Avatar';
-import Heading from '../../components/Information/Heading';
-import InformationNumber from '../../components/Information/InformationNumber';
-import CenterModeSlider from '../../components/Slider/CenterModeSlider';
-import {getOtherUserDetail, updateRelationship} from '../../actions/UserActions';
+
+import { getOtherUserDetail } from '../../actions/UserActions';
 import Post from '../../components/Post';
-import Modal from '../../components/Modal';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import ProfileHeader from './ProfileHeader';
+import OtherUserLayout from './OtherUserLayout';
 
 class OtherPerson extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isLiked: false,
-            isLoved: false,
-            isBlocked: false
-        }
-    }
 
     componentDidMount() {
-        this.props.getUserInfo(this.props.match.params.id).then(data => {
-            if(data.relationship) {
-                this.setState({
-                    isLoved: data.relationship.is_loved,
-                    isLiked: data.relationship.is_like,
-                    isBlocked:  data.relationship.is_block,
-                })
-            } else {
-                this.setState({
-                    isLoved: false,
-                    isLiked: false,
-                    isBlocked: false
-                })
-            }
-        });
-    }
-
-    updateRelationship(actionType) {
-        if(localStorage.getItem('percentage') < 70) {
-            document.getElementById('open-relationship-modal').click();
-        } else {
-            var data = {};
-
-            if(actionType == 'love') {
-                if(this.state.isLoved) {
-                    data = {'is_loved': 0};
-                    this.setState({isLoved: false});
-                } else {
-                    data = {'is_loved': 1};
-                    this.setState({isLoved: true});
-                }
-            } else if(actionType == 'like') {
-                if(this.state.isLiked) {
-                    data = {'is_like': 0};
-                    this.setState({isLiked: false});
-                } else {
-                    data = {'is_like': 1};
-                    this.setState({isLiked: true});
-                }
-            } else if(actionType == 'block') {
-                if(this.state.isBlocked) {
-                    data = {'is_block': 0};
-                    this.setState({isBlocked: false});
-                } else {
-                    data = {'is_block': 1};
-                    this.setState({isBlocked: true});
-                }
-            }
-
-            this.props.updateRelationship(data, this.props.match.params.id);
-        }
+        this.props.getUserInfo(this.props.match.params.id);
     }
 
     render() {
-        const { user_data } = this.props;
+        const { user_data, current_user } = this.props;
 
         return (
-            <div className="row">
-                <div className="col col-xl-8 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                    <CardWithIcon leftIcon="fas fa-info-circle">
-                        <br/>
-                        <p>{user_data.user.favourite}</p>
-                        <CenterModeSlider></CenterModeSlider>
-                        <div>
-                            <i className="fas fa-briefcase"></i>
-                            <br />
-                            <h5>{user_data.user.job_name}</h5>
-                            <p>{user_data.user.address}</p>
-                        </div>
-                        <div>
-                            <i className="fas fa-heart"></i>
-                            <br />
-                            <h5>Sở thích</h5>
-                            {
-                                user_data.hobbies.map((item, index) => {
-                                    return (
-                                        <div key={index}>{item.name}</div>
-                                    )
-                                })
-                            }
-                        </div>
-                    </CardWithIcon>
-                    <div className="align-center">
-                        Xem thêm...
-                    </div>
-                    <div className="row">
-                        <button className="btn btn-function"><i></i> An toàn</button>
-                        <button className="btn btn-function"><i></i> Tặng quà</button>
-                        <button className="btn btn-function"><i></i> Bói yêu</button>
-                    </div>
+            <OtherUserLayout user={user_data.user} current_user={current_user} relationship={user_data.relationship}>
+                <Card>
+                    <br />
+                    <ProfileHeader user={user_data.user} isCurrentUser={false}></ProfileHeader>
+                </Card>
 
-                    <Card>
-                        {
-                            user_data.posts.map((post, index) => {
-                                post.author = user_data.user.name;
-                                post.author_avatar = user_data.user.avatar;
-                                return (
-                                    <Post post={post} key={index} user_id={user_data.user.id}></Post>
-                                )
-                            })
-                        }
-                    </Card>
-                </div>
-                <div className="col col-xl-4 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                    <Card>
-                        <div className="row">
-                            <div className="col-4">
-                                <CircleButton
-                                    icon="fas fa-heart"
-                                    name='love'
-                                    color={this.state.isLoved ? '#e74c3c' : '#34495e'}
-                                    action={() => this.updateRelationship('love')}
-                                ></CircleButton>
-                            </div>
-                            <div className="col-4">
-                                <CircleButton
-                                    icon="fas fa-thumbs-up"
-                                    name='like'
-                                    color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                                    action={() => this.updateRelationship('like')}
-                                ></CircleButton>
-                            </div>
-                            <div className="col-4">
-                                <CircleButton 
-                                    icon="fas fa-times"
-                                    color={this.state.isBlocked ? '#d35400' : '#34495e'}
-                                    action={() => this.updateRelationship('block')}
-                                ></CircleButton>
-                            </div>
-                        </div>
-                    </Card>
-                    <Card>
-                        <div className="row">
-                            <div className="col-9">
-                                <input className="form-control" />
-                            </div>
-                            <div className="col-3">
-                                <CircleButton icon="fab fa-telegram-plane"></CircleButton>
-                            </div>
-                        </div>
-                        <div>Bắt đầu chat với {user_data.user.name} ngay!</div>
-                    </Card>
-                    <CardWithTitle 
-                        title={"Đề xuất thành viên có thể hợp với bạn"}
-                        hasLine={true}    
-                    >
-                        {/* {
-                            proposals.map((item, index) => {
-                                return (
-                                    <div>
-                                        <RoundAvatar img={item.avatar} size="small"></RoundAvatar>
-                                        <Heading heading={item.name}></Heading>
-                                        <InformationNumber ></InformationNumber>
-                                        <hr/>
-                                    </div>
-                                )
-                            })
-                        } */}
-                        <ul className="list-group">
-                            <li className="list-group-item">aaaaaaaaaaa</li>
-                            <li className="list-group-item">bbbbbbbbbbbbb</li>
-                            <li className="list-group-item">ccccccccc</li>
-                        </ul>
-                    </CardWithTitle>
-                </div>
-                <button type="button" id="open-relationship-modal" className="d-none" data-toggle="modal" data-target="#relationship-alert"></button>
-                <Modal id="relationship-alert">
-                    <div className="row">
-                        <div className="col-6">
-                            <img src="https://us.123rf.com/450wm/anwarsikumbang/anwarsikumbang1408/anwarsikumbang140800671/31358550-love-couple-romance-cartoon.jpg" id="create-event-alert-img" />
-                        </div>
-                        <div className="col-6">
-                            <div className="text-center">
-                                CHƯA XONG!
-                            </div>
-                            <div className="text-center create-event-alert-content">
-                                Bạn cần hoàn thiện hồ sơ đến 70% để có thể thả tim một ai đó!
-                            </div>
-                            <div className="text-center create-event-alert-content">
-                                <button className="btn btn-primary" onClick={() => {document.getElementById('open-relationship-modal').click()}}>OK</button>
-                            </div>
-                        </div>
+                <div className="row">
+                    <div className="col-4">
+                        <button className="btn btn-primary btn-function"><i></i> An toàn</button>
                     </div>
-                </Modal>
-            </div>
+                    <div className="col-4">
+                        <button className="btn btn-primary btn-function"><i></i> Tặng quà</button>
+                    </div>
+                    <div className="col-4">
+                        <button className="btn btn-primary btn-function"><i></i> Bói yêu</button>
+                    </div>
+                </div>
+
+                <Card>
+                    {
+                        user_data.posts.map((post, index) => {
+                            post.author = user_data.user.name;
+                            post.author_avatar = user_data.user.avatar;
+
+                            return (
+                                <Post post={post} key={index} user_id={current_user.id}></Post>
+                            )
+                        })
+                    }
+                </Card>
+            </OtherUserLayout>
         );
     }
 }
 
 function mapStateToProps(state) {
     return {
-        user_data: state.user.other_user_data
+        user_data: state.user.other_user_data,
+        current_user: state.user.current_user
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getUserInfo: (id) => dispatch(getOtherUserDetail(id)),
-        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id))
     }
 }
 

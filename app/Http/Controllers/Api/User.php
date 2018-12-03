@@ -174,14 +174,39 @@ class User extends Controller
     public function getOtherUserDetail($id) {
         $user = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
-            ->select('users.name', 'users.avatar', 'users.favourite', 'user_jobs.name AS job_name')
+            ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
+            ->leftjoin('education', 'users.education', '=', 'education.id')
+            ->leftjoin('ethnicity', 'users.ethnicity', '=', 'ethnicity.id')
+            ->leftjoin('religion', 'users.religion', '=', 'religion.id')
+            ->leftjoin('devvn_tinhthanhpho', 'users.province_id', '=', 'devvn_tinhthanhpho.matp')
+            ->leftjoin('devvn_quanhuyen', 'users.district_id', '=', 'devvn_quanhuyen.maqh')
+            ->leftjoin('devvn_xaphuongthitran', 'users.village_id', '=', 'devvn_xaphuongthitran.xaid')
+            ->leftjoin('id_card_verification', function ($join) {
+                $join->on('users.id', '=', 'id_card_verification.user_id');
+                $join->on(function($query) {
+                    $query->where('id_card_verification.is_verified', '=', 1); 
+                });
+            })
+            ->select(DB::raw(
+                'users.*, 
+                user_jobs.id AS job_id,
+                user_jobs.name AS job_name, 
+                education.name AS education_name,
+                ethnicity.name AS ethnicity_name,
+                religion.name AS religion_name,
+                devvn_tinhthanhpho.name AS province_name,
+                devvn_quanhuyen.name AS district_name,
+                devvn_xaphuongthitran.name AS village_name,
+                (CASE is_verified WHEN 1 THEN 1 ELSE 0 END) AS is_id_card_verified'
+            ))
             ->first();
 
-        $hobbies = DB::table('user_hobby_map')
+        $hobbies =  DB::table('user_hobby_map')
                     ->where('user_hobby_map.user_id', $id)
                     ->leftjoin('user_hobby', 'hobby_id', '=', 'user_hobby.id')
-                    ->select('user_hobby.name')
+                    ->select(DB::raw('user_hobby.*'))
                     ->get();
+        $user->hobbies = $hobbies;
 
         $posts = \App\Post::where('posts.user_id', $id)
                     ->leftjoin('post_photos', 'posts.id', '=', 'post_photos.post_id')
@@ -194,14 +219,26 @@ class User extends Controller
                         ['from_user_id', '=', Auth::id()],
                         ['to_user_id', '=', $id]
                     ])
+                    ->select(DB::raw(
+                        'user_relationship.*,
+                        SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                        SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                    ))
+                    ->groupBy('to_user_id')
                     ->first();
         
         $temp = DB::table('profile_visitor')->where([
             ['profile_id', '=', $id],
             ['visitor_id', '=', Auth::id()]
-        ])->get();
+        ])
+        ->select(
+            DB::raw('profile_visitor.*, COUNT(profile_id='.$id.') AS viewNumber')
+        )
+        ->first();
+        
+        $user->viewNumber = $temp->viewNumber;
 
-        if(count($temp) == 0) {
+        if(!$temp) {
             // add to visitor table
             DB::table('profile_visitor')->insert([
                 'profile_id' => $id,
@@ -223,7 +260,6 @@ class User extends Controller
 
         $result = [
             'user' => $user,
-            'hobbies' => $hobbies,
             'posts' => $posts,
             'relationship' => $relationship
         ];

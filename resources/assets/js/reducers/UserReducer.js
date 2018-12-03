@@ -14,13 +14,11 @@ const INIT_STATE = {
     user: {},
     user_hobbies: [],
     other_user_data: {
-        user: {},
-        hobbies: [],
+        user: {
+            hobbies: []
+        },
         posts: [],
-        relationship: {},
-        friendsYouLiked: [],
-        friendsLikeYou: [],
-        friendsVisited: []
+        relationship: {}
     }
 }
 

@@ -1000,6 +1000,14 @@ button.slick-arrow {
     width: 100%;
 }
 
+.btn-function {
+    width: 100%
+}
+
+.ui-block {
+    border: none;
+}
+
 .spinner {
     margin: 100px auto;
     width: 40px;

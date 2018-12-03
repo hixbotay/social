@@ -162,9 +162,9 @@ class index extends Component {
     render() {
         const {user, hobbies, jobs, educations, provinces, districts, communes, ethnicities, religions} = this.props;
         var ideal_person = user.ideal_person ? JSON.parse(user.ideal_person) : {};
-        var curent_year = new Date().getFullYear();
+        var current_year = new Date().getFullYear();
         var year_arr = [];
-        for(let i=curent_year-18; i>=1950; i--) {
+        for(let i=current_year-18; i>=1950; i--) {
             year_arr.push(i);
         }
 
@@ -295,8 +295,10 @@ class index extends Component {
                             <div className="col-4">Độ tuổi</div>
                             <div className="col-8">
                                 {
-                                    ideal_person.yearOfBirth ? (
-                                        curent_year - ideal_person.yearOfBirth.max + "-" + curent_year - ideal_person.yearOfBirth.min
+                                    (ideal_person.max_year && ideal_person.min_year) ? (
+                                        <span>
+                                            {current_year - ideal_person.max_year} - {current_year - ideal_person.min_year}
+                                        </span>
                                     ) : "Chưa xác định"
                                 }
                             </div>
