@@ -10,6 +10,9 @@ use App\Libraries\Payments\VTCPay;
 use App\Payments AS PaymentModel;
 use Illuminate\Support\Facades\URL;
 use App\User AS UserModel;
+use App\Configuration;
+use App\DatingFee;
+use App\DatingPrice;
 
 class Payment extends Controller
 {
@@ -85,4 +88,22 @@ class Payment extends Controller
         }
         return redirect(URL('payment/history'));
     }
+
+
+    public function getPriceConfig(){
+        $price = array();
+        $config = Configuration::select('params')->where('name', '=', 'price')->first();
+
+//        get price of group dating and couple dating
+
+        $datingPrice = DatingPrice::all();
+        return $datingPrice;
+
+
+
+        $price[''] = $config->params;
+        return $config->params;
+    }
+
+
 }

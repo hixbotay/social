@@ -129,7 +129,9 @@ class Header extends Component {
                                                         <i className="fas fa-dollar-sign"></i>
                                                     </div>
                                                     <div className="col-10">
-                                                        Lịch sử thanh toán
+                                                        <Link to={'/payment/history'} >
+                                                            Lịch sử thanh toán
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </li>
@@ -149,7 +151,7 @@ class Header extends Component {
                                                         <i className="fas fa-sign-out-alt"></i>
                                                     </div>
                                                     <div className="col-10" onClick={() => this.props.logout()}>
-                                                        <a href="javascript:void();">
+                                                        <a href="javascript:void(0);">
                                                             Log Out
                                                         </a>
                                                     </div>
