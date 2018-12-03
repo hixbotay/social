@@ -71,16 +71,20 @@
 
 					</div>
 
+					<div class="form-group">
+						<label>Tỉnh</label>
+
+						<select name="data[province_id]" class="form-control">
+							<option value="">Chọn tỉnh</option>
+							@foreach($province AS $value)
+								<option value="{{$value->matp}}">{{$value->name}}</option>
+							@endforeach
+						</select>
+
+					</div>
+
 				</div>
 				<div class="col-sm-6">
-					<div class="form-group">
-						<label>IP Address</label>
-						<input type="text" class="form-control" name="data[ip_address]" />
-					</div>
-					<div class="form-group">
-						<label>ID Number</label>
-						<input type="text" class="form-control" name="data[ip_address]" />
-					</div>
 					<div class="form-group">
 						<label>Provider</label>
 						<input type="text" class="form-control" name="data[provider]" />
@@ -116,11 +120,6 @@
 					<div class="form-group">
 						<label>Nghề nghiệp</label>
 						{{\App\Job::select_job('data[job]')}}
-					</div>
-
-					<div class="form-group">
-						<label>Triết lý sống</label>
-						<input type="text" name="data[philosophy]" class="form-control">
 					</div>
 
 					<div class="form-group">

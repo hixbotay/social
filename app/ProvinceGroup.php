@@ -15,7 +15,7 @@ class ProvinceGroup extends Model
     public $timestamps = true;
 
 
-    public function get_list_province(){
+    public static function getListProvince(){
         $province = DB::table('devvn_tinhthanhpho')->select('name', 'matp')->get();
         return $province;
     }

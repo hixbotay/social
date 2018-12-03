@@ -89,19 +89,27 @@
 
 						</select>
 					</div>
+
+					<div class="form-group">
+						<label>Tỉnh</label>
+
+						<select name="data[province_id]" class="form-control">
+							<option value="">Chọn tỉnh</option>
+							@foreach($province AS $value)
+								<option
+										@if($value->matp == $item->province_id)
+												selected
+										@endif
+										value="{{$value->matp}}">{{$value->name}}</option>
+							@endforeach
+						</select>
+
+					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label>Credit</label>
 						<input type="text" class="form-control" name="data[credit]" value="{{$item->credit}}"/>
-					</div>
-					<div class="form-group">
-						<label>IP Address</label>
-						<input type="text" class="form-control" name="data[ip_address]" value="{{$item->ip_address}}"/>
-					</div>
-					<div class="form-group">
-						<label>ID Number</label>
-						<input type="text" class="form-control" name="data[id_number]" value="{{$item->id_number}}"/>
 					</div>
 					<div class="form-group">
 						<label>Provider</label>
@@ -141,11 +149,6 @@
 					</div>
 
 					<div class="form-group">
-						<label>Triết lý sống</label>
-						<input type="text" name="data[philosophy]" value="{{$item->philosophy}}" class="form-control">
-					</div>
-
-					<div class="form-group">
 						<label>Sở thích</label>
 
 						@foreach(\App\Hobby::all() AS $value)
@@ -182,8 +185,10 @@
 					</div>
 				</div>
 				<div class="col-sm-12">
-					<button type="submit" class="btn btn-primary">Submit</button>
-					<button type="reset" class="btn btn-dark">Reset</button>
+					<button type="submit" class="btn btn-primary">@lang('admin.SUBMIT')</button>
+					<a href="{{url('admin?view=User')}}">
+						<button type="button" class="btn btn-primary">@lang('admin.BACK')</button>
+					</a>
 				</div>
 			</form>
 		</div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Product AS ProductModel;
+use App\ProvinceGroup;
 
 class Product extends Controller
 {
@@ -28,8 +29,7 @@ class Product extends Controller
 
     public function create()
     {
-        $class = new \App\ProvinceGroup();
-        $province = $class->get_list_province();
+        $province = ProvinceGroup::getListProvince();
         return view('admin.product.create', ['province' => $province]);
     }
 
@@ -72,13 +72,8 @@ class Product extends Controller
     public function edit($id)
     {
         // $id = request()->input('id');
-
-        $user = \App\ProvinceGroup::find($id);
-
-        $class = new \App\ProvinceGroup();
-        $province = $class->get_list_province();
-
-        // show the view and pass the nerd to it
+        $user = ProvinceGroup::find($id);
+        $province = ProvinceGroup::getListProvince();
         return view('admin.product.detail', ['item' => $user, 'province' => $province]);
     }
 

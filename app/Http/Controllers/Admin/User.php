@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\User as UserModel;
 use App\UserGroup;
-use Illuminate\Support\Facades\Input;
-use Session;    
+use App\ProvinceGroup;
+use Session;
 use URL;
 use Illuminate\Support\Facades\Hash;
 
@@ -58,12 +58,15 @@ class User extends Controller
 
         $userGroup = UserGroup::all();
 
+        $provinceGroup = ProvinceGroup::getListProvince();
+
 
         return view('admin.user.list', [
             'items' => $users,
             'total' => $total,
             'group' => $userGroup,
-            'filter' => $filterData
+            'filter' => $filterData,
+            'province' => $provinceGroup
         ]);
     }
 
@@ -169,8 +172,14 @@ class User extends Controller
         // console_log($id);
     	$user = UserModel::find($id);
 
+        $provinceGroup = ProvinceGroup::getListProvince();
+
+
         // show the view and pass the nerd to it
-        return view('admin.user.detail', ['item' => $user]);
+        return view('admin.user.detail', [
+            'item' => $user,
+            'province' => $provinceGroup
+        ]);
     }
 
     /**

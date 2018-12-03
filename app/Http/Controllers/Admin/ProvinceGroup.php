@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use League\Flysystem\Exception;
+use App\ProvinceGroup AS ProvinceGroupModel;
 
 
 class ProvinceGroup extends Controller
@@ -31,8 +32,7 @@ class ProvinceGroup extends Controller
 
     public function create()
     {
-        $class = new \App\ProvinceGroup();
-        $province = $class->get_list_province();
+        $province = ProvinceGroupModel::getListProvince();
         $existProvince = \App\ProvinceGroup::all();
         $result = array();
         foreach ($existProvince AS $value){
@@ -113,9 +113,7 @@ class ProvinceGroup extends Controller
         // $id = request()->input('id');
 
         $user = \App\ProvinceGroup::find($id);
-
-        $class = new \App\ProvinceGroup();
-        $province = $class->get_list_province();
+        $province = ProvinceGroupModel::getListProvince();
         $existProvince = \App\ProvinceGroup::all();
         $result = array();
 
