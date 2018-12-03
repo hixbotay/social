@@ -174,8 +174,6 @@ class User extends Controller
 
         $provinceGroup = ProvinceGroup::getListProvince();
 
-
-        // show the view and pass the nerd to it
         return view('admin.user.detail', [
             'item' => $user,
             'province' => $provinceGroup
