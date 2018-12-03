@@ -13,9 +13,9 @@ class OtherUserLayout extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoved: props.relationship.is_loved,
-            isLiked: props.relationship.is_like,
-            isBlocked: props.relationship.is_block,
+            isLoved: props.relationship ? props.relationship.is_loved : false,
+            isLiked: props.relationship ? props.relationship.is_like : false,
+            isBlocked: props.relationship ? props.relationship.is_block : false,
             likeNumber: parseInt(props.relationship.likeNumber) ? parseInt(props.relationship.likeNumber) : 0,
             loveNumber: parseInt(props.relationship.loveNumber) ? parseInt(props.relationship.loveNumber) : 0
         }
@@ -58,14 +58,16 @@ class OtherUserLayout extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // console.log(nextProps);
-        this.setState({
-            isLoved: nextProps.relationship.is_loved,
-            isLiked: nextProps.relationship.is_like,
-            isBlocked: nextProps.relationship.is_block,
-            likeNumber: parseInt(nextProps.relationship.likeNumber) ? parseInt(nextProps.relationship.likeNumber) : 0,
-            loveNumber: parseInt(nextProps.relationship.loveNumber) ? parseInt(nextProps.relationship.loveNumber) : 0
-        });
+        if(nextProps.relationship) {
+            console.log(111111111)
+            this.setState({
+                isLoved: nextProps.relationship.is_loved,
+                isLiked: nextProps.relationship.is_like,
+                isBlocked: nextProps.relationship.is_block,
+                likeNumber: parseInt(nextProps.relationship.likeNumber) ? parseInt(nextProps.relationship.likeNumber) : 0,
+                loveNumber: parseInt(nextProps.relationship.loveNumber) ? parseInt(nextProps.relationship.loveNumber) : 0
+            });
+        }
     }
 
     render() {
