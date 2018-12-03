@@ -47,7 +47,7 @@ import NotFound from './404';
 //action
 import {getCurrentUser} from '../actions/UserActions';
 import {getNotifications} from '../actions/NotificationActions';
-
+import { loadPriceConfig } from '../actions/Payment';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -66,13 +66,17 @@ class MainApp extends Component {
     componentDidMount() {
         this.props.getCurrentUser();
         this.props.getNotifications(1);
+        this.props.loadPriceConfig();
     }
 	
 	render() {
 		var route = (
         <div className={'row'}>
             <div className={'col-sm-12'}>
-                <div className="loader"></div>
+                <div className="spinner">
+                    <div className="cube1"></div>
+                    <div className="cube2"></div>
+                </div>
             </div>
         </div>);
 
@@ -137,12 +141,14 @@ function mapDispatchToProps(dispatch) {
     return {
         getCurrentUser: () => dispatch(getCurrentUser()),
         getNotifications: (page) => dispatch(getNotifications(page)),
+        loadPriceConfig: () => dispatch(loadPriceConfig())
     }
 }
 
 function mapStateToProps(state) {
     return {
         user: state.user.current_user,
+        payment: state.payment.price
     };
 }
 

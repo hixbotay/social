@@ -70,7 +70,9 @@ export const UPDATE_UNREAD_NUMBER = 'UPDATE_UNREAD_NUMBER';
 export const GET_LIST_CHAT = 'GET_LIST_CHAT';
 export const CHANGE_LIST_CHAT = 'CHANGE_LIST_CHAT';
 
+// Payment
 export const CHARGE_PAYMENT = 'CHARGE_PAYMENT';
+export const LOAD_PRICE_CONFIG = 'LOAD_PRICE_CONFIG';
 
 // ethnicity
 export const GET_ETHNICITY = 'GET_ETHNICITY';
