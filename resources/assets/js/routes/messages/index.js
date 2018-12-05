@@ -49,11 +49,6 @@ class Messages extends Component {
         }
     }
 
-    scrollToBottom2() {
-        // console.log(this.messagesEnd);
-        this.messagesEnd.current.scrollIntoView({behavior: 'smooth'});
-    }
-
     scrollToBottom() {
 
         const messagesEnd = this.messagesEnd.current;
@@ -123,6 +118,8 @@ class Messages extends Component {
                         .then(response => {
                             this.setState({
                                 conversation: response,
+                            }, () => {
+                                this.scrollToBottom();
                             });
                             // console.log(response);
                         })
@@ -139,6 +136,8 @@ class Messages extends Component {
                 .then(response => {
                     this.setState({
                         conversation: response,
+                    },() => {
+                        this.scrollToBottom();
                     });
                 })
         }
@@ -172,8 +171,6 @@ class Messages extends Component {
         this.props.getListChat()
             .then(response => {
 
-                console.log(response);
-
                 for (let i = 0; i < response.length; i++ ){
                     if (response[i].id !== this.props.current_user.id){
                         this.setState({
@@ -186,6 +183,8 @@ class Messages extends Component {
                                 .then(response => {
                                     this.setState({
                                         conversation: response
+                                    }, () => {
+                                        this.scrollToBottom();
                                     });
                                 })
 
@@ -275,7 +274,10 @@ class Messages extends Component {
                                             <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Online</a>
                                         </li>
                                         <li>
-                                            <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Star</a>
+                                            <a href={'#'} onClick={(e) => {
+                                                this.scrollToBottom();
+                                                e.preventDefault();
+                                            }}>Star</a>
                                         </li>
                                     </ul>
 
