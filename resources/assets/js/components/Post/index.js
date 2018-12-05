@@ -50,7 +50,7 @@ class Post extends Component {
     }
 
     render() {
-        const {post} = this.props;
+        const {post, user_id} = this.props;
 
         const style = {
             image: {
@@ -64,18 +64,21 @@ class Post extends Component {
                 <div className="row">
                     <div className="col-12">
                         <div className="float-left">
-                            <PostHeader
-                                user_id={post.user_id}
-                                avatar={post.author_avatar}
-                                name={post.author}
-                                heartNumber={this.state.love}
-                                viewNumber={this.state.view}
-                                likeNumber={this.state.like}
-                                dislikeNumber={this.state.dislike}
-                            />
+                        {
+                            post.user_id !== user_id ? (
+                                <PostHeader
+                                    user_id={post.user_id}
+                                    avatar={post.author_avatar}
+                                    name={post.author}
+                                    created={post.created_at}
+                                />
+                            ) : (
+                                <div><i className="far fa-clock"></i> {post.created_at}</div>
+                            )
+                        }
                         </div>
                         <div className="float-right">
-                            <CircleButton icon="fas fa-flag"></CircleButton>
+                            <i className="fas fa-flag flag-btn"></i>
                         </div>
                     </div>
                 </div>
@@ -86,7 +89,7 @@ class Post extends Component {
                     {post.photo_id ? <img src={post.source}/> : null}
                 </div>
                 <div className="row">
-                    <div className="col text-center">
+                    {/* <div className="col text-center">
                         <CircleButton 
                             icon="fas fa-heart" 
                             name='love' 
@@ -112,6 +115,25 @@ class Post extends Component {
                     </div>
                     <div className="col text-center">
                         <CircleButton icon="fas fa-times"></CircleButton>
+                    </div> */}
+                    <div className="col-12">
+                        <div className="float-left">
+                            <span className={`btn-post mr-2 ${this.state.isLiked ? "active" : ""}`} onClick={() => this.changeReaction('like', post.id)}>
+                                {this.state.like} <i className="far fa-thumbs-up"></i>
+                            </span> 
+                            | 
+                            <span className={`btn-post ml-2 ${this.state.isDisliked ? "active" : ""}`} onClick={() => this.changeReaction('dislike', post.id)}>
+                                {this.state.dislike} <i className="far fa-thumbs-down"></i>
+                            </span> 
+                        </div>
+                        <div className="float-right">
+                            <span className="btn-post mr-4">
+                                <i className="far fa-comment"></i> <b>Bình luận</b>
+                            </span>
+                            <span className="btn-post">
+                                <i className="fas fa-share"></i> <b>Chia sẻ</b>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </article>

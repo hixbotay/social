@@ -1057,3 +1057,20 @@ button.slick-arrow {
                 -webkit-transform: rotate(-360deg);
             }
 }
+
+.flag-btn {
+    border: solid 1px #888da8;
+    border-radius: 100%;
+    width: 30px!important;
+    height: 30px!important;
+    padding: 5px;
+}
+
+.btn-post {
+    font-size: 1.15em!important;
+    cursor: pointer;
+}
+
+.btn-post.active {
+    color: #0586DA;
+}

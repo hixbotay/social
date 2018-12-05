@@ -9,7 +9,7 @@ class ProfileHeader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            show_1: false,
+            show_1: true,
             show_2: false,
             show_3: false,
             show_4: false,
@@ -20,10 +20,10 @@ class ProfileHeader extends Component {
 
     show(orderNumber) {
         switch(orderNumber) {
-            case 1: {
-                this.setState(prevState => ({show_1: !prevState.show_1}));
-                break;
-            }
+            // case 1: {
+            //     this.setState(prevState => ({show_1: !prevState.show_1}));
+            //     break;
+            // }
             case 2: {
                 this.setState(prevState => ({show_2: !prevState.show_2}));
                 break;
