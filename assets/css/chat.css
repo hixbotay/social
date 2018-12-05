@@ -23,6 +23,7 @@ img{ max-width:100%;}
     width: 95%;
     margin: 5px;
     margin-bottom: 10px;
+    margin-top: 15px;
 }
 .recent_heading ul li {
     padding: 10px;
@@ -38,6 +39,7 @@ img{ max-width:100%;}
 }
 .recent_heading .active a{
     color: #40A2EB;
+    padding-bottom: 5px;
     border-bottom: 2px solid #40A2EB;
 }
 

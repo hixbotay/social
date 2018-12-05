@@ -32,6 +32,8 @@ class Messages extends Component {
             current_message: '',
             typing: "",
             typingStatus: false,
+            chatList: [],
+            chatListClone: [],
         };
 
         if (this.props.current_user.id){
@@ -120,7 +122,7 @@ class Messages extends Component {
                     this.props.loadMessage({conversation_id: response.conversation_id})
                         .then(response => {
                             this.setState({
-                                conversation: response
+                                conversation: response,
                             });
                             // console.log(response);
                         })
@@ -136,25 +138,31 @@ class Messages extends Component {
             this.props.loadMessage({conversation_id: item.conversation_id})
                 .then(response => {
                     this.setState({
-                        conversation: response
+                        conversation: response,
                     });
                 })
         }
 
     }
 
+    searchUser(e){
+        const value = e.target.value;
+        var newData = [];
+        for(let i = 0; i < this.props.chatList.length; i ++) {
+            var data = this.props.chatList[i];
+
+            if (data.name.toLowerCase().includes(value.toLowerCase()) === true) {
+                newData.push(data);
+            }
+        }
+        this.setState({
+            chatList: newData
+        });
+    }
+
     componentDidMount(){
 
         this.scrollToBottom();
-
-        // axios({
-        //     method:'get',
-        //     url:'http://35.187.254.248/thoxaydung/',
-        //     responseType:'stream'
-        // })
-        //     .then(function (response) {
-        //         console.log(response)
-        //     });
 
         socket.on("notify", (data) => {
             console.log("Data return la = ");
@@ -163,21 +171,22 @@ class Messages extends Component {
 
         this.props.getListChat()
             .then(response => {
-                console.log(" V a n t u = ");
+
+                console.log(response);
+
                 for (let i = 0; i < response.length; i++ ){
                     if (response[i].id !== this.props.current_user.id){
                         this.setState({
-                            activeChat: response[i]
+                            activeChat: response[i],
+                            chatList: response,
+                            chatListClone: response
                         }, () => {
-                        //    get conversation here
-                        //    conversation
 
                             this.props.loadMessage({conversation_id: this.state.activeChat.conversation_id})
                                 .then(response => {
                                     this.setState({
                                         conversation: response
                                     });
-                                    // console.log(response);
                                 })
 
                         })
@@ -260,7 +269,7 @@ class Messages extends Component {
                                             <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Tất cả</a>
                                         </li>
                                         <li>
-                                            <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Chưa đọc</a>
+                                            <a href={'#'} onClick={(e) => {e.preventDefault()}}>Chưa đọc</a>
                                         </li>
                                         <li>
                                             <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Online</a>
@@ -270,13 +279,17 @@ class Messages extends Component {
                                         </li>
                                     </ul>
 
-                                    <input type={'text'} name={'search'} className="form-control" placeholder={"Tìm kiếm theo tên"} />
+                                    <input type={'text'}
+                                           onChange={(e) => {this.searchUser(e)}}
+                                           name={'search'}
+                                           className="form-control"
+                                           placeholder={"Tìm kiếm theo tên"} />
 
                                 </div>
                             </div>
                             <div className="inbox_chat">
                                 {
-                                    this.props.chatList.map(item => {
+                                    this.state.chatList.map(item => {
                                         if (item.id === this.props.current_user.id){
 
                                         }else{
