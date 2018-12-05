@@ -14,7 +14,7 @@ class PostHeader extends Component {
 
                     <div className="author-date">
                         <Heading heading={this.props.name}></Heading>
-                        <div>{this.props.created}</div>
+                        <div><i className="far fa-clock"></i> {this.props.created}</div>
                         {/* <div className="row">
                             <div className="post-info-item col"><i className="fas fa-heart"></i> {this.props.heartNumber}</div>
                             <div className="post-info-item col"><i className="fas fa-eye"></i> {this.props.viewNumber}</div>

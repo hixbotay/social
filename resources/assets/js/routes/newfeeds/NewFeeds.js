@@ -47,7 +47,7 @@ class NewFeeds extends Component {
                             {
                                 this.state.posts.map((post, index) => {
                                     return (
-                                        <Post post={post} key={index} user_id={current_user.id}></Post>
+                                        <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={true}></Post>
                                     )
                                 })
                             }

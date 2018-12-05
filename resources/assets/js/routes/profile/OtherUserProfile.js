@@ -20,19 +20,26 @@ class OtherPerson extends Component {
         return (
             <OtherUserLayout user={user_data.user} current_user={current_user} relationship={user_data.relationship}>
                 <Card>
-                    <br />
                     <ProfileHeader user={user_data.user} isCurrentUser={false}></ProfileHeader>
                 </Card>
 
-                <div className="row">
-                    <div className="col-4">
-                        <button className="btn btn-primary btn-function"><i></i> An toàn</button>
-                    </div>
-                    <div className="col-4">
-                        <button className="btn btn-primary btn-function"><i></i> Tặng quà</button>
-                    </div>
-                    <div className="col-4">
-                        <button className="btn btn-primary btn-function"><i></i> Bói yêu</button>
+                <div className="col-12">
+                    <div className="row no-gutters">
+                        <div className="col-4">
+                            <button className="btn btn-primary btn-function" id="safe-btn">
+                                <i className="fas fa-shield-alt"></i> An toàn
+                            </button>
+                        </div>
+                        <div className="col-4">
+                            <button className="btn btn-primary btn-function" id="gift-btn">
+                                <i className="fas fa-gift"></i> Tặng quà
+                            </button>
+                        </div>
+                        <div className="col-4">
+                            <button className="btn btn-primary btn-function" id="fortune-btn">
+                                <i className="fas fa-hand-holding-heart"></i> Bói yêu
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -43,7 +50,7 @@ class OtherPerson extends Component {
                             post.author_avatar = user_data.user.avatar;
 
                             return (
-                                <Post post={post} key={index} user_id={current_user.id}></Post>
+                                <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={false}></Post>
                             )
                         })
                     }

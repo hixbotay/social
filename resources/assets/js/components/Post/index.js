@@ -50,7 +50,9 @@ class Post extends Component {
     }
 
     render() {
-        const {post, user_id} = this.props;
+        const {post, user_id, isInNewsfeed} = this.props;
+
+        console.log(isInNewsfeed);
 
         const style = {
             image: {
@@ -65,7 +67,7 @@ class Post extends Component {
                     <div className="col-12">
                         <div className="float-left">
                         {
-                            post.user_id !== user_id ? (
+                            (post.user_id !== user_id || isInNewsfeed) ? (
                                 <PostHeader
                                     user_id={post.user_id}
                                     avatar={post.author_avatar}

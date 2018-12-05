@@ -59,6 +59,33 @@ class ProfileHeader extends Component {
 
         return (
             <Card>
+                <div id="user-description" className="mb-2">
+                    <i className="fas fa-info-circle"></i><br/>
+                    <div>
+                    {
+                        user.description ? user.description : (
+                            <React.Fragment>
+                            {
+                                isCurrentUser ? (
+                                    <div>
+                                        <p>
+                                            Bạn là người như thế nào, hãy chia sẻ một chút để người ấy hiểu bạn hơn nhé!!!
+                                        </p>
+                                        <div className="text-center">
+                                            <button className="btn btn-primary">Lưu</button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        Chưa có mô tả về {user.name}
+                                    </div>
+                                )
+                            }
+                            </React.Fragment>
+                        )
+                    }
+                    </div>
+                </div>
                 <CenterModeSlider></CenterModeSlider>
                 <br/>
                 {

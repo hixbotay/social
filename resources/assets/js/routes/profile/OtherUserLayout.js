@@ -98,7 +98,7 @@ class OtherUserLayout extends Component {
                     </CardWithIcon>
                     <Card>
                         <div className="row">
-                            <div className="col-4">
+                            <div className="col-4  text-center">
                                 <CircleButton
                                     icon="fas fa-heart"
                                     name='love'
@@ -106,7 +106,7 @@ class OtherUserLayout extends Component {
                                     action={() => this.updateRelationship('love')}
                                 ></CircleButton>
                             </div>
-                            <div className="col-4">
+                            <div className="col-4 text-center">
                                 <CircleButton
                                     icon="fas fa-thumbs-up"
                                     name='like'
@@ -114,7 +114,7 @@ class OtherUserLayout extends Component {
                                     action={() => this.updateRelationship('like')}
                                 ></CircleButton>
                             </div>
-                            <div className="col-4">
+                            <div className="col-4 text-center">
                                 <CircleButton 
                                     icon="fas fa-times"
                                     color={this.state.isBlocked ? '#d35400' : '#34495e'}
@@ -128,7 +128,7 @@ class OtherUserLayout extends Component {
                             <div className="col-9">
                                 <input className="form-control" />
                             </div>
-                            <div className="col-3">
+                            <div className="col-3 text-center">
                                 <CircleButton icon="fab fa-telegram-plane"></CircleButton>
                             </div>
                         </div>

@@ -49,7 +49,7 @@ class UserProfile extends Component {
                             post.author = current_user.name;
                             post.author_avatar = current_user.avatar;
                             return (
-                                <Post post={post} key={index} user_id={current_user.id}></Post>
+                                <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={false}></Post>
                             )
                         })
                     }

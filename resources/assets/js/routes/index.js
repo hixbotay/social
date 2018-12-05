@@ -48,6 +48,7 @@ import NotFound from './404';
 import {getCurrentUser} from '../actions/UserActions';
 import {getNotifications} from '../actions/NotificationActions';
 import { loadPriceConfig } from '../actions/Payment';
+import IdCardVerify from './profile/IdCardVerify';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -116,6 +117,7 @@ class MainApp extends Component {
                     <AppRoute exact path={"/payment/charge"} layout={MainLayout} component={PaymentCharge} />
 
                     <AppRoute exact path={"/settings"} layout={MainLayout} component={Settings} />
+                    <AppRoute exact path={"/verify/id-card"} layout={SecondLayout} component={IdCardVerify} />
 
                     <Route component={NotFound} />
 
