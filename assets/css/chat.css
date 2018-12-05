@@ -1,7 +1,7 @@
 .container{max-width:1170px; margin:auto;}
 img{ max-width:100%;}
 .inbox_people {
-  background: #f8f8f8 none repeat scroll 0 0;
+  background: #fff none repeat scroll 0 0;
   float: left;
   overflow: hidden;
   width: 40%; border-right:1px solid #c4c4c4;
@@ -14,20 +14,56 @@ img{ max-width:100%;}
 .top_spac{ margin: 20px 0 0;}
 
 
-.recent_heading {float: left; width:40%;}
+.recent_heading {
+    float: left;
+    width:100%;
+}
+
+.recent_heading input {
+    width: 95%;
+    margin: 5px;
+    margin-bottom: 10px;
+}
+.recent_heading ul li {
+    padding: 10px;
+    float: left;
+}
+
+.recent_heading ul li a{
+    color: #989898;
+}
+
+.recent_heading .active{
+
+}
+.recent_heading .active a{
+    color: #40A2EB;
+    border-bottom: 2px solid #40A2EB;
+}
+
 .srch_bar {
   display: inline-block;
   text-align: right;
   width: 60%;
 }
-.headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
+.headind_srch{
+    /*padding:10px 29px 10px 20px; */
+    overflow:hidden;
+    /*border-bottom:1px solid #c4c4c4;*/
+}
 
 .recent_heading h4 {
   color: #05728f;
   font-size: 21px;
   margin: auto;
 }
-.srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
+.srch_bar input{
+    border:1px solid #cdcdcd;
+    border-width:0 0 1px 0;
+    width:80%;
+    padding:2px 0 4px 6px;
+    background:none;
+}
 .srch_bar .input-group-addon button {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   border: medium none;
@@ -56,13 +92,13 @@ img{ max-width:100%;}
 
 .chat_people{ overflow:hidden; clear:both;}
 .chat_list {
-  border-bottom: 1px solid #c4c4c4;
+  /*border-bottom: 1px solid #c4c4c4;*/
   margin: 0;
   padding: 18px 16px 10px;
 }
 .inbox_chat { height: 550px; overflow-y: scroll;}
 
-.active_chat{ background:#ebebeb;}
+.active_chat{ background:#E6F0F9;}
 
 .incoming_msg_img {
   display: inline-block;
@@ -145,4 +181,28 @@ img{ max-width:100%;}
   width: 75px;  
   height: 75px;
   margin-right: 15px;
+}
+
+/*Scrollbar*/
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #46A6E1;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #46A6E1;
 }

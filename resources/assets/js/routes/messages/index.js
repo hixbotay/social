@@ -255,7 +255,23 @@ class Messages extends Component {
                         <div className="inbox_people">
                             <div className="headind_srch">
                                 <div className="recent_heading">
-                                    <h4 onClick={() => {console.log(this.props.chatList)}}>GẦN ĐÂY</h4>
+                                    <ul>
+                                        <li className={'active'}>
+                                            <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Tất cả</a>
+                                        </li>
+                                        <li>
+                                            <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Chưa đọc</a>
+                                        </li>
+                                        <li>
+                                            <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Online</a>
+                                        </li>
+                                        <li>
+                                            <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Star</a>
+                                        </li>
+                                    </ul>
+
+                                    <input type={'text'} name={'search'} className="form-control" placeholder={"Tìm kiếm theo tên"} />
+
                                 </div>
                             </div>
                             <div className="inbox_chat">

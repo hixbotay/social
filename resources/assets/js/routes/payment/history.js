@@ -58,6 +58,11 @@ class PaymentHistory extends Component {
                         <button type="button" className="btn btn-secondary">
                             <Link to={'/payment/charge'}>Nap tien</Link>
                         </button>
+                        <button type="button" className={'btn btn-secondary'} onClick={() => {
+                            console.log(this.props);
+                        }}>
+                            TEST
+                        </button>
                     </div>
                 </div>
 
@@ -117,7 +122,8 @@ class PaymentHistory extends Component {
 function mapStateToProps(state) {
     return {
         posts: state.post.posts,
-        current_user: state.user.current_user
+        current_user: state.user.current_user,
+        payment: state.payment
     }
 }
 
