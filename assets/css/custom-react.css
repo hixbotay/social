@@ -1108,3 +1108,53 @@ button#fortune-btn {
 .id-card-preview {
     width: 60%;
 }
+
+.middle-vertical {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.custombutton1 {
+    background: transparent;
+    padding: 5px 80px 5px 80px;
+    border-radius: 5px;
+    border: 1.5px solid white;
+    color: white;
+}
+
+.row-right {
+    border-right: 1px solid white;
+    border-bottom: 1.5px solid white;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.row-left {
+    border-left: 1px solid white;
+    border-bottom: 1.5px solid white;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.historyBox input {
+    padding: 0.5rem 1.1rem;
+    width: 70%;
+}
+
+.historyBox .content .item {
+    margin: 5px 0px 5px 0px;
+    border-bottom: 1px solid #c5c5c5;
+    padding: 10px;
+}
+.historyBox .paymentheading{
+    border-bottom: 1px solid #c5c5c5;
+    padding: 5px;
+    align-content: center;
+}
+.historyBox .content ul li {
+    float: left;
+    margin-right: 10px;
+}
+.historyBox .content .item img {
+    width: 60%;
+}
