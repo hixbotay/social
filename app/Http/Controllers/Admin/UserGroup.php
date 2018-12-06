@@ -112,9 +112,9 @@ class UserGroup extends Controller
         $url = url('admin?view=usergroup&layout=edit&id='.$id);
 
         if ($result){
-            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect($url)->withErrors('SAVE_FAIL');
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         }
 
     }

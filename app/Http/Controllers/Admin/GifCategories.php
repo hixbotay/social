@@ -25,9 +25,9 @@ class GifCategories extends Controller
         $result = \App\GifCategories::create($data);
         $url = url('admin?view=GifCategories');
         if ($result->id){
-            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect($url)->withErrors('SAVE_FAIL');
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         }
     }
     public function edit($id)
@@ -61,9 +61,9 @@ class GifCategories extends Controller
         $url = url('admin?view=GifCategories');
 
         if ($result){
-            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect($url)->withErrors('SAVE_FAIL');
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         }
     }
 }

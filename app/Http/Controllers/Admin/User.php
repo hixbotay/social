@@ -220,9 +220,9 @@ class User extends Controller
 
             DB::table('user_hobby_map')->insert( $plans );
 
-            return redirect('admin?view=User&layout=edit&id='.$id)->with('success', ['SAVE_SUCCESS']);
+            return redirect('admin?view=User&layout=edit&id='.$id)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect('admin?view=User&layout=edit&id='.$id)->withErrors('SAVE_FAIL');
+            return redirect('admin?view=User&layout=edit&id='.$id)->withErrors(__('admin.SAVE_FAIL'));
         }
     }
 

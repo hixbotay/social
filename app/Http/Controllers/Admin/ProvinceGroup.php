@@ -79,9 +79,9 @@ class ProvinceGroup extends Controller
                     ]);
             }
 
-            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect($url)->withErrors('SAVE_FAIL');
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         }
     }
 
@@ -182,9 +182,9 @@ class ProvinceGroup extends Controller
 
             }
 
-            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect($url)->withErrors('SAVE_FAIL');
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         }
 
     }

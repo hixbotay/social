@@ -37,9 +37,9 @@ class DatingPrice extends Controller
 
         if ($result->id)
         {
-            return redirect('/admin?view=DatingPrice')->with('success', ['SAVE_SUCCESS']);
+            return redirect('/admin?view=DatingPrice')->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect('/admin?controller=DatingPrice&task=create')->withErrors('SAVE_FAIL');
+            return redirect('/admin?controller=DatingPrice&task=create')->withErrors(__('admin.SAVE_FAIL'));
         }
     }
 
@@ -84,9 +84,9 @@ class DatingPrice extends Controller
         $result = $item->save();
         if ($result)
         {
-            return redirect('/admin?view=DatingPrice')->with('success', ['SAVE_SUCCESS']);
+            return redirect('/admin?view=DatingPrice')->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect('/admin?controller=DatingPrice&task=create')->withErrors('SAVE_FAIL');
+            return redirect('/admin?controller=DatingPrice&task=create')->withErrors(__('admin.SAVE_FAIL'));
         }
     }
 

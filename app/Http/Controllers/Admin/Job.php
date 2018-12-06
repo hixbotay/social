@@ -100,7 +100,7 @@ class Job extends Controller
         $result = $job->save();
 
         if ($result){
-            return redirect('admin?view=Job&layout=edit&id='.$id)->with('success', ['SAVE_SUCCESS']);
+            return redirect('admin?view=Job&layout=edit&id='.$id)->with('success', [__('admin.SAVE_SUCCESS')]);
         }
 
         return redirect('admin?view=job')->withErrors('SAVE_FAIL');
@@ -118,8 +118,8 @@ class Job extends Controller
         $id = $request->input('id');
         $result = JobModel::destroy($id);
         if ($result){
-            return redirect('admin?view=Job')->with('success', ['SAVE_SUCCESS']);
+            return redirect('admin?view=Job')->with('success', [__('admin.SAVE_SUCCESS')]);
         }
-        return redirect('admin?view=Job')->withErrors('SAVE_FAIL');
+        return redirect('admin?view=Job')->withErrors(__('admin.SAVE_FAIL'));
     }
 }

@@ -39,9 +39,9 @@ class education extends Controller
         $url = url('admin?view=Education');
 
         if ($result->id){
-            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect($url)->withErrors('SAVE_FAIL');
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         }
     }
 
@@ -93,9 +93,9 @@ class education extends Controller
         $url = url('admin?view=Education');
 
         if ($result){
-            return redirect($url)->with('success', ['SAVE_SUCCESS']);
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect($url)->withErrors('SAVE_FAIL');
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         }
     }
 
