@@ -117,8 +117,8 @@ class PaymentHistory extends Component {
                     <div className={"col-md-12 content"}>
 
                         <div className={"row paymentheading center text-center"}>
-                            <ul className={"list-inline"}>
-                                <li>Tat ca</li>
+                            <ul className={"text-center"}>
+                                <li className={"active"}>Tat ca</li>
                                 <li>Tien vao</li>
                                 <li>Tien ra</li>
                             </ul>

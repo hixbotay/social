@@ -77,7 +77,12 @@ class User extends Controller
      */
     public function create()
     {
-    	return view('admin.user.create');
+        $userGroup = UserGroup::all();
+        $provinceGroup = ProvinceGroup::getListProvince();
+    	return view('admin.user.create', [
+            'group' => $userGroup,
+            'province' => $provinceGroup
+        ]);
     }
 
     /**
@@ -146,15 +151,15 @@ class User extends Controller
         $current = Auth::id();
         $id =  $request->input('id');
         if ($id == $current){
-            return redirect(url('admin?view=User'))->withErrors('CANNOT_BLOCK_YOURSELF');
+            return redirect(url('admin?view=User'))->withErrors(__('admin.CANNOT_BLOCK_YOURSELF'));
         }
         $user = UserModel::find($id);
         $user->is_blocked = !$user->is_blocked;
         $result = $user->save();
         if ($result) {
-            return redirect('admin?view=User')->with('success', ['SAVE_SUCCESS']);
+            return redirect('admin?view=User')->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
-            return redirect('admin?view=User')->withErrors('SAVE_FAIL');
+            return redirect('admin?view=User')->withErrors(__('admin.SAVE_FAIL'));
         }
 
     }

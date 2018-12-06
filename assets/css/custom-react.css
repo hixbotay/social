@@ -973,7 +973,7 @@ button.slick-arrow {
 .paymentHistory .title{
     background: #018fe5;
     padding: 10px;
-    border-radius: 5px 5px 0px 0px;
+    border-radius: 10px 10px 0px 0px;
     color: #fff;
     font-size: 16px;
 }
@@ -1154,6 +1154,8 @@ button#fortune-btn {
 .historyBox .content ul li {
     float: left;
     margin-right: 10px;
+    font-size: 16px;
+    /*display: inline;*/
 }
 .historyBox .content .item img {
     width: 60%;

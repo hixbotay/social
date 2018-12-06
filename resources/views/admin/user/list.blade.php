@@ -87,10 +87,10 @@
                             <div id="datatable-responsive_filter" class="dataTables_filter">
                                 <a href="<?= url('/admin?controller=User&task=create') ?>" type="button"
                                    class="btn btn-primary">
-                                    Thêm
+                                    @lang('admin.ADD')
                                 </a>
                                 <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')"
-                                        class="btn btn-primary">Xóa
+                                        class="btn btn-primary">@lang('admin.DELETE')
                                 </button>
                             </div>
 
