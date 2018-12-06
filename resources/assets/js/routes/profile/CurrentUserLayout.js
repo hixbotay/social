@@ -17,20 +17,6 @@ class ProfileLayout extends Component {
         }
     }
 
-    uploadIdCard(event) {
-        var component = this;
-        var file = event.target.files[0];
-
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-            component.props.uploadIdCardPhoto({ image: reader.result }, component.props.match.params.id);
-        };
-        reader.onerror = function (error) {
-            window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
-        };
-    }
-
     handleImage(event) {
         var component = this;
         var file = event.target.files[0];
@@ -50,8 +36,6 @@ class ProfileLayout extends Component {
                 };
             }
         });
-
-        
     }
     
     render() {
@@ -99,30 +83,24 @@ class ProfileLayout extends Component {
                             <div className="col-md-12">
                                 <p>Xác thực CMT để dễ dàng tham gia các cuộc hẹn tốc độ</p>
                                 {
-                                    user.is_id_verified ? (
+                                    user.is_id_card_verified ? (
                                         <div className="alert alert-success">
                                             Bạn đã được phê duyệt Chứng minh thư
                                         </div>
                                     ) : (
-                                        user.id_card_photos ? (
-                                            <div className="alert alert-warning">
-                                                Đang chờ phê duyệt Chứng minh thư 
-                                            </div>
-                                        ) : (
-                                            <div>
-                                                <div className="alert alert-danger">
-                                                    Bạn chưa xác thực Chứng minh thư. Hãy xác minh ngay!
-                                                
+                                        <div>
+                                            <div className="alert alert-danger">
+                                                Bạn chưa xác thực Chứng minh thư. Hãy xác minh ngay!                
                                             
-                                                    <div className="text-center">
-                                                        <label className="btn-add-image" id="upload-id-card"> 
+                                                <div className="text-center">
+                                                    <Link to="/verify/id-card">
+                                                        <button className="btn-add-image" id="upload-id-card"> 
                                                             <i className="fas fa-camera"></i> Upload
-                                                            <input type="file" className="d-none" name="image" onChange={(e) => this.uploadIdCard(e)} />
-                                                        </label>
-                                                    </div>
+                                                        </button>
+                                                    </Link>
                                                 </div>
                                             </div>
-                                        )
+                                        </div>
                                     )
                                 }
                                 

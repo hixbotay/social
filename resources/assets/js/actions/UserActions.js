@@ -7,11 +7,10 @@ import {
     UPDATE_RELATIONSHIP,
     GET_FRIENDS_YOU_LIKED,
     GET_FRIENDS_LIKED_YOU,
-    GET_FRIENDS_VISITED
+    GET_FRIENDS_VISITED,
+    VERIFY_ID_CARD
 } from './types';
 import {cleanObject} from '../helper/function';
-
-const modelFieldNumber = 23;
 
 export const logout = () => dispatch => {
     api.get(`/logout`).then(response => {
@@ -129,10 +128,10 @@ export const getListFriends = (type) => (dispatch) => {
     })
 }
 
-export const uploadIdCardPhoto = (data, id) => dispatch => {
-    api.post(`/user/${id}/upload-id-card`, data).then(res => {
-        dispatch({type: UPDATE_USER_DETAIL, payload: res.data});
-        window.location.reload();
+export const verifyIdCard = (data) => dispatch => {
+    api.post(`/verify-id-card`, data).then(res => {
+        dispatch({type: VERIFY_ID_CARD, payload: res.data});
+        // window.location.reload();
     }).catch(err => {
         console.log(err);
         window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
@@ -147,4 +146,5 @@ export const updateAvatar = (data) => (dispatch) => {
         window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
     })
 }
+
 

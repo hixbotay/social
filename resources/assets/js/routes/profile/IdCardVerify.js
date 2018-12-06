@@ -2,18 +2,26 @@ import React, { Component } from 'react';
 import CurrentUserLayout from './CurrentUserLayout';
 import connect from 'react-redux/es/connect/connect';
 import { Card } from '../../components/Card';
+import {verifyIdCard} from '../../actions/UserActions';
+import ImageCompressor from 'image-compressor.js';
 
 class IdCardVerify extends Component {
     constructor() {
         super();
         this.state = {
+            data: {},
             frontPhoto: "",
             backsidePhoto: ""
         }
     }
 
     handleImage(e, type) {
-        var src = URL.createObjectURL(e.target.files[0]);
+        const component = this;
+        var file = e.target.files[0];
+        var name = e.target.name;
+        var reader = new FileReader();
+        // preview image
+        var src = URL.createObjectURL(file);
         if(type === 'front') {
             this.setState({
                 frontPhoto: src
@@ -23,6 +31,40 @@ class IdCardVerify extends Component {
                 backsidePhoto: src
             });
         }
+
+        // optimizer image upload and convert to base64
+        new ImageCompressor(file, {
+            quality: 0.6,
+            convertSize: 400000,
+            success(result) {
+                reader.readAsDataURL(result);
+                reader.onload = function () {
+                    component.setState({
+                        data: {
+                            ...component.state.data,
+                            [name]: reader.result
+                        }
+                    });
+                };
+                reader.onerror = function (error) {
+                    window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
+                };
+            }
+        });
+    }
+
+    onChangeData(e) {
+        this.setState({
+            data: {
+                ...this.state.data,
+                [e.target.name]: e.target.value
+            }
+        })
+    }
+
+    submit(e) {
+        e.preventDefault();
+        this.props.verify(this.state.data);
     }
 
     render() {
@@ -34,7 +76,7 @@ class IdCardVerify extends Component {
                 subHeading={current_user ? current_user.address : null}
             >
                 <Card>
-                    <form>
+                    <form onSubmit={(e) => this.submit(e)}>
                         <h5>Thông tin chứng minh thư của bạn</h5>
                         <br/>
                         <div className="form-group row">
@@ -42,7 +84,7 @@ class IdCardVerify extends Component {
                                 Họ tên
                             </div>
                             <div className="col-9">
-                                <input type="text" className="form-control" name="name"/>
+                                <input type="text" className="form-control" name="name" onChange={(e) => this.onChangeData(e)}/>
                             </div>
                         </div>
                         <div className="form-group row">
@@ -50,7 +92,7 @@ class IdCardVerify extends Component {
                                 Số CMT
                             </div>
                             <div className="col-9">
-                                <input type="number" className="form-control" name="id_number"/>
+                                <input type="number" className="form-control" name="id_number" onChange={(e) => this.onChangeData(e)}/>
                             </div>
                         </div>
                         <div className="form-group row">
@@ -58,7 +100,7 @@ class IdCardVerify extends Component {
                                 Ngày sinh
                             </div>
                             <div className="col-9">
-                                <input type="date" className="form-control" name="birthday"/>
+                                <input type="date" className="form-control" name="birthday" onChange={(e) => this.onChangeData(e)}/>
                             </div>
                         </div>
                         <div className="form-group row">
@@ -66,7 +108,7 @@ class IdCardVerify extends Component {
                                 Ngày cấp
                             </div>
                             <div className="col-9">
-                                <input type="date" className="form-control" name="date_of_issues"/>
+                                <input type="date" className="form-control" name="date_of_issues" onChange={(e) => this.onChangeData(e)}/>
                             </div>
                         </div>
                         <div className="clearfix">
@@ -75,7 +117,7 @@ class IdCardVerify extends Component {
                                 <label className="id-card-upload" htmlFor="front-photo">
                                     <i className="fas fa-cloud-upload-alt"></i> Tải ảnh
                                 </label>
-                                <input id="front-photo" className="d-none" type="file" onChange={(e) => this.handleImage(e, 'front')}/>
+                                <input id="front-photo" name="id_card_front_photo" className="d-none" type="file" onChange={(e) => this.handleImage(e, 'front')}/>
                             </div>
                         </div>
                         <div className="clearfix text-center">
@@ -87,11 +129,14 @@ class IdCardVerify extends Component {
                                 <label className="id-card-upload" htmlFor="backside-photo">
                                     <i className="fa fa-cloud-upload-alt"></i> Tải ảnh
                                 </label>
-                                <input id="backside-photo" className="d-none" type="file" onChange={(e) => this.handleImage(e, 'backside')}/>
+                                <input id="backside-photo" name="id_card_backside_photo" className="d-none" type="file" onChange={(e) => this.handleImage(e, 'backside')}/>
                             </div>
                         </div>
                         <div className="clearfix text-center">
                             <img src={this.state.backsidePhoto} className="mt-2 mb-4 id-card-preview"/>
+                        </div>
+                        <div className="text-center">
+                            <button className="btn btn-primary" type="submit">Gửi</button>
                         </div>
                     </form>
                     <div id="id-verify-regulation">
@@ -115,7 +160,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-
+    return {
+        verify: (data) => dispatch(verifyIdCard(data))
+    }
 }
 
-export default connect(mapStateToProps)(IdCardVerify);
+export default connect(mapStateToProps, mapDispatchToProps)(IdCardVerify);

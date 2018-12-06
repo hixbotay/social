@@ -15,6 +15,41 @@ date_default_timezone_set('Asia/Saigon');
 
 class User extends Controller
 {
+    // helper function processing base64 image
+    function processImage(String $base64Data, String $path) {
+        $base64_image = explode(',', $base64Data)[1];
+
+        $firstChar = substr($base64_image, 0, 1);
+
+        switch($firstChar) {
+            case '/': {
+				$extension = 'jpg';
+				break;
+			}
+			case 'i': {
+				$extension = 'png';
+				break;
+			}
+			case 'R': {
+				$extension = 'gif';
+				break;
+			}
+			default: {
+				$extension = 'jpg';
+				break;
+			}
+        }
+ 
+        $filename = (string) time().'.'.$extension;
+        $storePath = $path."/".$filename;
+        
+        Storage::disk('local')->put($storePath, base64_decode($base64_image));
+
+        // ImageOptimizer::optimize($storePath);
+
+        return $storePath;
+    }
+
     public function getAllEthnicity() {
         $ethnicities = DB::table("ethnicity")->get();
         return ['ethnicities' => $ethnicities];
@@ -360,39 +395,29 @@ class User extends Controller
         $user = Auth::user();
         $data = json_decode($request->getContent());
 
-        $base64_image = explode(',', $data->image)[1];
-
-        $firstChar = substr($base64_image, 0, 1);
-
-        switch($firstChar) {
-            case '/': {
-				$extension = 'jpg';
-				break;
-			}
-			case 'i': {
-				$extension = 'png';
-				break;
-			}
-			case 'R': {
-				$extension = 'gif';
-				break;
-			}
-			default: {
-				$extension = 'jpg';
-				break;
-			}
-        }
- 
-        $filename = (string) time().'.'.$extension;
-        
-        Storage::disk('local')->put('user'.$user->id.'/avatar/'.$filename, base64_decode($base64_image));
-
-        ImageOptimizer::optimize('storage/app/user'.$user->id.'/avatar/'.$filename);
-
-        $user->avatar = 'storage/app/user'.$user->id.'/avatar/'.$filename;
+        $user->avatar = $this->processImage($data->image, 'storage/app/user'.$user->id.'/avatar');
         $user->save();
 
         return json_encode($user);
+    }
+
+    public function storeIdCardInfo(Request $request) {
+        $user_id = Auth::id();
+        $data = json_decode($request->getContent());
+
+        $result = DB::table('id_card_verification')->insert([
+            'user_id' => $user_id,
+            'id_card_front_photo' => $this->processImage($data->id_card_front_photo, 'storage/app/user'.$user_id.'/id-card'),
+            'id_card_backside_photo' => $this->processImage($data->id_card_backside_photo, 'storage/app/user'.$user_id.'/id-card'),
+            'name' => $data->name,
+            'id_number' => $data->id_number,
+            'birthday' => $data->birthday,
+            'date_of_issues' => $data->date_of_issues,
+            'is_verified' => 0,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+        return ['result' => $result];
     }
 }
 

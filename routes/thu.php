@@ -60,6 +60,8 @@ Route::middleware(['web'])->group(function() {
     
     Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
     Route::get('/subscribers', 'Api\Event@listSubscribers');
+
+    Route::post('/verify-id-card', 'Api\User@storeIdCardInfo');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
