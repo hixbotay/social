@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Gif AS GifModel;
 
 class Gif extends Controller
 {
@@ -61,6 +62,17 @@ class Gif extends Controller
             return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
             return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+        }
+    }
+
+    public function destroy(Request $request)
+    {
+        $id = $request->input('id');
+        $result = GifModel::destroy($id);
+        if ($result) {
+            return redirect('admin?view=Gif')->with('success', [__('admin.SAVE_SUCCESS')]);
+        }else{
+            return redirect('admin?view=Gif')->withErrors(__('admin.SAVE_FAIL'));
         }
     }
 

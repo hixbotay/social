@@ -54,6 +54,8 @@ return [
     'CONFIGM_DELETE' => 'Bạn chắc chắn muốn xóa?',
     'CANNOT_BLOCK_YOURSELF' => 'Không thể block chính mình',
     'SAVE_SUCCESS' => 'Lưu thành công',
-    'SAVE_FAIL' => 'Lưu thất bại'
+    'SAVE_FAIL' => 'Lưu thất bại',
+    'GIF' => 'Quà tặng',
+    'CHARGE_LISTING' => 'Danh sách nạp tiền'
 
 ];

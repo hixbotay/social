@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">Quà tặng</h4>
+                <h4 class="m-t-0">@lang('admin.GIF')</h4>
 
                 @include('layouts.admin.notice')
 
@@ -19,7 +19,6 @@
                                 <a href="<?= url('/admin?controller=Gif&task=create') ?>" type="button" class="btn btn-primary">
                                     Thêm
                                 </a>
-                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">Xóa</button>
                             </div>
 
                         </div>
@@ -28,7 +27,7 @@
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
                         <tr>
-                            <th>
+                            <th style="width: 5%">
                                 <div class="checkbox checkbox-primary checkbox-single m-r-15">
                                     <input id="action-checkbox" type="checkbox">
                                     <label for="action-checkbox"></label>
@@ -36,6 +35,7 @@
                             </th>
                             <th>Tên</th>
                             <th>Giá</th>
+                            <th>#</th>
                         </tr>
                         </thead>
 
@@ -55,6 +55,11 @@
                                     </a>
                                 </td>
                                 <td>{{$item->price}}</td>
+                                <td>
+                                    <a onclick="return confirm('Want to delete?')" href="{{url('admin?controller=Gif&task=destroy&id='.$item->id)}}">
+                                        <button class="btn btn-icon btn-danger"> <i class="fa fa-remove"></i> </button>
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
