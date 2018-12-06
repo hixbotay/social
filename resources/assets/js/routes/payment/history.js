@@ -26,11 +26,26 @@ class PaymentHistory extends Component {
                 <div className="row">
                     <div className={"col-md-9 sodu"}>
                         <div className="row">
-                            <div className={"col-md-1"}>
-                                <i className="fas fa-money-bill-alt"></i>
+                            <div className={"col-md-2"}>
+                                <img style={{width: '90%',}} src="https://image.flaticon.com/icons/png/512/64/64979.png" />
                             </div>
-                            <div className={"col-md-11"} onClick={() => {console.log(this.props)}}>
-                                So du hien tai: {formatMoney(this.props.current_user.credit)} VND
+                            <div className={"col-md-10"} onClick={() => {console.log(this.props)}}>
+                                <div className="row">
+                                    <div className={"col-md-6"}>
+                                        So du hien tai
+                                    </div>
+                                    <div className={"col-md-6"}>
+                                        : {formatMoney(this.props.current_user.credit)} VND
+                                    </div>
+                                </div>
+                                <div className={"row"}>
+                                    <div className={"col-md-6"}>
+                                        Tai khoan khuyen mai
+                                    </div>
+                                    <div className={"col-md-6"}>
+                                        : {formatMoney(this.props.current_user.credit)} VND
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -39,10 +54,10 @@ class PaymentHistory extends Component {
                             alert("Dang hoan thien");
                             console.log(this.props)
                         }}>
-                            <div className={"col-md-10"}>
+                            <div className={"col-md-10 align-middle"}>
                                 Rut tien
                             </div>
-                            <div className={"col-md-2"}>
+                            <div className={"col-md-2 align-middle"}>
                                 <i className="fas fa-chevron-right"></i>
                             </div>
                         </div>
@@ -55,9 +70,11 @@ class PaymentHistory extends Component {
 
                 <div className={"row"}>
                     <div className={"col-md-12"}>
-                        <button type="button" className="btn btn-secondary">
-                            <Link to={'/payment/charge'}>Nap tien</Link>
-                        </button>
+                        <Link to={'/payment/charge'}>
+                            <button type="button" className="btn btn-secondary">
+                                Nap tien
+                            </button>
+                        </Link>
                         <button type="button" className={'btn btn-secondary'} onClick={() => {
                             console.log(this.props);
                         }}>
