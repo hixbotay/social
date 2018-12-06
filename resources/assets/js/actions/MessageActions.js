@@ -44,7 +44,7 @@ export const createConversation = (data) => (dispatch) => {
 
 export const loadMessage = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
-        fetch(chatURL + 'message/load/' + data.conversation_id, {
+        fetch(chatURL + 'message/load/' + data.conversation_id + '/' + data.page, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

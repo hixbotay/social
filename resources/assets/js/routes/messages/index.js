@@ -34,6 +34,7 @@ class Messages extends Component {
             typingStatus: false,
             chatList: [],
             chatListClone: [],
+            page: 1
         };
 
         if (this.props.current_user.id){
@@ -52,7 +53,6 @@ class Messages extends Component {
     scrollToBottom() {
 
         const messagesEnd = this.messagesEnd.current;
-        // console.log(messagesEnd);
         const scrollHeight = messagesEnd.scrollHeight;
         const height = messagesEnd.clientHeight;
         var maxScrollTop = scrollHeight - height;
@@ -91,11 +91,11 @@ class Messages extends Component {
         }, () => {
             socket.emit('stop_typing');
             this.setState({typing: ""});
+            this.scrollToBottom();
         });
     }
 
     changeActive(item){
-        // console.log(item);
         if (!item.conversation_id) {
             this.props.createConversation({
                 name: item.id + "_" + this.props.current_user.id,
@@ -114,14 +114,16 @@ class Messages extends Component {
                             break;
                         }
                     }
-                    this.props.loadMessage({conversation_id: response.conversation_id})
+                    this.props.loadMessage({
+                        conversation_id: response.conversation_id,
+                        page: this.state.page
+                    })
                         .then(response => {
                             this.setState({
                                 conversation: response,
                             }, () => {
                                 this.scrollToBottom();
                             });
-                            // console.log(response);
                         })
                     this.props.changeListChast(payload)
                         .then(resState => {
@@ -132,7 +134,10 @@ class Messages extends Component {
             this.setState({
                 activeChat: item,
             })
-            this.props.loadMessage({conversation_id: item.conversation_id})
+            this.props.loadMessage({
+                conversation_id: item.conversation_id,
+                page: this.state.page
+            })
                 .then(response => {
                     this.setState({
                         conversation: response,
@@ -179,8 +184,12 @@ class Messages extends Component {
                             chatListClone: response
                         }, () => {
 
-                            this.props.loadMessage({conversation_id: this.state.activeChat.conversation_id})
+                            this.props.loadMessage({
+                                conversation_id: this.state.activeChat.conversation_id,
+                                page: this.state.page
+                            })
                                 .then(response => {
+                                    console.log(response);
                                     this.setState({
                                         conversation: response
                                     }, () => {
@@ -198,6 +207,8 @@ class Messages extends Component {
 
         socket.on("new_message", (data) => {
 
+            console.log(data);
+
             if (data.conversation_id === this.state.activeChat.conversation_id)
             {
                 this.state.conversation.push(
@@ -207,6 +218,7 @@ class Messages extends Component {
                         created_at: '20-11-2018'
                     }
                 );
+                this.scrollToBottom();
             }
 
             const dataMess = {conversation_id: data.conversation_id, last_message: data.message};
@@ -214,7 +226,7 @@ class Messages extends Component {
                 if (this.props.chatList[i].conversation_id === data.conversation_id){
                     this.props.changeListChast(dataMess)
                         .then(resState => {
-                            // console.log(resState);
+                            this.scrollToBottom();
                             this.setState({
                                 status: Math.random()
                             })
