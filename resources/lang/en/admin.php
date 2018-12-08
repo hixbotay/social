@@ -63,6 +63,13 @@ return [
     'TRANSACTION' => 'Giao dịch',
     'TIME' => 'Thời gian',
     'FILTER' => 'Lọc',
-    'RESET' => 'Reset'
+    'RESET' => 'Reset',
+    'DATE' => 'Ngày',
+    'PAYMENT_TYPE' => 'Loại thanh toán',
+    'PAYMENT_STATUS' => 'Tình trạng',
+    'SUCCESS' => 'Thành công',
+    'FAIL' => 'Thất bại',
+    'DETAIL' => 'Chi tiết'
+
 
 ];

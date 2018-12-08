@@ -73,9 +73,9 @@
                                 <a href="<?= url('/admin?controller=Transaction&task=create') ?>" type="button" class="btn btn-primary">
                                     @lang('admin.ADD')
                                 </a>
-                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">
-                                    @lang('admin.DELETE')
-                                </button>
+                                {{--<button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">--}}
+                                    {{--@lang('admin.DELETE')--}}
+                                {{--</button>--}}
                             </div>
 
                         </div>
@@ -91,10 +91,9 @@
                                     </div>
                                 </th>
                                 <th>@lang('admin.USER')</th>
-                                <th>@lang('admin.CONTENT')</th>
-                                <th>Like/Love</th>
-                                <th>@lang('admin.CREATED_AT')</th>
-                                <th>@lang('admin.UPDATED_AT')</th>
+                                <th>@lang('admin.PAYMENT_TYPE')</th>
+                                <th>@lang('admin.PAYMENT_STATUS')</th>
+                                <th>@lang('admin.DATE')</th>
                                 <th>@lang('admin.OPTION')</th>
                             </tr>
                         </thead>
@@ -111,8 +110,6 @@
                                         <input id="checkbox1" type="checkbox">
                                         <label for="checkbox1"></label>
                                     </div>
-
-                                    <img src="assets/images/users/avatar-1.jpg" alt="contact-img" title="contact-img" class="img-circle thumb-sm" />
                                 </td>
 
                                 <td>
@@ -122,18 +119,16 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{url('admin?view=Post&layout=edit&id='.$item->id)}}" class="text-muted">{{substr($item->content, 0, 200)}}...</a>
+                                    {{ $item->pay_type }}
                                 </td>
-
-                                <td></td>
-
-                                <td>{{$item->created_at}}</td>
+                                {{--<h3 class="panel-title">Panel Success</h3>--}}
+                                <td>{{ ($item->pay_status == 1)?@__('admin.SUCCESS'):__('admin.FAIL') }}</td>
 
                                 <td>{{$item->updated_at}}</td>
 
                                 <td>
-                                    <a onclick="return confirm('Want to delete?')" href="{{url('admin?controller=Payment&task=destroy&id='.$item->id)}}">
-                                        <button class="btn btn-sm btn-danger">Delete</button>
+                                    <a href="{{url('admin?view=Transaction&layout=edit&id='.$item->id)}}">
+                                        <button class="btn btn-sm btn-info">@lang('admin.DETAIL')</button>
                                     </a>
                                 </td>
                             </tr>
