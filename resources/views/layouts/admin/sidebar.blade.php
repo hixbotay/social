@@ -46,11 +46,10 @@
                                 <li>
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-diamond"></i> @lang('admin.MODULE_FINANCE') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="{{url('/admin?view=ChargeUsers')}}"><i class="ti-person"></i>@lang('admin.CHARGE_LISTING')</a></li>
+                                        <li><a href="{{url('/admin?view=Transaction')}}"><i class="ti-person"></i>@lang('admin.TRANSACTION')</a></li>
                                         <li><a href="{{url('/admin?view=DatingPrice')}}"><i class="ti-person"></i>@lang('Giá hẹn hò')</a></li>
                                         <li><a href="{{url('/admin?controller=Configuration&option=price')}}"><i class="ti-person"></i>@lang('Cấu hình giá chung')</a></li>
                                         <li><a href="{{url('/admin?view=Finance')}}"><i class="ti-person"></i>@lang('admin.FINACNE_SHARE')</a></li>
-                                        <li><a href="{{url('/admin?controller=Finance&task=create')}}"><i class="ti-person"></i>@lang('Thêm cấu hình lợi nhuận')</a></li>
                                     </ul>
                                 </li>
 

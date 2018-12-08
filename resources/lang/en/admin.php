@@ -56,6 +56,13 @@ return [
     'SAVE_SUCCESS' => 'Lưu thành công',
     'SAVE_FAIL' => 'Lưu thất bại',
     'GIF' => 'Quà tặng',
-    'CHARGE_LISTING' => 'Danh sách nạp tiền'
+    'CHARGE_LISTING' => 'Danh sách nạp tiền',
+    'STOCK' => 'Cổ phần',
+    'VALUE' => 'Giá trị',
+    'INCOME_TYPE' => 'Loại thu nhập',
+    'TRANSACTION' => 'Giao dịch',
+    'TIME' => 'Thời gian',
+    'FILTER' => 'Lọc',
+    'RESET' => 'Reset'
 
 ];

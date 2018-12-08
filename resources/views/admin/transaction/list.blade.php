@@ -5,13 +5,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">Bài viết</h4>
+                <h4 class="m-t-0">@lang('admin.TRANSACTION')</h4>
 
                 <hr />
 
                 @include('layouts.admin.notice')
 
-                <form name="filterUser" action="{{url('admin?view=User')}}" method="GET">
+                <form name="filterUser" action="{{url('admin?view=Transaction')}}" method="GET">
 
                     <div class="row">
 
@@ -35,7 +35,7 @@
 
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label>Thời gian</label>
+                                <label>@lang('admin.TIME')</label>
                                 <div>
                                     <div class="input-daterange input-group" id="date-range">
                                         <input type="text" class="form-control" name="filter[time_from]" value="<?= isset($filter['time_from'])?$filter['time_from']:null ?>">
@@ -49,16 +49,16 @@
 
                     <div class="row">
                         <div class="col-sm-4">
-                            <button type="submit" class="btn btn-primary"><i class="mdi mdi-filter-outline"></i> Lọc</button>
-                            <a href="{{url('/admin?view=Post')}}">
+                            <button type="submit" class="btn btn-primary"><i class="mdi mdi-filter-outline"></i> @lang('admin.FILTER')</button>
+                            <a href="{{url('/admin?view=Transaction')}}">
                                 <button type="button" class="btn btn-primary">
-                                    <i class="mdi mdi-notification-clear-all"></i> Reset
+                                    <i class="mdi mdi-notification-clear-all"></i> @lang('admin.RESET')
                                 </button>
                             </a>
                         </div>
                     </div>
 
-                    <input type="hidden" name="view" value="Post">
+                    <input type="hidden" name="view" value="Transaction">
 
                 </form>
 
@@ -70,7 +70,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div id="datatable-responsive_filter" class="dataTables_filter">
-                                <a href="<?= url('/admin?controller=Post&task=create') ?>" type="button" class="btn btn-primary">
+                                <a href="<?= url('/admin?controller=Transaction&task=create') ?>" type="button" class="btn btn-primary">
                                     @lang('admin.ADD')
                                 </a>
                                 <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">
@@ -132,7 +132,7 @@
                                 <td>{{$item->updated_at}}</td>
 
                                 <td>
-                                    <a onclick="return confirm('Want to delete?')" href="{{url('admin?controller=Post&task=destroy&id='.$item->id)}}">
+                                    <a onclick="return confirm('Want to delete?')" href="{{url('admin?controller=Payment&task=destroy&id='.$item->id)}}">
                                         <button class="btn btn-sm btn-danger">Delete</button>
                                     </a>
                                 </td>
