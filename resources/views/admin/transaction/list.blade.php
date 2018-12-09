@@ -84,7 +84,7 @@
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
                             <tr>
-                                <th style="min-width: 95px;">
+                                <th style="min-width: 5%;">
                                     <div class="checkbox checkbox-primary checkbox-single m-r-15">
                                         <input id="action-checkbox" type="checkbox">
                                         <label for="action-checkbox"></label>

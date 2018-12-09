@@ -61,6 +61,7 @@ return [
     'VALUE' => 'Giá trị',
     'INCOME_TYPE' => 'Loại thu nhập',
     'TRANSACTION' => 'Giao dịch',
+    'TRANSACTION_DETAIL' => 'Chi tiết giao dịch',
     'TIME' => 'Thời gian',
     'FILTER' => 'Lọc',
     'RESET' => 'Reset',

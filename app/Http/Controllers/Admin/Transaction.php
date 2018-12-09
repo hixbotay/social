@@ -26,4 +26,13 @@ class Transaction extends Controller
             'items' => $items
         ]);
     }
+
+    public function edit($id) {
+//        $item = Payments::find($id);
+        $item = DB::table('user_payments')
+            ->join('users', 'user_payments.user_id', '=', 'users.id')
+            ->select('user_payments.*', 'users.name AS user_name')
+            ->where('user_payments.id', '=', $id)->first();
+        return view('admin.transaction.detail', ['item' => $item]);
+    }
 }
