@@ -45,6 +45,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@lang('admin.PAYMENT_STATUS')</label>
+                                <select class="form-control" name="filter[pay_status]">
+                                    <option value="">@lang('admin.ALL')</option>
+                                    <option {{(isset($filter['pay_status']) && $filter['pay_status'] == 1)?"selected":null}} value="1">@lang('admin.SUCCESS')</option>
+                                    <option {{(isset($filter['pay_status']) && $filter['pay_status'] == 0)?"selected":null}} value="0">@lang('admin.FAIL')</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>@lang('admin.PAYMENT_TYPE')</label>
+                                <select class="form-control" name="filter[pay_type]">
+                                    <option value="">@lang('admin.ALL')</option>
+                                    @foreach(config('payment.status') AS $key => $value)
+                                        <option
+                                                {{(isset($filter['pay_type']) && $filter['pay_type'] == $key)?"selected":null }}
+                                                value="{{$key}}">{{$value}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -70,12 +98,15 @@
                         </div>
                         <div class="col-sm-6">
                             <div id="datatable-responsive_filter" class="dataTables_filter">
+                                @if(1 == 2)
                                 <a href="<?= url('/admin?controller=Transaction&task=create') ?>" type="button" class="btn btn-primary">
                                     @lang('admin.ADD')
                                 </a>
-                                {{--<button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">--}}
-                                    {{--@lang('admin.DELETE')--}}
-                                {{--</button>--}}
+
+                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">
+                                    @lang('admin.DELETE')
+                                </button>
+                                @endif
                             </div>
 
                         </div>
@@ -99,8 +130,6 @@
                         </thead>
 
                         <tbody>
-
-
 
                         @foreach($items AS $item)
 

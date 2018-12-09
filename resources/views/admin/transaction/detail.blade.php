@@ -6,6 +6,8 @@
 		<div class="col-md-12">
 			<h4 class="m-b-20 header-title">@lang('admin.TRANSACTION_DETAIL')</h4>
 
+
+
 			<div class="form-group">
 				<label for="pwd">Thành viên:</label>
 				<input type="text" class="form-control" value="<?= $item->user_name ?>" readonly>
@@ -34,6 +36,12 @@
 				<input type="text" class="form-control" value="<?= $item->created_at ?>" readonly>
 			</div>
 
+
+			<div class="form-group">
+				<a href="{{url('admin?view=Transaction')}}">
+					<button type="button" class="btn btn-primary">@lang('admin.BACK')</button>
+				</a>
+			</div>
 
 
 		</div>

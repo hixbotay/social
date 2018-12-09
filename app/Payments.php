@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,36 @@ class Payments extends Model
         $vipData['expire'] = $result[0]->to_time;
 
         return (object)$vipData;
+    }
+
+    public static function getItems($data){
+        $filter = $data['filter'];
+        $request = Request::capture();
+        $items = DB::table('user_payments')
+            ->where(function ($query) use ($filter) {
+                if (isset($filter['user_id']) && $filter['user_id']){
+                    $query->where('user_payments.user_id', '=', $filter['user_id']);
+                }
+                if (isset($filter['time_from']) && isset($filter['time_to']) && $filter['time_from'] && $filter['time_to']){
+                    $query->where('user_payments.created_at', '>=', $filter['time_from']);
+                    $query->where('user_payments.created_at', '<=', $filter['time_to']);
+                }
+                if (isset($filter['pay_status']) && $filter['pay_status'] != null){
+                    $query->where('user_payments.pay_status', '=', $filter['pay_status']);
+                }
+                if (isset($filter['pay_type']) && $filter['pay_type'] != null){
+                    $query->where('user_payments.pay_type', '=', $filter['pay_type']);
+                }
+
+            })
+            ->join('users', 'user_payments.user_id', '=', 'users.id')
+            ->select('user_payments.*', 'users.name')->orderBy('id', 'DESC')
+            ->paginate(20);
+
+        $dataURL = $request->query();
+        unset($dataURL['page']);
+        $items->withPath('admin?'.http_build_query($dataURL));
+        return $items;
     }
 
     public static function getPriceConfig(){

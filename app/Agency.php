@@ -32,4 +32,8 @@ class Agency extends Model
         'open',
         'close'
     ];
+
+    public function getItems($data){
+
+    }
 }

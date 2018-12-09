@@ -14,16 +14,15 @@ class Transaction extends Controller
 {
     public function index(){
         $users = User::all();
-        $items = Payments::paginate(20);
-
-        $items = DB::table('user_payments')
-            ->join('users', 'user_payments.user_id', '=', 'users.id')
-            ->select('user_payments.*', 'users.name')->orderBy('id', 'DESC')
-            ->paginate(20);
+        $data = array();
+        $filter = isset($_GET['filter'])?$_GET['filter']:array();
+        $data['filter'] = $filter;
+        $items = Payments::getItems($data);
 
         return view('admin.transaction.list', [
             'users' => $users,
-            'items' => $items
+            'items' => $items,
+            'filter' => $filter
         ]);
     }
 

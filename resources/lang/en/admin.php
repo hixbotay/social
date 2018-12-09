@@ -70,7 +70,8 @@ return [
     'PAYMENT_STATUS' => 'Tình trạng',
     'SUCCESS' => 'Thành công',
     'FAIL' => 'Thất bại',
-    'DETAIL' => 'Chi tiết'
-
+    'DETAIL' => 'Chi tiết',
+    'STATUS' => 'Trạng thái',
+    'ALL' => 'Tất cả'
 
 ];
