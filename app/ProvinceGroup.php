@@ -5,7 +5,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-
 class ProvinceGroup extends Model
 {
     protected $table = 'province_groups';
@@ -14,6 +13,18 @@ class ProvinceGroup extends Model
 
     public $timestamps = true;
 
+
+    public static function getItems(){
+        $items = self::select('province_groups.*')
+            ->get();
+        return $items;
+    }
+
+    public static function getProvinceGroupNameByID($groupID){
+        $name = self::select('name')
+            ->where('id', '=', $groupID)->first();
+        return $name;
+    }
 
     public static function getListProvince(){
         $province = DB::table('devvn_tinhthanhpho')->select('name', 'matp')->get();

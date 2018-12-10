@@ -72,6 +72,14 @@ return [
     'FAIL' => 'Thất bại',
     'DETAIL' => 'Chi tiết',
     'STATUS' => 'Trạng thái',
-    'ALL' => 'Tất cả'
+    'ALL' => 'Tất cả',
+    'DATING' => 'Hẹn hò',
+    'DATING_PRICE' => 'Giá hẹn hò',
+    'DATING_PRICE_CONFIGURATION' => 'Quản lý giá hẹn hò',
+    'TYPE' => 'Loại',
+    'COUPON_PRICE' => 'Giá hẹn đôi',
+    'GROUP_PRICE' => 'Giá hẹn nhóm',
+    'MAN' => 'Nam',
+    'WOMAN' => 'Nữ'
 
 ];

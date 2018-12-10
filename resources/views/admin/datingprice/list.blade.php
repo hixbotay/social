@@ -5,11 +5,9 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">Quản lý giá hẹn hò</h4>
-
+                <h4 class="m-t-0">@lang('admin.DATING_PRICE_CONFIGURATION')</h4>
 
                 @include('layouts.admin.notice')
-
 
                 <div class="table-responsive">
 
@@ -19,7 +17,7 @@
                         <div class="col-sm-6">
                             <div id="datatable-responsive_filter" class="dataTables_filter">
                                 <a href="<?= url('/admin?controller=DatingPrice&task=create') ?>" type="button" class="btn btn-primary">
-                                    Thêm
+                                    @lang('admin.ADD')
                                 </a>
                             </div>
 
@@ -35,12 +33,12 @@
                                     <label for="action-checkbox"></label>
                                 </div>
                             </th>
-                            <th>Type</th>
-                            <th>Nhóm tỉnh</th>
-                            <th>Giá hẹn đôi (VND)</th>
-                            <th>Giá hẹn nhóm Nam (VND)</th>
-                            <th>Giá hẹn nhóm Nữ (VND)</th>
-                            <th>#</th>
+                            <th>@lang('admin.TYPE')</th>
+                            <th>@lang('admin.PROVINCE_GROUP')</th>
+                            <th>@lang('admin.COUPON_PRICE') (VND)</th>
+                            <th>@lang('admin.GROUP_PRICE')  (@lang('admin.MAN')) ({{config('payment.currency.code')}})</th>
+                            <th>@lang('admin.GROUP_PRICE') (@lang('admin.WOMAN')) ({{config('payment.currency.code')}})</th>
+                            <th>@lang('admin.OPTION')</th>
                         </tr>
                         </thead>
 
@@ -57,10 +55,14 @@
                                 <td>
                                     {{$item->type}}
                                 </td>
-                                <td>{{$item->province_group_id}}</td>
-                                <td>{{$item->couple_dating_price}}</td>
-                                <td>{{$item->group_dating_m_price}}</td>
-                                <td>{{$item->group_dating_f_price}}</td>
+                                <td>
+                                    <a href="{{url('admin?view=ProvinceGroup&layout=edit&id='.$item->province_group_id)}}" target="_blank">
+                                        {{$item->province_group_name}}
+                                    </a>
+                                </td>
+                                <td>{{($item->couple_dating_price)?number_format($item->couple_dating_price):null}}</td>
+                                <td>{{($item->group_dating_m_price)?number_format($item->group_dating_m_price):null}}</td>
+                                <td>{{($item->group_dating_f_price)?number_format($item->group_dating_f_price):null}}</td>
                                 <td>
                                     <a href="{{url('admin?view=DatingPrice&layout=edit&id='.$item->id)}}">
                                         <button class="btn btn-icon btn-warning"> <i class="fa fa-wrench"></i> </button>

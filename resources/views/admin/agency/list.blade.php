@@ -104,7 +104,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="{{url('admin?view=user&layout=edit&id='.$item->user_id)}}" target="_blank">
+                                    <a href="{{url('admin?view=User&layout=edit&id='.$item->user_id)}}" target="_blank">
                                         {{$item->username}}
                                     </a>
                                 </td>

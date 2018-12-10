@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\DatingPrice AS DatingPriceModel;
+use App\ProvinceGroup;
+
 class DatingPrice extends Controller
 {
     public function index()
     {
-        $items = \App\DatingPrice::all();
+        $items = DatingPriceModel::getItems();
         return view('admin.datingprice.list', ['items' => $items]);
     }
 
@@ -62,7 +65,8 @@ class DatingPrice extends Controller
      */
     public function edit($id)
     {
-        $item = \App\DatingPrice::find($id);
+
+        $item = DatingPriceModel::find($id);
         return view('admin.datingprice.detail', ['item' => $item]);
     }
 
