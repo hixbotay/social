@@ -98,4 +98,18 @@ class Payments extends Model
         return $data;
     }
 
+    public static function getTotalChargeAmount(){
+        $total = self::where('pay_type', '=', 'CHARGE')
+            ->where('pay_status', '=', '1')
+            ->sum('total');
+        return $total;
+    }
+
+    public static function getTotalWithdrawAmount(){
+        $total = self::where('pay_type', '=', 'WITHDRAW')
+            ->where('pay_status', '=', '1')
+            ->sum('total');
+        return $total;
+    }
+
 }

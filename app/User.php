@@ -7,6 +7,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 
+use App\Payments;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -98,7 +100,7 @@ class User extends Authenticatable
 
     public static function checkVip($userID){
         $dt = Carbon::now();
-        $data = \App\Payments::select('*')
+        $data = Payments::select('*')
             ->where('user_id', $userID)
             ->where('pay_type', 'VIP')
             ->where('pay_status', 1)
@@ -117,7 +119,17 @@ class User extends Authenticatable
         }
     }
 
-    public static function getTotalUser(){
-
+    public static function getTotalUsers(){
+        return self::count();
+    }
+    public static function getTotalVip(){
+        $dt = Carbon::now();
+        $count = Payments::join('users', 'user_payments.user_id', '=', 'users.id')
+            ->where('user_payments.pay_type', 'VIP')
+            ->where('user_payments.pay_status', 1)
+            ->where('user_payments.from_time', '<=', $dt)
+            ->where('user_payments.to_time', '>=', $dt)
+            ->count();
+        return $count;
     }
 }

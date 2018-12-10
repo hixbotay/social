@@ -80,6 +80,9 @@ return [
     'COUPON_PRICE' => 'Giá hẹn đôi',
     'GROUP_PRICE' => 'Giá hẹn nhóm',
     'MAN' => 'Nam',
-    'WOMAN' => 'Nữ'
+    'WOMAN' => 'Nữ',
+    'TOTAL_CHARGE' => 'Tổng nạp tiền',
+    'TOTAL_WITHDRAW' => 'Tổng tiền rút',
+    'TOTAL_VIP_USERS' => 'Tổng thành viên VIP',
 
 ];

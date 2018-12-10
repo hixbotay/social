@@ -8,33 +8,33 @@
                     <div class="row">
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget-inline-box text-center">
-                                <h3 class="m-t-10"><i class="text-primary mdi mdi-access-point-network"></i> <b
-                                            data-plugin="counterup">8954</b></h3>
-                                <p class="text-muted">Lifetime total sales</p>
+                                <h3 class="m-t-10"><i class="text-primary mdi mdi-account"></i> <b
+                                            data-plugin="counterup">{{$data['total_users']}}</b></h3>
+                                <p class="text-muted">@lang('admin.TOTAL_USER')</p>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget-inline-box text-center">
-                                <h3 class="m-t-10"><i class="text-custom mdi mdi-airplay"></i> <b
-                                            data-plugin="counterup">7841</b></h3>
-                                <p class="text-muted">Income amounts</p>
+                                <h3 class="m-t-10"><i class="text-custom mdi mdi-diamond"></i> <b
+                                            data-plugin="counterup">{{number_format($data['total_charge'])}}</b></h3>
+                                <p class="text-muted">@lang('admin.TOTAL_CHARGE')</p>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget-inline-box text-center">
                                 <h3 class="m-t-10"><i class="text-info mdi mdi-black-mesa"></i> <b
-                                            data-plugin="counterup">6521</b></h3>
-                                <p class="text-muted">Total users</p>
+                                            data-plugin="counterup">{{number_format($data['total_withdraw'])}}</b></h3>
+                                <p class="text-muted">@lang('admin.TOTAL_WITHDRAW')</p>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-sm-6">
                             <div class="widget-inline-box text-center b-0">
                                 <h3 class="m-t-10"><i class="text-danger mdi mdi-cellphone-link"></i> <b
-                                            data-plugin="counterup">325</b></h3>
-                                <p class="text-muted">Total visits</p>
+                                            data-plugin="counterup">{{$data['total_vip']}}</b></h3>
+                                <p class="text-muted">@lang('admin.TOTAL_VIP_USERS')</p>
                             </div>
                         </div>
 

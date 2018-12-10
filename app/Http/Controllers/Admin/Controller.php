@@ -8,6 +8,9 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use App\User;
+use App\Payments;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -48,6 +51,16 @@ class Controller extends BaseController
     }
     
     public function index(){
-    	return view('admin');
+        $data = array(
+            'total_users' => User::getTotalUsers(),
+            'total_vip' => User::getTotalVip(),
+            'total_charge' => Payments::getTotalChargeAmount(),
+            'total_withdraw' => Payments::getTotalWithdrawAmount()
+        );
+//        print_r($data);
+//        die;
+    	return view('admin', [
+    	    'data' => $data
+        ]);
     }
 }
