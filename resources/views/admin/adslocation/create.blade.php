@@ -34,7 +34,9 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">@lang('admin.SUBMIT')</button>
-                        <button type="reset" class="btn btn-dark">@lang('admin.BACK')</button>
+                        <a href="{{url('admin?view=AdsLocations')}}">
+                            <button type="button" class="btn btn-dark">@lang('admin.BACK')</button>
+                        </a>
                     </div>
 
 

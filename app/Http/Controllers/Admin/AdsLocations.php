@@ -41,8 +41,24 @@ class AdsLocations extends Controller
         return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
     }
 
+    public function update(Request $request){
+        $id =  $request->input('id');
+        $item = AdslocationModel::find($id);
+        $url = url('admin?view=AdsLocations');
+        if (!$item->id) return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+
+        $data = $request->get('data');
+        foreach ($data as $key => $value) {
+            if ($value)$item->$key = $value;
+        }
+        $result = $item->save();
+        if (!$result) return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+        return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
+    }
+
 
     public function migratehihi(){
+        die;
         $data = array(
             [
                 'name' => 'Hẹn tốc độ 1',
