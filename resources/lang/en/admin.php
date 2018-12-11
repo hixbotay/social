@@ -84,5 +84,8 @@ return [
     'TOTAL_CHARGE' => 'Tổng nạp tiền',
     'TOTAL_WITHDRAW' => 'Tổng tiền rút',
     'TOTAL_VIP_USERS' => 'Tổng thành viên VIP',
+    'MODULE_ADVERTISEMENT' => 'Module quảng cáo',
+    'ADS_LOCATION' => 'Vị trí quả cáo',
+
 
 ];
