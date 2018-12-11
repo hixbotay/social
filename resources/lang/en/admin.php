@@ -92,6 +92,8 @@ return [
     'CODE' => 'Code',
     'PARENT'  => 'Mục cha',
     'SELECT' => 'Chọn',
+    'FROM_TIME' => 'Từ ngày',
+    'TO_TIME' => 'Đến ngày',
 
 
 ];
