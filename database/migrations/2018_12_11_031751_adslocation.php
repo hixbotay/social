@@ -16,8 +16,8 @@ class Adslocation extends Migration
         Schema::create('ads_location', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->default(0);
-            $table->char('code', 255);
-            $table->char('name', 255);
+            $table->char('code', 255)->nullable(1);
+            $table->char('name', 255)->nullable(1);
             $table->float('price');
             $table->char('size', 255);
             $table->timestamps();

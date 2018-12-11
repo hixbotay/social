@@ -86,6 +86,12 @@ return [
     'TOTAL_VIP_USERS' => 'Tổng thành viên VIP',
     'MODULE_ADVERTISEMENT' => 'Module quảng cáo',
     'ADS_LOCATION' => 'Vị trí quả cáo',
+    'ADS_ORDERS' => 'Đơn hàng quảng cáo',
+    'ADS_LOCATION_NAME' => 'Tên vị trí',
+    'PRICE' => 'Giá',
+    'CODE' => 'Code',
+    'PARENT'  => 'Mục cha',
+    'SELECT' => 'Chọn',
 
 
 ];

@@ -89,6 +89,7 @@
                                 <li>
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-star"></i> @lang('admin.MODULE_ADVERTISEMENT') <span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
+                                        <li><a href="{{url('/admin?view=Ads')}}"><i class="ti-person"></i>@lang('admin.ADS_ORDERS')</a></li>
                                         <li><a href="{{url('/admin?view=AdsLocations')}}"><i class="ti-person"></i>@lang('admin.ADS_LOCATION')</a></li>
                                     </ul>
                                 </li>
