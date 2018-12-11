@@ -51,8 +51,8 @@
                                 <label>@lang('admin.PAYMENT_STATUS')</label>
                                 <select class="form-control" name="filter[pay_status]">
                                     <option value="">@lang('admin.ALL')</option>
-                                    <option {{(isset($filter['pay_status']) && $filter['pay_status'] == 1)?"selected":null}} value="1">@lang('admin.SUCCESS')</option>
-                                    <option {{(isset($filter['pay_status']) && $filter['pay_status'] == 0)?"selected":null}} value="0">@lang('admin.FAIL')</option>
+                                    <option {{(isset($filter['pay_status']) && (int)$filter['pay_status'] === 1)?"selected":null}} value="1">@lang('admin.SUCCESS')</option>
+                                    <option {{(isset($filter['pay_status']) && strval($filter['pay_status']) === '0')?"selected":null}} value="0">@lang('admin.FAIL')</option>
                                 </select>
                             </div>
                         </div>
