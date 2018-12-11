@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\AdsLocations AS AdslocationModel;
+use Illuminate\Support\Facades\DB;
 
 class AdsLocations extends Controller
 {
