@@ -42,7 +42,11 @@
                         @foreach($items AS $item)
                             <tr>
                                 <td>
-                                    {{($item->parent_id == 0)?'Vị trí gốc':null }}
+                                    @if($item->parent_id == 0)
+                                        Vị trí gốc
+                                    @else
+                                        Vị trí XXX
+                                    @endif
                                 </td>
                                 <td>
                                     <a href="{{url('admin?view=AdsLocations&layout=edit&id='.$item->id)}}">

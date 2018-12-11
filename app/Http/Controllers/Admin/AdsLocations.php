@@ -32,4 +32,12 @@ class AdsLocations extends Controller
         ]);
     }
 
+    public function store(Request $request){
+        $data = $request->get('data');
+        $result = AdslocationModel::create($data);
+        $url = url('admin?view=AdsLocations');
+        if (!$result) return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+        return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
+    }
+
 }
