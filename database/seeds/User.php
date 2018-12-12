@@ -28,8 +28,6 @@ class User extends Seeder
             'latitude' => 45.125355,
             'is_verify' => 1,
             'credit' => $faker->randomNumber($nbDigits = NULL, $strict = false),
-            'ip_address' => $faker->ipv4,
-            'id_number' => $faker->isbn13,
             'avatar' => $faker->imageUrl($width='200', $height='300'),
         ];
 
@@ -50,18 +48,12 @@ class User extends Seeder
                 'latitude' => $faker->latitude($min = 0, $max = 25),
                 'is_verify' => $faker->randomElement([0, 1]),
                 'credit' => $faker->randomNumber($nbDigits = NULL, $strict = false),
-                'ip_address' => $faker->ipv4,
-                'id_number' => $faker->isbn13, //(?)
                 'weight' => $faker->randomFloat($nbMaxDecimal = 2, $min = 50, $max=100),
                 'height' => $faker->randomFloat($nbMaxDecimal = 2, $min = 150, $max=200),
                 'marital_status' => $faker->randomElement([0, 1]),
                 'education' => $faker->numberBetween($min = 1, $max = 20),
                 'job' => $faker->numberBetween($min = 1, $max = 20),
-                'favourite' => $faker->sentence($nbWords = 6, $variableNbWords = true),
-                'philosophy' => $faker->text($maxNbChars = 200),
                 'birthday' => $faker->date($format = 'Y-m-d', $max = 'now'),
-                'type' =>  $faker->text($maxNbChars = 200),
-                'home_town' =>  $faker->text($maxNbChars = 200)
             ];
             factory(App\User::class)->create($user);
         }
