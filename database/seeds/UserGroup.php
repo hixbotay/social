@@ -15,7 +15,11 @@ class UserGroup extends Seeder
         DB::table('user_groups')->truncate();
 
         $data = array(
-            ['name' => 'administrator', 'key' => 'administrator'],
+            [
+                'name' => 'administrator',
+                'key' => 'administrator',
+                'role' => json_encode(config('auth.action'))
+            ],
             ['name' => 'Cổ đông', 'key' => 'shareholders'],
             ['name' => 'Điều hành chung', 'key' => 'general_operation'],
             ['name' => 'Điều hành tỉnh', 'key' => 'province_operation'],
@@ -28,8 +32,11 @@ class UserGroup extends Seeder
             ['name' => 'Đại lý quán cafe', 'key' => 'agency_gif', 'parent_id' => 6],
             ['name' => 'Khách', 'key' => 'guest'],
         );
-        DB::table('user_groups')->insert($data);
 
+        foreach ($data AS $value){
+            DB::table('user_groups')->insert($value);
+
+        }
 
     }
 
