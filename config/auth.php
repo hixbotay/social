@@ -151,7 +151,18 @@ return [
         'MANAGE_SYSTEM_CONFIG' => 'MANAGE_SYSTEM_CONFIG',
         'MANAGE_OTHER_SYSTEM_CONFIG' => 'MANAGE_OTHER_SYSTEM_CONFIG',
 
-        'VIP_'
+    ],
+
+    'usergroup' => [
+        'administrator' => 'administrator',
+        'shareholders' => 'shareholders',
+        'general_operation' => 'general_operation',
+        'province_operation' => 'province_operation',
+        'district_operation' => 'district_operation',
+        'member_brands' => 'member_brands',
+        'memeber' => 'memeber',
+        'agency' => 'agency',
+        'guest' => 'guest',
     ]
 
 ];

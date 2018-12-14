@@ -14,19 +14,15 @@ class UserGroup extends Seeder
     {
 
         $data = array(
-            ['name' => 'administrator', 'key' => 1],
-            ['name' => 'Cổ đông', 'key' => 2],
-            ['name' => 'Điều hành chung', 'key' => 3],
-            ['name' => 'Điều hành tỉnh', 'key' => 4],
-            ['name' => 'Điều hành huyện', 'key' => 5],
-            ['name' => 'Thành viên thương hiệu', 'key' => 6],
-            ['name' => 'Thành viên đặc biệt', 'key' => 7],
-            ['name' => 'Thành viên đảm bảo', 'key' => 8],
-            ['name' => 'Thành viên vip', 'key' => 9],
-            ['name' => 'Thành viên chính thức', 'key' => 10],
-            ['name' => 'Thành viên tạm thời', 'key' => 11],
-            ['name' => 'Đại lý', 'key' => 12],
-            ['name' => 'Khách', 'key' => 13],
+            ['name' => 'administrator', 'key' => 'administrator'],
+            ['name' => 'Cổ đông', 'key' => 'shareholders'],
+            ['name' => 'Điều hành chung', 'key' => 'general_operation'],
+            ['name' => 'Điều hành tỉnh', 'key' => 'province_operation'],
+            ['name' => 'Điều hành huyện', 'key' => 'district_operation'],
+            ['name' => 'Thành viên thương hiệu', 'key' => 'member_brands'],
+            ['name' => 'Thành viên đặc biệt', 'key' => 'memeber'],
+            ['name' => 'Đại lý', 'key' => 'agency'],
+            ['name' => 'Khách', 'key' => 'guest'],
         );
 
         DB::table('user_groups')->insert($data);
