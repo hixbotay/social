@@ -11,6 +11,7 @@ class Education extends Seeder
      */
     public function run()
     {
+        DB::table('education')->truncate();
         $data = array(
             ['name' => 'Vô học'],
             ['name' => 'Tiểu học' ],

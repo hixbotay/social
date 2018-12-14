@@ -12,6 +12,9 @@ class Events extends Seeder
      */
     public function run()
     {
+        DB::table('events')->truncate();
+        DB::table('event_meta')->truncate();
+
         $faker = Faker\Factory::create();
         DB::table('events')->truncate();
         DB::table('event_meta')->truncate();

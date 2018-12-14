@@ -11,6 +11,7 @@ class Adslocation extends Seeder
      */
     public function run()
     {
+        DB::table('ads_location')->truncate();
         $data = array(
             [
                 'name' => 'Hẹn tốc độ 1',

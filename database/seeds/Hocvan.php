@@ -11,6 +11,7 @@ class Hocvan extends Seeder
      */
     public function run()
     {
+        DB::table('education')->truncate();
         $data = array(
             ['name' => 'Vô học', 'description' => 'ok'],
             ['name' => 'Tiểu học', 'description' => 'ok' ],

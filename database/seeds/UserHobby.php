@@ -12,6 +12,9 @@ class UserHobby extends Seeder
      */
     public function run()
     {
+        DB::table('user_hobby')->truncate();
+        DB::table('user_hobby_map')->truncate();
+
         $faker = Faker\Factory::create();
 
         $data = array(
