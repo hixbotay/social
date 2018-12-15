@@ -25,15 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
         Gate::define(config('auth.action.ACCESS_ADMIN'), function ($user){
-
             if ($user->is_admin == 1){
                 return true;
             }
             return false;
         });
-
         Gate::define(config('auth.action.LIST_POST'), function ($user){
             $data = $this->getUserRoles($user->group_id);
             $haveRole = false;
@@ -47,8 +44,12 @@ class AuthServiceProvider extends ServiceProvider
 
     private function getUserRoles($groupID){
         $data = \App\UserGroup::find($groupID);
-        $roles = json_decode($data->role);
-        return $roles;
+        if ($data->role)
+        {
+            $roles = json_decode($data->role, true);
+            return $roles;
+        }
+        return array();
     }
 
 }

@@ -26,6 +26,9 @@
 
 							<div class="checkbox checkbox-info">
 								<input
+										@if($item->key == config('auth.usergroup.administrator'))
+												disabled
+										@endif
 										@if(!empty($groupROLE))
 											@foreach($groupROLE AS $val)
 												@if($value == $val)
@@ -47,7 +50,11 @@
 				<div class="form-group">
 					<label class="col-md-2 control-label"></label>
 					<div class="col-md-10">
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button
+								@if($item->key == config('auth.usergroup.administrator'))
+									disabled
+								@endif
+								type="submit" class="btn btn-primary">Submit</button>
 					</div>
 				</div>
 			</form>
