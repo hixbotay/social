@@ -184,7 +184,6 @@ class User extends Controller
             })
             ->select(DB::raw(
                 'users.*, 
-                user_jobs.id AS job_id,
                 user_jobs.name AS job_name, 
                 education.name AS education_name,
                 ethnicity.name AS ethnicity_name,

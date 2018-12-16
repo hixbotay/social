@@ -6,7 +6,7 @@ import {RoundAvatar} from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
 import {withRouter, Link, Redirect } from 'react-router-dom';
-import {uploadIdCardPhoto, updateAvatar} from '../../actions/UserActions'; 
+import {updateAvatar} from '../../actions/UserActions'; 
 import VerificationBlock from '../../components/RightSidebar/VerificationBlock';
 
 class ProfileLayout extends Component {

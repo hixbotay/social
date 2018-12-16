@@ -49,6 +49,7 @@ import {getCurrentUser} from '../actions/UserActions';
 import {getNotifications} from '../actions/NotificationActions';
 import { loadPriceConfig } from '../actions/Payment';
 import IdCardVerify from './profile/IdCardVerify';
+import EditProfilePage from './profile/EditProfilePage';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -87,6 +88,7 @@ class MainApp extends Component {
                     {/* Home */}
                     <AppRoute exact path="/" layout={MainLayout} component={Home} />
                     {/* Profile */}
+                    <AppRoute exact path="/profile/edit" layout={SecondLayout} component={EditProfilePage} />
                     <AppRoute exact path="/profile/:id" layout={SecondLayout} component={Profile} />
                     {/* Cafe */}
                     <AppRoute exact path="/cafe" layout={ThirdLayout} component={CafeList} />

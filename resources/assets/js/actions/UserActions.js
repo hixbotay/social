@@ -36,8 +36,8 @@ export const getCurrentUser = () => (dispatch) => {
                 else if(arr_2.indexOf(key) >= 0) temp += 2;
             }
         })
-        // arr_1 decrease 2 beacause province_id, distrcit_id, village_id are considered as home_town field
-        var percentage = temp/((arr_1.length - 2) * 5 + arr_2.length * 2)*100;
+        
+        var percentage = temp/(arr_1.length * 5 + arr_2.length * 2)*100;
         localStorage.setItem('percentage', percentage);
 
         dispatch({type: GET_CURRENT_USER, payload: response.data});

@@ -54,7 +54,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 
         'remember_token', 
-        'job', 
         // 'province_id',
         // 'district_id',
         // 'village_id',

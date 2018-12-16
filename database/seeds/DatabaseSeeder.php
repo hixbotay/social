@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(ProvinceGroup::class);
         $this->call(Post::class);
         $this->call(Events::class);
+        $this->call(Education::class);
+        $this->call(Adslocation::class);
         Model::reguard();
     }
 }
