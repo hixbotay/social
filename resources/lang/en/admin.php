@@ -94,6 +94,14 @@ return [
     'SELECT' => 'Chọn',
     'FROM_TIME' => 'Từ ngày',
     'TO_TIME' => 'Đến ngày',
+    'SYSTEM_PRICE_CONFIGURATION' => 'Cấu hình giá hệ thống',
+    'WITHDRAW_FEE' => 'Phí rút tiền',
+    'FEATURED_24H' => 'Nổi bật 24h',
+    'MESSAGE_100FEE' => 'Phí nhắn tin 100 người',
+    'GIF_COMMISSION' => 'Hoa hồng gửi quà',
+    'VIP_FEE' => 'Phí nâng cấp vip',
+    'MONTH' => 'Tháng',
+    'FOREVER' => 'Mãi mãi'
 
 
 ];

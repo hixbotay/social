@@ -40,14 +40,15 @@ return [
             'fee' => []
         ],
         'featured_24h' => 20000,
-        'gift_commission' => 25000,
-        'message_100' => 30000,
-        'vip_1' => 20000,
-        'vip_2' => 20000,
-        'vip_3' => 20000,
-        'vip_4' => 20000,
-        'vip_5' => 20000,
-        'vip_6' => 20000,
-        'withdraw_fee' => 70000
+        'gift_commission' => 10,
+        'message_100' => 20000,
+        'vip_1' => 50000,
+        'vip_2' => 80000,
+        'vip_3' => 100000,
+        'vip_4' => 120000,
+        'vip_5' => 130000,
+        'vip_6' => 150000,
+        'vip_forever' => 10000000,
+        'withdraw_fee' => 10000
     ]
 ];
