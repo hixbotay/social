@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="m-b-20 header-title">Tạo Đại Lý Cafe</h4>
+                <h4 class="m-b-20 header-title">@lang('admin.CREATE_STORE')</h4>
                 @include('layouts.admin.notice')
                 <form enctype='multipart/form-data' method="POST"
                       action="{{url('admin?controller=Agency&task=store')}}">
@@ -22,6 +22,15 @@
                                 @endforeach
                             </select>
 
+                        </div>
+
+                        <div class="form-group">
+                            <label>Loại cửa hàng <span>*</span></label>
+                            <select name="data[type]" class="form-control">
+                                <option value="1">@lang('admin.CAFE_STORE')</option>
+                                <option value="2">@lang('admin.restaurant')</option>
+                                <option value="3">@lang('admin.GIF')</option>
+                            </select>
                         </div>
 
                         <div class="form-group">

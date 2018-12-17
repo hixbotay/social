@@ -17,14 +17,21 @@ class Agency extends Controller
     public function index()
     {
         $filter = isset($_GET['filter'])?$_GET['filter']:array();
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        if (!$type){
+            redirect('admin?view=Agency&type=1');
+        }
 
         $items = DB::table('agency')
-            ->where(function ($query) use ($filter) {
+            ->where(function ($query) use ($filter, $type) {
                 if (isset($filter['user_id']) && $filter['user_id']){
                     $query->where('agency.user_id', $filter['user_id']);
                 }
                 if (isset($filter['name']) && $filter['name']){
                     $query->where('agency.name', 'like', '%' . $filter['name'] .'%');
+                }
+                if ($type){
+                    $query->where('agency.type', '=', $type);
                 }
             })
             ->join('users', 'agency.user_id', '=', 'users.id')

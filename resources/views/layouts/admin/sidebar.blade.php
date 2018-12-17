@@ -56,7 +56,9 @@
                                 <li>
                                     <a href="javascript: void(0);"><i class="mdi mdi-cube-send"></i> @lang('admin.MODULE_DAI_LY')<span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="{{url('/admin?view=Agency')}}"><i class="ti-person"></i>@lang('admin.LIST_CAFE')</a></li>
+                                        <li><a href="{{url('/admin?view=Agency&type=1')}}"><i class="ti-person"></i>@lang('admin.CAFE_STORE')</a></li>
+                                        <li><a href="{{url('/admin?view=Agency&type=2')}}"><i class="ti-person"></i>@lang('admin.restaurant')</a></li>
+                                        <li><a href="{{url('/admin?view=Agency&type=3')}}"><i class="ti-person"></i>@lang('admin.GIF')</a></li>
                                         <li><a href="{{url('/admin?view=Product')}}"><i class="ti-person"></i>@lang('admin.CAFE_PRODUCT')</a></li>
                                         <li><a href="{{url('/admin?view=ProductCategory')}}"><i class="ti-person"></i>@lang('admin.CAFE_PRODUCT_CATEGORY')</a></li>
                                     </ul>

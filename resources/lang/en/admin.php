@@ -101,7 +101,10 @@ return [
     'GIF_COMMISSION' => 'Hoa hồng gửi quà',
     'VIP_FEE' => 'Phí nâng cấp vip',
     'MONTH' => 'Tháng',
-    'FOREVER' => 'Mãi mãi'
+    'FOREVER' => 'Mãi mãi',
+    'CREATE_STORE' => 'Tạo cửa hàng',
+    'CAFE_STORE' => 'Quán cafe',
+    'restaurant' => 'Quán ăn'
 
 
 ];
