@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Line } from 'rc-progress';
+import {Link} from 'react-router-dom';
 
 class VerificationBlock extends Component {
     render() {
@@ -17,22 +18,26 @@ class VerificationBlock extends Component {
             {
                 image: "https://lh5.googleusercontent.com/-2r7nkB71SpM/AAAAAAAAAAI/AAAAAAAC5RI/yYrFyU20Boc/photo.jpg",
                 name: "Google+",
-                isVerify: user.is_gmail_verified
+                isVerify: user.is_gmail_verified,
+                url: '#'
             },
             {
                 image: "https://upload.wikimedia.org/wikipedia/commons/1/16/Facebook-icon-1.png",
                 name: "Facebook",
-                isVerify: user.is_facebook_verified
+                isVerify: user.is_facebook_verified,
+                url: '#'
             },
             {
                 image: "https://i0.wp.com/onedollargraphics.market/wp-content/uploads/2018/02/phone-icon.jpg",
                 name: "Số điện thoại",
-                isVerify: user.is_phone_verified
+                isVerify: user.is_phone_verified,
+                url: '#'
             },
             {
                 image: "https://www.colorid.com/uploads/4/2/2/9/42295857/published/id-card-icon.png?1529077382",
                 name: "Chứng minh thư",
-                isVerify: user.is_id_card_verified
+                isVerify: user.is_id_card_verified,
+                url: '/verify/id-card'
             }
         ];
 
@@ -64,7 +69,14 @@ class VerificationBlock extends Component {
                                         <span className="chat-message-item">{item.isVerify ? "Đã xác minh" : "Chưa xác minh"}</span>
                                     </div>
                                     <span className="notification-icon">
-                                        {item.isVerify ? <i className="fas fa-check"></i> : <button className="btn btn-sm btn-primary">Xác minh</button>}
+                                        {
+                                            item.isVerify ? 
+                                            <i className="fas fa-check"></i> 
+                                            : 
+                                            <Link to={item.url}>
+                                                <button className="btn btn-sm btn-primary">Xác minh</button>
+                                            </Link>
+                                        }
                                     </span>
                                 </li>
                             );

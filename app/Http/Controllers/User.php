@@ -82,8 +82,7 @@ class User extends Controller
 	}
 	
 	public function uploadAvatar(Request $request) {
-		$id = Auth::id();
-		$user = UserModel::find($id);
+		$user = Auth::user();
 
         $request->validate([
             'avatar' => 'sometimes|mimes:jpeg,bmp,png|max:20000',
@@ -91,11 +90,19 @@ class User extends Controller
 
         if($request->hasFile('avatar')) {
             $filename = (string) time().'.'.$request->avatar->getClientOriginalExtension();
-            $request->avatar->storeAs('user'.$id.'/avatar', $filename);
+            $request->avatar->storeAs('user'.$user->id.'/avatar', $filename);
 		}
-		$user->avatar = 'storage/app/user'.$id.'/avatar/'.$filename;
+		$user->avatar = 'storage/app/user'.$user->id.'/avatar/'.$filename;
 
-        $user->save();
+		$user->save();
+		
+		\App\UserPhoto::where([['user_id','=', $user->id], ['is_avatar', '=', 1]])->update(['is_avatar' => 0]);
+		\App\UserPhoto::create([
+			'user_id' => $user->id,
+			'source' => $user->avatar,
+			'type' => 'featured',
+			'is_avatar' => 1
+		]);
 		
 		$next_step = $request->get('step') + 1;
 		if($next_step == 7) {

@@ -98,7 +98,7 @@ class CreatePostForm extends Component {
                             <div onClick={() => { document.getElementById('add-photo').click() }}>
                                 <i className="fas fa-camera fa-2x"></i> <span>Tải ảnh</span>
                             </div>
-                            <input type="file" className="d-none" id="add-photo" onChange={(e) => this.handleImage(e)}/>
+                            <input type="file" accept="image/*" className="d-none" id="add-photo" onChange={(e) => this.handleImage(e)}/>
                         </a>
                     </li>
 

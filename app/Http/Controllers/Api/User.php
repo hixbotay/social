@@ -47,7 +47,7 @@ class User extends Controller
 
         // ImageOptimizer::optimize($storePath);
 
-        return $storePath;
+        return 'storage/app/'.$storePath;
     }
 
     public function getAllEthnicity() {
@@ -379,7 +379,7 @@ class User extends Controller
         
         Storage::disk('local')->put('user'.$id.'/id-card/'.$filename, base64_decode($base64_image));
 
-        $user = \App\User::find($id);
+        $user = Auth::user();
         $user->id_card_photos = 'storage/app/user'.$id.'/id-card/'.$filename;
         $user->save();
         return json_encode($user);
@@ -394,8 +394,17 @@ class User extends Controller
         $user = Auth::user();
         $data = json_decode($request->getContent());
 
-        $user->avatar = $this->processImage($data->image, 'storage/app/user'.$user->id.'/avatar');
+        $user->avatar = $this->processImage($data->image, 'user'.$user->id.'/avatar');
         $user->save();
+
+        // disable old avatar and add new
+        \App\UserPhoto::where([['user_id','=', $user->id], ['is_avatar', '=', 1]])->update(['is_avatar' => 0]);
+		\App\UserPhoto::create([
+			'user_id' => $user->id,
+			'source' => $user->avatar,
+			'type' => 'featured',
+			'is_avatar' => 1
+		]);
 
         return json_encode($user);
     }
@@ -406,8 +415,8 @@ class User extends Controller
 
         $result = DB::table('id_card_verification')->insert([
             'user_id' => $user_id,
-            'id_card_front_photo' => $this->processImage($data->id_card_front_photo, 'storage/app/user'.$user_id.'/id-card'),
-            'id_card_backside_photo' => $this->processImage($data->id_card_backside_photo, 'storage/app/user'.$user_id.'/id-card'),
+            'id_card_front_photo' => $this->processImage($data->id_card_front_photo, 'user'.$user_id.'/id-card'),
+            'id_card_backside_photo' => $this->processImage($data->id_card_backside_photo, 'user'.$user_id.'/id-card'),
             'name' => $data->name,
             'id_number' => $data->id_number,
             'birthday' => $data->birthday,
@@ -417,6 +426,17 @@ class User extends Controller
             'updated_at' => date("Y-m-d H:i:s")
         ]);
         return ['result' => $result];
+    }
+
+    public function getFeaturePhotos($id) {
+        $photos = \App\UserPhoto::where([['type', '=', 'featured'], ['user_id', '=', $id]])->take(5)->get();
+        $results = [];
+
+        foreach($photos as $photo) {
+            array_push($results, $photo->source);
+        }
+
+        return ['photos' => $results];
     }
 }
 

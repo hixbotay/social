@@ -50,6 +50,7 @@ Route::middleware(['web'])->group(function() {
     
     Route::get('/posts', 'Api\Post@list');
     Route::post('/post', 'Api\Post@createPost');
+    Route::post('/post/share', 'Api\Post@share');
 
     Route::get('/notifications', 'Api\Notification@list');
     Route::post('/notifications/all', 'Api\Notification@markAllAsRead');
@@ -62,6 +63,8 @@ Route::middleware(['web'])->group(function() {
     Route::get('/subscribers', 'Api\Event@listSubscribers');
 
     Route::post('/verify-id-card', 'Api\User@storeIdCardInfo');
+    Route::get('/user/{id}/featured-photos', 'Api\User@getFeaturePhotos');
+    // Route::post('user/upload-id-card', 'Api\User@uploadIdCardPhoto');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
@@ -77,7 +80,6 @@ Route::post('user/{id}', function (Request $request, $id){
     return json_encode($result);
 });
 
-Route::post('user/{id}/upload-id-card', 'Api\User@uploadIdCardPhoto');
 Route::get('/ethnicities', 'Api\User@getAllEthnicity');
 Route::get('/religion', 'Api\User@getAllReligion');
 

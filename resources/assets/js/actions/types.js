@@ -8,6 +8,7 @@ export const GET_FRIENDS_YOU_LIKED = 'GET_FRIENDS_YOU_LIKED';
 export const GET_FRIENDS_LIKED_YOU = 'GET_FRIENDS_LIKED_YOU';
 export const GET_FRIENDS_VISITED = 'GET_FRIENDS_VISITED';
 export const VERIFY_ID_CARD = 'VERIFY_ID_CARD';
+export const GET_FEATURED_USER_PHOTOS = 'GET_FEATURED_USER_PHOTOS';
 
 // Post
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
@@ -15,6 +16,7 @@ export const GET_MY_POSTS = 'GET_MY_POSTS';
 export const REACT_POST = 'REACT_POST';
 export const UNREACT_POST = 'UNREACT_POST';
 export const CREATE_NEW_POST = 'CREATE_NEW_POST';
+export const SHARE_POST = 'SHARE_POST';
 
 // address
 export const GET_ALL_PROVINCES = 'GET_ALL_PROVINCES';

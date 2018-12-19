@@ -4,7 +4,8 @@ import {
     REACT_POST,
     UNREACT_POST,
     CREATE_NEW_POST,
-    GET_MY_POSTS
+    GET_MY_POSTS,
+    SHARE_POST
 } from './types'
 
 export const getAllPosts = () => (dispatch) => {
@@ -62,5 +63,16 @@ export const createPost = (data) => (dispatch) => {
             console.log(error);
             reject(error);
         })
+    })
+}
+
+export const share = (post_id) => dispatch => {
+    api.post('/post/share', {post_id: post_id})
+    .then(response => {
+        dispatch({type: SHARE_POST, payload: response.data});
+        window.alert("Bạn đã chia sẻ thành công");
+    })
+    .catch(error => {
+        console.log(error);
     })
 }

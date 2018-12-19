@@ -119,16 +119,11 @@ class CoupleView extends Component {
                                     heartNumber={this.state.loveNumber}
                                     likeNumber={this.state.likeNumber}
                                 ></InformationNumber>
-                                <div className="row">
-                                    <div className='col-12'>
-                                        <i className="fas fa-info-circle"></i>
-                                        <div>{item.type}</div>
-                                    </div>
-                                </div>
+                                
                                 <div className="row">
                                     <div className='col-12'>
                                         <i className="fas fa-question-circle"></i>
-                                        <div>{item.philosophy}</div>
+                                        <div>{item.description}</div>
                                     </div>
                                 </div>
                             </CardWithIcon>

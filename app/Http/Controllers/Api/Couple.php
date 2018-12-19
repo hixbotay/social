@@ -38,7 +38,7 @@ class Couple extends Controller {
                 ->where('name', 'like', DB::raw("'%".$name."%'"))
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
                 ->select(DB::raw(
-                    'users.id, users.name, users.address, users.avatar, users.birthday, users.type, users.philosophy,
+                    'users.id, users.name, users.address, users.avatar, users.birthday, users.description,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))

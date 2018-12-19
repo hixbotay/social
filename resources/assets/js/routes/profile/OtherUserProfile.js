@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardWithIcon, CardWithTitle } from '../../components/Card';
 
-import { getOtherUserDetail } from '../../actions/UserActions';
+import { getOtherUserDetail, getFeaturedUserPhotos } from '../../actions/UserActions';
 import Post from '../../components/Post';
 import { withRouter } from 'react-router-dom';
 import ProfileHeader from './ProfileHeader';
@@ -12,15 +12,16 @@ class OtherPerson extends Component {
 
     componentDidMount() {
         this.props.getUserInfo(this.props.match.params.id);
+        this.props.getFeaturedUserPhotos(this.props.match.params.id);
     }
 
     render() {
-        const { user_data, current_user } = this.props;
+        const { user_data, current_user, featured_photos } = this.props;
 
         return (
             <OtherUserLayout user={user_data.user} current_user={current_user} relationship={user_data.relationship}>
                 <Card>
-                    <ProfileHeader user={user_data.user} isCurrentUser={false}></ProfileHeader>
+                    <ProfileHeader user={user_data.user} isCurrentUser={false} images={featured_photos}></ProfileHeader>
                 </Card>
 
                 <div className="col-12">
@@ -63,13 +64,15 @@ class OtherPerson extends Component {
 function mapStateToProps(state) {
     return {
         user_data: state.user.other_user_data,
-        current_user: state.user.current_user
+        current_user: state.user.current_user,
+        featured_photos: state.user.featured_photos
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getUserInfo: (id) => dispatch(getOtherUserDetail(id)),
+        getFeaturedUserPhotos: (id) => dispatch(getFeaturedUserPhotos(id))
     }
 }
 

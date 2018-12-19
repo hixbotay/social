@@ -8,7 +8,8 @@ import {
     GET_FRIENDS_YOU_LIKED,
     GET_FRIENDS_LIKED_YOU,
     GET_FRIENDS_VISITED,
-    VERIFY_ID_CARD
+    VERIFY_ID_CARD,
+    GET_FEATURED_USER_PHOTOS
 } from './types';
 import {cleanObject} from '../helper/function';
 
@@ -131,7 +132,7 @@ export const getListFriends = (type) => (dispatch) => {
 export const verifyIdCard = (data) => dispatch => {
     api.post(`/verify-id-card`, data).then(res => {
         dispatch({type: VERIFY_ID_CARD, payload: res.data});
-        // window.location.reload();
+        window.location.reload();
     }).catch(err => {
         console.log(err);
         window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
@@ -147,4 +148,13 @@ export const updateAvatar = (data) => (dispatch) => {
     })
 }
 
-
+export const getFeaturedUserPhotos = (user_id) => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.get(`/user/${user_id}/featured-photos`).then(res => {
+            dispatch({type: GET_FEATURED_USER_PHOTOS, payload: res.data.photos});
+            resolve(res.data.photos);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}

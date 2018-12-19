@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 class CenterModeSlider extends Component {
     render() {
+        const {images} = this.props;
         // See more at: https://react-slick.neostack.com/docs/api
         const settings = {
             centerPadding: '50px',
@@ -14,11 +15,22 @@ class CenterModeSlider extends Component {
             dots: false,
             infinite: true,
         };
+        // remove item undefined
+        var imageArr = images.filter(item => {
+            return item;
+        });
+
+        // add default image if arr length < 5
+        var temp = 5 - imageArr.length;
+        for(let i=0; i <= temp; i++) {
+            imageArr.push("public/images/default-avatar-heart.png");
+        }
+    
         return (
             <div>
                 <Slider {...settings}>
                     {
-                        this.props.images.map((item, index) => {
+                        imageArr.map((item, index) => {
                             return (
                                 <div key={index}>
                                     <img src={item}/>
@@ -45,7 +57,7 @@ CenterModeSlider.defaultProps = {
         'https://picsum.photos/640/480/?image=15',
         'https://picsum.photos/640/480/?image=16',
         'https://picsum.photos/640/480/?image=17',
-        'https://picsum.photos/640/480/?image=18',
+        // 'https://picsum.photos/640/480/?image=18',
     ]
 }
 

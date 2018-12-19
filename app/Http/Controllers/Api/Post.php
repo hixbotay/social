@@ -192,4 +192,33 @@ class Post extends Controller
 
         return json_encode($post);
     }
+
+    public function share(Request $request) {
+        $post_id = $request->get('post_id');
+        $user_id = Auth::id();
+        // get original post
+        $original_post = \App\Post::leftjoin('post_photos', 'post_id', '=', 'posts.id')
+            ->leftjoin('user_photos', 'post_photos.photo_id', '=', 'user_photos.id')
+            ->where('posts.id', $post_id)
+            ->select(DB::raw("posts.*, user_photos.source"))
+            ->first();
+        
+            // create new post as shared post
+        $new_post = \App\Post::create([
+            'user_id' => $user_id,
+            'content' => $original_post->content,
+            'original_author' => $original_post->user_id
+        ]);
+
+        if($original_post->source) {
+            $photo = \App\UserPhoto::create([
+                'user_id' => $user_id,
+                'source' => $original_post->source
+            ]);
+    
+            DB::table("post_photos")->insert(['post_id' => $new_post->id, 'photo_id' => $photo->id]);
+        }
+
+        return ['post' => $new_post];
+    }
 }
