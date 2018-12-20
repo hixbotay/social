@@ -14,12 +14,15 @@ class Agency extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+
+    protected $type = [1,2,3];
+
     public function index()
     {
         $filter = isset($_GET['filter'])?$_GET['filter']:array();
         $type = isset($_GET['type'])?$_GET['type']:null;
         $title = __('admin.agency_type_'.$type);
-        if (!$type || ($type != 1 && $type != 2 && $type != 3)){
+        if (!$type || (!in_array($type, $this->type))){
             return redirect('admin?view=Agency&type=1');
         }
 
@@ -47,7 +50,8 @@ class Agency extends Controller
             'items' => $items,
             'users' => $users,
             'filter' => $filter,
-            'title' => $title
+            'title' => $title,
+            'type' => $type
         ]);
     }
 
@@ -58,8 +62,15 @@ class Agency extends Controller
      */
     public function create()
     {
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        if (!$type || (!in_array($type, $this->type))){
+            return redirect('admin?controller=Agency&task=create&type=1');
+        }
         $users = User::getUserByGroup(12);
-        return view('admin.agency.create', ['users' => $users]);
+        return view('admin.agency.create', [
+            'users' => $users,
+            'type' => $type
+        ]);
     }
 
     /**

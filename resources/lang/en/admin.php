@@ -102,6 +102,7 @@ return [
     'VIP_FEE' => 'Phí nâng cấp vip',
     'MONTH' => 'Tháng',
     'FOREVER' => 'Mãi mãi',
+    'STORE' => 'Quán',
     'CREATE_STORE' => 'Tạo cửa hàng',
     'CAFE_STORE' => 'Quán cafe',
     'restaurant' => 'Quán ăn',
@@ -114,7 +115,6 @@ return [
     'product_category_1' => 'Danh mục cafe',
     'product_category_2' => 'Danh mục đồ ăn',
     'product_category_3' => 'Danh mục quà tặng',
-
-
-
+    'PRODUCT' => 'Sản phẩm',
+    'CHOOSE_AGENCY' => 'Chọn đại lý',
 ];

@@ -25,6 +25,7 @@ class Product extends Controller
         return view('admin.product.list', [
             'items' => $items,
             'title' => $title,
+            'type' => $type
         ]);
     }
 

@@ -4,18 +4,18 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="m-b-20 header-title">Tạo sản phẩm</h4>
+                <h4 class="m-b-20 header-title">@lang('admin.PRODUCT')</h4>
                 <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=Product&task=store')}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">
 
                         <div class="form-group">
-                            <label>Chọn đại lý <span>*</span></label>
+                            <label>@lang('admin.CHOOSE_AGENCY') <span>*</span></label>
                             <input type="text" class="form-control" name="data[user_id]" required />
                         </div>
 
                         <div class="form-group">
-                            <label>Chọn quán cafe <span>*</span></label>
+                            <label>@lang('admin.STORE') <span>*</span></label>
                             <input type="text" class="form-control" name="data[agency_id]" required />
                         </div>
 

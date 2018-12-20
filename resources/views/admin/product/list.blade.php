@@ -15,10 +15,10 @@
                     </div>
                     <div class="col-sm-6">
                         <div id="datatable-responsive_filter" class="dataTables_filter">
-                            <a href="<?= url('/admin?controller=Product&task=create') ?>" type="button" class="btn btn-primary">
-                                Thêm
+                            <a href="<?= url('/admin?controller=Product&task=create&type=').$type ?>" type="button" class="btn btn-primary">
+                                @lang('admin.ADD')
                             </a>
-                            <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">Xóa</button>
+                            <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">@lang('admin.DELETE')</button>
                         </div>
 
                     </div>
