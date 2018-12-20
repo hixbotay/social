@@ -9,13 +9,15 @@ use App\ProductCategory AS ProductCategoryModel;
 class ProductCategory extends Controller
 {
 
+    protected $type = [1,2,3];
+
     public function index()
     {
         $filter = isset($_GET['filter'])?$_GET['filter']:array();
         $type = isset($_GET['type'])?$_GET['type']:null;
         $title = __('admin.product_category_'.$type);
 
-        if (!$type || ($type != 1 && $type != 2 && $type != 3)){
+        if (!$type || (!in_array($type, $this->type))){
             return redirect('admin?view=ProductCategory&type=1');
         }
 
@@ -23,6 +25,7 @@ class ProductCategory extends Controller
         return view('admin.ProductCategory.list', [
             'items' => $items,
             'title' => $title,
+            'type' => $type
         ]);
     }
 
@@ -38,7 +41,13 @@ class ProductCategory extends Controller
 
     public function create()
     {
-        return view('admin.ProductCategory.create');
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        if (!$type || (!in_array($type, $this->type))){
+            return redirect('admin?view=ProductCategory&type=1');
+        }
+        return view('admin.ProductCategory.create', [
+            'type' => $type
+        ]);
     }
 
     /**
@@ -51,7 +60,11 @@ class ProductCategory extends Controller
     {
         $data = request()->get('data');
         $result = ProductCategoryModel::create($data);
-        return redirect('admin?view=ProductCategory');
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        $url = url('admin?view=ProductCategory&type='.$type);
+        if (!$result)
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+        return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
     }
 
     /**

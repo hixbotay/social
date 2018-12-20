@@ -24,6 +24,7 @@ return [
     'LIST_CAFE' => 'Danh sách quán cafe',
     'CAFE_PRODUCT' => 'Sản phẩm',
     'CAFE_PRODUCT_CATEGORY' => 'Danh mục sản phẩm',
+    'PRODUCT_CATEGORY' => 'Danh mục sản phẩm',
     'MODULE_FINANCE' => 'Module tài chính',
     'FINACNE_SHARE' => 'Cổ phần',
     'ACCOUNT' => 'Tài khoản',
@@ -117,4 +118,5 @@ return [
     'product_category_3' => 'Danh mục quà tặng',
     'PRODUCT' => 'Sản phẩm',
     'CHOOSE_AGENCY' => 'Chọn đại lý',
+    'PRODUCT_NAME' => 'Tên sản phẩm'
 ];
