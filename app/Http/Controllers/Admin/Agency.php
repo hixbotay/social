@@ -18,8 +18,9 @@ class Agency extends Controller
     {
         $filter = isset($_GET['filter'])?$_GET['filter']:array();
         $type = isset($_GET['type'])?$_GET['type']:null;
-        if (!$type){
-            redirect('admin?view=Agency&type=1');
+        $title = __('admin.agency_type_'.$type);
+        if (!$type || ($type != 1 && $type != 2 && $type != 3)){
+            return redirect('admin?view=Agency&type=1');
         }
 
         $items = DB::table('agency')
@@ -45,7 +46,8 @@ class Agency extends Controller
         return view('admin.agency.list', [
             'items' => $items,
             'users' => $users,
-            'filter' => $filter
+            'filter' => $filter,
+            'title' => $title
         ]);
     }
 

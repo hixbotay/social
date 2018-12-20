@@ -104,7 +104,10 @@ return [
     'FOREVER' => 'Mãi mãi',
     'CREATE_STORE' => 'Tạo cửa hàng',
     'CAFE_STORE' => 'Quán cafe',
-    'restaurant' => 'Quán ăn'
+    'restaurant' => 'Quán ăn',
+    'agency_type_1' => 'Quán cafe',
+    'agency_type_2' => 'Quán ăn',
+    'agency_type_3' => 'Quà tặng',
 
 
 ];

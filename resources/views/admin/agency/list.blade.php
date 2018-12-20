@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h4 class="m-t-0 header-title">Quản lý quán cafe</h4>
+    <h4 class="m-t-0 header-title">{{$title}}</h4>
 
     @include('layouts.admin.notice')
 
