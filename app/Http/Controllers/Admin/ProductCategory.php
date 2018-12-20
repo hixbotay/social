@@ -21,7 +21,11 @@ class ProductCategory extends Controller
             return redirect('admin?view=ProductCategory&type=1');
         }
 
-        $items = ProductCategoryModel::all();
+        $data = array();
+        $data['filter'] = $filter;
+        $data['type'] = $type;
+
+        $items = ProductCategoryModel::getItems($data);
         return view('admin.ProductCategory.list', [
             'items' => $items,
             'title' => $title,
