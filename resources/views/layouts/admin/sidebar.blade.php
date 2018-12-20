@@ -59,8 +59,12 @@
                                         <li><a href="{{url('/admin?view=Agency&type=1')}}"><i class="ti-person"></i>@lang('admin.CAFE_STORE')</a></li>
                                         <li><a href="{{url('/admin?view=Agency&type=2')}}"><i class="ti-person"></i>@lang('admin.restaurant')</a></li>
                                         <li><a href="{{url('/admin?view=Agency&type=3')}}"><i class="ti-person"></i>@lang('admin.GIF')</a></li>
-                                        <li><a href="{{url('/admin?view=Product')}}"><i class="ti-person"></i>@lang('admin.CAFE_PRODUCT')</a></li>
-                                        <li><a href="{{url('/admin?view=ProductCategory')}}"><i class="ti-person"></i>@lang('admin.CAFE_PRODUCT_CATEGORY')</a></li>
+                                        <li><a href="{{url('/admin?view=Product&type=1')}}"><i class="ti-person"></i>@lang('admin.product_type_1')</a></li>
+                                        <li><a href="{{url('/admin?view=Product&type=2')}}"><i class="ti-person"></i>@lang('admin.product_type_2')</a></li>
+                                        <li><a href="{{url('/admin?view=Product&type=3')}}"><i class="ti-person"></i>@lang('admin.product_type_3')</a></li>
+                                        <li><a href="{{url('/admin?view=ProductCategory&type=1')}}"><i class="ti-person"></i>@lang('admin.product_category_1')</a></li>
+                                        <li><a href="{{url('/admin?view=ProductCategory&type=2')}}"><i class="ti-person"></i>@lang('admin.product_category_2')</a></li>
+                                        <li><a href="{{url('/admin?view=ProductCategory&type=3')}}"><i class="ti-person"></i>@lang('admin.product_category_3')</a></li>
                                     </ul>
                                 </li>
 

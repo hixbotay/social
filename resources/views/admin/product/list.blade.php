@@ -3,7 +3,7 @@
 @section('content')
 
 
-    <h4 class="m-t-0">Quản lý sản phẩm (Quán CAFE)</h4>
+    <h4 class="m-t-0">{{$title}}</h4>
 
 
     <div class="row">

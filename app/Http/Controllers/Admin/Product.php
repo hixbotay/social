@@ -13,8 +13,19 @@ class Product extends Controller
     }
     public function index()
     {
+        $filter = isset($_GET['filter'])?$_GET['filter']:array();
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        $title = __('admin.product_type_'.$type);
+
+        if (!$type || ($type != 1 && $type != 2 && $type != 3)){
+            return redirect('admin?view=Product&type=1');
+        }
+
         $items = ProductModel::all();
-        return view('admin.product.list', ['items' => $items]);
+        return view('admin.product.list', [
+            'items' => $items,
+            'title' => $title,
+        ]);
     }
 
     /**

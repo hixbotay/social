@@ -107,7 +107,14 @@ return [
     'restaurant' => 'Quán ăn',
     'agency_type_1' => 'Quán cafe',
     'agency_type_2' => 'Quán ăn',
-    'agency_type_3' => 'Quà tặng',
+    'agency_type_3' => 'Cửa hàng quà tặng',
+    'product_type_1' => 'Sản phẩm (Quán cafe)',
+    'product_type_2' => 'Sản phẩm (Quán ăn)',
+    'product_type_3' => 'Sản phẩm (Quà tặng)',
+    'product_category_1' => 'Danh mục cafe',
+    'product_category_2' => 'Danh mục đồ ăn',
+    'product_category_3' => 'Danh mục quà tặng',
+
 
 
 ];

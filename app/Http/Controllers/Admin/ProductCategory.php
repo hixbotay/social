@@ -11,8 +11,19 @@ class ProductCategory extends Controller
 
     public function index()
     {
+        $filter = isset($_GET['filter'])?$_GET['filter']:array();
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        $title = __('admin.product_category_'.$type);
+
+        if (!$type || ($type != 1 && $type != 2 && $type != 3)){
+            return redirect('admin?view=ProductCategory&type=1');
+        }
+
         $items = ProductCategoryModel::all();
-        return view('admin.ProductCategory.list', ['items' => $items]);
+        return view('admin.ProductCategory.list', [
+            'items' => $items,
+            'title' => $title,
+        ]);
     }
 
     /**

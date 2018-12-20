@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">Danh mục sản phẩm</h4>
+                <h4 class="m-t-0">{{$title}}</h4>
                 <div class="table-responsive">
 
                     <div class="row">
