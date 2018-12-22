@@ -64,6 +64,8 @@ Route::middleware(['web'])->group(function() {
 
     Route::post('/verify-id-card', 'Api\User@storeIdCardInfo');
     Route::get('/user/{id}/featured-photos', 'Api\User@getFeaturePhotos');
+    Route::get('/user/photos/{type}', 'Api\User@getPhotosByType');
+    Route::post('/user/featured-photos', 'Api\User@uploadFeaturedPhotos');
     // Route::post('user/upload-id-card', 'Api\User@uploadIdCardPhoto');
 });
 

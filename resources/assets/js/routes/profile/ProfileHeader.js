@@ -4,32 +4,16 @@ import { Line } from 'rc-progress';
 import { Card, CardWithIcon } from '../../components/Card';
 import {Link} from 'react-router-dom';
 import CenterModeSlider from '../../components/Slider/CenterModeSlider';
+import ProfilePhotos from './ProfilePhotos';
 import {getFeaturedUserPhotos} from '../../actions/UserActions';
 import connect from 'react-redux/es/connect/connect';
 
 class ProfileHeader extends PureComponent {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         photos: []
-    //     }
-    // }
-
-
-    // componentDidMount() {
-    //     this.props.getFeaturedUserPhotos(this.props.user.id);
-    //     setTimeout(() => {
-    //         this.setState({
-    //             photos: [this.props.user.avatar, ...this.props.featured_photos]
-    //         })
-    //     }, 1000);
-    // }
 
     render() {
         const {user, isCurrentUser, images} = this.props;
         var completePercentage = localStorage.getItem("percentage");
 
-        images.unshift(user.avatar);
         return (
             <Card>
                 <div id="user-description" className="mb-2">
@@ -59,7 +43,14 @@ class ProfileHeader extends PureComponent {
                     }
                     </div>
                 </div>
-                <CenterModeSlider images={images}></CenterModeSlider>
+                {
+                    isCurrentUser ? (
+                        <ProfilePhotos images={images}></ProfilePhotos>
+                    ) : (
+                        <CenterModeSlider images={[user.avatar, ...images]}></CenterModeSlider>
+                    )
+                }
+                
                 <br/>
                 {
                     isCurrentUser ? (
@@ -132,17 +123,5 @@ class ProfileHeader extends PureComponent {
         );
     }
 }
-
-// function mapStateToProps(state) {
-//     return {
-//         featured_photos: state.user.featured_photos
-//     }
-// }
-
-// function mapDispatchToProps(dispatch) {
-//     return {
-//         getFeaturedUserPhotos: (user_id) => dispatch(getFeaturedUserPhotos(user_id))
-//     }
-// }
 
 export default ProfileHeader;

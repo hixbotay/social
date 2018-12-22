@@ -40,6 +40,7 @@ class ProfileLayout extends Component {
     
     render() {
         const {user} = this.props;
+    
         return (
             <div className="row">
                 <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">

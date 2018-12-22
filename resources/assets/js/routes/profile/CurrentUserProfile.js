@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardWithIcon } from '../../components/Card';
 import CurrentUserLayout from './CurrentUserLayout';
-import { addVisitor } from '../../actions/UserActions';
+import { addVisitor, getFeaturedUserPhotos } from '../../actions/UserActions';
 import { getMyPosts } from '../../actions/PostActions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -13,6 +13,7 @@ class UserProfile extends Component {
 
     componentDidMount() {
         this.props.getMyPosts();
+        this.props.getFeaturedUserPhotos(this.props.match.params.id);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,7 +31,7 @@ class UserProfile extends Component {
 
     render() {
 
-        const { current_user } = this.props;
+        const { current_user, featured_photos } = this.props;
 
         return (
             <CurrentUserLayout
@@ -38,7 +39,7 @@ class UserProfile extends Component {
                 heading={current_user ? current_user.name : "UNDEFINED"}
                 subHeading={current_user ? current_user.address : null}
             >
-                <ProfileHeader user={current_user} isCurrentUser={true}></ProfileHeader>
+                <ProfileHeader user={current_user} isCurrentUser={true} images={featured_photos}></ProfileHeader>
                 <Card>
                     <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
                 </Card>
@@ -62,14 +63,16 @@ class UserProfile extends Component {
 function mapStateToProps(state) {
     return {
         current_user: state.user.current_user,
-        posts: state.post.myPosts
+        posts: state.post.myPosts,
+        featured_photos: state.user.featured_photos
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getMyPosts: () => dispatch(getMyPosts()),
-        addVisitor: (data) => dispatch(addVisitor(data))
+        addVisitor: (data) => dispatch(addVisitor(data)),
+        getFeaturedUserPhotos: (user_id) => dispatch(getFeaturedUserPhotos(user_id))
     }
 }
 

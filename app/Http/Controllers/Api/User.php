@@ -40,7 +40,7 @@ class User extends Controller
 			}
         }
  
-        $filename = (string) time().'.'.$extension;
+        $filename = (string) time().uniqid().'.'.$extension;
         $storePath = $path."/".$filename;
         
         Storage::disk('local')->put($storePath, base64_decode($base64_image));
@@ -429,7 +429,7 @@ class User extends Controller
     }
 
     public function getFeaturePhotos($id) {
-        $photos = \App\UserPhoto::where([['type', '=', 'featured'], ['user_id', '=', $id]])->take(5)->get();
+        $photos = \App\UserPhoto::where([['type', '=', 'featured'], ['user_id', '=', $id]])->orderBy('id', 'DESC')->take(5)->get();
         $results = [];
 
         foreach($photos as $photo) {
@@ -437,6 +437,37 @@ class User extends Controller
         }
 
         return ['photos' => $results];
+    }
+
+    public function getPhotosByType($type) {
+        $photos = \App\UserPhoto::where([['type', '=', $type], ['user_id', '=', Auth::id()]])->orderBy('id', 'DESC')->get();
+        $results = [];
+
+        foreach($photos as $photo) {
+            array_push($results, $photo->source);
+        }
+
+        return ['photos' => $results];
+    }
+
+    public function uploadFeaturedPhotos(Request $request) {
+        $photos = $request->get("photos");
+        $user_id  = Auth::id();
+        
+        $data = [];
+        foreach($photos as $photo) {
+            array_push($data, [
+                'user_id' => $user_id,
+                'source' => $this->processImage($photo, 'user'.$user_id.'/photos'),
+                'type' => 'featured',
+                'is_avatar' => 0,
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+        }
+
+        $results = \App\UserPhoto::insert($data);
+        return ['results' => $results];
     }
 }
 

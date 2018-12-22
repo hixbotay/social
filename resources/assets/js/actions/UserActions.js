@@ -9,7 +9,9 @@ import {
     GET_FRIENDS_LIKED_YOU,
     GET_FRIENDS_VISITED,
     VERIFY_ID_CARD,
-    GET_FEATURED_USER_PHOTOS
+    GET_FEATURED_USER_PHOTOS,
+    GET_PHOTOS_BY_TYPE,
+    UPLOAD_FEATURED_PHOTOS
 } from './types';
 import {cleanObject} from '../helper/function';
 
@@ -156,5 +158,26 @@ export const getFeaturedUserPhotos = (user_id) => dispatch => {
         }).catch(err => {
             reject(err);
         })
+    })
+}
+
+export const getPhotosByType = (type) => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.get(`/user/photos/${type}`).then(res => {
+            dispatch({type: GET_PHOTOS_BY_TYPE, payload: res.data.photos});
+            resolve(res.data.photos);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+export const uploadFeaturedPhotos = (images) => dispatch => {
+    return api.post(`/user/featured-photos`, {photos: images}).then(res => {
+        dispatch({type: UPLOAD_FEATURED_PHOTOS, payload: res.data.results});
+        console.log(res.data);
+        // window.location.reload();
+    }).catch(err => {
+        reject(err);
     })
 }

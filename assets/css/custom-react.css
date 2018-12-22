@@ -1160,3 +1160,50 @@ button#fortune-btn {
 .historyBox .content .item img {
     width: 60%;
 }
+
+img.slide-image {
+    height: 150px;
+    object-fit: cover;
+}
+
+.user-photo-icon {
+    font-size: 3em;
+}
+
+button.btn.btn-user-photo {
+    background-color: #2980b9;
+    height: 100px;
+    width:  100%;
+}
+
+.btn-upload-photo {
+    background-color: #34495e;
+    height: 100px;
+    width:  100%;
+}
+
+.slider-control-bottomcenter {
+    display: none;
+}
+
+.slider-slide img {
+    height: 130px;
+    object-fit: cover;
+}
+
+.modal-dialog {
+    max-width: 900px!important;
+}
+
+.react-photo-gallery--gallery img {
+    height: 100%!important;
+    min-height: 160px;
+    object-fit: cover;
+}
+
+button.arrow-btn {
+    border: none;
+    background: none;
+    font-size: 2em;
+    color: #2c3e50;
+}

@@ -8,7 +8,9 @@ import {
     GET_FRIENDS_YOU_LIKED,
     GET_FRIENDS_VISITED,
     VERIFY_ID_CARD,
-    GET_FEATURED_USER_PHOTOS
+    GET_FEATURED_USER_PHOTOS,
+    GET_PHOTOS_BY_TYPE,
+    UPLOAD_FEATURED_PHOTOS
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -22,7 +24,8 @@ const INIT_STATE = {
         posts: [],
         relationship: {}
     },
-    featured_photos: []
+    featured_photos: [],
+    photos: []
 }
 
 export default (state = INIT_STATE, action) => {
@@ -63,6 +66,12 @@ export default (state = INIT_STATE, action) => {
         }
         case GET_FEATURED_USER_PHOTOS: {
             return {...state, featured_photos: action.payload}
+        }
+        case GET_PHOTOS_BY_TYPE: {
+            return {...state, photos: action.payload}
+        }
+        case UPLOAD_FEATURED_PHOTOS: {
+            return {...state}
         }
         default: {
             return {...state};

@@ -3,8 +3,9 @@ import Slider from "react-slick";
 import PropTypes from 'prop-types';
 
 class CenterModeSlider extends Component {
+
     render() {
-        const {images} = this.props;
+        const { images } = this.props;
         // See more at: https://react-slick.neostack.com/docs/api
         const settings = {
             centerPadding: '50px',
@@ -14,6 +15,7 @@ class CenterModeSlider extends Component {
             focusOnSelect: true,
             dots: false,
             infinite: true,
+            adaptiveHeight: true
         };
         // remove item undefined
         var imageArr = images.filter(item => {
@@ -22,18 +24,18 @@ class CenterModeSlider extends Component {
 
         // add default image if arr length < 5
         var temp = 5 - imageArr.length;
-        for(let i=0; i <= temp; i++) {
+        for (let i = 0; i <= temp; i++) {
             imageArr.push("public/images/default-avatar-heart.png");
         }
-    
+
         return (
             <div>
-                <Slider {...settings}>
+                <Slider ref="slider" {...settings}>
                     {
                         imageArr.map((item, index) => {
                             return (
-                                <div key={index}>
-                                    <img src={item}/>
+                                <div key={index} >
+                                    <img src={item} className="slide-image"/>
                                 </div>
                             )
                         })
