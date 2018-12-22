@@ -4,49 +4,51 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="m-b-20 header-title">Tạo sản phẩm</h4>
+                <h4 class="m-b-20 header-title">@lang('admin.PRODUCT')</h4>
                 <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=Product&task=store')}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">
 
                         <div class="form-group">
-                            <label>Chọn đại lý <span>*</span></label>
+                            <label>@lang('admin.CHOOSE_AGENCY') <span>*</span></label>
                             <input type="text" class="form-control" name="data[user_id]" required />
                         </div>
 
                         <div class="form-group">
-                            <label>Chọn quán cafe <span>*</span></label>
+                            <label>@lang('admin.STORE') <span>*</span></label>
                             <input type="text" class="form-control" name="data[agency_id]" required />
                         </div>
 
                         <div class="form-group">
-                            <label>Danh mục sản phẩm <span>*</span></label>
+                            <label>@lang('admin.PRODUCT_CATEGORY') <span>*</span></label>
                             <input type="text" class="form-control" name="data[category_id]" required />
                         </div>
 
                         <div class="form-group">
-                            <label>Tên sản phẩm <span>*</span></label>
+                            <label>@lang('admin.PRODUCT_NAME') <span>*</span></label>
                             <input type="text" class="form-control" name="data[name]" required />
                         </div>
 
                         <div class="form-group">
-                            <label>Content<span></span></label>
+                            <label>@lang('admin.CONTENT')<span></span></label>
                             <textarea class="form-control" name="data[content]" id="summary-ckeditor"></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label>Giá<span></span></label>
+                            <label>@lang('admin.PRICE')<span></span></label>
                             <input type="number" step="0.01" name="data[price]" class="form-control">
                         </div>
 
                     </div>
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">@lang('admin.SUBMIT')</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+@section('javascript')
 
     <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
     <script>
@@ -59,5 +61,6 @@
             filebrowserFlashUploadUrl: '{{ asset('public/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash') }}'
         } );
     </script>
+@stop
 
 @endsection

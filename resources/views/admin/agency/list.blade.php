@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h4 class="m-t-0 header-title">Quản lý quán cafe</h4>
+    <h4 class="m-t-0 header-title">{{$title}}</h4>
 
     @include('layouts.admin.notice')
 
@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div id="datatable-responsive_filter" class="dataTables_filter">
-                                <a href="<?= url('/admin?controller=Agency&task=create') ?>" type="button" class="btn btn-primary">
+                                <a href="<?= url('/admin?controller=Agency&task=create&type=') . $type ?>" type="button" class="btn btn-primary">
                                     Thêm
                                 </a>
                                 <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">Xóa</button>

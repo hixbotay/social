@@ -16,7 +16,7 @@
                         <div class="form-group">
                             <label>Chủ sở hữu <span>*</span></label>
                             <select name="data[user_id]" class="form-control" required>
-                                <option>Chọn tài khoản sở hữu</option>
+                                <option value="">Chọn tài khoản sở hữu</option>
                                 @foreach($users AS $value)
                                     <option value="{{$value->id}}">{{ $value->name . ' ' . $value->email }}</option>
                                 @endforeach
@@ -26,7 +26,7 @@
 
                         <div class="form-group">
                             <label>Loại cửa hàng <span>*</span></label>
-                            <select name="data[type]" class="form-control">
+                            <select name="data[type]" id="type" class="form-control">
                                 <option value="1">@lang('admin.CAFE_STORE')</option>
                                 <option value="2">@lang('admin.restaurant')</option>
                                 <option value="3">@lang('admin.GIF')</option>
@@ -173,6 +173,10 @@
 
 
         $(document).ready(function(){
+
+            var type = '{{$type}}';
+            $('#type').val(type);
+
             $("#province").change(function () {
                 loadDistrict();
             })
