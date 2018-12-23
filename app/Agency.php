@@ -30,7 +30,8 @@ class Agency extends Model
         'min_price',
         'max_price',
         'open',
-        'close'
+        'close',
+        'type'
     ];
 
     public function getItems($data){

@@ -129,7 +129,6 @@
                             <input type="time" name="data[close]" class="form-control" required>
                         </div>
 
-
                     </div>
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">Submit</button>

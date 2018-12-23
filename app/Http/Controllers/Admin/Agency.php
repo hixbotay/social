@@ -15,7 +15,12 @@ class Agency extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
 
-    protected $type = [1,2,3];
+    protected $type;
+
+    public function __construct()
+    {
+        $this->type = config('agency.type');
+    }
 
     public function index()
     {
@@ -45,7 +50,7 @@ class Agency extends Controller
             ->paginate(20);
 
         $items->withPath('admin?view=Agency');
-        $users = User::getUserByGroup(12);
+        $users = User::getUserByGroup(config('auth.usergroup.agency'));
         return view('admin.agency.list', [
             'items' => $items,
             'users' => $users,
@@ -85,7 +90,7 @@ class Agency extends Controller
 
         $result = AgencyModel::create($data);
 
-        $url = url('admin?view=Agency');
+        $url = url('admin?view=Agency&type='.$data['type']);
 
         if ($result->id){
             return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);

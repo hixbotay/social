@@ -61,8 +61,13 @@ class Product extends Controller
     public function store(Request $request)
     {
         $data = request()->get('data');
-        \App\ProvinceGroup::create($data);
-        return redirect('admin?view=Product');
+        $result = ProductModel::create($data);
+        $url = 'admin?view=Product&type='.$data['type'];
+        if ($result->id){
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
+        }else{
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+        }
     }
 
     /**
