@@ -11,7 +11,13 @@ use App\ProductCategory;
 
 class Product extends Controller
 {
+    protected $type;
+    private $rule = [
+        'name'=>'required|max:30',
+    ];
+
     public function __construct(){
+        $this->type = config('agency.type');
     }
     public function index()
     {
@@ -19,11 +25,15 @@ class Product extends Controller
         $type = isset($_GET['type'])?$_GET['type']:null;
         $title = __('admin.product_type_'.$type);
 
-        if (!$type || ($type != 1 && $type != 2 && $type != 3)){
+        if (!$type || (!in_array($type, $this->type))){
             return redirect('admin?view=Product&type=1');
         }
 
-        $items = ProductModel::all();
+        $data = array();
+        $data['filter'] = $filter;
+        $data['type'] = $type;
+
+        $items = ProductModel::getItems($data);
         return view('admin.product.list', [
             'items' => $items,
             'title' => $title,
@@ -37,10 +47,6 @@ class Product extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    private $rule = [
-        'name'=>'required|max:30',
-    ];
-
     public function create()
     {
         $type = isset($_GET['type'])?$_GET['type']:null;
@@ -48,7 +54,8 @@ class Product extends Controller
         $categories = ProductCategory::getCateByType($type);
         return view('admin.product.create', [
             'store' => $store,
-            'categories' => $categories
+            'categories' => $categories,
+            'type' => $type
         ]);
     }
 

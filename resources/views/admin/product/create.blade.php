@@ -14,7 +14,7 @@
                             <select name="data[agency_id]" class="form-control" required>
                                 <option value="">@lang('admin.CHOOSE_AGENCY')</option>
                                 @foreach($store AS $value)
-                                <option value="">{{$value->name}}</option>
+                                <option value="{{$value->id}}">{{$value->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -45,6 +45,8 @@
                         </div>
 
                     </div>
+
+                    <input type="hidden" name="data[type]" value="{{$type}}">
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">@lang('admin.SUBMIT')</button>
                     </div>

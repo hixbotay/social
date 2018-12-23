@@ -52,10 +52,10 @@
                                     </div>
                                 </td>
                                 <td>{{$item->name}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->name}}</td>
-                                <td>{{$item->name}}</td>
+                                <td>{{$item->category_name}}</td>
+                                <td>{{number_format($item->price)}}</td>
+                                <td>{{$item->image}}</td>
+                                <td>{{$item->agency_name}}</td>
                             </tr>
                         @endforeach
                         </tbody>
