@@ -109,19 +109,22 @@ class ProductCategory extends Controller
     {
         $id = $request->get('id');
         $data = $request->get('data');
-
         $item = ProductCategoryModel::find($id);
-
         foreach ($data as $key => $value) {
             $item->$key = $value;
         }
 
-        if ($item->id)
-        {
-            $item->save();
+        $url = 'admin?view=ProductCategory&type='.$data['type'];
+        if ($item->id) {
+            $result = $item->save();
+            if (!$result)
+                return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+            return redirect($url)->with('success', __('admin.SAVE_SUCCESS'));
+
+        }else{
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         }
 
-        return redirect('admin?view=ProductCategory');
 
     }
 

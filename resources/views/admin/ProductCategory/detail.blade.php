@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <h4 class="m-b-20 header-title">Danh mục sản phẩm</h4>
-                <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=ProductCategory&task=update&id='.$item->id)}}">
+                <form enctype='multipart/form-data' method="POST" action="{{url('admin?controller=ProductCategory&task=update&id='.$item->id.'&type='.$item->type)}}">
                     {{ csrf_field() }}
                     <div class="col-sm-12">
 
@@ -26,6 +26,8 @@
                         </div>
 
                     </div>
+
+                    <input type="hidden" name="data[type]" value="{{$item->type}}">
 
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">Submit</button>
