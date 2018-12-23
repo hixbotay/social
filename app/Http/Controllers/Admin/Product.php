@@ -102,34 +102,32 @@ class Product extends Controller
      */
     public function edit($id)
     {
-        // $id = request()->input('id');
-        $user = ProvinceGroup::find($id);
-        $province = ProvinceGroup::getListProvince();
-        return view('admin.product.detail', ['item' => $user, 'province' => $province]);
+        $id = request()->input('id');
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        $store = Agency::getAgencyByType($type);
+        $categories = ProductCategory::getCateByType($type);
+        $item = ProductModel::find($id);
+        return view('admin.product.detail', [
+            'store' => $store,
+            'categories' => $categories,
+            'type' => $type,
+            'item' => $item
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         $id = $request->input('id');
         $data = $request->get('data');
-
-        $data['province_ids'] = json_encode($data['province_ids']);
-
-        $usergroup = \App\ProvinceGroup::find($id);
+        $url = 'admin?view=Product&type=' . $data['type'];
+        $item = ProductModel::find($id);
+        if (!$item->id) return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         foreach ($data as $key => $value) {
-            $usergroup->$key = $value;
+            $item->$key = $value;
         }
-        $usergroup->save();
-
-        return redirect('admin?view=provincegroup');
-
+        $result = $item->save();
+        if (!$result) return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+        return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
     }
 
     /**
@@ -141,7 +139,11 @@ class Product extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
-        UserGroupModel::destroy($id);
-        return redirect('admin?view=usergroup');
+        $result = ProductModel::destroy($id);
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        $url = 'admin?view=Product&type='.$type;
+        if (!$result)
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+        return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
     }
 }

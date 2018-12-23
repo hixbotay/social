@@ -5,6 +5,7 @@
 
     <h4 class="m-t-0">{{$title}}</h4>
 
+    @include('layouts.admin.notice')
 
     <div class="row">
         <div class="col-sm-12">
@@ -51,7 +52,11 @@
                                         <label for="checkbox1"></label>
                                     </div>
                                 </td>
-                                <td>{{$item->name}}</td>
+                                <td>
+                                    <a href="admin?view=Product&layout=edit&id={{$item->id}}&type={{$type}}">
+                                        {{$item->name}}
+                                    </a>
+                                </td>
                                 <td>{{$item->category_name}}</td>
                                 <td>{{number_format($item->price)}}</td>
                                 <td>{{$item->image}}</td>
