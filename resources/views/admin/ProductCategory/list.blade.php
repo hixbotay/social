@@ -48,7 +48,7 @@
                                         <label for="checkbox1"></label>
                                     </div>
                                 </td>
-                                <td><a href="{{url('admin?view=ProductCategory&layout=edit&id='.$item->id)}}"> {{$item->name}} </a> </td>
+                                <td><a href="{{url('admin?view=ProductCategory&layout=edit&id='.$item->id.'&type='.$item->type)}}"> {{$item->name}} </a> </td>
                                 <td>{{$item->description}}</td>
                             </tr>
                         @endforeach
