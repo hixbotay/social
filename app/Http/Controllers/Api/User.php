@@ -176,12 +176,6 @@ class User extends Controller
             ->leftjoin('devvn_tinhthanhpho', 'users.province_id', '=', 'devvn_tinhthanhpho.matp')
             ->leftjoin('devvn_quanhuyen', 'users.district_id', '=', 'devvn_quanhuyen.maqh')
             ->leftjoin('devvn_xaphuongthitran', 'users.village_id', '=', 'devvn_xaphuongthitran.xaid')
-            ->leftjoin('id_card_verification', function ($join) {
-                $join->on('users.id', '=', 'id_card_verification.user_id');
-                $join->on(function($query) {
-                    $query->where('id_card_verification.is_verified', '=', 1); 
-                });
-            })
             ->select(DB::raw(
                 'users.*, 
                 user_jobs.name AS job_name, 
@@ -190,10 +184,20 @@ class User extends Controller
                 religion.name AS religion_name,
                 devvn_tinhthanhpho.name AS province_name,
                 devvn_quanhuyen.name AS district_name,
-                devvn_xaphuongthitran.name AS village_name,
-                (CASE is_verified WHEN 1 THEN 1 ELSE 0 END) AS is_id_card_verified'
+                devvn_xaphuongthitran.name AS village_name'
             ))
             ->first();
+
+        $id_card = DB::table('id_card_verification')->where('user_id', $id)->first();
+        if(!$id_card) {
+            $user->is_id_card_verified = 'not_yet';
+        } else {
+            if($id_card->is_verified) {
+                $user->is_id_card_verified = 'verified';
+            } else {
+                $user->is_id_card_verified = 'pending';
+            }
+        }
 
         $hobbies =  DB::table('user_hobby_map')
                     ->where('user_hobby_map.user_id', $id)

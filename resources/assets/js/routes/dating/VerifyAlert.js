@@ -29,7 +29,7 @@ class VerifyAlert extends Component {
                         <i>Phone: <span>0193023092</span></i>
                     </div>
                     <div className="text-center mt-4">
-                        <Link to={`/profile/${this.props.user.id}`}>
+                        <Link to={`/verify/id-card`}>
                             <button className="btn btn-primary">Chuyển tới mục xác minh</button>
                         </Link>
                     </div>

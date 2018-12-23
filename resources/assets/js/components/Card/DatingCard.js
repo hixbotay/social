@@ -3,7 +3,7 @@ import { CardWithTitle } from './CardWithTitle';
 import Slider from "react-slick";
 import DatingGroup from '../Dating/DatingGroup';
 import DatingCouple from '../Dating/DatingCouple';
-
+import ShowMore from '@tedconf/react-show-more';
 
 class DatingCard extends Component {
 
@@ -18,30 +18,58 @@ class DatingCard extends Component {
             // adaptiveHeight: true
         };
 
-        const { title, type, events } = this.props;
+        const { title, type, events, isDisplaySlide } = this.props;
+        var eventArr = events.map((event, index) => {
+            return (
+                <div key={index}>
+                {
+                    event.type === 'group' ? 
+                        <DatingGroup event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingGroup>
+                        : <DatingCouple event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingCouple>
+                }
+                {/* <hr/> */}
+                </div>
+            )
+        });
 
         return (
             <CardWithTitle hasLine={true} title={title}>
-                <div className="dating-slide">
-                    <Slider {...settings}>
-                        {
-                            events.map((event, index) => {
-                                return (
-                                    <div key={index}>
-                                    {
-                                        event.type === 'group' ? 
-                                            <DatingGroup event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingGroup>
-                                            : <DatingCouple event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingCouple>
-                                    }
+                {
+                    isDisplaySlide ? (
+                        <div className="dating-slide">
+                            <Slider {...settings}>
+                                {eventArr}
+                            </Slider>
+                        </div>
+                    ) : (
+                        <ShowMore items={eventArr} by={2}>
+                            {
+                                ({current, onMore}) => (
+                                <React.Fragment>
+                                    {current}
+                                    <div className="text-center">
+                                        {
+                                            onMore ? (
+                                            <a href="javasript:void(0);" onClick={() => {onMore();}}>
+                                                <u>Xem thêm...</u>
+                                            </a>
+                                            ) : null
+                                        }
+                                        
                                     </div>
+                                </React.Fragment>
                                 )
-                            })
-                        }
-                    </Slider>
-                </div>
+                            }
+                        </ShowMore>
+                    )
+                }
             </CardWithTitle>
         );
     }
+}
+
+DatingCard.defaultProps = {
+    isDisplaySlide: true
 }
 
 export {DatingCard};

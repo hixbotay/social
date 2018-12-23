@@ -72,9 +72,9 @@ class ListFeatureDating extends Component {
     render() {
         return (
             <DatingLayout>
-                <DatingCard title="CUỘC HẸN GẦN BẠN" events={this.props.aroundEvents}  action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
-                <DatingCard title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" events={this.props.eventsHasYourCrush} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
-                <DatingCard title="CUỘC HẸN SẮP TỚI" events={this.props.upcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                <DatingCard isDisplaySlide={false} title="CUỘC HẸN GẦN BẠN" events={this.props.aroundEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                <DatingCard isDisplaySlide={false} title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" events={this.props.eventsHasYourCrush} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                <DatingCard isDisplaySlide={false} title="CUỘC HẸN SẮP TỚI CÓ THỂ BẠN THÍCH" events={this.props.upcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
 
                 <Modal id="verify-id-modal">
                     <div className="row">

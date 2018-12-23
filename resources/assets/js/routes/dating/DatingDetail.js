@@ -122,7 +122,7 @@ class DatingDetail extends Component {
                         <Card>
                             <div className={"row next-dating-header-row1"}>
                                 <div className={"col-md-2 align-middle dating-header"}>
-                                    <RoundAvatar size={"medium"} img={baseUrl + '/' + event.address_avatar}></RoundAvatar>
+                                    <RoundAvatar size={"medium"} img={baseUrl + '/' + event.image}></RoundAvatar>
                                 </div>
                                 <div className={"col-md-7 dating-header"}>
                                     <h5>
