@@ -10,6 +10,6 @@ class Post extends Model
 {
     protected $table = "posts";
 
-    protected $fillable = ["user_id", "content", "like", "dislike", "original_author"];
+    protected $fillable = ["user_id", "content", "like", "dislike", "original_author", "original_created"];
 
 }

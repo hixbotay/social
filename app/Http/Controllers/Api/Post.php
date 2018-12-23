@@ -28,10 +28,19 @@ class Post extends Controller
         }
 
         $result = \App\Post::whereIn('posts.user_id', $friend_id_arr)
-            ->leftjoin('users', 'posts.user_id', '=', 'users.id')
+            ->join('users AS users', 'posts.user_id', '=', 'users.id')
+            ->leftjoin('users AS author', 'posts.original_author', '=', 'author.id')
             ->leftjoin('post_photos', 'posts.id', '=', 'post_photos.post_id')
             ->leftjoin('user_photos', 'user_photos.id', '=', 'post_photos.photo_id')
-            ->select('users.name AS author', 'users.avatar AS author_avatar', 'posts.*', 'user_photos.id AS photo_id', 'user_photos.source')
+            ->select(
+                'users.name AS user_name', 
+                'users.avatar AS user_avatar', 
+                'posts.*', 
+                'user_photos.id AS photo_id', 
+                'user_photos.source',
+                'author.name AS original_author_name',
+                'author.avatar AS original_author_avatar'
+            )
             ->orderBy('id', 'DESC')
             ->get();
         
@@ -39,14 +48,23 @@ class Post extends Controller
     }
 
     public function getMyPosts() {
-        $result = \App\Post::leftjoin('users', 'posts.user_id', '=', 'users.id')
+        $result = \App\Post::where('posts.user_id', Auth::id())
+            ->join('users AS users', 'posts.user_id', '=', 'users.id')
+            ->leftjoin('users AS author', 'posts.original_author', '=', 'author.id')
             ->leftjoin('post_photos', 'posts.id', '=', 'post_photos.post_id')
             ->leftjoin('user_photos', 'user_photos.id', '=', 'post_photos.photo_id')
-            ->select('users.name AS author', 'users.avatar AS author_avatar', 'posts.*', 'user_photos.id AS photo_id', 'user_photos.source')
+            ->select(
+                'users.name AS user_name', 
+                'users.avatar AS user_avatar', 
+                'posts.*', 
+                'user_photos.id AS photo_id', 
+                'user_photos.source',
+                'author.name AS original_author_name',
+                'author.avatar AS original_author_avatar'
+            )
             ->orderBy('id', 'DESC')
-            ->having('posts.user_id', '=', Auth::id())
             ->get();
-        
+
         return json_encode($result);
     }
 
@@ -207,7 +225,8 @@ class Post extends Controller
         $new_post = \App\Post::create([
             'user_id' => $user_id,
             'content' => $original_post->content,
-            'original_author' => $original_post->user_id
+            'original_author' => $original_post->user_id,
+            'original_created' => $original_post->created_at
         ]);
 
         if($original_post->source) {
