@@ -1207,3 +1207,9 @@ button.arrow-btn {
     font-size: 2em;
     color: #2c3e50;
 }
+
+.shared-post {
+    border: 1px solid #95a5a6;
+    padding: 15px;
+    margin-bottom: 15px;
+}

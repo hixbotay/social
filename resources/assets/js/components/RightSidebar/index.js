@@ -7,7 +7,7 @@ class RightSidebar extends Component {
         const {user} = this.props;
         
         return (
-            <aside className="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-12 col-12">
+            <aside className="col col-xl-5 order-xl-5 col-lg-6 order-lg-5 col-md-6 col-sm-12 col-12">
                 <VerificationBlock user={user}/>
                 <div className="ui-block">
                     <div className="widget w-birthday-alert">

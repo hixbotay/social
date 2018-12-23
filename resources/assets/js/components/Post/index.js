@@ -58,6 +58,8 @@ class Post extends Component {
               background: '#fefefe',
             },
         };
+
+        var isShare = post.original_author ? true : false;
         
         return (
             <article className="hentry post">
@@ -78,9 +80,10 @@ class Post extends Component {
                         } */}
                             <PostHeader
                                 user_id={post.user_id}
-                                avatar={post.author_avatar}
-                                name={post.author}
+                                avatar={post.user_avatar}
+                                name={post.user_name}
                                 created={post.created_at}
+                                isShare={isShare}
                             />
                         </div>
                         <div className="float-right">
@@ -88,12 +91,33 @@ class Post extends Component {
                         </div>
                     </div>
                 </div>
-                <p>
-                    {post.content}
-                </p>
-                <div className="post-photo">
-                    {post.photo_id ? <img src={post.source}/> : null}
-                </div>
+                {
+                    isShare ? (
+                        <div className="shared-post">
+                            <PostHeader
+                                user_id={post.original_author}
+                                avatar={post.original_author_avatar}
+                                name={post.original_author_name}
+                                created={post.original_created}
+                            />
+                            <p>
+                                {post.content}
+                            </p>
+                            <div className="post-photo">
+                                {post.photo_id ? <img src={post.source}/> : null}
+                            </div>
+                        </div>
+                    ) : (
+                        <React.Fragment>
+                            <p>
+                                {post.content}
+                            </p>
+                            <div className="post-photo">
+                                {post.photo_id ? <img src={post.source}/> : null}
+                            </div>
+                        </React.Fragment>
+                    )
+                }
                 <div className="row">
                     <div className="col-12">
                         <div className="float-left">

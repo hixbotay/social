@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createPost, getAllPosts } from '../../actions/PostActions';
+import { createPost } from '../../actions/PostActions';
 import { cleanObject } from '../../helper/function';
 import ImageCompressor from 'image-compressor.js';
 
@@ -149,7 +149,6 @@ class CreatePostForm extends Component {
 function mapDispatchToProps(dispatch) {
     return {
         createPost: (data) => dispatch(createPost(data)),
-        getAllPosts: () => dispatch(getAllPosts()),
     }
 }
 
