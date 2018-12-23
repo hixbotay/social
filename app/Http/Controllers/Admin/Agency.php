@@ -66,7 +66,7 @@ class Agency extends Controller
         if (!$type || (!in_array($type, $this->type))){
             return redirect('admin?controller=Agency&task=create&type=1');
         }
-        $users = User::getUserByGroup(12);
+        $users = User::getUserByGroup(config('auth.usergroup.agency'));
         return view('admin.agency.create', [
             'users' => $users,
             'type' => $type
@@ -83,7 +83,7 @@ class Agency extends Controller
     {
         $data = $request->get('data');
 
-        $result = \App\Agency::create($data);
+        $result = AgencyModel::create($data);
 
         $url = url('admin?view=Agency');
 
@@ -114,7 +114,7 @@ class Agency extends Controller
     public function edit($id)
     {
         $item = \App\Agency::find($id);
-        $users = User::getUserByGroup(12);
+        $users = User::getUserByGroup(config('auth.usergroup.agency'));
         $village = \App\ProvinceGroup::getListVillageByDistrict($item->district_id);
         $district = \App\ProvinceGroup::getListDistrictByProvince($item->province_id);
 //        echo "<pre>";

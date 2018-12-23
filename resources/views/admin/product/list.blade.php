@@ -38,7 +38,7 @@
                             <th>Danh mục</th>
                             <th>Giá</th>
                             <th>Ảnh</th>
-                            <th>Đại lý</th>
+                            <th>@lang('admin.STORE')</th>
                         </tr>
                         </thead>
 

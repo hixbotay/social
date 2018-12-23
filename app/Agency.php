@@ -36,4 +36,11 @@ class Agency extends Model
     public function getItems($data){
 
     }
+
+    public static function getAgencyByType($type){
+        $data = self::select('name', 'id')
+            ->where('type', '=', $type)
+            ->get();
+        return $data;
+    }
 }

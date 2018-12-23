@@ -10,18 +10,23 @@
                     <div class="col-sm-12">
 
                         <div class="form-group">
-                            <label>@lang('admin.CHOOSE_AGENCY') <span>*</span></label>
-                            <input type="text" class="form-control" name="data[user_id]" required />
-                        </div>
-
-                        <div class="form-group">
                             <label>@lang('admin.STORE') <span>*</span></label>
-                            <input type="text" class="form-control" name="data[agency_id]" required />
+                            <select name="data[agency_id]" class="form-control" required>
+                                <option value="">@lang('admin.CHOOSE_AGENCY')</option>
+                                @foreach($store AS $value)
+                                <option value="">{{$value->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
                             <label>@lang('admin.PRODUCT_CATEGORY') <span>*</span></label>
-                            <input type="text" class="form-control" name="data[category_id]" required />
+                            <select name="data[category_id]" class="form-control" required>
+                                <option value="">@lang('admin.PRODUCT_CATEGORY')</option>
+                                @foreach($categories AS $value)
+                                    <option value="{{$value->id}}">{{$value->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -36,7 +41,7 @@
 
                         <div class="form-group">
                             <label>@lang('admin.PRICE')<span></span></label>
-                            <input type="number" step="0.01" name="data[price]" class="form-control">
+                            <input type="number" step="0.01" name="data[price]" class="form-control" required>
                         </div>
 
                     </div>

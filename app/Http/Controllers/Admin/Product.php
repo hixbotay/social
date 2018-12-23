@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Product AS ProductModel;
 use App\ProvinceGroup;
+use App\Agency;
+use App\ProductCategory;
 
 class Product extends Controller
 {
@@ -41,8 +43,13 @@ class Product extends Controller
 
     public function create()
     {
-        $province = ProvinceGroup::getListProvince();
-        return view('admin.product.create', ['province' => $province]);
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        $store = Agency::getAgencyByType($type);
+        $categories = ProductCategory::getCateByType($type);
+        return view('admin.product.create', [
+            'store' => $store,
+            'categories' => $categories
+        ]);
     }
 
     /**

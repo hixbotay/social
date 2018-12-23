@@ -26,4 +26,11 @@ class ProductCategory extends Model
         return $items;
     }
 
+    public static function getCateByType($type){
+        $data = self::select('name', 'id')
+            ->where('id', '=', $type)
+            ->get();
+        return $data;
+    }
+
 }
