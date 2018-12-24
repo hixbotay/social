@@ -66,11 +66,10 @@ class Event extends Controller {
                     } else {
                         $event[$key] = $metadata->meta_value;
                     }
-
-                    $event['job'] = $job;
-                    $event['marital_status'] = $marital_status;
                 }
             }
+            $event['job'] = $job;
+            $event['marital_status'] = $marital_status;
         });
         return json_encode($events);
     }
@@ -141,11 +140,10 @@ class Event extends Controller {
                     } else {
                         $event[$key] = $metadata->meta_value;
                     }
-
-                    $event['job'] = $job;
-                    $event['marital_status'] = $marital_status;
                 }
             }
+            $event['job'] = $job;
+            $event['marital_status'] = $marital_status;
         });
         return json_encode($events);
     }
@@ -229,11 +227,11 @@ class Event extends Controller {
                     } else {
                         $event[$key] = $metadata->meta_value;
                     }
-
-                    $event['job'] = $job;
-                    $event['marital_status'] = $marital_status;
                 }
             }
+            
+            $event['job'] = $job;
+            $event['marital_status'] = $marital_status;
         });
         return json_encode($events);
     }
@@ -301,11 +299,11 @@ class Event extends Controller {
                     } else {
                         $event[$key] = $metadata->meta_value;
                     }
-
-                    $event['job'] = $job;
-                    $event['marital_status'] = $marital_status;
                 }
             }
+            
+            $event['job'] = $job;
+            $event['marital_status'] = $marital_status;
         });
         return json_encode($events);
     }

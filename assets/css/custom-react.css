@@ -1164,6 +1164,7 @@ button#fortune-btn {
 img.slide-image {
     height: 150px;
     object-fit: cover;
+    width: 100%;
 }
 
 .user-photo-icon {
