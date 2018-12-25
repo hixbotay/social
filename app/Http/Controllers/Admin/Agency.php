@@ -143,15 +143,15 @@ class Agency extends Controller
     public function update(Request $request)
     {
         $id =  $request->input('id');
-        $item = \App\Agency::find($id);
-
+        $item = AgencyModel::find($id);
         $data = $request->get('data');
-
+        $url = url('admin?view=Agency&type='.$data['type']);
+        if (!$item->id)
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         foreach ($data as $key => $value) {
             if ($value)$item->$key = $value;
         }
         $result = $item->save();
-        $url = url('admin?view=Agency');
 
         if ($result){
             return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
@@ -169,12 +169,13 @@ class Agency extends Controller
      */
     public function destroy(Request $request)
     {
-        $id =  $request->input('id');
-        PostModel::destroy($id);
-        // redirect to previous url after destroy
-        Session::put('pre_url', URL::previous());
-        console_log(Session::get('pre_url'));
-        return redirect(Session::get('pre_url'));
+        $id = $request->input('id');
+        $result = AgencyModel::destroy($id);
+        $type = isset($_GET['type'])?$_GET['type']:null;
+        $url = 'admin?view=Agency&type='.$type;
+        if (!$result)
+            return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
+        return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
     }
 
     public function ajaxLoadDistrict(){
