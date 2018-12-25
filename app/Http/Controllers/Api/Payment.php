@@ -103,7 +103,11 @@ class Payment extends Controller
             );
         }
 
-        $price = (object) config('admin.payment.defaultPrice');
+        $price = config('payment.defaultPrice');
+
+        $config = Configuration::select('params')->where('name', '=', 'price')->first();
+        if (isset($config->params))
+            $price = \GuzzleHttp\json_decode($config->params);
 
         $provinceID = UserModel::select('province_id')->where('id', '=', $id)->first();
 
@@ -112,30 +116,30 @@ class Payment extends Controller
                 ->select('province_group_id')
                 ->where('province_id', '=', $provinceID->province_id)->first();
 
-            $config = Configuration::select('params')->where('name', '=', 'price')->first();
-            if (isset($config->params))
-                $price = \GuzzleHttp\json_decode($config->params);
-            $datingGroupPrice = DatingPrice::where('province_group_id', '=', $provinceGroup->province_group_id)
-                ->where('type', '=', 2)
-                ->first();
-            if ($datingGroupPrice->id){
-                $datingGroupPriceFee = DatingFee::where('dating_price_id', '=', $datingGroupPrice->id)
-                    ->get();
-                $datingGroupPrice->fee = $datingGroupPriceFee;
+            if ($provinceGroup->province_group_id){
+                $datingGroupPrice = DatingPrice::where('province_group_id', '=', $provinceGroup->province_group_id)
+                    ->where('type', '=', 2)
+                    ->first();
+                if ($datingGroupPrice->id){
+                    $datingGroupPriceFee = DatingFee::where('dating_price_id', '=', $datingGroupPrice->id)
+                        ->get();
+                    $datingGroupPrice->fee = $datingGroupPriceFee;
+                }
+
+                $datingCouplePrice = DatingPrice::where('province_group_id', '=', $provinceGroup->province_group_id)
+                    ->where('type', '=', 3)
+                    ->first();
+
+                if ($datingCouplePrice->id){
+                    $datingCouplePriceFee = DatingFee::where('dating_price_id', '=', $datingCouplePrice->id)
+                        ->get();
+                    $datingCouplePrice->fee = $datingCouplePriceFee;
+                }
+
+                if ($datingGroupPrice)$price->group_dating = $datingGroupPrice;
+                if ($datingCouplePrice)$price->couple_dating = $datingCouplePrice;
             }
 
-            $datingCouplePrice = DatingPrice::where('province_group_id', '=', $provinceGroup->province_group_id)
-                ->where('type', '=', 3)
-                ->first();
-
-            if ($datingCouplePrice->id){
-                $datingCouplePriceFee = DatingFee::where('dating_price_id', '=', $datingCouplePrice->id)
-                    ->get();
-                $datingCouplePrice->fee = $datingCouplePriceFee;
-            }
-
-            if ($datingGroupPrice)$price->group_dating = $datingGroupPrice;
-            if ($datingCouplePrice)$price->couple_dating = $datingCouplePrice;
         }
 
 //        get price of group dating and couple dating
