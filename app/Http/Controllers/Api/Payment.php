@@ -116,7 +116,7 @@ class Payment extends Controller
                 ->select('province_group_id')
                 ->where('province_id', '=', $provinceID->province_id)->first();
 
-            if ($provinceGroup->province_group_id){
+            if (isset($provinceGroup->province_group_id)){
                 $datingGroupPrice = DatingPrice::where('province_group_id', '=', $provinceGroup->province_group_id)
                     ->where('type', '=', 2)
                     ->first();
