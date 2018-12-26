@@ -49,44 +49,62 @@ class ImageCard extends Component {
 
         return (
             <div className="image-card">
-                <div>
-                    <Link to={`/profile/${user.id}`}>
-                        <img src={this.props.user.avatar}/>
-                    </Link>
-                    <div className="image-card-btn">
-                        <CircleButton
-                            icon="fas fa-heart"
-                            color={this.state.isLoved ? '#e74c3c' : '#34495e'}
-                            action={() => this.onUpdateRelationship('love')}
-                        ></CircleButton>
-                        <CircleButton
-                            icon="fas fa-thumbs-up"
-                            color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                            action={() => this.onUpdateRelationship('like')}
-                        ></CircleButton>
-                        <CircleButton
-                            icon="fas fa-comments"
-                            color='#34495e'
-                            // action
-                        ></CircleButton>
-                    </div>
-                </div>
-                <div className="row image-card-content">
-                    <div className="container">
-                        <Link to={`/profile/${user.id}`}>
-                            <h5>
-                                {user.name}, {user.age}
-                            </h5>
-                        </Link>
-                        <small>
-                            {this.props.user.address}
-                        </small>
-                        <InformationNumber
-                            heartNumber={this.state.loveNumber}
-                            likeNumber={this.state.likeNumber}
-                        ></InformationNumber>
-                    </div>
-                </div>
+                {
+                    user.is_incognito ? (
+                        <React.Fragment>
+                            <div>
+                                <img src="public/images/default-avatar-heart.png"/>
+                            </div>
+                            <div className="row image-card-content">
+                                <div className="container">
+                                    <h5>Thành viên ẩn danh</h5>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    ) : (
+                    <React.Fragment>
+                        <div>
+                            <Link to={`/profile/${user.id}`}>
+                                <img src={this.props.user.avatar}/>
+                            </Link>
+                            <div className="image-card-btn">
+                                <CircleButton
+                                    icon="fas fa-heart"
+                                    color={this.state.isLoved ? '#e74c3c' : '#34495e'}
+                                    action={() => this.onUpdateRelationship('love')}
+                                ></CircleButton>
+                                <CircleButton
+                                    icon="fas fa-thumbs-up"
+                                    color={this.state.isLiked ? '#2980b9' : '#34495e'}
+                                    action={() => this.onUpdateRelationship('like')}
+                                ></CircleButton>
+                                <CircleButton
+                                    icon="fas fa-comments"
+                                    color='#34495e'
+                                    // action
+                                ></CircleButton>
+                            </div>
+                        </div>
+                    
+                        <div className="row image-card-content">
+                            <div className="container">
+                                <Link to={`/profile/${user.id}`}>
+                                    <h5>
+                                        {user.name}, {user.age}
+                                    </h5>
+                                </Link>
+                                <small>
+                                    {this.props.user.address}
+                                </small>
+                                <InformationNumber
+                                    heartNumber={this.state.loveNumber}
+                                    likeNumber={this.state.likeNumber}
+                                ></InformationNumber>
+                            </div>
+                        </div>
+                    </React.Fragment>
+                )
+            }
             </div>
         );
     }

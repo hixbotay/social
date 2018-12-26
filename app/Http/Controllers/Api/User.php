@@ -210,6 +210,7 @@ class User extends Controller
     }
 
     public function getOtherUserDetail($id) {
+        $current_user = Auth::user();
         $user = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
             ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
@@ -264,7 +265,7 @@ class User extends Controller
                 ->get();
         
         $relationship = \App\UserRelationship::where([
-                        ['from_user_id', '=', Auth::id()],
+                        ['from_user_id', '=', $current_user->id],
                         ['to_user_id', '=', $id]
                     ])
                     ->select(DB::raw(
@@ -277,16 +278,18 @@ class User extends Controller
         
         $temp = DB::table('profile_visitor')->where([
             ['profile_id', '=', $id],
-            ['visitor_id', '=', Auth::id()]
+            ['visitor_id', '=', $current_user->id]
         ])
         ->select(
             DB::raw('profile_visitor.*, COUNT(profile_id='.$id.') AS viewNumber')
         )
         ->first();
         
-        $user->viewNumber = $temp->viewNumber;
+        $user->viewNumber = 0;
 
         if(!$temp) {
+            $user->viewNumber = $temp->viewNumber;
+
             // add to visitor table
             DB::table('profile_visitor')->insert([
                 'profile_id' => $id,
@@ -294,16 +297,18 @@ class User extends Controller
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);
-            
-            // notify
-            Notification::insert([
-                'user_id' => $id,
-                'actor' => Auth::id(), 
-                'content' => "Đã ghé thăm trang cá nhân của bạn",
-                'type' => "visit",
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ]);
+
+            if(!$current_user->is_incognito) {
+                // notify
+                Notification::insert([
+                    'user_id' => $id,
+                    'actor' => Auth::id(), 
+                    'content' => "Đã ghé thăm trang cá nhân của bạn",
+                    'type' => "visit",
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ]);
+            }
         }
 
         $result = [
@@ -349,7 +354,7 @@ class User extends Controller
                 ->leftjoin('users', 'visitor_id', '=', 'users.id')
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'visitor_id')
                 ->select(DB::raw(
-                    'users.id, users.name, users.address, users.avatar, users.birthday,
+                    'users.id, users.name, users.address, users.avatar, users.birthday, users.is_incognito,
                     user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
