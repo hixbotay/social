@@ -83,3 +83,7 @@ export const LOAD_PRICE_CONFIG = 'LOAD_PRICE_CONFIG';
 export const GET_ETHNICITY = 'GET_ETHNICITY';
 // religion
 export const GET_RELIGION = 'GET_RELIGION';
+
+// products
+export const GET_PRODUCT_CATEGORIES = 'GET_PRODUCT_CATEGORIES';
+export const GET_PRODUCTS = 'GET_PRODUCTS';

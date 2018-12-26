@@ -43,6 +43,8 @@ import PaymentHistory from './payment/history';
 import PaymentCharge from './payment/charge';
 import Settings from './settings';
 import NotFound from './404';
+import GiftCategories from './gift/Categories';
+import GiftProducts from './gift/Products';
 
 //action
 import {getCurrentUser} from '../actions/UserActions';
@@ -50,6 +52,7 @@ import {getNotifications} from '../actions/NotificationActions';
 import { loadPriceConfig } from '../actions/Payment';
 import IdCardVerify from './profile/IdCardVerify';
 import EditProfilePage from './profile/EditProfilePage';
+import GiftLayout from './gift/GiftLayout';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -120,6 +123,9 @@ class MainApp extends Component {
 
                     <AppRoute exact path={"/settings"} layout={MainLayout} component={Settings} />
                     <AppRoute exact path={"/verify/id-card"} layout={SecondLayout} component={IdCardVerify} />
+
+                    <AppRoute exact path={"/gift/categories"} layout={SecondLayout} component={GiftCategories} />
+                    <AppRoute exact path={"/gift/categories/:id"} layout={SecondLayout} component={GiftProducts} />
 
                     <Route component={NotFound} />
 

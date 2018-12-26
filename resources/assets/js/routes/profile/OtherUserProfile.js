@@ -4,7 +4,7 @@ import { Card, CardWithIcon, CardWithTitle } from '../../components/Card';
 
 import { getOtherUserDetail, getFeaturedUserPhotos } from '../../actions/UserActions';
 import Post from '../../components/Post';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import ProfileHeader from './ProfileHeader';
 import OtherUserLayout from './OtherUserLayout';
 
@@ -32,9 +32,11 @@ class OtherPerson extends Component {
                             </button>
                         </div>
                         <div className="col-4">
-                            <button className="btn btn-primary btn-function" id="gift-btn">
-                                <i className="fas fa-gift"></i> Tặng quà
-                            </button>
+                            <Link to={{pathname: '/gift/categories', state: {receiver: user_data.user.id}}}>
+                                <button className="btn btn-primary btn-function" id="gift-btn">
+                                    <i className="fas fa-gift"></i> Tặng quà
+                                </button>
+                            </Link>
                         </div>
                         <div className="col-4">
                             <button className="btn btn-primary btn-function" id="fortune-btn">

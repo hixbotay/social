@@ -67,6 +67,8 @@ Route::middleware(['web'])->group(function() {
     Route::get('/user/photos/{type}', 'Api\User@getPhotosByType');
     Route::post('/user/featured-photos', 'Api\User@uploadFeaturedPhotos');
     // Route::post('user/upload-id-card', 'Api\User@uploadIdCardPhoto');
+    Route::get('/product-categories', 'Api\Product@listCategories');
+    Route::get('/products', 'Api\Product@listProducts');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

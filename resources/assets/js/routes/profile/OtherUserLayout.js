@@ -59,7 +59,6 @@ class OtherUserLayout extends Component {
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.relationship) {
-            console.log(111111111)
             this.setState({
                 isLoved: nextProps.relationship.is_loved,
                 isLiked: nextProps.relationship.is_like,

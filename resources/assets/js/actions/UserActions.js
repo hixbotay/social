@@ -54,12 +54,16 @@ export const getOtherUserDetail = (id) => (dispatch) => {
     return new Promise((resolve, reject) => {
         return api.get(`/user/${id}`)
             .then(response => {
+                if(!response.data.relationship) {
+                    response.data.relationship = {}
+                }
+
                 dispatch({type: GET_USER_DETAIL, payload: response.data});
                 resolve(response.data);
             })
             .catch(err => {
                 console.log(err);
-                reject(error);
+                reject(err);
             })
     });
     

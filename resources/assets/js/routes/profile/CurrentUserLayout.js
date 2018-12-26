@@ -6,14 +6,16 @@ import {RoundAvatar} from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
 import {withRouter, Link, Redirect } from 'react-router-dom';
-import {updateAvatar} from '../../actions/UserActions'; 
+import {updateAvatar, updateUser} from '../../actions/UserActions'; 
 import VerificationBlock from '../../components/RightSidebar/VerificationBlock';
+import Switch from "react-switch";
 
 class ProfileLayout extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            img: ''
+            img: '',
+            is_incognito: false
         }
     }
 
@@ -36,6 +38,18 @@ class ProfileLayout extends Component {
                 };
             }
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            is_incognito: nextProps.user.is_incognito ? true : false
+        })
+    }
+
+    handleChange() {
+        let status = !this.state.is_incognito;
+        this.setState({ is_incognito: status });
+        this.props.updateUser({user: {is_incognito: status}}, this.props.user.id);
     }
     
     render() {
@@ -64,15 +78,30 @@ class ProfileLayout extends Component {
                         <div className="row">
                             <div className="col-4">
                                 <img src="https://cdn2.iconfinder.com/data/icons/thesquid-ink-40-free-flat-icon-pack/64/space-rocket-512.png" className="status-info-icon"/>
-                                
+                                <Switch
+                                    // onChange={() => this.handleChange()}
+                                    checked={false}
+                                    className="react-switch align-middle"
+                                    id="normal-switch"
+                                />
                             </div>
                             <div className="col-4">
                                 <img src="https://cdn0.iconfinder.com/data/icons/shift-free/32/Pacman_Ghost-512.png" className="status-info-icon"/>
-                                
+                                <Switch
+                                    onChange={() => this.handleChange()}
+                                    checked={this.state.is_incognito}
+                                    className="react-switch align-middle"
+                                    id="normal-switch"
+                                />
                             </div>
                             <div className="col-4">
                                 <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678132-gift-512.png" className="status-info-icon"/>
-                                
+                                <Switch
+                                    // onChange={() => this.handleChange()}
+                                    checked={false}
+                                    className="react-switch align-middle"
+                                    id="normal-switch"
+                                />
                             </div>
                         </div>
                         
@@ -156,7 +185,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         uploadIdCardPhoto: (data, id) => dispatch(uploadIdCardPhoto(data, id)),
-        updateAvatar: (data) => dispatch(updateAvatar(data))
+        updateAvatar: (data) => dispatch(updateAvatar(data)),
+        updateUser: (data, user_id) => dispatch(updateUser(data, user_id))
     }
 }
 
