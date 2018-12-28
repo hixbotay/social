@@ -45,6 +45,7 @@ import Settings from './settings';
 import NotFound from './404';
 import GiftCategories from './gift/Categories';
 import GiftProducts from './gift/Products';
+import FoodCategories from './food/Categories';
 
 //action
 import {getCurrentUser} from '../actions/UserActions';
@@ -124,8 +125,11 @@ class MainApp extends Component {
                     <AppRoute exact path={"/settings"} layout={MainLayout} component={Settings} />
                     <AppRoute exact path={"/verify/id-card"} layout={SecondLayout} component={IdCardVerify} />
 
+                    {/*Product*/}
+
                     <AppRoute exact path={"/gift/categories"} layout={SecondLayout} component={GiftCategories} />
                     <AppRoute exact path={"/gift/categories/:id"} layout={SecondLayout} component={GiftProducts} />
+                    <AppRoute exact path={"/food/categories"} layout={MainLayout} component={FoodCategories} />
 
                     <Route component={NotFound} />
 

@@ -33,6 +33,10 @@ class Product extends Controller {
 
     }
 
+    public function getCateByType(){
+
+    }
+
     public function listCategory(Request $request){
         return $this->type;
         $type = 1;
