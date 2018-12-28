@@ -1317,3 +1317,18 @@ button.arrow-btn {
         opacity: 0;
     }
 }
+
+
+.categoryBox {
+    border: 1px solid #c7c7c7;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.categoryBox img {
+    margin-bottom: 10px;
+    width: 95%;
+    height: 180px;
+}

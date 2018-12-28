@@ -13,14 +13,28 @@ class FoodCategories extends Component {
     render() {
         const {categories} = this.props;
 
+        if (categories.length < 1){
+            return (
+                <div className={'row'}>
+                    <div className={'col-md-12 text-center'}>
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+
         console.log(categories);
 
         return (
-            <div className={'row'}>
-                <div className={'col-md-12'}>
-                    <Loading />
+            <div className={'ui-block custom-card'}>
+                <div className={'container'}>
+                    <h6>Kho qùa</h6>
+                    <hr className="seperate-line"/>
+
+                    <CategoryItem categories={categories} />
+
+
                 </div>
-                <CategoryItem />
             </div>
         );
     }
