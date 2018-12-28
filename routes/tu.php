@@ -33,14 +33,16 @@ Route::middleware(['web'])->group(function() {
     Route::get('chat/message/load/{conversation_id}', 'Api\Chat@loadConversation');
     Route::get('chat/hello', 'Api\Chat@hello');
     Route::post('chat/conversation/create', 'Api\Chat@createConversation');
+
     Route::post('payment/getresult', 'Api\Payment@returnPayment');
     Route::post('payment/request', 'Api\Payment@requestUrl');
     Route::get('payment/getprice', 'Api\Payment@getPriceConfig');
+
+    Route::get('/productbycate/{cate}', 'Api\Product@getProductByCate');
 });
 
 
 Route::get('testsocket', function (Request $request){
-
 
     $context = stream_context_create([
         'ssl' => [
@@ -54,10 +56,6 @@ Route::get('testsocket', function (Request $request){
     $result = fwrite($socket, 'notify');
     fwrite($socket, 'notify'."\r\n");
     return fread($socket, 4096)."\n";
-
-
-//    $fp = fsockopen("tls://chat.noiduyen.vn", 80, $errno, $errstr);
-//    return $result;
 
     return $data;
 

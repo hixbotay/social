@@ -6,16 +6,37 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\ProductCategory;
+use App\Product AS ProductModel;
 
 class Product extends Controller {
+
+    protected $type;
+
+    public function __construct()
+    {
+        $this->type = config('agency.type');
+    }
+
     public function listCategories() {
-        $categories = \App\ProductCategory::all();
+        $categories = ProductCategory::all();
         return ['categories' => $categories];
     }
 
     public function listProducts(Request $request) {
         $query = $request->all();
-        $products = \App\Product::where($query)->get();
+        $products = ProductModel::where($query)->get();
         return ['products' => $products];
     }
+
+    public function getProductByCate(){
+
+    }
+
+    public function listCategory(Request $request){
+        return $this->type;
+        $type = 1;
+        $items = ProductCategory::getCateByType($type);
+    }
+
 }

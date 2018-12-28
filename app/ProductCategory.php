@@ -27,7 +27,7 @@ class ProductCategory extends Model
     }
 
     public static function getCateByType($type){
-        $data = self::select('name', 'id')
+        $data = self::select('*')
             ->where('id', '=', $type)
             ->get();
         return $data;
