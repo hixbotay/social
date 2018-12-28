@@ -111,7 +111,7 @@ class Payment extends Controller
 
         $provinceID = UserModel::select('province_id')->where('id', '=', $id)->first();
 
-        if ($provinceID->province_id){
+        if (isset($provinceID->province_id) && $provinceID->province_id){
             $provinceGroup = DB::table('province_groups_map')
                 ->select('province_group_id')
                 ->where('province_id', '=', $provinceID->province_id)->first();
