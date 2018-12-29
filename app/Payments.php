@@ -43,21 +43,27 @@ class Payments extends Model
             ->get();
 
         $vip = false;
-        foreach ($result AS $value){
-
-            $from = new \DateTime($value->from_time);
-            $to = new \DateTime($value->to_time);
-            $current = new \DateTime($now);
-            if ($from <= $current && $current <= $to) {
-                $vip = true;
-                break;
-            }
-
-        }
 
         $vipData = array();
+
+        if (count($result) > 0)
+        {
+            foreach ($result AS $value){
+
+                $from = new \DateTime($value->from_time);
+                $to = new \DateTime($value->to_time);
+                $current = new \DateTime($now);
+                if ($from <= $current && $current <= $to) {
+                    $vip = true;
+                    break;
+                }
+            }
+            $vipData['expire'] = $result[0]->to_time;
+        }else{
+            $vipData['expire'] = '';
+        }
+
         $vipData['status'] = $vip;
-        $vipData['expire'] = $result[0]->to_time;
 
         return (object)$vipData;
     }

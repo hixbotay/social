@@ -206,6 +206,8 @@ class User extends Controller
                     ->get();
         $user->hobbies = $hobbies;
 
+        $user->vip = Payments::checkVIP($id);
+
         return json_encode($user);
     }
 
