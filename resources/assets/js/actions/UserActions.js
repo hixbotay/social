@@ -11,7 +11,9 @@ import {
     VERIFY_ID_CARD,
     GET_FEATURED_USER_PHOTOS,
     GET_PHOTOS_BY_TYPE,
-    UPLOAD_FEATURED_PHOTOS
+    UPLOAD_FEATURED_PHOTOS,
+    GET_USER_CONFIGURATIONS,
+    UPDATE_USER_CONFIGURATIONS
 } from './types';
 import {cleanObject} from '../helper/function';
 
@@ -183,5 +185,25 @@ export const uploadFeaturedPhotos = (images) => dispatch => {
         // window.location.reload();
     }).catch(err => {
         reject(err);
+    })
+}
+
+export const getUserConfiguration = () => dispatch => {
+    return new Promise((resolve, reject) => {
+        api.get(`/user/configurations`).then(res => {
+            dispatch({type: GET_USER_CONFIGURATIONS, payload: res.data.configurations});
+            resolve(res.data.configurations);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+export const updateUserConfiguration = (data) => dispatch => {
+    api.post(`/user/configurations`, {data: {...data}}).then(res => {
+        dispatch({type: UPDATE_USER_CONFIGURATIONS, payload: res.data});
+        console.log(res.data);
+    }).catch(err => {
+        console.log(err);
     })
 }

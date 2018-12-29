@@ -10,7 +10,9 @@ import {
     VERIFY_ID_CARD,
     GET_FEATURED_USER_PHOTOS,
     GET_PHOTOS_BY_TYPE,
-    UPLOAD_FEATURED_PHOTOS
+    UPLOAD_FEATURED_PHOTOS,
+    GET_USER_CONFIGURATIONS,
+    UPDATE_USER_CONFIGURATIONS
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -25,7 +27,8 @@ const INIT_STATE = {
         relationship: {}
     },
     featured_photos: [],
-    photos: []
+    photos: [],
+    configurations: {}
 }
 
 export default (state = INIT_STATE, action) => {
@@ -71,6 +74,12 @@ export default (state = INIT_STATE, action) => {
             return {...state, photos: action.payload}
         }
         case UPLOAD_FEATURED_PHOTOS: {
+            return {...state}
+        }
+        case GET_USER_CONFIGURATIONS: {
+            return {...state, configurations: action.payload}
+        }
+        case UPDATE_USER_CONFIGURATIONS: {
             return {...state}
         }
         default: {

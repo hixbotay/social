@@ -29,6 +29,18 @@ class Product extends Controller {
         return ['products' => $products];
     }
 
+    public function getProductDetail($id) {
+        $product = ProductModel::leftjoin('product_category', 'category_id', '=', 'product_category.id')
+            ->where('product.id', '=', $id)
+            ->select(DB::raw('product.*, product_category.name AS category_name'))
+            ->first();
+        
+        $photos = DB::table('product_photos')->where('product_id', '=', $id)->get();
+        $product['photos'] = $photos;
+
+        return ['product' => $product];
+    }
+
     public function getProductByCate(){
 
     }

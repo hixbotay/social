@@ -488,5 +488,24 @@ class User extends Controller
         $results = \App\UserPhoto::insert($data);
         return ['results' => $results];
     }
+
+    public function getUserConfiguration() {
+        $configurations = \App\UserConfiguration::where('user_id', '=', Auth::id())->first();
+
+        return ['configurations' => $configurations];
+    } 
+
+    public function updateConfiguration(Request $request) {
+        $user_id = Auth::id();
+        $data = $request->get('data');
+        // $data['user_id'] = $user_id;
+        
+        \App\UserConfiguration::updateOrCreate(
+            ['user_id' => $user_id],
+            $data
+        );
+
+        return ['ok' => 1];
+    } 
 }
 

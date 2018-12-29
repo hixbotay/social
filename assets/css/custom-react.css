@@ -1332,3 +1332,20 @@ button.arrow-btn {
     width: 95%;
     height: 180px;
 }
+
+.product-slider-img {
+    height: 350px !important;
+}
+
+.red {
+    color: red
+}
+
+.product-btn {
+    width: 100%;
+    border: solid 1px #c3bfbf;
+    padding: 3px;
+    background: none;
+    color:#7f8c8d;
+    height: 40px; 
+}

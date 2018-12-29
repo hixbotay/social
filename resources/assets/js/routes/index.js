@@ -54,6 +54,7 @@ import { loadPriceConfig } from '../actions/Payment';
 import IdCardVerify from './profile/IdCardVerify';
 import EditProfilePage from './profile/EditProfilePage';
 import GiftLayout from './gift/GiftLayout';
+import ProductDetail from './gift/ProductDetail';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -129,6 +130,7 @@ class MainApp extends Component {
 
                     <AppRoute exact path={"/gift/categories"} layout={SecondLayout} component={GiftCategories} />
                     <AppRoute exact path={"/gift/categories/:id"} layout={SecondLayout} component={GiftProducts} />
+                    <AppRoute exact path={"/gift/products/:id"} layout={SecondLayout} component={ProductDetail} />
                     <AppRoute exact path={"/food/categories"} layout={MainLayout} component={FoodCategories} />
 
                     <Route component={NotFound} />

@@ -66,9 +66,12 @@ Route::middleware(['web'])->group(function() {
     Route::get('/user/{id}/featured-photos', 'Api\User@getFeaturePhotos');
     Route::get('/user/photos/{type}', 'Api\User@getPhotosByType');
     Route::post('/user/featured-photos', 'Api\User@uploadFeaturedPhotos');
+    Route::get('/user/configurations', 'Api\User@getUserConfiguration');
+    Route::post('/user/configurations', 'Api\User@updateConfiguration');
     // Route::post('user/upload-id-card', 'Api\User@uploadIdCardPhoto');
     Route::get('/product-categories', 'Api\Product@listCategories');
     Route::get('/products', 'Api\Product@listProducts');
+    Route::get('/products/{id}', 'Api\Product@getProductDetail');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

@@ -85,6 +85,16 @@ class RegisterController extends Controller
         $data['avatar'] = env('APP_URL').'/public/images/default-avatar-heart.png';
         // $data['password'] = bcrypt($data['password']);
         
-        return User::create($data);
+        $user = User::create($data);
+
+        \App\UserConfiguration::create([
+            'user_id' => $user->id,
+            'notify_receive_message' => 1,
+            'notify_profile_visited' => 1,
+            'notify_liked' => 1,
+            'notify_loved' => 1
+        ]);
+
+        return $user;
     }
 }

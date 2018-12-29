@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 class SimpleSlider extends Component {
     render() {
         const {images} = this.props;
-        console.log(this.props);
 
         // See more at: https://react-slick.neostack.com/docs/api
         var settings = {

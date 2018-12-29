@@ -1,11 +1,15 @@
 import {
     GET_PRODUCT_CATEGORIES,
-    GET_PRODUCTS
+    GET_PRODUCTS,
+    GET_PRODUCT_DETAIL
 } from '../actions/types';
 
 const INIT_STATE = {
     categories: [],
-    products: []
+    products: [],
+    product: {
+        photos: []
+    }
 }
 
 export default (state = INIT_STATE, action) => {
@@ -15,6 +19,9 @@ export default (state = INIT_STATE, action) => {
         }
         case GET_PRODUCTS: {
             return {...state, products: action.payload}
+        }
+        case GET_PRODUCT_DETAIL: {
+            return {...state, product: action.payload}
         }
         default: {
             return {...state}

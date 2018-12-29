@@ -19,7 +19,7 @@ class Products extends Component {
                         products.map((product, index) => {
                             return (
                                 <div className="col-6" key={index}>
-                                    <Link to={`/gift/product/${product.id}`}>
+                                    <Link to={{pathname: `/gift/products/${product.id}`, state: {receiver: this.props.location.state.receiver}}}>
                                         <div className="gift text-center">
                                             <h4>{product.name}</h4>
                                             <div className="gift-image">
