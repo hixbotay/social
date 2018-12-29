@@ -120,6 +120,8 @@ class User extends Controller
      */
     public function createOrUpdateRelationship(Request $request, $user_id){
         $data = json_decode($request->getContent());
+
+        $configuration = \App\UserConfiguration::where('user_id', $user_id)->first();
         $from_user_id = Auth::id();
 
         if($from_user_id == $user_id) {
@@ -148,17 +150,27 @@ class User extends Controller
             }          
             $relationship = \App\UserRelationship::create($newRelationship);
 
-            // create notification
-            $notification = [
-                'user_id' => $user_id,
-                'actor' => $from_user_id, // Auth::id()
-                'content' => "Đã bày tỏ cảm xúc dành cho bạn",
-                'type' => "relationship",
-                'created_at' => date("Y-m-d H:i:s"),
-                'updated_at' => date("Y-m-d H:i:s")
-            ];
+            $is_notify = 0; 
+            if($relationship->is_like && $configuration->notify_liked) {
+                $is_notify = 1;
+            }
+            if($relationship->is_loved && $configuration->notify_loved) {
+                $is_notify = 1;
+            }
 
-            Notification::insert($notification);
+            if($is_notify) {
+                // create notification
+                $notification = [
+                    'user_id' => $user_id,
+                    'actor' => $from_user_id, // Auth::id()
+                    'content' => "Đã bày tỏ cảm xúc dành cho bạn",
+                    'type' => "relationship",
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ];
+
+                Notification::insert($notification);
+            }
         }
         
         return $relationship;
@@ -212,6 +224,9 @@ class User extends Controller
     }
 
     public function getOtherUserDetail($id) {
+        // get other user config to get notify config
+        $configuration = \App\UserConfiguration::where('user_id', '=', $id)->first();
+        
         $current_user = Auth::user();
         $user = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
@@ -300,7 +315,7 @@ class User extends Controller
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);
 
-            if(!$current_user->is_incognito) {
+            if(!$current_user->is_incognito || $configuration->notify_profile_visited) {
                 // notify
                 Notification::insert([
                     'user_id' => $id,
