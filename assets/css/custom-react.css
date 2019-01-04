@@ -1349,3 +1349,13 @@ button.arrow-btn {
     color:#7f8c8d;
     height: 40px; 
 }
+
+.vip-recommend {
+    padding: 10px;
+    color: #fff;
+    background-color: #3498db;
+}
+
+.vip-recommend h5 {
+    color: #fff;
+}

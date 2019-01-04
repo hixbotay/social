@@ -43,7 +43,20 @@ class NewFeeds extends Component {
                     <div>
                         <div className="ui-block">
                             <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
-                            <hr />
+                            <div className="col-12">
+                                <div className="row vip-recommend">
+                                    <div className="col-2">
+                                        <img src={`${baseUrl}/public/images/diamond.png`} />
+                                    </div>
+                                    <div className="col-7">
+                                        <div><h5>NÂNG CẤP TÀI KHOẢN VIP?</h5></div>
+                                        <div>Nâng cấp ngay và tận hưởng nhiều tính năng tuyệt vời!</div>
+                                    </div>
+                                    <div className="col-3">
+                                        <button className="btn btn-danger">NÂNG CẤP</button>
+                                    </div>
+                                </div>
+                            </div>
                             {
                                 this.state.posts.map((post, index) => {
                                     return (
