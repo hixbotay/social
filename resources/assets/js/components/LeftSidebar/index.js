@@ -26,7 +26,7 @@ class LeftSidebar extends Component {
                     <li className={`dating-menu list-group-item ${match.path === '/dating/create' ? 'active' : ''}`}><Link to="/dating/create">Tạo cuộc hẹn</Link></li>
                     <li className={`dating-menu list-group-item ${match.path === '/payment/history' ? 'active' : ''}`}><Link to="/payment/history">Payment</Link></li>
 
-                    <li className={`dating-menu list-group-item ${match.path === '/gif/categories' ? 'active' : ''}`}><Link to="/gif/categories">Quà tặng</Link></li>
+                    <li className={`dating-menu list-group-item ${match.path === '/gift/categories' ? 'active' : ''}`}><Link to="/gift/categories">Quà tặng</Link></li>
                     <li className={`dating-menu list-group-item ${match.path === '/food/categories' ? 'active' : ''}`}><Link to="/food/categories">Ẩm thực</Link></li>
 
                     <li className="list-group-item-custom"><Link to="/couple"><i className="fas fa-heartbeat fa-2x"></i> KẾT ĐÔI</Link></li>
