@@ -13,7 +13,7 @@ class MessageItem extends Component {
                     <div className="chat_img">
                         <img src={message.sender.avatar} alt="Avatar" />
                     </div>
-                    <div className="chat_ib">
+                    <div className="chat_ib" onClick={() => {console.log(this.props)}}>
                         <h5 style={{fontWeight: (seen === true)?'normal':'bold'}}>
                             {message.sender.name}<span className="chat_date">{message.date}</span>
                         </h5>

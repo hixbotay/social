@@ -88,12 +88,37 @@ class Messages extends Component {
             to_id: [this.state.activeChat.id],
             conversation_id: this.state.activeChat.conversation_id,
         })
+
+        //    seen here
+
+        var payload = {
+            index: null,
+            conversation_id: 1,
+            last_message: this.state.current_message,
+            seen: true,
+        }
+
+        for(let i = 0; i < this.props.chatList.length; i ++){
+            if (this.props.chatList[i].id == this.state.activeChat.id){
+                payload.index = i;
+                break;
+            }
+        }
+
+        this.props.changeListChast(payload)
+            .then(resState => {
+                this.setState({
+                    chatList: this.props.chatList
+                })
+            })
+
         this.setState({
             current_message: "",
         }, () => {
             socket.emit('stop_typing');
             this.setState({typing: ""});
             this.scrollToBottom();
+
         });
     }
 
@@ -129,7 +154,6 @@ class Messages extends Component {
                         })
                     this.props.changeListChast(payload)
                         .then(resState => {
-                            // do nothing
                         })
                 })
         } else {
@@ -178,12 +202,18 @@ class Messages extends Component {
         this.props.getListChat()
             .then(response => {
 
+                this.setState({
+                    chatList: response,
+                    chatListClone: response
+                })
+
                 for (let i = 0; i < response.length; i++ ){
+                    if (response[i].sent_id === this.props.current_user.id){
+
+                    }
                     if (response[i].id !== this.props.current_user.id){
                         this.setState({
                             activeChat: response[i],
-                            chatList: response,
-                            chatListClone: response
                         }, () => {
 
                             this.props.loadMessage({

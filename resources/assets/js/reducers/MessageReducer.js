@@ -23,7 +23,7 @@ export default (state = INIT_STATE, action) => {
             return {
                 ...state,
                 chatList: state.chatList.map(
-                    (content, i) => i === data.index ? {...content, content: data.last_message}
+                    (content, i) => i === data.index ? {...content, content: data.last_message, seen: data.seen}
                         : content
                 )
             }

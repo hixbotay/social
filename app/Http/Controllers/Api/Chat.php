@@ -55,6 +55,7 @@ class Chat extends Controller
                             $list[$key]->conversation_id = $res->conversation_id;
                             $list[$key]->content = $res->content;
                             $list[$key]->seen = $res->seen;
+                            $list[$key]->sent_id = $res->sent_id;
                         }
                     }
                 }
