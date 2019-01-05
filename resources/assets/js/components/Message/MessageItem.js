@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 
 class MessageItem extends Component {
     render() {
+
         const {message} = this.props;
         const {changeActive} = this.props;
-        const {unRead} = this.props;
+        const {seen} = this.props;
         var className = this.props.isActive ? "chat_list active_chat" : "chat_list";
         return (
             <div className={className}>
@@ -13,10 +14,10 @@ class MessageItem extends Component {
                         <img src={message.sender.avatar} alt="Avatar" />
                     </div>
                     <div className="chat_ib">
-                        <h5 style={{fontWeight: unRead?'bold':'normal'}}>
+                        <h5 style={{fontWeight: (seen === true)?'normal':'bold'}}>
                             {message.sender.name}<span className="chat_date">{message.date}</span>
                         </h5>
-                        <p>
+                        <p style={{fontWeight: (seen === true)?'normal':'bold'}}>
                             {message.content}
                         </p>
                     </div>

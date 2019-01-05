@@ -54,6 +54,7 @@ class Chat extends Controller
                         if ($value->id == $user){
                             $list[$key]->conversation_id = $res->conversation_id;
                             $list[$key]->content = $res->content;
+                            $list[$key]->seen = $res->seen;
                         }
                     }
                 }

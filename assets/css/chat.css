@@ -113,8 +113,8 @@ img{ max-width:100%;}
   width: 92%;
  }
  .received_withd_msg p {
-  background: #ebebeb none repeat scroll 0 0;
-  border-radius: 3px;
+  background: #e6f0f9 none repeat scroll 0 0;
+  border-radius: 7px;
   color: #646464;
   font-size: 14px;
   margin: 0;
@@ -135,8 +135,8 @@ img{ max-width:100%;}
 }
 
  .sent_msg p {
-  background: #05728f none repeat scroll 0 0;
-  border-radius: 3px;
+  background: #008fde none repeat scroll 0 0;
+  border-radius: 7px;
   font-size: 14px;
   margin: 0; color:#fff;
   padding: 5px 10px 5px 12px;

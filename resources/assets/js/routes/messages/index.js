@@ -77,7 +77,7 @@ class Messages extends Component {
 
     emitMessage(){
         if (this.state.current_message === "") {
-            alert("Gõ thông điệp đi bạn ");
+            alert("Gõ thông điệp đi bạn");
             return;
         }
         socket.emit('new_message', {
@@ -189,7 +189,7 @@ class Messages extends Component {
                                 page: this.state.page
                             })
                                 .then(response => {
-                                    console.log(response);
+                                    // console.log(response);
                                     this.setState({
                                         conversation: response
                                     }, () => {
@@ -206,8 +206,6 @@ class Messages extends Component {
         // Lang nghe xem co tin nhan moi khoong
 
         socket.on("new_message", (data) => {
-
-            console.log(data);
 
             if (data.conversation_id === this.state.activeChat.conversation_id)
             {
@@ -322,7 +320,7 @@ class Messages extends Component {
                                                     key={item.id}
                                                     message={lastMessage.message}
                                                     isActive={item.id === this.state.activeChat.id}
-                                                    unRead={false}
+                                                    seen={item.seen}
                                                     changeActive={() => {
                                                         this.changeActive(item);
                                                     }}
@@ -337,7 +335,7 @@ class Messages extends Component {
                         <div className="mesgs">
                             <div>
                                 <img src="https://www.w3schools.com/howto/img_avatar.png" id="sender-avatar" />
-                                <span className="h4">
+                                <span className="h4" onClick={() => {console.log(this.props)}}>
                                     {this.state.activeChat.id?this.state.activeChat.name:"Loading ..."}
                                 </span>
                                 <div className="float-right">
