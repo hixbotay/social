@@ -34,7 +34,8 @@ class Messages extends Component {
             typingStatus: false,
             chatList: [],
             chatListClone: [],
-            page: 1
+            page: 1,
+            active: 'all'
         };
 
         if (this.props.current_user.id){
@@ -61,6 +62,7 @@ class Messages extends Component {
     }
 
     typingMessage(evt){
+
         var c11 = this.state.current_message;
         this.setState({
             current_message: evt.target.value
@@ -274,14 +276,46 @@ class Messages extends Component {
                             <div className="headind_srch">
                                 <div className="recent_heading">
                                     <ul>
-                                        <li className={'active'}>
-                                            <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Tất cả</a>
+                                        <li className={(this.state.active === 'all')?'active':null}>
+                                            <a href={'javascript:void(0)'} onClick={() => {
+                                                this.setState({
+                                                    active: 'all',
+                                                    chatList: this.props.chatList
+                                                })
+                                                console.log(this.state)
+                                            }}>Tất cả</a>
                                         </li>
-                                        <li>
-                                            <a href={'#'} onClick={(e) => {e.preventDefault()}}>Chưa đọc</a>
+                                        <li className={(this.state.active === 'not_seen')?'active':null}>
+                                            <a href={'#'} onClick={(e) => {
+                                                var newList = [];
+                                                for (let i = 0; i < this.props.chatList.length; i ++){
+                                                    const item = this.props.chatList[i];
+                                                    if (item.seen === false){
+                                                        newList.push(item);
+                                                    }
+                                                }
+                                                this.setState({
+                                                    active: 'not_seen',
+                                                    chatList: newList
+                                                });
+                                                e.preventDefault();
+                                            }}>Chưa đọc</a>
                                         </li>
-                                        <li>
-                                            <a href={'#'} onClick={() => {console.log(this.props.chatList)}}>Online</a>
+                                        <li className={(this.state.active === 'online')?'active':null}>
+                                            <a href={'#'} onClick={(e) => {
+                                                var newList = [];
+                                                for (let i = 0; i < this.props.chatList.length; i ++){
+                                                    const item = this.props.chatList[i];
+                                                    if (item.seen === true){
+                                                        newList.push(item);
+                                                    }
+                                                }
+                                                this.setState({
+                                                    active: 'online',
+                                                    chatList: newList
+                                                });
+                                                e.preventDefault();
+                                            }}>Online</a>
                                         </li>
                                         <li>
                                             <a href={'#'} onClick={(e) => {
@@ -301,7 +335,7 @@ class Messages extends Component {
                             </div>
                             <div className="inbox_chat">
                                 {
-                                    this.state.chatList.map(item => {
+                                    (this.state.chatList.length > 0)?this.state.chatList.map(item => {
                                         if (item.id === this.props.current_user.id){
 
                                         }else{
@@ -328,7 +362,7 @@ class Messages extends Component {
                                             )
                                         }
 
-                                    })
+                                    }):(<p>Not found</p>)
                                 }
                             </div>
                         </div>
