@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardWithIcon, CardWithTitle } from '../../components/Card';
-
 import { getOtherUserDetail, getFeaturedUserPhotos } from '../../actions/UserActions';
 import Post from '../../components/Post';
 import { withRouter, Link } from 'react-router-dom';
 import ProfileHeader from './ProfileHeader';
 import OtherUserLayout from './OtherUserLayout';
+import Modal from 'react-modal';
 
 class OtherPerson extends Component {
+    constructor() {
+        super();
+        this.state = {
+            isOpen: false
+        }
+    }
 
     componentDidMount() {
         this.props.getUserInfo(this.props.match.params.id);
@@ -32,11 +38,10 @@ class OtherPerson extends Component {
                             </button>
                         </div>
                         <div className="col-4">
-                            <Link to={{pathname: '/product/categories?type=1', state: {receiver: user_data.user.id}}}>
-                                <button className="btn btn-primary btn-function" id="gift-btn">
+                                <button className="btn btn-primary btn-function" id="gift-btn" onClick={() => {this.setState({isOpen: true})}}>
                                     <i className="fas fa-gift"></i> Tặng quà
                                 </button>
-                            </Link>
+                            {/* </Link> */}
                         </div>
                         <div className="col-4">
                             <button className="btn btn-primary btn-function" id="fortune-btn">
@@ -58,6 +63,45 @@ class OtherPerson extends Component {
                         })
                     }
                 </Card>
+                <Modal isOpen={this.state.isOpen}>
+                    <div className="clearfix">
+                        <div className="float-left">
+                            <h3>Chọn loại quà bạn muốn tặng</h3>
+                        </div>
+                        <div className="float-right">
+                            <a href="javascript:void(0);" onClick={() => {this.setState({isOpen: false})}}>
+                                <i className="fas fa-times fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div className="row">
+                        <div className="col-4 gift-type">
+                            <Link to={{pathname: '/gift/categories', state: {receiver: user_data.user.id}}}>
+                                <img src="public/images/gift.png" className="gift-type-image"/>
+                                <div className="text-center">
+                                    <h4>Quà tặng</h4>
+                                </div>
+                            </Link>
+                        </div>
+                        <div className="col-4 gift-type">
+                            <Link to={{pathname: '/food/categories', state: {receiver: user_data.user.id}}}>
+                                <img src="public/images/food.png" className="gift-type-image"/>
+                                <div className="text-center">
+                                    <h4>Đồ ăn</h4>
+                                </div>
+                            </Link>
+                        </div>
+                        <div className="col-4 gift-type">
+                            <Link to={{pathname: '/drink/categories', state: {receiver: user_data.user.id}}}>
+                                <img src="public/images/drink.jpg" className="gift-type-image"/>
+                                <div className="text-center">
+                                    <h4>Đồ uống</h4>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                </Modal>
             </OtherUserLayout>
         );
     }

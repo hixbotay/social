@@ -3,7 +3,8 @@ import {
     GET_PRODUCT_CATEGORIES,
     GET_PRODUCTS,
     GET_PRODUCT_DETAIL,
-    GET_CART
+    GET_CART,
+    ADD_TO_CART
 } from './types';
 
 export const getProductCategories = (type) => dispatch => {
@@ -30,9 +31,18 @@ export const getProductDetail = (id) => dispatch => {
     })
 }
 
-export const getCart = (user_id) => dispatch => {
-    api.get(`/cart/${user_id}`).then(res => {
+export const getCart = () => dispatch => {
+    api.get(`/cart`).then(res => {
         dispatch({type: GET_CART, payload: res.data});
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+export const addToCart = (data) => dispatch => {
+    api.post(`/cart/add`, data).then(res => {
+        console.log(res.data)
+        dispatch({type: ADD_TO_CART, payload: res.data});
     }).catch(err => {
         console.log(err)
     })

@@ -72,7 +72,9 @@ Route::middleware(['web'])->group(function() {
     Route::get('/product-categories/{type}', 'Api\Product@listCategories');
     Route::get('/products', 'Api\Product@listProducts');
     Route::get('/products/{id}', 'Api\Product@getProductDetail');
-    Route::get('/cart/{user_id}', 'Api\Product@getCart');
+    Route::get('/cart', 'Api\Product@getCart');
+    Route::post('/cart/add', 'Api\Product@addToCart');
+    
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

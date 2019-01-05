@@ -2,7 +2,8 @@ import {
     GET_PRODUCT_CATEGORIES,
     GET_PRODUCTS,
     GET_PRODUCT_DETAIL,
-    GET_CART
+    GET_CART,
+    ADD_TO_CART
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -28,6 +29,9 @@ export default (state = INIT_STATE, action) => {
         }
         case GET_CART: {
             return {...state, cartItems: action.payload.cartItems, cartTotal: action.payload.total}
+        }
+        case ADD_TO_CART: {
+            return {...state}
         }
         default: {
             return {...state}

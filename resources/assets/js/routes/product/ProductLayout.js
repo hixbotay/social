@@ -11,27 +11,27 @@ import InformationNumber from '../../components/Information/InformationNumber';
 
 class ProductLayout extends Component {
 
-    // componentDidMount() {
-    //     if(this.props.location.state) {
-    //         if(!this.props.other_user.id 
-    //             || this.props.other_user.id != this.props.location.state.receiver 
-    //             || this.props.current_user.id != this.props.location.state.receiver) {
-    //             this.props.getUserInfo(this.props.location.state.receiver);
-    //         }
-    //     }
+    componentDidMount() {
+        if(this.props.location.state) {
+            if(!this.props.other_user.id 
+                || this.props.other_user.id != this.props.location.state.receiver 
+                || this.props.current_user.id != this.props.location.state.receiver) {
+                this.props.getUserInfo(this.props.location.state.receiver);
+            }
+        }
 
-    //     this.props.getCart(this.props.current_user.id);
-    // }
+        this.props.getCart(this.props.current_user.id);
+    }
 
-    // componentDidUpdate() {
-    //     if(this.props.location.state) {
-    //         if(!this.props.other_user.id 
-    //             || this.props.other_user.id != this.props.location.state.receiver
-    //             || this.props.current_user.id != this.props.location.state.receiver) {
-    //             this.props.getUserInfo(this.props.location.state.receiver);
-    //         }
-    //     }
-    // }
+    componentDidUpdate() {
+        if(this.props.location.state) {
+            if(!this.props.other_user.id 
+                || this.props.other_user.id != this.props.location.state.receiver
+                || this.props.current_user.id != this.props.location.state.receiver) {
+                this.props.getUserInfo(this.props.location.state.receiver);
+            }
+        }
+    }
 
     render() {
         const { other_user, current_user, cartItems, cartTotal } = this.props;
@@ -127,7 +127,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getUserInfo: (id) => dispatch(getOtherUserDetail(id)),
-        getCart: (user_id) => dispatch(getCart(user_id))
+        getCart: () => dispatch(getCart())
     }
 }
 
