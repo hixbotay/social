@@ -69,9 +69,10 @@ Route::middleware(['web'])->group(function() {
     Route::get('/user/configurations', 'Api\User@getUserConfiguration');
     Route::post('/user/configurations', 'Api\User@updateConfiguration');
     // Route::post('user/upload-id-card', 'Api\User@uploadIdCardPhoto');
-    Route::get('/product-categories', 'Api\Product@listCategories');
+    Route::get('/product-categories/{type}', 'Api\Product@listCategories');
     Route::get('/products', 'Api\Product@listProducts');
     Route::get('/products/{id}', 'Api\Product@getProductDetail');
+    Route::get('/cart/{user_id}', 'Api\Product@getCart');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

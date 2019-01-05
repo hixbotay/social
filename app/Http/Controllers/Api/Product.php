@@ -18,8 +18,8 @@ class Product extends Controller {
         $this->type = config('agency.type');
     }
 
-    public function listCategories() {
-        $categories = ProductCategory::all();
+    public function listCategories($type) {
+        $categories = ProductCategory::where('type', $type)->get();
         return ['categories' => $categories];
     }
 
@@ -41,18 +41,19 @@ class Product extends Controller {
         return ['product' => $product];
     }
 
-    public function getProductByCate(){
+    public function getCart($user_id) {
+        $cartItems = DB::table('cart')
+                    ->join('product', 'product.id', '=', 'cart.product_id')
+                    ->where('user_id', $user_id)
+                    ->select(DB::raw('cart.*, product.name, product.price, product.sale_price, product.image'))
+                    ->get();
+        
+        $total = 0;
+        foreach($cartItems as $item) {
+            if($item->sale_price) $total += $item->sale_price * $item->quantity;
+            else $total += $item->price * $item->quantity;
+        }
 
+        return ['cartItems' => $cartItems, 'total' => $total];
     }
-
-    public function getCateByType(){
-
-    }
-
-    public function listCategory(Request $request){
-        return $this->type;
-        $type = 1;
-        $items = ProductCategory::getCateByType($type);
-    }
-
 }

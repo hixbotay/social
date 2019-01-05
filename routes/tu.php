@@ -38,7 +38,6 @@ Route::middleware(['web'])->group(function() {
     Route::post('payment/request', 'Api\Payment@requestUrl');
     Route::get('payment/getprice', 'Api\Payment@getPriceConfig');
 
-    Route::get('/productbycate/{cate}', 'Api\Product@getProductByCate');
 });
 
 

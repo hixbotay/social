@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GiftLayout from './GiftLayout';
+import ProductLayout from './ProductLayout';
 import {getProductDetail} from '../../actions/ProductActions';
 import connect from 'react-redux/es/connect/connect';
 import {withRouter, Link} from 'react-router-dom';
@@ -38,7 +38,7 @@ class ProductDetail extends Component {
         });
 
         return (
-            <GiftLayout title={`KHO QUÀ >> ${product.category_name} >> CHỌN QUÀ`}>
+            <ProductLayout title={`KHO QUÀ >> ${product.category_name} >> CHỌN QUÀ`}>
                 <div>
                     <Carousel
                         slidesToShow={1} 
@@ -120,7 +120,7 @@ class ProductDetail extends Component {
                         </div>
                     </div>
                 </div>
-            </GiftLayout>
+            </ProductLayout>
         );
     }
 }

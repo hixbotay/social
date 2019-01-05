@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GiftLayout from './GiftLayout';
+import ProductLayout from './ProductLayout';
 import {getProducts} from '../../actions/ProductActions';
 import connect from 'react-redux/es/connect/connect';
 import {withRouter, Link} from 'react-router-dom';
@@ -13,13 +13,13 @@ class Products extends Component {
         const {products} = this.props;
 
         return (
-            <GiftLayout title={`KHO QUÀ >> ${this.props.location.state.category.name}`}>
+            <ProductLayout title={`KHO QUÀ >> ${this.props.location.state.category.name}`}>
                 <div className="row">
                     {
                         products.map((product, index) => {
                             return (
                                 <div className="col-6" key={index}>
-                                    <Link to={{pathname: `/gift/products/${product.id}`, state: {receiver: this.props.location.state.receiver}}}>
+                                    <Link to={{pathname: `/products/${product.id}`, state: {receiver: this.props.location.state.receiver}}}>
                                         <div className="gift text-center">
                                             <h4>{product.name}</h4>
                                             <div className="gift-image">
@@ -33,7 +33,7 @@ class Products extends Component {
                         })
                     }
                 </div>
-            </GiftLayout>
+            </ProductLayout>
         );
     }
 }

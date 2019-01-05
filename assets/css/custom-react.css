@@ -1359,3 +1359,13 @@ button.arrow-btn {
 .vip-recommend h5 {
     color: #fff;
 }
+
+.cart-item {
+    border: solid #34495e;
+    padding: 20px 30px;
+}
+
+.item-price {
+    font-size: 1.25em;
+    color: red;
+}

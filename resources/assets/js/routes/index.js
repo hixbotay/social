@@ -43,8 +43,8 @@ import PaymentHistory from './payment/history';
 import PaymentCharge from './payment/charge';
 import Settings from './settings';
 import NotFound from './404';
-import GiftCategories from './gift/Categories';
-import GiftProducts from './gift/Products';
+import ProductCategories from './product/Categories';
+import Products from './product/Products';
 import FoodCategories from './food/Categories';
 
 //action
@@ -53,8 +53,8 @@ import {getNotifications} from '../actions/NotificationActions';
 import { loadPriceConfig } from '../actions/Payment';
 import IdCardVerify from './profile/IdCardVerify';
 import EditProfilePage from './profile/EditProfilePage';
-import GiftLayout from './gift/GiftLayout';
-import ProductDetail from './gift/ProductDetail';
+import ProductLayout from './product/ProductLayout';
+import ProductDetail from './product/ProductDetail';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -128,10 +128,10 @@ class MainApp extends Component {
 
                     {/*Product*/}
 
-                    <AppRoute exact path={"/gift/categories"} layout={SecondLayout} component={GiftCategories} />
-                    <AppRoute exact path={"/gift/categories/:id"} layout={SecondLayout} component={GiftProducts} />
-                    <AppRoute exact path={"/gift/products/:id"} layout={SecondLayout} component={ProductDetail} />
-                    <AppRoute exact path={"/food/categories"} layout={MainLayout} component={FoodCategories} />
+                    <AppRoute exact path={"/:type/categories"} layout={SecondLayout} component={ProductCategories} />
+                    <AppRoute exact path={"/product/categories/:id"} layout={SecondLayout} component={Products} />
+                    <AppRoute exact path={"/products/:id"} layout={SecondLayout} component={ProductDetail} />
+                    {/* <AppRoute exact path={"/food/categories"} layout={MainLayout} component={FoodCategories} /> */}
 
                     <Route component={NotFound} />
 

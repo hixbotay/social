@@ -32,7 +32,7 @@ class OtherPerson extends Component {
                             </button>
                         </div>
                         <div className="col-4">
-                            <Link to={{pathname: '/gift/categories', state: {receiver: user_data.user.id}}}>
+                            <Link to={{pathname: '/product/categories?type=1', state: {receiver: user_data.user.id}}}>
                                 <button className="btn btn-primary btn-function" id="gift-btn">
                                     <i className="fas fa-gift"></i> Tặng quà
                                 </button>
