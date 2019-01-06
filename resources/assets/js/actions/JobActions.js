@@ -12,3 +12,16 @@ export const getAllJobs = () => (dispatch) => {
             console.log(err);
         })
 }
+
+
+export const getJobs = () => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        api.get('/jobs')
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            })
+    })
+}
