@@ -41,10 +41,13 @@ class Product extends Controller {
         return ['product' => $product];
     }
 
-    public function getCart() {
+    function getCartItems($user_id, $receiver) {
         $cartItems = DB::table('cart')
                     ->join('product', 'product.id', '=', 'cart.product_id')
-                    ->where('user_id', Auth::id())
+                    ->where([
+                        ['user_id', '=', $user_id],
+                        ['receiver', '=', $receiver],
+                    ])
                     ->select(DB::raw('cart.*, product.name, product.price, product.sale_price, product.image'))
                     ->get();
         
@@ -57,19 +60,38 @@ class Product extends Controller {
         return ['cartItems' => $cartItems, 'total' => $total];
     }
 
+    public function getCart(Request $request) {
+        $user_id = Auth::id();
+        $receiver = $request->get('receiver') ? $request->get('receiver') : $user_id;
+
+        return $this->getCartItems($user_id, $receiver);
+    }
+
     public function addToCart(Request $request) {
         $data = $request->all();
+        $user_id = Auth::id();
 
-        $result = DB::table('cart')
-                    ->insert([
-                        'user_id' => Auth::id(),
+        $item = \App\Cart::create([
+                        'user_id' => $user_id,
                         'product_id' => $data['product_id'],
                         'quantity' => $data['quantity'],
+                        'receiver' => $data['receiver'],
                         'created_at' => date('Y-m-d h:i:s'),
                         'updated_at' => date('Y-m-d h:i:s')
                     ]);
 
-        return ['result' => $result];
-        // print_r($data);
+        return $this->getCartItems($user_id, $data['receiver']);
+    }
+
+    public function updateCart(Request $request) {
+        
+    }
+
+    public function removeFromCart($id) {
+        $user_id = Auth::id();
+        $item = \App\Cart::where([['id', '=', $id], ['user_id', '=', $user_id]])->first();
+        $receiver = $item->receiver;
+        $item->delete();
+        return $this->getCartItems($user_id, $receiver);
     }
 }

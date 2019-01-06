@@ -7,7 +7,6 @@ import qs from 'qs';
 
 class Categories extends Component {
     componentDidMount() {
-        console.log(this.props.match.params.type)
         var type = 1;
         switch(this.props.match.params.type) {
             case 'gift': {

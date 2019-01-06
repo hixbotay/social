@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { getOtherUserDetail } from '../../actions/UserActions';
-import { getCart } from '../../actions/productActions';
+import { getCart, removeFromCart } from '../../actions/productActions';
 import {withRouter, Link, Route} from 'react-router-dom';
 import { CardWithTitle, Card } from '../../components/Card';
 import SecondLayout from '../../layouts/SecondLayout';
@@ -13,22 +13,22 @@ class ProductLayout extends Component {
 
     componentDidMount() {
         if(this.props.location.state) {
-            if(!this.props.other_user.id 
-                || this.props.other_user.id != this.props.location.state.receiver 
-                || this.props.current_user.id != this.props.location.state.receiver) {
+            if(this.props.current_user.id != this.props.location.state.receiver) {
                 this.props.getUserInfo(this.props.location.state.receiver);
             }
+            this.props.getCart(this.props.location.state.receiver);
+        } else {
+            this.props.getCart(this.props.current_user.id);
         }
-
-        this.props.getCart(this.props.current_user.id);
     }
 
-    componentDidUpdate() {
+    componentWillReceiveProps(nextProps) {
         if(this.props.location.state) {
-            if(!this.props.other_user.id 
-                || this.props.other_user.id != this.props.location.state.receiver
-                || this.props.current_user.id != this.props.location.state.receiver) {
-                this.props.getUserInfo(this.props.location.state.receiver);
+            if(nextProps.location.state.receiver != this.props.location.state.receiver) {
+                if(this.props.current_user.id != nextProps.location.state.receiver) {
+                    this.props.getUserInfo(this.props.location.state.receiver);
+                }
+                this.props.getCart(nextProps.location.state.receiver);
             }
         }
     }
@@ -75,6 +75,11 @@ class ProductLayout extends Component {
                                         cartItems.map((item, index) => {
                                             return (
                                                 <div className="cart-item mb-4" key={index}>
+                                                    <div className="clearfix">
+                                                        <div className="float-right" onClick={() => this.props.removeFromCart(item.id)}>
+                                                            <i className="fas fa-times"></i>
+                                                        </div>
+                                                    </div>
                                                     <div className="text-center mb-2">
                                                         <h5><b>{item.name}</b></h5>
                                                     </div>
@@ -127,7 +132,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getUserInfo: (id) => dispatch(getOtherUserDetail(id)),
-        getCart: () => dispatch(getCart())
+        getCart: (receiver) => dispatch(getCart(receiver)),
+        removeFromCart: (id) => dispatch(removeFromCart(id))
     }
 }
 

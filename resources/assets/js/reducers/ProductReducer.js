@@ -3,7 +3,8 @@ import {
     GET_PRODUCTS,
     GET_PRODUCT_DETAIL,
     GET_CART,
-    ADD_TO_CART
+    ADD_TO_CART,
+    REMOVE_FROM_CART
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -31,7 +32,10 @@ export default (state = INIT_STATE, action) => {
             return {...state, cartItems: action.payload.cartItems, cartTotal: action.payload.total}
         }
         case ADD_TO_CART: {
-            return {...state}
+            return {...state, cartItems: action.payload.cartItems, cartTotal: action.payload.total}
+        }
+        case REMOVE_FROM_CART: {
+            return {...state, cartItems: action.payload.cartItems, cartTotal: action.payload.total}
         }
         default: {
             return {...state}

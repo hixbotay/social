@@ -74,7 +74,7 @@ Route::middleware(['web'])->group(function() {
     Route::get('/products/{id}', 'Api\Product@getProductDetail');
     Route::get('/cart', 'Api\Product@getCart');
     Route::post('/cart/add', 'Api\Product@addToCart');
-    
+    Route::delete('/cart/{id}', 'Api\Product@removeFromCart');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

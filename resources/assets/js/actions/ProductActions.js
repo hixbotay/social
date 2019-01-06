@@ -4,7 +4,8 @@ import {
     GET_PRODUCTS,
     GET_PRODUCT_DETAIL,
     GET_CART,
-    ADD_TO_CART
+    ADD_TO_CART,
+    REMOVE_FROM_CART
 } from './types';
 
 export const getProductCategories = (type) => dispatch => {
@@ -31,8 +32,8 @@ export const getProductDetail = (id) => dispatch => {
     })
 }
 
-export const getCart = () => dispatch => {
-    api.get(`/cart`).then(res => {
+export const getCart = (receiver) => dispatch => {
+    api.get(`/cart?receiver=${receiver}`).then(res => {
         dispatch({type: GET_CART, payload: res.data});
     }).catch(err => {
         console.log(err)
@@ -41,8 +42,16 @@ export const getCart = () => dispatch => {
 
 export const addToCart = (data) => dispatch => {
     api.post(`/cart/add`, data).then(res => {
-        console.log(res.data)
         dispatch({type: ADD_TO_CART, payload: res.data});
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+export const removeFromCart = (id) => dispatch => {
+    api.delete(`/cart/${id}`).then(res => {
+        dispatch({type: REMOVE_FROM_CART, payload: res.data});
+        // window.location.reload();
     }).catch(err => {
         console.log(err)
     })

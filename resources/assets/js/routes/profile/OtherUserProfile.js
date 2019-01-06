@@ -38,10 +38,9 @@ class OtherPerson extends Component {
                             </button>
                         </div>
                         <div className="col-4">
-                                <button className="btn btn-primary btn-function" id="gift-btn" onClick={() => {this.setState({isOpen: true})}}>
-                                    <i className="fas fa-gift"></i> Tặng quà
-                                </button>
-                            {/* </Link> */}
+                            <button className="btn btn-primary btn-function" id="gift-btn" onClick={() => {this.setState({isOpen: true})}}>
+                                <i className="fas fa-gift"></i> Tặng quà
+                            </button>
                         </div>
                         <div className="col-4">
                             <button className="btn btn-primary btn-function" id="fortune-btn">

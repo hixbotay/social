@@ -14,7 +14,8 @@ class ProductDetail extends Component {
         super();
         this.state = {
             itemNumbers: 1,
-            isOpen: false
+            isOpenAlert: false,
+            isOpenSuccess: false
         }
     }
 
@@ -40,15 +41,22 @@ class ProductDetail extends Component {
         if (this.props.user.credit >= price * itemNumbers) {
             this.props.addToCart({
                 product_id: this.props.product.id,
-                quantity: this.state.itemNumbers
-            })
+                quantity: this.state.itemNumbers,
+                receiver: this.props.location.state.receiver
+            });
+            this.setState({ isOpenSuccess: true });
         } else {
-            this.setState({ isOpen: true });
+            this.setState({ isOpenAlert: true });
         }
     }
 
-    closeModal() {
-        this.setState({ isOpen: false })
+    closeAlert() {
+        this.setState({ isOpenAlert: false })
+    }
+
+    closeSuccessModal() {
+        this.setState({ isOpenSuccess: false });
+        // window.location.reload();
     }
 
     render() {
@@ -101,7 +109,7 @@ class ProductDetail extends Component {
                                         </h5>
                                     ) : (
                                             <h5>
-                                                <b className="red">{product.sale_price}</b> Xu
+                                                <b className="red">{product.price}</b> Xu
                                         </h5>
                                         )
                                 }
@@ -144,7 +152,7 @@ class ProductDetail extends Component {
                         </div>
                     </div>
                 </div>
-                <Modal isOpen={this.state.isOpen} >
+                <Modal isOpen={this.state.isOpenAlert} >
                     <div className="text-center">
                         <h4 className="red"><b>RẤT TIẾC!!!</b></h4>
                     </div>
@@ -154,9 +162,33 @@ class ProductDetail extends Component {
                         <div>Bạn phải nạp đủ xu cho quà tặng và phí gửi</div>
                         <div>Nếu  bạn không phải người ga lăng, hãy...</div>
                         <div className="text-center mt-2">
-                            <button className="btn btn-secondary" onClick={() => this.closeModal()}>
+                            <button className="btn btn-secondary" onClick={() => this.closeAlert()}>
                                 BỎ QUA
                             </button>
+                        </div>
+                    </div>
+                </Modal>
+                <Modal isOpen={this.state.isOpenSuccess} >
+                    <div className="text-center">
+                        <h4 className="red"><b>ĐÃ XONG!!!</b></h4>
+                    </div>
+                    <div>
+                        <h5>Bạn muốn chọn tiếp quà cho người ấy hay chuyển sang phần thanh toán</h5>
+                        <div className="row">
+                            <div className="col-6">
+                                <div className="text-center mt-2">
+                                    <button className="btn btn-secondary" onClick={() => this.closeSuccessModal()}>
+                                        CHỌN TIẾP
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="col-6">
+                                <div className="text-center mt-2">
+                                    <button className="btn btn-secondary" onClick={() => this.closeSuccessModal()}>
+                                        THANH TOÁN
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </Modal>
