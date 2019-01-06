@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import connect from 'react-redux/es/connect/connect';
 import { getOtherUserDetail } from '../../actions/UserActions';
-import { getCart } from '../../actions/productActions';
+import { getCart } from '../../actions/ProductActions';
 import {withRouter, Link, Route} from 'react-router-dom';
 import { CardWithTitle, Card } from '../../components/Card';
 import SecondLayout from '../../layouts/SecondLayout';
