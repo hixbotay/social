@@ -20,7 +20,7 @@ import {getCafeDetail} from "../../actions/CafeActions";
 import axios from 'axios';
 import chatApi from "../../api/chat";
 
-// const socket = io('https://chat.noiduyen.vn:80/', {secure: true, reconnect: true});
+import FilterTab from './filter';
 
 class Messages extends Component {
 
@@ -35,7 +35,8 @@ class Messages extends Component {
             chatList: [],
             chatListClone: [],
             page: 1,
-            active: 'all'
+            active: 'all',
+            disabled: false
         };
 
         if (this.props.current_user.id){
@@ -52,7 +53,6 @@ class Messages extends Component {
     }
 
     scrollToBottom() {
-
         const messagesEnd = this.messagesEnd.current;
         const scrollHeight = messagesEnd.scrollHeight;
         const height = messagesEnd.clientHeight;
@@ -326,6 +326,7 @@ class Messages extends Component {
                 <div className="messaging">
                     <div className="inbox_msg">
                         <div className="inbox_people">
+
                             <div className="headind_srch">
                                 <div className="recent_heading">
                                     <ul>
@@ -370,11 +371,13 @@ class Messages extends Component {
                                                 e.preventDefault();
                                             }}>Online</a>
                                         </li>
-                                        <li>
+                                        <li className={(this.state.active === 'compose')?'active':null}>
                                             <a href={'#'} onClick={(e) => {
-                                                this.scrollToBottom();
+                                                this.setState({
+                                                    active: 'compose',
+                                                })
                                                 e.preventDefault();
-                                            }}>Star</a>
+                                            }}>Soạn tin</a>
                                         </li>
                                     </ul>
 
@@ -386,9 +389,10 @@ class Messages extends Component {
 
                                 </div>
                             </div>
+
                             <div className="inbox_chat">
                                 {
-                                    (this.state.chatList.length > 0)?this.state.chatList.map(item => {
+                                    (this.state.active !== 'compose')?(this.state.chatList.length > 0)?this.state.chatList.map(item => {
                                         if (item.id === this.props.current_user.id){
 
                                         }else{
@@ -415,9 +419,10 @@ class Messages extends Component {
                                             )
                                         }
 
-                                    }):(<p>Not found</p>)
+                                    }):(<p>Not found</p>):(<FilterTab />)
                                 }
                             </div>
+
                         </div>
                         <div className="mesgs">
                             <div>
@@ -459,6 +464,7 @@ class Messages extends Component {
                             <div className="type_msg">
                                 <div className="input_msg_write">
                                     <input type="text"
+                                           disabled={(this.state.activeChat.id)?false:'disabled'}
                                            value={this.state.current_message}
                                            className="write_msg"
                                            id="input-msg"

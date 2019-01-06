@@ -14994,3 +14994,10 @@ input[type=checkbox] {
 
 .swiper-container.auto-height .swiper-slide {
   height: auto !important; }
+
+.filter-box {
+  background: #e6f0f9;
+  /*margin-left: -15px;*/
+  padding: 10px;
+  height: 100%;
+}
