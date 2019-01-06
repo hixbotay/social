@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\Object_;
 
 class Chat extends Controller
 {
@@ -30,6 +31,48 @@ class Chat extends Controller
     }
 
     public function listChat(){
+
+        $logged_id = Auth::id();
+        try{
+            $result = file_get_contents($this->root.'conversation/load/'.$logged_id,false, stream_context_create($this->ssl));
+            $result = json_decode($result);
+            if (empty($result)){
+                return [];
+            }
+
+            $list = array();
+
+            foreach ($result AS $res){
+                $id = null;
+                foreach ($res->users_id AS $users){
+                    if ($users != $logged_id) {
+                        $id = $users;
+                    }
+                }
+                if ($id){
+                    $user = DB::table('users')->select(
+                        'id','name','email'
+                    )->where('id', '=', $id)->first();
+                    $userxx = new Object_();
+                    $userxx->conversation_id = $res->conversation_id;
+                    $userxx->content = $res->content;
+                    $userxx->seen = $res->seen;
+                    $userxx->sent_id = $res->sent_id;
+                    $ahihi = array_merge((array)$user, (array)$userxx);
+                    $list[] = $ahihi;
+                }
+            }
+
+            return $list;
+            return ($list);
+
+        }catch (\Exception $exception){
+            return $exception->getMessage();
+        }
+
+    }
+
+    public function listChat2(){
         $list = DB::table('users')->select(
             'id','name','email','name'
         )->get();

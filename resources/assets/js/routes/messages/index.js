@@ -93,7 +93,7 @@ class Messages extends Component {
 
         var payload = {
             index: null,
-            conversation_id: 1,
+            conversation_id: this.state.activeChat.conversation_id,
             last_message: this.state.current_message,
             seen: true,
         }
@@ -208,9 +208,6 @@ class Messages extends Component {
                 })
 
                 for (let i = 0; i < response.length; i++ ){
-                    if (response[i].sent_id === this.props.current_user.id){
-
-                    }
                     if (response[i].id !== this.props.current_user.id){
                         this.setState({
                             activeChat: response[i],
@@ -221,7 +218,6 @@ class Messages extends Component {
                                 page: this.state.page
                             })
                                 .then(response => {
-                                    // console.log(response);
                                     this.setState({
                                         conversation: response
                                     }, () => {
@@ -238,6 +234,8 @@ class Messages extends Component {
         // Lang nghe xem co tin nhan moi khoong
 
         socket.on("new_message", (data) => {
+
+            console.log(data);
 
             if (data.conversation_id === this.state.activeChat.conversation_id)
             {
@@ -263,6 +261,31 @@ class Messages extends Component {
                         })
                 }
             }
+
+
+
+            for(let i = 0; i < this.props.chatList.length; i ++){
+
+                if (this.props.chatList[i].id == data.user_id){
+                    var payload = {
+                        index: i,
+                        conversation_id: data.conversation_id,
+                        last_message: data.message,
+                        // seen: false,
+                    }
+
+                    this.props.changeListChast(payload)
+                        .then(resState => {
+                            this.setState({
+                                chatList: this.props.chatList
+                            })
+                        })
+
+                    break;
+                }
+            }
+
+
 
 
         })
