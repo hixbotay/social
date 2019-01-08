@@ -16,6 +16,7 @@ class Products extends Component {
             <ProductLayout title={`KHO QUÀ >> ${this.props.location.state.category.name}`}>
                 <div className="row">
                     {
+                        products.length ?
                         products.map((product, index) => {
                             return (
                                 <div className="col-6" key={index}>
@@ -30,7 +31,9 @@ class Products extends Component {
                                     </Link>
                                 </div>
                             )
-                        })
+                        }) : (
+                            <div>Danh mục này không có bất kỳ sản phẩm nào</div>
+                        )
                     }
                 </div>
             </ProductLayout>

@@ -16,6 +16,7 @@ class Wishlist extends Component {
             <ProductLayout title={`KHO QUÀ >> Quà yêu thích`}>
                 <div className="row">
                     {
+                        products.length ?
                         products.map((product, index) => {
                             return (
                                 <div className="col-6" key={index}>
@@ -30,7 +31,9 @@ class Wishlist extends Component {
                                     </Link>
                                 </div>
                             )
-                        })
+                        }) : (
+                            <div>Bạn chưa yêu thích bất kỳ sản phẩm nào</div>
+                        )
                     }
                 </div>
             </ProductLayout>
