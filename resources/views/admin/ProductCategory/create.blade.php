@@ -28,13 +28,24 @@
                             <textarea type="text" class="form-control" name="data[description]" required></textarea>
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label">Ảnh đại diện</label>
+                            <input type="file" name="image" class="filestyle" data-buttonname="btn-primary">
+                        </div>
+
+
                     </div>
 
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">@lang('admin.SUBMIT')</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 @endsection
+
+@section('javascript')
+    <script type="text/javascript">
+    </script>
+@stop

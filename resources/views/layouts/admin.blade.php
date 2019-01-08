@@ -81,6 +81,7 @@
 
 	<!-- Sweet-Alert  -->
 	<script src="{{ asset('assets/plugins/sweet-alert2/sweetalert2.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.js') }}"></script>
 	<script src="{{ asset('assets/pages/jquery.sweet-alert.init.js') }}"></script>
 
 	<!-- App Js -->

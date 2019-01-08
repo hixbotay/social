@@ -63,6 +63,11 @@ class ProductCategory extends Controller
     public function store(Request $request)
     {
         $data = request()->get('data');
+        $file = $request->file('image');
+        $file_name = time() . '_' . $file->getClientOriginalName();
+        $file_path = 'storage/app/product/category/'.$data['type'].'/';
+        $file->move($file_path, $file_name);
+        $data['image'] = $file_path . $file_name;
         $result = ProductCategoryModel::create($data);
         $type = isset($_GET['type'])?$_GET['type']:null;
         $url = url('admin?view=ProductCategory&type='.$type);

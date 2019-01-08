@@ -118,5 +118,6 @@ return [
     'product_category_3' => 'Danh mục quà tặng',
     'PRODUCT' => 'Sản phẩm',
     'CHOOSE_AGENCY' => 'Chọn đại lý',
-    'PRODUCT_NAME' => 'Tên sản phẩm'
+    'PRODUCT_NAME' => 'Tên sản phẩm',
+    'CHOOSE_FILE' => 'Chọn file'
 ];

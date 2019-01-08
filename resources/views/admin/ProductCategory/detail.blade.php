@@ -1,6 +1,6 @@
 <?php
 //echo "<pre>";
-//print_r($item->description);
+//print_r($item->image);
 //die;
 ?>
 
@@ -25,12 +25,21 @@
                             <textarea type="text" class="form-control" name="data[description]" required>{{$item->description}}</textarea>
                         </div>
 
+                        <div class="form-group">
+                            <img src="<?= $item->image ?>" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Ảnh đại diện</label>
+                            <input type="file" name="image" class="filestyle" data-buttonname="btn-primary">
+                        </div>
+
                     </div>
 
                     <input type="hidden" name="data[type]" value="{{$item->type}}">
 
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">@lang('admin.SUBMIT')</button>
                     </div>
                 </form>
             </div>
