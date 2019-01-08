@@ -4,7 +4,11 @@ import {
     GET_PRODUCT_DETAIL,
     GET_CART,
     ADD_TO_CART,
-    REMOVE_FROM_CART
+    REMOVE_FROM_CART,
+    UPDATE_CART,
+    CHECK_OUT,
+    UPDATE_WISHLIST,
+    GET_PRODUCTS_IN_WISHLIST
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -36,6 +40,18 @@ export default (state = INIT_STATE, action) => {
         }
         case REMOVE_FROM_CART: {
             return {...state, cartItems: action.payload.cartItems, cartTotal: action.payload.total}
+        }
+        case UPDATE_CART: {
+            return {...state, cartItems: action.payload.cartItems, cartTotal: action.payload.total}
+        }
+        case CHECK_OUT: {
+            return {...state}
+        }
+        case UPDATE_WISHLIST: {
+            return {...state}
+        }
+        case GET_PRODUCTS_IN_WISHLIST: {
+            return {...state, products: action.payload}
         }
         default: {
             return {...state}

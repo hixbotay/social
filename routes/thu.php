@@ -74,7 +74,11 @@ Route::middleware(['web'])->group(function() {
     Route::get('/products/{id}', 'Api\Product@getProductDetail');
     Route::get('/cart', 'Api\Product@getCart');
     Route::post('/cart/add', 'Api\Product@addToCart');
+    Route::put('/cart/{id}', 'Api\Product@updateCart');
     Route::delete('/cart/{id}', 'Api\Product@removeFromCart');
+    Route::post('/checkout', 'Api\Product@checkout');
+    Route::put('/wishlist', 'Api\Product@updateWishlist');
+    Route::get('/wishlist', 'Api\Product@getWishlist');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

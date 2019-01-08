@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import ProductLayout from './ProductLayout';
-import { getProductDetail, addToCart } from '../../actions/ProductActions';
+import { getProductDetail, addToCart, updateWishlist } from '../../actions/ProductActions';
 import connect from 'react-redux/es/connect/connect';
 import { withRouter, Link } from 'react-router-dom';
 import Carousel from 'nuka-carousel';
 import Modal from 'react-modal';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 Modal.setAppElement('#app');
 
@@ -15,12 +16,18 @@ class ProductDetail extends Component {
         this.state = {
             itemNumbers: 1,
             isOpenAlert: false,
-            isOpenSuccess: false
+            isOpenSuccess: false,
+            isInWishlist: false
         }
     }
 
     componentDidMount() {
         this.props.getProductDetail(this.props.match.params.id);
+        if(this.props.user.wishlist_product) {
+            this.setState({
+                isInWishlist: this.props.user.wishlist_product.split(',').indexOf(this.props.match.params.id) >= 0
+            });
+        }
     }
 
     onChangeItemNumber(type) {
@@ -59,8 +66,22 @@ class ProductDetail extends Component {
         // window.location.reload();
     }
 
+    toggleWishlist() {
+        var type = 'add';
+        if(this.state.isInWishlist) {
+            type = 'remove';
+        }
+
+        this.props.updateWishlist({type: type, product_id: this.props.product.id}).then(data => {
+            if(data.ok) {
+                this.setState({isInWishlist: !this.state.isInWishlist});
+            }
+        })
+    }
+
     render() {
         const { product } = this.props;
+        var {isInWishlist} = this.state;
 
         var images = [product.image];
         product.photos.forEach(photo => {
@@ -108,14 +129,14 @@ class ProductDetail extends Component {
                                             <b className="red">{product.sale_price}</b> <strike className="red">{product.price}</strike> Xu
                                         </h5>
                                     ) : (
-                                            <h5>
-                                                <b className="red">{product.price}</b> Xu
+                                        <h5>
+                                            <b className="red">{product.price}</b> Xu
                                         </h5>
-                                        )
+                                    )
                                 }
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row d-flex align-items-center">
                             <div className="col-2">
                                 <b>Số lượng: </b>
                             </div>
@@ -131,7 +152,7 @@ class ProductDetail extends Component {
                                             <b>{this.state.itemNumbers}</b>
                                         </button>
                                     </div>
-                                    <div className="col-4">
+                                    <div className="col-4 d-flex align-items-center">
                                         <button className="product-btn" onClick={() => this.onChangeItemNumber('plus')}>
                                             <i className="fas fa-plus"></i>
                                         </button>
@@ -139,10 +160,21 @@ class ProductDetail extends Component {
                                 </div>
                             </div>
                             <div className="col-1"></div>
-                            <div className="col-6">
-                                <button className="btn btn-danger" onClick={() => this.addToCart()}>
+                            <div className="col-3">
+                                <button className="btn btn-danger" id="choose-product-btn" onClick={() => this.addToCart()}>
                                     CHỌN QUÀ
                                 </button>
+                            </div>
+                            <div className="col-3">
+                                <div onClick={() => this.toggleWishlist()}>
+                                    {
+                                        isInWishlist ? (
+                                            <FaHeart color='#e74c3c' id="wishlist-icon"/>
+                                        ) : (
+                                            <FaRegHeart id="wishlist-icon"/>
+                                        )
+                                    }
+                                </div>
                             </div>
                         </div>
                         <div className="mt-4">
@@ -184,9 +216,11 @@ class ProductDetail extends Component {
                             </div>
                             <div className="col-6">
                                 <div className="text-center mt-2">
-                                    <button className="btn btn-secondary" onClick={() => this.closeSuccessModal()}>
-                                        THANH TOÁN
-                                    </button>
+                                    <Link to={{pathname: "/checkout", state: {receiver: this.props.location.state.receiver}}}>
+                                        <button className="btn btn-secondary">
+                                            THANH TOÁN
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -200,14 +234,17 @@ class ProductDetail extends Component {
 function mapStateToProps(state) {
     return {
         product: state.product.product,
-        user: state.user.current_user
+        user: state.user.current_user,
+        cartItems: state.product.cartItems,
+        cartTotal:state.product.cartTotal
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getProductDetail: (id) => dispatch(getProductDetail(id)),
-        addToCart: (data) => dispatch(addToCart(data))
+        addToCart: (data) => dispatch(addToCart(data)),
+        updateWishlist: (data) => dispatch(updateWishlist(data))
     }
 }
 

@@ -93,3 +93,7 @@ export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
 export const GET_CART = 'GET_CART';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const UPDATE_CART = 'UPDATE_CART';
+export const CHECK_OUT = 'CHECK_OUT';
+export const UPDATE_WISHLIST = 'UPDATE_WISHLIST';
+export const GET_PRODUCTS_IN_WISHLIST = 'GET_PRODUCTS_IN_WISHLIST';

@@ -55,6 +55,8 @@ import IdCardVerify from './profile/IdCardVerify';
 import EditProfilePage from './profile/EditProfilePage';
 import ProductLayout from './product/ProductLayout';
 import ProductDetail from './product/ProductDetail';
+import Checkout from './product/Checkout';
+import Wishlist from './product/Wishlist';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -131,7 +133,8 @@ class MainApp extends Component {
                     <AppRoute exact path={"/:type/categories"} layout={SecondLayout} component={ProductCategories} />
                     <AppRoute exact path={"/product/categories/:id"} layout={SecondLayout} component={Products} />
                     <AppRoute exact path={"/products/:id"} layout={SecondLayout} component={ProductDetail} />
-                    {/* <AppRoute exact path={"/food/categories"} layout={MainLayout} component={FoodCategories} /> */}
+                    <AppRoute exact path={"/checkout"} layout={SecondLayout} component={Checkout} />
+                    <AppRoute exact path="/wishlist" layout={SecondLayout} component={Wishlist} />
 
                     <Route component={NotFound} />
 
