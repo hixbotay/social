@@ -115,6 +115,16 @@ class ProductCategory extends Controller
         $id = $request->get('id');
         $data = $request->get('data');
         $item = ProductCategoryModel::find($id);
+
+        $file = $request->file('image');
+        if ($file){
+            $file_name = time() . '_' . $file->getClientOriginalName();
+            $file_path = 'storage/app/product/category/'.$data['type'].'/';
+            $newFile = $file->move($file_path, $file_name);
+
+            $data['image'] = $file_path . $file_name;
+        }
+
         foreach ($data as $key => $value) {
             $item->$key = $value;
         }
@@ -124,7 +134,7 @@ class ProductCategory extends Controller
             $result = $item->save();
             if (!$result)
                 return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
-            return redirect($url)->with('success', __('admin.SAVE_SUCCESS'));
+            return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
 
         }else{
             return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
