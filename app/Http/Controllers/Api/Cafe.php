@@ -43,7 +43,7 @@ class Cafe extends Controller
             unset($query['q']);
         }
 
-        $data = \App\Agency::where($query)->paginate(10);
+        $data = \App\Agency::where($query)->where('register_status', 1)->paginate(10);
         $temp = $data->items();
 
         foreach($temp as $key => $agency) {

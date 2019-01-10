@@ -38,9 +38,11 @@ class OtherPerson extends Component {
                             </button>
                         </div>
                         <div className="col-4">
-                            <button className="btn btn-primary btn-function" id="gift-btn" onClick={() => {this.setState({isOpen: true})}}>
-                                <i className="fas fa-gift"></i> Tặng quà
-                            </button>
+                            <Link to={{pathname: '/gift/categories', state: {receiver: user_data.user.id}}}>
+                                <button className="btn btn-primary btn-function" id="gift-btn" onClick={() => {this.setState({isOpen: true})}}>
+                                    <i className="fas fa-gift"></i> Tặng quà
+                                </button>
+                            </Link>
                         </div>
                         <div className="col-4">
                             <button className="btn btn-primary btn-function" id="fortune-btn">
@@ -62,7 +64,7 @@ class OtherPerson extends Component {
                         })
                     }
                 </Card>
-                <Modal isOpen={this.state.isOpen}>
+                {/* <Modal isOpen={this.state.isOpen}>
                     <div className="clearfix">
                         <div className="float-left">
                             <h3>Chọn loại quà bạn muốn tặng</h3>
@@ -100,7 +102,7 @@ class OtherPerson extends Component {
                             </Link>
                         </div>
                     </div>
-                </Modal>
+                </Modal> */}
             </OtherUserLayout>
         );
     }
