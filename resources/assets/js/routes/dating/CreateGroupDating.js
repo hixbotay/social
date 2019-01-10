@@ -241,6 +241,9 @@ class CreateGroupDating extends Component {
                                                     <div className="address-avatar">
                                                         <RoundAvatar size="small" img={item.avatar}></RoundAvatar>
                                                     </div>
+                                                    <div className="address-type address-tag">
+                                                        {item.type == 1 ? 'CAFE' : 'QUÁN ĂN'}
+                                                    </div>
                                                 </div>
                                             )
                                         })

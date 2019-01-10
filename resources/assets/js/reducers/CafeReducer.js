@@ -9,7 +9,9 @@ import {
 const INIT_STATE = {
     cafes: [],
     newCafe: {},
-    currentCafe: {},
+    currentCafe: {
+        images: []
+    },
     results: []
 }
 

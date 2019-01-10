@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import CafeLayout from './CafeLayout';
-import { Card } from '../../components/Card';
+import { Card, CardWithTitle } from '../../components/Card';
 import { RoundAvatar } from '../../components/Avatar';
 import connect from 'react-redux/es/connect/connect';
 import { getCafeDetail, updateImage } from '../../actions/CafeActions';
-import { withRouter } from 'react-router-dom';
-import SimpleSlider from '../../components/Slider/SimpleSlider';
+import { getProducts } from '../../actions/ProductActions';
+import { withRouter, Link } from 'react-router-dom';
 import ImageCompressor from 'image-compressor.js';
+import Carousel from "nuka-carousel";
 
 class CafeDetail extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class CafeDetail extends Component {
 
     componentDidMount() {
         this.props.getCafeDetail(this.props.match.params.id);
+        this.props.getProducts({agency_id: this.props.match.params.id});
     }
 
     createDating(id) {
@@ -46,7 +48,7 @@ class CafeDetail extends Component {
     }
 
     render() {
-        const { user, agency } = this.props;
+        const { user, agency, products } = this.props;
         var now = new Date().getHours();
 
         return (
@@ -74,7 +76,15 @@ class CafeDetail extends Component {
 
                         <div className="author-date">
                             <h3>{agency.name}</h3>
-                            <p>{agency.type}</p>
+                            <div>
+                                {
+                                    agency.type == 1 ? (
+                                        <div className="address-type">CAFE</div>
+                                    ) : (
+                                        <div className="address-type">QUÁN ĂN</div>
+                                    )
+                                }
+                            </div>
                         </div>
                     </div>
                     <div className="row">
@@ -113,10 +123,52 @@ class CafeDetail extends Component {
                             </label>
                         </div>
                         <div className="col-9">
-                            <SimpleSlider images={agency.images} slidesToShow={3}></SimpleSlider>
+                            <Carousel 
+                                slidesToShow={3} 
+                                cellSpacing={5}
+                                autoplay={true}
+                                autoGenerateStyleTag={true}
+                                initialSlideHeight={250}
+                                autoplay={true}
+                                renderCenterLeftControls={({ previousSlide }) => (
+                                    <button className="arrow-btn" onClick={previousSlide}><i className="fas fa-chevron-circle-left"></i></button>
+                                )}
+                                renderCenterRightControls={({ nextSlide }) => (
+                                    <button className="arrow-btn" onClick={nextSlide}><i className="fas fa-chevron-circle-right"></i></button>
+                                )}
+                            >
+                                {
+                                    agency.images.map((item, index) => {
+                                        return (
+                                            <img src={item} key={index}/>
+                                        )
+                                    })
+                                }
+                            </Carousel>
                         </div>
                     </div>
                 </Card>
+                <CardWithTitle title="SẢN PHẨM CỦA QUÁN" hasLine={true}>
+                    <div className="row">
+                    {
+                        products.map((product, index) => {
+                            return (
+                                <div className="col-4" key={index}>
+                                    <Link to={`/products/${product.id}`}>
+                                        <img src={product.image} className="product-thumbnail" />
+                                        <h5>
+                                            <b>{product.name}</b>
+                                        </h5>
+                                        <div>
+                                            <b className="red">{product.sale_price ? product.sale_price : product.price} xu</b>
+                                        </div>
+                                    </Link>
+                                </div>
+                            )
+                        })
+                    }
+                    </div>
+                </CardWithTitle>
             </CafeLayout>
         );
     }
@@ -125,14 +177,16 @@ class CafeDetail extends Component {
 function mapStateToProps(state) {
     return {
         user: state.user.current_user,
-        agency: state.cafe.currentCafe
+        agency: state.cafe.currentCafe,
+        products: state.product.products
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getCafeDetail: (id) => dispatch(getCafeDetail(id)),
-        updateCafeImage: (data, id) => dispatch(updateImage(data, id))
+        updateCafeImage: (data, id) => dispatch(updateImage(data, id)),
+        getProducts: (query) => dispatch(getProducts(query))
     }
 }
 
