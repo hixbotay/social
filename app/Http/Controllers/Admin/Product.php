@@ -135,6 +135,9 @@ class Product extends Controller
 
     public function update(Request $request)
     {
+//        echo "<pre>";
+//        print_r($request->get('old_images'));
+//        die;
         $id = $request->input('id');
         $data = $request->get('data');
         $url = 'admin?view=Product&type=' . $data['type'];
@@ -146,7 +149,12 @@ class Product extends Controller
         $result = $item->save();
         if ($result){
             $file = $request->file('images');
+            $oldImages = $request->get('old_images');
             if ($file){
+
+                ProductPhotos::where('product_id', '=', $id)
+                    ->whereNotIn('id', $oldImages)->delete();
+
                 $images = [];
                 $images['product_id'] = $id;
                 foreach ($file AS $value){

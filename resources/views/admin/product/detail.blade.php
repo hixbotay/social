@@ -64,6 +64,7 @@
                                     <div class="image-zone">
                                         <img id="pro-img-{{$key}}" src="{{$value->url}}">
                                     </div>
+                                    <input type="hidden" name="old_images[]" value="{{$value->id}}">
                                 </div>
                                 @endforeach
                             </div>
