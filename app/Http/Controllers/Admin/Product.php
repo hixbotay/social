@@ -140,7 +140,7 @@ class Product extends Controller
 //        die;
         $id = $request->input('id');
         $data = $request->get('data');
-        $url = 'admin?view=Product&type=' . $data['type'];
+        $url = 'admin?view=Product&layout=edit&id='.$id.'&type=' . $data['type'];
         $item = ProductModel::find($id);
         if (!$item->id) return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         foreach ($data as $key => $value) {
@@ -150,10 +150,17 @@ class Product extends Controller
         if ($result){
             $file = $request->file('images');
             $oldImages = $request->get('old_images');
+
             if ($file){
 
-                ProductPhotos::where('product_id', '=', $id)
-                    ->whereNotIn('id', $oldImages)->delete();
+                if ($oldImages && is_array($oldImages))
+                {
+                    ProductPhotos::where('product_id', '=', $id)
+                        ->whereNotIn('id', $oldImages)->delete();
+                }else{
+                    ProductPhotos::where('product_id', '=', $id)
+                        ->delete();
+                }
 
                 $images = [];
                 $images['product_id'] = $id;
