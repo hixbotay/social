@@ -31,6 +31,7 @@
         "rc-progress": "^2.2.6",
         "react-animated-slider": "^1.1.3",
         "react-countdown-now": "^1.3.0",
+        "react-device-detect": "^1.6.1",
         "react-dot-fragment": "^0.2.7",
         "react-edit-inline": "^1.0.8",
         "react-icons": "^3.2.2",

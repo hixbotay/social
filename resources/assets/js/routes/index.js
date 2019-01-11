@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
+import {isMobileOnly} from 'react-device-detect';
 
 // css file
 import "../../../../assets/css/bootstrap-reboot.css";
@@ -57,6 +58,8 @@ import ProductLayout from './product/ProductLayout';
 import ProductDetail from './product/ProductDetail';
 import Checkout from './product/Checkout';
 import Wishlist from './product/Wishlist';
+import MobileHeader from '../components/Header/MobileHeader';
+import MobileMenu from '../components/MobileMenu';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -146,11 +149,14 @@ class MainApp extends Component {
 
 		return (
 			<div className="App">
-				<Header></Header>
+				{
+                    isMobileOnly ? <MobileHeader></MobileHeader> : <Header></Header>
+                }
 				<div className="header-spacer"></div>
-
 				{ route }
-
+                {
+                    isMobileOnly ? <MobileMenu></MobileMenu> : null
+                }
 			</div>
 		);
 	}

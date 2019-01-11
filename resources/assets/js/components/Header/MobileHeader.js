@@ -7,8 +7,7 @@ import {Card} from '../Card';
 import {markAllAsRead, getUnreadNumber}  from '../../actions/NotificationActions';
 import socket from '../../helper/socket';
 
-class Header extends Component {
-
+class MobileHeader extends Component {
     componentDidMount() {
         this.props.getUnreadNumber();
         socket.on("notify", (data) => {
@@ -19,78 +18,87 @@ class Header extends Component {
 
     render() {
         return (
-            <header className="header" id="site-header">
-                <div className="header-content-wrapper">
-                    <div className="control-block">
-
-                        <div>
+            <header className="mobile-header">
+                <div className="mobile-header-content">
+                    <div>
+                        <div className="text-center">
                             <a href={`${baseUrl}`}>
                                 <img src={`${baseUrl}/public/images/main/logo.png`}
                                 style={{
-                                    width:150, height: 'auto',
-                                    marginRight: 80,
+                                    width:150, height: 'auto'
                                 }}
                                 />
                             </a>
                         </div>
 
-                        <div className="control-icon more has-items">
-                            <a href={`${baseUrl}/messages`}>
-                                <i className="fa fa-comments"></i>
-                                <div className="label-avatar bg-blue">6</div>
-                            </a>
+                        <div className="more-menu">
+                            <i className="fas fa-bars fa-2x"></i>
                         </div>
+                    </div>
 
-                        <div className="control-icon more has-items">
-                            <a href={`${baseUrl}/friends/like-you`}>
-                                <i className="fas fa-thumbs-up"></i>
-                            </a>
+                    <div className="row mobile-icons">
+                        <div className="col-1"></div>
+                        <div className="col-2">
+                            <div className="control-icon more has-items text-center">
+                                <a href={`${baseUrl}/messages`}>
+                                    <i className="fa fa-comments"></i>
+                                    {/* <div className="label-avatar bg-blue">6</div> */}
+                                </a>
+                            </div>
                         </div>
-
-                        <div className="control-icon more has-items">
-                            <a href={`${baseUrl}/friends/visited`}>
-                                <i className="fas fa-eye"></i>
-                            </a>
+                        <div className="col-2">
+                            <div className="control-icon more has-items text-center">
+                                <a href={`${baseUrl}/friends/like-you`}>
+                                    <i className="fas fa-thumbs-up"></i>
+                                </a>
+                            </div>
                         </div>
-
-                        <div className="control-icon more has-items">
-                            <a href={`${baseUrl}/friends/you-like`}>
-                                <i className="fas fa-heart"></i>
-                            </a>
+                        <div className="col-2">
+                            <div className="control-icon more has-items text-center">
+                                <a href={`${baseUrl}/friends/visited`}>
+                                    <i className="fas fa-eye"></i>
+                                </a>
+                            </div>  
                         </div>
-                                    
-                        {/* Notifications */}
-                        <div className="control-icon more has-items">
-                            <i className="fa fa-bell"></i>
-                            {
-                                this.props.unreadNumber ? (
-                                    <div className="label-avatar bg-blue">{this.props.unreadNumber}</div>
-                                ) : null
-                            }
+                        <div className="col-2">
+                            <div className="control-icon more has-items text-center">
+                                <a href={`${baseUrl}/friends/you-like`}>
+                                    <i className="fas fa-heart"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div className="col-2">
+                            <div className="control-icon more has-items text-center">
+                                <i className="fa fa-bell"></i>
+                                {
+                                    this.props.unreadNumber ? (
+                                        <div className="label-avatar bg-blue">{this.props.unreadNumber}</div>
+                                    ) : null
+                                }
 
-                            <div className="more-dropdown more-with-triangle triangle-top-center">
-                                <div className="custom-notification-list">
-                                    {/* <div className="mCustomScrollbar" data-mcs-theme="dark"> */}
-                                        {
-                                            this.props.notifications.map((item, index) => {
-                                                return (
-                                                    <ListItem
-                                                        notification={item}
-                                                        key={index}
-                                                    />
-                                                )
-                                            })
-                                        }
-                                    {/* </div> */}
-                                </div>
-                                <div className="view-all bg-blue" onClick={() => this.props.markAllAsRead()}>
-                                    Check all your Events
+                                <div className="more-dropdown more-with-triangle triangle-top-center">
+                                    <div className="custom-notification-list">
+                                            {
+                                                this.props.notifications.map((item, index) => {
+                                                    return (
+                                                        <ListItem
+                                                            notification={item}
+                                                            key={index}
+                                                        />
+                                                    )
+                                                })
+                                            }
+                                    </div>
+                                    <div className="view-all bg-blue" onClick={() => this.props.markAllAsRead()}>
+                                        Check all your Events
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="col-1"></div>
+                        
 
-                        <div className="author-page author vcard inline-items more">
-                            {/*<i className="fa fa-caret-down"></i>*/}
+                        {/* <div className="author-page author vcard inline-items more">
                             <img src={`${baseUrl}/public/images/main/header-menu.png`}
                                 style={{width: 30, height: 30}}
                             />
@@ -161,7 +169,7 @@ class Header extends Component {
                                     </div>
                                 </div>
                             </div >
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </header >
@@ -184,4 +192,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(MobileHeader);

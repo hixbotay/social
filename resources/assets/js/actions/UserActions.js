@@ -89,7 +89,7 @@ export const updateUser = (data, id) => (dispatch) => {
     console.log(data);
     api.post(`/user/${id}`, data)
     .then(response => {
-        window.location.reload();
+        // window.location.reload();
         dispatch({type: UPDATE_USER_DETAIL, payload: response.data});
     })
     .catch(err => {
