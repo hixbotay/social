@@ -70,11 +70,11 @@ class VerificationBlock extends Component {
                                     </div>
                                     <span className="notification-icon">
                                         {
-                                            item.isVerify ? 
-                                            <i className="fas fa-check"></i> 
+                                            item.isVerify ?
+                                                <i className="fas fa-check"></i>
                                             : 
                                             <Link to={item.url}>
-                                                <button className="btn btn-sm btn-primary">Xác minh</button>
+                                                <button className="verify-btn">Xác minh</button>
                                             </Link>
                                         }
                                     </span>

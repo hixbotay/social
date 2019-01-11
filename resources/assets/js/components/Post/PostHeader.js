@@ -16,7 +16,7 @@ class PostHeader extends Component {
                     <RoundAvatar img={this.props.avatar} size="medium"></RoundAvatar>
 
                     <div className="author-date">
-                        <Heading heading={this.props.name + " " + title}></Heading>
+                        <h5>{this.props.name + " " + title}</h5>
                         <div><i className="far fa-clock"></i> {this.props.created}</div>
                         {/* <div className="row">
                             <div className="post-info-item col"><i className="fas fa-heart"></i> {this.props.heartNumber}</div>

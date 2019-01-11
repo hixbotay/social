@@ -24,7 +24,7 @@ class Home extends Component {
         return (
             <aside className="col col-xl-3 order-xl-3 col-lg-6 order-lg-3 col-md-6 col-sm-12 col-12">
                 <VerificationBlock verificationItems={items}/>
-                <div className="ui-block">
+                {/* <div className="ui-block">
                     <div className="widget w-birthday-alert">
                         <div className="content">
                             <span>Today is</span>
@@ -32,7 +32,7 @@ class Home extends Component {
                             <p>Leave her a message with your best wishes on her profile page!</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </aside>
         );
     }

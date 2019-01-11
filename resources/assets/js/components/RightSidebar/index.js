@@ -9,7 +9,7 @@ class RightSidebar extends Component {
         return (
             <aside className="col col-xl-5 order-xl-5 col-lg-6 order-lg-5 col-md-6 col-sm-12 col-12">
                 <VerificationBlock user={user}/>
-                <div className="ui-block">
+                {/* <div className="ui-block">
                     <div className="widget w-birthday-alert">
                         <div className="content">
                             <span>Today is</span>
@@ -17,7 +17,7 @@ class RightSidebar extends Component {
                             <p>Leave her a message with your best wishes on her profile page!</p>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </aside>
         );
     }

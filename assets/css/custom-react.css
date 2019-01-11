@@ -1,3 +1,16 @@
+body , p {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+p {
+    color: #333;
+}
+
+body a {
+    color: #0586DA;
+}
+
 .circle-button {
     background-color: #ecf0f1;
     color: #2c3e50;
@@ -93,7 +106,7 @@
 .status-info-icon {
     width: 40px;
     height: 40px;
-    margin-right: 1em;
+    margin-right: 0.5em;
 }
 
 .vip-upgrade {
@@ -1426,4 +1439,27 @@ img.product-thumbnail {
     height: 150px;
     object-fit: cover;
     margin-bottom: 15px;
+}
+
+.verify-btn {
+    border: solid 2px;
+    background: none;
+    color: #2980b9;
+    border-radius: 20px;
+    font-size: medium;
+    padding: 6px;
+    font-weight: 500;
+    width: 95px;
+}
+
+.verify-btn:hover {
+    background: #2980b9;
+    color: #fff;
+}
+
+.btn-primary {
+    border: #2980b9;
+    background-color: #2980b9;
+    color: #fff;
+    font-size: small !important;
 }
