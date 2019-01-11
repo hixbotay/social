@@ -10,7 +10,7 @@ class MainLayout extends Component {
             <div className="container">
                 <div className="row">
                     {
-                        isMobileOnly ? <LeftSidebar></LeftSidebar> : null
+                        !isMobileOnly ? <LeftSidebar></LeftSidebar> : null
                     }
                     
                     <div className="col col-xl-10 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
