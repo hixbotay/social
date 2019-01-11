@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import LeftSidebar from '../components/LeftSidebar';
 import RightSidebar from '../components/RightSidebar';
+import {isMobileOnly} from 'react-device-detect';
 
 class MainLayout extends Component {
 
@@ -8,7 +9,10 @@ class MainLayout extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <LeftSidebar></LeftSidebar>
+                    {
+                        isMobileOnly ? <LeftSidebar></LeftSidebar> : null
+                    }
+                    
                     <div className="col col-xl-10 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                         <div className="row">
                             <main className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
