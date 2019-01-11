@@ -8,6 +8,7 @@ use App\Product AS ProductModel;
 use App\ProvinceGroup;
 use App\Agency;
 use App\ProductCategory;
+use App\ProductPhotos;
 
 class Product extends Controller
 {
@@ -68,9 +69,24 @@ class Product extends Controller
     public function store(Request $request)
     {
         $data = request()->get('data');
+
         $result = ProductModel::create($data);
         $url = 'admin?view=Product&type='.$data['type'];
         if ($result->id){
+
+            $file = $request->file('images');
+            if ($file){
+                $images = [];
+                $images['product_id'] = $result->id;
+                foreach ($file AS $value){
+                    $file_name = time() . '_' . $value->getClientOriginalName();
+                    $file_path = 'storage/app/product/category/'.$data['type'].'/';
+                    $newFile = $value->move($file_path, $file_name);
+                    $images['url'] = $file_path . $file_name;
+                    ProductPhotos::create($images);
+                }
+            }
+
             return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
             return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
@@ -107,11 +123,13 @@ class Product extends Controller
         $store = Agency::getAgencyByType($type);
         $categories = ProductCategory::getCateByType($type);
         $item = ProductModel::find($id);
+        $images = ProductPhotos::where('product_id', '=', $id)->get();
         return view('admin.product.detail', [
             'store' => $store,
             'categories' => $categories,
             'type' => $type,
-            'item' => $item
+            'item' => $item,
+            'images' => $images
         ]);
     }
 
@@ -126,6 +144,20 @@ class Product extends Controller
             $item->$key = $value;
         }
         $result = $item->save();
+        if ($result){
+            $file = $request->file('images');
+            if ($file){
+                $images = [];
+                $images['product_id'] = $id;
+                foreach ($file AS $value){
+                    $file_name = time() . '_' . $value->getClientOriginalName();
+                    $file_path = 'storage/app/product/category/'.$data['type'].'/';
+                    $newFile = $value->move($file_path, $file_name);
+                    $images['url'] = $file_path . $file_name;
+                    ProductPhotos::create($images);
+                }
+            }
+        }
         if (!$result) return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
     }
