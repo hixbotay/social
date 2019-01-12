@@ -103,7 +103,7 @@ class Post extends Component {
                             <p>
                                 {post.content}
                             </p>
-                            <div className="post-photo">
+                            <div className="shared-post-photo">
                                 {post.photo_id ? <img src={post.source}/> : null}
                             </div>
                         </div>

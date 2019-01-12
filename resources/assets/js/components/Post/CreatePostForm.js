@@ -87,13 +87,13 @@ class CreatePostForm extends Component {
     render() {
         return (
             <div className="news-feed-form">
-                <ul className="nav nav-tabs" role="tablist">
-                    <li className="nav-item">
+                <ul className="nav nav-tabs row" role="tablist">
+                    <li className="nav-item col-4">
                         <a className="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab" aria-expanded="true">
                             <i className="fas fa-pencil-alt fa-2x"></i> <span>Viết gì đó</span>
                         </a>
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item col-4">
                         <a className="nav-link inline-items" >
                             <div onClick={() => { document.getElementById('add-photo').click() }}>
                                 <i className="fas fa-camera fa-2x"></i> <span>Tải ảnh</span>
