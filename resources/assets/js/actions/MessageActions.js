@@ -70,6 +70,20 @@ export const changeListChast = (data) => (dispatch) =>{
 }
 
 
+export const findUsers = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        api.post('chat/find-users', data)
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(err => {
+                reject(err);
+            })
+    })
+}
+
+
+
 export const DanhSach = (data) => (dispatch) => {
     return new Promise((resolve, reject) => {
         chatApi.get('hello', data)

@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use League\Flysystem\Exception;
 use phpDocumentor\Reflection\Types\Object_;
+use App\User;
 
 class Chat extends Controller
 {
@@ -123,6 +125,25 @@ class Chat extends Controller
 
     }
 
+    public function findUsers(Request $request){
+//        1. check vip logged in
+
+        $data = $request->getContent();
+        $data = \GuzzleHttp\json_decode($data);
+        $list = User::where(function($query) use ($data) {
+            if ($data->marital_status){
+                $query->where('marital_status', '=', $data->marital_status);
+            }
+            if ($data->job){
+                $query->where('job', '=', $data->job);
+            }
+        })
+            ->take(10)
+            ->get();
+        return $list;
+
+    }
+
 
     public static function requestAPI($url,$header="",$body="",$method=""){
         $ch = curl_init();
@@ -162,6 +183,8 @@ class Chat extends Controller
         }
 
     }
+
+
     private function POST($url, $data, $headers = array()){
 
 //         Chuwa hoanf thienj

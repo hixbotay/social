@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {getJobs} from "../../actions/JobActions";
 import {getAllProvinces, getAllDistricts} from '../../actions/AddressActions';
+import {findUsers} from '../../actions/MessageActions';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import Modal from "react-responsive-modal";
@@ -16,7 +17,14 @@ class FilterTab extends Component {
             provinces: [],
             districts: [],
             allDistricts: [],
-            open: false
+            open: false,
+            filter : {
+                marital_status: '',
+                job: '',
+                province_id: '',
+                district_id: '',
+            },
+            users: []
         }
     }
 
@@ -44,17 +52,39 @@ class FilterTab extends Component {
             })
     }
 
+    getListUser(){
+        var data = this.state.filter;
+        this.props.findUsers(data)
+            .then((response) => {
+                this.setState({users: response})
+                console.log(response)
+            })
+    }
+
+    setFilterState(state){
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                [state.key]: state.value
+            }
+        }, () => {
+            // console.log(this.state.filter);
+        })
+    }
+
     render() {
 
-        const {jobs, provinces, districts, open} = this.state;
+        const {jobs, provinces, districts, open, users} = this.state;
 
         return(
             <div className={"filter-box"}>
 
                 <div className="form-group">
-                    <label htmlFor="merried"><i className="fa fa-heart"></i> Tình trạng hôn nhân</label>
-                    <select name="" id="merried" className={""}>
-                        <option value="all">Tất cả</option>
+                    <label htmlFor="marital_status"><i className="fa fa-heart"></i> Tình trạng hôn nhân</label>
+                    <select name="" id="marital_status" className={""} onChange={(e) => {
+                        this.setFilterState({key: 'marital_status', value: e.target.value})
+                    }}>
+                        <option value="">Tất cả</option>
                         <option value="0">Độc thân</option>
                         <option value="1">Đã kết hôn</option>
                     </select>
@@ -62,8 +92,10 @@ class FilterTab extends Component {
 
                 <div className="form-group">
                     <label htmlFor="job"><i className="fa fa-briefcase"></i> Nghề nghiệp</label>
-                    <select name="job_id" id="job" className={""}>
-                        <option value="all">Tất cả</option>
+                    <select name="job_id" id="job" onChange={(e) => {
+                        this.setFilterState({key: 'job', value: e.target.value})
+                    }}>
+                        <option value="">Tất cả</option>
                         {
                         jobs.map((item, i) => {
                             return(<option key={i} value={item.id}>{item.name}</option>);
@@ -77,8 +109,9 @@ class FilterTab extends Component {
                         <div className="form-group">
                             <select name="province_id" id="province_id" onChange={(e) => {
                                 this.loadDistrict(e.target.value);
+                                this.setFilterState({key: 'province_id', value: e.target.value});
                             }}>
-                                <option value="all">Tỉnh/TP</option>
+                                <option value="">Tỉnh/TP</option>
                                 {
                                     provinces.map((item, i) => {
                                         return(
@@ -91,8 +124,10 @@ class FilterTab extends Component {
                     </div>
                     <div className={'col-md-6'}>
                         <div className="form-group">
-                            <select name="province_id" id="province_id" className={""}>
-                                <option value="all">Quận/Huyện</option>
+                            <select name="district_id" id="district_id" className={""} onChange={(e) => {
+                                this.setFilterState({key: 'district_id', value: e.target.value})
+                            }}>
+                                <option value="">Quận/Huyện</option>
                                 {
                                     districts.map((item, i) => {
                                         return(
@@ -109,7 +144,8 @@ class FilterTab extends Component {
                     <div className={"col-md-4 offset-md-4"}>
                         <button
                             onClick={() => {
-                                this.setState({open: true})
+                                this.setState({open: true});
+                                this.getListUser();
                             }}
                             type="button"
                             className="btn btn-primary btn-block"
@@ -120,11 +156,18 @@ class FilterTab extends Component {
 
                 <Modal open={open} onClose={() => {this.setState({open: false})}} center>
                     <h2>Danh sách</h2>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                        pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-                        hendrerit risus, sed porttitor quam.
-                    </p>
+                    <ul className="list-group">
+                        {users.map((item, index)=>{
+                            return (
+                                <div key={index} className="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div className="d-flex w-100 justify-content-between">
+                                        <h5 className="mb-1">{item.name}</h5>
+                                    </div>
+                                </div>
+                            )
+                        })}
+
+                    </ul>
                 </Modal>
 
             </div>
@@ -150,6 +193,7 @@ function mapDispatchToProps(dispatch) {
         getJobs: () => dispatch(getJobs()),
         getAllProvinces: () => dispatch(getAllProvinces()),
         getAllDistricts: (provinceID) => dispatch(getAllDistricts(provinceID)),
+        findUsers: (data) => dispatch(findUsers(data))
     }
 }
 

@@ -325,7 +325,7 @@ class Messages extends Component {
             <Card>
                 <div className="messaging">
                     <div className="inbox_msg">
-                        <div className="inbox_people">
+                        <div className="col-md-4 inbox_people">
 
                             <div className="headind_srch">
                                 <div className="recent_heading">
@@ -419,12 +419,12 @@ class Messages extends Component {
                                             )
                                         }
 
-                                    }):(<p>Not found</p>):(<FilterTab />)
+                                    }):(<p>Không tìm thấy !</p>):(<FilterTab />)
                                 }
                             </div>
 
                         </div>
-                        <div className="mesgs">
+                        <div className="mesgs col-md-8">
                             <div>
                                 <img src="https://www.w3schools.com/howto/img_avatar.png" id="sender-avatar" />
                                 <span className="h4" onClick={() => {console.log(this.props)}}>

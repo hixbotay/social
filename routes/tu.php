@@ -38,6 +38,8 @@ Route::middleware(['web'])->group(function() {
     Route::post('payment/request', 'Api\Payment@requestUrl');
     Route::get('payment/getprice', 'Api\Payment@getPriceConfig');
 
+    Route::post('chat/find-users', 'Api\Chat@findUsers');
+
 });
 
 

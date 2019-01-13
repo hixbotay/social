@@ -4,7 +4,7 @@ img{ max-width:100%;}
   background: #fff none repeat scroll 0 0;
   float: left;
   overflow: hidden;
-  width: 40%; border-right:1px solid #c4c4c4;
+  /*width: 40%; border-right:1px solid #c4c4c4;*/
 }
 .inbox_msg {
   /* border: 1px solid #c4c4c4; */
@@ -21,9 +21,9 @@ img{ max-width:100%;}
 
 .recent_heading input {
     width: 95%;
-    margin: 5px;
+    /*margin: 5px;*/
     margin-bottom: 10px;
-    margin-top: 15px;
+    margin-top: 55px;
 }
 .recent_heading ul li {
     padding: 10px;
@@ -130,8 +130,8 @@ img{ max-width:100%;}
 .received_withd_msg { width: 57%;}
 .mesgs {
   float: left;
-  padding: 0px 15px 0 25px;
-  width: 60%;
+  /*padding: 0px 15px 0 25px;*/
+  /*width: 60%;*/
 }
 
  .sent_msg p {
