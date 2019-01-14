@@ -130,7 +130,8 @@ class Chat extends Controller
 
         $data = $request->getContent();
         $data = \GuzzleHttp\json_decode($data);
-        $list = User::where(function($query) use ($data) {
+        $list = User::select('id', 'name', 'email')
+            ->where(function($query) use ($data) {
             if ($data->marital_status){
                 $query->where('marital_status', '=', $data->marital_status);
             }

@@ -68,8 +68,12 @@ class FilterTab extends Component {
                 [state.key]: state.value
             }
         }, () => {
-            // console.log(this.state.filter);
         })
+    }
+
+    createConversation(item){
+        const {chatList} = this.props;
+        this.props.chatTo(item);
     }
 
     render() {
@@ -159,7 +163,10 @@ class FilterTab extends Component {
                     <ul className="list-group">
                         {users.map((item, index)=>{
                             return (
-                                <div key={index} className="list-group-item list-group-item-action flex-column align-items-start">
+                                <div onClick={() => {
+                                    this.createConversation(item);
+                                }}
+                                    key={index} className="btn list-group-item list-group-item-action flex-column align-items-start">
                                     <div className="d-flex w-100 justify-content-between">
                                         <h5 className="mb-1">{item.name}</h5>
                                     </div>

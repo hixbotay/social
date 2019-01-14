@@ -123,6 +123,8 @@ class Messages extends Component {
     }
 
     changeActive(item){
+        console.log(item);
+        console.log(item.conversation_id);
         if (!item.conversation_id) {
             this.props.createConversation({
                 name: item.id + "_" + this.props.current_user.id,
@@ -419,7 +421,11 @@ class Messages extends Component {
                                             )
                                         }
 
-                                    }):(<p>Không tìm thấy !</p>):(<FilterTab />)
+                                    }):(<p>Không tìm thấy !</p>):(
+                                        <FilterTab chatTo={(item) => this.changeActive(item)}
+                                            chatList={this.props.chatList}
+                                        />
+                                    )
                                 }
                             </div>
 
