@@ -8,16 +8,16 @@ class Agency extends Model
 {
     protected $table = 'agency';
 
-    protected $guard = [];
+    protected $guarded = [];
 
-    public function getItems($data){
+    // public function getItems($data){
 
-    }
+    // }
 
-    public static function getAgencyByType($type){
-        $data = self::select('name', 'id')
-            ->where('type', '=', $type)
-            ->get();
-        return $data;
-    }
+    // public static function getAgencyByType($type){
+    //     $data = self::select('name', 'id')
+    //         ->where('type', '=', $type)
+    //         ->get();
+    //     return $data;
+    // }
 }

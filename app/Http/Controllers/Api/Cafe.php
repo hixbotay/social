@@ -23,13 +23,15 @@ class Cafe extends Controller
 
     public function create(Request $request) {
         $data = json_decode($request->getContent());
-        $newCafe = [
-            'user_id' => Auth::id()
-        ];
+
+        $newCafe =  [];
+        $newCafe['user_id'] = Auth::id();
 
         foreach($data as $key => $value) {
             $newCafe[$key] = $value;
         }
+
+        
 
         $result = \App\Agency::create($newCafe);
         return json_encode($result);

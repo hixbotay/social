@@ -82,6 +82,10 @@ class RegisterController extends Controller
         //     'village_id' => $data['village_id'],
         //     'password' => bcrypt($data['password']),
         // ]);
+
+        if(array_key_exists('q', $data)) {
+            unset($data['q']);
+        }
         $data['avatar'] = env('APP_URL').'/public/images/default-avatar-heart.png';
         // $data['password'] = bcrypt($data['password']);
         

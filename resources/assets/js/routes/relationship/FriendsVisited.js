@@ -24,7 +24,7 @@ class FriendsVisited extends Component {
                             let birth = new Date(user.birthday).getFullYear();
                             user.age = currentYear - birth;
                             return (
-                                <div className="col-4 col-md-4 mb-4" key={index}>
+                                <div className="col-6 col-md-4 mb-4" key={index}>
                                     <ImageCard 
                                         user={user}
                                         action={(data, user_id) => this.props.updateRelationship(data, user_id)}

@@ -40,7 +40,7 @@ class NewFeeds extends Component {
             <div>
             {
                 current_user.id ? (
-                    <div>
+                    <div id="newfeeds">
                         <div className="ui-block">
                             <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
                             <div className="col-12">
