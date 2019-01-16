@@ -159,9 +159,8 @@ class CreateNewCafe extends Component {
                                     <div className="col-md-9">
                                         <select className="custom-select" ref={select => this.type = select} onChange={() => this.onChangeCafeType()}>
                                             <option>Chọn một loại hình</option>
-                                            <option value="Cafe/Trà sữa">Cafe/Trà sữa</option>
-                                            <option value="Quán ăn">Quán ăn</option>
-                                            <option value="Gameboard">Gameboard</option>
+                                            <option value={1}>Cafe/Trà sữa</option>
+                                            <option value={2}>Quán ăn</option>
                                         </select>
                                     </div>
                                 </div>
