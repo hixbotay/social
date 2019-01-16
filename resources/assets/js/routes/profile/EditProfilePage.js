@@ -131,12 +131,14 @@ class EditProfilePage extends Component {
         });
     }
 
-    submit() {
+    submit(e) {
+        e.preventDefault();
         this.props.updateUser({
             user: {
                 ...this.state.data.user,
-                ideal_person: JSON.stringify(this.state.ideal_person)
-            }
+                // ideal_person: JSON.stringify(this.state.ideal_person)
+            },
+            hobby: [...this.state.data.hobby]
         }, this.props.user.id);
     }
 
@@ -173,7 +175,7 @@ class EditProfilePage extends Component {
                 <Card className="clearfix">
                     <h5 className="page-header">Cập nhật thông tin cá nhân</h5>
                     <hr/>
-                    <form onSubmit={() => this.submit()} className="mt-4">
+                    <form onSubmit={(e) => this.submit(e)} className="mt-4">
                         <div className="form-group">
                             <div className="row align-items-center">
                                 <div className="col-4">
@@ -421,7 +423,7 @@ class EditProfilePage extends Component {
                             </div>
                         </div>
                         <div className="form-group">
-                            <button className="btn btn-success float-right" type="button">Cập nhật</button>
+                            <button className="btn btn-success float-right" type="submit">Cập nhật</button>
                         </div>
                     </form>
                 </Card>

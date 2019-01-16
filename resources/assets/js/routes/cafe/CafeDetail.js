@@ -77,12 +77,15 @@ class CafeDetail extends Component {
                         <div className="author-date">
                             <h3>{agency.name}</h3>
                             <div>
-                                {
-                                    agency.type == 1 ? (
-                                        <div className="address-type">CAFE</div>
-                                    ) : (
-                                        <div className="address-type">QUÁN ĂN</div>
-                                    )
+                                {   
+                                    agency.type ? 
+                                    (
+                                        agency.type === 1 ? (
+                                            <div className="address-type">CAFE</div>
+                                        ) : (
+                                            <div className="address-type">QUÁN ĂN</div>
+                                        )
+                                    ) : null
                                 }
                             </div>
                         </div>

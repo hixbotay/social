@@ -89,7 +89,7 @@ export const updateUser = (data, id) => (dispatch) => {
     console.log(data);
     api.post(`/user/${id}`, data)
     .then(response => {
-        // window.location.reload();
+        alert("Cập nhật hồ sơ thành công!");
         dispatch({type: UPDATE_USER_DETAIL, payload: response.data});
     })
     .catch(err => {

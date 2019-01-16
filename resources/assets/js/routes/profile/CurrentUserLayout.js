@@ -79,7 +79,7 @@ class ProfileLayout extends Component {
                             <div className="col-4">
                                 <img src="https://cdn2.iconfinder.com/data/icons/thesquid-ink-40-free-flat-icon-pack/64/space-rocket-512.png" className="status-info-icon"/>
                                 <Switch
-                                    // onChange={() => this.handleChange()}
+                                    // onChange={}
                                     checked={false}
                                     className="react-switch align-middle"
                                     id="normal-switch"
@@ -97,7 +97,7 @@ class ProfileLayout extends Component {
                             <div className="col-4">
                                 <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678132-gift-512.png" className="status-info-icon"/>
                                 <Switch
-                                    // onChange={() => this.handleChange()}
+                                    // onChange={}
                                     checked={false}
                                     className="react-switch align-middle"
                                     id="normal-switch"

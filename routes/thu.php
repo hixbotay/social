@@ -87,7 +87,6 @@ Route::post('user/{id}', function (Request $request, $id){
     // $result = \App\User::updateUser($request, $id);
     // return json_encode($result);
     $data = $request->getContent();
-    // print_r($data);
     $result = \App\User::updateUser($data, $id);
 
     // // return json_decode($data);

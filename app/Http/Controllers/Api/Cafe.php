@@ -31,15 +31,16 @@ class Cafe extends Controller
             $newCafe[$key] = $value;
         }
 
-        
-
         $result = \App\Agency::create($newCafe);
         return json_encode($result);
     }
 
     public function list(Request $request) {
         $query = $request->all();
-        unset($query['page']);
+        
+        if(array_key_exists('page', $query)) {
+            unset($query['page']);
+        }
 
         if(array_key_exists('q', $query)) {
             unset($query['q']);

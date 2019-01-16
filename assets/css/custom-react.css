@@ -1435,7 +1435,7 @@ img.gift-type-image {
     color: #fff;
     background: crimson;
     font-weight: 700;
-    width: 75px;
+    width: auto;
 }
 
 .address-tag {
