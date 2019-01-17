@@ -175,6 +175,10 @@ class Messages extends Component {
                 })
         }
 
+        this.setState({
+            active: 'all'
+        })
+
     }
 
     searchUser(e){

@@ -72,6 +72,7 @@ class FilterTab extends Component {
     }
 
     createConversation(item){
+        this.setState({open: false})
         const {chatList} = this.props;
         this.props.chatTo(item);
     }
