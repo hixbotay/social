@@ -4,6 +4,8 @@ import {Card, CardWithTitle} from '../../components/Card';
 import connect from 'react-redux/es/connect/connect';
 import {getAllProvinces, getAllDistricts} from '../../actions/AddressActions';
 import {Redirect} from 'react-router-dom';
+import qs from 'qs';
+import {withRouter} from 'react-router-dom';
 
 class CafeLayout extends Component {
     constructor(props) {
@@ -15,6 +17,15 @@ class CafeLayout extends Component {
 
     componentDidMount() {
         this.props.getAllProvinces();
+        var query = qs.parse(this.props.location.search.slice(1));
+        if(!isNaN(query.province_id)) {
+            this.props.getAllDistricts(query.province_id);
+        }
+
+        this.setState({
+            filter: {...query}
+        });
+
     }
 
     onChangeProvince(event) {
@@ -76,15 +87,15 @@ class CafeLayout extends Component {
                     <Card>
                         <form onSubmit={(e) => this.onSearch(e)}>
                             <div className="form-group is-empty">
-                                <input type="text" name="name" className="form-control" placeholder="Nhập tên quán..." onChange={(e) => this.onChangeFilter(e)} required/>
+                                <input type="text" name="name" className="form-control" value={this.state.filter.name} placeholder="Nhập tên quán..." onChange={(e) => this.onChangeFilter(e)} required/>
                             </div>
 
-                            <div className="row">
+                            <div className="row form-group">
                                 <div className="col-md-2">
                                     <i className="fas fa-map-marker-alt" id='cafe-address-icon'></i>
                                 </div>
                                 <div className="col-md-5">
-                                    <select className="custom-select" name="province_id" onChange={(e) => this.onChangeProvince(e)}>
+                                    <select className="custom-select" name="province_id" value={this.state.filter.province_id} onChange={(e) => this.onChangeProvince(e)}>
                                         <option value="">Tỉnh</option>
                                         {
                                             this.props.provinces.map((item, index) => {
@@ -96,7 +107,7 @@ class CafeLayout extends Component {
                                     </select>
                                 </div>
                                 <div className="col-md-5">
-                                    <select className="custom-select" name="district_id" onChange={(e) => this.onChangeFilter(e)}>
+                                    <select className="custom-select" name="district_id" value={this.state.filter.district_id} onChange={(e) => this.onChangeFilter(e)}>
                                         <option value="">Huyện</option>
                                         {
                                             this.props.districts.map((item, index) => {
@@ -105,6 +116,15 @@ class CafeLayout extends Component {
                                                 )
                                             })
                                         }
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <select className="custom-select" name="type" value={this.state.filter.type} onChange={(e) => this.onChangeFilter(e)}>
+                                        <option>Loại quán</option>
+                                        <option value={1}>Cafe</option>
+                                        <option value={2}>Quán ăn</option>
                                     </select>
                                 </div>
                             </div>
@@ -144,4 +164,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CafeLayout);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CafeLayout));
