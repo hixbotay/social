@@ -17,7 +17,9 @@ import {
     UPDATE_EVENT_STATUS,
     SUBSCRIBE_EVENT,
     GET_SUBSCRIBERS,
-    REVIEW_DATING
+    REVIEW_DATING,
+    GET_MY_SUBSCRIBERS,
+    DELETE_SUBSCRIBER
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -196,5 +198,27 @@ export const reviewDating = (data, event_id) => dispatch => {
         window.location.reload();
     }).catch(err => {
         console.log(err);
+    })
+}
+
+export const getMySubscribers = () => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.get('/my-subscribers').then(response => {
+            dispatch({type: GET_MY_SUBSCRIBERS, payload: response.data.subscribers});
+            resolve(response.data.subscribers.length);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+export const deleteSubscriber = (id) => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.delete(`/subscribers/${id}`).then(response => {
+            dispatch({type: DELETE_SUBSCRIBER, payload: id});
+            resolve(response.data);
+        }).catch(err => {
+            reject(err);
+        })
     })
 }

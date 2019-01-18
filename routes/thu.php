@@ -61,6 +61,8 @@ Route::middleware(['web'])->group(function() {
     
     Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
     Route::get('/subscribers', 'Api\Event@listSubscribers');
+    Route::get('/my-subscribers', 'Api\Event@getCurrentUserSubscribers');
+    Route::delete('/subscribers/{id}', 'Api\Event@deleteSubscriber');
 
     Route::post('/verify-id-card', 'Api\User@storeIdCardInfo');
     Route::get('/user/{id}/featured-photos', 'Api\User@getFeaturePhotos');
@@ -68,6 +70,7 @@ Route::middleware(['web'])->group(function() {
     Route::post('/user/featured-photos', 'Api\User@uploadFeaturedPhotos');
     Route::get('/user/configurations', 'Api\User@getUserConfiguration');
     Route::post('/user/configurations', 'Api\User@updateConfiguration');
+    Route::post('/user/password', 'Api\User@updatePassword');
     // Route::post('user/upload-id-card', 'Api\User@uploadIdCardPhoto');
     Route::get('/product-categories/{type}', 'Api\Product@listCategories');
     Route::get('/products', 'Api\Product@listProducts');

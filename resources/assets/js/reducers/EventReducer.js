@@ -15,7 +15,9 @@ import {
     SEARCH_EVENTS,
     SUBSCRIBE_EVENT,
     GET_SUBSCRIBERS,
-    REVIEW_DATING
+    REVIEW_DATING,
+    GET_MY_SUBSCRIBERS,
+    DELETE_SUBSCRIBER
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -35,7 +37,8 @@ const INIT_STATE = {
     newEvent: {},
     invitedEvents: [],
     results: [],
-    subscribers: []
+    subscribers: [],
+    mySubscribers: []
 }
 
 export default (state=INIT_STATE, action) => {
@@ -90,6 +93,16 @@ export default (state=INIT_STATE, action) => {
         }
         case REVIEW_DATING: {
             return {...state};
+        }
+        case GET_MY_SUBSCRIBERS: {
+            return {...state, mySubscribers: action.payload}
+        }
+        case DELETE_SUBSCRIBER: {
+            var temp = state.mySubscribers.filter(item => {
+                return item.id !== action.payload
+            })
+            return {...state, mySubscribers: temp}
+            // return {...state}
         }
         default: {
             return {...state}

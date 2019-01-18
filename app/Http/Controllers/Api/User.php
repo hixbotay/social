@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Payments;
 use ImageOptimizer;
 use \App\Notification;
+use Illuminate\Support\Facades\Hash;
 
 date_default_timezone_set('Asia/Saigon');
 
@@ -524,5 +525,20 @@ class User extends Controller
 
         return ['ok' => 1];
     } 
+
+    public function updatePassword(Request $request) {
+        $user = Auth::user();
+        $oldPassword = $request->get('old_password');
+        if(Hash::check($oldPassword, $user->password)) {
+            if($request->get("new_password") == $request->get('verify_new_password')) {
+                $user->password = Hash::make($request->get("new_password"));
+                $user->save();
+
+                return ['ok' => 1];
+            }
+        }
+
+        return ['ok' => 0];
+    }
 }
 

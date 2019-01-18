@@ -1472,3 +1472,13 @@ img.product-thumbnail {
     color: #fff;
     font-size: small !important;
 }
+
+.my-subscriber-item {
+    border: solid 1px #2ecc71;
+    padding-left: 15px;
+}
+
+.my-subscriber-item .btn-danger {
+    margin: 0;
+    background-color: #e74c3c;
+}

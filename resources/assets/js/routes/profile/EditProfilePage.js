@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Card} from '../../components/Card';
 import connect from 'react-redux/es/connect/connect';
 // action
-import { updateUser } from '../../actions/UserActions';
+import { updateUser, updatePassword } from '../../actions/UserActions';
 import {getAllHobbies} from '../../actions/HobbyActions';
 import {getAllJobs} from '../../actions/JobActions';
 import {getEducations} from '../../actions/EducationActions';
@@ -12,6 +12,7 @@ import {getReligion} from '../../actions/ReligionActions';
 import CurrentUserLayout from './CurrentUserLayout';
 import Select from 'react-select';
 import _ from "lodash";
+import Modal from 'react-modal';
 
 class EditProfilePage extends Component {
     constructor(props) {
@@ -35,10 +36,15 @@ class EditProfilePage extends Component {
 
         this.state = {
             data: {
-                user: user
+                user: user,
+                hobby: []
             },
             ideal_person: ideal_person,
-            hobbies: hobbies
+            hobbies: hobbies,
+            isOpenAlert: false,
+            isOpenSuccess: false,
+            isOpenChangePassword: false,
+            alert: ""
         };
     }
 
@@ -138,13 +144,47 @@ class EditProfilePage extends Component {
                 ...this.state.data.user,
                 // ideal_person: JSON.stringify(this.state.ideal_person)
             },
-            hobby: [...this.state.data.hobby]
-        }, this.props.user.id);
+            hobby: this.state.data.hobby
+        }, this.props.user.id).then(data => {
+            this.setState({
+                isOpenAlert: false,
+                isOpenSuccess: true
+            });
+        });
     }
 
     submitIdealPerson(e) {
         e.preventDefault();
         this.props.updateUser({user: {ideal_person: JSON.stringify(this.state.ideal_person)}}, this.props.user.id);
+    }
+
+    openAlert(e) {
+        e.preventDefault();
+        this.setState({isOpenAlert: true});
+    }
+
+    onChangePasswordForm(e) {
+        e.preventDefault();
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+    }
+
+    onChangePassword(e) {
+        e.preventDefault();
+        console.log(this.state)
+        this.props.updatePassword({
+            old_password: this.state.old_password,
+            new_password: this.state.new_password,
+            verify_new_password: this.state.verify_new_password
+        }).then(data => {
+            if(data.ok) {
+                console.log(data);
+                this.setState({isOpenChangePassword: false});
+            } else {
+                this.setState({alert: "Đã có lỗi xảy ra. Vui lòng thử lại"});
+            } 
+        });
     }
 
     render() {
@@ -165,6 +205,8 @@ class EditProfilePage extends Component {
         var job_arr = jobs.map(job => {
             return {value: job.id, label: job.name};
         });
+
+        console.log(this.state.alert)
         
         return (
             <CurrentUserLayout
@@ -175,7 +217,7 @@ class EditProfilePage extends Component {
                 <Card className="clearfix">
                     <h5 className="page-header">Cập nhật thông tin cá nhân</h5>
                     <hr/>
-                    <form onSubmit={(e) => this.submit(e)} className="mt-4">
+                    <form onSubmit={(e) => this.openAlert(e)} className="mt-4">
                         <div className="form-group">
                             <div className="row align-items-center">
                                 <div className="col-4">
@@ -309,6 +351,26 @@ class EditProfilePage extends Component {
                                 </div>
                                 <div className="col-8">
                                     <input type="text" className="form-control" name="mobile" defaultValue={user.mobile} onChange={(event) => this.editUser(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="row align-items-center">
+                                <div className="col-4">
+                                    <label>Email</label>
+                                </div>
+                                <div className="col-8">
+                                    <input type="text" className="form-control" name="email" defaultValue={user.email} onChange={(event) => this.editUser(event)} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="form-group">
+                            <div className="row align-items-center">
+                                <div className="col-4">
+                                    <label>Mật khẩu</label>
+                                </div>
+                                <div className="col-8">
+                                    <a href="javascript:void(0);" onClick={() => {this.setState({isOpenChangePassword: true})}}>Đổi mật khẩu</a>
                                 </div>
                             </div>
                         </div>
@@ -536,6 +598,57 @@ class EditProfilePage extends Component {
                             </div>
                         </form>
                 </Card>
+                <Modal  isOpen={this.state.isOpenAlert}>
+                    <h5>Bạn có chắc chắn muốn sửa thông tin cá nhân?</h5>
+                    <hr/>
+                    <button className="float-right btn btn-sm btn-primary" onClick={(e) => this.submit(e)}>Đồng ý</button>
+                    <button className="float-right btn btn-sm btn-secondary" onClick={() => {this.setState({isOpenAlert: false})}}>
+                        Hủy
+                    </button>
+                </Modal>
+                <Modal  isOpen={this.state.isOpenSuccess}>
+                    <h5>Bạn đã cập nhật thông tin thành công</h5>
+                    <hr/>
+                    <button className="float-right btn btn-primary" onClick={() => {this.setState({isOpenSuccess: false})}}>
+                        Đóng
+                    </button>
+                </Modal>
+                <Modal isOpen={this.state.isOpenChangePassword}>
+                    <h5>Đổi mật khẩu</h5>
+                    <hr/>
+                    <form onSubmit={(e) => this.onChangePassword(e)}>
+                        {
+                            this.state.alert ? (
+                                <div className="alert alert-danger">
+                                    {this.state.alert}
+                                </div>
+                            ) : null
+                        }
+                        
+                        <div className="row mb-4">
+                            <div className="col-md-4 col-sm-12">Mật khẩu cũ</div>
+                            <div className="col-md-8 col-sm-12">
+                                <input type="password" className="form-control" name="old_password" onChange={(e) => this.onChangePasswordForm(e)}/>
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col-md-4 col-sm-12">Mật khẩu mới</div>
+                            <div className="col-md-8 col-sm-12">
+                                <input type="password" className="form-control" name="new_password" onChange={(e) => this.onChangePasswordForm(e)}/>
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col-md-4 col-sm-12">Nhập lại mật khẩu mới</div>
+                            <div className="col-md-8 col-sm-12">
+                                <input type="password" className="form-control" name="verify_new_password" onChange={(e) => this.onChangePasswordForm(e)}/>
+                            </div>
+                        </div>
+                        <div className="float-right">
+                            <button className="btn btn-sm btn-secondary" type="button" onClick={() => this.setState({isOpenChangePassword: false})}>Hủy</button>
+                            <button className="btn btn-sm btn-primary" type="submit" >OK</button>
+                        </div>
+                    </form>                 
+                </Modal>
             </CurrentUserLayout>
         );
     }
@@ -566,7 +679,8 @@ function mapDispatchToProps(dispatch) {
         getAllDistricts: (province_id) => dispatch(getAllDistricts(province_id)),
         getAllCommunes: (district_id)  => dispatch(getAllCommunes(district_id)),
         getEthnicities: () => dispatch(getEthnicities()),
-        getReligion: () => dispatch(getReligion())
+        getReligion: () => dispatch(getReligion()),
+        updatePassword: (data) => dispatch(updatePassword(data))
     }
 }
 

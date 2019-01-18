@@ -969,4 +969,35 @@ class Event extends Controller {
         $result = DB::table('event_review')->insert($data);
         return json_encode($result);
     }
+
+    public function getCurrentUserSubscribers() {
+        $subscribers = DB::table('event_subscribers')
+        ->join('agency', 'agency.id', '=', 'event_subscribers.agency_id')
+        ->join('devvn_tinhthanhpho', 'matp', '=', 'event_subscribers.province_id')
+        ->join('devvn_quanhuyen', 'maqh', '=', 'event_subscribers.district_id')
+        ->join('user_jobs', 'expect_job', '=', 'user_jobs.id')
+        ->where([
+            ['event_subscribers.user_id', '=', Auth::id()],
+            ['expect_date_to', '>', \Carbon\Carbon::now()]
+        ])
+        ->select(DB::raw('event_subscribers.*, 
+            devvn_tinhthanhpho.name AS province_name, 
+            devvn_quanhuyen.name AS district_name, 
+            agency.name AS agency_name,
+            user_jobs.name AS job_name'))
+        ->orderBy('expect_date_to', 'ASC')
+        ->get();
+
+        return ['subscribers' => $subscribers];
+    }
+
+    public function deleteSubscriber($id) {
+        $result = DB::table('event_subscribers')
+            ->where([
+                ['id', '=', $id],
+                ['user_id', '=', Auth::id()]
+            ])
+            ->delete();
+        return ['result' => $result];
+    }
 }

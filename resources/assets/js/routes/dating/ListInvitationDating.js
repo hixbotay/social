@@ -51,23 +51,50 @@ class ListInvitationDating extends Component {
         
         return (
             <DatingLayout>
-                <DatingCard title="LỜI MỜI CAFE ĐÔI" events={coupleEvents} type="invitation"></DatingCard>
-                <CardWithTitle hasLine={true} title="CÁC THÀNH VIÊN ĐANG MUỐN HẸN HÒ">
-                    {
-                        subscribers.map((subscriber, item) => {
-                            return (
-                                <Subscriber 
-                                    subscriber={subscriber} 
-                                    user={user}
-                                    provinces={provinces} 
-                                    key={subscriber.id}
-                                    createDating={(data) => this.props.createCoupleEvent(data)}
-                                />
-                            )
-                        }) 
-                    }
-                </CardWithTitle>
-                <DatingCard title="LỜI MỜI CAFE NHÓM" events={groupEvents} type="invitation"></DatingCard>
+                {
+                    coupleEvents.length ? (
+                        <DatingCard title="LỜI MỜI CAFE ĐÔI" events={coupleEvents} type="invitation"></DatingCard>
+                    ) : (
+                        <CardWithTitle hasLine={true} title="LỜI MỜI CAFE ĐÔI">
+                            <div className="text-center">
+                                Bạn chưa có lời mời nào
+                            </div>
+                        </CardWithTitle>
+                    )
+                }
+
+                {
+                    subscribers.length ? (
+                        <CardWithTitle hasLine={true} title="CÁC THÀNH VIÊN ĐANG MUỐN HẸN HÒ">
+                            {
+                                subscribers.map((subscriber, item) => {
+                                    return (
+                                        <Subscriber 
+                                            subscriber={subscriber} 
+                                            user={user}
+                                            provinces={provinces} 
+                                            key={subscriber.id}
+                                            createDating={(data) => this.props.createCoupleEvent(data)}
+                                        />
+                                    )
+                                }) 
+                            }
+                        </CardWithTitle>
+                    ) : null
+                }
+
+                {
+                    coupleEvents.length ? (
+                        <DatingCard title="LỜI MỜI CAFE NHÓM" events={groupEvents} type="invitation"></DatingCard>
+                    ) : (
+                        <CardWithTitle hasLine={true} title="LỜI MỜI CAFE NHÓM">
+                            <div className="text-center">
+                                Bạn chưa có lời mời nào
+                            </div>
+                        </CardWithTitle>
+                    )
+                }
+                
                 <Modal open={this.state.isOpenModal} onClose={() => this.closeModal()}>
                     <div className="page-header">
                         <h5>Thông báo</h5>

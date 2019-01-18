@@ -6,7 +6,7 @@ import {getAllEvents} from "../../actions/EventActions";
 import {getCoupleResults} from '../../actions/CoupleActions';
 import 'react-image-lightbox/style.css';
 import 'react-animated-slider/build/horizontal.css';
-import { DatingCard } from '../../components/Card';
+import { DatingCard, CardWithTitle } from '../../components/Card';
 import DatingLayout from './DatingLayout';
 import Modal from '../../components/Modal';
 import CircleButton from '../../components/Button/CircleButton';
@@ -72,9 +72,39 @@ class ListFeatureDating extends Component {
     render() {
         return (
             <DatingLayout>
-                <DatingCard isDisplaySlide={false} title="CUỘC HẸN GẦN BẠN" events={this.props.aroundEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
-                <DatingCard isDisplaySlide={false} title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" events={this.props.eventsHasYourCrush} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
-                <DatingCard isDisplaySlide={false} title="CUỘC HẸN SẮP TỚI CÓ THỂ BẠN THÍCH" events={this.props.upcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                {
+                    this.props.aroundEvents.length ? (
+                        <DatingCard isDisplaySlide={false} title="CUỘC HẸN GẦN BẠN" events={this.props.aroundEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                    ) : (
+                        <CardWithTitle title="CUỘC HẸN GẦN BẠN" hasLine={true}>
+                            <div className="text-center" >
+                                Chưa có cuộc hẹn nào
+                            </div>
+                        </CardWithTitle>
+                    )
+                }
+                {
+                    this.props.eventsHasYourCrush.length ?  (
+                        <DatingCard isDisplaySlide={false} title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" events={this.props.eventsHasYourCrush} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                    )  : (
+                        <CardWithTitle title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" hasLine={true}>
+                            <div className="text-center" >
+                                Chưa có cuộc hẹn nào
+                            </div>
+                        </CardWithTitle>
+                    )
+                }
+                {
+                    this.props.upcomingEvents.length ? (
+                        <DatingCard isDisplaySlide={false} title="CUỘC HẸN SẮP TỚI CÓ THỂ BẠN THÍCH" events={this.props.upcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                    ) : (
+                        <CardWithTitle title="CUỘC HẸN SẮP TỚI CÓ THỂ BẠN THÍCH" hasLine={true}>
+                            <div className="text-center">
+                                Chưa có cuộc hẹn nào
+                            </div>
+                        </CardWithTitle>
+                    )
+                }
 
                 <Modal id="verify-id-modal">
                     <div className="row">

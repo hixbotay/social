@@ -4,6 +4,7 @@ import { CardWithTitle } from '../../components/Card';
 import Slider from "react-slick";
 import connect from 'react-redux/es/connect/connect';
 import { getAllJobs } from '../../actions/JobActions';
+import { getAllProvinces, getAllDistricts } from '../../actions/AddressActions';
 import { getAllCafe, getCafeDetail } from '../../actions/CafeActions';
 import { createGroupEvent } from '../../actions/EventActions';
 import { RoundAvatar } from '../../components/Avatar';
@@ -27,6 +28,7 @@ class CreateGroupDating extends Component {
 
     componentDidMount() {
         this.props.getAllJobs();
+        this.props.getAllProvinces();
 
         var cafe_id = getCookie('cafe_id');
         if (cafe_id) {
@@ -37,9 +39,7 @@ class CreateGroupDating extends Component {
                     agency_id: cafe_id
                 }
             })
-        } else {
-            this.props.getAllCafe();
-        }
+        } 
     }
 
     selectTheme(item, index) {
@@ -144,6 +144,32 @@ class CreateGroupDating extends Component {
         })
     }
 
+    onChangeCafeFilter(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
+
+        switch(e.target.name) {
+            case 'province': {
+                this.props.getAllDistricts(e.target.value);
+                this.props.getAllCafe({province_id: e.target.value});
+                break;
+            }
+            case 'district': {
+                this.props.getAllCafe({province_id: this.state.province, district_id: e.target.value});
+                break;
+            }
+            case 'type': {
+                this.props.getAllCafe({
+                    province_id: this.state.province, 
+                    district_id: this.state.district,
+                    type: e.target.value
+                });
+                break;
+            }
+        }
+    }
+
     render() {
         const { cafes, current_cafe } = this.props;
 
@@ -205,7 +231,7 @@ class CreateGroupDating extends Component {
                             </div>
                         </div>
                         <div className="row form-group">
-                            <div className="col-4">Lịch hẹn</div>
+                            <div className="col-4">Cuộc hẹn bắt đầu lúc</div>
                             <div className="col-8">
                                 <input className="form-control" type="datetime-local" name="start_time" required onChange={(e) => this.onChangeData(e)}/>
                             </div>
@@ -218,7 +244,40 @@ class CreateGroupDating extends Component {
                         </div>
 
                         <div className="row">
-                            <h5><i className="fas fa-map-marker-alt"></i> Chọn địa chỉ</h5>
+                            <h5><i className="fas fa-map-marker-alt"></i> Chọn địa chỉ quán bạn muốn hẹn hò</h5>
+                        </div>
+                        <div className="row form-group">
+                            <div className="col-4">
+                                <select name="province" className="custom-select" onChange={(e) => this.onChangeCafeFilter(e)}>
+                                    <option>Chọn tỉnh</option>
+                                    {
+                                        this.props.provinces.map(province => {
+                                            return (
+                                                <option value={province.matp} key={province.matp}>{province.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </div>
+                            <div className="col-4">
+                                <select name="district" className="custom-select" onChange={(e) => this.onChangeCafeFilter(e)}>
+                                    <option>Chọn huyện</option>
+                                    {
+                                        this.props.districts.map(district => {
+                                            return (
+                                                <option value={district.maqh} key={district.maqh}>{district.name}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+                            </div>
+                            <div className="col-4">
+                                <select name="type" className="custom-select" onChange={(e) => this.onChangeCafeFilter(e)}>
+                                    <option>Loại quán</option>
+                                    <option value={1}>Cafe</option>
+                                    <option value={2}>Quán ăn</option>
+                                </select>
+                            </div>
                         </div>
                         {
                             getCookie('cafe_id') ? (
@@ -230,25 +289,34 @@ class CreateGroupDating extends Component {
                                 }
                                 </div>
                             ) : (
-                                <Slider {...settings}>
+                                <React.Fragment>
                                     {
-                                        cafes.map((item, index) => {
-                                            return (
-                                                <div key={index}>
-                                                    <img src={item.cover} onClick={() => this.selectAddress(item, index)}
-                                                        className={this.state.selectedAddress == index ? `address-image selected-image` : `address-image`}
-                                                    />
-                                                    <div className="address-avatar">
-                                                        <RoundAvatar size="small" img={item.avatar}></RoundAvatar>
-                                                    </div>
-                                                    <div className="address-type address-tag">
-                                                        {item.type == 1 ? 'CAFE' : 'QUÁN ĂN'}
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
+                                        cafes.length ? (
+                                            <Slider {...settings}>
+                                            {
+                                                cafes.map((item, index) => {
+                                                    return (
+                                                        <div key={index}>
+                                                            <img src={item.cover} onClick={() => this.selectAddress(item, index)}
+                                                                className={this.state.selectedAddress == index ? `address-image selected-image` : `address-image`}
+                                                            />
+                                                            <div className="address-avatar">
+                                                                <RoundAvatar size="small" img={item.avatar}></RoundAvatar>
+                                                            </div>
+                                                            <div className="address-type address-tag">
+                                                                {item.type == 1 ? 'CAFE' : 'QUÁN ĂN'}
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </Slider>
+                                        ) : (
+                                            <div className="text-center mb-4">Không tìm thấy quán nào</div>
+                                        )
                                     }
-                                </Slider>
+                                </React.Fragment>
+                                
                             )
                         }
 
@@ -446,7 +514,9 @@ function mapStateToProps(state) {
     return {
         jobs: state.job.jobs,
         cafes: state.cafe.cafes,
-        current_cafe: state.cafe.currentCafe
+        current_cafe: state.cafe.currentCafe,
+        provinces: state.address.provinces,
+        districts: state.address.districts
     }
 }
 
@@ -455,7 +525,9 @@ function mapDispatchToProps(dispatch) {
         getAllJobs: () => dispatch(getAllJobs()),
         getAllCafe: (filter, page) => dispatch(getAllCafe(filter, page)),
         getCafeDetail: (id) =>  dispatch(getCafeDetail(id)),
-        createGroupEvent: (data) => dispatch(createGroupEvent(data))
+        createGroupEvent: (data) => dispatch(createGroupEvent(data)),
+        getAllProvinces: () => dispatch(getAllProvinces()),
+        getAllDistricts: (province_id) =>  dispatch(getAllDistricts(province_id)),
     }
 }
 

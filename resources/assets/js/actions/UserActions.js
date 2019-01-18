@@ -13,7 +13,8 @@ import {
     GET_PHOTOS_BY_TYPE,
     UPLOAD_FEATURED_PHOTOS,
     GET_USER_CONFIGURATIONS,
-    UPDATE_USER_CONFIGURATIONS
+    UPDATE_USER_CONFIGURATIONS,
+    UPDATE_PASSWORD
 } from './types';
 import {cleanObject} from '../helper/function';
 
@@ -86,14 +87,15 @@ export const getCurrentUserDetail = () => (dispatch) => {
 }
 
 export const updateUser = (data, id) => (dispatch) => {
-    console.log(data);
-    api.post(`/user/${id}`, data)
-    .then(response => {
-        alert("Cập nhật hồ sơ thành công!");
-        dispatch({type: UPDATE_USER_DETAIL, payload: response.data});
-    })
-    .catch(err => {
-        console.log(err);
+    return new Promise((resolve, reject) => {
+        return api.post(`/user/${id}`, data)
+        .then(response => {
+            dispatch({type: UPDATE_USER_DETAIL, payload: response.data});
+            resolve(response.data);
+        })
+        .catch(err => {
+            reject(err);
+        })
     })
 }
 
@@ -205,5 +207,16 @@ export const updateUserConfiguration = (data) => dispatch => {
         console.log(res.data);
     }).catch(err => {
         console.log(err);
+    })
+}
+
+export const updatePassword = (data) => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.post(`/user/password`, data).then(res => {
+            dispatch({type: UPDATE_PASSWORD});
+            resolve(res.data);
+        }).catch(err => {
+            reject(err);
+        })
     })
 }

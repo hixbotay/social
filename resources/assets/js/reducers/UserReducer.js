@@ -12,7 +12,8 @@ import {
     GET_PHOTOS_BY_TYPE,
     UPLOAD_FEATURED_PHOTOS,
     GET_USER_CONFIGURATIONS,
-    UPDATE_USER_CONFIGURATIONS
+    UPDATE_USER_CONFIGURATIONS,
+    UPDATE_PASSWORD
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -80,6 +81,9 @@ export default (state = INIT_STATE, action) => {
             return {...state, configurations: action.payload}
         }
         case UPDATE_USER_CONFIGURATIONS: {
+            return {...state}
+        }
+        case UPDATE_PASSWORD: {
             return {...state}
         }
         default: {
