@@ -70,6 +70,10 @@ class ListItem extends Component {
             case 'relationship': {
                 break;
             }
+            case 'request-event': {
+                icon = 'fas fa-store';
+                break;
+            }
         }
 
         return (

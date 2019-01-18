@@ -77,7 +77,7 @@ class ProfileLayout extends Component {
                     <Card>
                         <div className="row">
                             <div className="col-4">
-                                <img src="https://cdn2.iconfinder.com/data/icons/thesquid-ink-40-free-flat-icon-pack/64/space-rocket-512.png" className="status-info-icon"/>
+                                <img src={`${baseUrl}/public/images/space-rocket-512.png`} className="status-info-icon" title="Nổi bật 24h"/>
                                 <Switch
                                     // onChange={}
                                     checked={false}
@@ -86,7 +86,7 @@ class ProfileLayout extends Component {
                                 />
                             </div>
                             <div className="col-4">
-                                <img src="https://cdn0.iconfinder.com/data/icons/shift-free/32/Pacman_Ghost-512.png" className="status-info-icon"/>
+                                <img src={`${baseUrl}/public/images/Pacman_Ghost-512.png`} className="status-info-icon" title="Ẩn danh"/>
                                 <Switch
                                     onChange={() => this.handleChange()}
                                     checked={this.state.is_incognito}
@@ -95,7 +95,7 @@ class ProfileLayout extends Component {
                                 />
                             </div>
                             <div className="col-4">
-                                <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678132-gift-512.png" className="status-info-icon"/>
+                                <img src={`${baseUrl}/public/images/iconfinder_chat.png`} className="status-info-icon" title="Nhắn đồng thời 100 tin"/>
                                 <Switch
                                     // onChange={}
                                     checked={false}

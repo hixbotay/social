@@ -391,6 +391,21 @@ class Event extends Controller {
             ]);
         }
         DB::table('event_invitations')->insert($invitations);
+
+        // Notify to cafe/restaurent owner 
+        $agency = \App\Agency::find($result['agency_id']);
+
+        if($agency['user_id'] != $user_id) {
+            Notification::insert([
+                'user_id' => $agency['user_id'],
+                'actor' => Auth::id(), 
+                'content' => "Muốn tạo cuộc hẹn ở quán của bạn",
+                'type' => "request-event",
+                'created_at' => date("Y-m-d H:i:s"),
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+        }
+        
         return json_encode($result);
     }
 
