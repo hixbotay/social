@@ -1,5 +1,30 @@
-@extends('layouts.landing')
+@extends('layouts.auth')
 
+@section('form-content')
+    <div class="page-links">
+        <a href="{{url('/')}}/login" class="active">Đăng nhập</a>
+        <a href="{{url('/')}}/register">Đăng ký</a>
+    </div>
+
+    <form method="POST" action="{{ route('login') }}">
+        {{ csrf_field() }}
+        <input type="text" class="form-control" name='email' placeholder="Số điện thoại hoặc Email" required/>
+        <input type="password" class="form-control"  name="password" placeholder="Mật khẩu" required/>
+        <input type="hidden" name="remember" value="1" />
+        @if ($errors->has('email'))
+            <div class="alert alert-danger">
+                {{ $errors->first('email') }}
+            </div>
+        @endif
+        <div class="form-button">
+            <button type="submit" class="ibtn">Login</button> 
+            <a href="{{ route('password.request') }}">Forget password?</a>
+        </div>
+    </form>
+
+@endsection
+
+{{-- @extends('layouts.landing')
 @section('login-register-form')
 
 <div>
@@ -45,7 +70,7 @@
                         </a>
                         
                     </div>
-                    <!-- </div> -->
+                    
                     <div class="text-center">
                         <small>Bạn chưa có tài khoản? <a href="/register">Đăng ký ngay!</a></small>
                     </div>
@@ -53,17 +78,13 @@
                 </div>
             </div>
 
-            {{--VANTU--}}
-
             <input type="hidden" name="remember" value="1" />
-
-            {{--END VANTU--}}
 
         </form>
     </div>
 </div>
 
-@endsection
+@endsection --}}
 
 
 {{-- @section('content')

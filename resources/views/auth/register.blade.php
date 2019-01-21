@@ -1,4 +1,24 @@
-@extends('layouts.landing')
+@extends('layouts.auth')
+
+@section('form-content')
+
+    <div class="page-links">
+        <a href="{{url('/')}}/login">Đăng nhập</a>
+        <a href="{{url('/')}}/register" class="active">Đăng ký</a>
+    </div>
+    <form>
+        <input class="form-control" type="text" name="name" placeholder="Full Name" required>
+        <input class="form-control" type="email" name="email" placeholder="E-mail Address" required>
+        <input class="form-control" type="password" name="password" placeholder="Password" required>
+        <div class="form-button">
+            <button id="submit" type="submit" class="ibtn">Register</button>
+        </div>
+    </form>
+
+@endsection
+
+
+{{-- @extends('layouts.landing')
 
 @section('login-register-form')
 
@@ -142,4 +162,4 @@
     })
 </script>
 
-@endsection
+@endsection --}}

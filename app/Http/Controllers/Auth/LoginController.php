@@ -67,7 +67,7 @@ class LoginController extends Controller
         if(!Session::has('pre_url')){
             Session::put('pre_url', URL::previous());
         }else{
-                                                                                                        if(URL::previous() != URL::to('/login')) Session::put('pre_url', URL::previous());
+            if(URL::previous() != URL::to('/login')) Session::put('pre_url', URL::previous());
         }
         return Socialite::driver($provider)->redirect();
     }
