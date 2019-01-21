@@ -15,6 +15,7 @@ Auth::routes();
 Route::get('/', function () {
 	return view('welcome');
 })->middleware('auth');
+Route::post('/facebook/endpoint', 'FacebookAccountKitController@endpoint');
 
 Route::any('debug', 'Debug@show');
 Route::any('debug/{name}', 'Debug@execute');
