@@ -34,7 +34,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/couple';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -51,6 +51,7 @@ class LoginController extends Controller
     */
     protected function credentials(Request $request)
     {
+        \Session::put('url.intended','/');
         if(is_numeric($request->get('email'))){
             return ['mobile'=>$request->get('email'),'password'=>$request->get('password')];
         }
