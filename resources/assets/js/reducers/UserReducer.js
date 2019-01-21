@@ -13,7 +13,8 @@ import {
     UPLOAD_FEATURED_PHOTOS,
     GET_USER_CONFIGURATIONS,
     UPDATE_USER_CONFIGURATIONS,
-    UPDATE_PASSWORD
+    UPDATE_PASSWORD,
+    GET_ID_CARD_VERIFY
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -29,7 +30,8 @@ const INIT_STATE = {
     },
     featured_photos: [],
     photos: [],
-    configurations: {}
+    configurations: {},
+    idCard: null
 }
 
 export default (state = INIT_STATE, action) => {
@@ -85,6 +87,9 @@ export default (state = INIT_STATE, action) => {
         }
         case UPDATE_PASSWORD: {
             return {...state}
+        }
+        case GET_ID_CARD_VERIFY: {
+            return {...state, idCard: action.payload}
         }
         default: {
             return {...state};

@@ -475,8 +475,8 @@ class CreateGroupDating extends Component {
                                 </select>
                             </div>
                         </div>
-                        <div className="row text-center">
-                            <p>Bạn chỉ có thể nhìn thấy thành viên đã kết đôi với mình. Đã hiểu?</p>
+                        <div className="row text-center mb-4">
+                            <div>Khi bạn tạo hẹn nhóm tức là bạn đã đồng ý với <a href="#">Quy định về cuộc hẹn nhóm</a> của chúng tôi.</div>
                         </div>
 
                         <div className="text-center">

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {withRouter} from "react-router-dom";
+import {withRouter, Link} from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import {getAllEvents} from "../../actions/EventActions";
 import {getCoupleResults} from '../../actions/CoupleActions';
@@ -72,37 +72,51 @@ class ListFeatureDating extends Component {
     render() {
         return (
             <DatingLayout>
+                <div id="suggest-create-dating" className="row">
+                    <div className="col-sm-12 col-md-9">
+                        Hãy tạo cuộc hẹn nhóm để kết nối mọi người lại với nhau, đồng thời cũng tìm thấy 
+                        một nửa của riêng mình nhé! 
+                    </div>
+                    <div className="col-sm-12 col-md-3">
+                        <Link to="/dating/create">
+                            <button className="btn btn-primary">TẠO CUỘC HẸN</button>
+                        </Link>
+                    </div>
+                </div>
+                {
+                    this.props.upcomingEvents.length ? (
+                        <DatingCard isDisplaySlide={false} title="CUỘC HẸN SẮP TỚI CÓ THỂ BẠN THÍCH" events={this.props.upcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
+                    ) : (
+                        // <CardWithTitle title="CUỘC HẸN SẮP TỚI CÓ THỂ BẠN THÍCH" hasLine={true}>
+                        //     <div className="text-center">
+                        //         Chưa có cuộc hẹn nào
+                        //     </div>
+                        // </CardWithTitle>
+                        null
+                    )
+                }
                 {
                     this.props.aroundEvents.length ? (
                         <DatingCard isDisplaySlide={false} title="CUỘC HẸN GẦN BẠN" events={this.props.aroundEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
                     ) : (
-                        <CardWithTitle title="CUỘC HẸN GẦN BẠN" hasLine={true}>
-                            <div className="text-center" >
-                                Chưa có cuộc hẹn nào
-                            </div>
-                        </CardWithTitle>
+                        // <CardWithTitle title="CUỘC HẸN GẦN BẠN" hasLine={true}>
+                        //     <div className="text-center" >
+                        //         Chưa có cuộc hẹn nào
+                        //     </div>
+                        // </CardWithTitle>
+                        null
                     )
                 }
                 {
                     this.props.eventsHasYourCrush.length ?  (
                         <DatingCard isDisplaySlide={false} title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" events={this.props.eventsHasYourCrush} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
                     )  : (
-                        <CardWithTitle title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" hasLine={true}>
-                            <div className="text-center" >
-                                Chưa có cuộc hẹn nào
-                            </div>
-                        </CardWithTitle>
-                    )
-                }
-                {
-                    this.props.upcomingEvents.length ? (
-                        <DatingCard isDisplaySlide={false} title="CUỘC HẸN SẮP TỚI CÓ THỂ BẠN THÍCH" events={this.props.upcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
-                    ) : (
-                        <CardWithTitle title="CUỘC HẸN SẮP TỚI CÓ THỂ BẠN THÍCH" hasLine={true}>
-                            <div className="text-center">
-                                Chưa có cuộc hẹn nào
-                            </div>
-                        </CardWithTitle>
+                        // <CardWithTitle title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" hasLine={true}>
+                        //     <div className="text-center" >
+                        //         Chưa có cuộc hẹn nào
+                        //     </div>
+                        // </CardWithTitle>
+                        null
                     )
                 }
 

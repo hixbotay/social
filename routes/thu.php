@@ -65,6 +65,7 @@ Route::middleware(['web'])->group(function() {
     Route::delete('/subscribers/{id}', 'Api\Event@deleteSubscriber');
 
     Route::post('/verify-id-card', 'Api\User@storeIdCardInfo');
+    Route::get('/verify-id-card', 'Api\User@getIdCardVerifyRecord');
     Route::get('/user/{id}/featured-photos', 'Api\User@getFeaturePhotos');
     Route::get('/user/photos/{type}', 'Api\User@getPhotosByType');
     Route::post('/user/featured-photos', 'Api\User@uploadFeaturedPhotos');

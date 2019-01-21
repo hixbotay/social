@@ -540,5 +540,16 @@ class User extends Controller
 
         return ['ok' => 0];
     }
+
+    public function getIdCardVerifyRecord() {
+        $record = DB::table('id_card_verification')
+            ->where([
+                ['user_id', '=', Auth::id()],
+                ['is_verified', '<>', 2]
+            ])
+            ->orderBy('created_at', 'DESC')
+            ->first();
+        return ['record' => $record];
+    }
 }
 

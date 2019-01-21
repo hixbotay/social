@@ -14,7 +14,8 @@ import {
     UPLOAD_FEATURED_PHOTOS,
     GET_USER_CONFIGURATIONS,
     UPDATE_USER_CONFIGURATIONS,
-    UPDATE_PASSWORD
+    UPDATE_PASSWORD,
+    GET_ID_CARD_VERIFY
 } from './types';
 import {cleanObject} from '../helper/function';
 
@@ -214,6 +215,17 @@ export const updatePassword = (data) => dispatch => {
     return new Promise((resolve, reject) => {
         return api.post(`/user/password`, data).then(res => {
             dispatch({type: UPDATE_PASSWORD});
+            resolve(res.data);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+export const getIdCardVerify = () => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.get(`/verify-id-card`).then(res => {
+            dispatch({type: GET_ID_CARD_VERIFY, payload: res.data.record});
             resolve(res.data);
         }).catch(err => {
             reject(err);

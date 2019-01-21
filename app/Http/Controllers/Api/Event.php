@@ -13,6 +13,24 @@ date_default_timezone_set('Asia/Saigon');
 class Event extends Controller {
     // list events forthcoming, finished, cancelled which current_user joined
     public function list($status) {
+        $now = \Carbon\Carbon::now();
+
+        if($status == 'forthcoming') {
+            $query = [
+                ['limit_time_register', '>', $now],
+                ['status', '=', 'forthcoming']
+            ];
+        } else if($status == 'finished') {
+            $query = [
+                ['limit_time_register', '<', $now],
+                ['status', '=', 'finished']
+            ];
+        } else if($status == 'cancelled') {
+            $query = [
+                ['status', '=', 'cancelled']
+            ];
+        }
+
         $event_id = DB::table('event_register')->where('user_id', '=', Auth::id())->get();
         $temp = [];
         foreach($event_id as $item) {
@@ -27,7 +45,7 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where([['status', '=', $status]])
+            ->where($query)
             ->whereIn('events.id', $temp)
             ->select(DB::raw('
                 events.*,

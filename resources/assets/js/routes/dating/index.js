@@ -89,11 +89,6 @@ class Dating extends Component {
                     this.props.finishedEvents.length ? (
                         <DatingCard title="CUỘC HẸN ĐÃ KẾT THÚC" events={this.props.finishedEvents}></DatingCard>
                     ) : (
-                        // <CardWithTitle title="CUỘC HẸN ĐÃ KẾT THÚC" hasLine={true}>
-                        //     <div className="text-center">
-                        //         Không có cuộc hẹn nào
-                        //     </div>
-                        // </CardWithTitle>
                         null
                     )
                 }
@@ -101,11 +96,6 @@ class Dating extends Component {
                     this.props.cancelledEvents.length ? (
                         <DatingCard title="CUỘC HẸN ĐÃ HỦY" events={this.props.cancelledEvents}></DatingCard>
                     ) : (
-                        // <CardWithTitle title="CUỘC HẸN ĐÃ HỦY" hasLine={true}>
-                        //     <div className="text-center">
-                        //         Không có cuộc hẹn nào
-                        //     </div>
-                        // </CardWithTitle>
                         null
                     )
                 }

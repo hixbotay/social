@@ -1482,3 +1482,22 @@ img.product-thumbnail {
     margin: 0;
     background-color: #e74c3c;
 }
+
+div#suggest-create-dating {
+    background: #e74c3c;
+    margin: 0 0 15px 0;
+    color: #fff;
+    font-size: initial;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: 300;
+}
+
+#suggest-create-dating button {
+    background-color: #e67e22;
+    border: solid 2px #fff !important;
+}
+
+.id_photo {
+    margin-bottom: 5px;
+}

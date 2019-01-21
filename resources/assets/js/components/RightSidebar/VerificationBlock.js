@@ -36,7 +36,7 @@ class VerificationBlock extends Component {
             {
                 image: "https://www.colorid.com/uploads/4/2/2/9/42295857/published/id-card-icon.png?1529077382",
                 name: "Chứng minh thư",
-                isVerify: user.is_id_card_verified,
+                isVerify: (user.is_id_card_verified === 'verified'),
                 url: '/verify/id-card'
             }
         ];
@@ -65,7 +65,7 @@ class VerificationBlock extends Component {
                                         <img src={item.image} alt="verification-image"/>
                                     </div>
                                     <div className="notification-event">
-                                        <a href="#" className="h6 notification-friend">{item.name ? item.name : "Undefined"}</a>
+                                        <a href={item.url} className="h6 notification-friend">{item.name ? item.name : "Undefined"}</a>
                                         <span className="chat-message-item">{item.isVerify ? "Đã xác minh" : "Chưa xác minh"}</span>
                                     </div>
                                     <span className="notification-icon">
@@ -73,9 +73,9 @@ class VerificationBlock extends Component {
                                             item.isVerify ?
                                                 <i className="fas fa-check"></i>
                                             : 
-                                            <Link to={item.url}>
+                                            <a href={item.url}>
                                                 <button className="verify-btn">Xác minh</button>
-                                            </Link>
+                                            </a>
                                         }
                                     </span>
                                 </li>
