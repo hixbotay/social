@@ -46,12 +46,20 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    //        cach 2
+    public function authenticated(Request $request, $user)
+    {
+//        lam gi cung dc
+        return redirect('/');
+    }
+
     /**
     *  ghi đè phương thức để login bằng điện thoại
     */
     protected function credentials(Request $request)
     {
-        \Session::put('url.intended','/');
+//        cach 1
+//        \Session::put('url.intended','/');
         if(is_numeric($request->get('email'))){
             return ['mobile'=>$request->get('email'),'password'=>$request->get('password')];
         }
