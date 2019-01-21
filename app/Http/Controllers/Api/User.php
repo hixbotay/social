@@ -201,7 +201,11 @@ class User extends Controller
             ))
             ->first();
 
-        $id_card = DB::table('id_card_verification')->where('user_id', $id)->first();
+        $id_card = DB::table('id_card_verification')
+            ->where('user_id', $id)
+            ->orderBy('id', "DESC")
+            ->first();
+            
         if(!$id_card) {
             $user->is_id_card_verified = 'not_yet';
         } else {
