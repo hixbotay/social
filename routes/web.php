@@ -41,7 +41,12 @@ Route::middleware(['web', 'auth'])->group(function() {
     Route::get('/payment/verify', 'Api\Payment@verifyPayment');
 });
 
+Route::middleware(['auth', 'agency'])->group(function() {
+    Route::any('/admin/agency', 'Admin\Controller@execute');
+});
+
 Route::middleware(['admin', 'verify'])->group(function() {
+    Route::get('/admin/logout', 'Admin\Auth\LoginController@logout');
     Route::any('/admin', 'Admin\Controller@execute');
     // Route::post('/admin', 'Admin\Controller@execute')->name('admin.post');
 });

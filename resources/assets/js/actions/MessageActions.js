@@ -51,6 +51,7 @@ export const loadMessage = (data) => (dispatch) => {
             },
         })
             .then(function(response) {
+                console.log(response);
                 resolve(response.json());
             }).then(function(json) {
                 resolve(json);

@@ -153,7 +153,9 @@
                                         <li><a href="javascript:void(0)"><i class="ti-settings m-r-10"></i> Settings</a></li>
                                         <li><a href="javascript:void(0)"><i class="ti-lock m-r-10"></i> Lock screen</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="javascript:void(0)"><i class="ti-power-off m-r-10"></i> Logout</a></li>
+                                        <li>
+                                            <a href="{{URL::to('/admin/logout')}}"><i class="ti-power-off m-r-10"></i> Logout</a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>

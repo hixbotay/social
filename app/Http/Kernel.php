@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use Aws\Middleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -60,5 +61,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => Middleware\AdminMiddleware::class,
         'verify' => Middleware\VerifyMiddleware::class,
+        'agency' => \App\Http\Middleware\AgencyMiddleware::class,
     ];
 }
