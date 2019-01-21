@@ -15,7 +15,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function __construct(){
-    	$this->input = request();
+        $this->input = request();
 	}
 
     public function execute(Request $request){

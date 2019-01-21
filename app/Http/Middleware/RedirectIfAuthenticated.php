@@ -17,11 +17,13 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+
         if (Auth::guard($guard)->check()) {
             $user = Auth::user();
             // if($user->is_verify) {
-                if(Auth::user()->is_admin == 1) return redirect('/admin');
-                else return redirect('/');
+//                if(Auth::user()->is_admin == 1) return redirect('/admin');
+//                else
+                    return redirect('/');
             // } else {
 //                return redirect('/alert');
             // }
