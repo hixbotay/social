@@ -1,3 +1,9 @@
+<?php
+//echo "<pre>";
+//print_r($currentUser->group);
+//die;
+?>
+
 <div class="scrollbar-wrapper">
     <div>
         <button type="button" class="button-menu-mobile btn-mobile-view visible-xs visible-sm">
@@ -10,7 +16,7 @@
             </div>
             <div class="user-info">
                 <a href="javascript:void(0)">{{$currentUser->name}}</a>
-                <p class="text-muted m-0">Administrator</p>
+                <p class="text-muted m-0">{{$currentUser->group->name}}</p>
             </div>
         </div>
         <!--- End User Detail box -->
@@ -109,17 +115,6 @@
 
                 </ul>
             </li>
-
-            <li>
-                <a href="javascript: void(0);" aria-expanded="true"><i
-                            class="mdi mdi-gift"></i> @lang('Module quà tặng') <span class="fa arrow"></span></a>
-                <ul class="nav-second-level nav" aria-expanded="true">
-                    <li><a href="{{url('/admin?view=Gif')}}"><i class="ti-person"></i>@lang('Quà tặng')</a></li>
-                    <li><a href="{{url('/admin?view=GifCategories')}}"><i
-                                    class="ti-person"></i>@lang('Danh mục quà tặng')</a></li>
-                </ul>
-            </li>
-
 
             <li>
                 <a href="javascript: void(0);" aria-expanded="true"><i

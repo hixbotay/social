@@ -26,7 +26,7 @@
 
                             <!-- Top nav left menu -->
                             <ul class="nav navbar-nav hidden-sm hidden-xs top-navbar-items">
-                                <li><a href="#">About</a></li>
+                                <li><a href="{{\Illuminate\Support\Facades\URL::to('')}}" target="_blank">Trang chủ</a></li>
                                 <li><a href="#">Help</a></li>
                                 <li><a href="#">Contact</a></li>
                             </ul>

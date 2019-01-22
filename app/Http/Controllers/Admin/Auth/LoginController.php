@@ -27,7 +27,7 @@ class LoginController extends Controller
             }else{
                 $role = $user->role;
                 if (in_array(config('auth.action.ACCESS_ADMIN'), $role)){
-                    return redirect('/admin/agency');
+                    return redirect('/admin');
                 }
             }
         }else{

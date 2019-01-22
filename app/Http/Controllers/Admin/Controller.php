@@ -21,9 +21,11 @@ class Controller extends BaseController
 	}
 
     public function execute(Request $request){
-        $this->authorize(config('auth.action.ACCESS_ADMIN'));
+
+//        $this->authorize(config('auth.action.ACCESS_ADMIN'));
 
         $user = Auth::user();
+
         View::share ( 'currentUser', $user );
 
     	//khoi tao controller hoac view qua URL
@@ -66,7 +68,7 @@ class Controller extends BaseController
 //        print_r($data);
 //        die;
     	return view('admin', [
-    	    'data' => $data
+    	    'data' => $data,
         ]);
     }
 }
