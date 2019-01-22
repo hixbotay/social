@@ -5,9 +5,11 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Payments;
+use App\UserGroup;
 
 class User extends Authenticatable
 {
@@ -32,6 +34,24 @@ class User extends Authenticatable
         // 'district_id',
         // 'village_id',
     ];
+
+    protected $appends = [
+        'role',
+    ];
+
+
+    public function getRoleAttribute()
+    {
+        if ($this->group_id)
+        {
+            $group = UserGroup::find($this->group_id);
+            if ($group->role){
+                return \GuzzleHttp\json_decode($group->role);
+            }
+            return false;
+        }
+        return false;
+    }
 
     public static function getUserByGroup($key){
         $data = User::select('users.name', 'users.email', 'users.id')

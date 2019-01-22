@@ -154,6 +154,7 @@ return [
         'member_brands' => 'member_brands',
         'memeber' => 'memeber',
         'agency' => 'agency',
+        'agency_employee' => 'agency_employee',
         'guest' => 'guest',
     ]
 
