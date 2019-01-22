@@ -48,10 +48,11 @@ class User extends Authenticatable
             if ($group->role){
                 return \GuzzleHttp\json_decode($group->role);
             }
-            return false;
+            return array();
         }
-        return false;
+        return array();
     }
+
 
     public static function getUserByGroup($key){
         $data = User::select('users.name', 'users.email', 'users.id')
