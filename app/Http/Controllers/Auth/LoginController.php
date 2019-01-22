@@ -92,7 +92,9 @@ class LoginController extends Controller
         $user = Socialite::driver($provider)->user();
 
         $data = $this->findOrCreateUser($user, $provider);
-        Auth::login($data['user'], true);
+        if(array_key_exists('user', $data)) {
+            Auth::login($data['user'], true);
+        }
         return redirect($data['path']);
     }
 
@@ -108,15 +110,23 @@ class LoginController extends Controller
             return ['user' => $authUser, 'path' => '/'];
         }
 
-        $newUser =  User::create([
+        $newUser =  [
             'name'     => $user->name,
             'email'    => $user->email,
             'avatar' => $user->avatar,
             'password' => Hash::make($user->email),
             'is_verify' => 1,
+            'is_facebook_verified' => ($provider == 'facebook') ? 1 : 0,
+            'is_google_verified' => ($provider == 'google') ? 1 : 0,
             'provider' => $provider,
             'provider_id' => $user->id
-        ]);
-        return ['user' => $newUser, 'path' => '/registration?step=2'];
+        ];
+
+        Session::put('newUser', json_encode($newUser));
+        return ['path' => rawurldecode('https://www.accountkit.com/v1.0/basic/dialog/sms_login/?app_id='
+            .env('FACEBOOK_APP_ID')
+            .'&redirect='.env("ACCOUNTKIT_REDIRECT_URL")
+            .'&state='.csrf_token()
+            .'&fbAppEventsEnabled=true')];
     }
 }
