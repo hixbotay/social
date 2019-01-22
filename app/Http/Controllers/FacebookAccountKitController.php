@@ -24,7 +24,7 @@ class FacebookAccountKitController extends Controller
         $phone_data = json_decode($client->get(rawurldecode($url_1))->getBody());
 
         $user = json_decode(Session::get('newUser'));
-        $user['mobile'] = $phone_data->phone->nation_number;
+        $user['mobile'] = $phone_data->phone['nation_number'];
         $user['is_phone_verified'] = 1;
 
         return view('auth.fbauth', compact("user"));
