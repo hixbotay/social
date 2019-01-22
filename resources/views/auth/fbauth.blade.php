@@ -24,7 +24,7 @@
             <div class="img-holder">
                 <div class="bg"></div>
                 <div class="info-holder">
-                    <img src="{{asset('public/images/graphic3.svg')}}" alt="">
+                    <img src="{{asset('public/images/main/graphic3.svg')}}" alt="">
                 </div>
             </div>
             <div class="form-holder">
