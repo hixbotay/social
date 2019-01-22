@@ -17,6 +17,7 @@ class Job extends Model
         $job = self::all();
 
         echo '<select class="$class form-control" name="'.$name.'">';
+        echo '<option value="">Chọn</option>';
         foreach ($job AS $value){
             $checked = null;
             if ($value->id == $selected) $checked = "selected";

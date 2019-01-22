@@ -22,8 +22,6 @@ class Controller extends BaseController
 
     public function execute(Request $request){
 
-//        $this->authorize(config('auth.action.ACCESS_ADMIN'));
-
         $user = Auth::user();
 
         View::share ( 'currentUser', $user );
@@ -59,6 +57,8 @@ class Controller extends BaseController
     }
     
     public function index(){
+        $this->authorize(config('auth.action.ACCESS_ADMIN'));
+
         $data = array(
             'total_users' => User::getTotalUsers(),
             'total_vip' => User::getTotalVip(),

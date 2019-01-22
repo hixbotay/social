@@ -19,9 +19,14 @@ class AdminMiddleware
     {
         if(Auth::check()) {
             $user = Auth::user();
-            if (in_array(config('auth.action.ACCESS_ADMIN'), $user->role)){
+            $key = config('auth.action.ACCESS_ADMIN');
+            if (is_array($user->role) && in_array($key, $user->role)){
                 return $next($request);
             }
+            if (is_object($user->role) && property_exists($user->role, $key)){
+                return $next($request);
+            }
+
 //            if($user->is_admin == 1) {
 //                return $next($request);
 //            }

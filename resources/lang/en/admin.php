@@ -119,5 +119,8 @@ return [
     'PRODUCT' => 'Sản phẩm',
     'CHOOSE_AGENCY' => 'Chọn đại lý',
     'PRODUCT_NAME' => 'Tên sản phẩm',
-    'CHOOSE_FILE' => 'Chọn file'
+    'CHOOSE_FILE' => 'Chọn file',
+    'CANNOT_BLOCK_ADMINISTRATOR' => 'Không block được admin',
+    'CANNOT_BLOCK_THIS_USER' => 'Không block được user này',
+    'PROFILE' => 'Profile'
 ];
