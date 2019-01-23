@@ -23,6 +23,7 @@ class User extends Controller
      */
     public function index()
     {
+        $this->authorize(config('auth.action.LIST_USERS'));
         $request = Request::capture();
         $filterData = isset($_GET['filter'])?$_GET['filter']:array();
         $users = UserModel::where(function ($query) use ($filterData) {
