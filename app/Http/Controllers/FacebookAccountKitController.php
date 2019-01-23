@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Session;
+use \App\User;
 
 class FacebookAccountKitController extends Controller
 {
@@ -24,8 +25,14 @@ class FacebookAccountKitController extends Controller
         $phone_data = json_decode($client->get(rawurldecode($url_1))->getBody());
 
         $user = json_decode(Session::get('newUser'));
+        Session::forget('newUser');
 
-        // print_r($phone_data->phone->national_number);
+        // find if user existed 
+        $users = User::where('mobile', $phone_data->phone->national_number)->get();
+        if(!is_empty($users)) {
+            return redirect('/login')->withErrors('failed', 'Tài khoản đã tồn tại, vui lòng đăng nhập');
+        }
+
         $user->mobile = $phone_data->phone->national_number;
         $user->is_phone_verified = 1;
 

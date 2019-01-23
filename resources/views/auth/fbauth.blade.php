@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label><b>Số điện thoại <span>*</span></b></label><br/>
                                 <small>Số điện thoại không thể thay đổi sau khi đã xác minh</small>
-                                <input class="form-control" type="number" name="mobile" value="{{$user->mobile}}" disabled required>
+                                <input class="form-control" type="number" name="mobile" value="{{$user->mobile}}" readonly required>
                             </div>
                             <div class="form-group row">
                                 <div class="col-12 col-md-6">
