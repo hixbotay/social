@@ -9,7 +9,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 use App\User;
+use View;
 use App\Payments;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -19,7 +21,11 @@ class Controller extends BaseController
 	}
 
     public function execute(Request $request){
-        $this->authorize(config('auth.action.ACCESS_ADMIN'));
+
+        $user = Auth::user();
+
+        View::share ( 'currentUser', $user );
+
     	//khoi tao controller hoac view qua URL
     	if($request->input('controller')){
     		$controller = $this->get_controller($request->input('controller'));
@@ -51,6 +57,8 @@ class Controller extends BaseController
     }
     
     public function index(){
+        $this->authorize(config('auth.action.ACCESS_ADMIN'));
+
         $data = array(
             'total_users' => User::getTotalUsers(),
             'total_vip' => User::getTotalVip(),
@@ -60,7 +68,7 @@ class Controller extends BaseController
 //        print_r($data);
 //        die;
     	return view('admin', [
-    	    'data' => $data
+    	    'data' => $data,
         ]);
     }
 }

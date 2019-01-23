@@ -148,12 +148,22 @@ class User extends Controller
     }
 
     public static function block(Request $request){
-        $current = Auth::id();
+        $current = Auth::user();
         $id =  $request->input('id');
-        if ($id == $current){
+        if ($id == $current->id){
             return redirect(url('admin?view=User'))->withErrors(__('admin.CANNOT_BLOCK_YOURSELF'));
         }
         $user = UserModel::find($id);
+        if ($user->is_admin == 1 && $current->is_admin != 1){
+            return redirect(url('admin?view=User'))->withErrors(__('admin.CANNOT_BLOCK_ADMINISTRATOR'));
+        }
+
+        if ($current->is_admin != 1){
+            if ($user->parent_id != $current->id){
+                return redirect(url('admin?view=User'))->withErrors(__('admin.CANNOT_BLOCK_THIS_USER'));
+            }
+        }
+
         $user->is_blocked = !$user->is_blocked;
         $result = $user->save();
         if ($result) {
