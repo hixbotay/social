@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
+use DateTime;
 
 class RegisterController extends Controller
 {
@@ -86,16 +87,21 @@ class RegisterController extends Controller
         }
         
         $data['password'] = Hash::make($data['password']);
+        $data['birthday'] = DateTime::createFromFormat('d/m/Y', $data['birthday'])->format('Y-m-d');
         
         $user = User::create($data);
 
         // save avatar
-        if($avatar) {
+        // can luu user truoc de lay duoc user_id 
+        if(is_file($avatar)) {
             $extension = $avatar->getClientOriginalExtension();
             $filename = (string) time().uniqid().'.'.$extension;
             $path = 'storage/app/user'.$user->id.'/avatar/'.$filename;
             $avatar->storeAs('user'.$user->id.'/avatar', $filename);
             $user->avatar = $path;
+            $user->save();
+        } else if(is_string($avatar)) {
+            $user->avatar = $avatar;
             $user->save();
         }
         

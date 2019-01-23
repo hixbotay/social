@@ -118,7 +118,9 @@
                                     </label>
                                     <input type="text" class="form-control" readonly>
                                 </div>
-                            </div> 
+                            </div>
+                            @else 
+                            <input type="hidden" name="avatar" value="{{$user->avatar}}" />
                             @endif
 
                             <div class="form-button">
