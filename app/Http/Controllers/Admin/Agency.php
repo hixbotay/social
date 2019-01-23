@@ -93,6 +93,12 @@ class Agency extends Controller
     {
         $data = $request->get('data');
 
+        $currentUser = Auth::user();
+
+        if ($currentUser->group->key == config('auth.usergroup.agency')){
+            $data['user_id'] = $currentUser->id;
+        }
+
         $result = AgencyModel::create($data);
 
         $url = url('admin?view=Agency&type='.$data['type']);
@@ -147,9 +153,13 @@ class Agency extends Controller
      */
     public function update(Request $request)
     {
+        $currentUser = Auth::user();
         $id =  $request->input('id');
         $item = AgencyModel::find($id);
         $data = $request->get('data');
+        if ($currentUser->group->key == config('auth.usergroup.agency')){
+            unset($data['user_id']);
+        }
         $url = url('admin?view=Agency&type='.$data['type']);
         if (!$item->id)
             return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
@@ -174,10 +184,19 @@ class Agency extends Controller
      */
     public function destroy(Request $request)
     {
+        $currentUser = Auth::user();
         $id = $request->input('id');
-        $result = AgencyModel::destroy($id);
         $type = isset($_GET['type'])?$_GET['type']:null;
         $url = 'admin?view=Agency&type='.$type;
+
+        if ($currentUser->group->key == config('auth.usergroup.agency')){
+            $item = AgencyModel::find($id);
+            if ($item->user_id != $currentUser->id){
+                return redirect($url)->withErrors(__('admin.NOT_PERMISSION_DELTE'));
+            }
+        }
+
+        $result = AgencyModel::destroy($id);
         if (!$result)
             return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
         return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);

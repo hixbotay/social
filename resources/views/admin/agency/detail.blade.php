@@ -14,6 +14,13 @@
                     {{ csrf_field() }}
                     <div class="col-sm-12">
 
+                        @if($currentUser->group->key == config('auth.usergroup.agency'))
+                            @php
+                                $listDisabled = true;
+                            @endphp
+                        @endif
+
+                        @if(!isset($listDisabled) || $listDisabled == false)
 
                         <div class="form-group">
                             <label>Chủ sở hữu <span>*</span></label>
@@ -24,8 +31,9 @@
                                             value="{{$value->id}}">{{ $value->name . ' ' . $value->email }}</option>
                                 @endforeach
                             </select>
-
                         </div>
+
+                        @endif
 
                         <div class="form-group">
                             <label>Loại cửa hàng <span>*</span></label>

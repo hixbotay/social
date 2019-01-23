@@ -126,4 +126,5 @@ return [
     'WAITING_VERIFY' => 'Chờ xác nhận',
     'UPCOMING' => 'Sắp diễn ra',
     'TOTAL_INCOME_MONTHLY' => 'Doanh thu tháng',
+    'NOT_PERMISSION_DELTE' => 'Bạn không có quyền xóa'
 ];
