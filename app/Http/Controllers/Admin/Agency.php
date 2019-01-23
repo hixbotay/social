@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Agency AS AgencyModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 
@@ -30,9 +31,10 @@ class Agency extends Controller
         if (!$type || (!in_array($type, $this->type))){
             return redirect('admin?view=Agency&type=1');
         }
+        $currentUser = Auth::user();
 
         $items = DB::table('agency')
-            ->where(function ($query) use ($filter, $type) {
+            ->where(function ($query) use ($filter, $type, $currentUser) {
                 if (isset($filter['user_id']) && $filter['user_id']){
                     $query->where('agency.user_id', $filter['user_id']);
                 }
@@ -41,6 +43,9 @@ class Agency extends Controller
                 }
                 if ($type){
                     $query->where('agency.type', '=', $type);
+                }
+                if ($currentUser->group->key == config('auth.usergroup.agency')){
+                    $query->where('agency.user_id', '=', $currentUser->id);
                 }
             })
             ->join('users', 'agency.user_id', '=', 'users.id')

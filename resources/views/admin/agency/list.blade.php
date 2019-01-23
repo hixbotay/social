@@ -19,9 +19,12 @@
 
                         <div class="row">
 
+                            @if($currentUser->group->key == config('auth.usergroup.administrator'))
+
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Đại lý</label>
+
                                     <div>
                                         <select name="filter[user_id]" id="user_id" class="form-control">
                                             <option value="">@lang('admin.SELECT_USER')</option>
@@ -36,6 +39,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @endif
 
                             <div class="col-sm-4">
                                 <div class="form-group">
