@@ -17,7 +17,7 @@ date_default_timezone_set('Asia/Saigon');
 class User extends Controller
 {
     // helper function processing base64 image
-    function processImage(String $base64Data, String $path) {
+    public function processImage(String $base64Data, String $path) {
         $base64_image = explode(',', $base64Data)[1];
 
         $firstChar = substr($base64_image, 0, 1);

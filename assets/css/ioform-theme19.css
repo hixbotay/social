@@ -456,3 +456,18 @@
         background-image: url("../images/logo-dark.svg");
     }
 }
+
+.input-group-btn {
+    margin-bottom: 0 !important;
+}
+
+.input-group-btn span {
+    border: none !important;
+    border-radius: 10px 0px 0px 10px !important;
+    height: 100% !important;
+    margin-bottom: 0 !important;
+}
+
+.custom-select {
+    border-radius: 0!important;
+}

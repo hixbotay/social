@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -29,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/registration?step=2';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -70,27 +72,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // print_r($data);
-        // return User::create([
-        //     'name' => $data['name'],
-        //     'mobile' => $data['mobile'],
-        //     'gender' => $data['gender'],
-        //     'marital_status' => $data['marital_status'],
-        //     'birthday' => $data['birthday'],
-        //     'province_id' => $data['province_id'],
-        //     'district_id' => $data['district_id'],
-        //     'village_id' => $data['village_id'],
-        //     'password' => bcrypt($data['password']),
-        // ]);
-
+        
         if(array_key_exists('q', $data)) {
             unset($data['q']);
         }
-        $data['avatar'] = env('APP_URL').'/public/images/default-avatar-heart.png';
-        // $data['password'] = bcrypt($data['password']);
+
+        $avatar = $data['avatar'];
+        unset($data['avatar']);
+
+        $data['password'] = Hash::make($data['password']);
         
         $user = User::create($data);
 
+        // save avatar
+        $extension = $avatar->getClientOriginalExtension();
+        $filename = (string) time().uniqid().'.'.$extension;
+        $path = 'storage/app/user'.$user->id.'/avatar/'.$filename;
+        $avatar->storeAs('user'.$user->id.'/avatar', $filename);
+        $user->avatar = $path;
+        $user->save();
         \App\UserConfiguration::create([
             'user_id' => $user->id,
             'notify_receive_message' => 1,
@@ -100,5 +100,6 @@ class RegisterController extends Controller
         ]);
 
         return $user;
+        // return redirect('/');
     }
 }

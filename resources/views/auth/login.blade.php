@@ -8,14 +8,10 @@
 
     <form method="POST" action="{{ route('login') }}">
         {{ csrf_field() }}
-        <input type="text" class="form-control" name='email' placeholder="Số điện thoại hoặc Email" required/>
+        <input type="text" class="form-control" name='email' placeholder="Số điện thoại" required/>
         <input type="password" class="form-control"  name="password" placeholder="Mật khẩu" required/>
         <input type="hidden" name="remember" value="1" />
-        @if ($errors->has('email'))
-            <div class="alert alert-danger">
-                {{ $errors->first('email') }}
-            </div>
-        @endif
+        @include('layouts.admin.notice')
         <div class="form-button">
             <button type="submit" class="ibtn">Đăng nhập</button> 
             <a href="{{ route('password.request') }}">Forget password?</a>

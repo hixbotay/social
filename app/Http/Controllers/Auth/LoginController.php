@@ -53,6 +53,11 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+    // public function username()
+    // {
+    //     return "mobile";
+    // }
+
     /**
     *  ghi đè phương thức để login bằng điện thoại
     */

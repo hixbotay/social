@@ -1622,3 +1622,8 @@ html, body {
         padding: 125px 30px 60px;
     }
 }
+
+#additional-form {
+    max-width: 800px !important;
+    width: 550px !important;
+}
