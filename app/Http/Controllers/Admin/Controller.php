@@ -57,18 +57,29 @@ class Controller extends BaseController
     }
     
     public function index(){
-        $this->authorize(config('auth.action.ACCESS_ADMIN'));
+        $user = Auth::user();
+        switch ($user->group->key){
+            case config('auth.usergroup.administrator'):
+                $data = array(
+                    'total_users' => User::getTotalUsers(),
+                    'total_vip' => User::getTotalVip(),
+                    'total_charge' => Payments::getTotalChargeAmount(),
+                    'total_withdraw' => Payments::getTotalWithdrawAmount()
+                );
+                return view('admin', [
+                    'data' => (object)$data,
+                ]);
+            case config('auth.usergroup.agency'):
+                $data = array(
+                    'total_users' => User::getTotalUsers(),
+                    'total_vip' => User::getTotalVip(),
+                    'total_charge' => Payments::getTotalChargeAmount(),
+                    'total_withdraw' => Payments::getTotalWithdrawAmount()
+                );
+                return view('admin', [
+                    'data' => (object)$data,
+                ]);
+        }
 
-        $data = array(
-            'total_users' => User::getTotalUsers(),
-            'total_vip' => User::getTotalVip(),
-            'total_charge' => Payments::getTotalChargeAmount(),
-            'total_withdraw' => Payments::getTotalWithdrawAmount()
-        );
-//        print_r($data);
-//        die;
-    	return view('admin', [
-    	    'data' => $data,
-        ]);
     }
 }

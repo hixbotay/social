@@ -122,5 +122,8 @@ return [
     'CHOOSE_FILE' => 'Chọn file',
     'CANNOT_BLOCK_ADMINISTRATOR' => 'Không block được admin',
     'CANNOT_BLOCK_THIS_USER' => 'Không block được user này',
-    'PROFILE' => 'Profile'
+    'PROFILE' => 'Profile',
+    'WAITING_VERIFY' => 'Chờ xác nhận',
+    'UPCOMING' => 'Sắp diễn ra',
+    'TOTAL_INCOME_MONTHLY' => 'Doanh thu tháng',
 ];
