@@ -113,8 +113,6 @@ class RegisterController extends Controller
             'notify_loved' => 1
         ]);
 
-        //  forget data in this session
-        Session::forget('newUser');
         return $user;
     }
 
