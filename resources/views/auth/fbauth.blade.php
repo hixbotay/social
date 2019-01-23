@@ -41,13 +41,13 @@
 
                         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <input type="hidden" name="email" value="{{$user->email}}" />
-                            <input type="hidden" name="is_verify" value="{{$user->is_verify}}" />
-                            <input type="hidden" name="is_facebook_verified" value="{{$user->is_facebook_verified}}" />
-                            <input type="hidden" name="is_gmail_verified" value="{{$user->is_gmail_verified}}" />
-                            <input type="hidden" name="provider" value="{{$user->provider}}" />
-                            <input type="hidden" name="provider_id" value="{{$user->provider_id}}" />
-                            <input type="hidden" name="is_phone_verified" value="{{$user->is_phone_verified}}" />
+                            <input type="hidden" name="email" value="{{$user->email ? $user->email : NULL}}" readonly/>
+                            <input type="hidden" name="is_verify" value="{{$user->is_verify ? $user->is_verify : NULL}}" readonly/>
+                            <input type="hidden" name="is_facebook_verified" value="{{$user->is_facebook_verified ? $user->is_facebook_verified : NULL}}" readonly/>
+                            <input type="hidden" name="is_gmail_verified" value="{{$user->is_gmail_verified ? $user->is_gmail_verified: NULL}}" readonly/>
+                            <input type="hidden" name="provider" value="{{$user->provider ? $user->provider : NULL}}" readonly/>
+                            <input type="hidden" name="provider_id" value="{{$user->provider_id ? $user->provider_id : NULL}}" readonly/>
+                            <input type="hidden" name="is_phone_verified" value="{{$user->is_phone_verified ? $user->is_phone_verified : NULL}}" readonly/>
 
                             <div class="form-group">
                                 <label><b>Họ tên <span>*</span></b></label>
