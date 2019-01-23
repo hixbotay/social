@@ -29,7 +29,7 @@ class FacebookAccountKitController extends Controller
 
         // find if user existed 
         $users = User::where('mobile', $phone_data->phone->national_number)->get();
-        if(!is_empty($users)) {
+        if(count($users)) {
             return redirect('/login')->withErrors('failed', 'Tài khoản đã tồn tại, vui lòng đăng nhập');
         }
 
