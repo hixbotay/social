@@ -38,7 +38,7 @@ class FacebookAccountKitController extends Controller
             //  forget data in this session
             Session::forget('newUser');
         } else {
-            $user = [
+            $user = (object) [
                 'mobile' => $phone_data->phone->national_number,
                 'is_phone_verified' => 1
             ];

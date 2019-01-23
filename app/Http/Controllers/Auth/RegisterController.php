@@ -89,6 +89,9 @@ class RegisterController extends Controller
         $data['password'] = Hash::make($data['password']);
         $data['birthday'] = DateTime::createFromFormat('d/m/Y', $data['birthday'])->format('Y-m-d');
         
+        // remove null fields
+        $data = array_filter($data);
+
         $user = User::create($data);
 
         // save avatar

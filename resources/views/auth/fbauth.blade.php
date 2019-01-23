@@ -41,17 +41,17 @@
 
                         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <input type="hidden" name="email" value="{{$user->email ? $user->email : NULL}}" readonly/>
-                            <input type="hidden" name="is_verify" value="{{$user->is_verify ? $user->is_verify : NULL}}" readonly/>
-                            <input type="hidden" name="is_facebook_verified" value="{{$user->is_facebook_verified ? $user->is_facebook_verified : NULL}}" readonly/>
-                            <input type="hidden" name="is_gmail_verified" value="{{$user->is_gmail_verified ? $user->is_gmail_verified: NULL}}" readonly/>
-                            <input type="hidden" name="provider" value="{{$user->provider ? $user->provider : NULL}}" readonly/>
-                            <input type="hidden" name="provider_id" value="{{$user->provider_id ? $user->provider_id : NULL}}" readonly/>
-                            <input type="hidden" name="is_phone_verified" value="{{$user->is_phone_verified ? $user->is_phone_verified : NULL}}" readonly/>
+                            <input type="hidden" name="email" value="{{isset($user->email) ? $user->email : NULL}}" readonly/>
+                            <input type="hidden" name="is_verify" value="{{isset($user->is_verify) ? $user->is_verify : NULL}}" readonly/>
+                            <input type="hidden" name="is_facebook_verified" value="{{isset($user->is_facebook_verified) ? $user->is_facebook_verified : NULL}}" readonly/>
+                            <input type="hidden" name="is_gmail_verified" value="{{isset($user->is_gmail_verified) ? $user->is_gmail_verified: NULL}}" readonly/>
+                            <input type="hidden" name="provider" value="{{isset($user->provider) ? $user->provider : NULL}}" readonly/>
+                            <input type="hidden" name="provider_id" value="{{isset($user->provider_id) ? $user->provider_id : NULL}}" readonly/>
+                            <input type="hidden" name="is_phone_verified" value="{{isset($user->is_phone_verified) ? $user->is_phone_verified : NULL}}" readonly/>
 
                             <div class="form-group">
                                 <label><b>Họ tên <span>*</span></b></label>
-                                <input class="form-control" type="text" name="name" value="{{$user->name ? $user->name : ""}}" required>
+                                <input class="form-control" type="text" name="name" value="{{isset($user->name) ? $user->name : ""}}" required>
                             </div>
                             <div class="form-group">
                                 <label><b>Mật khẩu <span>*</span></b></label><br/>
@@ -104,7 +104,9 @@
                                 </div>
                             </div>
 
-                            @if(!$user->avatar)
+                            @if(isset($user->avatar))
+                            <input type="hidden" name="avatar" value="{{$user->avatar}}" />
+                            @else 
                             <div class="form-group">
                                 <label class="form-label">
                                     <b>Avatar của bạn <span>*</span></b><br/>
@@ -119,8 +121,6 @@
                                     <input type="text" class="form-control" readonly>
                                 </div>
                             </div>
-                            @else 
-                            <input type="hidden" name="avatar" value="{{$user->avatar}}" />
                             @endif
 
                             <div class="form-button">
