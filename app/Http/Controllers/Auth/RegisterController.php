@@ -75,11 +75,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
         if(array_key_exists('q', $data)) {
             unset($data['q']);
         }
         
+        $avatar = null;
         if(array_key_exists('avatar', $data)) {
             $avatar = $data['avatar'];
             unset($data['avatar']);
