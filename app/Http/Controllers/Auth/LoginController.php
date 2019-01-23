@@ -129,7 +129,7 @@ class LoginController extends Controller
             'avatar' => $user->avatar,
             'is_verify' => 1,
             'is_facebook_verified' => ($provider == 'facebook') ? 1 : 0,
-            'is_google_verified' => ($provider == 'google') ? 1 : 0,
+            'is_gmail_verified' => ($provider == 'google') ? 1 : 0,
             'provider' => $provider,
             'provider_id' => $user->id
         ];

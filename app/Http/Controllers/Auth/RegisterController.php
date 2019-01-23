@@ -79,21 +79,26 @@ class RegisterController extends Controller
         if(array_key_exists('q', $data)) {
             unset($data['q']);
         }
-
-        $avatar = $data['avatar'];
-        unset($data['avatar']);
-
+        
+        if(array_key_exists('avatar', $data)) {
+            $avatar = $data['avatar'];
+            unset($data['avatar']);
+        }
+        
         $data['password'] = Hash::make($data['password']);
         
         $user = User::create($data);
 
         // save avatar
-        $extension = $avatar->getClientOriginalExtension();
-        $filename = (string) time().uniqid().'.'.$extension;
-        $path = 'storage/app/user'.$user->id.'/avatar/'.$filename;
-        $avatar->storeAs('user'.$user->id.'/avatar', $filename);
-        $user->avatar = $path;
-        $user->save();
+        if($avatar) {
+            $extension = $avatar->getClientOriginalExtension();
+            $filename = (string) time().uniqid().'.'.$extension;
+            $path = 'storage/app/user'.$user->id.'/avatar/'.$filename;
+            $avatar->storeAs('user'.$user->id.'/avatar', $filename);
+            $user->avatar = $path;
+            $user->save();
+        }
+        
         \App\UserConfiguration::create([
             'user_id' => $user->id,
             'notify_receive_message' => 1,

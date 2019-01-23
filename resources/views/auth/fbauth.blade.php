@@ -41,13 +41,13 @@
 
                         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <input type="hidden" name="email" value="{{$user->email}}" disabled/>
-                            <input type="hidden" name="is_verify" value="{{$user->is_verify}}" disabled/>
-                            <input type="hidden" name="is_facebook_verified" value="{{$user->is_facebook_verified}}" disabled/>
-                            <input type="hidden" name="is_google_verified" value="{{$user->is_google_verified}}" disabled/>
-                            <input type="hidden" name="provider" value="{{$user->provider}}" disabled/>
-                            <input type="hidden" name="provider_id" value="{{$user->provider_id}}" disabled/>
-                            <input type="hidden" name="is_phone_verified" value="{{$user->is_phone_verified}}" disabled/>
+                            <input type="hidden" name="email" value="{{$user->email}}" />
+                            <input type="hidden" name="is_verify" value="{{$user->is_verify}}" />
+                            <input type="hidden" name="is_facebook_verified" value="{{$user->is_facebook_verified}}" />
+                            <input type="hidden" name="is_gmail_verified" value="{{$user->is_gmail_verified}}" />
+                            <input type="hidden" name="provider" value="{{$user->provider}}" />
+                            <input type="hidden" name="provider_id" value="{{$user->provider_id}}" />
+                            <input type="hidden" name="is_phone_verified" value="{{$user->is_phone_verified}}" />
 
                             <div class="form-group">
                                 <label><b>Họ tên <span>*</span></b></label>
@@ -66,7 +66,7 @@
                             <div class="form-group row">
                                 <div class="col-12 col-md-6">
                                     <label><b>Ngày sinh <span>*</span></b></label>
-                                    <input data-toggle="datepicker" name="birthday" required/>
+                                    <input type="text" data-toggle="datepicker" name="birthday" required/>
                                     <div data-toggle="datepicker"></div>
                                 </div>
                                 <div class="col-12 col-md-6" id="form-gender">
@@ -103,7 +103,7 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             @if(!$user->avatar)
                             <div class="form-group">
                                 <label class="form-label">
@@ -113,7 +113,7 @@
                                 <div class="input-group">
                                     <label class="input-group-btn">
                                         <span class="btn btn-primary">
-                                            Tải lên <input type="file" name="avatar" style="display: none;" accept="image/*" required>
+                                            Tải lên <input type="file" name="avatar" style="display: none;" accept="image/*" >
                                         </span>
                                     </label>
                                     <input type="text" class="form-control" readonly>
