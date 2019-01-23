@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/ioform-style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/ioform-theme19.css')}}">
+    {{-- DatePicker --}}
+    <link  href="{{asset('assets/datepicker/dist/datepicker.css')}}" rel="stylesheet">
 </head>
 <body>
     <div class="form-body without-side">
@@ -33,40 +35,49 @@
                             Vui lòng điền đầy đủ tất cả những thông tin dưới đây, 
                             những thông tin này sẽ giúp chúng tôi tìm được người phù hợp với bạn.
                         </p>
-
+                        <small>Các trường đánh dấu * là bắt buộc</small>
+                        <div class="mb-2"></div>
                         @include('layouts.admin.notice')
 
                         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            {{-- <input class="form-control" type="text" name="name" placeholder="Họ tên" value="{{$user->name}}" required>
-                            <input class="form-control" type="password" name="password" placeholder="Mật khẩu" required>
-                            <input class="form-control" type="number" name="mobile" placeholder="Số điện thoại" value="{{$user->mobile}}" required disabled>
-                            <input class="form-control" type="date" name="birthday" data-date="" data-date-format="DD MMMM YYYY" required> --}}
-                            <input class="form-control" type="text" name="name" placeholder="Họ tên" required>
-                            <input class="form-control" type="password" name="password" placeholder="Mật khẩu" required>
-                            <input class="form-control" type="number" name="mobile" placeholder="Số điện thoại" required>
-                            <input class="form-control" type="date" name="birthday" required>
-                            
+                            <div class="form-group">
+                                <label><b>Họ tên <span>*</span></b></label>
+                                <input class="form-control" type="text" name="name" value="{{$user->name ? $user->name : ""}}" required>
+                            </div>
+                            <div class="form-group">
+                                <label><b>Mật khẩu <span>*</span></b></label><br/>
+                                <small>Mật khẩu này dùng khi bạn đăng nhập</small>
+                                <input class="form-control" type="password" name="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label><b>Số điện thoại <span>*</span></b></label><br/>
+                                <small>Số điện thoại không thể thay đổi sau khi đã xác minh</small>
+                                <input class="form-control" type="number" name="mobile" value="{{$user->mobile}}" disabled required>
+                            </div>
                             <div class="form-group row">
-                                <div class="col-12 col-md-4">
-                                    <select class="custom-select" name="gender" required>
-                                        <option>Giới tính</option>
-                                        <option value="M">Nam</option>
-                                        <option value="F">Nữ</option>
-                                    </select>
+                                <div class="col-12 col-md-6">
+                                    <label><b>Ngày sinh <span>*</span></b></label>
+                                    <input data-toggle="datepicker" name="birthday" required/>
+                                    <div data-toggle="datepicker"></div>
                                 </div>
-                                <div class="col-12 col-md-8">
-                                    <select class="custom-select" name="marital_status" required>
-                                        <option>Tình trạng hôn nhân</option>
-                                        <option value="0">Độc thân</option>
-                                        <option value="1">Đã kết hôn</option>
-                                        <option value="2">Đã từng kết hôn trước đó</option>
-                                    </select>
+                                <div class="col-12 col-md-6" id="form-gender">
+                                    <label><b>Giới tính <span>*</span></b></label>
+                                    <div class="row">
+                                        <div class="col-6 d-flex align-items-center">
+                                            <input type="radio" value="M" name="gender"/>
+                                            <i class="fas fa-male"></i>
+                                        </div>
+                                        <div class="col-6 d-flex align-items-center">
+                                            <input type="radio" value="F" name="gender"/>
+                                            <i class="fas fa-female"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row no-gutters">
                                 <div class="col-12">
-                                    <label>Địa chỉ</label>
+                                    <label><b>Địa chỉ <span>*</span></b></label>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <select class="custom-select" name="province_id" id="provinces" onchange="changeProvince(this.value);" required>
@@ -85,7 +96,10 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Avatar của bạn</label>
+                                <label class="form-label">
+                                    <b>Avatar của bạn <span>*</span></b><br/>
+                                    <small>Tải lên avatar để thu hút đối phương hơn nhé!</small>
+                                </label>
                                 <div class="input-group">
                                     <label class="input-group-btn">
                                         <span class="btn btn-primary">
@@ -109,6 +123,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="{{asset('assets/js/bootstrap-4.1.3.min.js')}}"></script>
 <script src="{{asset('assets/js/fbaccountkit.js')}}"></script>
+<script src="{{asset('assets/datepicker/dist/datepicker.js')}}"></script>
 
 <script>
     const rootUrl = "{{URL::to('/')}}";
@@ -186,6 +201,12 @@
             });
         });
 
+    });
+
+
+    $('[data-toggle="datepicker"]').datepicker({
+        language: 'vi-VN',
+        format: "dd/mm/yyyy"
     });
 </script>
 </body>

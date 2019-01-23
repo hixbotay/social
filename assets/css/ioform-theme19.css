@@ -172,7 +172,7 @@
     color: #000000;
 }
 
-.form-content input[type="checkbox"]:not(:checked) + label, .form-content input[type="checkbox"]:checked + label, .form-content input[type="radio"]:not(:checked) + label, .form-content input[type="radio"]:checked + label {
+/* .form-content input[type="checkbox"]:not(:checked) + label, .form-content input[type="checkbox"]:checked + label, .form-content input[type="radio"]:not(:checked) + label, .form-content input[type="radio"]:checked + label {
     color: #000;
 }
 
@@ -196,9 +196,9 @@
 
 .form-content input[type="radio"]:checked + label:after, .form-content input[type="radio"]:not(:checked) + label:after {
     background-color: #fff;
-}
+} */
 
-.form-content .custom-options input[type="checkbox"]:not(:checked) + label, .form-content .custom-options input[type="checkbox"]:checked + label, .form-content .custom-options input[type="radio"]:not(:checked) + label, .form-content .custom-options input[type="radio"]:checked + label {
+/* .form-content .custom-options input[type="checkbox"]:not(:checked) + label, .form-content .custom-options input[type="checkbox"]:checked + label, .form-content .custom-options input[type="radio"]:not(:checked) + label, .form-content .custom-options input[type="radio"]:checked + label {
     color: #606060;
     background-color: #F7F7F7;
 }
@@ -208,7 +208,7 @@
     background-color: #57D38C;
     -webkit-box-shadow: 0 3px 8px rgba(74, 230, 142, 0.35);
     box-shadow: 0 3px 8px rgba(74, 230, 142, 0.35);
-}
+} */
 
 .form-content .form-button .ibtn {
     background-color: #0093FF;
@@ -470,4 +470,41 @@
 
 .custom-select {
     border-radius: 0!important;
+}
+
+.form-content input[type="radio"] {
+    width: 1.25em;
+    height: 1.25em;
+    margin-bottom: 0px;
+    margin-right: 1em; 
+}
+
+.form-content input[type="radio"]:not(:checked) {
+    position: relative !important;
+    left: 0 !important;
+}
+
+.form-content input[type="radio"]:checked {
+    position: relative !important;
+    left: 0 !important;
+}
+
+#form-gender {
+    padding: 9px;
+}
+
+#form-gender i {
+    font-size: 2.25em;
+}
+
+#form-gender .fa-male {
+    color: #2980b9
+}
+
+#form-gender .fa-female {
+    color: #e74c3c
+}
+
+b {
+    font-weight: 700 !important;
 }

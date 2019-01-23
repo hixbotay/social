@@ -8,7 +8,7 @@
 
     <form method="POST" action="{{ route('login') }}">
         {{ csrf_field() }}
-        <input type="text" class="form-control" name='email' placeholder="Số điện thoại" required/>
+        <input type="text" class="form-control" name='mobile' placeholder="Số điện thoại" required/>
         <input type="password" class="form-control"  name="password" placeholder="Mật khẩu" required/>
         <input type="hidden" name="remember" value="1" />
         @include('layouts.admin.notice')

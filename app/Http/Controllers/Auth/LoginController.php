@@ -53,10 +53,10 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    // public function username()
-    // {
-    //     return "mobile";
-    // }
+    public function username()
+    {
+        return "mobile";
+    }
 
     /**
     *  ghi đè phương thức để login bằng điện thoại
@@ -65,10 +65,18 @@ class LoginController extends Controller
     {
 //        cach 1
 //        \Session::put('url.intended','/');
-        if(is_numeric($request->get('email'))){
-            return ['mobile'=>$request->get('email'),'password'=>$request->get('password')];
-        }
-        return $request->only($this->username(), 'password');
+        // if(is_numeric($request->get('email'))){
+        //     return ['mobile'=>$request->get('email'),'password'=>$request->get('password')];
+        // }
+        // return $request->only($this->username(), 'password');
+        $field = is_numeric($request->get($this->username()))
+            ? $this->username()
+            : 'mobile';
+
+        return [
+            $field => $request->get($this->username()),
+            'password' => $request->password,
+        ];
     }
 
     /**

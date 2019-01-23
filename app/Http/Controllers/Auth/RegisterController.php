@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -41,11 +44,6 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
-    }
-
-    public function username()
-    {
-        return 'mobile';
     }
 
     /**
@@ -105,7 +103,17 @@ class RegisterController extends Controller
         ]);
 
         return $user;
-        // return redirect('/');
     }
 
+    public function register(Request $request)
+    {
+        // $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        Auth::loginUsingId($user->id, TRUE);
+
+        return $this->registered($request, $user)
+                        ? : redirect($this->redirectPath());
+    }
 }
