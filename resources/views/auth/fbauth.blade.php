@@ -41,6 +41,14 @@
 
                         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            <input type="hidden" name="email" value="{{$user->email}}" disabled/>
+                            <input type="hidden" name="is_verify" value="{{$user->is_verify}}" disabled/>
+                            <input type="hidden" name="is_facebook_verified" value="{{$user->is_facebook_verified}}" disabled/>
+                            <input type="hidden" name="is_google_verified" value="{{$user->is_google_verified}}" disabled/>
+                            <input type="hidden" name="provider" value="{{$user->provider}}" disabled/>
+                            <input type="hidden" name="provider_id" value="{{$user->provider_id}}" disabled/>
+                            <input type="hidden" name="is_phone_verified" value="{{$user->is_phone_verified}}" disabled/>
+                            
                             <div class="form-group">
                                 <label><b>Họ tên <span>*</span></b></label>
                                 <input class="form-control" type="text" name="name" value="{{$user->name ? $user->name : ""}}" required>

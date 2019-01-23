@@ -127,7 +127,6 @@ class LoginController extends Controller
             'name'     => $user->name,
             'email'    => $user->email,
             'avatar' => $user->avatar,
-            'password' => Hash::make($user->email),
             'is_verify' => 1,
             'is_facebook_verified' => ($provider == 'facebook') ? 1 : 0,
             'is_google_verified' => ($provider == 'google') ? 1 : 0,
