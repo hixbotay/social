@@ -48,7 +48,7 @@
                             <input type="hidden" name="provider" value="{{$user->provider}}" disabled/>
                             <input type="hidden" name="provider_id" value="{{$user->provider_id}}" disabled/>
                             <input type="hidden" name="is_phone_verified" value="{{$user->is_phone_verified}}" disabled/>
-                            
+
                             <div class="form-group">
                                 <label><b>Họ tên <span>*</span></b></label>
                                 <input class="form-control" type="text" name="name" value="{{$user->name ? $user->name : ""}}" required>
@@ -103,6 +103,8 @@
                                     </select>
                                 </div>
                             </div>
+                            
+                            @if(!$user->avatar)
                             <div class="form-group">
                                 <label class="form-label">
                                     <b>Avatar của bạn <span>*</span></b><br/>
@@ -117,6 +119,8 @@
                                     <input type="text" class="form-control" readonly>
                                 </div>
                             </div> 
+                            @endif
+
                             <div class="form-button">
                                 <button type="submit" class="btn btn-primary">Hoàn tất</button>
                             </div>
