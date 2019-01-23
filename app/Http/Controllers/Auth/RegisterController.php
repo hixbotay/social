@@ -43,6 +43,11 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function username()
+    {
+        return 'mobile';
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -102,4 +107,5 @@ class RegisterController extends Controller
         return $user;
         // return redirect('/');
     }
+
 }

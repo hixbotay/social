@@ -18,11 +18,11 @@ class VerifyMiddleware
     {
         $user = Auth::user();
         
-        if($user && $user->is_verify == 1) {
+//        if($user && $user->is_verify == 1) {
             return $next($request);
-        } else {
-            return redirect('/alert');
-        }
+//        } else {
+//            return redirect('/alert');
+//        }
         
     }
 }

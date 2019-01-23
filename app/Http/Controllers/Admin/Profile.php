@@ -25,7 +25,7 @@ class Profile extends Controller
     }
 
     public function update(Request $request){
-        $id =  $request->input('id');
+        $id =  Auth::id();
         $user = User::find($id);
         $data = $request->get('data');
 

@@ -111,7 +111,7 @@
 <script src="{{asset('assets/js/fbaccountkit.js')}}"></script>
 
 <script>
-    const rootUrl = "{{env('APP_URL')}}";
+    const rootUrl = "{{URL::to('/')}}";
     $.ajax({
         url: rootUrl + "/api/provinces",
         method: "GET",
