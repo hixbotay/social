@@ -25,7 +25,6 @@ class FacebookAccountKitController extends Controller
         $phone_data = json_decode($client->get(rawurldecode($url_1))->getBody());
 
         $user = json_decode(Session::get('newUser'));
-        Session::forget('newUser');
 
         // find if user existed 
         $users = User::where('mobile', $phone_data->phone->national_number)->get();
