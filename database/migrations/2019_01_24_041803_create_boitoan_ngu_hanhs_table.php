@@ -15,7 +15,7 @@ class CreateBoitoanNguHanhsTable extends Migration
     {
         Schema::create('boitoan_ngu_hanh', function (Blueprint $table) {
             $table->tinyInteger('point');
-            $table->char('description',5000);
+            $table->string('description',5000);
             $table->timestamps();
         });
 
