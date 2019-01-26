@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PostHeader from '../../components/Post/PostHeader';
 import {FaRegThumbsUp, FaRegThumbsDown} from 'react-icons/fa';
-
-import {reactPost, unreactPost, share, removePost} from '../../actions/PostActions';
+import EdiText from 'react-editext';
+import {reactPost, unreactPost, share, removePost, updatePost} from '../../actions/PostActions';
 
 class Post extends Component {
 
@@ -63,6 +63,16 @@ class Post extends Component {
         }
     }
 
+    openFormEdit(post_id) {
+        this.setState({isOpenControl: false});
+        var buttons = document.getElementsByClassName(`edit-button-${post_id}`);
+        buttons[0].click();
+    }
+
+    update(content, post_id) {
+        this.props.updatePost({content: content}, post_id);
+    }
+
     render() {
         const {post, user_id, isInNewsfeed} = this.props;
 
@@ -97,7 +107,7 @@ class Post extends Component {
                                     
                                     <div className={this.state.isOpenControl ? "" : "d-none"}>
                                         <ul className="list-group post-control">
-                                            <li className="list-group-item">
+                                            <li className="list-group-item" onClick={() => this.openFormEdit(post.id)}>
                                                 Sửa bài viết
                                             </li>
                                             <li className="list-group-item" onClick={() => this.remove(post.id)}>
@@ -119,18 +129,22 @@ class Post extends Component {
                                 name={post.original_author_name}
                                 created={post.original_created}
                             />
-                            <p>
-                                {post.content}
-                            </p>
+                            <p>{post.content}</p>
                             <div className="shared-post-photo">
                                 {post.photo_id ? <img src={post.source}/> : null}
                             </div>
                         </div>
                     ) : (
                         <React.Fragment>
-                            <p>
-                                {post.content}
-                            </p>
+                            <div className="mb-4">
+                                <EdiText 
+                                    type="textarea" 
+                                    value={post.content} 
+                                    editButtonClassName={`d-none edit-button-${post.id}`}
+                                    onSave={(content) => this.update(content, post.id)}
+                                />
+                            </div>
+                            
                             <div className="post-photo">
                                 {post.photo_id ? <img src={post.source}/> : null}
                             </div>
@@ -141,13 +155,11 @@ class Post extends Component {
                     <div className="col-12">
                         <div className="float-left">
                             <span className={`btn-post mr-2 ${this.state.isLiked ? "active" : ""}`} onClick={() => this.changeReaction('like', post.id)}>
-                                {this.state.like} 
-                                <FaRegThumbsUp></FaRegThumbsUp>
+                                {this.state.like} <i className="far fa-thumbs-up"></i>
                             </span> 
                             | 
                             <span className={`btn-post ml-2 ${this.state.isDisliked ? "active" : ""}`} onClick={() => this.changeReaction('dislike', post.id)}>
-                                {this.state.dislike} 
-                                <FaRegThumbsDown></FaRegThumbsDown>
+                                {this.state.dislike} <i className="far fa-thumbs-down"></i>
                             </span> 
                         </div>
                         <div className="float-right">
@@ -171,6 +183,7 @@ function mapDispatchToProps(dispatch) {
         unreactPost: (type, post_id) => dispatch(unreactPost(type, post_id)),
         share: (post_id) => dispatch(share(post_id)),
         removePost: (post_id) => dispatch(removePost(post_id)),
+        updatePost: (data, post_id) => dispatch(updatePost(data, post_id))
     }
 }
 

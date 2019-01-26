@@ -80,7 +80,7 @@ export const share = (post_id) => dispatch => {
 
 export const updatePost = (data, id) => dispatch =>  {
     api.post(`/post/${id}`, data).then(res => {
-        dispatch({type: UPDATE_POST, payload: response.data.post});
+        dispatch({type: UPDATE_POST, payload: res.data.post});
     })
     .catch(err => {
         console.log(err);
