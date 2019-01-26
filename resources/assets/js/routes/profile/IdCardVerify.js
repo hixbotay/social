@@ -4,6 +4,11 @@ import connect from 'react-redux/es/connect/connect';
 import { Card } from '../../components/Card';
 import { verifyIdCard, getIdCardVerify } from '../../actions/UserActions';
 import ImageCompressor from 'image-compressor.js';
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+// import viVN from 'date-fns/locale/vi';
+// registerLocale('vi-VN', viVN);
 
 class IdCardVerify extends Component {
     constructor() {
@@ -16,6 +21,12 @@ class IdCardVerify extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            data: {
+                name: this.props.current_user.name,
+                birthday: this.props.current_user.birthday
+            }
+        });
         this.props.getIdCardVerify();
     }
 
@@ -66,6 +77,17 @@ class IdCardVerify extends Component {
         })
     }
 
+    onChangeDate(name, value) {
+        this.setState({
+            data: {
+                ...this.state.data,
+                [name]: value
+            }
+        }, () => {
+            console.log(this.state.data);
+        })
+    }
+
     submit(e) {
         e.preventDefault();
         this.props.verify(this.state.data);
@@ -87,10 +109,10 @@ class IdCardVerify extends Component {
                                 <br />
                                 <div className="form-group row">
                                     <div className="col-3">
-                                        Họ tên
+                                        <div>Họ tên</div>
                                     </div>
                                     <div className="col-9">
-                                        <input type="text" className="form-control" name="name" onChange={(e) => this.onChangeData(e)} />
+                                        <input type="text" className="form-control" value={this.state.data.name} name="name" onChange={(e) => this.onChangeData(e)} />
                                     </div>
                                 </div>
                                 <div className="form-group row">
@@ -106,7 +128,12 @@ class IdCardVerify extends Component {
                                         Ngày sinh
                                     </div>
                                     <div className="col-9">
-                                        <input type="date" className="form-control" name="birthday" onChange={(e) => this.onChangeData(e)} />
+                                        <DatePicker className="form-control"
+                                            locale="vi-VN" 
+                                            name="birthday" 
+                                            selected={this.state.data.birthday} 
+                                            onChange={(date) => this.onChangeDate("birthday", date)} 
+                                        />
                                     </div>
                                 </div>
                                 <div className="form-group row">
@@ -114,7 +141,12 @@ class IdCardVerify extends Component {
                                         Ngày cấp
                                     </div>
                                     <div className="col-9">
-                                        <input type="date" className="form-control" name="date_of_issues" onChange={(e) => this.onChangeData(e)} />
+                                        <DatePicker className="form-control" 
+                                            locale="vi-VN" 
+                                            name="date_of_issues" 
+                                            selected={this.state.data.date_of_issues} 
+                                            onChange={(date) => this.onChangeDate("date_of_issues", date)} 
+                                        />
                                     </div>
                                 </div>
                                 <div className="clearfix">

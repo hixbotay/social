@@ -5,9 +5,11 @@ import { RoundAvatar } from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
 import InformationNumber from '../../components/Information/InformationNumber';
 import { Card, CardWithIcon, CardWithTitle } from '../../components/Card';
-import Modal from '../../components/Modal';
+import Modal from 'react-modal';
 import VerificationBlock from '../../components/RightSidebar/VerificationBlock';
 import {updateRelationship } from '../../actions/UserActions';
+import {Link, withRouter} from 'react-router-dom';
+
 
 class OtherUserLayout extends Component {
     constructor(props) {
@@ -17,13 +19,15 @@ class OtherUserLayout extends Component {
             isLiked: props.relationship ? props.relationship.is_like : false,
             isBlocked: props.relationship ? props.relationship.is_block : false,
             likeNumber: parseInt(props.relationship.likeNumber) ? parseInt(props.relationship.likeNumber) : 0,
-            loveNumber: parseInt(props.relationship.loveNumber) ? parseInt(props.relationship.loveNumber) : 0
+            loveNumber: parseInt(props.relationship.loveNumber) ? parseInt(props.relationship.loveNumber) : 0,
+            isAlertRelationship: false,
+            isAlertDating: false
         }
     }
 
     updateRelationship(actionType) {
         if(localStorage.getItem('percentage') < 70) {
-            document.getElementById('open-relationship-modal').click();
+            this.setState({isAlertRelationship: true});
         } else {
             var data = {};
 
@@ -66,6 +70,20 @@ class OtherUserLayout extends Component {
                 likeNumber: parseInt(nextProps.relationship.likeNumber) ? parseInt(nextProps.relationship.likeNumber) : 0,
                 loveNumber: parseInt(nextProps.relationship.loveNumber) ? parseInt(nextProps.relationship.loveNumber) : 0
             });
+        }
+    }
+
+    inviteDating()  {
+        var user = this.props.current_user;
+        if(user.is_id_card_verified === 'verified' 
+            && user.is_phone_verified 
+            && user.credit >= this.props.price.couple_dating.couple_dating_price) {
+                this.props.history.push({
+                    pathname: '/dating/couple/create',
+                    state: {invitee: this.props.user}
+                })
+        } else {
+            this.setState({isAlertDating: true});
         }
     }
 
@@ -114,11 +132,12 @@ class OtherUserLayout extends Component {
                                 ></CircleButton>
                             </div>
                             <div className="col-4 text-center">
-                                <CircleButton 
-                                    icon="fas fa-times"
-                                    color={this.state.isBlocked ? '#d35400' : '#34495e'}
-                                    action={() => this.updateRelationship('block')}
-                                ></CircleButton>
+                                
+                                    <CircleButton 
+                                        icon="fas fa-coffee"
+                                        color={this.state.isBlocked ? '#d35400' : '#34495e'}
+                                        action={() => this.inviteDating()}
+                                    ></CircleButton>
                             </div>
                         </div>
                     </Card>
@@ -146,8 +165,8 @@ class OtherUserLayout extends Component {
                     </CardWithTitle>
                     <VerificationBlock user={current_user}></VerificationBlock>
                 </div>
-                <button type="button" id="open-relationship-modal" className="d-none" data-toggle="modal" data-target="#relationship-alert"></button>
-                <Modal id="relationship-alert">
+                
+                <Modal isOpen={this.state.isAlertRelationship}>
                     <div className="row">
                         <div className="col-6">
                             <img src="https://us.123rf.com/450wm/anwarsikumbang/anwarsikumbang1408/anwarsikumbang140800671/31358550-love-couple-romance-cartoon.jpg" id="create-event-alert-img" />
@@ -165,8 +184,27 @@ class OtherUserLayout extends Component {
                         </div>
                     </div>
                 </Modal>
+                <Modal isOpen={this.state.isAlertDating}>
+                    <h5>Lỗi!</h5>
+                    <hr/>
+                    <div>Bạn chưa thể tạo cuộc hẹn đôi lúc này bởi một trong các lý do sau:</div>
+                    <ul>
+                        <li>- Bạn chưa xác minh số điện thoại thành công</li>
+                        <li>- Bạn chưa xác minh chứng minh thư thành công</li>
+                        <li>- Tài khoản của bạn không đủ để tạo cuộc hẹn</li>
+                    </ul>
+                    <button className="float-right btn btn-primary" onClick={() => {this.setState({isAlertDating: false})}}>
+                        Đã hiểu
+                    </button>
+                </Modal>
             </div>
         );
+    }
+}
+
+function mapStateToProps(state) {
+    return {
+        price: state.payment.price
     }
 }
 
@@ -176,4 +214,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(null, mapDispatchToProps)(OtherUserLayout);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OtherUserLayout));

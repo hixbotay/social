@@ -61,6 +61,7 @@ import Checkout from './product/Checkout';
 import Wishlist from './product/Wishlist';
 import MobileHeader from '../components/Header/MobileHeader';
 import MobileMenu from '../components/MobileMenu';
+import CreateCoupleDating from './dating/CreateCoupleDating';
 
 
 const AppRoute = ({ component: Component, layout: Layout, ...rest }) => (
@@ -111,6 +112,7 @@ class MainApp extends Component {
                     <AppRoute exact path={'/dating/feature'} layout={SecondLayout} component={ListFeatureDating} />
                     <AppRoute exact path={'/dating/invited'} layout={SecondLayout} component={ListInvitationDating} />
                     <AppRoute exact path={'/dating/create'} layout={SecondLayout} component={CreateDating} />
+                    <AppRoute exact path={'/dating/couple/create'} layout={SecondLayout} component={CreateCoupleDating} />
                     <AppRoute exact path={'/dating/subscribe'} layout={SecondLayout} component={SubscribeDating} />
                     <AppRoute exact path={'/dating/search'} layout={SecondLayout} component={DatingSearchResults} />
                     <AppRoute exact path={'/dating/:id'} layout={SecondLayout} component={DatingDetail} />

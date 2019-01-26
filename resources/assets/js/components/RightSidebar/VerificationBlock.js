@@ -6,11 +6,12 @@ class VerificationBlock extends Component {
     render() {
         const {user} = this.props;
         
-        var temp = 0;
-        if(user.is_id_card_verified) temp++; 
+        let temp = 0;
+        if(user.is_id_card_verified === 'verified') temp++; 
         if(user.is_facebook_verified) temp++; 
         if(user.is_gmail_verified) temp++; 
         if(user.is_phone_verified) temp++; 
+        console.log(temp);
 
         var verificationPercentage  = (temp/4) * 100;
         

@@ -440,6 +440,8 @@ class Event extends Controller {
         // dating type is couple
         $newEvent['limit_number'] = 2;
         $newEvent['min_number'] = 2;
+        $newEvent['created_at'] = \Carbon\Carbon::now();
+        $newEvent['updated_at'] = \Carbon\Carbon::now();
 
         foreach($data->event as $key => $value) {
             $newEvent[$key] = $value;
