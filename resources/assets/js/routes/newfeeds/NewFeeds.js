@@ -19,30 +19,18 @@ class NewFeeds extends Component {
         this.props.getAllPosts();
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            posts: nextProps.posts 
-        });
-    }
-
-    addPost(post) {
-        post.author_id = this.props.current_user.id;
-        this.state.posts.unshift(post);
-        this.setState({
-            posts: this.state.posts
-        })
-    }
-
     render() {
-        
-        const {current_user} = this.props;
+        console.log(this.state.posts);
+        const {current_user, posts} = this.props;
         return (
             <div>
             {
                 current_user.id ? (
                     <div id="newfeeds">
                         <div className="ui-block">
-                            <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
+                            <CreatePostForm user={current_user} 
+                            // addPost={this.addPost.bind(this)}
+                            ></CreatePostForm>
                             <div className="col-12">
                                 <div className="row vip-recommend">
                                     <div className="col-2">
@@ -58,7 +46,7 @@ class NewFeeds extends Component {
                                 </div>
                             </div>
                             {
-                                this.state.posts.map((post, index) => {
+                                posts.map((post, index) => {
                                     return (
                                         <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={true}></Post>
                                     )

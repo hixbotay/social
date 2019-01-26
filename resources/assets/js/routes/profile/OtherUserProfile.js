@@ -54,6 +54,7 @@ class OtherPerson extends Component {
 
                 <Card>
                     {
+                        user_data.posts.length ? 
                         user_data.posts.map((post, index) => {
                             post.author = user_data.user.name;
                             post.author_avatar = user_data.user.avatar;
@@ -62,6 +63,11 @@ class OtherPerson extends Component {
                                 <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={false}></Post>
                             )
                         })
+                        : (
+                            <div className="text-center">
+                                Không có bài viết nào
+                            </div>
+                        )
                     }
                 </Card>
             </OtherUserLayout>

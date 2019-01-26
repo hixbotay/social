@@ -11,7 +11,6 @@ class VerificationBlock extends Component {
         if(user.is_facebook_verified) temp++; 
         if(user.is_gmail_verified) temp++; 
         if(user.is_phone_verified) temp++; 
-        console.log(temp);
 
         var verificationPercentage  = (temp/4) * 100;
         

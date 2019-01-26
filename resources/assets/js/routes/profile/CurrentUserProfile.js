@@ -16,22 +16,9 @@ class UserProfile extends Component {
         this.props.getFeaturedUserPhotos(this.props.match.params.id);
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            posts: nextProps.posts
-        });
-    }
-
-    addPost(post) {
-        this.state.posts.unshift(post);
-        this.setState({
-            posts: this.state.posts
-        })
-    }
-
     render() {
 
-        const { current_user, featured_photos } = this.props;
+        const { current_user, featured_photos, posts } = this.props;
 
         return (
             <CurrentUserLayout
@@ -41,18 +28,26 @@ class UserProfile extends Component {
             >
                 <ProfileHeader user={current_user} isCurrentUser={true} images={featured_photos}></ProfileHeader>
                 <Card>
-                    <CreatePostForm user={current_user} addPost={this.addPost.bind(this)}></CreatePostForm>
+                    <CreatePostForm user={current_user}></CreatePostForm>
                 </Card>
                 
                 <Card>
                     {
-                        this.props.posts.map((post, index) => {
+                        posts.length ?
+                        posts.map((post, index) => {
                             post.author = current_user.name;
                             post.author_avatar = current_user.avatar;
                             return (
                                 <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={false}></Post>
                             )
                         })
+                        : (
+                            <div className="alert alert-warning">
+                                <div className="text-center">
+                                    Bạn chưa có bài viết nào. Hãy tạo bài viết ngay nhé! 
+                                </div>
+                            </div>
+                        )
                     }
                 </Card>
             </CurrentUserLayout>
@@ -63,7 +58,7 @@ class UserProfile extends Component {
 function mapStateToProps(state) {
     return {
         current_user: state.user.current_user,
-        posts: state.post.myPosts,
+        posts: state.post.posts,
         featured_photos: state.user.featured_photos
     }
 }

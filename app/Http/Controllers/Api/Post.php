@@ -208,7 +208,7 @@ class Post extends Controller
         }
         Notification::insert($notifications);
 
-        return json_encode($post);
+        return ['post' => $post];
     }
 
     public function share(Request $request) {
@@ -239,5 +239,35 @@ class Post extends Controller
         }
 
         return ['post' => $new_post];
+    }
+
+    function removePost($id) {
+        $user_id = Auth::id();
+        \App\Post::where([
+            ['user_id', '=', $user_id],
+            ['id', '=', $id]
+        ])->delete();
+
+        $postPhoto = \App\PostPhoto::where('post_id', $id)->first();
+        $photo = DB::table('user_photos')->where('id', $postPhoto->photo_id)->first();
+        
+        $postPhoto->delete();
+        $photo->delete();
+        Storage::delete(substr($photo->source, 11));
+
+        return ['ok' => 1];
+    }
+
+    function updatePost(Request $request, $id) {
+        $user_id = Auth::id();
+        $post = \App\Post::where([
+            ['user_id', '=', $user_id],
+            ['id', '=', $id]
+        ])->first();
+        
+        $post->content = $request->get('content');
+        $post->updated_at = date("Y-m-d H:i:s");
+        $post->save();
+        return ['post' => $post];
     }
 }

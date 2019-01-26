@@ -1501,3 +1501,30 @@ div#suggest-create-dating {
 .id_photo {
     margin-bottom: 5px;
 }
+
+.post-control {
+    position: absolute;
+    right: 0;
+    padding: 5px 5px 0px 5px;
+    /* background: #008FE5; */
+    border: solid 1px #bec2c5;
+    z-index: 10;
+}
+
+.post-control li {
+    line-height: 0.25em;
+    margin: 0 -5px;
+    border: none !important;
+    border-radius: none !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    font-weight: 600;
+}
+
+.post-control li:hover {
+    background-color: #075fa0;
+    color: #fff;
+    border: solid 1px #075fa0;
+}

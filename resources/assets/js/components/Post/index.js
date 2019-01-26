@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PostHeader from '../../components/Post/PostHeader';
-import CircleButton from '../../components/Button/CircleButton';
+import {FaRegThumbsUp, FaRegThumbsDown} from 'react-icons/fa';
 
-import {reactPost, unreactPost, share} from '../../actions/PostActions';
+import {reactPost, unreactPost, share, removePost} from '../../actions/PostActions';
 
 class Post extends Component {
 
     constructor(props) {
         super(props);
+        var likeArr = JSON.parse(props.post.like);
+        var dislikeArr = JSON.parse(props.post.dislike);
         this.state = {
-            like: props.post.like ? JSON.parse(props.post.like).length : 0,
-            dislike: props.post.dislike  ? JSON.parse(props.post.dislike).length : 0,
-            love: props.post.love ? JSON.parse(props.post.love).length : 0,
+            like: Array.isArray(likeArr) ? likeArr.length : 0,
+            dislike: Array.isArray(dislikeArr)  ? dislikeArr.length : 0,
             view: props.post.view ? JSON.parse(props.post.view).length : 0,
-            isLoved: (props.post.love === null || props.post.love.indexOf(props.user_id) < 0) ? false : true,
-            isLiked: (props.post.like === null || props.post.like.indexOf(props.user_id) < 0) ? false : true,
-            isDisliked: (props.post.dislike === null || props.post.dislike.indexOf(props.user_id) < 0) ? false : true,
+            isLiked: (Array.isArray(likeArr) && likeArr.indexOf(props.user_id) >= 0) ? true : false,
+            isDisliked: (Array.isArray(dislikeArr) && dislikeArr.indexOf(props.user_id) >= 0) ? true : false,
+            isOpenControl: false
         }
     }
 
@@ -49,6 +50,19 @@ class Post extends Component {
         }
     }
 
+    handleClick() {
+        this.setState(prevState => ({
+            isOpenControl: !prevState.isOpenControl
+        }));
+    }
+
+    remove(post_id) {
+        this.setState({isOpenControl: false});
+        if(confirm("Bạn muốn xóa bài viết này chứ?")) {
+            this.props.removePost(post_id);
+        }
+    }
+
     render() {
         const {post, user_id, isInNewsfeed} = this.props;
 
@@ -66,18 +80,6 @@ class Post extends Component {
                 <div className="row">
                     <div className="col-12">
                         <div className="float-left">
-                        {/* {
-                            (post.user_id !== user_id || isInNewsfeed) ? (
-                                <PostHeader
-                                    user_id={post.user_id}
-                                    avatar={post.author_avatar}
-                                    name={post.author}
-                                    created={post.created_at}
-                                />
-                            ) : (
-                                <div><i className="far fa-clock"></i> {post.created_at}</div>
-                            )
-                        } */}
                             <PostHeader
                                 user_id={post.user_id}
                                 avatar={post.user_avatar}
@@ -86,9 +88,26 @@ class Post extends Component {
                                 isShare={isShare}
                             />
                         </div>
-                        <div className="float-right">
-                            <i className="fas fa-flag flag-btn"></i>
-                        </div>
+                        {
+                            post.user_id === user_id ? (
+                                <div className="float-right">
+                                    <div onClick={() => this.handleClick()}>
+                                        <i className="fas fa-ellipsis-h" ></i>
+                                    </div>
+                                    
+                                    <div className={this.state.isOpenControl ? "" : "d-none"}>
+                                        <ul className="list-group post-control">
+                                            <li className="list-group-item">
+                                                Sửa bài viết
+                                            </li>
+                                            <li className="list-group-item" onClick={() => this.remove(post.id)}>
+                                                Xóa
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            ) : null
+                        }
                     </div>
                 </div>
                 {
@@ -122,11 +141,13 @@ class Post extends Component {
                     <div className="col-12">
                         <div className="float-left">
                             <span className={`btn-post mr-2 ${this.state.isLiked ? "active" : ""}`} onClick={() => this.changeReaction('like', post.id)}>
-                                {this.state.like} <i className="far fa-thumbs-up"></i>
+                                {this.state.like} 
+                                <FaRegThumbsUp></FaRegThumbsUp>
                             </span> 
                             | 
                             <span className={`btn-post ml-2 ${this.state.isDisliked ? "active" : ""}`} onClick={() => this.changeReaction('dislike', post.id)}>
-                                {this.state.dislike} <i className="far fa-thumbs-down"></i>
+                                {this.state.dislike} 
+                                <FaRegThumbsDown></FaRegThumbsDown>
                             </span> 
                         </div>
                         <div className="float-right">
@@ -148,7 +169,8 @@ function mapDispatchToProps(dispatch) {
     return {
         reactPost: (type, post_id) => dispatch(reactPost(type, post_id)),
         unreactPost: (type, post_id) => dispatch(unreactPost(type, post_id)),
-        share: (post_id) => dispatch(share(post_id))
+        share: (post_id) => dispatch(share(post_id)),
+        removePost: (post_id) => dispatch(removePost(post_id)),
     }
 }
 
