@@ -105,12 +105,18 @@ class LoginController extends Controller
     public function handleProviderCallback($provider)
     {
         $user = Socialite::driver($provider)->user();
-
         $data = $this->findOrCreateUser($user, $provider);
+        $success = false;
         if(array_key_exists('user', $data)) {
-            Auth::login($data['user'], true);
+            $success = Auth::login($data['user'], TRUE);
         }
-        return redirect($data['path']);
+
+        if($success) {
+            return redirect($data['path']);
+        } else {
+            return redirect('/login')->withErrors(['failed' => 'Đã có lỗi xảy ra, vui lòng thử lại']);
+        }
+        
     }
 
     /**
@@ -128,7 +134,7 @@ class LoginController extends Controller
         $newUser =  [
             'name'     => $user->name,
             'email'    => $user->email,
-            'avatar' => $user->avatar,
+            'avatar' => $user->avatar_original,
             'is_verify' => 1,
             'is_facebook_verified' => ($provider == 'facebook') ? 1 : 0,
             'is_gmail_verified' => ($provider == 'google') ? 1 : 0,
