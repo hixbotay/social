@@ -31,20 +31,7 @@ class CreatePostForm extends Component {
         if(newPost.content == '' && newPost.image == '') {
             window.alert("Không thể đăng bài viết rỗng!");
         } else {
-            this.props.createPost(newPost).then(data => {
-                var post = {
-                    ...data,
-                    like: null,
-                    dislike: null,
-                    // user_id: this.props.user.id,
-                    user_name: this.props.user.name,
-                    user_avatar: this.props.user.avatar,
-                    author: this.props.user.name,
-                    author_avatar: this.props.user.avatar,
-                };
-                // console.log(post);
-                this.props.addPost(post);
-            });
+            this.props.createPost(newPost);
     
             this.setState({
                 newPost: {
@@ -155,7 +142,6 @@ class CreatePostForm extends Component {
 function mapDispatchToProps(dispatch) {
     return {
         createPost: (data) => dispatch(createPost(data)),
-        addPost: (post) => dispatch({type: UPDATE_LIST_JOB, payload: post})
     }
 }
 

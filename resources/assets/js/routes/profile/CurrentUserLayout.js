@@ -51,6 +51,10 @@ class ProfileLayout extends Component {
         this.setState({ is_incognito: status });
         this.props.updateUser({user: {is_incognito: status}}, this.props.user.id);
     }
+
+    alert() {
+        window.alert("Chức năng này sắp tới sẽ có. Mong bạn thông cảm!");
+    }
     
     render() {
         const {user} = this.props;
@@ -79,7 +83,7 @@ class ProfileLayout extends Component {
                             <div className="col-4">
                                 <img src={`${baseUrl}/public/images/space-rocket-512.png`} className="status-info-icon" title="Nổi bật 24h"/>
                                 <Switch
-                                    // onChange={}
+                                    onChange={() => this.alert()}
                                     checked={false}
                                     className="react-switch align-middle"
                                     id="normal-switch"
@@ -97,7 +101,7 @@ class ProfileLayout extends Component {
                             <div className="col-4">
                                 <img src={`${baseUrl}/public/images/iconfinder_chat.png`} className="status-info-icon" title="Nhắn đồng thời 100 tin"/>
                                 <Switch
-                                    // onChange={}
+                                    onChange={() => this.alert()}
                                     checked={false}
                                     className="react-switch align-middle"
                                     id="normal-switch"

@@ -20,8 +20,9 @@ class NewFeeds extends Component {
     }
 
     render() {
-        console.log(this.state.posts);
+        
         const {current_user, posts} = this.props;
+        console.log(posts);
         return (
             <div>
             {

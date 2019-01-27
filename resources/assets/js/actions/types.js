@@ -25,7 +25,6 @@ export const CREATE_NEW_POST = 'CREATE_NEW_POST';
 export const SHARE_POST = 'SHARE_POST';
 export const UPDATE_POST = 'UPDATE_POST';
 export const REMOVE_POST = 'REMOVE_POST';
-export const UPDATE_LIST_JOB = 'UPDATE_LIST_JOB';
 
 // address
 export const GET_ALL_PROVINCES = 'GET_ALL_PROVINCES';

@@ -226,39 +226,49 @@ class Post extends Controller
             'user_id' => $user_id,
             'content' => $original_post->content,
             'original_author' => $original_post->user_id,
-            'original_created' => $original_post->created_at
+            'original_created' => $original_post->created_at->toDateTimeString("Y-m-d H:i:s"),
+            'original_post' => $original_post->id
         ]);
 
         if($original_post->source) {
             $photo = \App\UserPhoto::create([
                 'user_id' => $user_id,
-                'source' => $original_post->source
+                'source' => $original_post->source,
+                'type' => 'shared'
             ]);
     
             DB::table("post_photos")->insert(['post_id' => $new_post->id, 'photo_id' => $photo->id]);
         }
 
+        $original_author = \App\User::find($original_post->user_id);
+        $new_post->original_author_name = $original_author->name;
+        $new_post->original_author_avatar = $original_author->avatar;
+
         return ['post' => $new_post];
     }
 
-    function removePost($id) {
+    public function removePost($id) {
         $user_id = Auth::id();
-        \App\Post::where([
-            ['user_id', '=', $user_id],
-            ['id', '=', $id]
-        ])->delete();
+        $post = \App\Post::where([['user_id', '=', $user_id], ['id', '=', $id]])->get();
+        $sharedPosts = \App\Post::where([['original_post', '=', $id]])->get();
 
-        $postPhoto = \App\PostPhoto::where('post_id', $id)->first();
-        $photo = DB::table('user_photos')->where('id', $postPhoto->photo_id)->first();
-        
-        $postPhoto->delete();
-        $photo->delete();
-        Storage::delete(substr($photo->source, 11));
+        $postArr = $sharedPosts->merge($post);
+
+        foreach($postArr as $item) {
+            $item->delete();
+            $postPhoto = \App\PostPhoto::where('post_id', $item->id)->first();
+            if($postPhoto) {
+                $photo = \App\UserPhoto::where('id', $postPhoto->photo_id)->first();
+                $postPhoto->delete();
+                if($photo) $photo->delete();
+                Storage::delete(substr($photo->source, 11));
+            }
+        }
 
         return ['ok' => 1];
     }
 
-    function updatePost(Request $request, $id) {
+    public function updatePost(Request $request, $id) {
         $user_id = Auth::id();
         $post = \App\Post::where([
             ['user_id', '=', $user_id],

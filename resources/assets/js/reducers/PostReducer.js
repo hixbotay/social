@@ -4,8 +4,7 @@ import {
     GET_MY_POSTS,
     SHARE_POST,
     UPDATE_POST,
-    REMOVE_POST,
-    UPDATE_LIST_JOB
+    REMOVE_POST
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -20,25 +19,31 @@ export default (state = INIT_STATE, action) => {
             return {...state, posts: action.payload}
         }
         case CREATE_NEW_POST: {
-            return {...state, newPost: action.payload}
+            var updatedPosts =  [action.payload, ...state.posts];
+            return {...state, newPost: action.payload, posts: updatedPosts};
         }
         case GET_MY_POSTS: {
             return {...state, posts: action.payload}
         }
         case SHARE_POST: {
-            return {...state}
+            var updatedPosts =  [action.payload, ...state.posts];
+            return {...state, posts: updatedPosts};
         }
         case UPDATE_POST: {
-            return {...state}
+            var updatedPosts = state.posts.map(post => {
+                if(post.id === action.payload.id) {
+                    return action.payload;
+                }
+                return post;
+            });
+            return {...state, posts: updatedPosts}
         }
         case REMOVE_POST: {
-            return {...state}
-        }
-        case UPDATE_LIST_JOB: {
-            return {
-                ...state,
-                posts: [action.payload, ...state.posts]
-            }
+            var updatedPosts = state.posts.filter(post => {
+                return post.id !== action.payload
+            });
+
+            return {...state, posts: updatedPosts}
         }
         default: {
             return {...state};

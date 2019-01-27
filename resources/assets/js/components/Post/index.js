@@ -17,7 +17,8 @@ class Post extends Component {
             view: props.post.view ? JSON.parse(props.post.view).length : 0,
             isLiked: (Array.isArray(likeArr) && likeArr.indexOf(props.user_id) >= 0) ? true : false,
             isDisliked: (Array.isArray(dislikeArr) && dislikeArr.indexOf(props.user_id) >= 0) ? true : false,
-            isOpenControl: false
+            isOpenControl: false,
+            isEdit: false
         }
     }
 
@@ -64,26 +65,32 @@ class Post extends Component {
     }
 
     openFormEdit(post_id) {
-        this.setState({isOpenControl: false});
-        var buttons = document.getElementsByClassName(`edit-button-${post_id}`);
-        buttons[0].click();
+        this.setState({
+            isOpenControl: false, 
+            isEdit: true
+        }, () => {
+            var buttons = document.getElementsByClassName(`edit-button-${post_id}`);
+            buttons[0].click();
+        });
+        
     }
 
     update(content, post_id) {
-        this.props.updatePost({content: content}, post_id);
+        this.props.updatePost({content: content}, post_id).then(data => {
+            this.setState({isEdit: false});
+        });
+    }
+
+    sharePost(post_id) {
+        this.props.share(post_id);
     }
 
     render() {
         const {post, user_id, isInNewsfeed} = this.props;
 
-        const style = {
-            image: {
-              border: '1px solid #ccc',
-              background: '#fefefe',
-            },
-        };
-
         var isShare = post.original_author ? true : false;
+        
+        console.log(this.state);
         
         return (
             <article className="hentry post">
@@ -137,12 +144,18 @@ class Post extends Component {
                     ) : (
                         <React.Fragment>
                             <div className="mb-4">
-                                <EdiText 
-                                    type="textarea" 
-                                    value={post.content} 
-                                    editButtonClassName={`d-none edit-button-${post.id}`}
-                                    onSave={(content) => this.update(content, post.id)}
-                                />
+                            {
+                                this.state.isEdit ? (
+                                    <EdiText 
+                                        type="textarea" 
+                                        value={post.content} 
+                                        editButtonClassName={`d-none edit-button-${post.id}`}
+                                        onSave={(content) => this.update(content, post.id)}
+                                    />
+                                ) : (
+                                    <p>{post.content}</p>
+                                )
+                            }
                             </div>
                             
                             <div className="post-photo">
@@ -166,7 +179,7 @@ class Post extends Component {
                             <span className="btn-post mr-4">
                                 <i className="far fa-comment"></i> <b>Bình luận</b>
                             </span>
-                            <span className="btn-post" onClick={() => {this.props.share(post.id)}}>
+                            <span className="btn-post" onClick={() => {this.sharePost(post.id)}}>
                                 <i className="fas fa-share"></i> <b>Chia sẻ</b>
                             </span>
                         </div>

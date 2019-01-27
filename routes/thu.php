@@ -21,12 +21,6 @@ Route::middleware(['web'])->group(function() {
     Route::post('relationship/{user_id}', 'Api\User@createOrUpdateRelationship');
     Route::get('friends/{type}', 'Api\User@listFriends');
 
-    Route::get('my-posts', 'Api\Post@getMyPosts');
-    Route::post('post/react/{post_id}', 'Api\Post@react');
-    Route::post('post/unreact/{post_id}', 'Api\Post@unreact');
-    Route::post('post/{post_id}', 'Api\Post@updatePost');
-    Route::delete('post/{post_id}', 'Api\Post@removePost');
-
     Route::post('/event/group', 'Api\Event@createGroupEvent');
     Route::post('/event/couple', 'Api\Event@createCoupleEvent');
     Route::post('/event/status/{id}', 'Api\Event@updateStatus');
@@ -53,6 +47,11 @@ Route::middleware(['web'])->group(function() {
     Route::get('/posts', 'Api\Post@list');
     Route::post('/post', 'Api\Post@createPost');
     Route::post('/post/share', 'Api\Post@share');
+    Route::get('my-posts', 'Api\Post@getMyPosts');
+    Route::post('post/react/{post_id}', 'Api\Post@react');
+    Route::post('post/unreact/{post_id}', 'Api\Post@unreact');
+    Route::put('post/{post_id}', 'Api\Post@updatePost');
+    Route::delete('post/{post_id}', 'Api\Post@removePost');
 
     Route::get('/notifications', 'Api\Notification@list');
     Route::post('/notifications/all', 'Api\Notification@markAllAsRead');
