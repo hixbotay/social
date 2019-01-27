@@ -1,5 +1,7 @@
 <?php
-
+//guide
+//tuong sinh tuong khac: https://www.hvdong.com/2016/12/nguyen-tac-tinh-tam-hop-ngu-hanh-xung-khac.html
+//example: https://phongthuyso.vn or http://vansu.net/xem-tuoi-vo-chong-kq.html
 require 'convertlunaryear.php';
 Class BoiToan{
 	static function get_year($date){
@@ -94,14 +96,52 @@ Class BoiToan{
 		return $data_boi_toan;
 	}
 
+	static function xung_khac_chi($birthday_nam, $birthday_nu){
+		$chi_nam = self::get_cung($birthday_nam);
+		$chi_nu = self::get_cung($birthday_nu);
+		$data = self::get_data('cung');
+		$i = 1;
+		foreach($data as $key=>$val)
+		{
+			$data[$key]= $i;
+			$i++;
+		}
+		//xac dinh vi tri cua cap doi trong vong tron 4 tam giac tuong sinh, 3 chu thap tuong khac
+		$point_nam = $data[$chi_nam];
+		$point_nu = $data[$chi_nu];
+		$point = ($point_nam - $point_nu);
+		if($point==0){
+			return 1;
+		}
+		if($point%4==0){
+			return 2;
+		}
+		if($point%3==0){
+			return 0;
+		}
+		return 1;
+	}
+
+	static function xung_khac_menh($birthday_nam, $birthday_nu){
+		
+	}
+
 	static function get_hoang_dao($birthday,$text = false){
 		$data_hoang_dao = self::get_data('cung_hoang_dao');
-		$date = date('m-d',$birthday);
+		$date = (new DateTime($birthday))->format('m-d');
+		$result = false;
 		foreach($data_hoang_dao as $cung){
-			if($date >= $cung->from && $date <= $cung->to){
-				return $cung;
+			if($date >= $cung['from'] && $date <= $cung['to']){
+				$result = $cung;
+				break;
 			}
 		}
-		return end($cung);
+		if(!$result){
+			$result = end($data_hoang_dao);
+		}
+		if($text){
+			return $result['name_vi'];
+		}
+		return $result;
 	}
 }
