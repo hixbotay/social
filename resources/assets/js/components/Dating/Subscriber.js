@@ -3,6 +3,8 @@ import { SquareAvatar } from '../Avatar';
 import {getAllCafe} from '../../actions/CafeActions';
 import {getAllDistricts} from '../../actions/AddressActions';
 import connect from 'react-redux/es/connect/connect';
+import moment from 'moment';
+import {withRouter} from 'react-router-dom';
 
 class Subscriber extends Component {
     constructor(props) {
@@ -22,8 +24,28 @@ class Subscriber extends Component {
     }
 
     accept() {
-        this.setState({
-            isAccept: true
+        const {subscriber} = this.props;
+        this.props.history.push({
+            pathname: '/dating/couple/create',
+            state: {
+                invitee: {
+                    id: subscriber.user_id,
+                    name: subscriber.name,
+                    avatar: subscriber.avatar,
+                    address: subscriber.address,
+                    job: subscriber.job
+                },
+                subscriber: {
+                    province_id: subscriber.province_id,
+                    district_id: subscriber.district_id,
+                    agency_id: subscriber.agency_id,
+                    agency_name: subscriber.agency_name,
+                    agency_type: subscriber.agency_type,
+                    payer: subscriber.payer,
+                    expect_date_from: subscriber.expect_date_from,
+                    expect_date_to: subscriber.expect_date_to
+                }  
+            }
         })
     }
 
@@ -66,41 +88,7 @@ class Subscriber extends Component {
             agency_id: parseInt(e.target.value),
             agency_name: selectedItems[0].name,
             agency_image: selectedItems[0].cover,
-        }, () => {
-            console.log(this.state)
         })
-    }
-
-    createDating(e) {
-        e.preventDefault();
-        var data = {
-            event: {
-                name: this.state.agency_name,
-                schedule_id: 0,
-                start_time:  this.state.start_time,
-                limit_time_register: this.state.start_time,
-                payment_m: 0,
-                payment_f: 0,
-                type: 'couple',
-                agency_id: this.state.agency_id,
-                is_secret: 0,
-                image: this.state.agency_image
-            },
-            event_meta: {
-                job_conditional: [this.props.subscriber.expect_job],
-                min_male_number: 1,
-                max_male_number: 1,
-                min_female_number: 1,
-                max_female_number: 1,
-                marital_status: this.props.subscriber.expect_marital_status,
-                payer: (this.props.subscriber.payer === 'self') ? this.props.subscriber.id : this.props.user.id
-            },
-            subscriber: this.props.subscriber.user_id
-        }
-
-        this.props.createDating(data).then(data => {
-            window.location.href = `${baseUrl}/dating`;
-        });
     }
 
     render() {
@@ -118,104 +106,13 @@ class Subscriber extends Component {
                     <div>Địa điểm: <span>{subscriber.district}, {subscriber.province}</span></div>
                     <div>Quán: <span>{subscriber.agency_name}</span></div>
                     <div>Chi phí: <span>{(subscriber.payer === 'self') ? `${subscriber.name} trả` : 'Bạn trả'}</span></div>
-                    {
-                        this.state.isAccept ? (
-                            <div className="mt-2">
-                                <form onSubmit={(e) => this.createDating(e)}>
-                                    <div className="form-group">
-                                        <label>Chọn ngày hẹn</label>
-                                        <input 
-                                            className="form-control" 
-                                            type="datetime-local" 
-                                            min={subscriber.expect_date_from} 
-                                            max={subscriber.expect_date_to} 
-                                            required
-                                            name="start_time"
-                                            onChange={(e) => this.onChangeDate(e)}
-                                        />
-                                    </div>
-                                    <div className="form-group row">
-                                        <label className="col-12">Chọn quán (thay đổi quán mà người bạn kia đã chọn nếu bạn muốn)</label>
-                                        <div className="col-4">
-                                            <select 
-                                                className="custom-select" 
-                                                defaultValue={subscriber.province_id} 
-                                                onChange={(e) => this.changeProvince(e)}
-                                            >
-                                                <option value="">-- Chọn tỉnh/TP --</option>
-                                                {
-                                                    provinces.map((province, index) => {
-                                                        return (
-                                                            <option 
-                                                                value={province.matp} 
-                                                                key={index} 
-                                                            >
-                                                                {province.name}
-                                                            </option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
-                                        </div>
-                                        <div className="col-4">
-                                            <select 
-                                                className="custom-select" 
-                                                defaultValue={subscriber.district_id} 
-                                                onChange={(e) => this.changeDistrict(e)}
-                                            >
-                                                <option value="">-- Chọn quận/huyện --</option>
-                                                {
-                                                    districts.map((item, index) => {
-                                                        return (
-                                                            <option 
-                                                                value={item.maqh} 
-                                                                key={index}
-                                                            >
-                                                                {item.name}
-                                                            </option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
-                                        </div>
-                                        <div className="col-4">
-                                            <select 
-                                                className="custom-select" 
-                                                defaultValue={subscriber.agency_id}
-                                                onChange={(e) => this.changeCafe(e)}
-                                            >
-                                                <option value="">-- Chọn quán --</option>
-                                                {
-                                                    cafes.map((item, index) => {
-                                                        return (
-                                                            <option 
-                                                                value={item.id} 
-                                                                key={index}
-                                                            >
-                                                                {item.name}
-                                                            </option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button className="btn btn-primary mr-4" type="submit">
-                                            Xác nhận
-                                        </button>
-                                        <button className="btn btn-secondary" onClick={() => this.cancel()}>
-                                            Hủy
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        ) : (
-                            <div className="mt-2">
-                                <button className="btn btn-primary btn-sm" onClick={() => this.accept()}>Nhận lời cafe đôi</button>
-                            </div>
-                        )
-                    }
+                    <div>Đăng ký từ ngày <b>{moment(subscriber.expect_date_from).format("DD-MM-YYYY")}</b> tới ngày <b>{moment(subscriber.expect_date_to).format("DD-MM-YYYY")}</b></div>
+                    
+                    <div className="mt-2">
+                        <button className="btn btn-primary btn-sm" onClick={() => this.accept()}>
+                            Nhận lời cafe đôi
+                        </button>
+                    </div>
                 </div>
             </div>
         );
@@ -236,4 +133,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Subscriber);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Subscriber));

@@ -89,9 +89,7 @@ class Post extends Component {
         const {post, user_id, isInNewsfeed} = this.props;
 
         var isShare = post.original_author ? true : false;
-        
-        console.log(this.state);
-        
+
         return (
             <article className="hentry post">
                 <div className="row">

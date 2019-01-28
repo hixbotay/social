@@ -5,8 +5,9 @@ import { Card, CardWithIcon } from '../../components/Card';
 import {Link} from 'react-router-dom';
 import CenterModeSlider from '../../components/Slider/CenterModeSlider';
 import ProfilePhotos from './ProfilePhotos';
-import {getFeaturedUserPhotos} from '../../actions/UserActions';
+import {getFeaturedUserPhotos, updateUser} from '../../actions/UserActions';
 import connect from 'react-redux/es/connect/connect';
+import EdiText from 'react-editext';
 
 class ProfileHeader extends PureComponent {
 
@@ -20,17 +21,26 @@ class ProfileHeader extends PureComponent {
                     <i className="fas fa-info-circle"></i><br/>
                     <div>
                     {
-                        user.description ? user.description : (
+                        user.description ? (
+                            <EdiText 
+                                type="textarea" 
+                                value={user.description} 
+                                editButtonText="Sửa"
+                                editButtonClassName="btn btn-primary btn-sm"
+                                onSave={(content) => this.props.updateUser({user: {description: content}}, user.id)}
+                            />
+                        ) : (
                             <React.Fragment>
                             {
                                 isCurrentUser ? (
                                     <div>
-                                        <p>
-                                            Bạn là người như thế nào, hãy chia sẻ một chút để người ấy hiểu bạn hơn nhé!!!
-                                        </p>
-                                        <div className="text-center">
-                                            <button className="btn btn-primary">Lưu</button>
-                                        </div>
+                                        <EdiText 
+                                            type="textarea" 
+                                            value="Bạn là người như thế nào, hãy chia sẻ một chút để người ấy hiểu bạn hơn nhé!!!"
+                                            editButtonText="Sửa"
+                                            editButtonClassName="btn btn-primary btn-sm"
+                                            onSave={(content) => this.props.updateUser({user: {description: content}}, user.id)}
+                                        />
                                     </div>
                                 ) : (
                                     <div>
@@ -41,6 +51,7 @@ class ProfileHeader extends PureComponent {
                             </React.Fragment>
                         )
                     }
+                    
                     </div>
                 </div>
                 {
@@ -124,4 +135,10 @@ class ProfileHeader extends PureComponent {
     }
 }
 
-export default ProfileHeader;
+function mapDispatchToProps(dispatch) {
+    return {
+        updateUser: (data, user_id) => dispatch(updateUser(data, user_id))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(ProfileHeader);

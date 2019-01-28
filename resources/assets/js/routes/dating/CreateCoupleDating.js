@@ -15,23 +15,49 @@ import Modal from 'react-modal';
 import moment from 'moment';
 
 class CreateCoupleDating extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        var invitee = props.location.state ? props.location.state.invitee : null ;
+        var subscriber = props.location.state.subscriber || null ;
         this.state = {
             isOpenSuccess: false,
             event: {
-                type: "couple"
+                type: "couple",
+                agency_id: subscriber ? subscriber.agency_id : null,
+                name: subscriber ? subscriber.agency_name : null,
             },
             start_time: new Date(),
             hour: 10,
             minutes: 0,
             selectedTheme: 0,
-            selectedAddress: -1
+            selectedAddress: -1,
+            invitee: invitee,
+            subscriber: subscriber
         }
     }
 
     componentDidMount() {
         this.props.getAllProvinces();
+        if(this.state.subscriber) {
+            this.props.getAllDistricts(this.state.subscriber.province_id);
+            this.props.getAllCafe({
+                province_id: this.state.subscriber.province_id, 
+                district_id: this.state.subscriber.district_id
+            }).then((cafes => {
+                cafes.forEach((cafe, index) => {
+                    if(cafe.id === this.state.subscriber.agency_id) {
+                        this.setState({
+                            selectedAddress: index, 
+                            themes: cafe.images,
+                            selectedTheme: -1,
+                        });
+                        return;
+                    }
+                });
+
+                
+            }));
+        }
     }
 
     onChangeCafeFilter(e) {
@@ -71,8 +97,6 @@ class CreateCoupleDating extends Component {
                 image: ""
             },
             themes: item.images
-        }, () => {
-            console.log(this.state.newEvent);
         })
     }
 
@@ -106,6 +130,12 @@ class CreateCoupleDating extends Component {
             ...this.state,
             [e.target.name]: e.target.value
         })
+    }
+
+    closeAlert() {
+        this.setState({isOpenSuccess: false}, () => {
+            this.props.history.push('/dating');
+        });
     }
 
     submit(e) {
@@ -143,8 +173,8 @@ class CreateCoupleDating extends Component {
 
     render() {
         var { cafes, price } = this.props;
-        var invitee = this.props.location.state ? this.props.location.state.invitee : null ;
-         
+        var {invitee, subscriber} = this.state;
+
         //setting for slider
         var settings = {
             accessibility: true,
@@ -173,7 +203,7 @@ class CreateCoupleDating extends Component {
                                 </label>
                                 <div className="row">
                                     <div className="col-4">
-                                        <select name="province" className="custom-select" onChange={(e) => this.onChangeCafeFilter(e)}>
+                                        <select name="province" className="custom-select" value={subscriber ? subscriber.province_id : ""} onChange={(e) => this.onChangeCafeFilter(e)}>
                                             <option>Chọn tỉnh</option>
                                             {
                                                 this.props.provinces.map(province => {
@@ -185,7 +215,7 @@ class CreateCoupleDating extends Component {
                                         </select>
                                     </div>
                                     <div className="col-4">
-                                        <select name="district" className="custom-select" onChange={(e) => this.onChangeCafeFilter(e)}>
+                                        <select name="district" className="custom-select" value={subscriber ? subscriber.district_id : ""} onChange={(e) => this.onChangeCafeFilter(e)}>
                                             <option>Chọn huyện</option>
                                             {
                                                 this.props.districts.map(district => {
@@ -197,7 +227,7 @@ class CreateCoupleDating extends Component {
                                         </select>
                                     </div>
                                     <div className="col-4">
-                                        <select name="type" className="custom-select" onChange={(e) => this.onChangeCafeFilter(e)}>
+                                        <select name="type" className="custom-select" value={subscriber ? subscriber.agency_type : ""} onChange={(e) => this.onChangeCafeFilter(e)}>
                                             <option>Loại quán</option>
                                             <option value={1}>Cafe</option>
                                             <option value={2}>Quán ăn</option>
@@ -268,6 +298,8 @@ class CreateCoupleDating extends Component {
                                                 name="start_time"
                                                 selected={this.state.start_time}
                                                 onChange={(date) => this.onChangeDate("start_time", date)}
+                                                minDate={subscriber ? new Date(subscriber.expect_date_from) : new Date()}
+                                                maxDate={subscriber ? new Date(subscriber.expect_date_to) : new Date().setDate(new Date().getDate() + 30)}
                                             />
                                         </div>
                                         <div className="col-12 col-md-8">
@@ -289,15 +321,16 @@ class CreateCoupleDating extends Component {
                                     <label>
                                         <b><i className="fas fa-dollar-sign"></i> Người thanh toán cuộc hẹn</b>
                                     </label>
+                                    {/* Ngược với giá trị bản ghi, nếu payer=self tức là người kia nhận trả */}
                                     <div className="row d-flex align-items-center">
                                         <div className="col-3">
-                                            <input className="custom-input" name="payer" type="radio" value="self" onChange={(e) => this.onChangeData(e)} required/>
+                                            <input className="custom-input" name="payer" type="radio" value="self" checked={subscriber ? subscriber.payer !== 'self' : true} required/>
                                         </div>
                                         <div className="col-3">
                                             <label>Bạn</label>
                                         </div>
                                         <div className="col-3">
-                                            <input className="custom-input" name="payer" type="radio" value="partner" onChange={(e) => this.onChangeData(e)} required/>
+                                            <input className="custom-input" name="payer" type="radio" value="partner" checked={subscriber ? subscriber.payer === 'self' : false} required/>
                                         </div>
                                         <div className="col-3">
                                             <label>Người kia</label>
@@ -337,7 +370,7 @@ class CreateCoupleDating extends Component {
                 <Modal  isOpen={this.state.isOpenSuccess}>
                     <h5>Bạn đã gửi lời mời hẹn đôi thành công</h5>
                     <hr/>
-                    <button className="float-right btn btn-primary" onClick={() => {this.setState({isOpenSuccess: false})}}>
+                    <button className="float-right btn btn-primary" onClick={() => this.closeAlert()}>
                         Xong
                     </button>
                 </Modal>

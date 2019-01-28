@@ -13,7 +13,7 @@ date_default_timezone_set('Asia/Saigon');
 class Event extends Controller {
     // list events forthcoming, finished, cancelled which current_user joined
     public function list($status) {
-        $now = \Carbon\Carbon::now();
+        $now = date('Y-m-d h:i:s');
 
         if($status == 'forthcoming') {
             $query = [
@@ -94,6 +94,7 @@ class Event extends Controller {
 
     // list events around here and current user does not join 
     public function listEventsAround() {
+        $now = date('Y-m-d h:i:s');
         $user = Auth::user();
         // looking for event that current_user is joined
         $temp = DB::table('event_register')
@@ -116,6 +117,7 @@ class Event extends Controller {
                 });
             })
             ->where([
+                ['limit_time_register', '>', $now],
                 ['status', '=', 'forthcoming'],
                 ['events.type', '=', 'group'],
                 ['agency.province_id', '=', $user->province_id]
@@ -168,6 +170,7 @@ class Event extends Controller {
 
     // list events has current user's crush and current user does not join 
     public function listEventsHasYourCrush() {
+        $now = date('Y-m-d h:i:s');
         $user_id = Auth::id();
         // looking for event that current_user is joined
         $temp = DB::table('event_register')
@@ -182,10 +185,13 @@ class Event extends Controller {
         }
         
         $event_registers = DB::table('event_register')
-            ->leftjoin('user_relationship', function($join) {
+            ->join('user_relationship', function($join) {
                 $join->on('to_user_id', '=', 'event_register.user_id');
                 $join->on(function($query) {
-                    $query->where('from_user_id', '=', Auth::id()); 
+                    $query->where([
+                        ['from_user_id', '=', Auth::id()],
+                        ['is_loved', '=', 1]
+                    ]);
                 });
             })
             ->whereNotIn('event_register.event_id', $excludeEvents)
@@ -206,7 +212,11 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where([['events.status', '=', 'forthcoming'], ['events.type', '=', 'group']])
+            ->where([
+                ['limit_time_register', '>', $now],
+                ['events.status', '=', 'forthcoming'], 
+                ['events.type', '=', 'group']
+            ])
             ->whereIn('events.id', $temp)
             ->select(DB::raw('
                 events.*,
@@ -256,6 +266,7 @@ class Event extends Controller {
 
     // list upcoming group event and current user does not join 
     public function listEventsUpcoming() {
+        $now = date('Y-m-d h:i:s');
         $user_id = Auth::id();
 
         $temp = DB::table('event_register')
@@ -278,7 +289,11 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where([['events.status', '=', 'forthcoming'], ['events.type', '=', 'group']])
+            ->where([
+                ['limit_time_register', '>', $now],
+                ['events.status', '=', 'forthcoming'], 
+                ['events.type', '=', 'group']
+            ])
             ->whereNotIn('events.id', $excludeEvents)
             ->select(DB::raw('
                 events.*,
@@ -982,9 +997,9 @@ class Event extends Controller {
             ->whereRaw('DATE(expect_date_from) <= DATE(NOW()) AND DATE(expect_date_to) >= DATE(NOW())')
             ->whereNotIn('event_subscribers.user_id', $temp)
             ->select(DB::raw('event_subscribers.*, 
-                users.name, users.avatar, users.address, 
+                users.name, users.avatar, users.address, users.job,
                 devvn_tinhthanhpho.name AS province, devvn_quanhuyen.name AS district,
-                agency.name AS agency_name,
+                agency.name AS agency_name, agency.type AS agency_type,
                 agency_photos.source AS agency_image    
             '))
             // ->toSql();

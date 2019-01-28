@@ -35,11 +35,13 @@ class DatingDetail extends Component {
     }
 
     cancelDating(event_id) {
-        this.props.updateEventStatus(event_id, { status: "cancelled" });
+        if(confirm("Bạn có chắc muốn hủy cuộc hẹn này?")) {
+            this.props.updateEventStatus(event_id, { status: "cancelled" });
+        }
     }
 
     join(event_id) {
-        if (this.props.current_user.is_id_verified) {
+        if (this.props.current_user.is_id_card_verified === 'verified') {
             this.props.joinDating(event_id).then(data => {
                 window.location.href = `${baseUrl}/dating/${event_id}`;
             });
@@ -87,7 +89,7 @@ class DatingDetail extends Component {
         const { event, current_user } = this.props;
 
         var isSecretEvent = event.is_secret;
-        if(event.creator.id === current_user.id) {
+        if(event.creator === current_user.id) {
             isSecretEvent = 0;
         }
 
@@ -382,9 +384,12 @@ class DatingDetail extends Component {
                         </CardWithTitle>
 
                         <CardWithTitle hasLine={true} title="DANH SÁCH NGƯỜI ĐÃ ĐĂNG KÝ">
+                            <div className="alert alert-warning">
+                                <b>Lưu ý:</b> <span>Chỉ có người tạo mới được thấy toàn bộ danh sách thành viên, cho dù đó là cuộc hẹn bí mật.</span>
+                            </div>
                             <div className="row">
-                                {/* <div className="container"> */}
-                                    <div className="col-6">
+                                <div className="col-6">
+                                    <div className="text-center mb-4"><b>Danh sách nam tham gia</b></div>
                                     {
                                         maleRegisters.map((user, index) => {
                                             return (
@@ -398,8 +403,9 @@ class DatingDetail extends Component {
                                             )
                                         })
                                     }
-                                    </div>
-                                    <div className="col-6">
+                                </div>
+                                <div className="col-6">
+                                    <div className="text-center mb-4"><b>Danh sách nữ tham gia</b></div>
                                     {
                                         femaleRegisters.map((user, index) => {
                                             return (
@@ -413,8 +419,7 @@ class DatingDetail extends Component {
                                             )
                                         })
                                     }
-                                    </div>
-                                {/* </div> */}
+                                </div>
                             </div>
                             {
                                 (!event.is_joined && (event.type == "group") && (event.creator.id !== current_user.id)) ? (

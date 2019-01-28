@@ -80,7 +80,10 @@ class User extends Authenticatable
     public static function updateUser($data, $id) {
         $user = User::find($id);
         $data_arr = json_decode($data, true);
-        print_r($data_arr['hobby']);
+        
+        if(array_key_exists('role', $data_arr['user'])) {
+            unset($data_arr['user']['role']);
+        }
 
         // remove old hobyy and insert new hobby
         if(array_key_exists('hobby', $data_arr)) {

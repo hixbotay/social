@@ -8,24 +8,27 @@ import {
 } from './types'
 
 export const getAllCafe = (filter = {}, page = 1) => (dispatch) => {
-    var filter_string = '';
-    Object.keys(filter).map(key => {
-        if(Array.isArray(filter[key])) {
-            filter[key].map(item => {
-                filter_string = filter_string.concat(`&${key}=${item}`);
+    return new Promise((resolve, reject) => {
+        var filter_string = '';
+        Object.keys(filter).map(key => {
+            if(Array.isArray(filter[key])) {
+                filter[key].map(item => {
+                    filter_string = filter_string.concat(`&${key}=${item}`);
+                })
+            } else {
+                filter_string = filter_string.concat(`&${key}=${filter[key]}`);
+            }
+        });
+        return api.get(`/cafes?page=${page}${filter_string}`)
+            .then(response => {
+                dispatch({type: GET_ALL_CAFE, payload: response.data});
+                resolve(response.data);
             })
-        } else {
-            filter_string = filter_string.concat(`&${key}=${filter[key]}`);
-        }
-    });
-    return api.get(`/cafes?page=${page}${filter_string}`)
-        .then(response => {
-            console.log(`/cafes?page=${page}${filter_string}`);
-            dispatch({type: GET_ALL_CAFE, payload: response.data});
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            .catch(err => {
+                reject(err);
+            })
+    })
+    
 }
 
 export const getCafeDetail = (id) => (dispatch) => {

@@ -205,8 +205,6 @@ class EditProfilePage extends Component {
         var job_arr = jobs.map(job => {
             return {value: job.id, label: job.name};
         });
-
-        console.log(this.state.alert)
         
         return (
             <CurrentUserLayout

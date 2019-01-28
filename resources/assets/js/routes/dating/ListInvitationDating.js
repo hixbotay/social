@@ -74,7 +74,7 @@ class ListInvitationDating extends Component {
                                             user={user}
                                             provinces={provinces} 
                                             key={subscriber.id}
-                                            createDating={(data) => this.props.createCoupleEvent(data)}
+                                            // createDating={(data) => this.props.createCoupleEvent(data)}
                                         />
                                     )
                                 }) 
@@ -102,7 +102,7 @@ class ListInvitationDating extends Component {
                     <div className="alert alert-warning">
                         Bạn nên cập nhật địa chỉ tỉnh, huyện để có thể nhìn thấy các thành viên đang đăng ký hẹn
                     </div>
-                    <Link to={`/profile/${user.id}/setting`}>
+                    <Link to={`/profile/edit`}>
                         <button className="btn btn-primary">Cập nhật ngay</button>
                     </Link>
                 </Modal>
