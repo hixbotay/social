@@ -26,20 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define(config('auth.action.ACCESS_ADMIN'), function ($user){
-            $result = $this->checkRole(config('auth.action.ACCESS_ADMIN'), $user->role);
-            return $result;
-        });
-
-        Gate::define(config('auth.action.LIST_POST'), function ($user){
-            $result = $this->checkRole(config('auth.action.LIST_POST'), $user->role);
-            return $result;
-        });
-
-        Gate::define(config('auth.action.LIST_USERS'), function ($user){
-            $result = $this->checkRole(config('auth.action.LIST_USERS'), $user->role);
-            return $result;
-        });
+        foreach (config('auth.action') AS $value){
+            Gate::define($value, function ($user) use ($value){
+                $result = $this->checkRole($value, $user->role);
+                return $result;
+            });
+        }
 
     }
 

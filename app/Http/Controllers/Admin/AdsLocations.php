@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 class AdsLocations extends Controller
 {
     public function index(){
+
+        $this->authorize(config('auth.action.ADS_LOCATIONS'));
+
         $items = AdslocationModel::getItems();
         return view('admin.adslocation.list', [
             'items' => $items

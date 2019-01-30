@@ -16,6 +16,8 @@ class ProvinceGroup extends Controller
     }
     public function index()
     {
+        $this->authorize(config('auth.action.LIST_PROVINCE_GROUP'));
+
         $items = \App\ProvinceGroup::all();
         return view('admin.provincegroup.list', ['items' => $items]);
     }

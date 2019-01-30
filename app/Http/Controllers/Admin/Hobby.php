@@ -12,6 +12,7 @@ class Hobby extends Controller
     }
     public function index()
     {
+        $this->authorize(config('auth.action.LIST_HOBBY'));
         $items = \App\Hobby::all();
         return view('admin.hobby.list', ['items' => $items]);
     }

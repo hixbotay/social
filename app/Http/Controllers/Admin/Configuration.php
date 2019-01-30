@@ -16,8 +16,20 @@ class Configuration extends Controller
 
     public function index()
     {
+
         $request = Request::capture();
         $option = $request->get('option');
+
+        switch ($option){
+            case "price":
+                $this->authorize(config('auth.action.CONFIG_PRICE'));
+                break;
+            case "general":
+                $this->authorize(config('auth.action.CONFIG_GENERAL'));
+                break;
+
+        }
+
 
         if (!in_array($option, $this->type)){
             die("Không hợp lệ");

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\UserGroup AS UserGroupModel;
 use Validator;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserGroup extends Controller
@@ -21,11 +22,12 @@ class UserGroup extends Controller
 	}
     public function index()
     {
-		
-		// if($this->user->roles->manage){
-		// 	$data = UserGroupModel::all();
-		// }
-		$data = UserGroupModel::all();
+        $currentUser = Auth::user();
+        if ($currentUser->is_admin != 1){
+            $this->authorize(config('auth.action.LIST_USER_GROUP'));
+        }
+
+        $data = UserGroupModel::all();
         return view('admin.usergroup.list', ['items' => $data]);
     }
 

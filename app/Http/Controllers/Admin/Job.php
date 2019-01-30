@@ -15,6 +15,8 @@ class Job extends Controller
     }
     public function index()
     {
+        $this->authorize(config('auth.action.LIST_JOBS'));
+
         $items = JobModel::all();
         return view('admin.job.list', ['items' => $items]);
     }

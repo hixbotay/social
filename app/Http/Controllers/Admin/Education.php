@@ -10,6 +10,7 @@ class education extends Controller
 {
     public function index()
     {
+        $this->authorize(config('auth.action.LIST_HOBBY'));
         $items = EducationModel::paginate(20);
         return view('admin.education.list', ['items' => $items]);
     }
