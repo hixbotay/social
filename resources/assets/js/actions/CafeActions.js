@@ -32,13 +32,16 @@ export const getAllCafe = (filter = {}, page = 1) => (dispatch) => {
 }
 
 export const getCafeDetail = (id) => (dispatch) => {
-    return api.get(`/cafe/${id}`)
+    return new Promise((resolve, reject) => {
+        return api.get(`/cafe/${id}`)
         .then(response => {
             dispatch({type: GET_CAFE_DETAIL, payload: response.data});
+            resolve(response.data)
         })
         .catch(err => {
-            console.log(err);
+            reject(err);
         })
+    }) 
 }
 
 export const createCafe = (data) => (dispatch) => {

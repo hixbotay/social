@@ -4,8 +4,6 @@ import { getAllProvinces, getAllDistricts } from '../../actions/AddressActions';
 import { getAllCafe } from '../../actions/CafeActions';
 import {createCoupleEvent} from "../../actions/EventActions";
 import connect from 'react-redux/es/connect/connect';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import Slider from "react-slick";
 import { RoundAvatar } from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
@@ -13,6 +11,10 @@ import {withRouter, Link} from 'react-router-dom';
 import NotFound from '../404';
 import Modal from 'react-modal';
 import moment from 'moment';
+import Select from 'react-select'; 
+import 'moment/locale/vi.js';
+import { DatePickerInput } from 'rc-datepicker';
+import NumericInput from 'react-numeric-input';
 
 class CreateCoupleDating extends Component {
     constructor(props) {
@@ -29,10 +31,12 @@ class CreateCoupleDating extends Component {
             start_time: new Date(),
             hour: 10,
             minutes: 0,
-            selectedTheme: 0,
-            selectedAddress: -1,
+            selectedTheme: -1,
             invitee: invitee,
-            subscriber: subscriber
+            subscriber: subscriber,
+            province: null,
+            district: null,
+            agency_type: null,
         }
     }
 
@@ -60,43 +64,43 @@ class CreateCoupleDating extends Component {
         }
     }
 
-    onChangeCafeFilter(e) {
+    onChangeCafeFilter(selectedOption, filterType) {
         this.setState({
-            [e.target.name]: e.target.value
+            [filterType]: selectedOption.value
         });
 
-        switch (e.target.name) {
+        switch (filterType) {
             case 'province': {
-                this.props.getAllDistricts(e.target.value);
-                this.props.getAllCafe({ province_id: e.target.value });
+                this.props.getAllDistricts(selectedOption.value);
+                this.props.getAllCafe({ province_id: selectedOption.value });
                 break;
             }
             case 'district': {
-                this.props.getAllCafe({ province_id: this.state.province, district_id: e.target.value });
+                this.props.getAllCafe({ province_id: this.state.province, district_id: selectedOption.value });
                 break;
             }
             case 'type': {
                 this.props.getAllCafe({
                     province_id: this.state.province,
                     district_id: this.state.district,
-                    type: e.target.value
+                    type: selectedOption.value
                 });
                 break;
             }
         }
     }
 
-    selectAddress(item, index) {
+    selectAddress(selectedOption) {
         this.setState({
-            selectedAddress: index,
+            // selectedAddress: index,
             selectedTheme: -1,
             event: {
                 ...this.state.event,
-                agency_id: item.id, 
-                name: item.name,
+                agency_id: selectedOption.value, 
+                name: selectedOption.label,
                 image: ""
             },
-            themes: item.images
+            themes: selectedOption.images
         })
     }
 
@@ -125,10 +129,10 @@ class CreateCoupleDating extends Component {
         })
     }
 
-    onChangeTime(e) {
+    onChangeTime(value, name) {
         this.setState({
             ...this.state,
-            [e.target.name]: e.target.value
+            [name]: value
         })
     }
 
@@ -143,7 +147,7 @@ class CreateCoupleDating extends Component {
         var start_time = new Date(this.state.start_time).setHours(this.state.hour, this.state.minutes, 0, 0);
         start_time = moment(start_time).local().format('YYYY-MM-DD HH:mm:ss');
 
-        if (this.state.selectedTheme >=0 && (this.state.selectedAddress >= 0)) {
+        if (this.state.selectedTheme >=0) {
             this.props.createCoupleEvent({
                 event: {
                     ...this.state.event,
@@ -175,6 +179,8 @@ class CreateCoupleDating extends Component {
         var { cafes, price } = this.props;
         var {invitee, subscriber} = this.state;
 
+        console.log(this.state)
+
         //setting for slider
         var settings = {
             accessibility: true,
@@ -200,72 +206,65 @@ class CreateCoupleDating extends Component {
                             <div className="form-group">
                                 <label>
                                     <b><i className="fas fa-map-marker-alt"></i> Địa điểm dành cho cuộc hẹn</b>
+                                    <div>Bạn có thể dùng bộ lọc tỉnh, huyện và loại quán để tìm địa điểm hẹn hò nhé!</div>
                                 </label>
                                 <div className="row">
-                                    <div className="col-4">
-                                        <select name="province" className="custom-select" value={subscriber ? subscriber.province_id : ""} onChange={(e) => this.onChangeCafeFilter(e)}>
-                                            <option>Chọn tỉnh</option>
-                                            {
+                                    <div className="col-12 col-md-4 mb-2">
+                                        <Select
+                                            placeholder="Chọn tỉnh/thành" 
+                                            defaultValue={subscriber ? subscriber.province_id : this.state.province}
+                                            options = {
                                                 this.props.provinces.map(province => {
-                                                    return (
-                                                        <option value={province.matp} key={province.matp}>{province.name}</option>
-                                                    )
+                                                    return { value: province.matp, label: province.name }
                                                 })
                                             }
-                                        </select>
+                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
+                                        />
                                     </div>
-                                    <div className="col-4">
-                                        <select name="district" className="custom-select" value={subscriber ? subscriber.district_id : ""} onChange={(e) => this.onChangeCafeFilter(e)}>
-                                            <option>Chọn huyện</option>
-                                            {
+                                    <div className="col-12 col-md-4 mb-2">
+                                        <Select
+                                            placeholder="Chọn huyện" 
+                                            defaultValue={subscriber ? subscriber.district_id : this.state.district}
+                                            options = {
                                                 this.props.districts.map(district => {
-                                                    return (
-                                                        <option value={district.maqh} key={district.maqh}>{district.name}</option>
-                                                    )
+                                                    return { value: district.maqh, label: district.name }
                                                 })
                                             }
-                                        </select>
+                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
+                                        />
                                     </div>
-                                    <div className="col-4">
-                                        <select name="type" className="custom-select" value={subscriber ? subscriber.agency_type : ""} onChange={(e) => this.onChangeCafeFilter(e)}>
-                                            <option>Loại quán</option>
-                                            <option value={1}>Cafe</option>
-                                            <option value={2}>Quán ăn</option>
-                                        </select>
+                                    <div className="col-12 col-md-4 mb-2">
+                                        <Select
+                                            placeholder="Loại quán" 
+                                            defaultValue={subscriber ? subscriber.agency_type : this.state.agency_type}
+                                            options = {
+                                                [
+                                                    {value: 1, label: "Cafe"},
+                                                    {value: 2, label: "Quán ăn"}
+                                                ]
+                                            }
+                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
+                                        />
+                                    </div>
+                                    <div className="col-12 col-md-12 mb-4">
+                                        <Select
+                                            placeholder={`Danh sách các quán (${cafes.length} quán)`} 
+                                            defaultValue={subscriber ? subscriber.agency_id : this.state.event.agency_id}
+                                            options = {
+                                                cafes.map(cafe => {
+                                                    return {value:  cafe.id, label: cafe.name, images: cafe.images}
+                                                })
+                                            }
+                                            onChange={(selectedOption) => this.selectAddress(selectedOption)}
+                                        />
                                     </div>
                                 </div>
                                 <React.Fragment>
-                                    {
-                                        cafes.length ? (
-                                            <Slider {...settings}>
-                                                {
-                                                    cafes.map((item, index) => {
-                                                        return (
-                                                            <div key={index}>
-                                                                <img src={item.cover}
-                                                                    onClick={() => this.selectAddress(item, index)}
-                                                                    className={this.state.selectedAddress == index ? `address-image selected-image` : `address-image`}
-                                                                />
-                                                                <div className="address-avatar">
-                                                                    <RoundAvatar size="small" img={item.avatar}></RoundAvatar>
-                                                                </div>
-                                                                <div className="address-type address-tag">
-                                                                    {item.type == 1 ? 'CAFE' : 'QUÁN ĂN'}
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    })
-                                                }
-                                            </Slider>
-                                        ) : (
-                                                <div className="text-center mb-4">Không tìm thấy quán nào</div>
-                                            )
-                                    }
 
                                     {
                                         (this.state.themes) ? (
                                             <React.Fragment>
-                                                <h5>Chọn chủ đề cuộc hẹn</h5>
+                                                <h5>Chọn chủ đề cho cuộc hẹn của bạn</h5>
                                                 <Slider {...settings}>
                                                     {
                                                         this.state.themes.map((item, index) => {
@@ -293,24 +292,34 @@ class CreateCoupleDating extends Component {
                                     </label>
                                     <div className="row">
                                         <div className="col-12 col-md-4">
-                                            <DatePicker className="form-control"
-                                                // locale="vi-VN"
-                                                name="start_time"
-                                                selected={this.state.start_time}
+                                            <DatePickerInput
+                                                minDate={subscriber ? Math.max(new Date(subscriber.expect_date_from), new Date()) : new Date()}
+                                                maxDate={subscriber ? moment(subscriber.expect_date_to) : moment().add(15, 'days')}
+                                                className='react-datepicker-component my-react-component'
+                                                value={this.state.start_time}
                                                 onChange={(date) => this.onChangeDate("start_time", date)}
-                                                minDate={subscriber ? new Date(subscriber.expect_date_from) : new Date()}
-                                                maxDate={subscriber ? new Date(subscriber.expect_date_to) : new Date().setDate(new Date().getDate() + 30)}
+                                                locale='vi'
                                             />
                                         </div>
                                         <div className="col-12 col-md-8">
                                             <div className="row d-flex align-items-center">
                                                 <div className="col-md-1">lúc</div>
                                                 <div className="col-md-3">
-                                                    <input className="form-control" type="number" name="hour" defaultValue={this.state.hour} min={0} max={23} onChange={(e) => this.onChangeTime(e)}/>
+                                                    <NumericInput 
+                                                        className="form-control" 
+                                                        min={0} max={23} 
+                                                        value={this.state.hour}
+                                                        onChange={(value) => this.onChangeTime(value, "hour")}
+                                                    />
                                                 </div>
                                                 <div className="col-md-1">giờ</div>
                                                 <div className="col-md-3">
-                                                    <input className="form-control" type="number" name="minutes" defaultValue={this.state.minutes} min={0} max={60} onChange={(e) => this.onChangeTime(e)}/>
+                                                    <NumericInput 
+                                                        className="form-control" 
+                                                        min={0} max={60} 
+                                                        value={this.state.minutes}
+                                                        onChange={(value) => this.onChangeTime(value, "minutes")}
+                                                    />
                                                 </div>
                                                 <div className="col-md-1">phút</div>
                                             </div>
@@ -324,13 +333,23 @@ class CreateCoupleDating extends Component {
                                     {/* Ngược với giá trị bản ghi, nếu payer=self tức là người kia nhận trả */}
                                     <div className="row d-flex align-items-center">
                                         <div className="col-3">
-                                            <input className="custom-input" name="payer" type="radio" value="self" checked={subscriber ? subscriber.payer !== 'self' : true} required/>
+                                            <input 
+                                                className="custom-input" 
+                                                name="payer" type="radio" value="self" 
+                                                checked={subscriber ? subscriber.payer !== 'self' : true} 
+                                                readOnly required
+                                            />
                                         </div>
                                         <div className="col-3">
                                             <label>Bạn</label>
                                         </div>
                                         <div className="col-3">
-                                            <input className="custom-input" name="payer" type="radio" value="partner" checked={subscriber ? subscriber.payer === 'self' : false} required/>
+                                            <input 
+                                                className="custom-input" 
+                                                name="payer" type="radio" value="partner" 
+                                                checked={subscriber ? subscriber.payer === 'self' : false} 
+                                                readOnly required
+                                            />
                                         </div>
                                         <div className="col-3">
                                             <label>Người kia</label>

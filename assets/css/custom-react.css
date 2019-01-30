@@ -1528,3 +1528,12 @@ div#suggest-create-dating {
     color: #fff;
     border: solid 1px #075fa0;
 }
+
+.react-datepicker-component .react-datepicker-input {
+    height: 50px !important;
+}
+
+.react_times_button {
+    border: solid 1px #d8d6d6;
+    border-radius: 5px !important;
+}

@@ -46,7 +46,17 @@ class Cafe extends Controller
             unset($query['q']);
         }
 
-        $data = \App\Agency::where($query)->where('register_status', 1)->paginate(10);
+        $data = \App\Agency::leftjoin('devvn_tinhthanhpho', 'matp', '=', 'province_id')
+            ->leftjoin('devvn_quanhuyen', 'maqh', '=', 'district_id')
+            ->where($query)
+            ->where('register_status', 1)
+            ->select(DB::raw('
+                agency.*,
+                devvn_tinhthanhpho.name as province_name,
+                devvn_quanhuyen.name as district_name
+            '))
+            ->paginate(10);
+
         $temp = $data->items();
 
         foreach($temp as $key => $agency) {

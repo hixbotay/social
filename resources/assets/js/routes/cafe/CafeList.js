@@ -3,7 +3,7 @@ import CafeLayout from './CafeLayout';
 import { Card, CafeCard } from '../../components/Card';
 import {connect} from 'react-redux';
 import {getAllCafe} from '../../actions/CafeActions';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 class CafeList extends Component {
     componentDidMount() {
@@ -58,4 +58,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CafeList);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CafeList));

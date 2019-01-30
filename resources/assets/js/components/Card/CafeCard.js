@@ -3,11 +3,6 @@ import {Link} from 'react-router-dom';
 import {seCookie, setCookie} from '../../helper/cookie';
 
 class CafeCard extends Component {
-
-    createDating(id) {
-        setCookie('cafe_id', id, 1);
-        window.location.href = `${baseUrl}/dating/create`;
-    }
     
     render() {
         const {agency} = this.props;
@@ -19,8 +14,10 @@ class CafeCard extends Component {
                         <img src={agency.avatar}/>
                     </Link>
                     <div className="image-card-btn cafe-btn">
-                        <button className="btn btn-sm" onClick={() => this.createDating(agency.id)}>Hẹn hò</button>
-                        <button className="btn btn-sm">Đặt chố</button>
+                        <Link to={{pathname:"/dating/create", state: {cafe: agency}}}>
+                            <button className="btn btn-sm">Hẹn hò</button>
+                        </Link>
+                        {/* <button className="btn btn-sm">Đặt chố</button> */}
                     </div>
                 </div>
                 <div className="row image-card-content">

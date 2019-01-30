@@ -152,7 +152,7 @@ class OtherUserLayout extends Component {
                         </div>
                         <div>Bắt đầu chat với {user.name} ngay!</div>
                     </Card>
-                    <CardWithTitle 
+                    {/* <CardWithTitle 
                         title={"Đề xuất thành viên có thể hợp với bạn"}
                         hasLine={true}    
                     >
@@ -162,7 +162,7 @@ class OtherUserLayout extends Component {
                             <li className="list-group-item">bbbbbbbbbbbbb</li>
                             <li className="list-group-item">ccccccccc</li>
                         </ul>
-                    </CardWithTitle>
+                    </CardWithTitle> */}
                     <VerificationBlock user={current_user}></VerificationBlock>
                 </div>
                 

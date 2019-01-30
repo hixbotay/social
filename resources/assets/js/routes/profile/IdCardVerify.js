@@ -4,17 +4,20 @@ import connect from 'react-redux/es/connect/connect';
 import { Card } from '../../components/Card';
 import { verifyIdCard, getIdCardVerify } from '../../actions/UserActions';
 import ImageCompressor from 'image-compressor.js';
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
-// import viVN from 'date-fns/locale/vi';
-// registerLocale('vi-VN', viVN);
+import 'moment/locale/vi.js';
+import { DatePickerInput } from 'rc-datepicker';
+import moment from 'moment';
 
 class IdCardVerify extends Component {
     constructor() {
         super();
         this.state = {
-            data: {},
+            data: {
+                date_of_issues: new Date(),
+                id_number: null,
+                id_card_backside_photo: null,
+                id_card_front_photo: null
+            },
             frontPhoto: "",
             backsidePhoto: ""
         }
@@ -23,6 +26,7 @@ class IdCardVerify extends Component {
     componentDidMount() {
         this.setState({
             data: {
+                ...this.state.data,
                 name: this.props.current_user.name,
                 birthday: this.props.current_user.birthday
             }
@@ -41,7 +45,7 @@ class IdCardVerify extends Component {
             this.setState({
                 frontPhoto: src
             });
-        } else {
+        } else if (type === 'backside') {
             this.setState({
                 backsidePhoto: src
             });
@@ -83,14 +87,42 @@ class IdCardVerify extends Component {
                 ...this.state.data,
                 [name]: value
             }
-        }, () => {
-            console.log(this.state.data);
         })
     }
 
     submit(e) {
         e.preventDefault();
-        this.props.verify(this.state.data);
+        var {data} = this.state;
+        let isAlert = false;
+
+        Object.keys(data).some(key => {
+            if(!data[key]) {
+                isAlert = true;
+                return;
+            }
+        });
+
+        console.log(data)
+
+        if(isAlert) {
+            return alert("Bạn cần điền đầy đủ thông tin các trường có dấu *");
+        }
+
+        if(!moment(data.birthday).isValid() || !moment(data.date_of_issues).isValid()) {
+            return alert("Ngày sinh hoặc ngày cấp chứng minh thư đang bị sai định dạng ngày!");
+        }
+
+        if(data.id_number.length !== 9 && data.id_number.length !== 12) {
+            return alert("Số chứng minh thư phải có 9 hoặc 12 chữ số!");
+        }
+
+        let cardData = {
+            ...data,
+            birthday: moment(data.birthday).format("YYYY-MM-DD"),
+            date_of_issues: moment(data.date_of_issues).format("YYYY-MM-DD"),
+        }
+
+        this.props.verify(cardData);       
     }
 
     render() {
@@ -109,7 +141,7 @@ class IdCardVerify extends Component {
                                 <br />
                                 <div className="form-group row">
                                     <div className="col-3">
-                                        <div>Họ tên</div>
+                                        <div>Họ tên *</div>
                                     </div>
                                     <div className="col-9">
                                         <input type="text" className="form-control" value={this.state.data.name} name="name" onChange={(e) => this.onChangeData(e)} />
@@ -117,7 +149,7 @@ class IdCardVerify extends Component {
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-3">
-                                        Số CMT
+                                        Số CMT *
                                     </div>
                                     <div className="col-9">
                                         <input type="number" className="form-control" name="id_number" onChange={(e) => this.onChangeData(e)} />
@@ -125,32 +157,34 @@ class IdCardVerify extends Component {
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-3">
-                                        Ngày sinh
+                                        Ngày sinh *
                                     </div>
                                     <div className="col-9">
-                                        <DatePicker className="form-control"
-                                            locale="vi-VN" 
-                                            name="birthday" 
-                                            selected={this.state.data.birthday} 
-                                            onChange={(date) => this.onChangeDate("birthday", date)} 
+                                        <DatePickerInput
+                                            showOnInputClick={true}
+                                            className='react-datepicker-component my-react-component'
+                                            value={this.state.data.birthday}
+                                            onChange={(date) => this.onChangeDate("birthday", date)}
+                                            locale='vi'
                                         />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-3">
-                                        Ngày cấp
+                                        Ngày cấp *
                                     </div>
                                     <div className="col-9">
-                                        <DatePicker className="form-control" 
-                                            locale="vi-VN" 
-                                            name="date_of_issues" 
-                                            selected={this.state.data.date_of_issues} 
-                                            onChange={(date) => this.onChangeDate("date_of_issues", date)} 
+                                        <DatePickerInput
+                                            showOnInputClick={true}
+                                            className='react-datepicker-component my-react-component'
+                                            value={this.state.data.date_of_issues || new Date()}
+                                            onChange={(date) => this.onChangeDate("date_of_issues", date)}
+                                            locale='vi'
                                         />
                                     </div>
                                 </div>
                                 <div className="clearfix">
-                                    <h5 className="float-left">Tải chứng minh thư mặt trước</h5>
+                                    <h5 className="float-left">Tải chứng minh thư mặt trước *</h5>
                                     <div className="float-right">
                                         <label className="id-card-upload" htmlFor="front-photo">
                                             <i className="fas fa-cloud-upload-alt"></i> Tải ảnh
@@ -162,7 +196,7 @@ class IdCardVerify extends Component {
                                     <img src={this.state.frontPhoto} className="mt-2 mb-4 id-card-preview" />
                                 </div>
                                 <div className="clearfix">
-                                    <h5 className="float-left">Tải chứng minh thư mặt sau</h5>
+                                    <h5 className="float-left">Tải chứng minh thư mặt sau *</h5>
                                     <div className="float-right">
                                         <label className="id-card-upload" htmlFor="backside-photo">
                                             <i className="fa fa-cloud-upload-alt"></i> Tải ảnh
@@ -215,11 +249,11 @@ class IdCardVerify extends Component {
                                         <div><b>Số CMND / Số thẻ căn cước</b></div>
                                         <div>{idCard.id_number}</div>
                                         <div><b>Ngày sinh</b></div>
-                                        <div>{idCard.birthday}</div>
+                                        <div>{moment(idCard.birthday).format("DD/MM/YYYY")}</div>
                                         <div><b>Ngày cấp CMND / thẻ căn cước</b></div>
-                                        <div>{idCard.date_of_issues}</div>
-                                        <div><b>Ngày bạn tải lên</b></div>
-                                        <div>{idCard.created_at}</div>
+                                        <div>{moment(idCard.date_of_issues).format("DD/MM/YYYY")}</div>
+                                        <div><b>Thời điểm bạn tải lên</b></div>
+                                        <div>{moment(idCard.created_at).format("HH:mm DD/MM/YYYY")}</div>
                                     </div>
                                     <div className="col-6">
                                         <div className="id_photo">

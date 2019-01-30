@@ -141,36 +141,7 @@ class ProfileLayout extends Component {
                             </div>
                         </div>
                     </CardWithTitle>
-                    <div>
-                        <div className="row pending-list">
-                            <div className="container">
-                                {
-                                    [1,2,3,4].map(item => {
-                                        return (
-                                            <span className='avatar-list' key={item}>
-                                                <RoundAvatar img="https://www.w3schools.com/howto/img_avatar.png" size="medium"/>
-                                            </span>
-                                        )
-                                    })
-                                }
-                            </div>
-                        </div>
-                        <div className="row pending-list">
-                            <div className="container">
-                                {
-                                    [1,2,3,4].map(item => {
-                                        return (
-                                            <span className='avatar-list' key={item}>
-                                                <RoundAvatar img="https://www.w3schools.com/howto/img_avatar.png" size="medium"/>
-                                            </span>
-                                        )
-                                    })
-                                }
-                            </div>
-                            
-                        </div>
-                        <p>Những người này đang chờ bạn phản hồi tin nhắn</p>
-                    </div>
+                    
                     <div>
                         <img src="https://momo.vn/Images/2018/03/13/banner-uu-dai-1080x540_131430747.png"/>
                     </div>

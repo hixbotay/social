@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{{url('')}}/public/css/app.css" type="text/css">
     <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" />
-
+    <link rel="stylesheet" type="text/css" href="https://rawgit.com/buildo/react-semantic-datepicker/master/examples/build/style.bc98d18d0bafb17a4b51.min.css"/>
     {{-- jQuery --}}
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
