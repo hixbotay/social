@@ -14,10 +14,10 @@ class Agency extends Model
 
     // }
 
-    // public static function getAgencyByType($type){
-    //     $data = self::select('name', 'id')
-    //         ->where('type', '=', $type)
-    //         ->get();
-    //     return $data;
-    // }
+     public static function getAgencyByType($type){
+         $data = self::select('name', 'id')
+             ->where('type', '=', $type)
+             ->get();
+         return $data;
+     }
 }
