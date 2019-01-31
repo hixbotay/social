@@ -26,12 +26,17 @@ class User extends Controller
         $this->authorize(config('auth.action.LIST_USERS'));
         $request = Request::capture();
         $filterData = isset($_GET['filter'])?$_GET['filter']:array();
-        $users = UserModel::where(function ($query) use ($filterData) {
+        $currentUser = Auth::user();
+        $users = UserModel::where(function ($query) use ($filterData, $currentUser) {
 
             foreach ($filterData AS $key => $value){
                 if (isset($value) && $value){
 //                    $query->where($key, $value);
                 }
+            }
+
+            if ($currentUser->Group->key == config('auth.usergroup.agency')){
+                $query->where('parent_id', '=', $currentUser->id);
             }
 
             if (isset($filterData['group_id']) && $filterData['group_id']){
@@ -57,12 +62,20 @@ class User extends Controller
         $users->withPath('admin?'.http_build_query($dataURL));
         $total = $users->total();
 
+        $label = array();
+        $label['title'] = __('admin.USER');
+        if ($currentUser->Group->key == config('auth.usergroup.agency')){
+            $label['title'] = __('admin.LIST_EMPLOYEE');
+        }
+
         $userGroup = UserGroup::all();
 
         $provinceGroup = ProvinceGroup::getListProvince();
 
 
         return view('admin.user.list', [
+            'currentUser' => $currentUser,
+            'label' => $label,
             'items' => $users,
             'total' => $total,
             'group' => $userGroup,

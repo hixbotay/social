@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="card-box">
-                <h4 class="m-t-0">Danh sách user</h4>
+                <h4 class="m-t-0">{{$label['title']}}</h4>
 
                 <hr />
 
@@ -14,6 +14,8 @@
                 <form name="filterUser" action="{{url('admin?view=User')}}" method="GET">
 
                     <div class="row">
+                        @if($currentUser->group->key !== config('auth.usergroup.agency'))
+
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label for="user_type">Loại User</label>
@@ -27,6 +29,9 @@
                                 </select>
                             </div>
                         </div>
+
+                        @endif
+
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <label>Ngày đăng ký</label>
