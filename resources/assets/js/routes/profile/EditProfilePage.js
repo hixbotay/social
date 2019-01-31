@@ -138,6 +138,18 @@ class EditProfilePage extends Component {
                 });
                 break;
             }
+            case "village_id": {
+                this.setState({
+                    data: {
+                        ...this.state.data,
+                        user: {
+                            ...this.state.data.user,
+                            [name]: value,
+                        }
+                    }
+                });
+                break;
+            }
         }
     }
 
