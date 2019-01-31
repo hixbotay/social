@@ -225,6 +225,10 @@ class CreateGroupDating extends Component {
 
         var {start_time, limit_time_register, start_date, limit_date_register} = this.state;
 
+        if(!moment(start_date).isValid() || !moment(limit_date_register).isValid()) {
+            return alert("Ngày hẹn hoặc ngày chốt hẹn không hợp lệ!");
+        }
+
         let startTime = moment(start_date).set({
             hour: start_time.split(":")[0] || new Date().getHours(),
             minute: start_time.split(":")[1] || new Date().getMinutes(),
@@ -333,6 +337,7 @@ class CreateGroupDating extends Component {
                                     value={this.state.start_date}
                                     onChange={(date) => this.onChangeDate(date, "start_date")}
                                     locale='vi'
+                                    showOnInputClick={true}
                                 />
                             </div>
                             <div className="col-4">
@@ -353,6 +358,7 @@ class CreateGroupDating extends Component {
                                     value={this.state.limit_date_register}
                                     onChange={(date) => this.onChangeDate(date, "limit_date_register")}
                                     locale='vi'
+                                    showOnInputClick={true}
                                 />
                             </div>
                             <div className="col-4">

@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { CardWithTitle, Card } from '../../components/Card';
 import DatingLayout from './DatingLayout';
-import {getAllDistricts, getAllProvinces} from '../../actions/AddressActions';
-import {getAllCafe} from '../../actions/CafeActions';
-import {getAllJobs} from '../../actions/JobActions';
-import {subscribeEvent, getMySubscribers, deleteSubscriber} from '../../actions/EventActions';
+import { getAllDistricts, getAllProvinces } from '../../actions/AddressActions';
+import { getAllCafe } from '../../actions/CafeActions';
+import { getAllJobs } from '../../actions/JobActions';
+import { subscribeEvent, getMySubscribers, deleteSubscriber } from '../../actions/EventActions';
 import connect from 'react-redux/es/connect/connect';
 import ToggleDisplay from 'react-toggle-display';
+import { DatePickerInput } from 'rc-datepicker';
+import NumericInput from 'react-numeric-input';
+// use material theme
+import 'react-times/css/material/default.css';
+// or you can use classic theme
+import 'react-times/css/classic/default.css';
+import moment from 'moment';
+import Select from 'react-select';
+import 'moment/locale/vi.js';
 
 class SubscribeDating extends Component {
     constructor(props) {
@@ -16,10 +25,10 @@ class SubscribeDating extends Component {
                 expect_marital_status: 0,
                 is_subscribe_couple_dating: 0,
                 is_subscribe_group_dating: 0,
-                province_id: '01',
+                // province_id: '01',
             },
             show: false
-        }  
+        }
     }
 
     componentDidMount() {
@@ -27,33 +36,57 @@ class SubscribeDating extends Component {
         this.props.getAllDistricts('01');
         this.props.getAllJobs();
         this.props.getMySubscribers().then(data => {
-            if(!data) {
-                this.setState({show: true});
+            if (!data) {
+                this.setState({ show: true });
             }
         });
     }
 
-    changeProvince(e) {
-        this.props.getAllDistricts(e.target.value);
+    onChangeCafeFilter(selectedOption, filterType) {
+        this.setState({
+            [filterType]: selectedOption.value
+        });
+
+        switch (filterType) {
+            case 'province': {
+                this.props.getAllDistricts(selectedOption.value);
+                // this.props.getAllCafe({ province_id: selectedOption.value });
+                this.setState({
+                    newSubscriber: {
+                        ...this.state.newSubscriber,
+                        province_id: selectedOption.value
+                    }
+                })
+                break;
+            }
+            case 'district': {
+                this.props.getAllCafe({ province_id: this.state.newSubscriber.province_id, district_id: selectedOption.value });
+                this.setState({
+                    newSubscriber: {
+                        ...this.state.newSubscriber,
+                        district_id: selectedOption.value
+                    }
+                });
+                break;
+            }
+            case 'type': {
+                this.props.getAllCafe({
+                    province_id: this.state.newSubscriber.province_id,
+                    district_id:this.state.newSubscriber.district_id,
+                    type: selectedOption.value
+                });
+                break;
+            }
+        }
+    }
+
+    onChangeSelect(selectedOption, name) {
         this.setState({
             newSubscriber: {
                 ...this.state.newSubscriber,
-                province_id: e.target.value
+                [name]: selectedOption.value
             }
         })
-    }
-
-    changeDistrict(e) {
-        this.props.getAllCafe({
-            province_id: this.state.newSubscriber.province_id,
-            district_id: e.target.value
-        });
-        this.setState({
-            newSubscriber: {
-                ...this.state.newSubscriber,
-                district_id: e.target.value
-            }
-        });
     }
 
     onChangeData(e) {
@@ -65,8 +98,26 @@ class SubscribeDating extends Component {
         });
     }
 
+    onChangeDate(value, name) {
+        this.setState({
+            newSubscriber: {
+                ...this.state.newSubscriber,
+                [name]: value
+            }
+        })
+    }
+
+    onChageNumberInput(value, name) {
+        this.setState({
+            newSubscriber: {
+                ...this.state.newSubscriber,
+                [name]: value
+            }
+        })
+    }
+
     onChangeCheckboxData(e) {
-        if(e.target.checked) {
+        if (e.target.checked) {
             this.setState({
                 newSubscriber: {
                     ...this.state.newSubscriber,
@@ -86,16 +137,16 @@ class SubscribeDating extends Component {
     onSubmit(e) {
         e.preventDefault();
         // check if error
-        if(new Date(this.state.newSubscriber.expect_date_from) >= new Date(this.state.newSubscriber.expect_date_to)) {
+        if (new Date(this.state.newSubscriber.expect_date_from) >= new Date(this.state.newSubscriber.expect_date_to)) {
             alert("Vui lòng chọn lại ngày");
             return;
         }
-        if(this.state.newSubscriber.expect_age_min >= this.state.newSubscriber.expect_age_max) {
+        if (this.state.newSubscriber.expect_age_min >= this.state.newSubscriber.expect_age_max) {
             alert("Vui lòng chọn lại tuổi");
             return;
         }
 
-        if(this.state.newSubscriber.is_subscribe_couple_dating || this.state.newSubscriber.is_subscribe_group_dating) {
+        if (this.state.newSubscriber.is_subscribe_couple_dating || this.state.newSubscriber.is_subscribe_group_dating) {
             const { payer, expect_gender } = this.form;
             this.setState({
                 newSubscriber: {
@@ -112,10 +163,10 @@ class SubscribeDating extends Component {
     }
 
     deleteSubscriber(id) {
-        if(confirm("Bạn có chắc chắn muốn xóa đăng ký này?")) {
+        if (confirm("Bạn có chắc chắn muốn xóa đăng ký này?")) {
             this.props.deleteSubscriber(id).then(data => {
                 console.log(this.props.mySubscribers.length)
-                if(this.props.mySubscribers.length === 0) {
+                if (this.props.mySubscribers.length === 0) {
                     setTimeout(() => {
                         this.setState({
                             show: true
@@ -127,69 +178,69 @@ class SubscribeDating extends Component {
     }
 
     render() {
-        var {mySubscribers} = this.props;
+        var { mySubscribers, cafes, provinces, districts, jobs } = this.props;
         const age = [];
-        for(let i=18; i<60; i++) {
+        for (let i = 18; i < 60; i++) {
             age.push(i);
         }
-        
+
         return (
             <DatingLayout>
                 {
                     mySubscribers.length ? (
-                    <CardWithTitle hasLine={true} title="ĐĂNG KÝ TRƯỚC ĐÓ">
-                        <div className="row">
-                            {
-                                mySubscribers.map((subscriber, index) => {
-                                    return (
-                                        <div className="col-md-12 col-sm-12 my-subscriber-item alert alert-success" key={index}>
-                                            <small>
-                                                <i>
-                                                    Đăng ký hẹn từ ngày {subscriber.expect_date_from} tới ngày {subscriber.expect_date_to}
-                                                </i>
-                                            </small>
-                                            <div className="row">
-                                                <div className="col-4">Kiểu hẹn</div>
-                                                <div className="col-8">
-                                                    {subscriber.is_subscribe_couple_dating ? "Hẹn đôi" : null} {subscriber.is_subscribe_group_dating ? "- Hẹn nhóm" : null}
+                        <CardWithTitle hasLine={true} title="ĐĂNG KÝ TRƯỚC ĐÓ">
+                            <div className="row">
+                                {
+                                    mySubscribers.map((subscriber, index) => {
+                                        return (
+                                            <div className="col-md-12 col-sm-12 my-subscriber-item alert alert-success" key={index}>
+                                                <b>
+                                                    <i>
+                                                        Đăng ký hẹn từ ngày {moment(subscriber.expect_date_from).format("DD/MM/YYYY")} tới ngày {moment(subscriber.expect_date_to).format("DD/MM/YYYY")}
+                                                    </i>
+                                                </b>
+                                                <div className="row">
+                                                    <div className="col-4">Kiểu hẹn</div>
+                                                    <div className="col-8">
+                                                        {subscriber.is_subscribe_couple_dating ? "Hẹn đôi" : null} {subscriber.is_subscribe_group_dating ? "- Hẹn nhóm" : null}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-4">Địa chỉ đăng ký</div>
-                                                <div className="col-8">
-                                                    {subscriber.agency_name}, {subscriber.district_name}, {subscriber.province_name}
+                                                <div className="row">
+                                                    <div className="col-4">Địa chỉ đăng ký</div>
+                                                    <div className="col-8">
+                                                        {subscriber.agency_name}, {subscriber.district_name}, {subscriber.province_name}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-4">Đối tượng mong muốn</div>
-                                                <div className="col-8">
-                                                    {subscriber.expect_gender === 'M' ? "Nam" : "Nữ"}, {subscriber.expect_age_min} - {subscriber.expect_age_max} tuổi
-                                                    <br/>
-                                                    {subscriber.job_name} - {subscriber.expect_marital_status ? "Đã kết hôn" : "Độc thân"}
+                                                <div className="row">
+                                                    <div className="col-4">Đối tượng mong muốn</div>
+                                                    <div className="col-8">
+                                                        {subscriber.expect_gender === 'M' ? "Nam" : "Nữ"}, {subscriber.expect_age_min} - {subscriber.expect_age_max} tuổi
+                                                    <br />
+                                                        {subscriber.job_name} - {subscriber.expect_marital_status ? "Đã kết hôn" : "Độc thân"}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-4">Người thanh toán</div>
-                                                <div className="col-8">
-                                                    {subscriber.payer === 'partner' ? "Người kia" : "Bạn thanh toán"}
+                                                <div className="row">
+                                                    <div className="col-4">Người thanh toán</div>
+                                                    <div className="col-8">
+                                                        {subscriber.payer === 'partner' ? "Người kia" : "Bạn thanh toán"}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <button className="btn btn-sm btn-danger float-right" onClick={() => this.deleteSubscriber(subscriber.id)}>
-                                                Xóa đăng ký
+                                                <button className="btn btn-sm btn-danger float-right" onClick={() => this.deleteSubscriber(subscriber.id)}>
+                                                    Xóa đăng ký
                                             </button>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className="text-center">
-                            <button className="btn btn-primary" onClick={() => this.setState({show: !this.state.show})}>
-                            {
-                                this.state.show ? "ẨN FORM ĐĂNG KÝ" : "ĐĂNG KÝ MỚI"
-                            }
-                            </button>
-                        </div>
-                    </CardWithTitle>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                            <div className="text-center">
+                                <button className="btn btn-primary" onClick={() => this.setState({ show: !this.state.show })}>
+                                    {
+                                        this.state.show ? "ẨN FORM ĐĂNG KÝ" : "ĐĂNG KÝ MỚI"
+                                    }
+                                </button>
+                            </div>
+                        </CardWithTitle>
                     ) : null
                 }
 
@@ -201,13 +252,13 @@ class SubscribeDating extends Component {
                                     Đăng ký
                                 </div>
                                 <div className="col-1">
-                                    <input type="checkbox" className="custom-input" name="is_subscribe_couple_dating" onChange={(e) => this.onChangeCheckboxData(e)}/>
+                                    <input type="checkbox" className="custom-input" name="is_subscribe_couple_dating" onChange={(e) => this.onChangeCheckboxData(e)} />
                                 </div>
                                 <div className="col-3">
                                     <label>Hẹn đôi</label>
                                 </div>
                                 <div className="col-1">
-                                    <input type="checkbox" className="custom-input" name="is_subscribe_group_dating" onChange={(e) => this.onChangeCheckboxData(e)}/>
+                                    <input type="checkbox" className="custom-input" name="is_subscribe_group_dating" onChange={(e) => this.onChangeCheckboxData(e)} />
                                 </div>
                                 <div className="col-3">
                                     <label>Hẹn nhóm</label>
@@ -218,13 +269,13 @@ class SubscribeDating extends Component {
                                     Người thanh toán hẹn đôi
                                 </div>
                                 <div className="col-1">
-                                    <input className="custom-input" type="radio" name="payer" value="self" required/>
+                                    <input className="custom-input" type="radio" name="payer" value="self" required />
                                 </div>
                                 <div className="col-3">
                                     <label>Bạn thanh toán</label>
                                 </div>
                                 <div className="col-1">
-                                    <input className="custom-input" type="radio" name="payer" value="partner" required/>
+                                    <input className="custom-input" type="radio" name="payer" value="partner" required />
                                 </div>
                                 <div className="col-3">
                                     <label>Người ấy thanh toán</label>
@@ -232,59 +283,88 @@ class SubscribeDating extends Component {
                             </div>
                             <div>
                                 <h5><i className="far fa-calendar-check"></i> Thời gian có thể tham gia</h5>
-                                <hr/>
+                                <hr />
                             </div>
                             <div className="form-group row">
                                 <div className="col-6">
                                     Từ
-                                    <input className="form-control" type="date" name="expect_date_from" onChange={(e) => this.onChangeData(e)} required/>
+                                    <DatePickerInput
+                                        minDate={moment()}
+                                        className='react-datepicker-component my-react-component'
+                                        value={this.state.newSubscriber.expect_date_from}
+                                        onChange={(date) => this.onChangeDate(date, "expect_date_from")}
+                                        locale='vi'
+                                        showOnInputClick={true}
+                                    />
                                 </div>
                                 <div className="col-6">
                                     Đến
-                                    <input className="form-control" type="date" name="expect_date_to" onChange={(e) => this.onChangeData(e)} required/>
+                                    <DatePickerInput
+                                        minDate={moment()}
+                                        className='react-datepicker-component my-react-component'
+                                        value={this.state.newSubscriber.expect_date_to}
+                                        onChange={(date) => this.onChangeDate(date, "expect_date_to")}
+                                        locale='vi'
+                                        showOnInputClick={true}
+                                    />
                                 </div>
                             </div>
                             <div>
                                 <h5><i className="fas fa-map-marker"></i> Chọn địa điểm</h5>
-                                <hr/>
+                                <hr />
                             </div>
-                            <div className="form-group row">
-                                <div className="col-4">
-                                    Chọn tỉnh
-                                    <select className="custom-select" onChange={(e) => this.changeProvince(e)} required>
-                                    {
-                                        this.props.provinces.map((item, index) => {
-                                            return (
-                                                <option key={item.matp} value={item.matp}>{item.name}</option>
-                                            )
-                                        })
-                                    }
-                                    </select>
-                                </div>
-                                <div className="col-4">
-                                    Chọn huyện
-                                    <select className="custom-select" onChange={(e) => this.changeDistrict(e)} required>
-                                    {
-                                        this.props.districts.map((item, index) => {
-                                            return (
-                                                <option key={item.maqh} value={item.maqh}>{item.name}</option>
-                                            )
-                                        })
-                                    }
-                                    </select>
-                                </div>
-                                <div className="col-4">
-                                    Chọn quán
-                                    <select className="custom-select" name="agency_id" onChange={(e) => this.onChangeData(e)} required>
-                                        <option value="">--Chọn quán--</option>
-                                        {
-                                            this.props.cafes.map((item, index) => {
-                                                return (
-                                                    <option key={item.id} value={item.id}>{item.name}</option>
-                                                )
+                            <div>
+                                Vui lòng chọn tỉnh/thành, quận/huyện và quán
+                            </div>
+                            <div className="row">
+                                <div className="col-12 col-md-4 mb-2">
+                                    <Select
+                                        placeholder="Chọn tỉnh/thành"
+                                        defaultValue={this.state.newSubscriber.province_id}
+                                        options={
+                                            provinces.map(province => {
+                                                return { value: province.matp, label: province.name }
                                             })
                                         }
-                                    </select>
+                                        onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
+                                    />
+                                </div>
+                                <div className="col-12 col-md-4 mb-2">
+                                    <Select
+                                        placeholder="Chọn huyện"
+                                        defaultValue={this.state.newSubscriber.district_id}
+                                        options={
+                                            districts.map(district => {
+                                                return { value: district.maqh, label: district.name }
+                                            })
+                                        }
+                                        onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
+                                    />
+                                </div>
+                                <div className="col-12 col-md-4 mb-2">
+                                    <Select
+                                        placeholder="Loại quán"
+                                        // defaultValue={this.state.agency_type}
+                                        options={
+                                            [
+                                                { value: 1, label: "Cafe" },
+                                                { value: 2, label: "Quán ăn" }
+                                            ]
+                                        }
+                                        onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
+                                    />
+                                </div>
+                                <div className="col-12 col-md-12 mb-4">
+                                    <Select
+                                        placeholder={`Danh sách các quán (${cafes.length} quán)`}
+                                        defaultValue={this.state.newSubscriber.agency_id}
+                                        options={
+                                            cafes.map(cafe => {
+                                                return { value: cafe.id, label: cafe.name, images: cafe.images }
+                                            })
+                                        }
+                                        onChange={(selectedOption) => this.onChangeSelect(selectedOption, "agency_id")}
+                                    />
                                 </div>
                             </div>
                             <div className="form-group row" name="expect_gender">
@@ -292,13 +372,13 @@ class SubscribeDating extends Component {
                                     Đối tượng
                                 </div>
                                 <div className="col-1">
-                                    <input className="custom-input" type="radio" name="expect_gender" value='M' required/>
+                                    <input className="custom-input" type="radio" name="expect_gender" value='M' required />
                                 </div>
                                 <div className="col-3">
                                     <label>Nam</label>
                                 </div>
                                 <div className="col-1">
-                                    <input className="custom-input" type="radio" name="expect_gender" value='F' required/>
+                                    <input className="custom-input" type="radio" name="expect_gender" value='F' required />
                                 </div>
                                 <div className="col-3">
                                     <label>Nữ</label>
@@ -309,28 +389,24 @@ class SubscribeDating extends Component {
                                     Độ tuổi
                                 </div>
                                 <div className="col-4">
-                                    <select className="custom-select" name="expect_age_min" onChange={(e) => this.onChangeData(e)} required>
-                                        <option value="">Nhỏ nhất</option>
-                                        {
-                                            age.map((item, index) => {
-                                                return (
-                                                    <option value={item} key={index}>{item}</option>
-                                                )
-                                            })
-                                        }
-                                    </select>
+                                    <NumericInput 
+                                        // required
+                                        className="form-control" 
+                                        min={18} 
+                                        value={this.state.newSubscriber.expect_age_min}
+                                        onChange={(value) => this.onChageNumberInput(value, "expect_age_min")}
+                                        placeholder="Nhỏ nhất"
+                                    />
                                 </div>
                                 <div className="col-4">
-                                    <select className="custom-select" name="expect_age_max" onChange={(e) => this.onChangeData(e)} required>
-                                        <option value="">Lớn nhất</option>
-                                        {
-                                            age.map((item, index) => {
-                                                return (
-                                                    <option value={item} key={index}>{item}</option>
-                                                )
-                                            })
-                                        }
-                                    </select>
+                                    <NumericInput 
+                                        // required
+                                        className="form-control" 
+                                        min={this.state.newSubscriber.expect_age_min} 
+                                        value={this.state.newSubscriber.expect_age_max}
+                                        onChange={(value) => this.onChageNumberInput(value, "expect_age_max")}
+                                        placeholder="Lớn nhất"
+                                    />
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -338,16 +414,15 @@ class SubscribeDating extends Component {
                                     Nghề nghiệp
                                 </div>
                                 <div className="col-8">
-                                    <select className="custom-select" name="expect_job" onChange={(e) => this.onChangeData(e)} required>
-                                        <option value="">Chọn một công việc</option>
-                                        {
-                                            this.props.jobs.map((item, index) => {
-                                                return (
-                                                    <option key={index} value={item.id}>{item.name}</option>
-                                                )
+                                    <Select
+                                        defaultValue={this.state.newSubscriber.expect_job}
+                                        options={
+                                            jobs.map(job => {
+                                                return { value: job.id, label: job.name }
                                             })
                                         }
-                                    </select>
+                                        onChange={(selectedOption) => this.onChangeSelect(selectedOption, "expect_job")}
+                                    />
                                 </div>
                             </div>
                             <div className="form-group row">
@@ -355,10 +430,17 @@ class SubscribeDating extends Component {
                                     Tình trạng hôn nhân
                                 </div>
                                 <div className="col-8">
-                                    <select className="custom-select" name="expect_marital_status" onChange={(e) => this.onChangeData(e)} required>
-                                        <option value={0}>Độc thân</option>
-                                        <option value={1}>Đã kết hôn</option>
-                                    </select>
+                                    <Select
+                                        defaultValue={this.state.newSubscriber.expect_marital_status}
+                                        options={
+                                            [
+                                                {value: 0, label: "Độc thân"},
+                                                {value: 1, label: "Đã kết hôn"},
+                                                {value: 2, label: "Đã từng kết hôn trước đó"},
+                                            ]
+                                        }
+                                        onChange={(selectedOption) => this.onChangeSelect(selectedOption, "expect_marital_status")}
+                                    />
                                 </div>
                             </div>
                             <div className="text-center">
@@ -376,12 +458,12 @@ function mapStateToProps(state) {
     return {
         user: state.user.current_user,
         provinces: state.address.provinces,
-        districts: state.address.districts, 
+        districts: state.address.districts,
         cafes: state.cafe.cafes,
         jobs: state.job.jobs,
         mySubscribers: state.event.mySubscribers
     }
-} 
+}
 
 function mapDispatchToProps(dispatch) {
     return {

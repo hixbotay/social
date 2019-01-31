@@ -1002,7 +1002,7 @@ class Event extends Controller {
                 agency.name AS agency_name, agency.type AS agency_type,
                 agency_photos.source AS agency_image    
             '))
-            // ->toSql();
+            ->orderBy('id', 'DESC')
             ->paginate(5);
         return json_encode($subscribers);
     }
@@ -1035,7 +1035,7 @@ class Event extends Controller {
             devvn_quanhuyen.name AS district_name, 
             agency.name AS agency_name,
             user_jobs.name AS job_name'))
-        ->orderBy('expect_date_to', 'ASC')
+        ->orderBy('expect_date_to', 'DESC')
         ->get();
 
         return ['subscribers' => $subscribers];

@@ -143,43 +143,49 @@ class CreateCoupleDating extends Component {
     }
 
     submit(e) {
-        e.preventDefault();
+        e.preventDefault(); 
+
+        if (this.state.selectedTheme < 0) {
+            return alert("Bạn chọn thiếu chủ đề hoặc địa chỉ");
+        } 
+
+        if(!moment(this.state.start_time).isValid()) {
+            return alert("Ngày bạn chọn không hợp lệ!");
+        }
+
+        
+
         var start_time = new Date(this.state.start_time).setHours(this.state.hour, this.state.minutes, 0, 0);
         start_time = moment(start_time).local().format('YYYY-MM-DD HH:mm:ss');
 
-        if (this.state.selectedTheme >=0) {
-            this.props.createCoupleEvent({
-                event: {
-                    ...this.state.event,
-                    limit_time_register: start_time,
-                    start_time: start_time,
-                    schedule_id: 0,
-                    payment_m: this.props.price.couple_dating.couple_dating_price,
-                    payment_f: this.props.price.couple_dating.couple_dating_price,
-                    is_secret: 0,
-                },
-                event_meta: {
-                    ...this.state.event_meta,
-                    job_conditional: [this.props.location.state.invitee.job],
-                    min_male_number: 1,
-                    max_male_number: 1,
-                    min_female_number: 1,
-                    max_female_number: 1
-                },
-                subscriber: this.props.location.state.invitee.id
-            }).then(res => {
-                this.setState({isOpenSuccess: true});
-            });
-        } else {
-            window.alert("Bạn chọn thiếu chủ đề hoặc địa chỉ");
-        }
+        this.props.createCoupleEvent({
+            event: {
+                ...this.state.event,
+                limit_time_register: start_time,
+                start_time: start_time,
+                schedule_id: 0,
+                payment_m: this.props.price.couple_dating.couple_dating_price,
+                payment_f: this.props.price.couple_dating.couple_dating_price,
+                is_secret: 0,
+            },
+            event_meta: {
+                ...this.state.event_meta,
+                job_conditional: [this.props.location.state.invitee.job],
+                min_male_number: 1,
+                max_male_number: 1,
+                min_female_number: 1,
+                max_female_number: 1
+            },
+            subscriber: this.props.location.state.invitee.id
+        }).then(res => {
+            this.setState({isOpenSuccess: true});
+        });
+
     }
 
     render() {
         var { cafes, price } = this.props;
         var {invitee, subscriber} = this.state;
-
-        console.log(this.state)
 
         //setting for slider
         var settings = {
@@ -299,6 +305,7 @@ class CreateCoupleDating extends Component {
                                                 value={this.state.start_time}
                                                 onChange={(date) => this.onChangeDate("start_time", date)}
                                                 locale='vi'
+                                                showOnInputClick={true}
                                             />
                                         </div>
                                         <div className="col-12 col-md-8">
