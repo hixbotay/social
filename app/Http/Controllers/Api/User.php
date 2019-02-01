@@ -177,8 +177,8 @@ class User extends Controller
         return $relationship;
     }
 
-    public function getCurrentUserDetail() {
-        $id = Auth::id();
+    public static function getCurrentUserDetail($user_id = null) {
+        $id = $user_id || Auth::id();
 
         $user = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
@@ -554,6 +554,36 @@ class User extends Controller
             ->orderBy('created_at', 'DESC')
             ->first();
         return ['record' => $record];
+    }
+
+    public function updateUser(Request $request, $id) {
+        $user = \App\User::find($id);
+        $data = $request->getContent();
+        $data_arr = json_decode($data, true);
+        
+        if(array_key_exists('role', $data_arr['user'])) {
+            unset($data_arr['user']['role']);
+        }
+
+        // remove old hobyy and insert new hobby
+        if(array_key_exists('hobby', $data_arr)) {
+            if(!empty($data_arr['hobby'])) {
+                DB::table('user_hobby_map')->where('user_id', '=', $id)->delete();
+                $result = DB::table('user_hobby_map')->insert( $data_arr['hobby'] );
+            }
+        }
+
+        if(array_key_exists('vip', $data_arr['user'])) {
+            unset($data_arr['user']['vip']);
+        }
+
+        // insert user property
+        foreach ($data_arr['user'] as $key => $value) {
+            $user->$key = $value;
+        }
+
+        $user->save();
+        return self::getCurrentUserDetail($id);
     }
 }
 

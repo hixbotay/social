@@ -88,15 +88,7 @@ Route::middleware(['web'])->group(function() {
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
 
-Route::post('user/{id}', function (Request $request, $id){
-    // $result = \App\User::updateUser($request, $id);
-    // return json_encode($result);
-    $data = $request->getContent();
-    $result = \App\User::updateUser($data, $id);
-
-    // // return json_decode($data);
-    return json_encode($result);
-});
+Route::post('user/{id}', 'Api\User@updateUser');
 
 Route::get('/ethnicities', 'Api\User@getAllEthnicity');
 Route::get('/religion', 'Api\User@getAllReligion');

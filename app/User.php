@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use \App\Http\Controllers\Api\User as UserController;
 
 use App\Payments;
 use App\UserGroup;
@@ -73,37 +74,6 @@ class User extends Authenticatable
             ->where('user_groups.key', '=', $key)
             ->get();
         return $data;
-    }
-
-    
-
-    public static function updateUser($data, $id) {
-        $user = User::find($id);
-        $data_arr = json_decode($data, true);
-        
-        if(array_key_exists('role', $data_arr['user'])) {
-            unset($data_arr['user']['role']);
-        }
-
-        // remove old hobyy and insert new hobby
-        if(array_key_exists('hobby', $data_arr)) {
-            if(!empty($data_arr['hobby'])) {
-                DB::table('user_hobby_map')->where('user_id', '=', $id)->delete();
-                $result = DB::table('user_hobby_map')->insert( $data_arr['hobby'] );
-            }
-        }
-
-        if(array_key_exists('vip', $data_arr['user'])) {
-            unset($data_arr['user']['vip']);
-        }
-
-        // insert user property
-        foreach ($data_arr['user'] as $key => $value) {
-            $user->$key = $value;
-        }
-
-        $user->save();
-        return $user;
     }
 
     public static function visitProfile($data){

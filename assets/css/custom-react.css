@@ -1400,6 +1400,7 @@ button.arrow-btn {
     bottom: auto!important;
     margin-right: -50%!important;
     transform: translate(-50%, -50%)!important;
+    max-width: 80%;
 }
 
 img.gift-type-image {
@@ -1536,4 +1537,17 @@ div#suggest-create-dating {
 .react_times_button {
     border: solid 1px #d8d6d6;
     border-radius: 5px !important;
+}
+
+.tile-viewport img {
+    object-fit: cover !important;
+}
+
+#close-modal-btn {
+    position: absolute;
+    right: 1.25em;
+    top: 0.5em;
+    background: none;
+    border: none;
+    font-size: 2em;
 }

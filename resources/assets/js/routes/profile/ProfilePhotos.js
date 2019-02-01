@@ -1,34 +1,35 @@
 import React, { Component } from 'react';
 import ImageCompressor from 'image-compressor.js';
 import Carousel from "nuka-carousel";
-import Modal from '../../components/Modal';
+import Modal from 'react-modal';
 import {getPhotosByType, uploadFeaturedPhotos} from '../../actions/UserActions';
 import connect from 'react-redux/es/connect/connect';
-import Gallery from "react-photo-gallery";
+import Gallery from "react-grid-gallery";
 
 class ProfilePhotos extends Component {
     constructor(props) {
         super(props);
         this.state = {
             type: "",
-            images: []
+            images: [],
+            isOpenModal: false
         }
     }
 
     getPhotos(type) {
-        var images = [];
         this.props.getPhotosByType(type).then(photos => {
-            photos.forEach(photo => {
-                images.push({
+            var images = photos.map(photo => {
+                return {
                     src: photo,
-                    width: 1,
-                    height: 1
-                });
+                    thumbnail: photo,
+                    thumbnailWidth: 250,
+                    thumbnailHeight: 250
+                }
             });
+
+
+                this.setState({type: type, images: images, isOpenModal: true});
             
-            this.setState({type: type, images: images}, () => {
-                document.getElementById("open-gallery-btn").click();
-            });
         })
     }
 
@@ -62,6 +63,7 @@ class ProfilePhotos extends Component {
     render() {
         var {images} = this.props;
         var title = "";
+        console.log(this.state);
         switch(this.state.type) {
             case "featured": {
                 title = "Ảnh nổi bật của bạn";
@@ -114,13 +116,13 @@ class ProfilePhotos extends Component {
                                     <i className="fas fa-camera-retro"></i>
                                 </label>
                             </div>
-                            <b>UPLOAD</b>
+                            <b>UPLOAD ẢNH</b>
                         </button>
                     </div>
                     <div className="col-3">
                         <button className="btn btn-user-photo" onClick={() => {this.getPhotos('featured')}}>
                             <div className="user-photo-icon"><i className="fas fa-folder-open"></i></div>
-                            <b>ẢNH TẢI LÊN</b>
+                            <b>ẢNH NỔI BẬT</b>
                         </button>
                     </div>
                     <div className="col-3">
@@ -138,8 +140,19 @@ class ProfilePhotos extends Component {
                 </div>
 
                 <button className="d-none" data-toggle="modal" data-target="#gallery-images" id="open-gallery-btn"></button>
-                <Modal id="gallery-images" title={title}>
-                    <Gallery photos={this.state.images} width={200} columns={4}/>
+                <Modal 
+                    id="gallery-images"  
+                    isOpen={this.state.isOpenModal}
+                    onRequestClose={() => {this.setState({isOpenModal: false})}}
+                >
+                    <h5>
+                        {title}
+                    </h5>
+                    <button id="close-modal-btn" className="float-right" onClick={() => {this.setState({isOpenModal: false})}}>
+                        <i className="fas fa-times"></i>
+                    </button>
+                    <hr/>
+                    <Gallery images={this.state.images} />
                 </Modal>
             </div>
         );

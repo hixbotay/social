@@ -11,6 +11,11 @@ import EdiText from 'react-editext';
 
 class ProfileHeader extends PureComponent {
 
+    componentWillUpdate(nextProps, nextState) {
+        console.log(nextProps.user);
+        return nextProps.user !== this.props.user; 
+    }
+
     render() {
         const {user, isCurrentUser, images} = this.props;
         var completePercentage = localStorage.getItem("percentage");
@@ -103,10 +108,11 @@ class ProfileHeader extends PureComponent {
                             <div className="left">Tình trạng hôn nhân</div>
                             <div className="right">
                                 {
-                                    (user.marial_status != null) ? (
-                                        (user.marial_status === 0) ? 'Độc thân' : "Đã kết hôn"
-                                    ) : "Chưa xác định"
-                                }</div>
+                                    user.marial_status ? (
+                                        user.marial_status === 1 ? "Đã kết hôn" : "Đã từng kết hôn trước đó"
+                                    ) : "Độc thân" 
+                                }
+                            </div>
                         </div>
                         <div className="flex">
                             <div className="left">Học vấn</div>
@@ -118,11 +124,11 @@ class ProfileHeader extends PureComponent {
                         </div>
                         <div className="flex">
                             <div className="left">Dân tộc</div>
-                            <div className="right">{user.ethnicity}</div>
+                            <div className="right">{user.ethnicity_name}</div>
                         </div>
                         <div className="flex">
                             <div className="left">Tôn giáo</div>
-                            <div className="right">{user.religion}</div>
+                            <div className="right">{user.religion_name}</div>
                         </div>
                         <div className="flex">
                             <div className="left">Nơi sống</div>

@@ -163,7 +163,8 @@ class Post extends Controller
             Storage::disk('local')->put('user'.$user_id.'/photos/'.$filename, base64_decode($base64_image));
             $photo = \App\UserPhoto::create([
                 'user_id' => $user_id,
-                'source' => 'storage/app/user'.$user_id.'/photos/'.$filename
+                'source' => 'storage/app/user'.$user_id.'/photos/'.$filename,
+                'type' => 'timeline'
             ]);
         }
         
