@@ -72,10 +72,17 @@ class ProductCategory extends Controller
     {
         $data = request()->get('data');
         $file = $request->file('image');
-        $file_name = time() . '_' . $file->getClientOriginalName();
-        $file_path = 'storage/app/product/category/'.$data['type'].'/';
-        $file->move($file_path, $file_name);
-        $data['image'] = $file_path . $file_name;
+        if ($file){
+            $file_name = time() . '_' . $file->getClientOriginalName();
+            $file_path = 'storage/app/product/category/'.$data['type'].'/';
+            $file->move($file_path, $file_name);
+            $data['image'] = $file_path . $file_name;
+        }
+
+        $currentUser = Auth::user();
+        if ($currentUser->is_admin != 1){
+            $data['user_id'] = $currentUser->id;
+        }
         $result = ProductCategoryModel::create($data);
         $type = isset($_GET['type'])?$_GET['type']:null;
         $url = url('admin?view=ProductCategory&type='.$type);
@@ -106,9 +113,14 @@ class ProductCategory extends Controller
      */
     public function edit($id)
     {
+        $type = isset($_GET['type'])?$_GET['type']:null;
         $item = ProductCategoryModel::find($id);
 //        return View::make('admin.ProductCategory.detail')->with('item', $item);
-        return view('admin.ProductCategory.detail', ['item' => $item]);
+        return view('admin.ProductCategory.detail', [
+            'item' => $item,
+            'type' => $type,
+            'currentUser' => Auth::user()
+        ]);
     }
 
     /**
@@ -123,7 +135,7 @@ class ProductCategory extends Controller
         $id = $request->get('id');
         $data = $request->get('data');
         $item = ProductCategoryModel::find($id);
-
+        unset($data['user_id']);
         $file = $request->file('image');
         if ($file){
             $file_name = time() . '_' . $file->getClientOriginalName();

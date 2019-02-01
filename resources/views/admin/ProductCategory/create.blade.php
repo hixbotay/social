@@ -39,7 +39,11 @@
 
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">@lang('admin.SUBMIT')</button>
+                        <a href="{{'admin?view=ProductCategory&type='.$type}}">
+                            <button type="button" class="btn btn-primary">@lang('admin.BACK')</button>
+                        </a>
                     </div>
+
                 </form>
             </div>
         </div>

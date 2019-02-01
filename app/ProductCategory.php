@@ -11,7 +11,7 @@ class ProductCategory extends Model
 {
     protected $table = 'product_category';
 
-    protected $fillable = ['name', 'description', 'type', 'image'];
+    protected $fillable = ['name', 'description', 'type', 'image', 'user_id'];
 
     public static function getItems($data){
         $filter = $data['filter'];
@@ -35,8 +35,14 @@ class ProductCategory extends Model
     }
 
     public static function getCateByType($type){
+        $currentUser = Auth::user();
         $data = self::select('*')
-            ->where('id', '=', $type)
+            ->where('type', '=', $type)
+            ->where(function ($query) use ($currentUser){
+                if ($currentUser->is_admin != 1){
+                    $query->where('user_id', '=', $currentUser->id)->orWhereNull('user_id');
+                }
+            })
             ->get();
         return $data;
     }
