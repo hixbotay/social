@@ -239,9 +239,12 @@ class Post extends Controller
             ]);
     
             DB::table("post_photos")->insert(['post_id' => $new_post->id, 'photo_id' => $photo->id]);
+            $new_post->photo_id = $photo->id;
+            $new_post->source = $original_post->source;
         }
 
         $original_author = \App\User::find($original_post->user_id);
+        
         $new_post->original_author_name = $original_author->name;
         $new_post->original_author_avatar = $original_author->avatar;
 

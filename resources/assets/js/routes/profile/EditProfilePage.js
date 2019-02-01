@@ -769,7 +769,7 @@ class EditProfilePage extends Component {
                             </div>
                         </div>
                         <div className="float-right">
-                            <button className="btn btn-sm btn-secondary" type="button" onClick={() => this.setState({ isOpenChangePassword: false })}>Hủy</button>
+                            <button className="btn btn-sm btn-secondary mr-2" type="button" onClick={() => this.setState({ isOpenChangePassword: false })}>Hủy</button>
                             <button className="btn btn-sm btn-primary" type="submit" >OK</button>
                         </div>
                     </form>

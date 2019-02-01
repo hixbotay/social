@@ -87,7 +87,6 @@ export const share = (post_id) => dispatch => {
                 user_avatar: user.avatar,
             }
             dispatch({type: SHARE_POST, payload: post});
-            window.alert("Bạn đã chia sẻ thành công");
             resolve(res.data.post);
         })
         .catch(error => {

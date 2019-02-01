@@ -4,6 +4,7 @@ import PostHeader from '../../components/Post/PostHeader';
 import {FaRegThumbsUp, FaRegThumbsDown} from 'react-icons/fa';
 import EdiText from 'react-editext';
 import {reactPost, unreactPost, share, removePost, updatePost} from '../../actions/PostActions';
+import Modal from 'react-modal';
 
 class Post extends Component {
 
@@ -18,7 +19,9 @@ class Post extends Component {
             isLiked: (Array.isArray(likeArr) && likeArr.indexOf(props.user_id) >= 0) ? true : false,
             isDisliked: (Array.isArray(dislikeArr) && dislikeArr.indexOf(props.user_id) >= 0) ? true : false,
             isOpenControl: false,
-            isEdit: false
+            isEdit: false,
+            isOpenAlert: false,
+            isOpenSuccess: false
         }
     }
 
@@ -82,7 +85,12 @@ class Post extends Component {
     }
 
     sharePost(post_id) {
-        this.props.share(post_id);
+        this.props.share(post_id).then(res => {
+            this.setState({
+                isOpenAlert: false,
+                isOpenSuccess: true
+            })
+        }); 
     }
 
     render() {
@@ -177,12 +185,30 @@ class Post extends Component {
                             <span className="btn-post mr-4">
                                 <i className="far fa-comment"></i> <b>Bình luận</b>
                             </span>
-                            <span className="btn-post" onClick={() => {this.sharePost(post.id)}}>
+                            <span className="btn-post" onClick={() => {this.setState({ isOpenAlert: true })}}>
                                 <i className="fas fa-share"></i> <b>Chia sẻ</b>
                             </span>
                         </div>
                     </div>
                 </div>
+
+                <Modal isOpen={this.state.isOpenAlert}>
+                    <h5>Bạn có muốn chia sẻ bài viết này trên timeline của bạn?</h5>
+                    <hr />
+                    <button className="float-right btn btn-sm btn-primary" onClick={() => this.sharePost(post.id)}>
+                        Đồng ý
+                    </button>
+                    <button className="float-right btn btn-sm btn-secondary mr-2" onClick={() => { this.setState({ isOpenAlert: false }) }}>
+                        Hủy
+                    </button>
+                </Modal>
+                <Modal isOpen={this.state.isOpenSuccess}>
+                    <h5>Bạn đã chia sẻ bài viết thành công</h5>
+                    <hr />
+                    <button className="float-right btn btn-primary" onClick={() => { this.setState({ isOpenSuccess: false }) }}>
+                        Đóng
+                    </button>
+                </Modal>
             </article>
         );
     }
