@@ -20,4 +20,11 @@ class Agency extends Model
              ->get();
          return $data;
      }
+
+     public static function getListAgencyByUserId($agencyId){
+         $data = self::select('name', 'id')
+             ->where('user_id', '=', $agencyId)
+             ->get();
+         return $data;
+     }
 }

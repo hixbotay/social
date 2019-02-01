@@ -23,7 +23,6 @@ class Post extends Controller
         $filter = isset($_GET['filter'])?$_GET['filter']:array();
 
         $this->authorize(config('auth.action.LIST_POST'));
-//        $posts = PostModel::paginate(10);
         $posts = DB::table('posts')
             ->where(function ($query) use ($filter) {
                 if (isset($filter['user_id']) && $filter['user_id']){

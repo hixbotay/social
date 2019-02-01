@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\ProductCategory AS ProductCategoryModel;
+use Illuminate\Support\Facades\Auth;
+
+use App\Agency;
 
 class ProductCategory extends Controller
 {
@@ -21,15 +24,18 @@ class ProductCategory extends Controller
             return redirect('admin?view=ProductCategory&type=1');
         }
 
+        $currentUser = Auth::user();
+
         $data = array();
         $data['filter'] = $filter;
         $data['type'] = $type;
 
         $items = ProductCategoryModel::getItems($data);
         return view('admin.ProductCategory.list', [
+            'currentUser' => $currentUser,
             'items' => $items,
             'title' => $title,
-            'type' => $type
+            'type' => $type,
         ]);
     }
 
@@ -45,12 +51,14 @@ class ProductCategory extends Controller
 
     public function create()
     {
+        $currentUser = Auth::user();
+
         $type = isset($_GET['type'])?$_GET['type']:null;
         if (!$type || (!in_array($type, $this->type))){
             return redirect('admin?view=ProductCategory&type=1');
         }
         return view('admin.ProductCategory.create', [
-            'type' => $type
+            'type' => $type,
         ]);
     }
 

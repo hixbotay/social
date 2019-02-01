@@ -17,9 +17,11 @@
                         <div class="col-sm-6">
                             <div id="datatable-responsive_filter" class="dataTables_filter">
                                 <a href="<?= url('/admin?controller=ProductCategory&task=create&type=') . $type ?>" type="button" class="btn btn-primary">
-                                    Thêm
+                                    @lang('admin.ADD')
                                 </a>
-                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">Xóa</button>
+                                <button type="button" onclick="javascrip:alert('Đang nâng cấp ...')" class="btn btn-primary">
+                                    @lang('admin.DELETE')
+                                </button>
                             </div>
 
                         </div>
@@ -34,8 +36,11 @@
                                     <label for="action-checkbox"></label>
                                 </div>
                             </th>
-                            <th>Name</th>
-                            <th>Mô tả</th>
+                            <th>@lang('admin.NAME')</th>
+                            <th>@lang('admin.DESCRIPTION')</th>
+                            @if($currentUser->is_admin != 1)
+                                <th>@lang('admin.OWNER')</th>
+                            @endif
                         </tr>
                         </thead>
 
@@ -50,6 +55,13 @@
                                 </td>
                                 <td><a href="{{url('admin?view=ProductCategory&layout=edit&id='.$item->id.'&type='.$item->type)}}"> {{$item->name}} </a> </td>
                                 <td>{{$item->description}}</td>
+                                @if($currentUser->is_admin != 1)
+                                    <td>
+                                    @if(!$item->user_id)
+                                        <span style="background: gold;font-style: italic;">@lang('admin.SYSTEM')</span>
+                                    @endif
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                         </tbody>
