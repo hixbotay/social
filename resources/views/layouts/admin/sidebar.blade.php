@@ -23,11 +23,14 @@
             </li>
 
             <li>
-                <a href="javascript: void(0);" aria-expanded="true"><i
-                            class="mdi mdi-account-multiple-plus"></i> @lang('admin.ACCOUNT') <span
-                            class="fa arrow"></span></a>
+                <a href="javascript: void(0);" aria-expanded="true">
+                    <i class="mdi mdi-account-multiple-plus"></i> @lang('admin.ACCOUNT')
+                    <span class="fa arrow"></span>
+                </a>
                 <ul class="nav-second-level nav" aria-expanded="true">
-                    <li><a href="{{url('/admin?view=User')}}"><i class="ti-person"></i>@lang('admin.LIST')</a></li>
+                    <li><a href="{{url('/admin?view=User')}}">
+                            <i class="ti-person"></i>@lang('admin.LIST')</a>
+                    </li>
                     @can(config('auth.action.LIST_USER_GROUP'))
                     <li>
                         <a href="{{url('/admin?view=UserGroup')}}"><i class="ti-person"></i>@lang('admin.ACCOUNT_GROUP')</a>
@@ -61,14 +64,11 @@
 
             <li>
                 <a href="javascript: void(0);" aria-expanded="true"><i
-                            class="mdi mdi-calendar-clock"></i> @lang('Events') <span class="fa arrow"></span></a>
+                            class="mdi mdi-calendar-clock"></i> @lang('admin.DATING_MANAGER') <span class="fa arrow"></span></a>
                 <ul class="nav-second-level nav" aria-expanded="true">
-                    <li><a href="{{url('/admin?view=Event&layout=listEvent')}}"><i class="ti-person"></i>@lang('Events')
-                        </a></li>
-                    <li><a href="{{url('/admin?view=Event&layout=listEventSchedules')}}"><i
-                                    class="ti-person"></i>@lang('Event Schedules')</a></li>
-                    <li><a href="{{url('/admin?controller=Event&task=create')}}"><i
-                                    class="ti-person"></i>@lang('Create new event')</a></li>
+                    <li>
+                        <a href="{{url('/admin?view=Event&layout=listEvent')}}"><i class="ti-person"></i>@lang('admin.DATING_MANAGER')</a>
+                    </li>
                 </ul>
             </li>
 

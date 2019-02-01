@@ -129,5 +129,10 @@ return [
     'NOT_PERMISSION_DELTE' => 'Bạn không có quyền xóa',
     'LIST_EMPLOYEE' => 'Danh sách nhân viên',
     'OWNER' => 'Sở hữu',
-    'SYSTEM' => 'Hệ thống'
+    'SYSTEM' => 'Hệ thống',
+    'DATING_MANAGER' => 'Quản lý cuộc hẹn',
+    'ADDRESS' => 'Địa chỉ',
+    'START_TIME' => 'Bắt đầu',
+    'CREATOR' => 'Người tạo',
+    'AGENCY' => 'Đại lý'
 ];
