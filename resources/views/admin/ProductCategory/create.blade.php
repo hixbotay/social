@@ -18,6 +18,7 @@
                             </select>
                         </div>
 
+
                         <div class="form-group">
                             <label>Tên danh mục <span>*</span></label>
                             <input type="text" class="form-control" name="data[name]" required />

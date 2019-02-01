@@ -96,7 +96,7 @@ class Agency extends Controller
         $currentUser = Auth::user();
 
         if ($currentUser->group->key == config('auth.usergroup.agency')){
-            $data['agency_id'] = $currentUser->id;
+            $data['user_id'] = $currentUser->id;
         }
 
         $result = AgencyModel::create($data);
