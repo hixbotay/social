@@ -86,10 +86,10 @@ class ProfilePhotos extends Component {
                         <Carousel 
                             slidesToShow={3} 
                             cellSpacing={5}
-                            autoplay={true}
                             autoGenerateStyleTag={true}
                             initialSlideHeight={250}
                             autoplay={true}
+                            speed={3000}
                             renderCenterLeftControls={({ previousSlide }) => (
                                 <button className="arrow-btn" onClick={previousSlide}><i className="fas fa-chevron-circle-left"></i></button>
                             )}

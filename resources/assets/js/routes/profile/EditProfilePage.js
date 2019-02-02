@@ -83,12 +83,13 @@ class EditProfilePage extends Component {
     }
 
     onChangeDate(date) {
+        // console.log(date);
         this.setState({
             data: {
                 ...this.state.data,
                 user: {
                     ...this.state.data.user,
-                    birthday: date
+                    birthday: moment(date).format("YYYY-MM-DD")
                 }
             }
         })

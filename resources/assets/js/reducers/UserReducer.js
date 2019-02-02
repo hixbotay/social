@@ -53,7 +53,7 @@ export default (state = INIT_STATE, action) => {
         }
         // view current user profile
         case UPDATE_USER_DETAIL: {
-            return {...state, user: action.payload}
+            return {...state, current_user: action.payload}
         }
         case UPDATE_RELATIONSHIP: {
             return {...state}
@@ -77,7 +77,7 @@ export default (state = INIT_STATE, action) => {
             return {...state, photos: action.payload}
         }
         case UPLOAD_FEATURED_PHOTOS: {
-            return {...state}
+            return {...state, featured_photos: action.payload}
         }
         case GET_USER_CONFIGURATIONS: {
             return {...state, configurations: action.payload}

@@ -183,8 +183,8 @@ export const getPhotosByType = (type) => dispatch => {
 
 export const uploadFeaturedPhotos = (images) => dispatch => {
     return api.post(`/user/featured-photos`, {photos: images}).then(res => {
-        dispatch({type: UPLOAD_FEATURED_PHOTOS, payload: res.data.results});
-        console.log(res.data);
+        dispatch({type: UPLOAD_FEATURED_PHOTOS, payload: res.data.photos});
+        // console.log(res.data);
         // window.location.reload();
     }).catch(err => {
         reject(err);

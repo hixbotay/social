@@ -8,6 +8,7 @@ import ProfilePhotos from './ProfilePhotos';
 import {getFeaturedUserPhotos, updateUser} from '../../actions/UserActions';
 import connect from 'react-redux/es/connect/connect';
 import EdiText from 'react-editext';
+import moment from "moment";
 
 class ProfileHeader extends PureComponent {
 
@@ -92,7 +93,10 @@ class ProfileHeader extends PureComponent {
                     <div>
                         <div className="flex">
                             <div className="left">Ngày sinh</div>
-                            <div className="right">{user.birthday}</div>
+                            <div className="right">
+                                {moment(user.birthday).format("DD/MM/YYYY")}
+                                {/* {user.birthday} */}
+                            </div>
                         </div>
                         <div className="flex">
                             <div className="left">Giới tính</div>

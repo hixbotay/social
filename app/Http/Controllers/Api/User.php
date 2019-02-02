@@ -469,7 +469,7 @@ class User extends Controller
         return ['result' => $result];
     }
 
-    public function getFeaturePhotos($id) {
+    public static function getFeaturePhotos($id) {
         $photos = \App\UserPhoto::where([['type', '=', 'featured'], ['user_id', '=', $id]])->orderBy('id', 'DESC')->take(5)->get();
         $results = [];
 
@@ -508,7 +508,7 @@ class User extends Controller
         }
 
         $results = \App\UserPhoto::insert($data);
-        return ['results' => $results];
+        return self::getFeaturePhotos($user_id);
     }
 
     public function getUserConfiguration() {
