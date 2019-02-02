@@ -36,7 +36,7 @@
                         <div class="mb-2"></div>
                         @include('layouts.admin.notice')
 
-                        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+                        <form method="POST" action="/password/reset">
                             {{ csrf_field() }}
                             <input type="hidden" value="{{$mobile}}" name="mobile" required readonly/>
                             <div class="form-group">
