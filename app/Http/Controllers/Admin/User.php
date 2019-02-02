@@ -74,7 +74,6 @@ class User extends Controller
 
 
         return view('admin.user.list', [
-            'currentUser' => $currentUser,
             'label' => $label,
             'items' => $users,
             'total' => $total,
