@@ -18,7 +18,7 @@ Route::get('/', function () {
 })->middleware('auth');
 Route::get('/facebook/endpoint', 'FacebookAccountKitController@endpoint');
 Route::get('/password/reset', 'FacebookAccountKitController@endpoint2');
-Route::post('/password/reset', 'LoginController@resetPassword');
+Route::post('/password/reset', 'Auth\LoginController@resetPassword');
 
 Route::any('debug', 'Debug@show');
 Route::any('debug/{name}', 'Debug@execute');
