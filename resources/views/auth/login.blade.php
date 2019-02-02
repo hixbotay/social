@@ -14,7 +14,14 @@
         @include('layouts.admin.notice')
         <div class="form-button">
             <button type="submit" class="ibtn">Đăng nhập</button> 
-            <a href="{{ route('password.request') }}">Forget password?</a>
+            <a href="{{
+                "https://www.accountkit.com/v1.0/basic/dialog/sms_login/?app_id=".env('FACEBOOK_APP_ID').
+                "&redirect=".env('ACCOUNTKIT_RESET_PASSWORD_REDIRECT_URL').
+                "&state=".csrf_token().
+                "&fbAppEventsEnabled=true"
+            }}">
+                Forget password?
+            </a>
         </div>
     </form>
 

@@ -46,4 +46,27 @@ class FacebookAccountKitController extends Controller
 
         return view('auth.fbauth', compact("user"));
     }
+
+    public function endpoint2(Request $request) {
+        $user = null;
+        $code = $request->get('code');
+        $client = new Client();
+
+        $url = "https://graph.accountkit.com/v1.2/access_token?grant_type=authorization_code&code="
+            .$code."&access_token=AA|".env('FACEBOOK_APP_ID')."|".env("ACCOUNTKIT_APP_SECRET");
+
+        $res = $client->get(rawurldecode($url));
+        $data = json_decode($res->getBody());
+
+        $url_1 = "https://graph.accountkit.com/v1.2/me/?access_token=".$data->access_token;
+        $phone_data = json_decode($client->get(rawurldecode($url_1))->getBody());
+
+        // find if user existed 
+        $user = User::where('mobile', $phone_data->phone->national_number)->first();
+        if(!$user) {
+            return redirect('/register')->withErrors(['failed' => 'Bạn chưa có tài khoản, hãy đăng ký ngay!']);
+        }
+
+        return view('auth.reset', ['mobile' => $user->mobile]);
+    }
 }
