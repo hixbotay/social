@@ -20,7 +20,7 @@
                 "&state=".csrf_token().
                 "&fbAppEventsEnabled=true"
             }}">
-                Forget password?
+                Quên mật khẩu?
             </a>
         </div>
     </form>

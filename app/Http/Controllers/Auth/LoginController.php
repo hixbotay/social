@@ -152,7 +152,7 @@ class LoginController extends Controller
 
     public function resetPassword(Request $request) {
         $user = User::where('mobile', $request->get('mobile'))->first();
-        if(!$user) return redirect()->back()->withErrors(['failed' => "Người dùng không tồn tại!"]);
+        if(!$user) return redirect('/password/reset')->withErrors(['failed' => "Người dùng không tồn tại!"]);
         // compare password
         $password = $request->get('password');
         $retypePassword = $request->get('retype_password');
@@ -160,7 +160,7 @@ class LoginController extends Controller
             $user->password = Hash::make($password); 
             return view('auth.password_success');
         } else {
-            return redirect()->back()->withErrors(['failed' => "Mật khẩu nhập lại không khớp!"]);
+            return redirect('/password/reset')->withErrors(['failed' => "Mật khẩu nhập lại không khớp!"]);
         }
     }
 }
