@@ -47,7 +47,7 @@
                             <div class="form-group">
                                 <label><b>Xác nhận lại mật khẩu mới <span>*</span></b></label><br/>
                                 <small>Vui lòng nhập lại mật khẩu bạn vừa nhập ở trên</small>
-                                <input class="form-control" type="password" name="retype-password" required>
+                                <input class="form-control" type="password" name="retype_password" required>
                             </div>
 
                             <div class="form-button">

@@ -158,6 +158,7 @@ class LoginController extends Controller
         $retypePassword = $request->get('retype_password');
         if(strcmp($password, $retypePassword) == 0) {
             $user->password = Hash::make($password); 
+            $user->save();
             return view('auth.password_success');
         } else {
             return redirect('/login')->withErrors(['failed' => "Mật khẩu nhập lại không khớp!"]);
