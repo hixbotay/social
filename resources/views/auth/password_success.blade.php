@@ -28,32 +28,17 @@
             <div class="form-holder">
                 <div class="form-content">
                     <div class="form-items" id="additional-form">
-                        <h4><b>Tạo lại mật khẩu mới</b></h4>
-                        <p>
-                            Tạo lại mật khẩu cho tài khoản có số điện thoại {{$mobile}}
-                        </p>
-                        <small>Các trường đánh dấu * là bắt buộc</small>
+                        <h4><b>Đã đổi mật khẩu thành công!</b></h4>
                         <div class="mb-2"></div>
                         @include('layouts.admin.notice')
 
-                        <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                            <input type="hidden" value="{{$mobile}}" name="mobile" required readonly/>
-                            <div class="form-group">
-                                <label><b>Mật khẩu mới <span>*</span></b></label><br/>
-                                <small>Mật khẩu này dùng khi bạn đăng nhập</small>
-                                <input class="form-control" type="password" name="password" required>
-                            </div>
-                            <div class="form-group">
-                                <label><b>Xác nhận lại mật khẩu mới <span>*</span></b></label><br/>
-                                <small>Vui lòng nhập lại mật khẩu bạn vừa nhập ở trên</small>
-                                <input class="form-control" type="password" name="retype-password" required>
-                            </div>
-
-                            <div class="form-button">
-                                <button type="submit" class="btn btn-primary">Hoàn tất</button>
-                            </div>
-                        </form>
+                        <div class="text-center">
+                            <a href="/login">
+                                <button class="btn btn-primary">
+                                    Đăng nhập ngay
+                                </button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
