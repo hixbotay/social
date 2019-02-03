@@ -59,4 +59,14 @@ class Event extends Model
             ->first();
         return $item;
     }
+
+    public static function getStatusById($id){
+        $status = config('dating.events');
+        foreach ($status AS $key => $value){
+            if ($key == $id){
+                return $value;
+            }
+        }
+        return false;
+    }
 }

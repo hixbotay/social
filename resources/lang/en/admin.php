@@ -134,5 +134,9 @@ return [
     'ADDRESS' => 'Địa chỉ',
     'START_TIME' => 'Bắt đầu',
     'CREATOR' => 'Người tạo',
-    'AGENCY' => 'Đại lý'
+    'AGENCY' => 'Đại lý',
+    'event_forthcoming' => 'Sắp tới',
+    'event_happening' => 'Đang diễn ra',
+    'event_cancelled' => 'Đã hủy',
+    'event_finished' => 'Đã hoàn thành',
 ];

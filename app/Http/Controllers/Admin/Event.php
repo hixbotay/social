@@ -19,6 +19,7 @@ class Event extends Controller
      */
     public function listEvent()
     {
+
         $events = EventModel::getItems(array());
         return view('admin.event.list-event', [
             'items' => $events
