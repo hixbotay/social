@@ -54,6 +54,8 @@
                 </ul>
             </li>
 
+            @can([config('auth.action.LIST_POST')])
+
             <li>
                 <a href="javascript: void(0);" aria-expanded="true"><i
                             class=" mdi mdi-border-color"></i> @lang('admin.POST') <span class="fa arrow"></span></a>
@@ -61,6 +63,8 @@
                     <li><a href="{{url('/admin?view=Post')}}"><i class="ti-person"></i>@lang('admin.POST')</a></li>
                 </ul>
             </li>
+
+            @endcan
 
             <li>
                 <a href="javascript: void(0);" aria-expanded="true"><i
@@ -113,6 +117,7 @@
                 </ul>
             </li>
 
+            @can([config('auth.action.ADS_ORDERS'), config('auth.action.ADS_LOCATIONS')])
             <li>
                 <a href="javascript: void(0);" aria-expanded="true"><i
                             class="mdi mdi-star"></i> @lang('admin.MODULE_ADVERTISEMENT') <span class="fa arrow"></span></a>
@@ -122,8 +127,10 @@
                                     class="ti-person"></i>@lang('admin.ADS_LOCATION')</a></li>
                 </ul>
             </li>
+            @endcan
 
 
+            @can([config('auth.action.CONFIG_GENERAL')])
             <li>
                 <a href="{{url('/admin?view=Configuration')}}"><i class="mdi mdi-settings"></i> @lang('admin.SETTING')
                     <span class="fa arrow"></span></a>
@@ -132,6 +139,7 @@
                                     class="ti-person"></i>@lang('admin.GENERAL_CONFIG')</a></li>
                 </ul>
             </li>
+            @endcan
 
         </ul>
 

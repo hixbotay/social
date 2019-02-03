@@ -139,4 +139,6 @@ return [
     'event_happening' => 'Đang diễn ra',
     'event_cancelled' => 'Đã hủy',
     'event_finished' => 'Đã hoàn thành',
+    'dating_group' => 'Hẹn nhóm',
+    'dating_couple' => 'Hẹn đôi'
 ];

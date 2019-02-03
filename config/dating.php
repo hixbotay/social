@@ -22,5 +22,17 @@ return [
             'label' => 'event_finished',
             'color' => '#24b046'
         ),
+    ],
+    'type' => [
+        'couple' => (object)array(
+            'key' => 'couple',
+            'label' => 'dating_couple',
+            'color' => 'green',
+        ),
+        'group' => (object)array(
+            'key' => 'group',
+            'label' => 'dating_group',
+            'color' => 'red'
+        )
     ]
 ];

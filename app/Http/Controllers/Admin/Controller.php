@@ -58,6 +58,7 @@ class Controller extends BaseController
     
     public function index(){
         $user = Auth::user();
+
         switch ($user->group->key){
             case config('auth.usergroup.administrator'):
                 $data = array(

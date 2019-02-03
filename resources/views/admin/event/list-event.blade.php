@@ -22,6 +22,7 @@
                             <th>Min/Max</th>
                             <th>@lang('admin.START_TIME')</th>
                             <th>@lang('admin.CREATOR')</th>
+                            <th>@lang('admin.TYPE')</th>
                             <th>@lang('admin.AGENCY')</th>
                             <th>@lang('admin.STATUS')</th>
                             <th>@lang('admin.OPTION')</th>
@@ -34,6 +35,7 @@
 
                             @php
                                 $status = \App\Event::getStatusById($item->status);
+                                $type = \App\Event::getDatingTypeById($item->type);
                             @endphp
 
                             <tr>
@@ -57,6 +59,7 @@
                                 <td>{{$item->start_time}}</td>
 
                                 <td>{{$item->creator_name}}</td>
+                                <td>@lang('admin.'.$type->label)</td>
                                 <td>{{$item->agency_name}}</td>
                                 <td><span style="color: {{$status->color}}">@lang('admin.'.$status->label)</span></td>
 

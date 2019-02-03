@@ -69,4 +69,14 @@ class Event extends Model
         }
         return false;
     }
+
+    public static function getDatingTypeById($id){
+        $type = config('dating.type');
+        foreach ($type AS $key => $value){
+            if ($key == $id){
+                return $value;
+            }
+        }
+        return false;
+    }
 }
