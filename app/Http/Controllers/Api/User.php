@@ -11,6 +11,7 @@ use App\Payments;
 use ImageOptimizer;
 use \App\Notification;
 use Illuminate\Support\Facades\Hash;
+use Session;
 
 date_default_timezone_set('Asia/Saigon');
 
@@ -178,7 +179,8 @@ class User extends Controller
     }
 
     public static function getCurrentUserDetail($user_id = null) {
-        $id = $user_id || Auth::id();
+
+        $id = $user_id ?: Auth::id();
 
         $user = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
@@ -427,7 +429,9 @@ class User extends Controller
     }
 
     public function logout() {
+        Session::flush();
         Auth::logout();
+        
         return json_encode(['ok' => 1]);
     }
 
