@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import {getAllJobs} from '../../actions/JobActions';
-import {getAllProvinces, getAllDistricts} from '../../actions/AddressActions';
+import { getAllJobs } from '../../actions/JobActions';
+import { getAllProvinces, getAllDistricts } from '../../actions/AddressActions';
 import { connect } from "react-redux";
+import Select from 'react-select';
+import NumericInput from 'react-numeric-input';
+import qs from 'qs';
+import {withRouter} from 'react-router-dom';
 
 class FilterForm extends Component {
     constructor(props) {
@@ -10,46 +14,43 @@ class FilterForm extends Component {
             districts: [],
             filter: {}
         }
-    } 
+    }
 
     componentDidMount() {
         this.props.getAllJobs();
         this.props.getAllProvinces();
+
+        var filter = qs.parse(this.props.location.search.slice(1));
+        if(filter) {
+            this.props.getAllDistricts(filter.province_id);
+            this.setState({filter});
+        }
     }
 
-    onChangeFilter(event) {
+    onChangeFilter(value, name) {
+        if(name === 'province_id') {
+            this.props.getAllDistricts(value);
+        }
+
         this.setState({
             filter: {
                 ...this.state.filter,
-                [event.target.name]: event.target.value
+                [name]: value
             }
-        })
-        console.log(this.state);
-    }
-
-    onChangeProvince(event) {
-        if(event.target.value) {
-            this.setState({
-                filter: {
-                    ...this.state.filter,
-                    province_id: event.target.value
-                }
-            });
-            this.props.getAllDistricts(event.target.value);
-        }
+        });
     }
 
     onSubmit(event) {
         event.preventDefault();
         var filter = this.state.filter;
 
+        if(!filter.province_id || !filter.district_id) {
+            return alert("Bạn cần giới hạn tỉnh và huyện!");
+        }
+
         var filter_string = '';
         Object.keys(filter).map(key => {
-            if(Array.isArray(filter[key])) {
-                filter[key].map(item => {
-                    filter_string = filter_string.concat(`&${key}=${item}`);
-                })
-            } else {
+            if (filter[key]) {
                 filter_string = filter_string.concat(`&${key}=${filter[key]}`);
             }
         });
@@ -58,8 +59,41 @@ class FilterForm extends Component {
     }
 
     render() {
+        var {filter} = this.state;
+
+        var provinceOptions = this.props.provinces.map((item) => {
+            return { value: item.matp, label: item.name };
+        });
+        provinceOptions.unshift({value: null, label: "Chọn tỉnh"});
+
+        var districtOptions = this.props.districts.map((item) => {
+            return { value: item.maqh, label: item.name };
+        });
+        districtOptions.unshift({value: null, label: "Chọn huyện"});
+
+        var maritalOptions = [
+            { value: null, label: "Chọn một trạng thái" },
+            { value: 0, label: "Độc thân" },
+            { value: 1, label: "Đã kết hôn" },
+            { value: 2, label: "Đã từng kết hôn trước đó" },
+        ];
+
+        var jobOptions = this.props.jobs.map((item) => {
+            return { value: item.id, label: item.name };
+        });
+        jobOptions.unshift({value: null, label: "Chọn công việc"});
+
+        var selectedProvince = null, selectedDistrict = null, selectedMarital = null, selectedJob = null;
+        
+        if(filter) {
+            selectedProvince = provinceOptions.find(o => { return o.value == parseInt(filter.province_id) });
+            selectedDistrict = districtOptions.find(o => { return o.value == parseInt(filter.district_id) });
+            selectedMarital = maritalOptions.find(o => { return o.value == parseInt(filter.marital_status) });
+            selectedJob = jobOptions.find(o => { return o.value == parseInt(filter.job_conditional) });
+        }
+        
         return (
-            <div>
+            <div className="mt-4">
                 <h5>LỌC THEO</h5>
                 <form onSubmit={(e) => this.onSubmit(e)}>
                     {/* {{ csrf_field() }} */}
@@ -68,38 +102,22 @@ class FilterForm extends Component {
                             <i className="fas fa-users"></i>
                         </div>
                         <div className="col-5">
-                            <select className="custom-select" name="min_number" onChange={(e) => this.onChangeFilter(e)}>
-                                <option value="">Nhỏ nhất</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
-                            </select>
+                            <NumericInput
+                                className="form-control"
+                                min={1}
+                                value={this.state.filter.min_number}
+                                onChange={(value) => this.onChangeFilter(value, "min_number")}
+                                placeholder="Nhỏ nhất"
+                            />
                         </div>
                         <div className="col-5">
-                            <select className="custom-select" name="limit_number" onChange={(e) => this.onChangeFilter(e)}>
-                                <option value="">Lớn nhất</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>6</option>
-                                <option>7</option>
-                                <option>8</option>
-                                <option>9</option>
-                                <option>10</option>
-                                <option>11</option>
-                                <option>12</option>
-                                <option>13</option>
-                                <option>14</option>
-                                <option>15</option>
-                            </select>
+                            <NumericInput
+                                className="form-control"
+                                min={this.state.filter.min_number}
+                                value={this.state.filter.limit_number}
+                                onChange={(value) => this.onChangeFilter(value, "limit_number")}
+                                placeholder="Lớn nhất"
+                            />
                         </div>
                     </div>
                     <div className="row form-group">
@@ -107,11 +125,12 @@ class FilterForm extends Component {
                             <i className="far fa-heart"></i>
                         </div>
                         <div className="col-10">
-                            <select className="custom-select" name="marital_status" onChange={(e) => this.onChangeFilter(e)}>
-                                <option value="">Tình trạng hôn nhân</option>
-                                <option value={0}>Độc thân</option>
-                                <option value={1}>Đã kết hôn</option>
-                            </select>
+                            <Select
+                                placeholder="Chọn một trạng thái"
+                                value={selectedMarital}
+                                options={maritalOptions}
+                                onChange={(option) => this.onChangeFilter(option.value, "marital_status")}
+                            />
                         </div>
                     </div>
                     <div className="row form-group">
@@ -119,51 +138,40 @@ class FilterForm extends Component {
                             <i className="fas fa-suitcase"></i>
                         </div>
                         <div className="col-10" >
-                            <select className="custom-select" name="job_conditional" onChange={(e) => this.onChangeFilter(e)}>
-                                <option>Chọn nghề nghiệp</option>
-                                {
-                                    this.props.jobs.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.id}>
-                                                {item.name}
-                                            </option>
-                                        )
-                                    })
-                                }
-                            </select>
+                            <Select
+                                placeholder="Chọn một công việc"
+                                value={selectedJob}
+                                options={jobOptions}
+                                onChange={(option) => this.onChangeFilter(option.value, "job_conditional")}
+                            />
                         </div>
                     </div>
                     <div className="row form-group">
                         <div className="col-2">
                             <i className="fas fa-map-marker"></i>
                         </div>
-                        <div className="col-5">
-                            <select className="custom-select" name="province_id" required onChange={(e) => this.onChangeProvince(e)}>
-                                <option value="">Tỉnh</option>
-                                {
-                                    this.props.provinces.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.matp}>
-                                                {item.name}
-                                            </option>
-                                        )
-                                    })
-                                }
-                            </select>
+                        <div className="col-10">
+                            <Select
+                                placeholder="Tỉnh"
+                                value={selectedProvince}
+                                options={provinceOptions}
+                                onChange={(option) => this.onChangeFilter(option.value, "province_id")}
+                            />
                         </div>
-                        <div className="col-5">
-                            <select className="custom-select" name="district_id" required onChange={(e) => this.onChangeFilter(e)}>
-                                <option value="">Huyện</option>
-                                {
-                                    this.props.districts.map((item, index) => {
-                                        return (
-                                            <option key={index} value={item.maqh}>
-                                                {item.name}
-                                            </option>
-                                        )
+                    </div>
+                    <div className="row form-group">
+                        <div className="col-2"></div>
+                        <div className="col-10">
+                            <Select
+                                placeholder="Huyện"
+                                value={selectedDistrict}
+                                options={
+                                    this.props.districts.map((item) => {
+                                        return { value: item.maqh, label: item.name };
                                     })
                                 }
-                            </select>
+                                onChange={(option) => this.onChangeFilter(option.value, "district_id")}
+                            />
                         </div>
                     </div>
                     <div className="text-center">
@@ -185,10 +193,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAllJobs:() => dispatch(getAllJobs()),
+        getAllJobs: () => dispatch(getAllJobs()),
         getAllProvinces: () => dispatch(getAllProvinces()),
         getAllDistricts: (province_id) => dispatch(getAllDistricts(province_id)),
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(FilterForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(FilterForm));

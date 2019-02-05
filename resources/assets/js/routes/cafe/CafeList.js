@@ -18,7 +18,7 @@ class CafeList extends Component {
                     <div className="row">
                         <div className="col-9">
                             <h4>BẠN ĐANG SỞ HỮU TIỆM CAFE?</h4>
-                            <p>Hãy tham gia cùng chúng tôi để tạo nên những điều tốt đẹp trong cuộc sống</p>
+                            <div>Hãy tham gia cùng chúng tôi để tạo nên những điều tốt đẹp trong cuộc sống</div>
                         </div>
                         <div className="col-3">
                             <Link to='/cafe/create'>

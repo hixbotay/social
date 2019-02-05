@@ -4,6 +4,7 @@ import connect from 'react-redux/es/connect/connect';
 import { joinDating, updateInvitation } from '../../actions/EventActions';
 import { withRouter, Link } from 'react-router-dom';
 import Countdown from 'react-countdown-now';
+import moment from 'moment';
 
 const renderCountdown = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -97,7 +98,8 @@ class DatingCouple extends Component {
                             <div>{event.address}</div>
                         </div>
                         <div className={"col-md-3 align-right dating-time"}>
-                            <p>{event.start_time}</p>
+                            <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
+                            <div>{moment(event.start_time).format("HH:mm")}</div>
                         </div>
                     </div>
                 </Link>

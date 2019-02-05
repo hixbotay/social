@@ -184,20 +184,25 @@ class Cafe extends Controller
 
     public function search(Request $request) {
         $query = $request->all();
-        
-
-        // $name = '';
-        if(array_key_exists('name', $query)) {
-            $name = $query['name'];
-            unset($query['name']);
-        }
 
         // remove q params in vps
         if(array_key_exists('q', $query)) {
             unset($query['q']);
         }
-    
-        $results = \App\Agency::where($query)->where('name', 'LIKE',  DB::raw("'%".$name."%'"))->paginate(10);
+
+        if(array_key_exists('name', $query)) {
+            $name = $query['name'];
+            unset($query['name']);
+
+            $results = \App\Agency::where($query)
+                ->where('name', 'LIKE',  DB::raw("'%".$name."%'"))
+                ->where('register_status', 1)
+                ->paginate(10);
+        } else {
+            $results = \App\Agency::where($query)
+                ->where('register_status', 1)
+                ->paginate(10);
+        }
 
         foreach($results as $key => $agency) {
             $agency->avatar = '';

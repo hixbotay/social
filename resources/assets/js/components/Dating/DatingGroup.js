@@ -16,6 +16,7 @@ import {
     TwitterIcon,
     GooglePlusIcon,
   } from 'react-share';
+import moment from 'moment';
 
 const renderCountdown = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -65,7 +66,7 @@ class DatingGroup extends Component {
                                 </Link>
                             </div>
                             <div className="col-6">
-                                <button className="btn btn-primary btn-sm" onClick={() => this.invite(event.id)}>
+                                <button className="btn btn-primary btn-sm ml-2" onClick={() => this.invite(event.id)}>
                                     Mời
                                 </button>
                                 <button type="button" id="open-invite-modal" className="d-none"
@@ -88,7 +89,7 @@ class DatingGroup extends Component {
                     button = (
                         <div className="text-center">
                             <Link to={`/dating/${event.id}/result`}>
-                                <button className="btn btn-primary btn-sm">
+                                <button className="btn btn-primary btn-sm ml-2">
                                     Xem kết quả
                                 </button>
                             </Link>
@@ -106,7 +107,7 @@ class DatingGroup extends Component {
                         </Link>
                     </div>
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.join(event.id)}>
+                        <button className="btn btn-primary btn-sm ml-2" onClick={() => this.join(event.id)}>
                             Tham gia
                             </button>
                         <button type="button" id="open-verify-modal" className="d-none"
@@ -129,7 +130,8 @@ class DatingGroup extends Component {
                             <div>{event.address}</div>
                         </div>
                         <div className={"col-md-3 align-right dating-time"}>
-                            <p>{event.start_time}</p>
+                            <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
+                            <div>{moment(event.start_time).format("HH:mm")}</div>
                         </div>
                     </div>
                 </Link>
@@ -181,7 +183,13 @@ class DatingGroup extends Component {
                                 <span>
                                     {
                                         event.marital_status.map((item, index) => {
-                                            return (item === '0' ? <span key={index}> Single</span> : <span key={index}> Married</span>)
+                                            return (
+                                                item ? (
+                                                    item == 1 ? <span key={index}> Đã kết hôn</span> : <span key={index}> Đã từng kết hôn trước đó</span>
+                                                ) : (
+                                                    <span key={index}> Độc thân</span>
+                                                )
+                                            )
                                         })
                                     }
                                 </span>
@@ -197,13 +205,13 @@ class DatingGroup extends Component {
                                     }
                                 </div>
                             </div>
-                            <div className="mt-2 row">
+                            <div className="mt-2 mb-4 row">
                                 <div className="col">
                                     <FacebookShareButton
                                         url={shareUrl}
                                         quote="Cuộc hẹn nhóm vui vẻ với noiduyen.vn"
                                         className="Demo__some-network__share-button">
-                                        <FacebookIcon size={32} round />
+                                        <FacebookIcon size={24} round />
                                     </FacebookShareButton>
                                 </div>
                                 <div className="col">
@@ -212,7 +220,7 @@ class DatingGroup extends Component {
                                         quote="Cuộc hẹn nhóm vui vẻ với noiduyen.vn"
                                         className="Demo__some-network__share-button"
                                     >
-                                        <GooglePlusIcon size={32} round/>
+                                        <GooglePlusIcon size={24} round/>
                                     </GooglePlusShareButton>
                                 </div>
                                 <div className="col">
@@ -221,7 +229,7 @@ class DatingGroup extends Component {
                                         quote="Cuộc hẹn nhóm vui vẻ với noiduyen.vn"
                                         className="Demo__some-network__share-button"
                                     >
-                                        <TwitterIcon size={32} round/>
+                                        <TwitterIcon size={24} round/>
                                     </TwitterShareButton>
                                 </div>
                             </div>

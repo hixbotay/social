@@ -3,7 +3,7 @@ import SimpleSlider from '../../components/Slider/SimpleSlider';
 import {Card, CardWithTitle} from '../../components/Card';
 import connect from 'react-redux/es/connect/connect';
 import {getAllProvinces, getAllDistricts} from '../../actions/AddressActions';
-import {Redirect} from 'react-router-dom';
+import Select from 'react-select';
 import qs from 'qs';
 import {withRouter} from 'react-router-dom';
 
@@ -17,59 +17,46 @@ class CafeLayout extends Component {
 
     componentDidMount() {
         this.props.getAllProvinces();
-        var query = qs.parse(this.props.location.search.slice(1));
-        if(!isNaN(query.province_id)) {
-            this.props.getAllDistricts(query.province_id);
+        var filter = qs.parse(this.props.location.search.slice(1));
+        if(filter) {
+            this.props.getAllDistricts(filter.province_id);
+            this.setState({filter});
         }
-
-        this.setState({
-            filter: {...query}
-        });
 
     }
 
-    onChangeProvince(event) {
-        var province_id = event.target.value;
-        if(province_id) {
-            this.props.getAllDistricts(province_id);
-            this.setState({
-                filter: {
-                    ...this.state.filter,
-                    province_id: province_id
-                }
-            })
-        } else {
-            this.setState({
-                filter: {
-                    ...this.state.filter,
-                    province_id: ''
-                }
-            })
+    onChangeFilter(value, name) {
+        if(name === 'province_id') {
+            this.props.getAllDistricts(value);
         }
-    }
 
-    onChangeFilter(event) {
         this.setState({
             filter: {
                 ...this.state.filter,
-                [event.target.name]: event.target.value
+                [name]: value
             }
         })
     }
 
     onSearch(e) {
         e.preventDefault();
-        var filter = this.state.filter;
+        var {filter} = this.state;
+        if(!filter.province_id) {
+            delete filter.district_id;
+        }
+
         var filter_string = '';
         Object.keys(filter).map(key => {
             if(filter[key]) {
                 filter_string = filter_string.concat(`&${key}=${filter[key]}`);
             }
         });
-        window.location = `${baseUrl}/cafe/search?${filter_string}`;
+        window.location.href = `${baseUrl}/cafe/search?${filter_string}`;
     }
 
     render() {
+        var {filter} = this.state;
+
         var data = [
             'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg',
             'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg',
@@ -77,6 +64,30 @@ class CafeLayout extends Component {
             'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg',
             'https://media.foody.vn/res/g16/152682/s/foody-mia-garden-coffee-nguyen-duy-trinh-947-635891429493754278.jpg',
         ];
+
+        var provinceOptions = this.props.provinces.map((item) => {
+            return { value: item.matp, label: item.name };
+        });
+        provinceOptions.unshift({value: null, label: "Chọn tỉnh"});
+
+        var districtOptions = this.props.districts.map((item) => {
+            return { value: item.maqh, label: item.name };
+        });
+        districtOptions.unshift({value: null, label: "Chọn huyện"});
+
+        var typeOptions = [
+            {value: null, label: "Loại quán"},
+            {value: 1, label: "Cafe"},
+            {value: 2, label: "Quán ăn"}
+        ];
+
+        var selectedProvince = null, selectedDistrict = null, selectedType = null;
+        
+        if(filter) {
+            selectedProvince = provinceOptions.find(o => { return o.value == parseInt(filter.province_id) });
+            selectedDistrict = districtOptions.find(o => { return o.value == parseInt(filter.district_id) });
+            selectedType = typeOptions.find(o => { return o.value == parseInt(filter.type) });
+        }
 
         return (
             <div className="row">
@@ -87,45 +98,45 @@ class CafeLayout extends Component {
                     <Card>
                         <form onSubmit={(e) => this.onSearch(e)}>
                             <div className="form-group is-empty">
-                                <input type="text" name="name" className="form-control" value={this.state.filter.name} placeholder="Nhập tên quán..." onChange={(e) => this.onChangeFilter(e)} required/>
+                                <input type="text" name="name" 
+                                    className="form-control" 
+                                    defaultValue={filter.name} 
+                                    placeholder="Nhập tên quán..." 
+                                    onChange={(e) => this.onChangeFilter(e.target.value, "name")}/>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-2">
                                     <i className="fas fa-map-marker-alt" id='cafe-address-icon'></i>
                                 </div>
-                                <div className="col-md-5">
-                                    <select className="custom-select" name="province_id" value={this.state.filter.province_id} onChange={(e) => this.onChangeProvince(e)}>
-                                        <option value="">Tỉnh</option>
-                                        {
-                                            this.props.provinces.map((item, index) => {
-                                                return (
-                                                    <option value={item.matp} key={index}>{item.name}</option>
-                                                )
-                                            })
-                                        }
-                                    </select>
+                                <div className="col-md-10">
+                                    <Select
+                                        placeholder="Tỉnh"
+                                        value={selectedProvince}
+                                        options={provinceOptions}
+                                        onChange={(option) => this.onChangeFilter(option.value, "province_id")}
+                                    />
                                 </div>
-                                <div className="col-md-5">
-                                    <select className="custom-select" name="district_id" value={this.state.filter.district_id} onChange={(e) => this.onChangeFilter(e)}>
-                                        <option value="">Huyện</option>
-                                        {
-                                            this.props.districts.map((item, index) => {
-                                                return (
-                                                    <option value={item.maqh} key={index}>{item.name}</option>
-                                                )
-                                            })
-                                        }
-                                    </select>
+                            </div>
+                            <div className="row form-group">
+                                <div className="col-md-2"></div>
+                                <div className="col-md-10">
+                                    <Select
+                                        placeholder="Huyện"
+                                        value={selectedDistrict}
+                                        options={districtOptions}
+                                        onChange={(option) => this.onChangeFilter(option.value, "district_id")}
+                                    />
                                 </div>
                             </div>
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <select className="custom-select" name="type" value={this.state.filter.type} onChange={(e) => this.onChangeFilter(e)}>
-                                        <option>Loại quán</option>
-                                        <option value={1}>Cafe</option>
-                                        <option value={2}>Quán ăn</option>
-                                    </select>
+                                    <Select
+                                        placeholder="Loại quán"
+                                        value={selectedType}
+                                        options={typeOptions}
+                                        onChange={(option) => this.onChangeFilter(option.value, "type")}
+                                    />
                                 </div>
                             </div>
 

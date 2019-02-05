@@ -14,7 +14,7 @@ class DatingSearchResults extends Component {
     }
 
     render() {
-        const {events} = this.props;
+        var {events} = this.props;
         console.log(events);
 
         return (
