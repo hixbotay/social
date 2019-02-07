@@ -5,13 +5,16 @@ import { getCoupleResults, dismiss } from '../../actions/CoupleActions';
 import { withRouter } from 'react-router-dom';
 import { updateRelationship } from '../../actions/UserActions';
 import Slider from "react-slick";
-import * as qs from 'query-string';
 import CoupleView from '../../components/Couple';
 import Modal from '../../components/Modal';
 import {getAllJobs} from '../../actions/JobActions';
 import {getAllProvinces, getAllDistricts} from '../../actions/AddressActions';
 import {Link} from 'react-router-dom';
 import {cleanObject} from '../../helper/function';
+import Select from 'react-select';
+import qs from 'qs';
+import ToggleDisplay from 'react-toggle-display';
+import { FaUserAlt, FaUsers, FaFilter } from "react-icons/fa";
 
 class SearchResults extends Component {
 
@@ -19,44 +22,48 @@ class SearchResults extends Component {
         super(props);
         this.state = {
             filter: { name: ''},
-            results: []
+            results: [],
+            view: "single",
+            isShowFilter: false
         }
     }
 
     componentDidMount() {
         this.props.getAllJobs();
         this.props.getAllProvinces();
-        this.props.getCoupleResults({ name: '' }).then(data => {
-            this.setState({ results: data });
+
+        var filter = qs.parse(this.props.location.search.slice(1));
+        this.setState({view: filter.view}, () => {
+            delete filter.view
+            
+            this.props.getCoupleResults(filter).then(data => {
+                this.setState({ results: data, filter: filter });
+            });
         });
     }
 
-    onChangeProvince(event) {
-        var province_id = event.target.value;
-        if(province_id) {
-            this.props.getAllDistricts(event.target.value);
-            this.setState({
-                filter: {
-                    ...this.state.filter,
-                    [event.target.name]: event.target.value
-                }
-            })
-        } else {
-            this.setState({
-                filter: {
-                    ...this.state.filter,
-                    province_id: "",
-                    district_id: ""
-                }
-            })
+    componentWillReceiveProps(nextProps) {
+        if(this.props.location.search != nextProps.location.search) {
+            var filter = qs.parse(nextProps.location.search.slice(1));
+            this.setState({view: filter.view}, () => {
+                delete filter.view
+                
+                this.props.getCoupleResults(filter).then(data => {
+                    this.setState({ results: data, filter: filter });
+                });
+            });
         }
     }
 
-    onChangeFilter(event) {
+    onChangeFilter(value, name) {
+        if(name === 'province_id') {
+            this.props.getAllDistricts(value);
+        }
+
         this.setState({
             filter: {
                 ...this.state.filter,
-                [event.target.name]: event.target.value
+                [name]: value
             }
         })
     }
@@ -64,16 +71,17 @@ class SearchResults extends Component {
     onSearch() {
         var temp = this.state.filter;
         cleanObject(temp);
-        if(temp.name == undefined) {
-            temp.name = "";
-        }
-        this.props.getCoupleResults(this.state.filter).then(data => {
-            this.setState({ results: data });
-        });
+
+        var query_string = "";
+        Object.keys(temp).map(key => {
+            query_string += `&${key}=${temp[key]}`;
+        })
+        this.props.history.push(`${this.props.match.url}?${query_string}`);
+        // window.location.href = `${baseUrl}${this.props.match.url}?${query_string}`;
     }
 
     toggleFilter() {
-        document.getElementById('couple-filter').classList.toggle('d-none');
+        this.setState({isShowFilter: !this.state.isShowFilter});
     }
 
     getNextUser(user_id) {
@@ -82,8 +90,13 @@ class SearchResults extends Component {
     }
 
     render() {
-        var view = qs.parse(this.props.location.search).view;
+        var {filter, results, isShowFilter, view} = this.state; 
         var currentYear = new Date().getFullYear();
+
+        var query_string = "";
+        Object.keys(filter).map(key => {
+            query_string += `&${key}=${filter[key]}`;
+        })
 
         var settings = {
             accessibility: true,
@@ -97,6 +110,42 @@ class SearchResults extends Component {
             // adaptiveHeight: true
         };
 
+        // option select box
+        var genderOptions = [
+            {value: null, label: "Giới tính"},
+            {value: "M", label: "Nam"},
+            {value: "F", label: "Nữ"}
+        ];
+
+        var maritalOptions = [
+            {value: null, label: "Tình trạng hôn nhân"},
+            {value: 0, label: "Độc thân"},
+            {value: 1, label: "Đã kết hôn"},
+            {value: 2, label: "Đã từng kết hôn trước đó"}
+        ];
+
+        var jobOptions = this.props.jobs.map(job => {
+            return {value: job.id, label: job.name};
+        });
+        jobOptions.unshift({value: null, label: "Nghề nghiệp"});
+
+        var provinceOptions = this.props.provinces.map(province => {
+            return {value: province.matp, label: province.name};
+        });
+        provinceOptions.unshift({value: null, label: "Chọn tỉnh"});
+
+        var districtOptions = this.props.districts.map(district => {
+            return {value: district.maqh, label: district.name};
+        });
+        districtOptions.unshift({value: null, label: "Chọn huyện"});
+
+        // selected value
+        var selectedGender = genderOptions.find(o => o.value === filter.gender);
+        var selectedMarital = maritalOptions.find(o => o.value === parseInt(filter.marital_status));
+        var selectedJob = jobOptions.find(o => o.value === filter.job);
+        var selectedProvince = provinceOptions.find(o => o.value === filter.province_id);
+        var selectedDistrict = districtOptions.find(o => o.value === filter.district_id);
+
         return (
             <div>
                 <div className="row">
@@ -104,17 +153,20 @@ class SearchResults extends Component {
                         <div className="group-navigator">
                             <div className="row">
                                 <div className="col-4 col-md-4  navigator-link">
-                                    <Link to='/couple'>
+                                    <Link to={`/couple?${query_string}`}>
                                         Tìm kiếm một
+                                        {/* <FaUserAlt size={20} /> */}
                                     </Link>
                                 </div>
                                 <div className="col-4 col-md-4  navigator-link">
-                                    <Link to='/couple?view=many'>
+                                    <Link to={`/couple?view=many${query_string}`}>
                                         Tìm kiếm nhiều
+                                        {/* <FaUsers size={20} /> */}
                                     </Link>
                                 </div>
                                 <div className="col-4 col-md-4 navigator-link" onClick={() => this.toggleFilter()}>
                                     <i id="filter-couple" className="fas fa-sliders-h"></i>
+                                    {/* <FaFilter size={20} /> */}
                                 </div>
                             </div>
                         </div>
@@ -123,7 +175,11 @@ class SearchResults extends Component {
                     </div>
                     <div className="col col-xl-3 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12 form-row">
                         <div className="col-md-9">
-                            <input type="text" className="form-control" placeholder="Tìm kiếm" name="name" onChange={(event) => this.onChangeFilter(event)} />
+                            <input type="text" className="form-control" 
+                                placeholder="Tìm theo tên..." 
+                                defaultValue={filter.name}
+                                onChange={(event) => this.onChangeFilter(event.target.value, 'name')} 
+                            />
                         </div>
                         <div className="col-md-3">
                             <button className='btn' onClick={() => this.onSearch()}>
@@ -132,73 +188,65 @@ class SearchResults extends Component {
                         </div>
                     </div>
                 </div>
-                <Card id="couple-filter" className="d-none">
-                    <div className="row">
-                        <div className="col-2">
-                            <select className="custom-select" name="gender" onChange={(event) => this.onChangeFilter(event)}>
-                                <option value="">Giới tính</option>
-                                <option value='M'>Nam</option>
-                                <option value='F'>Nữ</option>
-                            </select>
+                <ToggleDisplay show={isShowFilter}>
+                    <Card id="couple-filter">
+                        <div className="row">
+                            <div className="col-2">
+                                <Select
+                                    placeholder="Giới tính"
+                                    value={selectedGender}
+                                    options={genderOptions}
+                                    onChange={(option) => this.onChangeFilter(option.value, "gender")}
+                                />
+                            </div>
+                            <div className="col-3">
+                                <Select
+                                    placeholder="Tình trạng hôn nhân"
+                                    value={selectedMarital}
+                                    options={maritalOptions}
+                                    onChange={(option) => this.onChangeFilter(option.value, "marital_status")}
+                                />
+                            </div>
+                            <div className="col-2">
+                                <Select
+                                    placeholder="Nghề nghiệp"
+                                    value={selectedJob}
+                                    options={jobOptions}
+                                    onChange={(option) => this.onChangeFilter(option.value, "job")}
+                                />
+                            </div>
+                            <div className="col-2">
+                                <Select
+                                    placeholder="Chọn tỉnh"
+                                    value={selectedProvince}
+                                    options={provinceOptions}
+                                    onChange={(option) => this.onChangeFilter(option.value, "province_id")}
+                                />
+                            </div>
+                            <div className="col-2">
+                                <Select
+                                    placeholder="Chọn huyện"
+                                    value={selectedDistrict}
+                                    options={districtOptions}
+                                    onChange={(option) => this.onChangeFilter(option.value, "district_id")}
+                                />
+                            </div>
+                            <div className="col-1">
+                                <button className="btn btn-secondary" onClick={() => this.onSearch()}>
+                                    LỌC
+                                </button>
+                            </div>
                         </div>
-                        <div className="col-2">
-                            <select className="custom-select" name="marital_status" onChange={(event) => this.onChangeFilter(event)}>
-                                <option value="">Tình trạng hôn nhân</option>
-                                <option value={1}>Đã kết hôn</option>
-                                <option value={0}>Độc thân</option>
-                            </select>
-                        </div>
-                        <div className="col-3">
-                            <select className="custom-select" name="job" onChange={(event) => this.onChangeFilter(event)}>
-                                <option value="">Nghề nghiệp</option>
-                                {
-                                    this.props.jobs.map((item, index) => {
-                                        return (
-                                            <option value={item.id} key={index}>{item.name}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
-                        <div className="col-2">
-                            <select className="custom-select" name="province_id" onChange={(event) => this.onChangeProvince(event)}>
-                                <option value="">Chọn tỉnh</option>
-                                {
-                                    this.props.provinces.map((item, index) => {
-                                        return (
-                                            <option value={item.matp} key={index}>{item.name}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
-                        <div className="col-3">
-                            <select className="custom-select" name="district_id" onChange={(event) => this.onChangeFilter(event)}>
-                                <option value="">Chọn huyện</option>
-                                {
-                                    this.props.districts.map((item, index) => {
-                                        return (
-                                            <option value={item.maqh} key={index}>{item.name}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <br/>
-                    <div className="text-center">
-                        <button className="btn btn-secondary" onClick={() => this.onSearch()}>
-                            ÁP DỤNG
-                        </button>
-                    </div>
-                </Card>
+                    </Card>
+                </ToggleDisplay>
                 
                 {
-                    (view === 'many') ? (
+                    results.length ? (
+                        (view === 'many') ? (
                         <Card>
                             <div className="row">
                                 {
-                                    this.state.results.map((item, index) => {
+                                    results.map((item, index) => {
                                         var birth = new Date(item.birthday).getFullYear();
                                         item.age = currentYear - birth;
                                         return (
@@ -218,7 +266,7 @@ class SearchResults extends Component {
                     ) : (
                             <Slider {...settings} ref="coupleSlider">
                                 {
-                                    this.state.results.map((item, index) => {
+                                    results.map((item, index) => {
                                         
                                         return (
                                             <CoupleView 
@@ -231,6 +279,13 @@ class SearchResults extends Component {
                                 }
                             </Slider>
                         )
+                    ) : (
+                        <Card>
+                            <div className="text-center">
+                                Không tìm thấy người dùng nào.
+                            </div>
+                        </Card>
+                    )
                 }
                 <button type="button" id="open-relationship-modal" className="d-none" data-toggle="modal" data-target="#relationship-alert"></button>
                 <Modal id="relationship-alert">

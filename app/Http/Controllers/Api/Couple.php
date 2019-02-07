@@ -20,6 +20,8 @@ class Couple extends Controller {
         array_push($dismissUsers, $user->id);
 
         $query = $request->query->all();
+        $query['marital_status'] = (int) $query['marital_status'];
+        
         if(array_key_exists('q', $query)) {
             unset($query['q']);
         }
@@ -31,9 +33,8 @@ class Couple extends Controller {
         if(array_key_exists('name', $query)) {
             $name = $query['name'];
             unset($query['name']);
-        }
 
-        $results = \App\User::where($query)
+            $results = \App\User::where($query)
                 ->whereNotIn('users.id', $dismissUsers)
                 ->where('name', 'like', DB::raw("'%".$name."%'"))
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
@@ -44,6 +45,20 @@ class Couple extends Controller {
                 ))
                 ->groupBy('users.id')
                 ->paginate(10);
+        } else {
+            $results = \App\User::where($query)
+                ->whereNotIn('users.id', $dismissUsers)
+                ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
+                ->select(DB::raw(
+                    'users.id, users.name, users.address, users.avatar, users.birthday, users.description,
+                    SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
+                    SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                ))
+                ->groupBy('users.id')
+                ->paginate(10);
+        }
+
+        
         
         foreach($results as $user) {
             $user['is_like'] = 0;
