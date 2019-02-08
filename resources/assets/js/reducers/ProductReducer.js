@@ -8,7 +8,8 @@ import {
     UPDATE_CART,
     CHECK_OUT,
     UPDATE_WISHLIST,
-    GET_PRODUCTS_IN_WISHLIST
+    GET_PRODUCTS_IN_WISHLIST,
+    GET_ORDERS
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -18,7 +19,8 @@ const INIT_STATE = {
         photos: []
     },
     cartItems: [],
-    cartTotal: 0
+    cartTotal: 0,
+    orders: []
 }
 
 export default (state = INIT_STATE, action) => {
@@ -52,6 +54,9 @@ export default (state = INIT_STATE, action) => {
         }
         case GET_PRODUCTS_IN_WISHLIST: {
             return {...state, products: action.payload}
+        }
+        case GET_ORDERS: {
+            return {...state, orders: action.payload};
         }
         default: {
             return {...state}

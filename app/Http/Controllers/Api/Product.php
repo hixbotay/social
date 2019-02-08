@@ -177,4 +177,11 @@ class Product extends Controller {
 
         return ['products' => $products];
     }
+
+    public function getOrders() {
+        $user_id = Auth::id();
+
+        $orders = DB::table("product_orders")->where('user_id', $user_id)->get();
+        return ['orders' => $orders];
+    }
 }

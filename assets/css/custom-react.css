@@ -1554,3 +1554,22 @@ div#suggest-create-dating {
     border: none;
     font-size: 2em;
 }
+
+.order-tag {
+    color: #fff;
+    padding: 3px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.pending-tag {
+    background-color: #f1c40f;
+}
+
+.success-tag {
+    background-color: #2ecc71;
+}
+
+.cancel-tag {
+    background-color: #e74c3c;
+}

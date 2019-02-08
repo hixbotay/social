@@ -84,6 +84,8 @@ Route::middleware(['web'])->group(function() {
     Route::post('/checkout', 'Api\Product@checkout');
     Route::put('/wishlist', 'Api\Product@updateWishlist');
     Route::get('/wishlist', 'Api\Product@getWishlist');
+
+    Route::get('/orders', 'Api\Product@getOrders');
 });
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');

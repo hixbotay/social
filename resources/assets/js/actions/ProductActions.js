@@ -9,7 +9,8 @@ import {
     UPDATE_CART,
     CHECK_OUT,
     UPDATE_WISHLIST,
-    GET_PRODUCTS_IN_WISHLIST
+    GET_PRODUCTS_IN_WISHLIST,
+    GET_ORDERS
 } from './types';
 
 export const getProductCategories = (type) => dispatch => {
@@ -94,6 +95,14 @@ export const updateWishlist = (data) => dispatch => {
 export const getProductsInWishlist = () => dispatch => {
     api.get('/wishlist').then(res => {
         dispatch({type: GET_PRODUCTS_IN_WISHLIST, payload: res.data.products});
+    }).catch(err => {
+        console.log(err)
+    })
+}
+
+export const getOrders = () => dispatch => {
+    api.get('/orders').then(res => {
+        dispatch({type: GET_ORDERS, payload: res.data.orders});
     }).catch(err => {
         console.log(err)
     })
