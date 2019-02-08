@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Table from "rc-table";
 import { getOrders } from '../../actions/ProductActions';
 import { connect } from 'react-redux';
 import { CardWithTitle } from '../../components/Card';
