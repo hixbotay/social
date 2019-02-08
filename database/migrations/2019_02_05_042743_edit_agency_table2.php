@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class EditAgencyTable extends Migration
+class EditAgencyTable2 extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class EditAgencyTable extends Migration
      */
     public function up()
     {
-        Schema::table('agency', function(Blueprint $table) {
-            $table->boolean('register_status')->default(0);
+        Schema::table("agency", function (Blueprint $table) {
+            $table->string('province_id', 5)->change();
+            $table->string('district_id', 5)->change();
+            $table->string('village_id', 5)->change();
         });
     }
 
