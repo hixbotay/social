@@ -6,6 +6,7 @@
         <a href="{{url('/')}}/login">Đăng nhập</a>
         <a href="{{url('/')}}/register" class="active">Đăng ký</a>
     </div>
+    @include('layouts.admin.notice')
     <form method="GET" action="https://www.accountkit.com/v1.0/basic/dialog/sms_login/">
         <input type="hidden" name="app_id" value="{{env('FACEBOOK_APP_ID')}}">
         <input type="hidden" name="redirect" value="{{env("ACCOUNTKIT_REDIRECT_URL")}}">

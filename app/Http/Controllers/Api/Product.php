@@ -184,4 +184,16 @@ class Product extends Controller {
         $orders = DB::table("product_orders")->where('user_id', $user_id)->get();
         return ['orders' => $orders];
     }
+
+    public function getOrderDetail($id) {
+        $user_id = Auth::id();
+        $order = DB::table("product_orders")->where([['id', '=', $id], ['user_id', '=', $user_id]])->first();
+        $orderItems = DB::table('product_orders_items')
+            ->join('product', 'product_id', '=', 'product.id')
+            ->where('order_id', $order->id)
+            ->get();
+        $order->items = $orderItems;
+        
+        return ['order' => $order];
+    }
 }

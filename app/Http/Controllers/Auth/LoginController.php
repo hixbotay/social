@@ -108,7 +108,8 @@ class LoginController extends Controller
         $data = $this->findOrCreateUser($user, $provider);
         $success = false;
         if(array_key_exists('user', $data)) {
-            $success = Auth::login($data['user'], TRUE);
+            $user = $data['user'];
+            $success = Auth::login($user, true);
         }
 
         if($success) {

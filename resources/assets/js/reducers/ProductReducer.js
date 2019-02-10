@@ -9,7 +9,8 @@ import {
     CHECK_OUT,
     UPDATE_WISHLIST,
     GET_PRODUCTS_IN_WISHLIST,
-    GET_ORDERS
+    GET_ORDERS,
+    GET_ORDER_DETAIL
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -58,6 +59,9 @@ export default (state = INIT_STATE, action) => {
         case GET_ORDERS: {
             return {...state, orders: action.payload};
         }
+        case GET_ORDER_DETAIL: {
+            return {...state, order: action.payload};
+        }           
         default: {
             return {...state}
         }

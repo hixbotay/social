@@ -64,7 +64,7 @@ class FacebookAccountKitController extends Controller
         // find if user existed 
         $user = User::where('mobile', $phone_data->phone->national_number)->first();
         if(!$user) {
-            return redirect('/register')->withErrors(['failed' => 'Bạn chưa có tài khoản, hãy đăng ký ngay!']);
+            return redirect('/register')->withErrors(['failed' => 'Số điện thoại không có trên hệ thống, vui lòng kiểm tra lại hoặc đăng ký mới bằng số này']);
         }
 
         return view('auth.reset', ['mobile' => $user->mobile]);

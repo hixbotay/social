@@ -48,7 +48,8 @@ import NotFound from './404';
 import ProductCategories from './product/Categories';
 import Products from './product/Products';
 import FoodCategories from './food/Categories';
-import Orders from './product/Order';
+import Orders from './order/Order';
+import OrderDetail from './order/OrderDetail';
 
 //action
 import {getCurrentUser} from '../actions/UserActions';
@@ -143,6 +144,7 @@ class MainApp extends Component {
                     <AppRoute exact path={"/checkout"} layout={SecondLayout} component={Checkout} />
                     <AppRoute exact path="/wishlist" layout={SecondLayout} component={Wishlist} />
                     <AppRoute exact path="/orders" layout={SecondLayout} component={Orders} />
+                    <AppRoute exact path="/orders/:id" layout={SecondLayout} component={OrderDetail} />
 
                     <Route component={NotFound} />
 
