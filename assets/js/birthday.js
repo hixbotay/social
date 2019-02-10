@@ -11,7 +11,7 @@ function BirthDay(){
         $("#selectedBirthday").val(selectedYear + "-01-01");
         
         //populate our years select box
-        for (i = selectedYear; i > 1900; i--){
+        for (i = new Date().getFullYear() - 18; i > 1900; i--){
             if(i === parseInt(selectedYear)){
                 $('#years').append($('<option />').val(i).html(i).attr("selected", "ture"));
             } else {

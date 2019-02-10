@@ -78,7 +78,7 @@
                                         <div class="col-3">
                                             <select class="custom-select" id='years'></select>
                                         </div>
-                                        <input id="selectedBirthday" type='hidden' name='birthdate' />
+                                        <input id="selectedBirthday" type='hidden' name='birthday' />
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4" id="form-gender">
