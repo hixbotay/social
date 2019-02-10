@@ -66,8 +66,20 @@
                             <div class="form-group row">
                                 <div class="col-12 col-md-6">
                                     <label><b>Ngày sinh <span>*</span></b></label>
-                                    <input type="text" data-toggle="datepicker" name="birthday" required/>
-                                    <div data-toggle="datepicker"></div>
+                                    {{-- <input type="text" data-toggle="datepicker" name="birthday" required/>
+                                    <div data-toggle="datepicker"></div> --}}
+                                    <div class="row no-gutters">
+                                        <div class="col-3">
+                                            <select class="custom-select" id='days'></select>
+                                        </div>
+                                        <div class="col-6">
+                                            <select class="custom-select" id='months'></select>
+                                        </div>
+                                        <div class="col-3">
+                                            <select class="custom-select" id='years'></select>
+                                        </div>
+                                        <input id="selectedBirthday" type='hidden' name='birthdate' />
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-6" id="form-gender">
                                     <label><b>Giới tính <span>*</span></b></label>
@@ -138,6 +150,10 @@
 <script src="{{asset('assets/js/bootstrap-4.1.3.min.js')}}"></script>
 <script src="{{asset('assets/js/fbaccountkit.js')}}"></script>
 <script src="{{asset('assets/datepicker/dist/datepicker.js')}}"></script>
+<script src="{{asset('assets/js/birthday.js')}}"></script>
+<script>
+    new BirthDay().fill();
+</script>
 
 <script>
     const rootUrl = "{{URL::to('/')}}";
