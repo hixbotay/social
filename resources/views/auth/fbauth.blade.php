@@ -64,7 +64,7 @@
                                 <input class="form-control" type="number" name="mobile" value="{{$user->mobile}}" readonly required>
                             </div>
                             <div class="form-group row">
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-8">
                                     <label><b>Ngày sinh <span>*</span></b></label>
                                     {{-- <input type="text" data-toggle="datepicker" name="birthday" required/>
                                     <div data-toggle="datepicker"></div> --}}
@@ -81,7 +81,7 @@
                                         <input id="selectedBirthday" type='hidden' name='birthdate' />
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6" id="form-gender">
+                                <div class="col-12 col-md-4" id="form-gender">
                                     <label><b>Giới tính <span>*</span></b></label>
                                     <div class="row">
                                         <div class="col-6 d-flex align-items-center">
