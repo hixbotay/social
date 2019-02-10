@@ -106,18 +106,19 @@ class LoginController extends Controller
     {
         $user = Socialite::driver($provider)->user();
         $data = $this->findOrCreateUser($user, $provider);
-        $success = false;
+        
         if(array_key_exists('user', $data)) {
             $user = $data['user'];
-            $success = Auth::login($user, true);
-        }
-
-        if($success) {
-            return redirect($data['path']);
+            if(Auth::login($user, true)) {
+                // return home page
+                return redirect($data['path']);
+            } else {
+                return redirect('/login')->withErrors(['failed' => 'Đã có lỗi xảy ra, vui lòng thử lại']);
+            }
         } else {
-            return redirect('/login')->withErrors(['failed' => 'Đã có lỗi xảy ra, vui lòng thử lại']);
+            // create new user
+            return redirect($data['path']);
         }
-        
     }
 
     /**
@@ -129,7 +130,7 @@ class LoginController extends Controller
     {
         $authUser = User::where('provider_id', $user->id)->first();
         if ($authUser) {
-            return ['user' => $authUser, 'path' => '/'];
+            return ['user' => $authUser, 'path' => '/couple'];
         }
 
         $newUser =  [
