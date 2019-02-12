@@ -126,6 +126,15 @@ class CreateGroupDating extends Component {
         });
     }
 
+    onChangeProfit(value) {
+        this.setState({
+            newEvent: {
+                ...this.state.newEvent,
+                "creator_profit": value
+            }
+        })
+    }
+
     onChangeSelectData(event) {
         var options = Array.apply(null, event.target.options);
         options.map((option) => {
@@ -342,9 +351,15 @@ class CreateGroupDating extends Component {
                             </div>
                             <div className="col-4">
                                 <TimePicker
-                                    time={this.state.start_time || ""}
+                                    // time={this.state.start_time || ""}
+                                    time={moment().hour() > 21 ? "21:00" : ""}
                                     theme="classic"
-                                    minuteStep={15}
+                                    timeConfig={{
+                                        from: moment().hour(),
+                                        to: '09:00 PM',
+                                        step: 15,
+                                        unit: 'minute'
+                                    }}
                                     onTimeChange={(value) => this.onChangeTime(value, "start_time")}
                                 />
                             </div>
@@ -363,9 +378,15 @@ class CreateGroupDating extends Component {
                             </div>
                             <div className="col-4">
                                 <TimePicker
-                                    time={this.state.limit_time_register || ""}
+                                    // time={this.state.limit_time_register || ""}
+                                    time={moment().hour() > 21 ? "21:00" : ""}
                                     theme="classic"
-                                    minuteStep={15}
+                                    timeConfig={{
+                                        from: '07:00 AM',
+                                        to: '09:00 PM',
+                                        step: 15,
+                                        unit: 'minute'
+                                    }}
                                     onTimeChange={(value) => this.onChangeTime(value, "limit_time_register")}
                                 />
                             </div>
@@ -587,7 +608,7 @@ class CreateGroupDating extends Component {
                         </div>
                         <div className="row form-group">
                             <div className="col-4">
-                                Giới hạn khu vực<br/>
+                                Khu vực đăng ký<br/>
                                 (Bỏ qua nếu bạn không muốn)
                             </div>
                             <div className="col-4">
@@ -610,6 +631,22 @@ class CreateGroupDating extends Component {
                                         })
                                     }
                                     onChange={(selectedOption) => this.onChangeScope("district", selectedOption)}
+                                />
+                            </div>
+                        </div>
+                        <div className="row form-group">
+                            <div className="col-4">
+                                Phí tổ chức (Bạn được nhận về)
+                            </div>
+                            <div className="col-8">
+                                <NumericInput 
+                                    // required
+                                    className="form-control" 
+                                    min={1000} 
+                                    step={1000}
+                                    // value={this.state.metadata.max_female_age}
+                                    onChange={(value) => this.onChangeProfit(value)}
+                                    placeholder="Đơn vị VND"
                                 />
                             </div>
                         </div>

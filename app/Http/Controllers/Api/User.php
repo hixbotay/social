@@ -560,6 +560,34 @@ class User extends Controller
         return ['record' => $record];
     }
 
+    public function updateIdCardVerifyRecord(Request $request) {
+        $user_id = Auth::id();
+
+        $data = json_decode($request->getContent());
+
+        if(array_key_exists('q', $data)) {
+            unset($data['q']);
+        }
+
+        foreach($data as $key => $value) {
+            if($value) {
+                if($key == 'id_card_front_photo' || $key == 'id_card_backside_photo') {
+                    $data->$key = $this->processImage($value, 'user'.$user_id.'/id-card');
+                }
+            } else {
+                unset($data->$key);
+            }
+        }
+        
+        $result = DB::table('id_card_verification')
+            ->where([
+                ['user_id', '=', Auth::id()]
+            ])
+            ->update((array) $data);
+
+        return ['result' => $result]; 
+    }
+
     public function updateUser(Request $request, $id) {
         $user = \App\User::find($id);
         $data = $request->getContent();

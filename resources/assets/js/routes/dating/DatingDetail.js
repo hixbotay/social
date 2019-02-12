@@ -13,6 +13,7 @@ import { updateEventStatus, joinDating } from '../../actions/EventActions';
 import InformationNumber from '../../components/Information/InformationNumber';
 import Modal from '../../components/Modal';
 import _ from "lodash";
+import moment from 'moment';
 
 class DatingDetail extends Component {
     constructor(props) {
@@ -140,7 +141,8 @@ class DatingDetail extends Component {
                                     <div>{event.address}</div>
                                 </div>
                                 <div className={"col-md-3 align-right dating-time"}>
-                                    <p>{event.start_time}</p>
+                                    <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
+                                    <div>{moment(event.start_time).format("HH:mm")}</div>
                                 </div>
                             </div>
                             <br />
@@ -384,9 +386,6 @@ class DatingDetail extends Component {
                         </CardWithTitle>
 
                         <CardWithTitle hasLine={true} title="DANH SÁCH NGƯỜI ĐÃ ĐĂNG KÝ">
-                            <div className="alert alert-warning">
-                                <b>Lưu ý:</b> <span>Chỉ có người tạo mới được thấy toàn bộ danh sách thành viên, cho dù đó là cuộc hẹn bí mật.</span>
-                            </div>
                             <div className="row">
                                 <div className="col-6">
                                     <div className="text-center mb-4"><b>Danh sách nam tham gia</b></div>

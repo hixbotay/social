@@ -1573,3 +1573,11 @@ div#suggest-create-dating {
 .cancel-tag {
     background-color: #e74c3c;
 }
+
+.change-id-photo-btn {
+    padding: 5px;
+    background: #2980b9;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}

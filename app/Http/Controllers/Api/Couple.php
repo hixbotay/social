@@ -20,7 +20,9 @@ class Couple extends Controller {
         array_push($dismissUsers, $user->id);
 
         $query = $request->query->all();
-        $query['marital_status'] = (int) $query['marital_status'];
+        if(array_key_exists('marital_status', $query)) {
+            $query['marital_status'] = (int) $query['marital_status'];
+        }
         
         if(array_key_exists('q', $query)) {
             unset($query['q']);

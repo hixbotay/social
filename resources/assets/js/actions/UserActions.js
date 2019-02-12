@@ -15,9 +15,9 @@ import {
     GET_USER_CONFIGURATIONS,
     UPDATE_USER_CONFIGURATIONS,
     UPDATE_PASSWORD,
-    GET_ID_CARD_VERIFY
+    GET_ID_CARD_VERIFY,
+    UPDATE_ID_CARD_VERIFY
 } from './types';
-import {cleanObject} from '../helper/function';
 
 export const logout = () => dispatch => {
     api.get(`/logout`).then(response => {
@@ -226,7 +226,19 @@ export const getIdCardVerify = () => dispatch => {
     return new Promise((resolve, reject) => {
         return api.get(`/verify-id-card`).then(res => {
             dispatch({type: GET_ID_CARD_VERIFY, payload: res.data.record});
-            resolve(res.data);
+            resolve(res.data.record);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+export const updateIdCardVerify = (data) => dispatch => {
+    console.log(data);
+    return new Promise((resolve, reject) => {
+        return api.put(`/verify-id-card`, data).then(res => {
+            dispatch({type: UPDATE_ID_CARD_VERIFY, payload: res.data.record});
+            resolve(res.data.record);
         }).catch(err => {
             reject(err);
         })

@@ -994,7 +994,7 @@ class Event extends Controller {
                 ['expect_gender','=', $user->gender],
                 ['event_subscribers.province_id', '=', $user->province_id]
             ])
-            ->whereRaw('DATE(expect_date_from) <= DATE(NOW()) AND DATE(expect_date_to) >= DATE(NOW())')
+            ->whereRaw('DATE(expect_date_to) >= DATE(NOW())')
             ->whereNotIn('event_subscribers.user_id', $temp)
             ->select(DB::raw('event_subscribers.*, 
                 users.name, users.avatar, users.address, users.job,

@@ -14,7 +14,8 @@ import {
     GET_USER_CONFIGURATIONS,
     UPDATE_USER_CONFIGURATIONS,
     UPDATE_PASSWORD,
-    GET_ID_CARD_VERIFY
+    GET_ID_CARD_VERIFY,
+    UPDATE_ID_CARD_VERIFY
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -90,6 +91,9 @@ export default (state = INIT_STATE, action) => {
         }
         case GET_ID_CARD_VERIFY: {
             return {...state, idCard: action.payload}
+        }
+        case UPDATE_ID_CARD_VERIFY: {
+            return {...state}
         }
         default: {
             return {...state};

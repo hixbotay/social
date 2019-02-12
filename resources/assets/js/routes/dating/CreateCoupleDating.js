@@ -15,6 +15,7 @@ import Select from 'react-select';
 import 'moment/locale/vi.js';
 import { DatePickerInput } from 'rc-datepicker';
 import NumericInput from 'react-numeric-input';
+import TimePicker from 'react-times';
 
 class CreateCoupleDating extends Component {
     constructor(props) {
@@ -184,8 +185,32 @@ class CreateCoupleDating extends Component {
     }
 
     render() {
-        var { cafes, price } = this.props;
+        var { cafes, price, provinces, districts } = this.props;
         var {invitee, subscriber} = this.state;
+
+        console.log(subscriber);
+
+        var provinceOptions = provinces.map(province => {
+            return { value: province.matp, label: province.name }
+        });
+
+        var districtOptions = districts.map(district => {
+            return { value: district.maqh, label: district.name }
+        });
+
+        var cafeOptions =  cafes.map(cafe => {
+            return {value:  cafe.id, label: cafe.name, images: cafe.images}
+        });
+
+        var typeOptions = [
+            {value: 1, label: "Cafe"},
+            {value: 2, label: "Quán ăn"}
+        ];
+
+        var selectedProvince = provinceOptions.find(o => {return o.value === subscriber.province_id});
+        var selectedDistrict = districtOptions.find(o => {return o.value === subscriber.district_id});
+        var selectedCafe = cafeOptions.find(o => {return o.value === subscriber.agency_id});
+        var selectedType = typeOptions.find(o => {return o.value === subscriber.agency_type});
 
         //setting for slider
         var settings = {
@@ -218,49 +243,32 @@ class CreateCoupleDating extends Component {
                                     <div className="col-12 col-md-4 mb-2">
                                         <Select
                                             placeholder="Chọn tỉnh/thành" 
-                                            defaultValue={subscriber ? subscriber.province_id : this.state.province}
-                                            options = {
-                                                this.props.provinces.map(province => {
-                                                    return { value: province.matp, label: province.name }
-                                                })
-                                            }
+                                            value={selectedProvince}
+                                            options = {provinceOptions}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
                                         />
                                     </div>
                                     <div className="col-12 col-md-4 mb-2">
                                         <Select
                                             placeholder="Chọn huyện" 
-                                            defaultValue={subscriber ? subscriber.district_id : this.state.district}
-                                            options = {
-                                                this.props.districts.map(district => {
-                                                    return { value: district.maqh, label: district.name }
-                                                })
-                                            }
+                                            value={selectedDistrict}
+                                            options = {districtOptions}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
                                         />
                                     </div>
                                     <div className="col-12 col-md-4 mb-2">
                                         <Select
                                             placeholder="Loại quán" 
-                                            defaultValue={subscriber ? subscriber.agency_type : this.state.agency_type}
-                                            options = {
-                                                [
-                                                    {value: 1, label: "Cafe"},
-                                                    {value: 2, label: "Quán ăn"}
-                                                ]
-                                            }
+                                            value={selectedType}
+                                            options = {typeOptions}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
                                         />
                                     </div>
                                     <div className="col-12 col-md-12 mb-4">
                                         <Select
                                             placeholder={`Danh sách các quán (${cafes.length} quán)`} 
-                                            defaultValue={subscriber ? subscriber.agency_id : this.state.event.agency_id}
-                                            options = {
-                                                cafes.map(cafe => {
-                                                    return {value:  cafe.id, label: cafe.name, images: cafe.images}
-                                                })
-                                            }
+                                            value={selectedCafe}
+                                            options = {cafeOptions}
                                             onChange={(selectedOption) => this.selectAddress(selectedOption)}
                                         />
                                     </div>
@@ -297,10 +305,10 @@ class CreateCoupleDating extends Component {
                                         </b>
                                     </label>
                                     <div className="row">
-                                        <div className="col-12 col-md-4">
+                                        <div className="col-12 col-md-6">
                                             <DatePickerInput
-                                                minDate={subscriber ? Math.max(new Date(subscriber.expect_date_from), new Date()) : new Date()}
-                                                maxDate={subscriber ? moment(subscriber.expect_date_to) : moment().add(15, 'days')}
+                                                minDate={subscriber ? moment(Math.max(new Date(subscriber.expect_date_from), new Date())).format("DD/MM/YYYY") : moment().format("DD/MM/YYYY")}
+                                                maxDate={subscriber ? moment(subscriber.expect_date_to).format("DD/MM/YYYY") : moment().add(15, 'days').format("DD/MM/YYYY")}
                                                 className='react-datepicker-component my-react-component'
                                                 value={this.state.start_time}
                                                 onChange={(date) => this.onChangeDate("start_time", date)}
@@ -308,28 +316,18 @@ class CreateCoupleDating extends Component {
                                                 showOnInputClick={true}
                                             />
                                         </div>
-                                        <div className="col-12 col-md-8">
-                                            <div className="row d-flex align-items-center">
-                                                <div className="col-md-1">lúc</div>
-                                                <div className="col-md-3">
-                                                    <NumericInput 
-                                                        className="form-control" 
-                                                        min={0} max={23} 
-                                                        value={this.state.hour}
-                                                        onChange={(value) => this.onChangeTime(value, "hour")}
-                                                    />
-                                                </div>
-                                                <div className="col-md-1">giờ</div>
-                                                <div className="col-md-3">
-                                                    <NumericInput 
-                                                        className="form-control" 
-                                                        min={0} max={60} 
-                                                        value={this.state.minutes}
-                                                        onChange={(value) => this.onChangeTime(value, "minutes")}
-                                                    />
-                                                </div>
-                                                <div className="col-md-1">phút</div>
-                                            </div>
+                                        <div className="col-12 col-md-6">
+                                            <TimePicker
+                                                time={moment().hour() > 21 ? "21:00" : ""}
+                                                theme="classic"
+                                                timeConfig={{
+                                                    from: '07:00 AM',
+                                                    to: '09:00 PM',
+                                                    step: 15,
+                                                    unit: 'minute'
+                                                }}
+                                                onTimeChange={(value) => this.onChangeTime(value, "limit_time_register")}
+                                            />
                                         </div>
                                     </div>
                                 </div>
