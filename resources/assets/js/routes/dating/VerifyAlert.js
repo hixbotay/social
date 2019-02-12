@@ -15,7 +15,7 @@ class VerifyAlert extends Component {
                     <ul>
                         <li>Bạn phải thực hiện xác minh số điện thoại</li>
                         <li>Bạn phải thực hiện xác minh chứng minh thư</li>
-                        <li>Bạn phải thực hiện xác minh Facebook</li>
+                        {/* <li>Bạn phải thực hiện xác minh Facebook</li> */}
                         <li>
                             Bạn phải có số tiền đảm bảo lớn hơn 200.000đ. (Tài khoản của bạn nạp vào có thể rút lại bất cứ lúc nào. Số tiền này đảm bảo
                             bạn sẽ có mặt để chủ trì cuộc hẹn)

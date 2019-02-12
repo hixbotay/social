@@ -135,6 +135,15 @@ class CreateGroupDating extends Component {
         })
     }
 
+    onChangeDescription(e) {
+        this.setState({
+            newEvent: {
+                ...this.state.newEvent,
+                [e.targte.name]: e.target.value
+            }
+        })
+    }
+
     onChangeSelectData(event) {
         var options = Array.apply(null, event.target.options);
         options.map((option) => {
@@ -297,7 +306,7 @@ class CreateGroupDating extends Component {
     }
 
     render() {
-        const { cafes, price } = this.props;
+        const { cafes, price, provinces } = this.props;
         const current_cafe = this.props.location.state ? this.props.location.state.cafe : null;
         //setting for slider
         var settings = {
@@ -310,11 +319,16 @@ class CreateGroupDating extends Component {
             arrows: true
         };
 
-        var age = [];
-        for (let $i = 18; $i <= 60; $i++) {
-            age.push($i);
-        }
+        var provinceOptions = provinces.map(province => {
+            return { value: province.matp, label: province.name }
+        });
 
+        
+        var districtOptions = this.state.scopeDistricts.map(district => {
+            return { value: district.maqh, label: district.name }
+        });
+        
+        
         return (
             <DatingLayout>
                 <CardWithTitle hasLine={true} title="TẠO CUỘC HẸN TỐC ĐỘ">
@@ -413,22 +427,14 @@ class CreateGroupDating extends Component {
                                             <Select
                                                 placeholder="Chọn tỉnh/thành"
 
-                                                options={
-                                                    this.props.provinces.map(province => {
-                                                        return { value: province.matp, label: province.name }
-                                                    })
-                                                }
+                                                options={provinceOptions}
                                                 onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
                                             />
                                         </div>
                                         <div className="col-12 col-md-4 mb-2">
                                             <Select
                                                 placeholder="Chọn huyện"
-                                                options={
-                                                    this.state.districts.map(district => {
-                                                        return { value: district.maqh, label: district.name }
-                                                    })
-                                                }
+                                                options={districtOptions}
                                                 onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
                                             />
                                         </div>
@@ -607,18 +613,26 @@ class CreateGroupDating extends Component {
                             </div>
                         </div>
                         <div className="row form-group">
+                            <div className="col-4">Mô tả cuộc hẹn</div>
+                            <div className="col-8">
+                                <textarea className="form-control" name="description" onChange={(e) => {this.onChangeDescription(e)}}></textarea>
+                            </div>
+                        </div>
+                        <div className="row form-group">
                             <div className="col-4">
-                                Khu vực đăng ký<br/>
-                                (Bỏ qua nếu bạn không muốn)
+                                Khu vực đăng ký
                             </div>
                             <div className="col-4">
                                 <Select
-                                    placeholder="Không giới hạn tỉnh/thành"
+                                    // defaultInputValue
+                                    // placeholder="Không giới hạn tỉnh/thành"
                                     options={
-                                        this.props.provinces.map(province => {
-                                            return { value: province.matp, label: province.name }
-                                        })
+                                        [
+                                            {value: null, label: "Tất cả các tỉnh"},
+                                            ...provinceOptions
+                                        ]
                                     }
+                                    defaultValue={{value: null, label: "Tất cả các tỉnh"}}
                                     onChange={(selectedOption) => this.onChangeScope("province", selectedOption)}
                                 />
                             </div>
@@ -626,10 +640,12 @@ class CreateGroupDating extends Component {
                                 <Select
                                     placeholder="Không giới hạn quận/huyện"
                                     options={
-                                        this.state.scopeDistricts.map(district => {
-                                            return { value: district.maqh, label: district.name }
-                                        })
+                                        [
+                                            {value: null, label: "Tất cả các huyện"},
+                                            ...districtOptions
+                                        ]
                                     }
+                                    defaultValue={{value: null, label: "Tất cả các huyện"}}
                                     onChange={(selectedOption) => this.onChangeScope("district", selectedOption)}
                                 />
                             </div>

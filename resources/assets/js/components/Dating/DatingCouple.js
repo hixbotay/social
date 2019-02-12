@@ -106,7 +106,9 @@ class DatingCouple extends Component {
 
                 <div className={"row"}>
                     <div className={"col-md-7 dating-img"}>
-                        <img src={event.image} />
+                        <img
+                            src={event.image}
+                        />
                         {
                             (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48 * 60 * 60 * 1000)) ? (
                                 <Countdown
@@ -154,9 +156,7 @@ class DatingCouple extends Component {
                                 )
                             }
 
-                            
-
-                            <div className="btn-dating-group">
+                            <div className="btn-dating-group text-center">
                                 {button}
                             </div>
                         </div>

@@ -21,7 +21,7 @@ class CreateCoupleDating extends Component {
     constructor(props) {
         super(props);
         var invitee = props.location.state ? props.location.state.invitee : null ;
-        var subscriber = props.location.state.subscriber || null ;
+        var subscriber = props.location.state ? props.location.state.subscriber : null ;
         this.state = {
             isOpenSuccess: false,
             event: {
@@ -29,9 +29,8 @@ class CreateCoupleDating extends Component {
                 agency_id: subscriber ? subscriber.agency_id : null,
                 name: subscriber ? subscriber.agency_name : null,
             },
-            start_time: new Date(),
-            hour: 10,
-            minutes: 0,
+            startDate: new Date(),
+            startTime: moment().hour() + 1 + ":00",
             selectedTheme: -1,
             invitee: invitee,
             subscriber: subscriber,
@@ -74,10 +73,24 @@ class CreateCoupleDating extends Component {
             case 'province': {
                 this.props.getAllDistricts(selectedOption.value);
                 this.props.getAllCafe({ province_id: selectedOption.value });
+                this.setState({
+                    event: {
+                        ...this.state.event,
+                        agency_id: null
+                    },
+                    district: null
+                });
                 break;
             }
             case 'district': {
                 this.props.getAllCafe({ province_id: this.state.province, district_id: selectedOption.value });
+                this.setState({
+                    event: {
+                        ...this.state.event,
+                        agency_id: null
+                    }
+                });
+
                 break;
             }
             case 'type': {
@@ -146,8 +159,12 @@ class CreateCoupleDating extends Component {
     submit(e) {
         e.preventDefault(); 
 
+        if(!this.state.event.agency_id) {
+            return alert("Địa chỉ quán không hợp lệ, vui lòng xem lại!");
+        }
+
         if (this.state.selectedTheme < 0) {
-            return alert("Bạn chọn thiếu chủ đề hoặc địa chỉ");
+            return alert("Vui lòng chọn lại chủ đề hoặc địa chỉ");
         } 
 
         if(!moment(this.state.start_time).isValid()) {
@@ -155,9 +172,10 @@ class CreateCoupleDating extends Component {
         }
 
         
-
-        var start_time = new Date(this.state.start_time).setHours(this.state.hour, this.state.minutes, 0, 0);
-        start_time = moment(start_time).local().format('YYYY-MM-DD HH:mm:ss');
+        var times = this.state.startTime.split(":");
+        var start_time = moment(this.state.startDate).hour(times[0]).minute(times[1]);
+        start_time = start_time.local().format('YYYY-MM-DD HH:mm:ss');
+        console.log(start_time, this.state.startTime);
 
         this.props.createCoupleEvent({
             event: {
@@ -188,7 +206,7 @@ class CreateCoupleDating extends Component {
         var { cafes, price, provinces, districts } = this.props;
         var {invitee, subscriber} = this.state;
 
-        console.log(subscriber);
+        // console.log(subscriber);
 
         var provinceOptions = provinces.map(province => {
             return { value: province.matp, label: province.name }
@@ -207,9 +225,6 @@ class CreateCoupleDating extends Component {
             {value: 2, label: "Quán ăn"}
         ];
 
-        var selectedProvince = provinceOptions.find(o => {return o.value === subscriber.province_id});
-        var selectedDistrict = districtOptions.find(o => {return o.value === subscriber.district_id});
-        var selectedCafe = cafeOptions.find(o => {return o.value === subscriber.agency_id});
         var selectedType = typeOptions.find(o => {return o.value === subscriber.agency_type});
 
         //setting for slider
@@ -243,15 +258,15 @@ class CreateCoupleDating extends Component {
                                     <div className="col-12 col-md-4 mb-2">
                                         <Select
                                             placeholder="Chọn tỉnh/thành" 
-                                            value={selectedProvince}
-                                            options = {provinceOptions}
+                                            options={provinceOptions}
+                                            defaultValue={{value: subscriber.province_id, label: subscriber.province_name}}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
                                         />
                                     </div>
                                     <div className="col-12 col-md-4 mb-2">
                                         <Select
                                             placeholder="Chọn huyện" 
-                                            value={selectedDistrict}
+                                            defaultValue={{value: subscriber.district_id, label: subscriber.district_name}}
                                             options = {districtOptions}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
                                         />
@@ -259,7 +274,7 @@ class CreateCoupleDating extends Component {
                                     <div className="col-12 col-md-4 mb-2">
                                         <Select
                                             placeholder="Loại quán" 
-                                            value={selectedType}
+                                            defaultValue={selectedType}
                                             options = {typeOptions}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
                                         />
@@ -267,7 +282,7 @@ class CreateCoupleDating extends Component {
                                     <div className="col-12 col-md-12 mb-4">
                                         <Select
                                             placeholder={`Danh sách các quán (${cafes.length} quán)`} 
-                                            value={selectedCafe}
+                                            defaultValue={{value: subscriber.agency_id, label: subscriber.agency_name}}
                                             options = {cafeOptions}
                                             onChange={(selectedOption) => this.selectAddress(selectedOption)}
                                         />
@@ -310,15 +325,15 @@ class CreateCoupleDating extends Component {
                                                 minDate={subscriber ? moment(Math.max(new Date(subscriber.expect_date_from), new Date())).format("DD/MM/YYYY") : moment().format("DD/MM/YYYY")}
                                                 maxDate={subscriber ? moment(subscriber.expect_date_to).format("DD/MM/YYYY") : moment().add(15, 'days').format("DD/MM/YYYY")}
                                                 className='react-datepicker-component my-react-component'
-                                                value={this.state.start_time}
-                                                onChange={(date) => this.onChangeDate("start_time", date)}
+                                                value={this.state.startDate}
+                                                onChange={(date) => this.onChangeDate("startDate", date)}
                                                 locale='vi'
                                                 showOnInputClick={true}
                                             />
                                         </div>
                                         <div className="col-12 col-md-6">
                                             <TimePicker
-                                                time={moment().hour() > 21 ? "21:00" : ""}
+                                                time={moment().hour() > 21 ? "21:00" : this.state.startTime}
                                                 theme="classic"
                                                 timeConfig={{
                                                     from: '07:00 AM',
@@ -326,7 +341,7 @@ class CreateCoupleDating extends Component {
                                                     step: 15,
                                                     unit: 'minute'
                                                 }}
-                                                onTimeChange={(value) => this.onChangeTime(value, "limit_time_register")}
+                                                onTimeChange={(value) => this.onChangeTime(value, "startTime")}
                                             />
                                         </div>
                                     </div>

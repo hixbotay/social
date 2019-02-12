@@ -899,23 +899,31 @@ button.slick-arrow {
     cursor: pointer;
 }
 
-.countdown-timer p{
+/* .countdown-timer p{
     color: #2c3e50;
     font-size: xx-large;
     font-weight: 900;
     -webkit-text-stroke: 2px #fffbfb;
     
-}
+} */
 
-.countdown-timer {
+.countdown-timer, .countdown-timer p {
     width: 100%;
     position: absolute;
     bottom: 0;
     text-align: center!important;
-    font-size: 3em;
+    
     -webkit-text-stroke: black 2px;
     color: #fff;
-    font-weight: 800;
+    font-weight: 800 !important;
+}
+
+.countdown-timer {
+    font-size: 3em;
+}
+
+.countdown-timer p {
+    font-size: 1em !important;
 }
 
 .dating-description {

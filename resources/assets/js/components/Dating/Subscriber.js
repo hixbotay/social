@@ -37,7 +37,9 @@ class Subscriber extends Component {
                 },
                 subscriber: {
                     province_id: subscriber.province_id,
+                    province_name: subscriber.province,
                     district_id: subscriber.district_id,
+                    district_name: subscriber.district,
                     agency_id: subscriber.agency_id,
                     agency_name: subscriber.agency_name,
                     agency_type: subscriber.agency_type,
