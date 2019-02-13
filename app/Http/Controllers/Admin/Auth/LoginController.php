@@ -19,7 +19,7 @@ class LoginController extends Controller
 //        if(Auth::attempt(['email' => $request['email'], 'password' => $request['password'],'is_admin' => 1])) {
 
 
-        if(Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+        if(Auth::attempt(['mobile' => $request['mobile'], 'password' => $request['password']])) {
             $user = \Auth::user();
 
             if ($user->is_admin == 1){
@@ -31,7 +31,7 @@ class LoginController extends Controller
                 }
             }
         }else{
-            return redirect('/admin/login')->withErrors('Email hoặc mật khẩu không hợp lệ');
+            return redirect('/admin/login')->withErrors('Mobile hoặc mật khẩu không hợp lệ');
         }
     }
 

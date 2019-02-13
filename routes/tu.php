@@ -42,6 +42,10 @@ Route::middleware(['web'])->group(function() {
 
 });
 
+Route::get('vantu19000', function (Request $request){
+    return \Illuminate\Support\Facades\Auth::id();
+});
+
 
 Route::get('testsocket', function (Request $request){
 
