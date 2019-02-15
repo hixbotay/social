@@ -408,7 +408,7 @@ class Event extends Controller {
             ->where([
                 ['is_subscribe_group_dating', '=',  1],
                 // ['province_id', '=', $result['province_id']],
-                ['expect_marital_status', '=', $data->event_meta->marital_status]
+                ['expect_marital_status', '=', (int) $data->event_meta->marital_status]
             ])
             ->whereRaw("DATE(expect_date_from) <= DATE('".$date."') AND DATE(expect_date_to) >= DATE('".$date."')")
             // ->whereIn('expect_job', $job_arr)

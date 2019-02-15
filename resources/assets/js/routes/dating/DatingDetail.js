@@ -42,7 +42,7 @@ class DatingDetail extends Component {
     }
 
     join(event_id) {
-        if (this.props.current_user.is_id_card_verified === 'verified') {
+        if (this.props.current_user.is_id_card_verified === 'pending' || this.props.current_user.is_id_card_verified === 'verified') {
             this.props.joinDating(event_id).then(data => {
                 window.location.href = `${baseUrl}/dating/${event_id}`;
             });
@@ -118,6 +118,25 @@ class DatingDetail extends Component {
             }
         }
 
+        var maritalStatus = "Tất cả trạng thái"
+        switch(event.marital_status[0]) {
+            case null: {
+                break;
+            }
+            case "0": {
+                maritalStatus = "Độc thân";
+                break;
+            }
+            case "1": {
+                maritalStatus = "Đã kết hôn";
+                break;
+            }
+            case "2": {
+                maritalStatus = "Đã từng kết hôn trước đó";
+                break;
+            }
+        }
+
         return (
             (event.id != undefined) ? (
                 (event.status != 'finished') ? (
@@ -185,13 +204,7 @@ class DatingDetail extends Component {
                                             Tình trạng hôn nhân
                                         </div>
                                         <div className="col-6">
-                                            {
-                                                event.marital_status.map((item, index) => {
-                                                    return (
-                                                        <span className="tag" key={index}>{item === 0 ? 'Độc thân' : "Đã kết hôn"}</span>
-                                                    )
-                                                })
-                                            }
+                                            <span className="tag">{maritalStatus}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -202,11 +215,15 @@ class DatingDetail extends Component {
                                         </div>
                                         <div className="col-8">
                                             {
-                                                event.job.map((item, index) => {
-                                                    return (
-                                                        <span className="tag" key={index}>{item}</span>
-                                                    )
-                                                })
+                                                event.job.indexOf(null) >= 0 ? (
+                                                    <span  className="tag"> Tất cả nghề nghiệp</span>
+                                                ) : (
+                                                    event.job.map((item, index) => {
+                                                        return (
+                                                            <span className="tag" key={index}>{item}</span>
+                                                        )
+                                                    })
+                                                )
                                             }
                                         </div>
                                     </div>

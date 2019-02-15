@@ -82,6 +82,18 @@ class EditProfilePage extends Component {
         });
     }
 
+    editUser2(value, name) {
+        this.setState({
+            data: {
+                ...this.state.data,
+                user: {
+                    ...this.state.data.user,
+                    [name]: value
+                }
+            }
+        });
+    }
+
     onChangeDate(date) {
         // console.log(date);
         this.setState({
@@ -419,7 +431,7 @@ class EditProfilePage extends Component {
                         <div className="form-group">
                             <div className="row align-items-center">
                                 <div className="col-4">
-                                    <label>Chỗ ở hiện tại</label>
+                                    <label>Quê quán</label>
                                 </div>
                                 <div className="col-8">
                                     <input type="text" className="form-control" name="address" defaultValue={user.address} onChange={(event) => this.editUser(event)} />
@@ -476,7 +488,12 @@ class EditProfilePage extends Component {
                                     <label>Chiều cao (cm)</label>
                                 </div>
                                 <div className="col-8">
-                                    <input type="number" className="form-control" name="height" defaultValue={user.height} onChange={(event) => this.editUser(event)} />
+                                    <NumericInput 
+                                        className="form-control"
+                                        name="height"
+                                        defaultValue={user.height}
+                                        onChange={(value) => this.editUser2(value, "height")}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -486,7 +503,12 @@ class EditProfilePage extends Component {
                                     <label>Cân nặng (kg)</label>
                                 </div>
                                 <div className="col-8">
-                                    <input type="number" className="form-control" name="weight" defaultValue={user.weight} onChange={(event) => this.editUser(event)} />
+                                    <NumericInput 
+                                        className="form-control"
+                                        name="weight"
+                                        defaultValue={user.weight}
+                                        onChange={(value) => this.editUser2(value, "weight")}
+                                    />
                                 </div>
                             </div>
                         </div>

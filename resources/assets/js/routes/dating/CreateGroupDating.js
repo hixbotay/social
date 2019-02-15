@@ -44,7 +44,8 @@ class CreateGroupDating extends Component {
             district: null,
             type: null,
             districts: [],
-            scopeDistricts: []
+            scopeDistricts: [],
+            jobValues: []
         }
     }
 
@@ -193,11 +194,17 @@ class CreateGroupDating extends Component {
             return option.value;
         });
 
+        if(jobs.indexOf(null) >= 0) {
+            jobs = [null];
+            selectedOptions = [{value: null, label: "Tất cả nghề nghiệp"}];
+        }
+        
         this.setState({
             metadata: {
                 ...this.state.metadata,
                 job_conditional: jobs
-            }
+            },
+            jobValues: selectedOptions
         })
     }
 
@@ -306,7 +313,7 @@ class CreateGroupDating extends Component {
     }
 
     render() {
-        const { cafes, price, provinces } = this.props;
+        const { cafes, price, provinces, jobs } = this.props;
         const current_cafe = this.props.location.state ? this.props.location.state.cafe : null;
         //setting for slider
         var settings = {
@@ -322,12 +329,15 @@ class CreateGroupDating extends Component {
         var provinceOptions = provinces.map(province => {
             return { value: province.matp, label: province.name }
         });
-
         
         var districtOptions = this.state.scopeDistricts.map(district => {
             return { value: district.maqh, label: district.name }
         });
         
+        var jobOptions = jobs.map(job => {
+            return { value: job.id, label: job.name }
+        });
+        jobOptions.unshift({value: null, label: "Tất cả nghề nghiệp"});
         
         return (
             <DatingLayout>
@@ -586,12 +596,10 @@ class CreateGroupDating extends Component {
                             <div className="col-8">
                                 <Select
                                     placeholder="Chọn một hoặc nhiều nghề nghiệp"
-                                    options={
-                                        this.props.jobs.map(job => {
-                                            return { value: job.id, label: job.name }
-                                        })
-                                    }
+                                    options={jobOptions}
+                                    defaultValue={{value: null, label: "Tất cả nghề nghiệp"}}
                                     isMulti={true}
+                                    value={this.state.jobValues}
                                     onChange={(selectedOptions) => this.onChangeJob(selectedOptions)}
                                 />
                             </div>
@@ -603,11 +611,13 @@ class CreateGroupDating extends Component {
                                     placeholder="Chọn một"
                                     options={
                                         [
+                                            {value: null, label: "Tất cả trạng thái"},
                                             {value: 0, label: "Độc thân"},
                                             {value: 1, label: "Đã kết hôn"},
                                             {value: 2, label: "Đã từng kết hôn trước đó"},
                                         ]
                                     }
+                                    defaultValue={{value: null, label: "Tất cả trạng thái"}}
                                     onChange={(selectedOption) => this.onChangeMaritalStatus(selectedOption)}
                                 />
                             </div>
@@ -624,8 +634,6 @@ class CreateGroupDating extends Component {
                             </div>
                             <div className="col-4">
                                 <Select
-                                    // defaultInputValue
-                                    // placeholder="Không giới hạn tỉnh/thành"
                                     options={
                                         [
                                             {value: null, label: "Tất cả các tỉnh"},

@@ -118,6 +118,25 @@ class DatingGroup extends Component {
             )
         }
 
+        var maritalStatus = "Tất cả trạng thái"
+        switch(event.marital_status[0]) {
+            case null: {
+                break;
+            }
+            case "0": {
+                maritalStatus = "Độc thân";
+                break;
+            }
+            case "1": {
+                maritalStatus = "Đã kết hôn";
+                break;
+            }
+            case "2": {
+                maritalStatus = "Đã từng kết hôn trước đó";
+                break;
+            }
+        }
+
         return (
             <div>
                 <Link to={`/dating/${event.id}`}>
@@ -180,27 +199,19 @@ class DatingGroup extends Component {
                             </div>
                             <div className="mt-2">
                                 <i className="far fa-heart"></i>
-                                <span>
-                                    {
-                                        event.marital_status.map((item, index) => {
-                                            return (
-                                                item ? (
-                                                    item == 1 ? <span key={index}> Đã kết hôn</span> : <span key={index}> Đã từng kết hôn trước đó</span>
-                                                ) : (
-                                                    <span key={index}> Độc thân</span>
-                                                )
-                                            )
-                                        })
-                                    }
-                                </span>
+                                <span> {maritalStatus}</span>
                             </div>
                             <div className="mt-2">
                                 <i className="fas fa-suitcase"></i>
                                 <div>
                                     {
-                                        event.job.map((item, index) => {
-                                            return (<span key={index} className="mr-2">{item}, </span>)
-                                        })
+                                        event.job.indexOf(null) >= 0 ? (
+                                            <span className="mr-2"> Tất cả nghề nghiệp</span>
+                                        ) : (
+                                            event.job.map((item, index) => {
+                                                return (<span key={index} className="mr-2">{item}, </span>)
+                                            })
+                                        )
                                         
                                     }
                                 </div>

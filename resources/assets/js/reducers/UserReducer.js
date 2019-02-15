@@ -54,7 +54,7 @@ export default (state = INIT_STATE, action) => {
         }
         // view current user profile
         case UPDATE_USER_DETAIL: {
-            return {...state, current_user: action.payload}
+            return {...state}
         }
         case UPDATE_RELATIONSHIP: {
             return {...state}

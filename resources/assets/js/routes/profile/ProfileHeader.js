@@ -13,7 +13,6 @@ import moment from "moment";
 class ProfileHeader extends PureComponent {
 
     componentWillUpdate(nextProps, nextState) {
-        console.log(nextProps.user);
         return nextProps.user !== this.props.user; 
     }
 
@@ -28,13 +27,21 @@ class ProfileHeader extends PureComponent {
                     <div>
                     {
                         user.description ? (
-                            <EdiText 
-                                type="textarea" 
-                                value={user.description} 
-                                editButtonText="Sửa"
-                                editButtonClassName="btn btn-primary btn-sm"
-                                onSave={(content) => this.props.updateUser({user: {description: content}}, user.id)}
-                            />
+                            <React.Fragment>
+                            {
+                                isCurrentUser ? (
+                                    <EdiText 
+                                        type="textarea" 
+                                        value={user.description} 
+                                        editButtonText="Sửa"
+                                        editButtonClassName="btn btn-primary btn-sm"
+                                        onSave={(content) => this.props.updateUser({user: {description: content}}, user.id)}
+                                    />
+                                ) : (
+                                    <div>{user.description}</div>
+                                )
+                            }
+                            </React.Fragment>
                         ) : (
                             <React.Fragment>
                             {

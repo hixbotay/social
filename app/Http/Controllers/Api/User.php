@@ -63,6 +63,7 @@ class User extends Controller
     }
 
     public function getCurrentUser() {
+
         $user = \App\User::where('users.id', '=', Auth::id())
             ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
             ->select(DB::raw(
@@ -179,6 +180,7 @@ class User extends Controller
     }
 
     public static function getCurrentUserDetail($user_id = null) {
+        if(!Auth::id()) return;
 
         $id = $user_id ?: Auth::id();
 
