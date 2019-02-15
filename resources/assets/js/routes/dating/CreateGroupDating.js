@@ -97,7 +97,13 @@ class CreateGroupDating extends Component {
     }
 
     onChangeTime(value, name) {
-        let datetime =  new Date(this.state.start_date).setHours(value.hour);
+        let datetime = null;
+        if(name === 'start_date') {
+            datetime =  new Date(this.state.start_date).setHours(value.hour);
+        } else {
+            datetime =  new Date(this.state.limit_date_register).setHours(value.hour);
+        }
+        
         datetime = new Date(datetime).setMinutes(value.minute);
 
         if(new Date() > datetime) {
@@ -140,7 +146,7 @@ class CreateGroupDating extends Component {
         this.setState({
             newEvent: {
                 ...this.state.newEvent,
-                [e.targte.name]: e.target.value
+                [e.target.name]: e.target.value
             }
         })
     }
@@ -330,7 +336,7 @@ class CreateGroupDating extends Component {
             return { value: province.matp, label: province.name }
         });
         
-        var districtOptions = this.state.scopeDistricts.map(district => {
+        var districtOptions = this.state.districts.map(district => {
             return { value: district.maqh, label: district.name }
         });
         
@@ -375,8 +381,8 @@ class CreateGroupDating extends Component {
                             </div>
                             <div className="col-4">
                                 <TimePicker
-                                    // time={this.state.start_time || ""}
-                                    time={moment().hour() > 21 ? "21:00" : ""}
+                                    time={this.state.start_time}
+                                    // time={moment().hour() > 21 ? "21:00" : ""}
                                     theme="classic"
                                     timeConfig={{
                                         from: moment().hour(),
@@ -402,8 +408,8 @@ class CreateGroupDating extends Component {
                             </div>
                             <div className="col-4">
                                 <TimePicker
-                                    // time={this.state.limit_time_register || ""}
-                                    time={moment().hour() > 21 ? "21:00" : ""}
+                                    time={this.state.limit_time_register}
+                                    // time={moment().hour() > 21 ? "21:00" : ""}
                                     theme="classic"
                                     timeConfig={{
                                         from: '07:00 AM',
@@ -625,7 +631,7 @@ class CreateGroupDating extends Component {
                         <div className="row form-group">
                             <div className="col-4">Mô tả cuộc hẹn</div>
                             <div className="col-8">
-                                <textarea className="form-control" name="description" onChange={(e) => {this.onChangeDescription(e)}}></textarea>
+                                <textarea className="form-control" name="description" onChange={(e) => this.onChangeDescription(e)}></textarea>
                             </div>
                         </div>
                         <div className="row form-group">

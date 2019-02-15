@@ -146,7 +146,7 @@ class CreateCoupleDating extends Component {
     onChangeTime(value, name) {
         this.setState({
             ...this.state,
-            [name]: value
+            [name]: value.hour + ":" + value.minute
         })
     }
 
@@ -225,7 +225,9 @@ class CreateCoupleDating extends Component {
             {value: 2, label: "Quán ăn"}
         ];
 
-        var selectedType = typeOptions.find(o => {return o.value === subscriber.agency_type});
+        if(subscriber) {
+            var selectedType = typeOptions.find(o => {return o.value === subscriber.agency_type});
+        }
 
         //setting for slider
         var settings = {
@@ -259,14 +261,14 @@ class CreateCoupleDating extends Component {
                                         <Select
                                             placeholder="Chọn tỉnh/thành" 
                                             options={provinceOptions}
-                                            defaultValue={{value: subscriber.province_id, label: subscriber.province_name}}
+                                            defaultValue={subscriber ? {value: subscriber.province_id, label: subscriber.province_name} : null}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
                                         />
                                     </div>
                                     <div className="col-12 col-md-4 mb-2">
                                         <Select
                                             placeholder="Chọn huyện" 
-                                            defaultValue={{value: subscriber.district_id, label: subscriber.district_name}}
+                                            defaultValue={subscriber ? {value: subscriber.district_id, label: subscriber.district_name} : null}
                                             options = {districtOptions}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
                                         />
@@ -274,7 +276,7 @@ class CreateCoupleDating extends Component {
                                     <div className="col-12 col-md-4 mb-2">
                                         <Select
                                             placeholder="Loại quán" 
-                                            defaultValue={selectedType}
+                                            defaultValue={subscriber ? selectedType : null}
                                             options = {typeOptions}
                                             onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
                                         />
@@ -282,7 +284,7 @@ class CreateCoupleDating extends Component {
                                     <div className="col-12 col-md-12 mb-4">
                                         <Select
                                             placeholder={`Danh sách các quán (${cafes.length} quán)`} 
-                                            defaultValue={{value: subscriber.agency_id, label: subscriber.agency_name}}
+                                            defaultValue={subscriber ? {value: subscriber.agency_id, label: subscriber.agency_name} : null}
                                             options = {cafeOptions}
                                             onChange={(selectedOption) => this.selectAddress(selectedOption)}
                                         />
