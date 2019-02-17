@@ -15,34 +15,35 @@ class ProfileLayout extends Component {
         super(props);
         this.state = {
             img: '',
-            is_incognito: false
+            is_incognito: false,
         }
     }
 
     handleImage(event) {
         var component = this;
         var file = event.target.files[0];
-
-        // optimizer image upload
-        new ImageCompressor(file, {
-            quality: 0.6,
-            convertSize: 400000,
-            success(result) {
-                var reader = new FileReader();
-                reader.readAsDataURL(result);
-                reader.onload = function () {
-                    component.props.updateAvatar({ image: reader.result });
-                };
-                reader.onerror = function (error) {
-                    window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
-                };
-            }
-        });
+        if(confirm("Bạn có chắc chắn muốn thay đổi ảnh đại diện?")) {
+            // optimizer image upload
+            new ImageCompressor(file, {
+                quality: 0.6,
+                convertSize: 400000,
+                success(result) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(result);
+                    reader.onload = function () {
+                        component.props.updateAvatar({ image: reader.result });
+                    };
+                    reader.onerror = function (error) {
+                        window.alert("Đã có lỗi xảy ra, vui lòng chọn lại ảnh");
+                    };
+                }
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            is_incognito: nextProps.user.is_incognito ? true : false
+            is_incognito: nextProps.user.is_incognito ? true : false,
         })
     }
 
@@ -67,7 +68,7 @@ class ProfileLayout extends Component {
                 <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                     <CardWithIcon>
                         <div className="author vcard inline-items profile-heading-info">
-                            <RoundAvatar img={this.props.avatar} size='large'></RoundAvatar>
+                            <RoundAvatar img={user.avatar} size='large'></RoundAvatar>
                             <label className="btn-change-avatar">
                                 <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e)} />
                             </label>

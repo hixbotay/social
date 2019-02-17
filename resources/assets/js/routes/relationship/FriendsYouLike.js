@@ -17,7 +17,7 @@ class FriendYouLike extends Component {
                 <div className="row">
                     <div className="banner"></div>
                 </div>
-                <CardWithTitle title="ĐÃ THÍCH BẠN" hasLine={true}>
+                <CardWithTitle title="BẠN ĐÃ THÍCH" hasLine={true}>
                     <div className="row">
                         {
                             users ? users.map((user, index) => {

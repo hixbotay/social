@@ -103,6 +103,14 @@ class RegisterController extends Controller
             $avatar->storeAs('user'.$user->id.'/avatar', $filename);
             $user->avatar = $path;
             $user->save();
+
+            // store user photo
+            \App\UserPhoto::create([
+                'user_id' => $user->id,
+                'source' => $user->avatar,
+                'type' => 'featured',
+                'is_avatar' => 1
+            ]);
         } else if(is_string($avatar)) {
             $user->avatar = $avatar;
             $user->save();

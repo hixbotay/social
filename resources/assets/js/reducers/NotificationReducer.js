@@ -26,7 +26,7 @@ export default (state = INIT_STATE, action) => {
             return {...state, unreadNumber: action.payload}
         }
         case UPDATE_UNREAD_NUMBER: {
-            return {...state, unreadNumber: state.unreadNumber - 1}
+            return {...state, unreadNumber: state.unreadNumber >= 1 ? state.unreadNumber - 1 : 0}
         }
         default: {
             return {...state};

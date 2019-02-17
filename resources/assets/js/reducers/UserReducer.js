@@ -36,67 +36,67 @@ const INIT_STATE = {
 }
 
 export default (state = INIT_STATE, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case GET_CURRENT_USER: {
-            return {...state, current_user: action.payload}
+            return { ...state, current_user: action.payload }
         }
         // when view other user profile
         case GET_USER_DETAIL: {
-            return {...state, other_user_data: action.payload}
+            return { ...state, other_user_data: action.payload }
         }
         case GET_CURRENT_USER_DETAIL: {
             return {
-                ...state, 
-                user: action.payload.user, 
-                user_hobbies: action.payload.hobbies, 
+                ...state,
+                user: action.payload.user,
+                user_hobbies: action.payload.hobbies,
                 relationship: action.payload.relationship
             }
         }
         // view current user profile
         case UPDATE_USER_DETAIL: {
-            return {...state}
+            return { ...state, current_user: { ...state.current_user, ...action.payload } }
         }
         case UPDATE_RELATIONSHIP: {
-            return {...state}
+            return { ...state }
         }
         case GET_FRIENDS_LIKED_YOU: {
-            return {...state, friendsLikeYou: action.payload}
+            return { ...state, friendsLikeYou: action.payload }
         }
         case GET_FRIENDS_YOU_LIKED: {
-            return {...state, friendsYouLiked: action.payload}
+            return { ...state, friendsYouLiked: action.payload }
         }
         case GET_FRIENDS_VISITED: {
-            return {...state, friendsVisited: action.payload}
+            return { ...state, friendsVisited: action.payload }
         }
         case VERIFY_ID_CARD: {
-            return {...state};
+            return { ...state };
         }
         case GET_FEATURED_USER_PHOTOS: {
-            return {...state, featured_photos: action.payload}
+            return { ...state, featured_photos: action.payload }
         }
         case GET_PHOTOS_BY_TYPE: {
-            return {...state, photos: action.payload}
+            return { ...state, photos: action.payload }
         }
         case UPLOAD_FEATURED_PHOTOS: {
-            return {...state, featured_photos: action.payload}
+            return { ...state, featured_photos: action.payload }
         }
         case GET_USER_CONFIGURATIONS: {
-            return {...state, configurations: action.payload}
+            return { ...state, configurations: action.payload }
         }
         case UPDATE_USER_CONFIGURATIONS: {
-            return {...state}
+            return { ...state }
         }
         case UPDATE_PASSWORD: {
-            return {...state}
+            return { ...state }
         }
         case GET_ID_CARD_VERIFY: {
-            return {...state, idCard: action.payload}
+            return { ...state, idCard: action.payload }
         }
         case UPDATE_ID_CARD_VERIFY: {
-            return {...state}
+            return { ...state }
         }
         default: {
-            return {...state};
+            return { ...state };
         }
     }
 }

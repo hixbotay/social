@@ -364,7 +364,7 @@ class User extends Controller
         } else if ($type == 'like-you') {
             $results = \App\UserRelationship::where('is_like', '=', 1)           
                 ->orWhere('is_loved', '=', 1)
-                ->leftjoin('users', 'user_relationship.to_user_id', '=', 'users.id')
+                ->leftjoin('users', 'user_relationship.from_user_id', '=', 'users.id')
                 ->select(DB::raw(
                     'users.id, users.name, users.address, users.avatar, users.birthday,
                     user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved,
