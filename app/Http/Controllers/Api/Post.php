@@ -42,7 +42,7 @@ class Post extends Controller
                 'author.avatar AS original_author_avatar'
             )
             ->orderBy('id', 'DESC')
-            ->get();
+            ->paginate(10);
         
         return json_encode($result);
     }
@@ -63,7 +63,7 @@ class Post extends Controller
                 'author.avatar AS original_author_avatar'
             )
             ->orderBy('id', 'DESC')
-            ->get();
+            ->paginate(10);
 
         return json_encode($result);
     }

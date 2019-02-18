@@ -7,10 +7,13 @@ import {
 } from './types';
 
 export const getNotifications = (page) => dispatch => {
-    api.get(`/notifications?page=${page}`).then(response => {
-        dispatch({type: GET_NOTIFICATIONS, payload: response.data.data});
-    }).catch(err => {
-        console.log(err);
+    return new Promise((resolve, reject) => {
+        api.get(`/notifications?page=${page}`).then(response => {
+            dispatch({type: GET_NOTIFICATIONS, payload: response.data.data});
+            resolve(response.data.data);
+        }).catch(err => {
+            reject(err);
+        })
     })
 }
 

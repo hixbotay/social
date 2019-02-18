@@ -81,7 +81,6 @@ class MainApp extends Component {
     
     componentDidMount() {
         this.props.getCurrentUser();
-        this.props.getNotifications(1);
         this.props.loadPriceConfig();
     }
 	

@@ -11,24 +11,29 @@ import {
 } from './types';
 import store from '../store';
 
-export const getAllPosts = () => (dispatch) => {
-    api.get('/posts')
-        .then(response => {
-            dispatch({ type: GET_ALL_POSTS, payload: response.data });
+export const getAllPosts = (page) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        api.get(`/posts?page=${page}`).then(response => {
+            dispatch({ type: GET_ALL_POSTS, payload: response.data.data });
+            resolve(response.data.data);
         })
         .catch(err => {
-            console.log(err);
+            reject(err);
         })
+    })
 }
 
-export const getMyPosts = () => (dispatch) => {
-    api.get('/my-posts')
+export const getMyPosts = (page) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        api.get(`/my-posts?page=${page}`)
         .then(response => {
-            dispatch({ type: GET_MY_POSTS, payload: response.data });
+            dispatch({ type: GET_MY_POSTS, payload: response.data.data });
+            resolve(response.data.data);
         })
         .catch(err => {
-            console.log(err);
+            reject(err);
         })
+    });
 }
 
 export const reactPost = (actionType, id) => (dispatch) => {

@@ -8,17 +8,73 @@ import { withRouter } from 'react-router-dom';
 import Post from '../../components/Post';
 import CreatePostForm from '../../components/Post/CreatePostForm';
 import ProfileHeader from './ProfileHeader';
+import InfiniteScroll from 'react-infinite-scroller';
 
 class UserProfile extends Component {
+    constructor() {
+        super();
+        this.state = {
+            posts: [],
+            hasMorePost: false,
+            page: 1,
+        }
+    }
 
     componentDidMount() {
-        this.props.getMyPosts();
+        var {current_user} = this.props;
+        // this.props.getMyPosts();
         this.props.getFeaturedUserPhotos(this.props.match.params.id);
+
+        this.props.getMyPosts(1).then(posts => {
+            if(posts.length) {
+                let temp = posts.map((post, index) => {
+                    post.author = current_user.name;
+                    post.author_avatar = current_user.avatar;
+                    return (
+                        <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={true}></Post>
+                    )
+                });
+
+                this.setState({
+                    posts: [...this.state.posts, temp],
+                    hasMorePost: true
+                })
+            } else {
+                this.setState({hasMorePost: false})
+            }
+        });
+    }
+
+    onLoad() {
+        var {current_user} = this.props;
+        let page = this.state.page + 1;
+
+        this.props.getMyPosts(page).then(posts => {
+            if(posts.length) {
+                let temp = posts.map((post, index) => {
+                    post.author = current_user.name;
+                    post.author_avatar = current_user.avatar;
+                    return (
+                        <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={true}></Post>
+                    )
+                });
+
+                this.setState({
+                    posts: [...this.state.posts, temp],
+                    hasMore: true,
+                    page: page
+                })
+            } else {
+                this.setState({
+                    hasMorePost: false
+                })
+            }
+        });
     }
 
     render() {
 
-        const { current_user, featured_photos, posts } = this.props;
+        const { current_user, featured_photos} = this.props;
 
         return (
             <CurrentUserLayout
@@ -33,15 +89,16 @@ class UserProfile extends Component {
                 
                 <Card>
                     {
-                        posts.length ?
-                        posts.map((post, index) => {
-                            post.author = current_user.name;
-                            post.author_avatar = current_user.avatar;
-                            return (
-                                <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={false}></Post>
-                            )
-                        })
-                        : (
+                        this.state.posts.length ? (
+                            <InfiniteScroll
+                                pageStart={0}
+                                loadMore={this.onLoad.bind(this)}
+                                hasMore={this.state.hasMorePost}
+                                loader={<div className="text-center" key={0}>Loading...</div>}
+                            >
+                                {this.state.posts} 
+                            </InfiniteScroll>
+                        ) : (
                             <div className="alert alert-warning">
                                 <div className="text-center">
                                     Bạn chưa có bài viết nào. Hãy tạo bài viết ngay nhé! 
@@ -65,7 +122,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getMyPosts: () => dispatch(getMyPosts()),
+        getMyPosts: (page) => dispatch(getMyPosts(page)),
         addVisitor: (data) => dispatch(addVisitor(data)),
         getFeaturedUserPhotos: (user_id) => dispatch(getFeaturedUserPhotos(user_id))
     }

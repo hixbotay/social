@@ -14,7 +14,7 @@ class Notification extends Controller
             ->leftjoin('users', 'users.id', '=', 'actor')
             ->select(DB::raw('notifications.*, users.id AS actor_id, users.name AS actor_name, users.avatar AS actor_avatar'))
             ->orderBy('created_at', 'DESC')
-            ->paginate(10);
+            ->paginate(5);
         return json_encode($notifications);
     }
 

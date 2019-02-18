@@ -6,23 +6,65 @@ import CreatePostForm from '../../components/Post/CreatePostForm';
 import Post from '../../components/Post';
 // action
 import { getAllPosts } from '../../actions/PostActions';
+import InfiniteScroll from 'react-infinite-scroller';
 
 class NewFeeds extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: []
+            posts: [],
+            hasMorePost: false,
+            page: 1,
         }
     }
 
     componentDidMount() {
-        this.props.getAllPosts();
+        var {current_user} = this.props;
+        this.props.getAllPosts(1).then(posts => {
+            if(posts.length) {
+                let temp = posts.map((post, index) => {
+                    return (
+                        <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={true}></Post>
+                    )
+                });
+
+                this.setState({
+                    posts: [...this.state.posts, temp],
+                    hasMorePost: true
+                })
+            } else {
+                this.setState({hasMorePost: false})
+            }
+        });
+    }
+
+    onLoad() {
+        var {current_user} = this.props;
+        let page = this.state.page + 1;
+
+        this.props.getAllPosts(page).then(posts => {
+            if(posts.length) {
+                let temp = posts.map((post, index) => {
+                    return (
+                        <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={true}></Post>
+                    )
+                });
+
+                this.setState({
+                    posts: [...this.state.posts, temp],
+                    hasMore: true,
+                    page: page
+                })
+            } else {
+                this.setState({
+                    hasMorePost: false
+                })
+            }
+        });
     }
 
     render() {
-        
         const {current_user, posts} = this.props;
-        console.log(posts);
         return (
             <div>
             {
@@ -46,13 +88,21 @@ class NewFeeds extends Component {
                                     </div>
                                 </div>
                             </div>
-                            {
+                            {/* {
                                 posts.map((post, index) => {
                                     return (
                                         <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={true}></Post>
                                     )
                                 })
-                            }
+                            } */}
+                            <InfiniteScroll
+                                pageStart={0}
+                                loadMore={this.onLoad.bind(this)}
+                                hasMore={this.state.hasMorePost}
+                                loader={<div className="text-center" key={0}>Loading...</div>}
+                            >
+                                {this.state.posts} 
+                            </InfiniteScroll>
                         </div>
                     </div>
                 ) : (
@@ -73,7 +123,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAllPosts: () => dispatch(getAllPosts())
+        getAllPosts: (page) => dispatch(getAllPosts(page))
     }
 }
 
