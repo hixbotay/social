@@ -53,16 +53,6 @@
                                 <label><b>Họ tên <span>*</span></b></label>
                                 <input class="form-control" type="text" name="name" value="{{isset($user->name) ? $user->name : ""}}" required>
                             </div>
-                            <div class="form-group">
-                                <label><b>Mật khẩu <span>*</span></b></label><br/>
-                                <small>Mật khẩu này dùng khi bạn đăng nhập</small>
-                                <input class="form-control" type="password" name="password" required>
-                            </div>
-                            <div class="form-group">
-                                <label><b>Số điện thoại <span>*</span></b></label><br/>
-                                <small>Số điện thoại không thể thay đổi sau khi đã xác minh</small>
-                                <input class="form-control" type="number" name="mobile" value="{{$user->mobile}}" readonly required>
-                            </div>
                             <div class="form-group row">
                                 <div class="col-12 col-md-8">
                                     <label><b>Ngày sinh <span>*</span></b></label>
@@ -97,7 +87,7 @@
                             </div>
                             <div class="form-group row no-gutters">
                                 <div class="col-12">
-                                    <label><b>Địa chỉ <span>*</span></b></label>
+                                    <label><b>Nơi ở hiện tại <span>*</span></b></label>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <select class="custom-select" name="province_id" id="provinces" onchange="changeProvince(this.value);" required>
@@ -115,7 +105,6 @@
                                     </select>
                                 </div>
                             </div>
-
                             @if(isset($user->avatar))
                             <input type="hidden" name="avatar" value="{{$user->avatar}}" />
                             @else 
@@ -134,7 +123,16 @@
                                 </div>
                             </div>
                             @endif
-
+                            <div class="form-group">
+                                <label><b>Số điện thoại <span>*</span></b></label><br/>
+                                <small>Số điện thoại không thể thay đổi sau khi đã xác minh</small>
+                                <input class="form-control" type="number" name="mobile" value="{{$user->mobile}}" readonly required>
+                            </div>
+                            <div class="form-group">
+                                <label><b>Mật khẩu <span>*</span></b></label><br/>
+                                <small>Mật khẩu này dùng khi bạn đăng nhập</small>
+                                <input class="form-control" type="password" name="password" required>
+                            </div>
                             <div class="form-button">
                                 <button type="submit" class="btn btn-primary">Hoàn tất</button>
                             </div>

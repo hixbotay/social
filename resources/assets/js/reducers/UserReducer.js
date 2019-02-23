@@ -15,7 +15,9 @@ import {
     UPDATE_USER_CONFIGURATIONS,
     UPDATE_PASSWORD,
     GET_ID_CARD_VERIFY,
-    UPDATE_ID_CARD_VERIFY
+    UPDATE_ID_CARD_VERIFY,
+    REMOVE_PHOTO,
+    SET_AVATAR
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -94,6 +96,12 @@ export default (state = INIT_STATE, action) => {
         }
         case UPDATE_ID_CARD_VERIFY: {
             return { ...state }
+        }
+        case REMOVE_PHOTO: {
+            return { ...state }
+        }
+        case SET_AVATAR: {
+            return { ...state, current_user: { ...state.current_user, ...action.payload.user } }
         }
         default: {
             return { ...state };

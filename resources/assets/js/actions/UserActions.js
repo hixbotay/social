@@ -16,7 +16,9 @@ import {
     UPDATE_USER_CONFIGURATIONS,
     UPDATE_PASSWORD,
     GET_ID_CARD_VERIFY,
-    UPDATE_ID_CARD_VERIFY
+    UPDATE_ID_CARD_VERIFY,
+    REMOVE_PHOTO,
+    SET_AVATAR
 } from './types';
 
 export const logout = () => dispatch => {
@@ -234,11 +236,32 @@ export const getIdCardVerify = () => dispatch => {
 }
 
 export const updateIdCardVerify = (data) => dispatch => {
-    console.log(data);
     return new Promise((resolve, reject) => {
         return api.put(`/verify-id-card`, data).then(res => {
             dispatch({type: UPDATE_ID_CARD_VERIFY, payload: res.data.record});
             resolve(res.data.record);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+export const removePhoto = (id) => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.delete(`/photos/${id}`).then(res => {
+            dispatch({type: REMOVE_PHOTO, payload: res.data});
+            resolve(res.data);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+export const setAvatar = (id) => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.delete(`/avatar/photo/${id}`).then(res => {
+            dispatch({type: SET_AVATAR, payload: res.data});
+            resolve(res.data);
         }).catch(err => {
             reject(err);
         })

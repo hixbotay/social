@@ -88,6 +88,9 @@ Route::middleware(['web'])->group(function() {
 
     Route::get('/orders', 'Api\Product@getOrders');
     Route::get('/orders/{id}', 'Api\Product@getOrderDetail');
+
+    Route::delete('/photos/{id}', 'Api\User@removeUserPhoto');
+    Route::delete('/avatar/photo/{id}', 'Api\User@setAvatarFromPhoto');
 });
 
 

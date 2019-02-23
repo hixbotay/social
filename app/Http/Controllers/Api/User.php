@@ -490,11 +490,11 @@ class User extends Controller
         $photos = \App\UserPhoto::where([['type', '=', $type], ['user_id', '=', Auth::id()]])->orderBy('id', 'DESC')->get();
         $results = [];
 
-        foreach($photos as $photo) {
-            array_push($results, $photo->source);
-        }
+        // foreach($photos as $photo) {
+        //     array_push($results, $photo->source);
+        // }
 
-        return ['photos' => $results];
+        return ['photos' => $photos];
     }
 
     public function uploadFeaturedPhotos(Request $request) {
@@ -618,6 +618,45 @@ class User extends Controller
 
         $user->save();
         return self::getCurrentUserDetail($id);
+    }
+
+    public function removeUserPhoto($id) {
+        $image = \App\UserPhoto::where([['user_id', '=', Auth::id()], ['id', '=',  $id]])->first();
+        if($image) {
+            if($image->is_avatar) {
+                return ['alert' => "Không thể xóa avatar hiện tại!", 'status' => 0];
+            } else {
+                $result = $image->delete();
+                if($result) {
+                    return ['alert' => "Đã xóa ảnh thành công!", 'status' => 1];
+                } else {
+                    return ['alert' => "Đã có lỗi xảy ra!", 'status' => 0];
+                }
+            }
+        } else {
+            return ['alert' => "Không tìm thấy ảnh!", 'status' => 0];
+        }
+    }
+
+    public function setAvatarFromPhoto($id) {
+        $user = Auth::user();
+        $currentAvatar = \App\UserPhoto::where([['user_id', '=', $user->id], ['is_avatar', '=', 1]])->first();
+        $newAvatar = \App\UserPhoto::where([['user_id', '=', $user->id], ['id', '=',  $id]])->first();
+        if($newAvatar) {
+            $currentAvatar->is_avatar = 0;
+
+            $newAvatar->type = 'featured';
+            $newAvatar->is_avatar = 1;
+
+            $user->avatar = $newAvatar->source;
+
+            $currentAvatar->save();
+            $newAvatar->save();
+            $user->save();
+            return ['alert' => "Thay đổi avatar thành công!", 'status' => 1, 'user' => $user];
+        } else {
+            return ['alert' => "Không tìm thấy ảnh!", 'status' => 0];
+        }
     }
 }
 
