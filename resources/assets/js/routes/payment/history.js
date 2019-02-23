@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { getAllPosts } from '../../actions/PostActions';
 import { formatMoney } from '../../helper/function'
 
+import Modal from 'react-modal';
+import Messages from '../messages';
 
 class PaymentHistory extends Component {
 
@@ -12,16 +14,47 @@ class PaymentHistory extends Component {
         this.state = {
             posts: []
         }
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     componentDidMount() {
         document.title = "Lich su thanh toan"
     }
 
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+
+    afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        this.subtitle.style.color = '#f00';
+    }
+
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
+
     render() {
 
         return (
             <div className={"paymentHistory"}>
+
+                <button onClick={this.openModal}>Open Modal</button>
+
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    contentLabel="Example Modal"
+                >
+
+                    <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
+
+                    <Messages />
+
+                </Modal>
 
                 <div className="row">
                     <div className={"col-md-9 sodu"}>
@@ -80,6 +113,13 @@ class PaymentHistory extends Component {
                         }}>
                             TEST
                         </button>
+
+                        <button type="button" className={'btn btn-secondary'} onClick={() => {
+                            console.log(this.props);
+                        }}>
+                            Open chat
+                        </button>
+
                     </div>
                 </div>
 

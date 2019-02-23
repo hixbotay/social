@@ -124,7 +124,6 @@ class Messages extends Component {
 
     changeActive(item){
         console.log(item);
-        console.log(item.conversation_id);
         if (!item.conversation_id) {
             this.props.createConversation({
                 name: item.id + "_" + this.props.current_user.id,
@@ -268,8 +267,6 @@ class Messages extends Component {
                 }
             }
 
-
-
             for(let i = 0; i < this.props.chatList.length; i ++){
 
                 if (this.props.chatList[i].id == data.user_id){
@@ -314,6 +311,8 @@ class Messages extends Component {
     }
 
     render() {
+
+        console.log(this.state.chatList);
 
         var sampleData = {
             message: {
@@ -425,7 +424,7 @@ class Messages extends Component {
                                             )
                                         }
 
-                                    }):(<p>Không tìm thấy !</p>):(
+                                    }):(<p>Không có cuộc hội thoại nào</p>):(
                                         <FilterTab chatTo={(item) => this.changeActive(item)}
                                             chatList={this.props.chatList}
                                         />
@@ -438,7 +437,7 @@ class Messages extends Component {
                             <div>
                                 <img src="https://www.w3schools.com/howto/img_avatar.png" id="sender-avatar" />
                                 <span className="h4" onClick={() => {console.log(this.props)}}>
-                                    {this.state.activeChat.id?this.state.activeChat.name:"Loading ..."}
+                                    {this.state.activeChat.id?this.state.activeChat.name:"Chọn 1 bạn để chát"}
                                 </span>
                                 <div className="float-right">
                                     <i className="fas fa-ellipsis-h"></i>

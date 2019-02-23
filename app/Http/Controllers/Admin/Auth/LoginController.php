@@ -18,8 +18,12 @@ class LoginController extends Controller
 
 //        if(Auth::attempt(['email' => $request['email'], 'password' => $request['password'],'is_admin' => 1])) {
 
+        $mobile = $request['mobile'];
+        if($mobile[0] == '0') {
+            $mobile = substr($mobile, 1);
+        }
 
-        if(Auth::attempt(['mobile' => $request['mobile'], 'password' => $request['password']])) {
+        if(Auth::attempt(['mobile' => $mobile, 'password' => $request['password']])) {
             $user = \Auth::user();
 
             if ($user->is_admin == 1){
