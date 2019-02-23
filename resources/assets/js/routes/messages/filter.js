@@ -57,7 +57,6 @@ class FilterTab extends Component {
         this.props.findUsers(data)
             .then((response) => {
                 this.setState({users: response})
-                console.log(response)
             })
     }
 
