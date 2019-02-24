@@ -130,36 +130,59 @@ class Messages extends Component {
                 user: [this.props.current_user.id, item.id]
             })
                 .then(response => {
+
                     var index = null;
                     if (this.props.chatList.length === 0){
                         index = 0;
                     }
                     var payload = {
-                        index: null,
+                        id: item.id,
+                        index: index,
                         conversation_id: response.conversation_id,
-                        last_message: "Welcome NOIDUYEN :)"
+                        last_message: "Kết bạn cùng nối duyên :)",
+                        seen: true,
+                        name: item.name,
+                        email: item.email
                     };
                     for(let i = 0; i < this.props.chatList.length; i ++){
-                        if (this.props.chatList[i].id == this.state.activeChat.id){
+                        if (this.props.chatList[i].id === this.state.activeChat.id){
                             payload.index = i;
                             break;
                         }
                     }
-                    this.props.loadMessage({
-                        conversation_id: response.conversation_id,
-                        page: this.state.page
-                    })
-                        .then(response => {
-                            this.setState({
-                                conversation: response,
-                            }, () => {
-                                this.scrollToBottom();
-                            });
-                        })
+
+                    // console.log(payload);return;
+
+                    var newList = this.props.chatList;
+                    newList.push(payload);
+
                     this.props.changeListChast(payload)
                         .then(resState => {
+
+                            this.setState({chatList: newList}, () => {
+                                this.props.loadMessage({
+                                    conversation_id: response.conversation_id,
+                                    page: this.state.page
+                                })
+                                    .then(response => {
+
+                                        this.setState({
+                                            conversation: response,
+                                            chatList: newList
+                                        }, () => {
+                                            this.scrollToBottom();
+                                        });
+                                    })
+                            });
+
+                            // var timeout = this;
+                            // setTimeout(function () {
+                            //     timeout.setState({chatList: timeout.props.chatList});
+                            // }, 1000)
                         })
-                })
+
+
+                });
         } else {
             this.setState({
                 activeChat: item,
