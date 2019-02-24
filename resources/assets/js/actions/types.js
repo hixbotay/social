@@ -18,6 +18,7 @@ export const GET_ID_CARD_VERIFY = 'GET_ID_CARD_VERIFY';
 export const UPDATE_ID_CARD_VERIFY = 'UPDATE_ID_CARD_VERIFY';
 export const REMOVE_PHOTO= 'REMOVE_PHOTO';
 export const SET_AVATAR = 'SET_AVATAR';
+export const GET_OTHER_USER_PHOTOS = 'GET_OTHER_USER_PHOTOS';
 
 // Post
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';

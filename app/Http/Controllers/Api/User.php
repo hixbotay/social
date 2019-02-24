@@ -658,5 +658,10 @@ class User extends Controller
             return ['alert' => "Không tìm thấy ảnh!", 'status' => 0];
         }
     }
+
+    public function getOtherUserPhotos($user_id) {
+        $photos = \App\UserPhoto::where('user_id', '=', $user_id)->orderBy('created_at', 'DESC')->get();
+        return ['photos' => $photos];
+    }
 }
 

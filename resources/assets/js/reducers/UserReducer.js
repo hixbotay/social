@@ -17,7 +17,8 @@ import {
     GET_ID_CARD_VERIFY,
     UPDATE_ID_CARD_VERIFY,
     REMOVE_PHOTO,
-    SET_AVATAR
+    SET_AVATAR,
+    GET_OTHER_USER_PHOTOS
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -33,6 +34,7 @@ const INIT_STATE = {
     },
     featured_photos: [],
     photos: [],
+    other_user_photos: [],
     configurations: {},
     idCard: null
 }
@@ -102,6 +104,9 @@ export default (state = INIT_STATE, action) => {
         }
         case SET_AVATAR: {
             return { ...state, current_user: { ...state.current_user, ...action.payload.user } }
+        }
+        case GET_OTHER_USER_PHOTOS: {
+            return {...state, other_user_photos: action.payload}
         }
         default: {
             return { ...state };

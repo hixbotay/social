@@ -18,7 +18,8 @@ import {
     GET_ID_CARD_VERIFY,
     UPDATE_ID_CARD_VERIFY,
     REMOVE_PHOTO,
-    SET_AVATAR
+    SET_AVATAR,
+    GET_OTHER_USER_PHOTOS
 } from './types';
 
 export const logout = () => dispatch => {
@@ -265,5 +266,13 @@ export const setAvatar = (id) => dispatch => {
         }).catch(err => {
             reject(err);
         })
+    })
+}
+
+export const getOtherUserPhotos = (id) => dispatch => {
+    return api.get(`/other-user/photos/${id}`).then(res => {
+        dispatch({type: GET_OTHER_USER_PHOTOS, payload: res.data.photos});
+    }).catch(err => {
+        console.log(err);
     })
 }

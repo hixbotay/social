@@ -91,6 +91,7 @@ Route::middleware(['web'])->group(function() {
 
     Route::delete('/photos/{id}', 'Api\User@removeUserPhoto');
     Route::delete('/avatar/photo/{id}', 'Api\User@setAvatarFromPhoto');
+    Route::get('/other-user/photos/{user_id}', 'Api\User@getOtherUserPhotos');
 });
 
 
