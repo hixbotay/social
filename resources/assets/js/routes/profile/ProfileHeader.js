@@ -2,80 +2,95 @@ import React, { PureComponent } from 'react';
 import ToggleDisplay from 'react-toggle-display';
 import { Line } from 'rc-progress';
 import { Card, CardWithIcon } from '../../components/Card';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import CenterModeSlider from '../../components/Slider/CenterModeSlider';
 import ProfilePhotos from './ProfilePhotos';
-import {getFeaturedUserPhotos, updateUser} from '../../actions/UserActions';
+import { getFeaturedUserPhotos, updateUser } from '../../actions/UserActions';
 import connect from 'react-redux/es/connect/connect';
 import EdiText from 'react-editext';
 import moment from "moment";
 
 class ProfileHeader extends PureComponent {
+    constructor() {
+        super();
+        this.state = {
+            show: false
+        }
+    }
 
     componentWillUpdate(nextProps, nextState) {
-        return nextProps.user !== this.props.user; 
+        return nextProps.user !== this.props.user;
+    }
+
+    viewMoreInfo() {
+        if(this.props.current_user.vip.status) {
+            this.setState({show: !this.state.show});
+        } else {
+            alert("Chỉ thành viên VIP mới xem được thông tin người khác!");
+        }
+        
     }
 
     render() {
-        const {user, isCurrentUser, images} = this.props;
+        const { user, isCurrentUser, images, current_user } = this.props;
         var completePercentage = localStorage.getItem("percentage");
 
         return (
             <Card>
                 <div id="user-description" className="mb-2">
-                    <i className="fas fa-info-circle"></i><br/>
+                    <i className="fas fa-info-circle"></i><br />
                     <div>
-                    {
-                        user.description ? (
-                            <React.Fragment>
-                            {
-                                isCurrentUser ? (
-                                    <EdiText 
-                                        type="textarea" 
-                                        value={user.description} 
-                                        editButtonText="Sửa"
-                                        editButtonClassName="btn btn-primary btn-sm"
-                                        onSave={(content) => this.props.updateUser({user: {description: content}}, user.id)}
-                                    />
-                                ) : (
-                                    <div>{user.description}</div>
+                        {
+                            user.description ? (
+                                <React.Fragment>
+                                    {
+                                        isCurrentUser ? (
+                                            <EdiText
+                                                type="textarea"
+                                                value={user.description}
+                                                editButtonText="Sửa"
+                                                editButtonClassName="btn btn-primary btn-sm"
+                                                onSave={(content) => this.props.updateUser({ user: { description: content } }, user.id)}
+                                            />
+                                        ) : (
+                                                <div>{user.description}</div>
+                                            )
+                                    }
+                                </React.Fragment>
+                            ) : (
+                                    <React.Fragment>
+                                        {
+                                            isCurrentUser ? (
+                                                <div>
+                                                    <EdiText
+                                                        type="textarea"
+                                                        value="Bạn là người như thế nào, hãy chia sẻ một chút để người ấy hiểu bạn hơn nhé!!!"
+                                                        editButtonText="Sửa"
+                                                        editButtonClassName="btn btn-primary btn-sm"
+                                                        onSave={(content) => this.props.updateUser({ user: { description: content } }, user.id)}
+                                                    />
+                                                </div>
+                                            ) : (
+                                                    <div>
+                                                        Chưa có mô tả về {user.name}
+                                                    </div>
+                                                )
+                                        }
+                                    </React.Fragment>
                                 )
-                            }
-                            </React.Fragment>
-                        ) : (
-                            <React.Fragment>
-                            {
-                                isCurrentUser ? (
-                                    <div>
-                                        <EdiText 
-                                            type="textarea" 
-                                            value="Bạn là người như thế nào, hãy chia sẻ một chút để người ấy hiểu bạn hơn nhé!!!"
-                                            editButtonText="Sửa"
-                                            editButtonClassName="btn btn-primary btn-sm"
-                                            onSave={(content) => this.props.updateUser({user: {description: content}}, user.id)}
-                                        />
-                                    </div>
-                                ) : (
-                                    <div>
-                                        Chưa có mô tả về {user.name}
-                                    </div>
-                                )
-                            }
-                            </React.Fragment>
-                        )
-                    }
-                    
+                        }
+
                     </div>
                 </div>
                 {
                     isCurrentUser ? (
                         <ProfilePhotos images={images}></ProfilePhotos>
                     ) : (
-                        <CenterModeSlider images={[user.avatar, ...images]}></CenterModeSlider>
-                    )
+                            <CenterModeSlider images={[user.avatar, ...images]}></CenterModeSlider>
+                        )
                 }
-                
-                <br/>
+
+                <br />
                 {
                     isCurrentUser ? (
                         <div className="mb-4">
@@ -93,7 +108,7 @@ class ProfileHeader extends PureComponent {
                                 </div>
                             </div>
                         </div>
-                    ) :null
+                    ) : null
                 }
 
                 <div className="mb-4">
@@ -121,7 +136,7 @@ class ProfileHeader extends PureComponent {
                                 {
                                     user.marial_status ? (
                                         user.marial_status === 1 ? "Đã kết hôn" : "Đã từng kết hôn trước đó"
-                                    ) : "Độc thân" 
+                                    ) : "Độc thân"
                                 }
                             </div>
                         </div>
@@ -142,8 +157,43 @@ class ProfileHeader extends PureComponent {
                             <div className="right">{user.religion_name}</div>
                         </div>
                         <div className="flex">
-                            <div className="left">Nơi sống</div>
+                            <div className="left">Quê quán</div>
                             <div className="right">{user.address}</div>
+                        </div>
+                        <ToggleDisplay show={this.state.show && current_user.vip.status}>
+                            <div className="flex">
+                                <div className="left">Nơi ở hiện tại</div>
+                                <div className="right">{user.village_name}, {user.district_name}, {user.province_name}</div>
+                            </div>
+                            <div className="flex">
+                                <div className="left">Sở thích</div>
+                                <div className="right">
+                                    {
+                                        user.hobbies.map(hobby => {
+                                            return (
+                                                <span>{hobby.name}, </span>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                            <div className="flex">
+                                <div className="left">Số điện thoại</div>
+                                <div className="right">{user.mobile}</div>
+                            </div>
+                            <div className="flex">
+                                <div className="left">Email</div>
+                                <div className="right">{user.email}</div>
+                            </div>
+                        </ToggleDisplay>
+                        <div className="text-center" onClick={() => this.viewMoreInfo()}>
+                            {
+                                this.state.show ? (
+                                    <u>Ẩn bớt</u>
+                                ) : (
+                                    <u>Xem thêm thông tin về {user.name}</u>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

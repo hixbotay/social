@@ -38,7 +38,7 @@ class OtherPerson extends Component {
         return (
             <OtherUserLayout user={user_data.user} current_user={current_user} relationship={user_data.relationship}>
                 <Card>
-                    <ProfileHeader user={user_data.user} isCurrentUser={false} images={featured_photos}></ProfileHeader>
+                    <ProfileHeader user={user_data.user} current_user={current_user} isCurrentUser={false} images={featured_photos}></ProfileHeader>
                     <div className="text-center">
                         <button className="btn btn-primary" onClick={() => {this.setState({isOpen: true})}}>
                             Xem thêm ảnh về {user_data.user.name} <i className="fas fa-images"></i>
