@@ -73,6 +73,13 @@ class FilterTab extends Component {
     createConversation(item){
         this.setState({open: false})
         const {chatList} = this.props;
+        if (chatList.length > 0){
+            for (let i = 0; i < chatList.length; i ++){
+                if (item.id === chatList[i].id){
+                    item.conversation_id = chatList[i].conversation_id;
+                }
+            }
+        }
         this.props.chatTo(item);
     }
 

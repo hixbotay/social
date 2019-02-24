@@ -123,7 +123,6 @@ class Messages extends Component {
     }
 
     changeActive(item){
-        console.log(item);
         if (!item.conversation_id) {
             this.props.createConversation({
                 name: item.id + "_" + this.props.current_user.id,
@@ -131,6 +130,10 @@ class Messages extends Component {
                 user: [this.props.current_user.id, item.id]
             })
                 .then(response => {
+                    var index = null;
+                    if (this.props.chatList.length === 0){
+                        index = 0;
+                    }
                     var payload = {
                         index: null,
                         conversation_id: response.conversation_id,
