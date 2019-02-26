@@ -8,7 +8,12 @@ import { Card, CardWithIcon, CardWithTitle } from '../../components/Card';
 import Modal from 'react-modal';
 import VerificationBlock from '../../components/RightSidebar/VerificationBlock';
 import {updateRelationship } from '../../actions/UserActions';
+import {createConversation} from '../../actions/MessageActions';
 import {Link, withRouter} from 'react-router-dom';
+import socket from '../../helper/socket';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
+
 
 
 class OtherUserLayout extends Component {
@@ -21,7 +26,9 @@ class OtherUserLayout extends Component {
             likeNumber: parseInt(props.relationship.likeNumber) ? parseInt(props.relationship.likeNumber) : 0,
             loveNumber: parseInt(props.relationship.loveNumber) ? parseInt(props.relationship.loveNumber) : 0,
             isAlertRelationship: false,
-            isAlertDating: false
+            isAlertDating: false,
+            message: "",
+            conversation_id: ""
         }
     }
 
@@ -87,6 +94,77 @@ class OtherUserLayout extends Component {
         }
     }
 
+    componentDidMount() {
+        const {user, current_user} = this.props;
+        var subcriber = {room_id: current_user.id, username: current_user.name};
+        socket.emit('subscribe', subcriber);
+    }
+
+    sendMessage(){
+        const {user, current_user} = this.props;
+        if (!this.state.conversation_id) {
+            this.props.createConversation({
+                name: user.id + "_" + current_user.id,
+                creator_id: current_user.id,
+                user: [current_user.id, user.id]
+            })
+                .then(response => {
+
+                    console.log(response);
+                    console.log(this.state.message);
+
+                    const conversation = response.conversation_id;
+                    this.setState({
+                        conversation_id: response.conversation_id,
+                    }, () => {
+                        socket.emit('new_message', {
+                            username: current_user.name,
+                            message : this.state.message,
+                            to_id: [user.id],
+                            conversation_id: this.state.conversation_id,
+                        });
+                        this.createNotification('info');
+                        this.setState({message: ""});
+                    });
+
+                })
+                .catch(e => {
+                    this.createNotification('error');
+                })
+        }else{
+            socket.emit('new_message', {
+                username: current_user.name,
+                message : this.state.message,
+                to_id: [user.id],
+                conversation_id: this.state.conversation_id,
+            });
+            this.createNotification('info');
+        }
+
+
+
+    }
+
+    createNotification(type){
+        switch (type) {
+            case 'info':
+                NotificationManager.info('Message sent !');
+                break;
+            case 'success':
+                alert(type);
+                NotificationManager.success('Success message', 'Message sent!');
+                break;
+            case 'warning':
+                NotificationManager.warning('Warning message', 'Close after 3000ms', 3000);
+                break;
+            case 'error':
+                NotificationManager.error('Error message', 'Click me!', 5000, () => {
+                    alert('callback');
+                });
+                break;
+        }
+    }
+
     render() {
         const {user, current_user} = this.props;
 
@@ -144,15 +222,21 @@ class OtherUserLayout extends Component {
                     <Card>
                         <div className="row">
                             <div className="col-9">
-                                <input className="form-control" />
+                                <input className="form-control" value={this.state.message} onChange={(e) => {
+                                    this.setState({message: e.target.value});
+                                }} />
                             </div>
                             <div className="col-3 text-center">
-                                <CircleButton icon="fab fa-telegram-plane"></CircleButton>
+                                <CircleButton
+                                    action={() => {
+                                        this.sendMessage();
+                                    }}
+                                    icon="fab fa-telegram-plane"></CircleButton>
                             </div>
                         </div>
                         <div>Bắt đầu chat với {user.name} ngay!</div>
                     </Card>
-                    {/* <CardWithTitle 
+                    {/* <CardWithTitle
                         title={"Đề xuất thành viên có thể hợp với bạn"}
                         hasLine={true}    
                     >
@@ -197,6 +281,9 @@ class OtherUserLayout extends Component {
                         Đã hiểu
                     </button>
                 </Modal>
+
+                <NotificationContainer/>
+
             </div>
         );
     }
@@ -204,13 +291,15 @@ class OtherUserLayout extends Component {
 
 function mapStateToProps(state) {
     return {
-        price: state.payment.price
+        price: state.payment.price,
+        chat: state.chat
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id))
+        updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id)),
+        createConversation: (data) => dispatch(createConversation(data)),
     }
 }
 
