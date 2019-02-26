@@ -44,6 +44,7 @@ class FilterTab extends Component {
     }
 
     loadDistrict(provinceID){
+        if (!provinceID) return;
         this.props.getAllDistricts(provinceID)
             .then(data => {
                 this.setState({
