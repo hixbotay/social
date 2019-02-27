@@ -176,7 +176,7 @@ class ProfileHeader extends PureComponent {
                                                 {
                                                     user.hobbies.map(hobby => {
                                                         return (
-                                                            <span>{hobby.name}, </span>
+                                                            <span key={hobby.id}>{hobby.name}, </span>
                                                         )
                                                     })
                                                 }

@@ -20,7 +20,10 @@ class CreateNewCafe extends Component {
         this.state = {
             open: "08:00",
             close: "22:00",
-            data: {}
+            data: {
+                open: "08:00",
+                close: "22:00"
+            }
         };
     }
 
