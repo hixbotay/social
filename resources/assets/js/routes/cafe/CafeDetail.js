@@ -19,7 +19,7 @@ class CafeDetail extends Component {
 
     componentDidMount() {
         this.props.getCafeDetail(this.props.match.params.id);
-        this.props.getProducts({agency_id: this.props.match.params.id});
+        this.props.getProducts({ agency_id: this.props.match.params.id });
     }
 
     createDating(id) {
@@ -77,15 +77,15 @@ class CafeDetail extends Component {
                         <div className="author-date">
                             <h3>{agency.name}</h3>
                             <div>
-                                {   
-                                    agency.type ? 
-                                    (
-                                        agency.type === 1 ? (
-                                            <div className="address-type">CAFE</div>
-                                        ) : (
-                                            <div className="address-type">QUÁN ĂN</div>
-                                        )
-                                    ) : null
+                                {
+                                    agency.type ?
+                                        (
+                                            agency.type === 1 ? (
+                                                <div className="address-type">CAFE</div>
+                                            ) : (
+                                                    <div className="address-type">QUÁN ĂN</div>
+                                                )
+                                        ) : null
                                 }
                             </div>
                         </div>
@@ -118,58 +118,89 @@ class CafeDetail extends Component {
                 </Card>
                 <Card>
                     <p>Thêm ảnh có liên quan để mô tả rõ hơn về quán</p>
-                    <div className="row">
-                        <div className="col-3">
-                            <label className="btn-add-image" id="btn-normal-img"> 
-                                <i className="fas fa-camera fa-2x"></i>
-                                <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'normal')} />
-                            </label>
-                        </div>
-                        <div className="col-9">
-                            <Carousel 
-                                slidesToShow={3} 
-                                cellSpacing={5}
-                                autoplay={true}
-                                autoGenerateStyleTag={true}
-                                initialSlideHeight={250}
-                                autoplay={true}
-                                renderCenterLeftControls={({ previousSlide }) => (
-                                    <button className="arrow-btn" onClick={previousSlide}><i className="fas fa-chevron-circle-left"></i></button>
-                                )}
-                                renderCenterRightControls={({ nextSlide }) => (
-                                    <button className="arrow-btn" onClick={nextSlide}><i className="fas fa-chevron-circle-right"></i></button>
-                                )}
-                            >
-                                {
-                                    agency.images.map((item, index) => {
-                                        return (
-                                            <img src={item} key={index}/>
-                                        )
-                                    })
-                                }
-                            </Carousel>
-                        </div>
-                    </div>
+                    {
+                        (user.id === agency.user_id) ? (
+                            <div className="row">
+                                <div className="col-3">
+                                    <label className="btn-add-image" id="btn-normal-img">
+                                        <i className="fas fa-camera fa-2x"></i>
+                                        <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'normal')} />
+                                    </label>
+                                </div>
+                                <div className="col-9">
+                                    <Carousel
+                                        slidesToShow={3}
+                                        cellSpacing={5}
+                                        autoplay={true}
+                                        autoGenerateStyleTag={true}
+                                        initialSlideHeight={250}
+                                        autoplay={true}
+                                        renderCenterLeftControls={({ previousSlide }) => (
+                                            <button className="arrow-btn" onClick={previousSlide}><i className="fas fa-chevron-circle-left"></i></button>
+                                        )}
+                                        renderCenterRightControls={({ nextSlide }) => (
+                                            <button className="arrow-btn" onClick={nextSlide}><i className="fas fa-chevron-circle-right"></i></button>
+                                        )}
+                                    >
+                                        {
+                                            agency.images.map((item, index) => {
+                                                return (
+                                                    <img src={item} key={index} />
+                                                )
+                                            })
+                                        }
+                                    </Carousel>
+                                </div>
+                            </div>
+                        ) : (
+                                <div className="row">
+                                    <div className="col-12">
+                                        <Carousel
+                                            slidesToShow={3}
+                                            cellSpacing={5}
+                                            autoplay={true}
+                                            autoGenerateStyleTag={true}
+                                            initialSlideHeight={250}
+                                            autoplay={true}
+                                            renderCenterLeftControls={({ previousSlide }) => (
+                                                <button className="arrow-btn" onClick={previousSlide}><i className="fas fa-chevron-circle-left"></i></button>
+                                            )}
+                                            renderCenterRightControls={({ nextSlide }) => (
+                                                <button className="arrow-btn" onClick={nextSlide}><i className="fas fa-chevron-circle-right"></i></button>
+                                            )}
+                                        >
+                                            {
+                                                agency.images.map((item, index) => {
+                                                    return (
+                                                        <img src={item} key={index} />
+                                                    )
+                                                })
+                                            }
+                                        </Carousel>
+                                    </div>
+                                </div>
+                            )
+                    }
                 </Card>
                 <CardWithTitle title="SẢN PHẨM CỦA QUÁN" hasLine={true}>
                     <div className="row">
-                    {
-                        products.map((product, index) => {
-                            return (
-                                <div className="col-4" key={index}>
-                                    <Link to={`/products/${product.id}`}>
-                                        <img src={product.image} className="product-thumbnail" />
-                                        <h5>
-                                            <b>{product.name}</b>
-                                        </h5>
-                                        <div>
-                                            <b className="red">{product.sale_price ? product.sale_price : product.price} xu</b>
-                                        </div>
-                                    </Link>
-                                </div>
-                            )
-                        })
-                    }
+                        {
+                            products.map((product, index) => {
+                                return (
+                                    <div className="col-4" key={index}>
+                                        <Link to={`/products/${product.id}`}>
+                                            <img src={product.image} className="product-thumbnail" />
+                                            <h5>
+                                                <b>{product.name}</b>
+                                            </h5>
+                                            <div>
+                                                <b className="red">{product.sale_price ? product.sale_price : product.price} xu</b>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </CardWithTitle>
             </CafeLayout>
