@@ -196,8 +196,8 @@ class ProfileHeader extends PureComponent {
                                             this.state.show ? (
                                                 <u>Ẩn bớt</u>
                                             ) : (
-                                                    <u>Xem thêm thông tin về {user.name}</u>
-                                                )
+                                                <u>Xem thêm thông tin về {user.name}</u>
+                                            )
                                         }
                                     </div>
                                 </React.Fragment>
