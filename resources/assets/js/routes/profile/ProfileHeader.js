@@ -24,7 +24,7 @@ class ProfileHeader extends PureComponent {
     }
 
     viewMoreInfo() {
-        if (this.props.current_user.vip.status) {
+        if (this.props.isCurrentUser || this.props.current_user.vip.status) {
             this.setState({ show: !this.state.show });
         } else {
             alert("Chỉ thành viên VIP mới xem được thông tin người khác!");
@@ -163,45 +163,43 @@ class ProfileHeader extends PureComponent {
                         </div>
 
                         {
-                            !isCurrentUser ? (
-                                <React.Fragment>
-                                    <ToggleDisplay show={this.state.show && current_user.vip.status}>
-                                        <div className="flex">
-                                            <div className="left">Nơi ở hiện tại</div>
-                                            <div className="right">{user.village_name}, {user.district_name}, {user.province_name}</div>
+                            <React.Fragment>
+                                <ToggleDisplay show={this.state.show}>
+                                    <div className="flex">
+                                        <div className="left">Nơi ở hiện tại</div>
+                                        <div className="right">{user.village_name}, {user.district_name}, {user.province_name}</div>
+                                    </div>
+                                    <div className="flex">
+                                        <div className="left">Sở thích</div>
+                                        <div className="right">
+                                            {
+                                                user.hobbies.map(hobby => {
+                                                    return (
+                                                        <span key={hobby.id}>{hobby.name}, </span>
+                                                    )
+                                                })
+                                            }
                                         </div>
-                                        <div className="flex">
-                                            <div className="left">Sở thích</div>
-                                            <div className="right">
-                                                {
-                                                    user.hobbies.map(hobby => {
-                                                        return (
-                                                            <span key={hobby.id}>{hobby.name}, </span>
-                                                        )
-                                                    })
-                                                }
-                                            </div>
-                                        </div>
-                                        <div className="flex">
-                                            <div className="left">Số điện thoại</div>
-                                            <div className="right">{user.mobile}</div>
-                                        </div>
-                                        <div className="flex">
-                                            <div className="left">Email</div>
-                                            <div className="right">{user.email}</div>
-                                        </div>
-                                    </ToggleDisplay>
-                                    <div className="text-center" onClick={() => this.viewMoreInfo()}>
-                                        {
-                                            this.state.show ? (
-                                                <u>Ẩn bớt</u>
-                                            ) : (
+                                    </div>
+                                    <div className="flex">
+                                        <div className="left">Số điện thoại</div>
+                                        <div className="right">{user.mobile}</div>
+                                    </div>
+                                    <div className="flex">
+                                        <div className="left">Email</div>
+                                        <div className="right">{user.email}</div>
+                                    </div>
+                                </ToggleDisplay>
+                                <div className="text-center" onClick={() => this.viewMoreInfo()}>
+                                    {
+                                        this.state.show ? (
+                                            <u>Ẩn bớt</u>
+                                        ) : (
                                                 <u>Xem thêm thông tin về {user.name}</u>
                                             )
-                                        }
-                                    </div>
-                                </React.Fragment>
-                            ) : null
+                                    }
+                                </div>
+                            </React.Fragment>
                         }
 
                     </div>
