@@ -325,7 +325,7 @@ class CreateCoupleDating extends Component {
                                         <div className="col-12 col-md-6">
                                             <DatePickerInput
                                                 minDate={subscriber ? moment(Math.max(new Date(subscriber.expect_date_from), new Date())).format("DD/MM/YYYY") : moment().format("DD/MM/YYYY")}
-                                                maxDate={subscriber ? moment(subscriber.expect_date_to).format("DD/MM/YYYY") : moment().add(15, 'days').format("DD/MM/YYYY")}
+                                                maxDate={subscriber ? moment(subscriber.expect_date_to).format("DD/MM/YYYY") : moment(new Date().setDate(new Date().getDate() + 15)).format("DD/MM/YYYY")}
                                                 className='react-datepicker-component my-react-component'
                                                 value={this.state.startDate}
                                                 onChange={(date) => this.onChangeDate("startDate", date)}

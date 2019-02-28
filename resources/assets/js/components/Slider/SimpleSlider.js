@@ -23,7 +23,7 @@ class SimpleSlider extends Component {
                     images.map((item, index) => {
                         return (
                             <div key={index} className="custom-slider-item">
-                                <img src={item}/>
+                                <img src={item} className={this.props.itemClassName}/>
                             </div>
                         )
                     })
@@ -40,7 +40,8 @@ SimpleSlider.propTypes = {
 
 SimpleSlider.defaultProps = {
     slidesToShow: 1,
-    images: ['http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png']
+    images: ['http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'],
+    itemClassName: "image"
 }
 
 export default SimpleSlider;

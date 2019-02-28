@@ -24,26 +24,12 @@ class OtherPerson extends Component {
     }
 
     render() {
-        const { user_data, current_user, featured_photos, other_user_photos} = this.props;
-
-        const images = other_user_photos.map(photo => {
-            return {
-                src: photo.source,
-                thumbnail: photo.source,
-                thumbnailWidth: 250,
-                thumbnailHeight: 250,
-            }
-        })
+        const { user_data, current_user, featured_photos} = this.props;
 
         return (
             <OtherUserLayout user={user_data.user} current_user={current_user} relationship={user_data.relationship}>
                 <Card>
                     <ProfileHeader user={user_data.user} current_user={current_user} isCurrentUser={false} images={featured_photos}></ProfileHeader>
-                    <div className="text-center">
-                        <button className="btn btn-primary" onClick={() => {this.setState({isOpen: true})}}>
-                            Xem thêm ảnh về {user_data.user.name} <i className="fas fa-images"></i>
-                        </button>
-                    </div>
                 </Card>
                 
                 <div className="col-12">
@@ -86,15 +72,6 @@ class OtherPerson extends Component {
                         )
                     }
                 </Card>
-                <Modal isOpen={this.state.isOpen}>
-                    <div className="clearfix mb-4" onClick={() => {this.setState({isOpen: false})}}>
-                        <i className="fas fa-times fa-2x float-right"></i>
-                    </div>
-                    <div className="clearfix">
-                        <Gallery images={images} />
-                    </div>
-                    
-                </Modal>
             </OtherUserLayout>
         );
     }
@@ -105,7 +82,6 @@ function mapStateToProps(state) {
         user_data: state.user.other_user_data,
         current_user: state.user.current_user,
         featured_photos: state.user.featured_photos,
-        other_user_photos: state.user.other_user_photos
     }
 }
 

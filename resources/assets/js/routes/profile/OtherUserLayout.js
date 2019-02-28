@@ -7,14 +7,14 @@ import InformationNumber from '../../components/Information/InformationNumber';
 import { Card, CardWithIcon, CardWithTitle } from '../../components/Card';
 import Modal from 'react-modal';
 import VerificationBlock from '../../components/RightSidebar/VerificationBlock';
-import {updateRelationship } from '../../actions/UserActions';
+import {updateRelationship, getOtherUserPhotos} from '../../actions/UserActions';
 import {createConversation} from '../../actions/MessageActions';
 import {Link, withRouter} from 'react-router-dom';
 import socket from '../../helper/socket';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-
-
+import SimpleSlider from '../../components/Slider/SimpleSlider';
+import Gallery from "react-grid-gallery";
 
 class OtherUserLayout extends Component {
     constructor(props) {
@@ -28,7 +28,8 @@ class OtherUserLayout extends Component {
             isAlertRelationship: false,
             isAlertDating: false,
             message: "",
-            conversation_id: ""
+            conversation_id: "",
+            isOpenImages: false
         }
     }
 
@@ -166,7 +167,26 @@ class OtherUserLayout extends Component {
     }
 
     render() {
-        const {user, current_user} = this.props;
+        const {user, current_user, other_user_photos} = this.props;
+
+        var images = other_user_photos.map(photo => {
+            return {
+                id: photo.id,
+                src: photo.source,
+                thumbnail: photo.source,
+                thumbnailWidth: 250,
+                thumbnailHeight: 250
+            }
+        });
+
+        var sliderImg = [];
+        if(images.length > 4) {
+            for(let i=0; i < 4; i++) {
+                sliderImg.push(images[i].src);
+            }
+        } else {
+            sliderImg = images.map(image => {return image.src});
+        }
 
         return (
             <div className="row">
@@ -236,17 +256,18 @@ class OtherUserLayout extends Component {
                         </div>
                         <div>Bắt đầu chat với {user.name} ngay!</div>
                     </Card>
-                    {/* <CardWithTitle
-                        title={"Đề xuất thành viên có thể hợp với bạn"}
-                        hasLine={true}    
-                    >
+                    <Card>
+                        <div className="clearfix">
+                            <div className="float-left">
+                                <h5><i className="fas fa-image"></i> Ảnh</h5>
+                            </div>
+                            <div className="float-right">
+                                <u onClick={() => {this.setState({isOpenImages: true})}}>Xem toàn bộ ảnh</u>
+                            </div>
+                        </div>
 
-                        <ul className="list-group">
-                            <li className="list-group-item">aaaaaaaaaaa</li>
-                            <li className="list-group-item">bbbbbbbbbbbbb</li>
-                            <li className="list-group-item">ccccccccc</li>
-                        </ul>
-                    </CardWithTitle> */}
+                        <SimpleSlider images={sliderImg} slidesToShow={3} itemClassName="thumbnail-img-slider"/>
+                    </Card>
                     <VerificationBlock user={current_user}></VerificationBlock>
                 </div>
                 
@@ -263,7 +284,7 @@ class OtherUserLayout extends Component {
                                 Bạn cần hoàn thiện hồ sơ đến 70% để có thể thả tim một ai đó!
                             </div>
                             <div className="text-center create-event-alert-content">
-                                <button className="btn btn-primary" onClick={() => {document.getElementById('open-relationship-modal').click()}}>OK</button>
+                                <button className="btn btn-primary" onClick={() => {this.setState({isAlertRelationship: false})}}>OK</button>
                             </div>
                         </div>
                     </div>
@@ -282,6 +303,20 @@ class OtherUserLayout extends Component {
                     </button>
                 </Modal>
 
+                <Modal isOpen={this.state.isOpenImages}>
+                    <div className="clearfix">
+                        <div className="float-right" onClick={() => {this.setState({isOpenImages: false})}}>
+                            <i className="fas fa-times fa-2x"></i>
+                        </div>
+                    </div>
+                    <Gallery
+                        images={images}
+                        enableLightbox={true}
+                        enableImageSelection={false}
+                        // currentImageWillChange={this.onCurrentImageChange}
+                    />               
+                </Modal>
+
                 <NotificationContainer/>
 
             </div>
@@ -292,7 +327,8 @@ class OtherUserLayout extends Component {
 function mapStateToProps(state) {
     return {
         price: state.payment.price,
-        chat: state.chat
+        chat: state.chat,
+        other_user_photos: state.user.other_user_photos
     }
 }
 
@@ -300,6 +336,7 @@ function mapDispatchToProps(dispatch) {
     return {
         updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id)),
         createConversation: (data) => dispatch(createConversation(data)),
+        getOtherUserPhotos: (id) => dispatch(getOtherUserPhotos(id))
     }
 }
 

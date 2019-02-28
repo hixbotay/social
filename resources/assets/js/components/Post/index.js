@@ -120,9 +120,14 @@ class Post extends Component {
                                     
                                     <div className={this.state.isOpenControl ? "" : "d-none"}>
                                         <ul className="list-group post-control">
-                                            <li className="list-group-item" onClick={() => this.openFormEdit(post.id)}>
-                                                Sửa bài viết
-                                            </li>
+                                            {
+                                                !isShare ? (
+                                                    <li className="list-group-item" onClick={() => this.openFormEdit(post.id)}>
+                                                        Sửa bài viết
+                                                    </li>
+                                                ) : null
+                                            }
+                                            
                                             <li className="list-group-item" onClick={() => this.remove(post.id)}>
                                                 Xóa
                                             </li>

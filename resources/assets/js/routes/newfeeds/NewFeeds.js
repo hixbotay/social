@@ -38,6 +38,8 @@ class NewFeeds extends Component {
         });
     }
 
+    
+
     onLoad() {
         var {current_user} = this.props;
         let page = this.state.page + 1;
@@ -46,7 +48,7 @@ class NewFeeds extends Component {
             if(posts.length) {
                 let temp = posts.map((post, index) => {
                     return (
-                        <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={true}></Post>
+                        <Post post={post} key={post.id} user_id={current_user.id} isInNewsfeed={true}></Post>
                     )
                 });
 
@@ -61,6 +63,18 @@ class NewFeeds extends Component {
                 })
             }
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        var {current_user} = this.props;
+        if(nextProps.posts.length != this.props.posts.length) {
+            this.setState({
+                posts: [
+                    <Post post={nextProps.posts[0]} key={nextProps.posts[0].id} user_id={current_user.id} isInNewsfeed={true}></Post>,
+                    ...this.state.posts
+                ]
+            })
+        }
     }
 
     render() {

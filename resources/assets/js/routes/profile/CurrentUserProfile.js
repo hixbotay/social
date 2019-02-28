@@ -72,6 +72,18 @@ class UserProfile extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        var {current_user} = this.props;
+        if(nextProps.posts.length != this.props.posts.length) {
+            this.setState({
+                posts: [
+                    <Post post={nextProps.posts[0]} key={nextProps.posts[0].id} user_id={current_user.id} isInNewsfeed={true}></Post>,
+                    ...this.state.posts
+                ]
+            })
+        }
+    }
+
     render() {
 
         const { current_user, featured_photos} = this.props;

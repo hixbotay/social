@@ -33,8 +33,9 @@ export default (state = INIT_STATE, action) => {
             var updatedPosts = state.posts.map(post => {
                 if(post.id === action.payload.id) {
                     return action.payload;
+                } else {
+                    return post;
                 }
-                return post;
             });
             return {...state, posts: updatedPosts}
         }

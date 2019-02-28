@@ -858,7 +858,7 @@ input[type=radio], input[type=checkbox] {
 
 button.slick-arrow {
     width: 80px;
-    z-index: 100;
+    z-index: 0;
 }
 
 .slick-prev:before, .slick-next:before {
@@ -1592,4 +1592,9 @@ div#suggest-create-dating {
 
 .btn-lightbox-image {
     height: 90%;
+}
+
+img.thumbnail-img-slider {
+    height: 9em;
+    object-fit: cover;
 }
