@@ -97,3 +97,22 @@ export const DanhSach = (data) => (dispatch) => {
     })
 }
 
+export const unreadCount = (data) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+
+        fetch(chatURL + 'conversation/unreadcount/'+data.user_id, {
+            method: 'GET',
+            credentials: 'omit',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(function(response) {
+                resolve(response.json())
+            })
+            .catch(function(ex) {
+                reject(ex)
+            })
+    })
+}
+

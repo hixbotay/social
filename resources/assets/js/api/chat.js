@@ -8,7 +8,7 @@ export default axios.create({
     crossdomain: true,
     headers: {
         'content-type': 'application/json',
-        // 'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': '*',
         // 'access-control-request-method': 'GET',
         // 'X-Requested-With': 'XMLHttpRequest',
         // 'X-CSRF-TOKEN': csrf_token

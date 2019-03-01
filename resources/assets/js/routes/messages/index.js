@@ -166,6 +166,8 @@ class Messages extends Component {
                                 })
                                     .then(response => {
 
+                                        console.log(response);
+
                                         this.setState({
                                             conversation: response,
                                             chatList: newList
@@ -266,7 +268,7 @@ class Messages extends Component {
 
         socket.on("new_message", (data) => {
 
-            console.log(data);
+            // console.log(data);
 
             if (data.conversation_id === this.state.activeChat.conversation_id)
             {
@@ -338,12 +340,12 @@ class Messages extends Component {
 
     render() {
 
-        console.log(this.state.chatList);
+        // console.log(this.state.chatList);
 
         var sampleData = {
             message: {
                 sender: {
-                    name: "Pham Anh Thu",
+                    name: "",
                     avatar: "https://www.w3schools.com/howto/img_avatar.png"
                 },
                 date: "01/11/2018",
@@ -367,7 +369,7 @@ class Messages extends Component {
                                                     active: 'all',
                                                     chatList: this.props.chatList
                                                 })
-                                                console.log(this.state)
+                                                // console.log(this.state)
                                             }}>Tất cả</a>
                                         </li>
                                         <li className={(this.state.active === 'not_seen')?'active':null}>

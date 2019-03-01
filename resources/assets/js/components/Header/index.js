@@ -5,6 +5,7 @@ import { logout } from '../../actions/UserActions';
 import { connect } from 'react-redux';
 import { Card } from '../Card';
 import { markAllAsRead, getUnreadNumber, getNotifications } from '../../actions/NotificationActions';
+import { unreadCount } from '../../actions/MessageActions';
 import socket from '../../helper/socket';
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -14,7 +15,8 @@ class Header extends Component {
         this.state = {
             hasMoreNotification: false,
             notifications: [],
-            page: 0
+            page: 0,
+            chatNumber: 0,
         };
     }
 
@@ -37,6 +39,16 @@ class Header extends Component {
             console.log("Data return la = ");
             console.log(data);
         });
+
+        console.log(this.props);
+
+        this.props.unreadCount({user_id: 1})
+            .then(response => {
+                this.setState({chatNumber: response});
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     onLoad() {
@@ -83,7 +95,7 @@ class Header extends Component {
                         <div className="control-icon more has-items">
                             <a href={`${baseUrl}/messages`}>
                                 <i className="fa fa-comments"></i>
-                                <div className="label-avatar bg-blue">6</div>
+                                <div className="label-avatar bg-blue">{this.state.chatNumber}</div>
                             </a>
                         </div>
 
@@ -216,7 +228,8 @@ function mapDispatchToProps(dispatch) {
         logout: () => dispatch(logout()),
         markAllAsRead: () => dispatch(markAllAsRead()),
         getUnreadNumber: () => dispatch(getUnreadNumber()),
-        getNotifications: (page) => dispatch(getNotifications(page))
+        getNotifications: (page) => dispatch(getNotifications(page)),
+        unreadCount: (userId) => dispatch(unreadCount(userId))
     }
 }
 
