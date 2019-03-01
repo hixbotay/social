@@ -18,7 +18,7 @@ import TimePicker from 'react-times';
 import 'react-times/css/material/default.css';
 // or you can use classic theme
 import 'react-times/css/classic/default.css';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class CreateGroupDating extends Component {
     constructor(props) {
@@ -53,8 +53,8 @@ class CreateGroupDating extends Component {
         this.props.getAllJobs();
         this.props.getAllProvinces();
 
-        if(this.props.location.state) {
-            var {cafe} = this.props.location.state;
+        if (this.props.location.state) {
+            var { cafe } = this.props.location.state;
             this.setState({
                 newEvent: {
                     ...this.state.newEvent,
@@ -91,22 +91,34 @@ class CreateGroupDating extends Component {
     }
 
     onChangeDate(value, name) {
+        if (name === 'limit_date_register') {
+            if (new Date(value) >= new Date(this.state.start_date)) {
+                alert("Bạn không thể chọn ngày chốt lớn hơn ngày cuộc hẹn diễn ra!");
+                return;
+            }
+        }
+
         this.setState({
             [name]: value
+        }, () => {
+            console.log(this.state);
         })
+
+
+
     }
 
     onChangeTime(value, name) {
         let datetime = null;
-        if(name === 'start_date') {
-            datetime =  new Date(this.state.start_date).setHours(value.hour);
+        if (name === 'start_time') {
+            datetime = new Date(this.state.start_date).setHours(value.hour);
         } else {
-            datetime =  new Date(this.state.limit_date_register).setHours(value.hour);
+            datetime = new Date(this.state.limit_date_register).setHours(value.hour);
         }
-        
+
         datetime = new Date(datetime).setMinutes(value.minute);
 
-        if(new Date() > datetime) {
+        if (new Date() > datetime) {
             alert("Không thể chọn ngày giờ bé hơn thời điểm hiện tại!");
         } else {
             this.setState({
@@ -133,11 +145,11 @@ class CreateGroupDating extends Component {
         });
     }
 
-    onChangeProfit(value) {
+    onChangeProfit(name, value) {
         this.setState({
             newEvent: {
                 ...this.state.newEvent,
-                "creator_profit": value
+                [name]: value
             }
         })
     }
@@ -175,7 +187,7 @@ class CreateGroupDating extends Component {
         switch (filterType) {
             case 'province': {
                 this.props.getAllDistricts(selectedOption.value).then(districts => {
-                    this.setState({districts: districts});
+                    this.setState({ districts: districts });
                 });
                 this.props.getAllCafe({ province_id: selectedOption.value });
                 break;
@@ -200,11 +212,11 @@ class CreateGroupDating extends Component {
             return option.value;
         });
 
-        if(jobs.indexOf(null) >= 0) {
+        if (jobs.indexOf(null) >= 0) {
             jobs = [null];
-            selectedOptions = [{value: null, label: "Tất cả nghề nghiệp"}];
+            selectedOptions = [{ value: null, label: "Tất cả nghề nghiệp" }];
         }
-        
+
         this.setState({
             metadata: {
                 ...this.state.metadata,
@@ -225,7 +237,7 @@ class CreateGroupDating extends Component {
 
     onChangeScope(scope, option) {
         let value = option.value;
-        switch(scope) {
+        switch (scope) {
             case "province": {
                 this.props.getAllDistricts(value).then(districts => {
                     this.setState({
@@ -254,9 +266,9 @@ class CreateGroupDating extends Component {
         e.preventDefault();
         const { is_secret } = this.form;
 
-        var {start_time, limit_time_register, start_date, limit_date_register} = this.state;
+        var { start_time, limit_time_register, start_date, limit_date_register } = this.state;
 
-        if(!moment(start_date).isValid() || !moment(limit_date_register).isValid()) {
+        if (!moment(start_date).isValid() || !moment(limit_date_register).isValid()) {
             return alert("Ngày hẹn hoặc ngày chốt hẹn không hợp lệ!");
         }
 
@@ -276,8 +288,8 @@ class CreateGroupDating extends Component {
                 is_secret: parseInt(is_secret.value),
                 start_time: startTime,
                 limit_time_register: limitTimeRegister,
-                payment_m: this.props.price.group_dating.group_dating_m_price + this.state.agency_price,
-                payment_f: this.props.price.group_dating.group_dating_f_price + this.state.agency_price,
+                // payment_m: this.props.price.group_dating.group_dating_m_price + this.state.agency_price,
+                // payment_f: this.props.price.group_dating.group_dating_f_price + this.state.agency_price,
                 is_approved: 1
             }
         }, () => {
@@ -287,14 +299,14 @@ class CreateGroupDating extends Component {
             let isAlert = false;
 
             requiredFields.some(key => {
-                if(!this.state.newEvent[key]) {
+                if (!this.state.newEvent[key]) {
                     isAlert = true;
                     return;
                 }
             });
 
             requireMetaFields.some(key => {
-                if(!this.state.metadata[key]) {
+                if (!this.state.metadata[key]) {
                     isAlert = true;
                     return;
                 }
@@ -302,13 +314,13 @@ class CreateGroupDating extends Component {
 
             if (this.state.newEvent.is_secret === undefined || this.state.metadata.marital_status === undefined) isAlert = true;
 
-            if(this.state.metadata.min_male_age < 18 || this.state.metadata.min_female_age < 18
+            if (this.state.metadata.min_male_age < 18 || this.state.metadata.min_female_age < 18
                 || this.state.metadata.max_male_age < 18 || this.state.metadata.max_female_age < 18) {
-                    alert("Tuổi của thành viên tham gia hẹn phải đủ 18 tuổi!");
-                    return;
+                alert("Tuổi của thành viên tham gia hẹn phải đủ 18 tuổi!");
+                return;
             }
-            
-            if(isAlert) {
+
+            if (isAlert) {
                 window.alert("Vui lòng chọn đủ các trường có dấu *");
             } else {
                 this.props.createGroupEvent({ event: this.state.newEvent, event_meta: this.state.metadata }).then(data => {
@@ -335,16 +347,16 @@ class CreateGroupDating extends Component {
         var provinceOptions = provinces.map(province => {
             return { value: province.matp, label: province.name }
         });
-        
+
         var districtOptions = this.state.districts.map(district => {
             return { value: district.maqh, label: district.name }
         });
-        
+
         var jobOptions = jobs.map(job => {
             return { value: job.id, label: job.name }
         });
-        jobOptions.unshift({value: null, label: "Tất cả nghề nghiệp"});
-        
+        jobOptions.unshift({ value: null, label: "Tất cả nghề nghiệp" });
+
         return (
             <DatingLayout>
                 <CardWithTitle hasLine={true} title="TẠO CUỘC HẸN TỐC ĐỘ">
@@ -385,7 +397,7 @@ class CreateGroupDating extends Component {
                                     // time={moment().hour() > 21 ? "21:00" : ""}
                                     theme="classic"
                                     timeConfig={{
-                                        from: moment().hour(),
+                                        from: '07:00 AM',
                                         to: '09:00 PM',
                                         step: 15,
                                         unit: 'minute'
@@ -399,6 +411,7 @@ class CreateGroupDating extends Component {
                             <div className="col-4">
                                 <DatePickerInput
                                     minDate={moment()}
+                                    maxDate={moment(this.state.start_date).subtract(1,'d')}
                                     className='react-datepicker-component my-react-component'
                                     value={this.state.limit_date_register}
                                     onChange={(date) => this.onChangeDate(date, "limit_date_register")}
@@ -508,20 +521,20 @@ class CreateGroupDating extends Component {
                         <div className="row form-group">
                             <div className="col-4">Số lượng nam tham gia *</div>
                             <div className="col-4">
-                                <NumericInput 
+                                <NumericInput
                                     // required
-                                    className="form-control" 
-                                    min={1} 
+                                    className="form-control"
+                                    min={1}
                                     value={this.state.metadata.min_male_number}
                                     onChange={(value) => this.onChangeMetadata(value, "min_male_number")}
                                     placeholder="Nhỏ nhất"
                                 />
                             </div>
                             <div className="col-4">
-                                <NumericInput 
+                                <NumericInput
                                     // required
-                                    className="form-control" 
-                                    min={this.state.metadata.min_male_number} 
+                                    className="form-control"
+                                    min={this.state.metadata.min_male_number}
                                     value={this.state.metadata.max_male_number}
                                     onChange={(value) => this.onChangeMetadata(value, "max_male_number")}
                                     placeholder="Lớn nhất"
@@ -531,20 +544,20 @@ class CreateGroupDating extends Component {
                         <div className="row form-group">
                             <div className="col-4">Số lượng nữ tham gia *</div>
                             <div className="col-4">
-                                <NumericInput 
+                                <NumericInput
                                     // required
-                                    className="form-control" 
-                                    min={1} 
+                                    className="form-control"
+                                    min={1}
                                     value={this.state.metadata.min_female_number}
                                     onChange={(value) => this.onChangeMetadata(value, "min_female_number")}
                                     placeholder="Nhỏ nhất"
                                 />
                             </div>
                             <div className="col-4">
-                                <NumericInput 
+                                <NumericInput
                                     // required
-                                    className="form-control" 
-                                    min={this.state.metadata.min_female_number} 
+                                    className="form-control"
+                                    min={this.state.metadata.min_female_number}
                                     value={this.state.metadata.max_female_number}
                                     onChange={(value) => this.onChangeMetadata(value, "max_female_number")}
                                     placeholder="Lớn nhất"
@@ -554,20 +567,20 @@ class CreateGroupDating extends Component {
                         <div className="row form-group">
                             <div className="col-4">Độ tuổi của nam từ *</div>
                             <div className="col-4">
-                                <NumericInput 
+                                <NumericInput
                                     // required
-                                    className="form-control" 
-                                    min={18} 
+                                    className="form-control"
+                                    min={18}
                                     value={this.state.metadata.min_male_age}
                                     onChange={(value) => this.onChangeMetadata(value, "min_male_age")}
                                     placeholder="Nhỏ nhất"
                                 />
                             </div>
                             <div className="col-4">
-                                <NumericInput 
+                                <NumericInput
                                     // required
-                                    className="form-control" 
-                                    min={this.state.metadata.min_male_age} 
+                                    className="form-control"
+                                    min={this.state.metadata.min_male_age}
                                     value={this.state.metadata.max_male_age}
                                     onChange={(value) => this.onChangeMetadata(value, "max_male_age")}
                                     placeholder="Lớn nhất"
@@ -577,20 +590,20 @@ class CreateGroupDating extends Component {
                         <div className="row form-group">
                             <div className="col-4">Độ tuổi của nữ từ *</div>
                             <div className="col-4">
-                                <NumericInput 
+                                <NumericInput
                                     // required
-                                    className="form-control" 
-                                    min={18} 
+                                    className="form-control"
+                                    min={18}
                                     value={this.state.metadata.min_female_age}
                                     onChange={(value) => this.onChangeMetadata(value, "min_female_age")}
                                     placeholder="Nhỏ nhất"
                                 />
                             </div>
                             <div className="col-4">
-                                <NumericInput 
+                                <NumericInput
                                     // required
-                                    className="form-control" 
-                                    min={this.state.metadata.min_female_age} 
+                                    className="form-control"
+                                    min={this.state.metadata.min_female_age}
                                     value={this.state.metadata.max_female_age}
                                     onChange={(value) => this.onChangeMetadata(value, "max_female_age")}
                                     placeholder="Lớn nhất"
@@ -603,7 +616,7 @@ class CreateGroupDating extends Component {
                                 <Select
                                     placeholder="Chọn một hoặc nhiều nghề nghiệp"
                                     options={jobOptions}
-                                    defaultValue={{value: null, label: "Tất cả nghề nghiệp"}}
+                                    defaultValue={{ value: null, label: "Tất cả nghề nghiệp" }}
                                     isMulti={true}
                                     value={this.state.jobValues}
                                     onChange={(selectedOptions) => this.onChangeJob(selectedOptions)}
@@ -617,13 +630,13 @@ class CreateGroupDating extends Component {
                                     placeholder="Chọn một"
                                     options={
                                         [
-                                            {value: null, label: "Tất cả trạng thái"},
-                                            {value: 0, label: "Độc thân"},
-                                            {value: 1, label: "Đã kết hôn"},
-                                            {value: 2, label: "Đã từng kết hôn trước đó"},
+                                            { value: null, label: "Tất cả trạng thái" },
+                                            { value: 0, label: "Độc thân" },
+                                            { value: 1, label: "Đã kết hôn" },
+                                            { value: 2, label: "Đã từng kết hôn trước đó" },
                                         ]
                                     }
-                                    defaultValue={{value: null, label: "Tất cả trạng thái"}}
+                                    defaultValue={{ value: null, label: "Tất cả trạng thái" }}
                                     onChange={(selectedOption) => this.onChangeMaritalStatus(selectedOption)}
                                 />
                             </div>
@@ -642,11 +655,11 @@ class CreateGroupDating extends Component {
                                 <Select
                                     options={
                                         [
-                                            {value: null, label: "Tất cả các tỉnh"},
+                                            { value: null, label: "Tất cả các tỉnh" },
                                             ...provinceOptions
                                         ]
                                     }
-                                    defaultValue={{value: null, label: "Tất cả các tỉnh"}}
+                                    defaultValue={{ value: null, label: "Tất cả các tỉnh" }}
                                     onChange={(selectedOption) => this.onChangeScope("province", selectedOption)}
                                 />
                             </div>
@@ -655,11 +668,11 @@ class CreateGroupDating extends Component {
                                     placeholder="Không giới hạn quận/huyện"
                                     options={
                                         [
-                                            {value: null, label: "Tất cả các huyện"},
+                                            { value: null, label: "Tất cả các huyện" },
                                             ...districtOptions
                                         ]
                                     }
-                                    defaultValue={{value: null, label: "Tất cả các huyện"}}
+                                    defaultValue={{ value: null, label: "Tất cả các huyện" }}
                                     onChange={(selectedOption) => this.onChangeScope("district", selectedOption)}
                                 />
                             </div>
@@ -668,20 +681,29 @@ class CreateGroupDating extends Component {
                             <div className="col-4">
                                 Phí tổ chức (Bạn được nhận về)
                             </div>
-                            <div className="col-8">
-                                <NumericInput 
-                                    // required
-                                    className="form-control" 
-                                    min={1000} 
+                            <div className="col-4">
+                                <NumericInput
+                                    required
+                                    className="form-control"
+                                    min={1000}
                                     step={1000}
-                                    // value={this.state.metadata.max_female_age}
-                                    onChange={(value) => this.onChangeProfit(value)}
-                                    placeholder="Đơn vị VND"
+                                    onChange={(value) => this.onChangeProfit('payment_m', value)}
+                                    placeholder="Đối với nam"
+                                />
+                            </div>
+                            <div className="col-4">
+                                <NumericInput
+                                    required
+                                    className="form-control"
+                                    min={1000}
+                                    step={1000}
+                                    onChange={(value) => this.onChangeProfit('payment_f', value)}
+                                    placeholder="Đối với nữ"
                                 />
                             </div>
                         </div>
                         <div className="alert alert-warning">
-                            <b>Lưu ý:</b><br/>
+                            <b>Lưu ý:</b><br />
                             <ul>
                                 <li>
                                     - Phí tham gia cuộc hẹn này đối với nam sẽ là {price.group_dating.group_dating_m_price + this.state.agency_price} VND
@@ -690,7 +712,7 @@ class CreateGroupDating extends Component {
                                     - Phí tham gia cuộc hẹn này đối với nữ sẽ là {price.group_dating.group_dating_f_price + this.state.agency_price} VND
                                 </li>
                                 <li>
-                                    - Phí khởi tạo cuộc hẹn sẽ là {price.group_dating.group_dating_f_price} VND<br/>
+                                    - Phí khởi tạo cuộc hẹn sẽ là {price.group_dating.group_dating_f_price} VND<br />
                                     Phí khởi tạo sẽ được trả lại sau khi cuộc hẹn diễn ra thành công.
                                 </li>
                             </ul>
