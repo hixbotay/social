@@ -22,7 +22,8 @@ class SubscribeDating extends Component {
         super(props);
         this.state = {
             newSubscriber: {
-                expect_marital_status: 0,
+                expect_marital_status: null,
+                expect_job: null,
                 is_subscribe_couple_dating: 0,
                 is_subscribe_group_dating: 0,
                 // province_id: '01',
@@ -72,7 +73,7 @@ class SubscribeDating extends Component {
             case 'type': {
                 this.props.getAllCafe({
                     province_id: this.state.newSubscriber.province_id,
-                    district_id:this.state.newSubscriber.district_id,
+                    district_id: this.state.newSubscriber.district_id,
                     type: selectedOption.value
                 });
                 break;
@@ -81,17 +82,31 @@ class SubscribeDating extends Component {
     }
 
     onChangeSelect(selectedOption, name) {
-        if(name === 'expect_job') {
+        if (name === 'expect_job') {
             let temp = "";
-            selectedOption.forEach(option => {
+            var jobs = selectedOption.map(option => {
                 temp += option.value + ",";
+                return option.value;
             });
-            this.setState({
-                newSubscriber: {
-                    ...this.state.newSubscriber,
-                    [name]: temp
-                }
-            })
+
+            if (jobs.indexOf(null) >= 0) {
+                temp = null;
+                this.setState({
+                    newSubscriber: {
+                        ...this.state.newSubscriber,
+                        [name]: null
+                    },
+                    expect_job: [{ value: null, label: "Tất cả nghề nghiệp" }]
+                });
+            } else {
+                this.setState({
+                    newSubscriber: {
+                        ...this.state.newSubscriber,
+                        [name]: temp
+                    },
+                    expect_job: selectedOption
+                })
+            }
         } else {
             this.setState({
                 newSubscriber: {
@@ -205,8 +220,12 @@ class SubscribeDating extends Component {
                             <div className="row">
                                 {
                                     mySubscribers.map((subscriber, index) => {
-                                        let maritalStatus = "Độc thân";
-                                        switch(subscriber.expect_marital_status) {
+                                        let maritalStatus = "Tất cả trạng thái hôn nhân";
+                                        switch (subscriber.expect_marital_status) {
+                                            case 0: {
+                                                maritalStatus = "Độc thân";
+                                                break;
+                                            }
                                             case 1: {
                                                 maritalStatus = "Đã kết hôn";
                                                 break;
@@ -246,9 +265,13 @@ class SubscribeDating extends Component {
                                                     <div className="col-4">Nghề nghiệp</div>
                                                     <div className="col-8">
                                                         {
-                                                            subscriber.jobs.map(job => {
-                                                                return <span key={job.id}>{job.name}, </span>
-                                                            })
+                                                            subscriber.jobs.length ? (
+                                                                subscriber.jobs.map(job => {
+                                                                    return <span key={job.id}>{job.name}, </span>
+                                                                })
+                                                            ) : (
+                                                                    "Tất cả nghề nghiệp"
+                                                                )
                                                         }
                                                     </div>
                                                 </div>
@@ -422,20 +445,20 @@ class SubscribeDating extends Component {
                                     Độ tuổi
                                 </div>
                                 <div className="col-4">
-                                    <NumericInput 
+                                    <NumericInput
                                         // required
-                                        className="form-control" 
-                                        min={18} 
+                                        className="form-control"
+                                        min={18}
                                         value={this.state.newSubscriber.expect_age_min}
                                         onChange={(value) => this.onChageNumberInput(value, "expect_age_min")}
                                         placeholder="Nhỏ nhất"
                                     />
                                 </div>
                                 <div className="col-4">
-                                    <NumericInput 
+                                    <NumericInput
                                         // required
-                                        className="form-control" 
-                                        min={this.state.newSubscriber.expect_age_min} 
+                                        className="form-control"
+                                        min={this.state.newSubscriber.expect_age_min}
                                         value={this.state.newSubscriber.expect_age_max}
                                         onChange={(value) => this.onChageNumberInput(value, "expect_age_max")}
                                         placeholder="Lớn nhất"
@@ -449,13 +472,18 @@ class SubscribeDating extends Component {
                                 <div className="col-8">
                                     <Select
                                         isMulti={true}
-                                        // defaultValue={this.state.newSubscriber.expect_job}
+                                        defaultValue={{ value: null, label: "Tất cả nghề nghiệp" }}
                                         placeholder="Chọn một hoặc nhiều"
                                         options={
-                                            jobs.map(job => {
-                                                return { value: job.id, label: job.name }
-                                            })
+                                            [
+                                                { value: null, label: "Tất cả nghề nghiệp" },
+                                                ...jobs.map(job => {
+                                                    return { value: job.id, label: job.name }
+                                                })
+                                            ]
+
                                         }
+                                        value={this.state.expect_job}
                                         onChange={(selectedOption) => this.onChangeSelect(selectedOption, "expect_job")}
                                     />
                                 </div>
@@ -466,15 +494,16 @@ class SubscribeDating extends Component {
                                 </div>
                                 <div className="col-8">
                                     <Select
-                                        defaultValue={this.state.newSubscriber.expect_marital_status}
-                                        placeholder="Chọn một"
+                                        defaultValue={{ value: null, label: "Tất cả trạng thái" }}
                                         options={
                                             [
-                                                {value: 0, label: "Độc thân"},
-                                                {value: 1, label: "Đã kết hôn"},
-                                                {value: 2, label: "Đã từng kết hôn trước đó"},
+                                                { value: null, label: "Tất cả trạng thái" },
+                                                { value: 0, label: "Độc thân" },
+                                                { value: 1, label: "Đã kết hôn" },
+                                                { value: 2, label: "Đã từng kết hôn trước đó" },
                                             ]
                                         }
+
                                         onChange={(selectedOption) => this.onChangeSelect(selectedOption, "expect_marital_status")}
                                     />
                                 </div>

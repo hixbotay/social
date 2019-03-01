@@ -175,7 +175,6 @@ class CreateCoupleDating extends Component {
         var times = this.state.startTime.split(":");
         var start_time = moment(this.state.startDate).hour(times[0]).minute(times[1]);
         start_time = start_time.local().format('YYYY-MM-DD HH:mm:ss');
-        console.log(start_time, this.state.startTime);
 
         this.props.createCoupleEvent({
             event: {
@@ -324,8 +323,8 @@ class CreateCoupleDating extends Component {
                                     <div className="row">
                                         <div className="col-12 col-md-6">
                                             <DatePickerInput
-                                                minDate={subscriber ? moment(Math.max(new Date(subscriber.expect_date_from), new Date())).format("DD/MM/YYYY") : moment().format("DD/MM/YYYY")}
-                                                maxDate={subscriber ? moment(subscriber.expect_date_to).format("DD/MM/YYYY") : moment(new Date().setDate(new Date().getDate() + 15)).format("DD/MM/YYYY")}
+                                                minDate={subscriber ? moment(Math.max(new Date(subscriber.expect_date_from), new Date())): moment()}
+                                                maxDate={subscriber ? moment(subscriber.expect_date_to) : moment(new Date().setDate(new Date().getDate() + 15))}
                                                 className='react-datepicker-component my-react-component'
                                                 value={this.state.startDate}
                                                 onChange={(date) => this.onChangeDate("startDate", date)}
