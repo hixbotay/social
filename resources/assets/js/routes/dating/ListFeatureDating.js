@@ -95,30 +95,6 @@ class ListFeatureDating extends Component {
                         null
                     )
                 }
-                {
-                    this.props.aroundEvents.length ? (
-                        <DatingCard isDisplaySlide={false} title="CUỘC HẸN GẦN BẠN" events={this.props.aroundEvents} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
-                    ) : (
-                        // <CardWithTitle title="CUỘC HẸN GẦN BẠN" hasLine={true}>
-                        //     <div className="text-center" >
-                        //         Chưa có cuộc hẹn nào
-                        //     </div>
-                        // </CardWithTitle>
-                        null
-                    )
-                }
-                {
-                    this.props.eventsHasYourCrush.length ?  (
-                        <DatingCard isDisplaySlide={false} title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" events={this.props.eventsHasYourCrush} action={(event_id) => this.onChangeEvent(event_id)}></DatingCard>
-                    )  : (
-                        // <CardWithTitle title="CUỘC HẸN CÓ NGƯỜI BẠN THÍCH" hasLine={true}>
-                        //     <div className="text-center" >
-                        //         Chưa có cuộc hẹn nào
-                        //     </div>
-                        // </CardWithTitle>
-                        null
-                    )
-                }
 
                 <Modal id="verify-id-modal">
                     <div className="row">

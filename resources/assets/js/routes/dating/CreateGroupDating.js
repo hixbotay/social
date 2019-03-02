@@ -706,12 +706,6 @@ class CreateGroupDating extends Component {
                             <b>Lưu ý:</b><br />
                             <ul>
                                 <li>
-                                    - Phí tham gia cuộc hẹn này đối với nam sẽ là {price.group_dating.group_dating_m_price + this.state.agency_price} VND
-                                </li>
-                                <li>
-                                    - Phí tham gia cuộc hẹn này đối với nữ sẽ là {price.group_dating.group_dating_f_price + this.state.agency_price} VND
-                                </li>
-                                <li>
                                     - Phí khởi tạo cuộc hẹn sẽ là {price.group_dating.group_dating_f_price} VND<br />
                                     Phí khởi tạo sẽ được trả lại sau khi cuộc hẹn diễn ra thành công.
                                 </li>

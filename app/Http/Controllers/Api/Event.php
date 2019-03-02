@@ -267,11 +267,11 @@ class Event extends Controller {
     // list upcoming group event and current user does not join 
     public function listEventsUpcoming() {
         $now = date('Y-m-d h:i:s');
-        $user_id = Auth::id();
+        $user = Auth::user();
 
         $temp = DB::table('event_register')
             ->where([
-                ['user_id', '=', $user_id],
+                ['user_id', '=', $user->id],
                 ['status', '=', 1]
             ])
             ->get();
@@ -292,12 +292,13 @@ class Event extends Controller {
             ->where([
                 ['limit_time_register', '>', $now],
                 ['events.status', '=', 'forthcoming'], 
-                ['events.type', '=', 'group']
+                ['events.type', '=', 'group'],
+                ['agency.province_id', '=', $user->province_id]
             ])
             ->whereNotIn('events.id', $excludeEvents)
             ->select(DB::raw('
                 events.*,
-                (CASE event_register.user_id WHEN '.$user_id.' THEN 1 ELSE 0 END) AS is_joined,
+                (CASE event_register.user_id WHEN '.$user->id.' THEN 1 ELSE 0 END) AS is_joined,
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
