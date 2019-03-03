@@ -85,7 +85,7 @@ class OtherUserLayout extends Component {
         var user = this.props.current_user;
         if((user.is_id_card_verified === 'pending' || user.is_id_card_verified === 'verified')
             && user.is_phone_verified 
-            && user.credit >= this.props.price.couple_dating.couple_dating_price) {
+            && user.credit >= this.props.price.dating.couple_dating_price) {
                 this.props.history.push({
                     pathname: '/dating/couple/create',
                     state: {invitee: this.props.user}

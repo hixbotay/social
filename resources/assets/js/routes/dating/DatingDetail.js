@@ -87,7 +87,12 @@ class DatingDetail extends Component {
     }
 
     render() {
-        const { event, current_user } = this.props;
+        const { event, current_user, price } = this.props;
+
+        var priceFee = 0;
+        if(event) {
+            priceFee = (event.type == 'couple') ? price.dating.couple_dating_price : price.dating.group_dating_price;
+        }
 
         var isSecretEvent = event.is_secret;
         if(event.creator === current_user.id) {
@@ -279,7 +284,7 @@ class DatingDetail extends Component {
                                                     Phí tham gia
                                                 </div>
                                                 <div className="col-8">
-                                                    {event.payment_m} VND
+                                                    {parseInt(event.payment_m) + parseInt(event.organizing_fee) + parseInt(priceFee)} VND
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -315,7 +320,7 @@ class DatingDetail extends Component {
                                                     Phí tham gia
                                                 </div>
                                                 <div className="col-8">
-                                                    {event.payment_f} VND
+                                                    {parseInt(event.payment_f) + parseInt(event.organizing_fee) + parseInt(priceFee)} VND
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -482,7 +487,8 @@ class DatingDetail extends Component {
 function mapStateToProps(state) {
     return {
         event: state.event.currentEvent,
-        current_user: state.user.current_user
+        current_user: state.user.current_user,
+        price: state.payment.price
     }
 }
 

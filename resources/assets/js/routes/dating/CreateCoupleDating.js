@@ -37,6 +37,7 @@ class CreateCoupleDating extends Component {
             province: null,
             district: null,
             agency_type: null,
+            fee: 0,
         }
     }
 
@@ -54,6 +55,7 @@ class CreateCoupleDating extends Component {
                             selectedAddress: index, 
                             themes: cafe.images,
                             selectedTheme: -1,
+                            fee: cafe.organizing_fee
                         });
                         return;
                     }
@@ -114,7 +116,8 @@ class CreateCoupleDating extends Component {
                 name: selectedOption.label,
                 image: ""
             },
-            themes: selectedOption.images
+            themes: selectedOption.images,
+            fee: selectedOption.fee
         })
     }
 
@@ -216,7 +219,7 @@ class CreateCoupleDating extends Component {
         });
 
         var cafeOptions =  cafes.map(cafe => {
-            return {value:  cafe.id, label: cafe.name, images: cafe.images}
+            return {value:  cafe.id, label: cafe.name, images: cafe.images, fee: cafe.organizing_fee}
         });
 
         var typeOptions = [
@@ -313,6 +316,12 @@ class CreateCoupleDating extends Component {
                                             </React.Fragment>
                                         ) : null
                                     }
+                                    <div className="row">
+                                        <div className="col-md-4">Phí địa điểm tổ chức</div>
+                                        <div className="col-md-8">
+                                        <input type="text" className="form-control" readOnly value={this.state.fee + " VND"}/>
+                                        </div>
+                                    </div>
                                 </React.Fragment>
                                 <div className="form-group">
                                     <label>
@@ -378,11 +387,10 @@ class CreateCoupleDating extends Component {
                                     </div>
                                 </div>
                                 {
-                                    price.couple_dating ? (
+                                    price.dating ? (
                                         <div>
                                             <div className="alert alert-warning">
-                                                Lưu ý chi phí hẹn đôi là <b>{price.couple_dating.couple_dating_price}đ</b><br/>
-                                                <i>(Chi phí này bao gồm chi phí đồ uống và địa điểm)</i>
+                                                Lưu ý chi phí tạo cuộc hẹn đôi là <b>{price.dating.couple_dating_price} VND</b><br/>
                                             </div>
                                         </div>
                                     ) :  null

@@ -111,7 +111,7 @@ class CreateNewCafe extends Component {
                                 <div className="row">
                                     <label className="col-md-3 control-label" htmlFor="name">Tên quán</label>
                                     <div className="col-md-9">
-                                        <input type="text" name="name" className="form-control" onChange={(e) => this.onChangeCafeData(e)} required />
+                                        <input type="text" name="name" className="form-control" onChange={(e) => this.onChangeCafeData(e.target.name, e.target.value)} required />
                                     </div>
                                 </div>
                             </div>
@@ -243,6 +243,21 @@ class CreateNewCafe extends Component {
                                             required
                                             step={10000}
                                             onChange={(value) => this.onChangeCafeData("min_price", value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={"form-horizontal"}>
+                                <div className="row">
+                                    <label className="col-md-3 control-label" htmlFor="minprice">Chi phí tổ chức cuộc hẹn</label>
+                                    <div className="col-md-9">
+                                        <NumericInput
+                                            className="form-control"
+                                            name="organizing_fee"
+                                            required
+                                            step={10000}
+                                            onChange={(value) => this.onChangeCafeData("organizing_fee", value)}
                                         />
                                     </div>
                                 </div>

@@ -45,7 +45,8 @@ class CreateGroupDating extends Component {
             type: null,
             districts: [],
             scopeDistricts: [],
-            jobValues: []
+            jobValues: [],
+            fee: 0
         }
     }
 
@@ -86,6 +87,7 @@ class CreateGroupDating extends Component {
                 image: ""
             },
             themes: item.images,
+            fee: item.fee,
             agency_price: item.price,
         })
     }
@@ -484,7 +486,7 @@ class CreateGroupDating extends Component {
                                                 placeholder={`Danh sách các quán (${cafes.length} quán)`}
                                                 options={
                                                     cafes.map(cafe => {
-                                                        return { value: cafe.id, label: cafe.name, images: cafe.images, price: cafe.max_price }
+                                                        return { value: cafe.id, label: cafe.name, images: cafe.images, price: cafe.max_price, fee: cafe.organizing_fee }
                                                     })
                                                 }
                                                 onChange={(selectedOption) => this.selectAddress(selectedOption)}
@@ -498,7 +500,7 @@ class CreateGroupDating extends Component {
                         {
                             (this.state.themes) ? (
                                 <React.Fragment>
-                                    <h5>Chọn chủ đề cuộc hẹn *</h5>
+                                    <h5>Chọn ảnh nhận diện cuộc hẹn *</h5>
                                     <Slider {...settings}>
                                         {
                                             this.state.themes.map((item, index) => {
@@ -679,6 +681,14 @@ class CreateGroupDating extends Component {
                         </div>
                         <div className="row form-group">
                             <div className="col-4">
+                                Phí địa điểm tổ chức
+                            </div>
+                            <div className="col-8">
+                                <input type="text" className="form-control" readOnly value={this.state.fee + " VND"}/>
+                            </div>
+                        </div>
+                        <div className="row form-group">
+                            <div className="col-4">
                                 Phí tổ chức (Bạn được nhận về)
                             </div>
                             <div className="col-4">
@@ -706,7 +716,8 @@ class CreateGroupDating extends Component {
                             <b>Lưu ý:</b><br />
                             <ul>
                                 <li>
-                                    - Phí khởi tạo cuộc hẹn sẽ là {price.group_dating.group_dating_f_price} VND<br />
+                                    - Phí noiduyen.vn thu về sau mỗi cuộc hẹn là {price.dating.group_dating_price} VND<br />
+                                    - Phí khởi tạo cuộc hẹn sẽ là {price.dating.deposit} VND<br />
                                     Phí khởi tạo sẽ được trả lại sau khi cuộc hẹn diễn ra thành công.
                                 </li>
                             </ul>

@@ -27,17 +27,10 @@ return [
         'VIP' => 'VIP',
     ],
     'defaultPrice' => [
-        'couple_dating' => [
+        'dating' => [
+            'deposit' => 50000, // tiền cọc khi tạo cuộc hẹn 
             'couple_dating_price' => 10000,
-            'double_dating_price' => 20000,
-            'fee' => [
-
-            ]
-        ],
-        'group_dating' => [
-            'group_dating_f_price' => 70000,
-            'group_dating_m_price' => 90000,
-            'fee' => []
+            'group_dating_price' => 20000
         ],
         'featured_24h' => 20000,
         'gift_commission' => 10,

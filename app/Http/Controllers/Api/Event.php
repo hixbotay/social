@@ -544,7 +544,8 @@ class Event extends Controller {
             ->where('events.id', '=', $event_id)
             ->select(DB::raw('
                 events.*,
-                agency.address as address
+                agency.address as address,
+                agency.organizing_fee as organizing_fee
             '))
             ->first();
 
