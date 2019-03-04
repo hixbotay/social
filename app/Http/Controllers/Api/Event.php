@@ -52,7 +52,7 @@ class Event extends Controller {
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
-                agency_photos.source as address_avatar
+                agency_photos.source as agency_avatar
             '))
             ->paginate(10);
 
@@ -128,7 +128,7 @@ class Event extends Controller {
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
-                agency_photos.source as address_avatar
+                agency_photos.source as agency_avatar
             '))
             ->paginate(10);
 
@@ -224,7 +224,7 @@ class Event extends Controller {
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
-                agency_photos.source as address_avatar
+                agency_photos.source as agency_avatar
             '))
             ->paginate(10);
 
@@ -302,7 +302,7 @@ class Event extends Controller {
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
-                agency_photos.source as address_avatar
+                agency_photos.source as agency_avatar
             '))
             ->paginate(10);
 
@@ -444,9 +444,9 @@ class Event extends Controller {
     }
 
     public function createCoupleEvent(Request $request) {
-        $user_id = Auth::id();
+        $user = Auth::user();
         $newEvent = [
-            'creator' => $user_id,
+            'creator' => $user->id,
             'status' => 'forthcoming'
         ];
         $metadata = [];
@@ -468,7 +468,7 @@ class Event extends Controller {
         if($result['type'] == 'couple') {
             DB::table('event_register')
             ->insert([
-                'user_id' => $user_id,
+                'user_id' => $user->id,
                 'event_id' => $result['id'],
                 'status' => 1,
                 'created' => date('Y-m-d h:i:s')
@@ -506,11 +506,20 @@ class Event extends Controller {
         DB::table('event_invitations')
             ->insert([
                 'event_id' => $result['id'],
-                'inviter' => $user_id,
+                'inviter' => $user->id,
                 'invitee' => $data->subscriber,
                 'created_at' => date('Y-m-d h:i:s'),
                 'updated_at' => date('Y-m-d h:i:s')
             ]);
+
+        Notification::insert([
+            'user_id' => $data->subscriber,
+            'actor' => $user->id, 
+            'content' => $user->name." đã mời bạn tham gia cuộc hẹn đôi",
+            'type' => "event-invitation",
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
 
         return json_encode($result);
     }
@@ -541,10 +550,15 @@ class Event extends Controller {
         $current_user_id = Auth::id();
 
         $event = \App\Event::leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+            ->leftjoin('agency_photos', function($join) {
+                $join->on('agency_photos.agency_id', '=', 'events.agency_id');
+                $join->on('agency_photos.type', '=', DB::raw("'avatar'"));
+            })
             ->where('events.id', '=', $event_id)
             ->select(DB::raw('
                 events.*,
                 agency.address as address,
+                agency_photos.source as agency_avatar,
                 agency.organizing_fee as organizing_fee
             '))
             ->first();
@@ -767,7 +781,7 @@ class Event extends Controller {
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
-                agency_photos.source as address_avatar
+                agency_photos.source as agency_avatar
             '))
             ->orderBy('start_time', 'DESC')
             ->paginate(10);
@@ -868,6 +882,7 @@ class Event extends Controller {
                     });
                 })
                 ->where($data)
+                ->where('start_time', '>', date('Y-m-d h:i:s'))
                 ->whereIn('events.id', $event_id)
                 ->whereIn('events.agency_id', $cafe_id)
                 ->select(DB::raw('
@@ -876,7 +891,7 @@ class Event extends Controller {
                     users.name as creator_name, 
                     users.avatar as creator_avatar, 
                     agency.address as address, 
-                    agency_photos.source as address_avatar
+                    agency_photos.source as agency_avatar
                 '))
                 ->orderBy('start_time', 'DESC')
                 ->paginate(10);
@@ -896,6 +911,7 @@ class Event extends Controller {
                     });
                 })
                 ->where($data)
+                ->where('start_time', '>', date('Y-m-d h:i:s'))
                 ->whereIn('events.agency_id', $cafe_id)
                 ->select(DB::raw('
                     events.*, 
@@ -903,7 +919,7 @@ class Event extends Controller {
                     users.name as creator_name, 
                     users.avatar as creator_avatar, 
                     agency.address as address, 
-                    agency_photos.source as address_avatar
+                    agency_photos.source as agency_avatar
                 '))
                 ->orderBy('start_time', 'DESC')
                 ->paginate(10);

@@ -69,7 +69,7 @@ class DatingCard extends Component {
 }
 
 DatingCard.defaultProps = {
-    isDisplaySlide: true
+    isDisplaySlide: false
 }
 
 export {DatingCard};

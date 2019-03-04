@@ -147,10 +147,15 @@ class CreateCoupleDating extends Component {
     }
 
     onChangeTime(value, name) {
-        this.setState({
-            ...this.state,
-            [name]: value.hour + ":" + value.minute
-        })
+        if(new Date(new Date(this.state.startDate).setHours(value.hour)).setMinutes(value.minute) <= new Date()) {
+            alert("Bạn không thể chọn ngày giờ nhỏ hơn hiện tại!");
+            return;
+        } else {
+            this.setState({
+                ...this.state,
+                [name]: value.hour + ":" + value.minute
+            })
+        }
     }
 
     closeAlert() {
@@ -185,8 +190,8 @@ class CreateCoupleDating extends Component {
                 limit_time_register: start_time,
                 start_time: start_time,
                 schedule_id: 0,
-                payment_m: this.props.price.couple_dating.couple_dating_price,
-                payment_f: this.props.price.couple_dating.couple_dating_price,
+                payment_m: 0,
+                payment_f: 0,
                 is_secret: 0,
             },
             event_meta: {
@@ -343,7 +348,7 @@ class CreateCoupleDating extends Component {
                                         </div>
                                         <div className="col-12 col-md-6">
                                             <TimePicker
-                                                time={moment().hour() > 21 ? "21:00" : this.state.startTime}
+                                                time={this.state.startTime}
                                                 theme="classic"
                                                 timeConfig={{
                                                     from: '07:00 AM',

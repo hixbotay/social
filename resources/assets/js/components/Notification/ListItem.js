@@ -42,6 +42,10 @@ class ListItem extends Component {
                     link = '/friends/like-you';
                     break;
                 }
+                case 'event-invitation': {
+                    link = '/dating/invited';
+                    break;
+                }
             }
 
             this.props.history.push(link);

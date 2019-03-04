@@ -90,7 +90,7 @@ class DatingDetail extends Component {
         const { event, current_user, price } = this.props;
 
         var priceFee = 0;
-        if(event) {
+        if(event.type) {
             priceFee = (event.type == 'couple') ? price.dating.couple_dating_price : price.dating.group_dating_price;
         }
 
@@ -149,18 +149,11 @@ class DatingDetail extends Component {
                         <Card>
                             <div className={"row next-dating-header-row1"}>
                                 <div className={"col-md-2 align-middle dating-header"}>
-                                    <RoundAvatar size={"medium"} img={baseUrl + '/' + event.image}></RoundAvatar>
+                                    <RoundAvatar size={"medium"} img={baseUrl + '/' + event.agency_avatar}></RoundAvatar>
                                 </div>
                                 <div className={"col-md-7 dating-header"}>
                                     <h5>
                                         {event.name}
-                                        <span>
-                                            {
-                                                event.is_approved ?
-                                                    <i className="fas fa-check-circle event-status-icon" style={{ color: '#27ae60' }}></i>
-                                                    : <i className="fas fa-ellipsis-h event-status-icon" style={{ color: '#f1c40f' }}></i>
-                                            }
-                                        </span>
                                     </h5>
                                     <div>{event.address}</div>
                                 </div>

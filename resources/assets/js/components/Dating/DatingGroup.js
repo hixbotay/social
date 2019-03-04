@@ -142,7 +142,7 @@ class DatingGroup extends Component {
                 <Link to={`/dating/${event.id}`}>
                     <div className={"row next-dating-header-row1"}>
                         <div className={"col-md-2 align-middle dating-header"}>
-                            <RoundAvatar size={"medium"} img={event.creator_avatar}></RoundAvatar>
+                            <RoundAvatar size={"medium"} img={event.agency_avatar}></RoundAvatar>
                         </div>
                         <div className={"col-md-7 dating-header"}>
                             <h5>{event.name}</h5>
