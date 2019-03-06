@@ -27,6 +27,7 @@ Route::middleware(['web'])->group(function() {
     Route::post('/event/review/{id}', 'Api\Event@reviewEvent');
     Route::post('/event/subscribe', 'Api\Event@subscribeEvent');
     Route::post('/event/{event_id}', 'Api\Event@joinEvent');
+    Route::put('/event/cancel/{event_id}', 'Api\Event@cancelEventByMember');
     
     Route::get('/events/around', 'Api\Event@listEventsAround');
     Route::get('/events/crush', 'Api\Event@listEventsHasYourCrush');

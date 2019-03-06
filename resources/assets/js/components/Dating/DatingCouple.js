@@ -45,7 +45,8 @@ class DatingCouple extends Component {
                 case 'forthcoming': {
                     button = (
                         <div className="text-center">
-                            <button className="btn btn-primary btn-sm">Tìm hiểu thêm</button>
+                            <button className="btn btn-primary btn-sm mr-2">Tìm hiểu thêm</button>
+                            <button className="btn btn-primary btn-sm">Hủy cuộc hẹn</button>
                         </div>
                     );
                     break;

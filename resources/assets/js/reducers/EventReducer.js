@@ -17,7 +17,8 @@ import {
     GET_SUBSCRIBERS,
     REVIEW_DATING,
     GET_MY_SUBSCRIBERS,
-    DELETE_SUBSCRIBER
+    DELETE_SUBSCRIBER,
+    CANCEL_EVENT_BY_MEMBER
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -103,6 +104,9 @@ export default (state=INIT_STATE, action) => {
             })
             return {...state, mySubscribers: temp}
             // return {...state}
+        }
+        case CANCEL_EVENT_BY_MEMBER: {
+            return {...state}
         }
         default: {
             return {...state}

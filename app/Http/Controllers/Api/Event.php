@@ -16,45 +16,104 @@ class Event extends Controller {
         $now = date('Y-m-d h:i:s');
 
         if($status == 'forthcoming') {
-            $query = [
-                ['limit_time_register', '>', $now],
-                ['status', '=', 'forthcoming']
-            ];
+            $registeredEvents = DB::table('event_register')
+                ->where([
+                    ['user_id', '=', Auth::id()],
+                    ['status', '=', 1]    
+                ])
+                ->get();
+            $temp = [];
+            foreach($registeredEvents as $item) {
+                array_push($temp, $item->event_id);
+            }
+            
+            $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+                ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+                ->leftjoin('agency_photos', function ($join) {
+                    $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                    $join->on(function($query) {
+                        $query->where('agency_photos.type', '=', 'avatar'); 
+                    });
+                })
+                ->where([
+                    ['limit_time_register', '>', $now],
+                    ['status', '=', 'forthcoming']
+                ])
+                ->whereIn('events.id', $temp)
+                ->select(DB::raw('
+                    events.*,
+                    users.name as creator_name, 
+                    users.avatar as creator_avatar, 
+                    agency.address as address, 
+                    agency_photos.source as agency_avatar
+                '))
+                ->paginate(10);
         } else if($status == 'finished') {
-            $query = [
-                ['limit_time_register', '<', $now],
-                ['status', '=', 'finished']
-            ];
+            $registeredEvents = DB::table('event_register')
+                ->where([
+                    ['user_id', '=', Auth::id()],
+                    ['status', '=', 1]    
+                ])
+                ->get();
+            $temp = [];
+            foreach($registeredEvents as $item) {
+                array_push($temp, $item->event_id);
+            }
+            
+            $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+                ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+                ->leftjoin('agency_photos', function ($join) {
+                    $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                    $join->on(function($query) {
+                        $query->where('agency_photos.type', '=', 'avatar'); 
+                    });
+                })
+                ->where([
+                    ['start_time', '<', $now],
+                    ['status', '=', 'finished']
+                ])
+                ->whereIn('events.id', $temp)
+                ->select(DB::raw('
+                    events.*,
+                    users.name as creator_name, 
+                    users.avatar as creator_avatar, 
+                    agency.address as address, 
+                    agency_photos.source as agency_avatar
+                '))
+                ->paginate(10);
         } else if($status == 'cancelled') {
-            $query = [
-                ['status', '=', 'cancelled']
-            ];
+            $registeredEvents = DB::table('event_register')
+                ->where([
+                    ['user_id', '=', Auth::id()],
+                    ['status', '=', 0]    
+                ])
+                ->get();
+            $temp = [];
+            foreach($registeredEvents as $item) {
+                array_push($temp, $item->event_id);
+            }
+            
+            $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+                ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
+                ->leftjoin('agency_photos', function ($join) {
+                    $join->on('events.agency_id', '=', 'agency_photos.agency_id');
+                    $join->on(function($query) {
+                        $query->where('agency_photos.type', '=', 'avatar'); 
+                    });
+                })
+                ->where([
+                    ['status', '=', 'cancelled']
+                ])
+                ->orWhereIn('events.id', $temp)
+                ->select(DB::raw('
+                    events.*,
+                    users.name as creator_name, 
+                    users.avatar as creator_avatar, 
+                    agency.address as address, 
+                    agency_photos.source as agency_avatar
+                '))
+                ->paginate(10);    
         }
-
-        $event_id = DB::table('event_register')->where('user_id', '=', Auth::id())->get();
-        $temp = [];
-        foreach($event_id as $item) {
-            array_push($temp, $item->event_id);
-        }
-
-        $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
-            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
-            ->leftjoin('agency_photos', function ($join) {
-                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
-                $join->on(function($query) {
-                    $query->where('agency_photos.type', '=', 'avatar'); 
-                });
-            })
-            ->where($query)
-            ->whereIn('events.id', $temp)
-            ->select(DB::raw('
-                events.*,
-                users.name as creator_name, 
-                users.avatar as creator_avatar, 
-                agency.address as address, 
-                agency_photos.source as agency_avatar
-            '))
-            ->paginate(10);
 
         $events_id = [];
         foreach($events as $key => $event) {
@@ -99,8 +158,7 @@ class Event extends Controller {
         // looking for event that current_user is joined
         $temp = DB::table('event_register')
             ->where([
-                ['user_id', '=', $user->id],
-                ['status', '=', 1]
+                ['user_id', '=', $user->id]
             ])
             ->get();
         $excludeEvents = [];
@@ -269,10 +327,10 @@ class Event extends Controller {
         $now = date('Y-m-d h:i:s');
         $user = Auth::user();
 
+        // find event user never join or invited
         $temp = DB::table('event_register')
             ->where([
-                ['user_id', '=', $user->id],
-                ['status', '=', 1]
+                ['user_id', '=', $user->id]
             ])
             ->get();
         $excludeEvents = [];
@@ -754,6 +812,7 @@ class Event extends Controller {
     }
 
     public function listInvitation() {
+        $now = date('Y-m-d h:i:s');
         $invitations = DB::table('event_invitations')
             ->where([
                 ['invitee', '=', Auth::id()],
@@ -774,7 +833,10 @@ class Event extends Controller {
                     $query->where('agency_photos.type', '=', 'avatar'); 
                 });
             })
-            ->where('status', '=', 'forthcoming')
+            ->where([
+                ['status', '=', 'forthcoming'],
+                ['limit_time_register', '>', $now]
+            ])
             ->whereIn('events.id', $temp)
             ->select(DB::raw('
                 events.*, 
@@ -991,9 +1053,34 @@ class Event extends Controller {
             ])
             ->select('invitee')
             ->get();
-        $temp = [$user->id];
+        $excludeUsers = [$user->id];
         foreach($excludeInvitee as $item) {
-            array_push($temp, $item->invitee);
+            array_push($excludeUsers, $item->invitee);
+        }
+
+        // find couple dating and exclude user 
+        $events = DB::table('event_register')
+            ->join('events', 'event_id', '=', 'events.id')
+            ->where([
+                ['events.status', '<>', 'finished'],
+                ['type', '=', 'couple'],
+                ['user_id', '=', $user->id]
+            ])
+            ->select('event_id')
+            ->get();
+        $temp1 = [];
+        foreach($events as $item) {
+            array_push($temp1, $item->event_id);
+        }
+
+        $temp2 = DB::table('event_register')
+            ->whereIn('event_id', $temp1)
+            ->select('user_id')
+            ->distinct()
+            ->get();
+
+        foreach($temp2 as $item) {
+            array_push($excludeUsers, $item->user_id);
         }
 
         $subscribers = DB::table('event_subscribers')
@@ -1013,7 +1100,7 @@ class Event extends Controller {
                 ['event_subscribers.province_id', '=', $user->province_id]
             ])
             ->whereRaw('DATE(expect_date_to) >= DATE(NOW())')
-            ->whereNotIn('event_subscribers.user_id', $temp)
+            ->whereNotIn('event_subscribers.user_id', $excludeUsers)
             ->select(DB::raw('event_subscribers.*, 
                 users.name, users.avatar, users.address, users.job,
                 devvn_tinhthanhpho.name AS province, devvn_quanhuyen.name AS district,
@@ -1071,6 +1158,18 @@ class Event extends Controller {
                 ['user_id', '=', Auth::id()]
             ])
             ->delete();
+        return ['result' => $result];
+    }
+
+    // thành viên hủy cuộc hẹn
+    public function cancelEventByMember($event_id) {
+        $user = Auth::user();
+        $result = DB::table('event_register')
+            ->where([['user_id', '=', $user->id], ['event_id', '=', $event_id]])
+            ->update([
+                ['status' => 0],
+                ['updated_at' => date('Y-m-d h:i:s')]
+            ]);
         return ['result' => $result];
     }
 }

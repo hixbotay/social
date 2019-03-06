@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { joinDating, updateInvitation } from '../../actions/EventActions';
+import { joinDating, updateInvitation, cancelEventByMember } from '../../actions/EventActions';
 import { connect } from 'react-redux';
 import { RoundAvatar } from '../Avatar';
 import { withRouter, Link } from 'react-router-dom';
@@ -35,7 +35,7 @@ const renderCountdown = ({ hours, minutes, seconds, completed }) => {
 class DatingGroup extends Component {
 
     join(event_id) {
-        if (this.props.user.is_id_verified) {
+        if (this.props.user.is_id_card_verified != 'not_yet') {
             this.props.joinDating(event_id).then(data => {
                 window.location.href = `${baseUrl}/dating/${event_id}`;
             });
@@ -46,6 +46,12 @@ class DatingGroup extends Component {
     invite(event_id) {
         this.props.action(event_id);
         document.getElementById('open-invite-modal').click();
+    }
+
+    cancelEvent() {
+        if(confirm("Bạn có chắc muốn rời cuộc hẹn này?")) {
+            this.props.cancelEventByMember(this.props.event.id);
+        }
     }
 
     render() {
@@ -59,11 +65,9 @@ class DatingGroup extends Component {
                     button = (
                         <div className="row">
                             <div className="col-6">
-                                <Link to={`/dating/${event.id}`}>
-                                    <button className="btn btn-primary btn-sm">
-                                        Quy định
-                                    </button>
-                                </Link>
+                                <button className="btn btn-danger btn-sm mr-2" onClick={() => this.cancelEvent()}>
+                                    Hủy cuộc hẹn
+                                </button>
                             </div>
                             <div className="col-6">
                                 <button className="btn btn-primary btn-sm ml-2" onClick={() => this.invite(event.id)}>
@@ -264,7 +268,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         joinDating: (event_id) => dispatch(joinDating(event_id)),
-        updateInvitation: (id, type) => dispatch(updateInvitation(id, type))
+        updateInvitation: (id, type) => dispatch(updateInvitation(id, type)),
+        cancelEventByMember: (id) => dispatch(cancelEventByMember(id))
     }
 }
 

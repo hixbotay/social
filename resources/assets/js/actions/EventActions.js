@@ -19,7 +19,8 @@ import {
     GET_SUBSCRIBERS,
     REVIEW_DATING,
     GET_MY_SUBSCRIBERS,
-    DELETE_SUBSCRIBER
+    DELETE_SUBSCRIBER,
+    CANCEL_EVENT_BY_MEMBER
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -220,5 +221,13 @@ export const deleteSubscriber = (id) => dispatch => {
         }).catch(err => {
             reject(err);
         })
+    })
+}
+
+export const cancelEventByMember = (event_id) => dispatch => {
+    return api.put(`/event/cancel/${event_id}`).then(response => {
+        dispatch({type: CANCEL_EVENT_BY_MEMBER, payload: event_id});
+    }).catch(err => {
+        console.log(err);
     })
 }

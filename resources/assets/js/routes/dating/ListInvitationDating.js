@@ -34,8 +34,6 @@ class ListInvitationDating extends Component {
     render() {
         const {events, subscribers, user, provinces} = this.props;
 
-        console.log(this.state);
-
         var coupleEvents = [];
         var groupEvents = [];
         

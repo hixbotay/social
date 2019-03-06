@@ -15,7 +15,6 @@ class DatingSearchResults extends Component {
 
     render() {
         var {events} = this.props;
-        console.log(events);
 
         return (
             <DatingLayout>
