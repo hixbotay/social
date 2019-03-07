@@ -57,8 +57,13 @@ class DatingGroup extends Component {
             if(confirm("Bạn là người tạo ra cuộc hẹn này, bạn thực hiện hành động này đồng nghĩa là bạn muốn hủy cuộc hẹn hoàn toàn?")) {
                 this.props.updateEventStatus(this.props.event.id, {status: 'cancelled'});
             }
+        }  
+    }
+
+    resetEvent() {
+        if(confirm("Bạn chắc chắn muốn hẹn lại cuộc hẹn này?")) {
+            this.props.resetEvent(this.props.event.id);
         }
-        
     }
 
     render() {
@@ -92,7 +97,7 @@ class DatingGroup extends Component {
                     if(new Date(event.limit_time_register) > new Date()) {
                         button = (
                             <div className="text-center">
-                                <button className="btn btn-primary btn-sm" onClick={() => this.props.resetEvent(event.id)}>
+                                <button className="btn btn-primary btn-sm" onClick={() => this.resetEvent()}>
                                     Hẹn lại
                                 </button>
                             </div>

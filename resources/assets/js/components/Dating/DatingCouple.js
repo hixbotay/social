@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { RoundAvatar, SquareAvatar } from '../Avatar';
 import connect from 'react-redux/es/connect/connect';
-import { joinDating, updateInvitation } from '../../actions/EventActions';
+import { joinDating, updateInvitation, cancelEventByMember, updateEventStatus, resetEvent } from '../../actions/EventActions';
 import { withRouter, Link } from 'react-router-dom';
 import Countdown from 'react-countdown-now';
 import moment from 'moment';
@@ -35,28 +35,52 @@ class DatingCouple extends Component {
         document.getElementById('open-invite-modal').click();
     }
 
+    cancelEvent() {
+        if(this.props.user.id !== this.props.event.creator) {
+            if(confirm("Bạn có chắc muốn rời cuộc hẹn này?")) {
+                this.props.cancelEventByMember(this.props.event.id);
+            }
+        } else {
+            if(confirm("Bạn là người tạo ra cuộc hẹn này, bạn thực hiện hành động này đồng nghĩa là bạn muốn hủy cuộc hẹn hoàn toàn?")) {
+                this.props.updateEventStatus(this.props.event.id, {status: 'cancelled'});
+            }
+        }  
+    }
+
+    resetEvent() {
+        if(confirm("Bạn chắc chắn muốn hẹn lại cuộc hẹn này?")) {
+            this.props.resetEvent(this.props.event.id);
+        }
+    }
+
     render() {
-        const { event, user } = this.props;
+        const { event, user, status } = this.props;
 
         var button = null;
 
         if (event.is_joined) {
-            switch (event.status) {
+            switch (status) {
                 case 'forthcoming': {
                     button = (
                         <div className="text-center">
                             <button className="btn btn-primary btn-sm mr-2">Tìm hiểu thêm</button>
-                            <button className="btn btn-primary btn-sm">Hủy cuộc hẹn</button>
+                            <button className="btn btn-primary btn-sm" onClick={() => this.cancelEvent()}>
+                                Hủy cuộc hẹn
+                            </button>
                         </div>
                     );
                     break;
                 }
                 case 'cancelled': {
-                    button = (
-                        <div className="text-center">
-                            <button className="btn btn-primary btn-sm">Hẹn lại</button>
-                        </div>
-                    );
+                    if(new Date(event.limit_time_register) > new Date()) {
+                        button = (
+                            <div className="text-center">
+                                <button className="btn btn-primary btn-sm" onClick={() => this.resetEvent()}>
+                                    Hẹn lại
+                                </button>
+                            </div>
+                        );
+                    }
                     break;
                 }
                 case 'finished': {
@@ -177,7 +201,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         joinDating: (event_id) => dispatch(joinDating(event_id)),
-        updateInvitation: (id, type) => dispatch(updateInvitation(id, type))
+        updateInvitation: (id, type) => dispatch(updateInvitation(id, type)),
+        cancelEventByMember: (id) => dispatch(cancelEventByMember(id)),
+        updateEventStatus: (id, status) => dispatch(updateEventStatus(id, status)),
+        resetEvent: (id) => dispatch(resetEvent(id))
     }
 }
 
