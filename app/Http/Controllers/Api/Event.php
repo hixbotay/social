@@ -658,7 +658,8 @@ class Event extends Controller {
             ->join('users', 'users.id', '=', 'event_register.user_id')
             ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'event_register.user_id')
             ->where([
-                ['event_register.event_id', '=', $event_id]
+                ['event_register.event_id', '=', $event_id],
+                ['event_register.status', '=', 1]
             ])
             ->select(DB::raw(
                 'users.id AS id, users.name AS name, users.avatar AS avatar, users.gender AS gender,
@@ -1190,14 +1191,28 @@ class Event extends Controller {
         if($event) {
             $result = DB::table('event_register')
                 ->where([['user_id', '=', $request->user_id], ['event_id', '=', $event_id]])
-                ->update([
-                    ['status' => 2],
-                    ['updated_at' => date('Y-m-d h:i:s')]
-                ]);
+                ->update(['status' => 2, 'updated_at' => date('Y-m-d h:i:s')]);
             return ['result' => $result];
         }
         
         return ['result' => 0];
+    }
+
+    // hẹn lại cuộc hẹn đã hủy
+    public function resetEvent($event_id) {
+        $user = Auth::user();
+        $event = \App\Event::find($event_id);
+
+        if($event->creator === $user->id) {
+            $event->status = 'forthcoming';
+            $event->save();
+        } else {
+            DB::table('event_register')
+            ->where([['user_id', '=', $user->id], ['event_id', '=', $event_id]])
+            ->update(['status' => 1]);
+        }
+
+        return ['ok' => 1];
     }
 
     // // check if user free or not

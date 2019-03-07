@@ -18,7 +18,9 @@ import {
     REVIEW_DATING,
     GET_MY_SUBSCRIBERS,
     DELETE_SUBSCRIBER,
-    CANCEL_EVENT_BY_MEMBER
+    CANCEL_EVENT_BY_MEMBER,
+    RESET_EVENT,
+    REFUSE_REGISTER
 } from '../actions/types';
 
 const INIT_STATE = {
@@ -106,6 +108,12 @@ export default (state=INIT_STATE, action) => {
             // return {...state}
         }
         case CANCEL_EVENT_BY_MEMBER: {
+            return {...state}
+        }
+        case RESET_EVENT: {
+            return {...state}
+        }
+        case REFUSE_REGISTER: {
             return {...state}
         }
         default: {

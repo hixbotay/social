@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { joinDating, updateInvitation, cancelEventByMember, updateEventStatus } from '../../actions/EventActions';
+import { joinDating, updateInvitation, cancelEventByMember, updateEventStatus, resetEvent } from '../../actions/EventActions';
 import { connect } from 'react-redux';
 import { RoundAvatar } from '../Avatar';
 import { withRouter, Link } from 'react-router-dom';
@@ -89,11 +89,16 @@ class DatingGroup extends Component {
                     break;
                 }
                 case 'cancelled': {
-                    button = (
-                        <div className="text-center">
-                            <button className="btn btn-primary btn-sm">Hẹn lại</button>
-                        </div>
-                    );
+                    if(new Date(event.limit_time_register) > new Date()) {
+                        button = (
+                            <div className="text-center">
+                                <button className="btn btn-primary btn-sm" onClick={() => this.props.resetEvent(event.id)}>
+                                    Hẹn lại
+                                </button>
+                            </div>
+                        );
+                    }
+                    
                     break;
                 }
                 case 'finished': {
@@ -277,7 +282,8 @@ function mapDispatchToProps(dispatch) {
         joinDating: (event_id) => dispatch(joinDating(event_id)),
         updateInvitation: (id, type) => dispatch(updateInvitation(id, type)),
         cancelEventByMember: (id) => dispatch(cancelEventByMember(id)),
-        updateEventStatus: (id, status) => dispatch(updateEventStatus(id, status))
+        updateEventStatus: (id, status) => dispatch(updateEventStatus(id, status)),
+        resetEvent: (id) => dispatch(resetEvent(id))
     }
 }
 

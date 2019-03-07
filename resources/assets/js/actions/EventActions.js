@@ -20,7 +20,9 @@ import {
     REVIEW_DATING,
     GET_MY_SUBSCRIBERS,
     DELETE_SUBSCRIBER,
-    CANCEL_EVENT_BY_MEMBER
+    CANCEL_EVENT_BY_MEMBER,
+    RESET_EVENT,
+    REFUSE_REGISTER
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -227,6 +229,25 @@ export const deleteSubscriber = (id) => dispatch => {
 export const cancelEventByMember = (event_id) => dispatch => {
     return api.put(`/event/cancel/${event_id}`).then(response => {
         dispatch({type: CANCEL_EVENT_BY_MEMBER, payload: event_id});
+        window.location.reload();
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
+export const resetEvent = (event_id) => dispatch => {
+    return api.put(`/event/reset/${event_id}`).then(response => {
+        dispatch({type: RESET_EVENT, payload: event_id});
+        window.location.reload();
+    }).catch(err => {
+        console.log(err);
+    })
+}
+
+export const refuseRegister = (event_id, data) => dispatch => {
+    return api.put(`/event/refuse/${event_id}`, data).then(response => {
+        dispatch({type: REFUSE_REGISTER, payload: event_id});
+        window.location.reload();
     }).catch(err => {
         console.log(err);
     })
