@@ -24,8 +24,8 @@ class DatingCard extends Component {
                 <div key={index}>
                 {
                     event.type === 'group' ? 
-                        <DatingGroup event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingGroup>
-                        : <DatingCouple event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingCouple>
+                        <DatingGroup status={this.props.status} event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingGroup>
+                        : <DatingCouple status={this.props.status} event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingCouple>
                 }
                 {/* <hr/> */}
                 </div>
@@ -69,7 +69,8 @@ class DatingCard extends Component {
 }
 
 DatingCard.defaultProps = {
-    isDisplaySlide: false
+    isDisplaySlide: false,
+    status: 'forthcoming'
 }
 
 export {DatingCard};

@@ -76,7 +76,7 @@ class Dating extends Component {
             <DatingLayout>
                 {
                     this.props.forthcomingEvents.length ? (
-                        <DatingCard title="CUỘC HẸN SẮP TỚI" events={this.props.forthcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}/>
+                        <DatingCard status="forthcoming" title="CUỘC HẸN SẮP TỚI" events={this.props.forthcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}/>
                     ) : (
                         <CardWithTitle title="CUỘC HẸN SẮP TỚI" hasLine={true}>
                             <div className="text-center">
@@ -87,14 +87,14 @@ class Dating extends Component {
                 }
                 {
                     this.props.finishedEvents.length ? (
-                        <DatingCard title="CUỘC HẸN ĐÃ KẾT THÚC" events={this.props.finishedEvents}></DatingCard>
+                        <DatingCard status="finished" title="CUỘC HẸN ĐÃ KẾT THÚC" events={this.props.finishedEvents}></DatingCard>
                     ) : (
                         null
                     )
                 }
                 {
                     this.props.cancelledEvents.length ? (
-                        <DatingCard title="CUỘC HẸN ĐÃ HỦY" events={this.props.cancelledEvents}></DatingCard>
+                        <DatingCard status="cancelled" title="CUỘC HẸN ĐÃ HỦY" events={this.props.cancelledEvents}></DatingCard>
                     ) : (
                         null
                     )

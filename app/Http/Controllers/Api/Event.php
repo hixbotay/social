@@ -47,6 +47,7 @@ class Event extends Controller {
                     agency.address as address, 
                     agency_photos.source as agency_avatar
                 '))
+                ->orderBy('start_time', 'DESC')
                 ->paginate(10);
         } else if($status == 'finished') {
             $registeredEvents = DB::table('event_register')
@@ -80,6 +81,7 @@ class Event extends Controller {
                     agency.address as address, 
                     agency_photos.source as agency_avatar
                 '))
+                ->orderBy('start_time', 'DESC')
                 ->paginate(10);
         } else if($status == 'cancelled') {
             $registeredEvents = DB::table('event_register')
@@ -112,6 +114,7 @@ class Event extends Controller {
                     agency.address as address, 
                     agency_photos.source as agency_avatar
                 '))
+                ->orderBy('start_time', 'DESC')
                 ->paginate(10);    
         }
 
@@ -806,7 +809,10 @@ class Event extends Controller {
                     ['event_id', '=', $event_id],
                     ['invitee', '=', Auth::id()]
                 ])
-                ->update(['status' =>  2]);
+                ->update([
+                    ['status' =>  2],
+                    ['cancel_reason' => $request->get('reason')]
+                ]);
         }
         return json_encode($invitation);
     }
@@ -1025,10 +1031,14 @@ class Event extends Controller {
     }
 
     public function updateStatus(Request $request, $id) {
-        $event = \App\Event::find($id);
-        $event->status = $request->get('status');
-        $event->save();
-        return json_encode($event);
+        $event = \App\Event::where([['id','=', $id], ['creator', '=', Auth::id()]])->first();
+        if($event) {
+            $event->status = $request->get('status');
+            $event->save();
+            return json_encode($event);
+        } else {
+            return ['result' => 0];
+        }
     }
 
     public function subscribeEvent(Request $request) {
@@ -1161,15 +1171,44 @@ class Event extends Controller {
         return ['result' => $result];
     }
 
-    // thành viên hủy cuộc hẹn
+    // thành viên rời khỏi cuộc hẹn
     public function cancelEventByMember($event_id) {
         $user = Auth::user();
+
         $result = DB::table('event_register')
             ->where([['user_id', '=', $user->id], ['event_id', '=', $event_id]])
-            ->update([
-                ['status' => 0],
-                ['updated_at' => date('Y-m-d h:i:s')]
-            ]);
+            ->update(['status' => 0, 'updated_at' => date('Y-m-d h:i:s')]);
         return ['result' => $result];
     }
+
+    // người tạo cuộc hẹn từ chối người tham gia
+    public function refuseRegister($event_id, Request $request) {
+        $user = Auth::user();
+        $event = \App\Event::where([['creator', '=', $user->id], ['id', '=', $event_id]])->first();
+
+        // check current user is event's creator or not 
+        if($event) {
+            $result = DB::table('event_register')
+                ->where([['user_id', '=', $request->user_id], ['event_id', '=', $event_id]])
+                ->update([
+                    ['status' => 2],
+                    ['updated_at' => date('Y-m-d h:i:s')]
+                ]);
+            return ['result' => $result];
+        }
+        
+        return ['result' => 0];
+    }
+
+    // // check if user free or not
+    // public function isUserFree($date) {
+    //     $user = Auth::user();
+    //     DB::table('event_register')
+    //     ->join('events', function ($join) {
+    //         $join->on('events.id', '=', 'event_register.event_id');
+    //         $join->on(function($query) {
+    //             $query->where('events.start_time', '<', $date); 
+    //         });
+    //     })
+    // }
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { joinDating, updateInvitation, cancelEventByMember } from '../../actions/EventActions';
+import { joinDating, updateInvitation, cancelEventByMember, updateEventStatus } from '../../actions/EventActions';
 import { connect } from 'react-redux';
 import { RoundAvatar } from '../Avatar';
 import { withRouter, Link } from 'react-router-dom';
@@ -49,18 +49,25 @@ class DatingGroup extends Component {
     }
 
     cancelEvent() {
-        if(confirm("Bạn có chắc muốn rời cuộc hẹn này?")) {
-            this.props.cancelEventByMember(this.props.event.id);
+        if(this.props.user.id !== this.props.event.creator) {
+            if(confirm("Bạn có chắc muốn rời cuộc hẹn này?")) {
+                this.props.cancelEventByMember(this.props.event.id);
+            }
+        } else {
+            if(confirm("Bạn là người tạo ra cuộc hẹn này, bạn thực hiện hành động này đồng nghĩa là bạn muốn hủy cuộc hẹn hoàn toàn?")) {
+                this.props.updateEventStatus(this.props.event.id, {status: 'cancelled'});
+            }
         }
+        
     }
 
     render() {
-        const { event } = this.props;
+        const { event, status } = this.props;
         var button = null;
         var shareUrl = `${baseUrl}/dating/${event.id}`;
 
         if (event.is_joined) {
-            switch (event.status) {
+            switch (status) {
                 case 'forthcoming': {
                     button = (
                         <div className="row">
@@ -269,7 +276,8 @@ function mapDispatchToProps(dispatch) {
     return {
         joinDating: (event_id) => dispatch(joinDating(event_id)),
         updateInvitation: (id, type) => dispatch(updateInvitation(id, type)),
-        cancelEventByMember: (id) => dispatch(cancelEventByMember(id))
+        cancelEventByMember: (id) => dispatch(cancelEventByMember(id)),
+        updateEventStatus: (id, status) => dispatch(updateEventStatus(id, status))
     }
 }
 
