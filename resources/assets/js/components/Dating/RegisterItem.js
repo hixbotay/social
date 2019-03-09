@@ -134,11 +134,16 @@ class RegisterItem extends Component {
                     )
                 }
                 </div>
-                <div className="text-center">
-                    <button className="btn btn-danger btn-sm" onClick={() => this.onRefuse()}>
-                        Từ chối
-                    </button>
-                </div>
+                {
+                    (current_user.id === event.creator) ? (
+                        <div className="text-center">
+                            <button className="btn btn-danger btn-sm" onClick={() => this.onRefuse()}>
+                                Từ chối
+                            </button>
+                        </div>
+                    ) : null
+                }
+                
                 <hr/>
             </React.Fragment>
         );

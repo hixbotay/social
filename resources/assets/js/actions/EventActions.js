@@ -22,7 +22,8 @@ import {
     DELETE_SUBSCRIBER,
     CANCEL_EVENT_BY_MEMBER,
     RESET_EVENT,
-    REFUSE_REGISTER
+    REFUSE_REGISTER,
+    GET_COUPLE_EVENT_MEMBERS
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -118,7 +119,7 @@ export const getEventDetail = (id) => dispatch => {
     return new Promise((resolve, reject) => {
         api.get(`/event/${id}`)
         .then(response => {
-            dispatch({type: GET_EVENT_DETAIL, payload: response.data});
+            dispatch({type: GET_EVENT_DETAIL, payload: response.data.event});
             resolve(response.data.creator_user);
         })
         .catch(err => {
@@ -250,5 +251,16 @@ export const refuseRegister = (event_id, data) => dispatch => {
         window.location.reload();
     }).catch(err => {
         console.log(err);
+    })
+}
+
+export const getCoupleEventMember = (event_id) => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.get(`/event/members/${event_id}`).then(response => {
+            dispatch({type: GET_COUPLE_EVENT_MEMBERS, payload: response.data.users});
+            resolve(response.data.users);
+        }).catch(err => {
+            reject(err);
+        })
     })
 }

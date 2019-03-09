@@ -45,7 +45,7 @@ class DatingGroup extends Component {
 
     invite(event_id) {
         this.props.action(event_id);
-        document.getElementById('open-invite-modal').click();
+        this.props.invite();
     }
 
     cancelEvent() {
@@ -64,6 +64,11 @@ class DatingGroup extends Component {
         if(confirm("Bạn chắc chắn muốn hẹn lại cuộc hẹn này?")) {
             this.props.resetEvent(this.props.event.id);
         }
+    }
+
+    reject(event_id) {
+        this.props.action(event_id);
+        this.props.reject();
     }
 
     render() {
@@ -123,16 +128,16 @@ class DatingGroup extends Component {
             button = (
                 <div className="row">
                     <div className="col-6">
-                        <Link to={`/dating/${event.id}`}>
-                            <button className="btn btn-primary btn-sm">Tìm hiểu</button>
-                        </Link>
-                    </div>
-                    <div className="col-6">
                         <button className="btn btn-primary btn-sm ml-2" onClick={() => this.join(event.id)}>
                             Tham gia
-                            </button>
+                        </button>
                         <button type="button" id="open-verify-modal" className="d-none"
                             data-toggle="modal" data-target="#verify-id-modal">
+                        </button>
+                    </div>
+                    <div className="col-6">
+                        <button className="btn btn-primary btn-sm" onClick={() => this.reject(event.id)}>
+                            Từ chối
                         </button>
                     </div>
                 </div>

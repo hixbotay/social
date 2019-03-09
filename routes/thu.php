@@ -30,6 +30,7 @@ Route::middleware(['web'])->group(function() {
     Route::put('/event/cancel/{event_id}', 'Api\Event@cancelEventByMember');
     Route::put('/event/refuse/{event_id}', 'Api\Event@refuseRegister');
     Route::put('/event/reset/{event_id}', 'Api\Event@resetEvent');
+    Route::get('/event/members/{event_id}', 'Api\Event@getCoupleEventMember');
     
     Route::get('/events/around', 'Api\Event@listEventsAround');
     Route::get('/events/crush', 'Api\Event@listEventsHasYourCrush');

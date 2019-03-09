@@ -70,7 +70,7 @@ class ProfileLayout extends Component {
                         <div className="author vcard inline-items profile-heading-info">
                             <RoundAvatar img={user.avatar} size='large'></RoundAvatar>
                             <label className="btn-change-avatar">
-                                <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e)} />
+                                <input type="file" className="d-none" name="image" accept="image/*" onChange={(e) => this.handleImage(e)} />
                             </label>
 
                             <div className="author-date">

@@ -9,9 +9,10 @@ import RegisterItem from '../../components/Dating/RegisterItem';
 import { getEventDetail } from '../../actions/EventActions';
 import { updateRelationship } from '../../actions/UserActions';
 import Fragment from 'react-dot-fragment';
-import { updateEventStatus, joinDating } from '../../actions/EventActions';
+import { updateEventStatus, joinDating, updateInvitation } from '../../actions/EventActions';
 import InformationNumber from '../../components/Information/InformationNumber';
-import Modal from '../../components/Modal';
+// import Modal from '../../components/Modal';
+import Modal from 'react-modal';
 import _ from "lodash";
 import moment from 'moment';
 
@@ -20,7 +21,10 @@ class DatingDetail extends Component {
         super(props);
         this.state = {
             isLikedCreator: false,
-            isLovedCreator: false
+            isLovedCreator: false,
+            isAlert: false,
+            isReject: false,
+            reason: ''
         }
     }
 
@@ -36,7 +40,7 @@ class DatingDetail extends Component {
     }
 
     cancelDating(event_id) {
-        if(confirm("Bạn có chắc muốn hủy cuộc hẹn này?")) {
+        if (confirm("Bạn có chắc muốn hủy cuộc hẹn này?")) {
             this.props.updateEventStatus(event_id, { status: "cancelled" });
         }
     }
@@ -47,35 +51,55 @@ class DatingDetail extends Component {
                 window.location.href = `${baseUrl}/dating/${event_id}`;
             });
         }
-        else document.getElementById('open-verify-modal').click();
+        else {
+            this.setState({
+                isAlert: true
+            })
+        }
+    }
+
+    onChangeReason(e) {
+        this.setState({
+            reason: e.target.value
+        })
+    }
+
+    reject(e) {
+        e.preventDefault();
+        if(confirm("Bạn có chắc muốn từ chối cuộc hẹn này?")) {
+            this.props.updateInvitation(this.props.event.id, {type: 'reject', reason: this.state.reason});
+        }
+        this.setState({
+            isReject: false
+        })
     }
 
     onUpdateRelationship(actionType) {
         var data = {};
 
-        if(actionType == 'love') {
-            if(this.state.isLovedCreator) {
-                data = {'is_loved': 0};
+        if (actionType == 'love') {
+            if (this.state.isLovedCreator) {
+                data = { 'is_loved': 0 };
                 this.setState({
                     isLovedCreator: false,
                     loveNumber: this.state.loveNumber - 1,
                 });
             } else {
-                data = {'is_loved': 1};
+                data = { 'is_loved': 1 };
                 this.setState({
                     isLovedCreator: true,
                     loveNumber: this.state.loveNumber + 1,
                 });
             }
-        } else if(actionType == 'like') {
-            if(this.state.isLikedCreator) {
-                data = {'is_like': 0};
+        } else if (actionType == 'like') {
+            if (this.state.isLikedCreator) {
+                data = { 'is_like': 0 };
                 this.setState({
                     isLikedCreator: false,
                     likeNumber: this.state.likeNumber - 1,
                 });
             } else {
-                data = {'is_like': 1};
+                data = { 'is_like': 1 };
                 this.setState({
                     isLikedCreator: true,
                     likeNumber: this.state.likeNumber + 1,
@@ -89,57 +113,68 @@ class DatingDetail extends Component {
     render() {
         const { event, current_user, price } = this.props;
 
-        var priceFee = 0;
-        if(event.type) {
-            priceFee = (event.type == 'couple') ? price.dating.couple_dating_price : price.dating.group_dating_price;
+        if (event) {
+
+            var priceFee = 0;
+            if (event.type) {
+                priceFee = (event.type == 'couple') ? price.dating.couple_dating_price : price.dating.group_dating_price;
+            }
+
+            var isSecretEvent = event.is_secret;
+            if (event.creator === current_user.id) {
+                isSecretEvent = 0;
+            }
+
+            var registers = _.partition(event.registers, (register) => { return register.gender === "M" });
+            var maleRegisters = registers[0];
+            var femaleRegisters = registers[1];
+
+            var status = "Sắp diễn ra";
+            switch (event.status) {
+                case "forthcoming": {
+                    status = "Sắp diễn ra";
+                    break;
+                }
+                case "happening": {
+                    status = "Đang diễn ra";
+                    break;
+                }
+                case "finished": {
+                    status = "Kết thúc";
+                    break;
+                }
+                case "cancelled": {
+                    status = "Bị hủy";
+                    break;
+                }
+            }
+
+            var maritalStatus = "Tất cả trạng thái"
+            switch (event.marital_status[0]) {
+                case null: {
+                    break;
+                }
+                case "0": {
+                    maritalStatus = "Độc thân";
+                    break;
+                }
+                case "1": {
+                    maritalStatus = "Đã kết hôn";
+                    break;
+                }
+                case "2": {
+                    maritalStatus = "Đã từng kết hôn trước đó";
+                    break;
+                }
+            }
         }
 
-        var isSecretEvent = event.is_secret;
-        if(event.creator === current_user.id) {
-            isSecretEvent = 0;
-        }
-
-        var registers = _.partition(event.registers, (register) => {return register.gender === "M"});
-        var maleRegisters = registers[0];
-        var femaleRegisters = registers[1];
-
-        var status = "Sắp diễn ra";
-        switch (event.status) {
-            case "forthcoming": {
-                status = "Sắp diễn ra";
-                break;
-            }
-            case "happening": {
-                status = "Đang diễn ra";
-                break;
-            }
-            case "finished": {
-                status = "Kết thúc";
-                break;
-            }
-            case "cancelled": {
-                status = "Bị hủy";
-                break;
-            }
-        }
-
-        var maritalStatus = "Tất cả trạng thái"
-        switch(event.marital_status[0]) {
-            case null: {
-                break;
-            }
-            case "0": {
-                maritalStatus = "Độc thân";
-                break;
-            }
-            case "1": {
-                maritalStatus = "Đã kết hôn";
-                break;
-            }
-            case "2": {
-                maritalStatus = "Đã từng kết hôn trước đó";
-                break;
-            }
+        if (event === null) {
+            return (
+                <div className="alert alert-warning">
+                    Bạn không thể xem chi tiết cuộc hẹn này. Vui lòng quay lại.
+                </div>
+            )
         }
 
         return (
@@ -214,14 +249,14 @@ class DatingDetail extends Component {
                                         <div className="col-8">
                                             {
                                                 event.job.indexOf(null) >= 0 ? (
-                                                    <span  className="tag"> Tất cả nghề nghiệp</span>
+                                                    <span className="tag"> Tất cả nghề nghiệp</span>
                                                 ) : (
-                                                    event.job.map((item, index) => {
-                                                        return (
-                                                            <span className="tag" key={index}>{item}</span>
-                                                        )
-                                                    })
-                                                )
+                                                        event.job.map((item, index) => {
+                                                            return (
+                                                                <span className="tag" key={index}>{item}</span>
+                                                            )
+                                                        })
+                                                    )
                                             }
                                         </div>
                                     </div>
@@ -238,15 +273,15 @@ class DatingDetail extends Component {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className="row">
-                                                <div className="col-4">
-                                                    Người tổ chức
+                                                <div className="row">
+                                                    <div className="col-4">
+                                                        Người tổ chức
                                                 </div>
-                                                <div className="col-8">
-                                                    Thành viên tự tổ chức
+                                                    <div className="col-8">
+                                                        Thành viên tự tổ chức
                                                 </div>
-                                            </div>
-                                        )
+                                                </div>
+                                            )
                                     }
                                 </div>
                             </div>
@@ -343,9 +378,9 @@ class DatingDetail extends Component {
                                             <Link to={`/profile/${event.creator_user.id}`}>
                                                 <h5>{event.creator_user.name}</h5>
                                             </Link>
-                                            <InformationNumber 
-                                                heartNumber={this.state.loveNumber} 
-                                                likeNumber={this.state.likeNumber} 
+                                            <InformationNumber
+                                                heartNumber={this.state.loveNumber}
+                                                likeNumber={this.state.likeNumber}
                                                 viewNumber={event.creator_user.viewNumber}
                                             />
 
@@ -366,24 +401,24 @@ class DatingDetail extends Component {
                                                         </div>
                                                     </React.Fragment>
                                                 ) : (
-                                                    <div>
-                                                        <CircleButton
-                                                            icon="fas fa-heart"
-                                                            color={this.state.isLovedCreator ? '#e74c3c' : '#34495e'}
-                                                            action={() => this.onUpdateRelationship('love')}
-                                                        ></CircleButton>
-                                                        <CircleButton
-                                                            icon="fas fa-thumbs-up"
-                                                            color={this.state.isLikedCreator ? '#2980b9' : '#34495e'}
-                                                            action={() => this.onUpdateRelationship('like')}
-                                                        ></CircleButton>
-                                                        <CircleButton
-                                                            icon="fas fa-comments"
-                                                            color='#34495e'
+                                                        <div>
+                                                            <CircleButton
+                                                                icon="fas fa-heart"
+                                                                color={this.state.isLovedCreator ? '#e74c3c' : '#34495e'}
+                                                                action={() => this.onUpdateRelationship('love')}
+                                                            ></CircleButton>
+                                                            <CircleButton
+                                                                icon="fas fa-thumbs-up"
+                                                                color={this.state.isLikedCreator ? '#2980b9' : '#34495e'}
+                                                                action={() => this.onUpdateRelationship('like')}
+                                                            ></CircleButton>
+                                                            <CircleButton
+                                                                icon="fas fa-comments"
+                                                                color='#34495e'
                                                             // action
-                                                        ></CircleButton>
-                                                    </div>
-                                                )
+                                                            ></CircleButton>
+                                                        </div>
+                                                    )
                                             }
                                         </div>
                                     </div>
@@ -400,58 +435,81 @@ class DatingDetail extends Component {
                             </div>
                         </CardWithTitle>
 
-                        <CardWithTitle hasLine={true} title="DANH SÁCH NGƯỜI ĐÃ ĐĂNG KÝ">
-                            <div className="row">
-                                <div className="col-6">
-                                    <div className="text-center mb-4"><b>Danh sách nam tham gia</b></div>
-                                    {
-                                        maleRegisters.map((user, index) => {
-                                            return (
-                                                <RegisterItem
-                                                    event={event}
-                                                    user={user}
-                                                    isSecretEvent={isSecretEvent}
-                                                    key={index}
-                                                    action={(data, user_id) => this.props.updateRelationship(data, user_id)}
-                                                ></RegisterItem>
-                                            )
-                                        })
-                                    }
-                                </div>
-                                <div className="col-6">
-                                    <div className="text-center mb-4"><b>Danh sách nữ tham gia</b></div>
-                                    {
-                                        femaleRegisters.map((user, index) => {
-                                            return (
-                                                <RegisterItem
-                                                    event={event}
-                                                    user={user}
-                                                    isSecretEvent={isSecretEvent}
-                                                    key={index}
-                                                    action={(data, user_id) => this.props.updateRelationship(data, user_id)}
-                                                ></RegisterItem>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
-                            {
-                                (!event.is_joined && (event.type == "group") && (event.creator.id !== current_user.id)) ? (
-                                    <div className="mt-4 text-center">
-                                        <button className="btn btn-primary" onClick={() => this.join(event.id)}>
-                                            THAM GIA NGAY!
-                                        </button>
+                        {
+                            event.type === 'group' ? (
+                                <CardWithTitle hasLine={true} title="DANH SÁCH NGƯỜI ĐÃ ĐĂNG KÝ">
+                                    <div className="row">
+                                        <div className="col-6">
+                                            <div className="text-center mb-4"><b>Danh sách nam tham gia</b></div>
+                                            {
+                                                maleRegisters.map((user, index) => {
+                                                    return (
+                                                        <RegisterItem
+                                                            event={event}
+                                                            user={user}
+                                                            isSecretEvent={isSecretEvent}
+                                                            key={index}
+                                                            action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                                        ></RegisterItem>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                        <div className="col-6">
+                                            <div className="text-center mb-4"><b>Danh sách nữ tham gia</b></div>
+                                            {
+                                                femaleRegisters.map((user, index) => {
+                                                    return (
+                                                        <RegisterItem
+                                                            event={event}
+                                                            user={user}
+                                                            isSecretEvent={isSecretEvent}
+                                                            key={index}
+                                                            action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                                        ></RegisterItem>
+                                                    )
+                                                })
+                                            }
+                                        </div>
                                     </div>
-                                ) : null
-                            }
-                        </CardWithTitle>
-                        <button type="button" id="open-verify-modal" className="d-none"
-                                data-toggle="modal" data-target="#verify-id-modal">
-                        </button>
-                        <Modal id="verify-id-modal">
+                                </CardWithTitle>
+                            ) : null
+                        }
+
+                        {
+                            (!event.is_joined && event.status == "forthcoming") ? (
+                                <div>
+                                    {
+                                        event.type === 'group' ? (
+                                            <div className="mt-4 text-center">
+                                                <button className="btn btn-primary" onClick={() => this.join(event.id)}>
+                                                    THAM GIA NGAY!
+                                                </button>
+                                            </div>
+                                        ) : (
+                                                <div className="mt-4 row">
+                                                    <div className="col-2"></div>
+                                                    <div className="col-4 text-center">
+                                                        <button className="btn btn-primary" onClick={() => this.join(event.id)}>
+                                                            THAM GIA
+                                                        </button>
+                                                    </div>
+                                                    <div className="col-4 text-center">
+                                                        <button className="btn btn-primary" onClick={() => {this.setState({isReject: true})}}>
+                                                            TỪ CHỐI
+                                                        </button>
+                                                    </div>
+                                                    <div className="col-2"></div>
+                                                </div>
+                                            )
+                                    }
+                                </div>
+                            ) : null
+                        }
+                        <Modal isOpen={this.state.isAlert} >
                             <div className="row">
                                 <div className="col-6">
-                                    <img src="https://img.freepik.com/free-vector/funny-couple-making-a-selfie_1045-571.jpg?size=338&ext=jpg" id="create-event-alert-img"/>
+                                    <img src="https://img.freepik.com/free-vector/funny-couple-making-a-selfie_1045-571.jpg?size=338&ext=jpg" id="create-event-alert-img" />
                                 </div>
                                 <div className="col-6">
                                     <div className="text-center" id="create-event-alert-header">
@@ -461,17 +519,32 @@ class DatingDetail extends Component {
                                         Trước khi tham gia một cuộc hẹn, hãy chắc chấn đó là bạn.
                                     </div>
                                     <div className="text-center create-event-alert-content">
-                                        {/* <Link to={`/profile/${current_user.id}`}> */}
-                                            <button className="btn btn-primary" data-dismiss="modal">OK</button>
-                                        {/* </Link> */}
+                                        <button className="btn btn-primary" onClick={() => {this.setState({isAlert: false})}}>
+                                            OK
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </Modal>
+                        <Modal isOpen={this.state.isReject}>
+                            <form onSubmit={(e) => this.reject(e)}>
+                                <div className="form-group">
+                                    <label>Lý do từ chối</label>
+                                    <input 
+                                        type="text" 
+                                        className="form-control" 
+                                        name="reason" 
+                                        placeholder="Bạn có thể bỏ qua nếu không thích..."
+                                        onChange={(e) => this.onChangeReason(e)} 
+                                    />
+                                </div>
+                                <button className="btn btn-sm btn-primary" type="submit">Xác nhận</button>
+                            </form>
+                        </Modal>
                     </DatingLayout>
                 ) : (
-                        <Redirect to={`/dating/${this.props.match.params.id}/result`} />
-                    )
+                    <Redirect to={`/dating/${this.props.match.params.id}/result`} />
+                )
             ) : null
         );
     }
@@ -491,6 +564,7 @@ function mapDispatchToProps(dispatch) {
         updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id)),
         updateEventStatus: (event_id, status) => dispatch(updateEventStatus(event_id, status)),
         joinDating: (event_id) => dispatch(joinDating(event_id)),
+        updateInvitation: (id, data) => dispatch(updateInvitation(id, data))
     }
 }
 

@@ -1,24 +1,25 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
-import {getAllEvents, invite} from "../../actions/EventActions";
-import {getCoupleResults} from '../../actions/CoupleActions';
+import { getAllEvents, invite } from "../../actions/EventActions";
+import { getCoupleResults } from '../../actions/CoupleActions';
 import 'react-image-lightbox/style.css';
 import 'react-animated-slider/build/horizontal.css';
 import { DatingCard, CardWithTitle } from '../../components/Card';
 import DatingLayout from './DatingLayout';
 
-import Modal from '../../components/Modal';
+import Modal from 'react-modal';
 import CircleButton from '../../components/Button/CircleButton';
-import {RoundAvatar} from '../../components/Avatar';
+import { RoundAvatar } from '../../components/Avatar';
 
 class Dating extends Component {
 
     constructor(props) {
         super(props);
-        this.state =  {
-            results: []
+        this.state = {
+            results: [],
+            isShowInviteModal: false,
         };
     }
 
@@ -28,16 +29,20 @@ class Dating extends Component {
         this.props.getAllEvents('cancelled');
     }
 
+    openInviteModal() {
+        this.setState({ isShowInviteModal: true });
+    }
+
     onSearch(event) {
-        if(event.target.value != '') {
-            this.props.getCoupleResults({name: event.target.value}).then(data => {
-                this.setState({results: data.slice(0, 5)});
+        if (event.target.value != '') {
+            this.props.getCoupleResults({ name: event.target.value }).then(data => {
+                this.setState({ results: data.slice(0, 5) });
                 document.getElementById("invitation-search-result").classList.remove('d-none');
             }).catch(err => {
                 console.log(err);
-            }) 
+            })
         } else {
-            this.setState({results: []});
+            this.setState({ results: [] });
             document.getElementById("invitation-search-result").classList.add('d-none');
         }
     }
@@ -76,36 +81,45 @@ class Dating extends Component {
             <DatingLayout>
                 {
                     this.props.forthcomingEvents.length ? (
-                        <DatingCard status="forthcoming" title="CUỘC HẸN SẮP TỚI" events={this.props.forthcomingEvents} action={(event_id) => this.onChangeEvent(event_id)}/>
+                        <DatingCard
+                            status="forthcoming"
+                            title="CUỘC HẸN SẮP TỚI"
+                            events={this.props.forthcomingEvents}
+                            action={(event_id) => this.onChangeEvent(event_id)}
+                            invite={() => this.openInviteModal()}
+                        />
                     ) : (
-                        <CardWithTitle title="CUỘC HẸN SẮP TỚI" hasLine={true}>
-                            <div className="text-center">
-                                Không có cuộc hẹn nào
+                            <CardWithTitle title="CUỘC HẸN SẮP TỚI" hasLine={true}>
+                                <div className="text-center">
+                                    Không có cuộc hẹn nào
                             </div>
-                        </CardWithTitle>
-                    )
+                            </CardWithTitle>
+                        )
                 }
                 {
                     this.props.finishedEvents.length ? (
                         <DatingCard status="finished" title="CUỘC HẸN ĐÃ KẾT THÚC" events={this.props.finishedEvents}></DatingCard>
                     ) : (
-                        null
-                    )
+                            null
+                        )
                 }
                 {
                     this.props.cancelledEvents.length ? (
                         <DatingCard status="cancelled" title="CUỘC HẸN ĐÃ HỦY" events={this.props.cancelledEvents}></DatingCard>
                     ) : (
-                        null
-                    )
+                            null
+                        )
                 }
 
-                <Modal id="invite-modal">
+                <Modal isOpen={this.state.isShowInviteModal}>
+                    <div className="float-right" onClick={() => this.setState({ isShowInviteModal: false })}>
+                        <i className="fas fa-times fa-2x"></i>
+                    </div>
                     <div className="row">
                         <div className="col-md-10">
-                            <input type="text" className="form-control" id="keyword" 
-                                placeholder="Tìm kiếm" 
-                                onChange={(event) => this.onSearch(event)} 
+                            <input type="text" className="form-control" id="keyword"
+                                placeholder="Tìm kiếm"
+                                onChange={(event) => this.onSearch(event)}
                             />
                             <div id="invitation-search-result" className="">
                                 <ul className="list-group">
@@ -138,13 +152,13 @@ class Dating extends Component {
                     <img id="invite-cover" src="https://www.shona.ie/app/uploads/2018/02/love-photos-wallpaper-5.jpg" />
                     <div className="row social-share">
                         <div className="col-2">
-                            <img className="social-icon" src="https://i.pinimg.com/originals/91/ec/db/91ecdb118ec2b1722cd7e7f70ed437dd.png"/>
+                            <img className="social-icon" src="https://i.pinimg.com/originals/91/ec/db/91ecdb118ec2b1722cd7e7f70ed437dd.png" />
                         </div>
                         <div className="col-2">
-                            <img className="social-icon" src="https://st.depositphotos.com/1144386/4344/v/950/depositphotos_43444317-stock-illustration-original-twitter-bird-icon.jpg"/>
+                            <img className="social-icon" src="https://st.depositphotos.com/1144386/4344/v/950/depositphotos_43444317-stock-illustration-original-twitter-bird-icon.jpg" />
                         </div>
                         <div className="col-2">
-                            <img className="social-icon" src="https://instagram-brand.com/wp-content/uploads/2016/11/app-icon2.png"/>
+                            <img className="social-icon" src="https://instagram-brand.com/wp-content/uploads/2016/11/app-icon2.png" />
                         </div>
                         <div className="col-6">
                             <CircleButton icon="fas fa-share-square"></CircleButton>

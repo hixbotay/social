@@ -87,7 +87,7 @@ class Event extends Controller {
             $registeredEvents = DB::table('event_register')
                 ->where([
                     ['user_id', '=', Auth::id()],
-                    ['status', '=', 0]    
+                    ['event_register.status', '=', 0]    
                 ])
                 ->get();
             $temp = [];
@@ -96,6 +96,12 @@ class Event extends Controller {
             }
             
             $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
+                ->join('event_register', function($join) {
+                    $join->on('events.id', '=', 'event_register.event_id');
+                    $join->on(function($query) {
+                        $query->where('event_register.user_id', '=', Auth::id()); 
+                    });
+                })
                 ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
                 ->leftjoin('agency_photos', function ($join) {
                     $join->on('events.agency_id', '=', 'agency_photos.agency_id');
@@ -104,7 +110,7 @@ class Event extends Controller {
                     });
                 })
                 ->where([
-                    ['status', '=', 'cancelled']
+                    ['events.status', '=', 'cancelled']
                 ])
                 ->orWhereIn('events.id', $temp)
                 ->select(DB::raw('
@@ -623,6 +629,25 @@ class Event extends Controller {
                 agency.organizing_fee as organizing_fee
             '))
             ->first();
+        
+        if($event->type === 'couple') {
+            $register = DB::table('event_register')
+                ->where([
+                    ['event_id', '=', $event_id], 
+                    ['user_id', '=', $current_user_id], 
+                    ['status', '=', 1]
+                ])->first();  
+
+            $invitation = DB::table('event_invitations')
+                ->where([
+                    ['event_id', '=', $event_id],
+                    ['invitee', '=', $current_user_id]
+                ])->first(); 
+            
+            if(!$register && !$invitation) {
+                return ['event' => null, 'message' => 'Bạn không thể xem cuộc hẹn này'];
+            }
+        }
 
         // get metadata
         $event_meta = DB::table('event_meta')
@@ -632,7 +657,6 @@ class Event extends Controller {
                         $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
                     })
                     ->get();
-
 
         $job = [];
         $marital_status = [];
@@ -737,7 +761,7 @@ class Event extends Controller {
             $event['reviews'] = $reviews;
         }
 
-        return json_encode($event);
+        return ['event' => $event];
     }
 
     public function invite(Request $request, $event_id) {
@@ -804,16 +828,13 @@ class Event extends Controller {
                 "created" =>  \Carbon\Carbon::now(), # \Datetime()
                 "status" => 1
             ]);
-        } else {
+        } else if ($type === 'reject') {
             $invitation = DB::table('event_invitations')
                 ->where([
                     ['event_id', '=', $event_id],
                     ['invitee', '=', Auth::id()]
                 ])
-                ->update([
-                    ['status' =>  2],
-                    ['cancel_reason' => $request->get('reason')]
-                ]);
+                ->update(['status' =>  2, 'cancel_reason' => $request->get('reason')]);
         }
         return json_encode($invitation);
     }
@@ -1213,6 +1234,22 @@ class Event extends Controller {
         }
 
         return ['ok' => 1];
+    }
+
+    public function getCoupleEventMember($event_id) {
+        $event = \App\Event::where([['id', '=', $event_id], ['type', '=','couple']])->first();
+        $temp = [];
+
+        $registers = DB::table('event_register')->where([['event_id', '=', $event_id]])->get();
+        if(count($registers) === 1) {
+            $invitation = DB::table('event_invitations')->where([['event_id', '=', $event_id]])->first();
+            $temp = [$registers[0]->user_id, $invitation->invitee];
+        } else {
+            $temp = [$registers[0]->user_id, $registers[1]->user_id];
+        }
+        
+        $users = \App\User::whereIn('id', $temp)->select(['id','name', 'avatar'])->get();
+        return ['users' => $users];
     }
 
     // // check if user free or not

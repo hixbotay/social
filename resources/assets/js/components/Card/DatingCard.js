@@ -24,10 +24,22 @@ class DatingCard extends Component {
                 <div key={index}>
                 {
                     event.type === 'group' ? 
-                        <DatingGroup status={this.props.status} event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingGroup>
-                        : <DatingCouple status={this.props.status} event={event} action={(event_id) => this.props.action(event_id)} type={type}></DatingCouple>
+                        <DatingGroup 
+                            status={this.props.status} event={event} 
+                            action={(event_id) => this.props.action(event_id)} 
+                            type={type} 
+                            invite={() => this.props.invite()}
+                            reject={() => this.props.reject()}
+                        />
+                        : 
+                        <DatingCouple 
+                            status={this.props.status} event={event} 
+                            action={(event_id) => this.props.action(event_id)} 
+                            type={type} 
+                            invite={() => this.props.invite()}
+                            reject={() => this.props.reject()}
+                        />
                 }
-                {/* <hr/> */}
                 </div>
             )
         });

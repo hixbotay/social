@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { RoundAvatar, SquareAvatar } from '../Avatar';
 import connect from 'react-redux/es/connect/connect';
-import { joinDating, updateInvitation, cancelEventByMember, updateEventStatus, resetEvent } from '../../actions/EventActions';
+import { joinDating, updateInvitation, cancelEventByMember, updateEventStatus, resetEvent, getCoupleEventMember } from '../../actions/EventActions';
 import { withRouter, Link } from 'react-router-dom';
 import Countdown from 'react-countdown-now';
 import moment from 'moment';
@@ -21,6 +21,19 @@ const renderCountdown = ({ hours, minutes, seconds, completed }) => {
 }
 
 class DatingCouple extends Component {
+    constructor() {
+        super();
+        this.state = {
+            members: []
+        }
+    }
+
+    componentDidMount() {
+        this.props.getCoupleEventMember(this.props.event.id).then(users => {
+            this.setState({members: users});
+        })
+    }
+
     join(event_id) {
         if (this.props.user.is_id_verified) {
             this.props.joinDating(event_id).then(data => {
@@ -32,29 +45,35 @@ class DatingCouple extends Component {
 
     invite(event_id) {
         this.props.action(event_id);
-        document.getElementById('open-invite-modal').click();
+        this.props.invite();
+    }
+
+    reject(event_id) {
+        this.props.action(event_id);
+        this.props.reject();
     }
 
     cancelEvent() {
-        if(this.props.user.id !== this.props.event.creator) {
-            if(confirm("Bạn có chắc muốn rời cuộc hẹn này?")) {
+        if (this.props.user.id !== this.props.event.creator) {
+            if (confirm("Bạn có chắc muốn rời cuộc hẹn này?")) {
                 this.props.cancelEventByMember(this.props.event.id);
             }
         } else {
-            if(confirm("Bạn là người tạo ra cuộc hẹn này, bạn thực hiện hành động này đồng nghĩa là bạn muốn hủy cuộc hẹn hoàn toàn?")) {
-                this.props.updateEventStatus(this.props.event.id, {status: 'cancelled'});
+            if (confirm("Bạn là người tạo ra cuộc hẹn này, bạn thực hiện hành động này đồng nghĩa là bạn muốn hủy cuộc hẹn hoàn toàn?")) {
+                this.props.updateEventStatus(this.props.event.id, { status: 'cancelled' });
             }
-        }  
+        }
     }
 
     resetEvent() {
-        if(confirm("Bạn chắc chắn muốn hẹn lại cuộc hẹn này?")) {
+        if (confirm("Bạn chắc chắn muốn hẹn lại cuộc hẹn này?")) {
             this.props.resetEvent(this.props.event.id);
         }
     }
 
     render() {
         const { event, user, status } = this.props;
+        var {members} = this.state;
 
         var button = null;
 
@@ -62,17 +81,25 @@ class DatingCouple extends Component {
             switch (status) {
                 case 'forthcoming': {
                     button = (
-                        <div className="text-center">
-                            <button className="btn btn-primary btn-sm mr-2">Tìm hiểu thêm</button>
-                            <button className="btn btn-primary btn-sm" onClick={() => this.cancelEvent()}>
-                                Hủy cuộc hẹn
-                            </button>
+                        <div className="row">
+                            <div className="col-6">
+                                <button className="btn btn-danger btn-sm mr-2" onClick={() => this.cancelEvent()}>
+                                    Hủy cuộc hẹn
+                                </button>
+                            </div>
+                            <div className="col-6">
+                                <Link to={`/dating/${event.id}`}>
+                                    <button className="btn btn-primary btn-sm ml-2">
+                                        Quy định
+                                    </button>
+                                </Link>
+                            </div>
                         </div>
                     );
                     break;
                 }
                 case 'cancelled': {
-                    if(new Date(event.limit_time_register) > new Date()) {
+                    if (new Date(event.limit_time_register) > new Date()) {
                         button = (
                             <div className="text-center">
                                 <button className="btn btn-primary btn-sm" onClick={() => this.resetEvent()}>
@@ -103,7 +130,7 @@ class DatingCouple extends Component {
                         </button>
                     </div>
                     <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, { type: 'reject' })}>
+                        <button className="btn btn-primary btn-sm" onClick={() => this.reject(event.id)}>
                             Từ chối
                         </button>
                     </div>
@@ -146,40 +173,35 @@ class DatingCouple extends Component {
                     </div>
                     <div className={"col-md-5 dating-info"}>
                         <div>
-                            {
-                                (user.id == event.creator) ? (
-                                    <div className="row text-center couple-dating-info">
-                                        Cuộc hẹn này do bạn tạo ra, hãy mời bạn bè vào cuộc hẹn này!
-                                    </div>
 
-                                ) : (
-                                    <React.Fragment>
-                                        {
-                                            event.is_joined ? (
-                                                <div >
-                                                    <b>
-                                                    Bạn đã đồng ý tham gia cuộc hẹn này, hãy đến đúng hẹn và 
-                                                    tặng cho người ấy những điều bất ngờ nhé! 
-                                                    </b>
-                                                </div>
-                                            ) : null
-                                        }
-                                        <div className="row text-center couple-dating-info mt-4">
-                                            <div className="col-5 couple-avatar">
-                                                <SquareAvatar img={event.creator_avatar} size="medium"></SquareAvatar>
-                                                <h6>{event.creator_name}</h6>
-                                            </div>
-                                            <div className="col-2">
-                                                <i className="far fa-heart" id="couple-icon"></i>
-                                            </div>
-                                            <div className="col-5 couple-avatar">
-                                                <SquareAvatar img={user.avatar} size="medium"></SquareAvatar>
-                                                <h6>{user.name}</h6>
-                                            </div>
-                                        </div>
-                                    </React.Fragment>
-                                )
+                            {
+                                event.is_joined && event.creator != user.id ? (
+                                    <div >
+                                        <b>
+                                            Bạn đã đồng ý tham gia cuộc hẹn này, hãy đến đúng hẹn và
+                                            tặng cho người ấy những điều bất ngờ nhé!
+                                        </b>
+                                    </div>
+                                ) : null
                             }
+                            {
+                                members.length ? (
+                                    <div className="row text-center couple-dating-info mt-4">
+                                        <div className="col-5 couple-avatar">
+                                            <SquareAvatar img={members[0].avatar} size="medium"></SquareAvatar>
+                                            <h6>{members[0].name}</h6>
+                                        </div>
+                                        <div className="col-2">
+                                            <i className="far fa-heart" id="couple-icon"></i>
+                                        </div>
+                                        <div className="col-5 couple-avatar">
+                                            <SquareAvatar img={members[1].avatar} size="medium"></SquareAvatar>
+                                            <h6>{members[1].name}</h6>
+                                        </div>
+                                    </div>
+                                ) : null
+                            }
+                            
 
                             <div className="btn-dating-group text-center">
                                 {button}
@@ -204,7 +226,8 @@ function mapDispatchToProps(dispatch) {
         updateInvitation: (id, type) => dispatch(updateInvitation(id, type)),
         cancelEventByMember: (id) => dispatch(cancelEventByMember(id)),
         updateEventStatus: (id, status) => dispatch(updateEventStatus(id, status)),
-        resetEvent: (id) => dispatch(resetEvent(id))
+        resetEvent: (id) => dispatch(resetEvent(id)),
+        getCoupleEventMember: (id) => dispatch(getCoupleEventMember(id))
     }
 }
 
