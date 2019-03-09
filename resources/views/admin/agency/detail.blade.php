@@ -173,7 +173,7 @@
                                     <div class="preview-image preview-show-{{$key}}">
                                         <div class="image-cancel" data-no="{{$key}}">x</div>
                                         <div class="image-zone">
-                                            <img id="pro-img-{{$key}}" src="{{$value->url}}">
+                                            <img id="pro-img-{{$key}}" src="{{$value->source}}">
                                         </div>
                                         <input type="hidden" name="old_images[]" value="{{$value->id}}">
                                     </div>

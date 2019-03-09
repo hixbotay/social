@@ -137,6 +137,16 @@
                             <input type="time" name="data[close]" class="form-control" required>
                         </div>
 
+                        <div class="form-group">
+                            <fieldset class="form-group">
+                                <a href="javascript:void(0)" class="btn btn-primary" onclick="$('#pro-image').click()">Tải ảnh lên</a>
+                                <input type="file" id="pro-image" name="images[]" style="display: none;" class="form-control" multiple>
+                            </fieldset>
+                            <div class="preview-images-zone">
+
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-sm-12">
                         <button type="submit" class="btn btn-primary">Submit</button>
