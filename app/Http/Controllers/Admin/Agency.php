@@ -217,4 +217,21 @@ class Agency extends Controller
         print_r(json_encode($data));
         die;
     }
+
+    public function approve(Request $request){
+        $id =  $request->input('id');
+        $item = AgencyModel::find($id);
+        if (!$item->id){
+            return redirect()->back()->withErrors(['failed' => 'Đã có lỗi xảy ra, vui lòng thử lại']);
+        }
+
+        $item->register_status = 1;
+        $result = $item->save();
+        if ($result){
+            return redirect()->back()->with('success', [__('admin.SAVE_SUCCESS')]);
+        }else{
+            return redirect()->back()->withErrors(__('admin.SAVE_FAIL'));
+        }
+
+    }
 }
