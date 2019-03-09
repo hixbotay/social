@@ -8,6 +8,7 @@ use App\User;
 use App\Agency AS AgencyModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\AgencyPhotos;
 
 
 class Agency extends Controller
@@ -104,6 +105,21 @@ class Agency extends Controller
         $url = url('admin?view=Agency&type='.$data['type']);
 
         if ($result->id){
+
+            $file = $request->file('images');
+            if ($file){
+                $images = [];
+                $images['agency_id'] = $result->id;
+                foreach ($file AS $value){
+                    $file_name = time() . '_' . $value->getClientOriginalName();
+                    $file_path = 'storage/app/agency/'.$data['type'].'/'.$result->id."/";
+                    $newFile = $value->move($file_path, $file_name);
+                    $images['source'] = $file_path . $file_name;
+                    $images['type'] = $data['type'];
+                    AgencyPhotos::create($images);
+                }
+            }
+
             return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
             return redirect($url)->withErrors(__('admin.SAVE_FAIL'));
@@ -136,11 +152,13 @@ class Agency extends Controller
 //        echo "<pre>";
 //        print_r($district);
 //        die;
+        $images = AgencyPhotos::where('agency_id', '=', $id)->get();
         return view('admin.agency.detail', [
             'item' => $item,
             'users' => $users,
             'district' => $district,
-            'village' => $village
+            'village' => $village,
+            'images' => $images
         ]);
     }
 
@@ -169,6 +187,21 @@ class Agency extends Controller
         $result = $item->save();
 
         if ($result){
+
+            $file = $request->file('images');
+            if ($file){
+                $images = [];
+                $images['agency_id'] = $item->id;
+                foreach ($file AS $value){
+                    $file_name = time() . '_' . $value->getClientOriginalName();
+                    $file_path = 'storage/app/agency/'.$data['type'].'/'.$item->id."/";
+                    $newFile = $value->move($file_path, $file_name);
+                    $images['source'] = $file_path . $file_name;
+                    $images['type'] = $data['type'];
+                    AgencyPhotos::create($images);
+                }
+            }
+
             return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
         }else{
             return redirect($url)->withErrors(__('admin.SAVE_FAIL'));

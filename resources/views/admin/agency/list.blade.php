@@ -124,7 +124,11 @@
                                     </a>
                                 </td>
                                 <td>{{$item->address}}</td>
-                                <td>{{$item->image}}</td>
+                                <td>
+                                    @if($item->image)
+                                        <img style="width: 100px;height: 100px;" src="{{ $item->image }}" alt="Profile agency image">
+                                    @endif
+                                </td>
                                 <td>
                                 @php
                                 $status = BookproHelper::getRegisterStatusAgency($item->register_status);
