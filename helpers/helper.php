@@ -200,5 +200,21 @@ class BookproHelper{
         return $order;
     }
 
+    static function getRegisterStatusAgency($stt){
+        $status = config('constants.agency_register_status');
+        foreach ($status AS $value){
+            if ($value['status'] == $stt){
+                return (object)$value;
+            }
+        }
+        return (object) array(
+            'status' => '',
+            'name' => '',
+            'color' => '',
+            'class' => 'text-success'
+        );
+
+    }
+
 
 }
