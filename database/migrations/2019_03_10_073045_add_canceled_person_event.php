@@ -13,7 +13,7 @@ class AddCanceledPersonEvent extends Migration
      */
     public function up()
     {
-        DB::table('events', function($table) {
+        Schema::table('events', function(Blueprint $table) {
             $table->integer('canceled_person')->nullable(1);
             $table->string('canceled_reason')->nullable(1);
         });
