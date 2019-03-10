@@ -623,7 +623,23 @@ class Event extends Controller {
     }
 
     public function joinEvent($event_id) {
-        // check if exist 
+        $event = \App\Event::find($event_id);
+        // check if user have other dating in same time
+        $from = date('Y-m-d H:i:s', strtotime($event->start_time.'-30 minutes'));
+        $to = date('Y-m-d H:i:s', strtotime($event->start_time.'+30 minutes'));
+        $events = \App\Event::join('event_register', function($join) {
+                $join->on('event_register.event_id', '=', 'events.id');
+                $join->on(function($query) {
+                    $query->where([['user_id', '=', Auth::id()], ['event_register.status', '=', 1]]);
+                });
+            })
+            ->whereBetween('events.start_time', [$from, $to])
+            ->get();
+        if(count($events)) {
+            return response()->json(['message' => 'Bạn không thể tham gia cuộc hẹn này vì thời gian bị trùng với cuộc hẹn khác'], 422);
+        }
+
+        // check if user registered before
         $register= DB::table('event_register')
             ->where([
                 ['user_id', '=', Auth::id()],
@@ -844,9 +860,25 @@ class Event extends Controller {
 
     // accept or reject invitation 
     public function updateInvitation(Request $request, $event_id) {
+        $event = \App\Event::find($event_id);
         $type = $request->input('type');
 
         if($type === 'accept') {
+            // check if user have other dating in same time
+            $from = date('Y-m-d H:i:s', strtotime($event->start_time.'-30 minutes'));
+            $to = date('Y-m-d H:i:s', strtotime($event->start_time.'+30 minutes'));
+            $events = \App\Event::join('event_register', function($join) {
+                    $join->on('event_register.event_id', '=', 'events.id');
+                    $join->on(function($query) {
+                        $query->where([['user_id', '=', Auth::id()], ['event_register.status', '=', 1]]);
+                    });
+                })
+                ->whereBetween('events.start_time', [$from, $to])
+                ->get();
+            if(count($events)) {
+                return response()->json(['message' => 'Bạn không thể tham gia cuộc hẹn này vì thời gian bị trùng với cuộc hẹn khác'], 422);
+            }
+
             $invitation = DB::table('event_invitations')
                 ->where([
                     ['event_id', '=', $event_id],
@@ -866,6 +898,13 @@ class Event extends Controller {
                     ['invitee', '=', Auth::id()]
                 ])
                 ->update(['status' =>  2, 'cancel_reason' => $request->get('reason')]);
+            
+            if($event->type === 'couple') {
+                $event->status = 'cancelled';
+                $event->canceled_person = Auth::id();
+                $event->canceled_reason = "Người được mời không đồng ý hẹn";
+                $event->save();
+            }
         }
         return json_encode($invitation);
     }
@@ -1087,6 +1126,11 @@ class Event extends Controller {
         $event = \App\Event::where([['id','=', $id], ['creator', '=', Auth::id()]])->first();
         if($event) {
             $event->status = $request->get('status');
+            if($request->get('status') == 'cancelled') {
+                $event->canceled_person = Auth::id();
+                $event->canceled_reason = 'Người tạo hủy cuộc hẹn này';
+            }
+
             $event->save();
             return json_encode($event);
         } else {
@@ -1270,28 +1314,34 @@ class Event extends Controller {
     public function getCoupleEventMember($event_id) {
         $event = \App\Event::where([['id', '=', $event_id], ['type', '=','couple']])->first();
         $temp = [];
+        $status = null;
 
         $registers = DB::table('event_register')->where([['event_id', '=', $event_id]])->get();
         if(count($registers) === 1) {
             $invitation = DB::table('event_invitations')->where([['event_id', '=', $event_id]])->first();
+            $status = $invitation->status;
             $temp = [$registers[0]->user_id, $invitation->invitee];
         } else {
             $temp = [$registers[0]->user_id, $registers[1]->user_id];
         }
         
         $users = \App\User::whereIn('id', $temp)->select(['id','name', 'avatar'])->get();
+        $users->get(0)->status = $registers->get(0)->status;
+        $users->get(0)->type = 'register';
+
+        if($status !== null) {
+            $users->get(1)->status = $status;
+            $users->get(1)->type = 'invited';
+        } else {   
+            $users->get(1)->status = $registers->get(1)->status;
+            $users->get(1)->type = 'register';
+        }
+
+        if($event->status === 'cancelled') {
+            $users->get(0)->status = 0;
+            $users->get(1)->status = 1;
+        }
+
         return ['users' => $users];
     }
-
-    // // check if user free or not
-    // public function isUserFree($date) {
-    //     $user = Auth::user();
-    //     DB::table('event_register')
-    //     ->join('events', function ($join) {
-    //         $join->on('events.id', '=', 'event_register.event_id');
-    //         $join->on(function($query) {
-    //             $query->where('events.start_time', '<', $date); 
-    //         });
-    //     })
-    // }
 }

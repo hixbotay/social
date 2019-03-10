@@ -109,7 +109,7 @@ export const joinDating = (id) => dispatch => {
             resolve(response.data)
         })
         .catch(err => {
-            console.log(err);
+            alert(err.response.data.message);
             reject(err);
         })
     })
@@ -149,8 +149,8 @@ export const updateInvitation = (event_id, data) => (dispatch) => {
             window.alert("Từ chối lời mời thành công");
         }
     }).catch(err => {
-        console.log(err);
-        window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
+        alert(err.response.data.message);
+        // window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
     })
 }
 

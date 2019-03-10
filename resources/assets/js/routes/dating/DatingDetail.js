@@ -9,7 +9,7 @@ import RegisterItem from '../../components/Dating/RegisterItem';
 import { getEventDetail } from '../../actions/EventActions';
 import { updateRelationship } from '../../actions/UserActions';
 import Fragment from 'react-dot-fragment';
-import { updateEventStatus, joinDating, updateInvitation } from '../../actions/EventActions';
+import { updateEventStatus, joinDating, updateInvitation, getCoupleEventMember } from '../../actions/EventActions';
 import InformationNumber from '../../components/Information/InformationNumber';
 // import Modal from '../../components/Modal';
 import Modal from 'react-modal';
@@ -24,7 +24,8 @@ class DatingDetail extends Component {
             isLovedCreator: false,
             isAlert: false,
             isReject: false,
-            reason: ''
+            reason: '',
+            coupleMembers: []
         }
     }
 
@@ -37,6 +38,16 @@ class DatingDetail extends Component {
                 likeNumber: parseInt(creator.likeNumber)
             })
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.event.type === 'couple') {
+            this.props.getCoupleEventMember(nextProps.event.id).then(users => {
+                this.setState({
+                    coupleMembers: users
+                })
+            })
+        }
     }
 
     cancelDating(event_id) {
@@ -473,7 +484,69 @@ class DatingDetail extends Component {
                                         </div>
                                     </div>
                                 </CardWithTitle>
-                            ) : null
+                            ) : (
+                                <CardWithTitle hasLine={true} title="DANH SÁCH HẸN ĐÔI">
+                                    <div className="row">
+                                        {
+                                            this.state.coupleMembers.map(member => {
+                                                let status = null;
+                                                switch(member.type) {
+                                                    case 'register': {
+                                                        switch(member.status) {
+                                                            case 0: {
+                                                                status = 'Đã hủy';
+                                                                break;
+                                                            }
+                                                            case 1: {
+                                                                status = 'Đang tham gia';
+                                                                break;
+                                                            }
+                                                            case 2: {
+                                                                status = 'Đã bị từ chối';
+                                                                break;
+                                                            }
+                                                        }
+                                                        break;
+                                                    }
+                                                    case 'invited': {
+                                                        switch(member.status) {
+                                                            case 0: {
+                                                                status = 'Chưa trả lời lời mời';
+                                                                break;
+                                                            }
+                                                            case 1: {
+                                                                status = 'Đang tham gia';
+                                                                break;
+                                                            }
+                                                            case 2: {
+                                                                status = 'Đã từ chối lời mời';
+                                                                break;
+                                                            }
+                                                        }
+                                                        break;
+                                                    }
+                                                }
+
+                                                return (
+                                                    <div className="col-6" key={member.id}>
+                                                        <Link to={`/profile/${member.id}`}>
+                                                            <div className="row">
+                                                                <div className="col-6">
+                                                                    <SquareAvatar img={member.avatar} size="large"/>
+                                                                </div>
+                                                                <div className="col-6">
+                                                                    <h4>{member.name}</h4>
+                                                                    <div>{status}</div>
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </CardWithTitle>
+                            )
                         }
 
                         {
@@ -564,7 +637,8 @@ function mapDispatchToProps(dispatch) {
         updateRelationship: (data, user_id) => dispatch(updateRelationship(data, user_id)),
         updateEventStatus: (event_id, status) => dispatch(updateEventStatus(event_id, status)),
         joinDating: (event_id) => dispatch(joinDating(event_id)),
-        updateInvitation: (id, data) => dispatch(updateInvitation(id, data))
+        updateInvitation: (id, data) => dispatch(updateInvitation(id, data)),
+        getCoupleEventMember: (id) => dispatch(getCoupleEventMember(id))
     }
 }
 
