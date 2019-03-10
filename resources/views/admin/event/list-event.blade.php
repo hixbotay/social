@@ -87,6 +87,17 @@
                                     <p>
                                         <span style="color: {{$status->color}}">@lang('admin.'.$status->label)</span>
                                     </p>
+                                    @if($item->status == 'cancelled')
+
+                                    <p>
+                                        {{ isset($item->cancel_person)?"Bởi: ".$item->cancel_person."":null }}
+                                    </p>
+                                    <p>
+                                        {{ isset($item->canceled_reason)?"Lý do: ".$item->canceled_reason:null }}
+                                    </p>
+                                        
+                                    @endif
+
                                     <p>
                                         @if($item->is_approved === 0)
                                             @php

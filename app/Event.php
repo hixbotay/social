@@ -37,8 +37,16 @@ class Event extends Model
 
     public static function getItems($data){
         $currentUser = Auth::user();
-        $items = self::select('events.*', 'users.name AS creator_name', 'users.id AS creator_id', 'agency.id AS agency_id', 'agency.name AS agency_name')
+        $items = self::select(
+            'events.*',
+            'users.name AS creator_name',
+            'users.id AS creator_id',
+            'agency.id AS agency_id',
+            'agency.name AS agency_name',
+            'us.name AS cancel_person'
+        )
             ->join('users', 'events.creator', '=', 'users.id')
+            ->leftJoin('users AS us', 'events.canceled_person', '=', 'us.id')
             ->join('agency', 'events.agency_id', '=', 'agency.id')
             ->where(function ($query) use ($currentUser){
                 if ($currentUser->is_admin != 1){
