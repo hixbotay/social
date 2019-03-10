@@ -13,7 +13,7 @@ date_default_timezone_set('Asia/Saigon');
 class Event extends Controller {
     // list events forthcoming, finished, cancelled which current_user joined
     public function list($status) {
-        $now = date('Y-m-d h:i:s');
+        $now = date('Y-m-d H:i:s');
 
         if($status == 'forthcoming') {
             $registeredEvents = DB::table('event_register')
@@ -162,7 +162,7 @@ class Event extends Controller {
 
     // list events around here and current user does not join 
     public function listEventsAround() {
-        $now = date('Y-m-d h:i:s');
+        $now = date('Y-m-d H:i:s');
         $user = Auth::user();
         // looking for event that current_user is joined
         $temp = DB::table('event_register')
@@ -237,7 +237,7 @@ class Event extends Controller {
 
     // list events has current user's crush and current user does not join 
     public function listEventsHasYourCrush() {
-        $now = date('Y-m-d h:i:s');
+        $now = date('Y-m-d H:i:s');
         $user_id = Auth::id();
         // looking for event that current_user is joined
         $temp = DB::table('event_register')
@@ -333,7 +333,7 @@ class Event extends Controller {
 
     // list upcoming group event and current user does not join 
     public function listEventsUpcoming() {
-        $now = date('Y-m-d h:i:s');
+        $now = date('Y-m-d H:i:s');
         $user = Auth::user();
 
         // find event user never join or invited
@@ -431,6 +431,21 @@ class Event extends Controller {
         foreach($data->event as $key => $value) {
             $newEvent[$key] = $value;
         }
+
+        // check if user have other dating in same time
+        $from = date('Y-m-d H:i:s', strtotime($newEvent['start_time'].'-30 minutes'));
+        $to = date('Y-m-d H:i:s', strtotime($newEvent['start_time'].'+30 minutes'));
+        $events = \App\Event::join('event_register', function($join) {
+                $join->on('event_register.event_id', '=', 'events.id');
+                $join->on(function($query) {
+                    $query->where([['user_id', '=', Auth::id()], ['event_register.status', '=', 1]]);
+                });
+            })
+            ->whereBetween('events.start_time', [$from, $to])
+            ->get();
+        if(count($events)) {
+            return response()->json(['message' => 'Bạn không thể tạo cuộc hẹn này vì thời gian bị trùng với cuộc hẹn khác'], 422);
+        }
         $result = \App\Event::create($newEvent);
 
         $job_arr = []; //temp array for query subscriber
@@ -467,7 +482,7 @@ class Event extends Controller {
                 'user_id' => $user_id,
                 'event_id' => $result['id'],
                 'status' => 1,
-                'created' => date('Y-m-d h:i:s')
+                'created' => date('Y-m-d H:i:s')
             ]);
 
         // invite user who subscribe event in region
@@ -487,8 +502,8 @@ class Event extends Controller {
                 'event_id' => $result['id'],
                 'inviter' => $user_id,
                 'invitee' => $subscriber->user_id,
-                'created_at' => date('Y-m-d h:i:s'),
-                'updated_at' => date('Y-m-d h:i:s')
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ]);
         }
         DB::table('event_invitations')->insert($invitations);
@@ -529,6 +544,22 @@ class Event extends Controller {
         foreach($data->event as $key => $value) {
             $newEvent[$key] = $value;
         }
+
+        // check if user have other dating in same time
+        $from = date('Y-m-d H:i:s', strtotime($newEvent['start_time'].'-30 minutes'));
+        $to = date('Y-m-d H:i:s', strtotime($newEvent['start_time'].'+30 minutes'));
+        $events = \App\Event::join('event_register', function($join) {
+                $join->on('event_register.event_id', '=', 'events.id');
+                $join->on(function($query) {
+                    $query->where([['user_id', '=', Auth::id()], ['event_register.status', '=', 1]]);
+                });
+            })
+            ->whereBetween('events.start_time', [$from, $to])
+            ->get();
+        if(count($events)) {
+            return response()->json(['message' => 'Bạn không thể tạo cuộc hẹn này vì thời gian bị trùng với cuộc hẹn khác'], 422);
+        }
+
         $result = \App\Event::create($newEvent);
 
         // creator is first event register
@@ -538,7 +569,7 @@ class Event extends Controller {
                 'user_id' => $user->id,
                 'event_id' => $result['id'],
                 'status' => 1,
-                'created' => date('Y-m-d h:i:s')
+                'created' => date('Y-m-d H:i:s')
             ]);
         }
 
@@ -575,8 +606,8 @@ class Event extends Controller {
                 'event_id' => $result['id'],
                 'inviter' => $user->id,
                 'invitee' => $data->subscriber,
-                'created_at' => date('Y-m-d h:i:s'),
-                'updated_at' => date('Y-m-d h:i:s')
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
             ]);
 
         Notification::insert([
@@ -606,7 +637,7 @@ class Event extends Controller {
                 'user_id' => Auth::id(),
                 'event_id' => $event_id,
                 'status' => 1,
-                'created' => date('Y-m-d h:i:s')
+                'created' => date('Y-m-d H:i:s')
             ]);
         } else $result = false;
         
@@ -840,7 +871,7 @@ class Event extends Controller {
     }
 
     public function listInvitation() {
-        $now = date('Y-m-d h:i:s');
+        $now = date('Y-m-d H:i:s');
         $invitations = DB::table('event_invitations')
             ->where([
                 ['invitee', '=', Auth::id()],
@@ -972,7 +1003,7 @@ class Event extends Controller {
                     });
                 })
                 ->where($data)
-                ->where('start_time', '>', date('Y-m-d h:i:s'))
+                ->where('start_time', '>', date('Y-m-d H:i:s'))
                 ->whereIn('events.id', $event_id)
                 ->whereIn('events.agency_id', $cafe_id)
                 ->select(DB::raw('
@@ -1001,7 +1032,7 @@ class Event extends Controller {
                     });
                 })
                 ->where($data)
-                ->where('start_time', '>', date('Y-m-d h:i:s'))
+                ->where('start_time', '>', date('Y-m-d H:i:s'))
                 ->whereIn('events.agency_id', $cafe_id)
                 ->select(DB::raw('
                     events.*, 
@@ -1199,7 +1230,7 @@ class Event extends Controller {
 
         $result = DB::table('event_register')
             ->where([['user_id', '=', $user->id], ['event_id', '=', $event_id]])
-            ->update(['status' => 0, 'updated_at' => date('Y-m-d h:i:s')]);
+            ->update(['status' => 0, 'updated_at' => date('Y-m-d H:i:s')]);
         return ['result' => $result];
     }
 
@@ -1212,7 +1243,7 @@ class Event extends Controller {
         if($event) {
             $result = DB::table('event_register')
                 ->where([['user_id', '=', $request->user_id], ['event_id', '=', $event_id]])
-                ->update(['status' => 2, 'updated_at' => date('Y-m-d h:i:s')]);
+                ->update(['status' => 2, 'updated_at' => date('Y-m-d H:i:s')]);
             return ['result' => $result];
         }
         

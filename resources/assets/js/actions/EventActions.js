@@ -79,7 +79,7 @@ export const createGroupEvent = (data) => dispatch => {
             resolve(response.data);
         })
         .catch(err => {
-            console.log(err);
+            alert(err.response.data.message);
             reject(err);
         })
     })
@@ -93,7 +93,7 @@ export const createCoupleEvent = (data) => dispatch => {
             resolve(response.data);
         })
         .catch(err => {
-            console.log(err);
+            alert(err.response.data.message);
             reject(err);
         })
     })
