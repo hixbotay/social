@@ -902,7 +902,7 @@ class Event extends Controller {
             if($event->type === 'couple') {
                 $event->status = 'cancelled';
                 $event->canceled_person = Auth::id();
-                $event->canceled_reason = "Người được mời không đồng ý hẹn";
+                $event->canceled_reason = $request->get('reason');
                 $event->save();
             }
         }

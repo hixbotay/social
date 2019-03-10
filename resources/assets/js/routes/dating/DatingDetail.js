@@ -41,7 +41,7 @@ class DatingDetail extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.event.type === 'couple') {
+        if (nextProps.event.type === 'couple') {
             this.props.getCoupleEventMember(nextProps.event.id).then(users => {
                 this.setState({
                     coupleMembers: users
@@ -77,8 +77,8 @@ class DatingDetail extends Component {
 
     reject(e) {
         e.preventDefault();
-        if(confirm("Bạn có chắc muốn từ chối cuộc hẹn này?")) {
-            this.props.updateInvitation(this.props.event.id, {type: 'reject', reason: this.state.reason});
+        if (confirm("Bạn có chắc muốn từ chối cuộc hẹn này?")) {
+            this.props.updateInvitation(this.props.event.id, { type: 'reject', reason: this.state.reason });
         }
         this.setState({
             isReject: false
@@ -134,6 +134,11 @@ class DatingDetail extends Component {
             var isSecretEvent = event.is_secret;
             if (event.creator === current_user.id) {
                 isSecretEvent = 0;
+            }
+
+            var canceledPerson = event.registers.find(o => { return o.id === event.canceled_person });
+            if (!canceledPerson) {
+                canceledPerson = this.state.coupleMembers.find(o => { return o.id === event.canceled_person });
             }
 
             var registers = _.partition(event.registers, (register) => { return register.gender === "M" });
@@ -437,13 +442,18 @@ class DatingDetail extends Component {
                                         <div>Loading....</div>
                                     )
                             }
-                            {
-
-                            }
-                            <div className="dating-description mt-2">
+                            <div className="dating-description mt-2 mb-4">
                                 <b>Mô tả về cuộc hẹn này:</b>
                                 <div>{event.description ? event.description : "Không có mô tả nào về cuộc hẹn này"}</div>
                             </div>
+                            {
+                                event.status === 'cancelled' && canceledPerson ? (
+                                    <div className="alert alert-danger">
+                                        <b>Lý do hủy cuộc hẹn: </b>
+                                        <span>{`${canceledPerson.name} hủy cuộc hẹn này với lý do ${event.canceled_reason}`}</span>
+                                    </div>
+                                ) : null
+                            }
                         </CardWithTitle>
 
                         {
@@ -485,68 +495,68 @@ class DatingDetail extends Component {
                                     </div>
                                 </CardWithTitle>
                             ) : (
-                                <CardWithTitle hasLine={true} title="DANH SÁCH HẸN ĐÔI">
-                                    <div className="row">
-                                        {
-                                            this.state.coupleMembers.map(member => {
-                                                let status = null;
-                                                switch(member.type) {
-                                                    case 'register': {
-                                                        switch(member.status) {
-                                                            case 0: {
-                                                                status = 'Đã hủy';
-                                                                break;
+                                    <CardWithTitle hasLine={true} title="DANH SÁCH HẸN ĐÔI">
+                                        <div className="row">
+                                            {
+                                                this.state.coupleMembers.map(member => {
+                                                    let status = null;
+                                                    switch (member.type) {
+                                                        case 'register': {
+                                                            switch (member.status) {
+                                                                case 0: {
+                                                                    status = 'Đã hủy';
+                                                                    break;
+                                                                }
+                                                                case 1: {
+                                                                    status = 'Đang tham gia';
+                                                                    break;
+                                                                }
+                                                                case 2: {
+                                                                    status = 'Đã bị từ chối';
+                                                                    break;
+                                                                }
                                                             }
-                                                            case 1: {
-                                                                status = 'Đang tham gia';
-                                                                break;
-                                                            }
-                                                            case 2: {
-                                                                status = 'Đã bị từ chối';
-                                                                break;
-                                                            }
+                                                            break;
                                                         }
-                                                        break;
-                                                    }
-                                                    case 'invited': {
-                                                        switch(member.status) {
-                                                            case 0: {
-                                                                status = 'Chưa trả lời lời mời';
-                                                                break;
+                                                        case 'invited': {
+                                                            switch (member.status) {
+                                                                case 0: {
+                                                                    status = 'Chưa trả lời lời mời';
+                                                                    break;
+                                                                }
+                                                                case 1: {
+                                                                    status = 'Đang tham gia';
+                                                                    break;
+                                                                }
+                                                                case 2: {
+                                                                    status = 'Đã từ chối lời mời';
+                                                                    break;
+                                                                }
                                                             }
-                                                            case 1: {
-                                                                status = 'Đang tham gia';
-                                                                break;
-                                                            }
-                                                            case 2: {
-                                                                status = 'Đã từ chối lời mời';
-                                                                break;
-                                                            }
+                                                            break;
                                                         }
-                                                        break;
                                                     }
-                                                }
 
-                                                return (
-                                                    <div className="col-6" key={member.id}>
-                                                        <Link to={`/profile/${member.id}`}>
-                                                            <div className="row">
-                                                                <div className="col-6">
-                                                                    <SquareAvatar img={member.avatar} size="large"/>
+                                                    return (
+                                                        <div className="col-6" key={member.id}>
+                                                            <Link to={`/profile/${member.id}`}>
+                                                                <div className="row">
+                                                                    <div className="col-6">
+                                                                        <SquareAvatar img={member.avatar} size="large" />
+                                                                    </div>
+                                                                    <div className="col-6">
+                                                                        <h4>{member.name}</h4>
+                                                                        <div>{status}</div>
+                                                                    </div>
                                                                 </div>
-                                                                <div className="col-6">
-                                                                    <h4>{member.name}</h4>
-                                                                    <div>{status}</div>
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                </CardWithTitle>
-                            )
+                                                            </Link>
+                                                        </div>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </CardWithTitle>
+                                )
                         }
 
                         {
@@ -568,7 +578,7 @@ class DatingDetail extends Component {
                                                         </button>
                                                     </div>
                                                     <div className="col-4 text-center">
-                                                        <button className="btn btn-primary" onClick={() => {this.setState({isReject: true})}}>
+                                                        <button className="btn btn-primary" onClick={() => { this.setState({ isReject: true }) }}>
                                                             TỪ CHỐI
                                                         </button>
                                                     </div>
@@ -592,7 +602,7 @@ class DatingDetail extends Component {
                                         Trước khi tham gia một cuộc hẹn, hãy chắc chấn đó là bạn.
                                     </div>
                                     <div className="text-center create-event-alert-content">
-                                        <button className="btn btn-primary" onClick={() => {this.setState({isAlert: false})}}>
+                                        <button className="btn btn-primary" onClick={() => { this.setState({ isAlert: false }) }}>
                                             OK
                                         </button>
                                     </div>
@@ -603,12 +613,12 @@ class DatingDetail extends Component {
                             <form onSubmit={(e) => this.reject(e)}>
                                 <div className="form-group">
                                     <label>Lý do từ chối</label>
-                                    <input 
-                                        type="text" 
-                                        className="form-control" 
-                                        name="reason" 
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        name="reason"
                                         placeholder="Bạn có thể bỏ qua nếu không thích..."
-                                        onChange={(e) => this.onChangeReason(e)} 
+                                        onChange={(e) => this.onChangeReason(e)}
                                     />
                                 </div>
                                 <button className="btn btn-sm btn-primary" type="submit">Xác nhận</button>
@@ -616,8 +626,8 @@ class DatingDetail extends Component {
                         </Modal>
                     </DatingLayout>
                 ) : (
-                    <Redirect to={`/dating/${this.props.match.params.id}/result`} />
-                )
+                        <Redirect to={`/dating/${this.props.match.params.id}/result`} />
+                    )
             ) : null
         );
     }
