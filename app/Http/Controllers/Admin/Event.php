@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Event as EventModel;
 use App\EventSchedules as EventSchedulesModel;
+use App\Filters\EventFilters;
 use DateTime;
 use Session;
 use URL;
@@ -19,7 +20,6 @@ class Event extends Controller
      */
     public function listEvent()
     {
-
         $events = EventModel::getItems(array());
         return view('admin.event.list-event', [
             'items' => $events
@@ -126,5 +126,22 @@ class Event extends Controller
         Session::put('pre_url', URL::previous());
         console_log(Session::get('pre_url'));
         return redirect(Session::get('pre_url'));
+    }
+
+    public function approve(Request $request){
+        $id =  $request->input('id');
+        $item = EventModel::find($id);
+        if (!$item->id){
+            return redirect()->back()->withErrors(['failed' => 'Đã có lỗi xảy ra, vui lòng thử lại']);
+        }
+
+        $item->is_approved = 1;
+        $result = $item->save();
+        if ($result){
+            return redirect()->back()->with('success', [__('admin.SAVE_SUCCESS')]);
+        }else{
+            return redirect()->back()->withErrors(__('admin.SAVE_FAIL'));
+        }
+
     }
 }

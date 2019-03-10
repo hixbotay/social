@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use App\Filters\Filters;
 
 class Event extends Model
 {
@@ -78,5 +79,10 @@ class Event extends Model
             }
         }
         return false;
+    }
+
+    public function scopeFilter($query, Filters $filters)
+    {
+        return $filters->apply($query);
     }
 }
