@@ -1,5 +1,5 @@
 /*LOGIN PAGE*/
-.login-page{
+.authen-page{
     background-image: url("../../public/images/main/landing.png");
     background-position: top;
     background-size: cover;
@@ -7,36 +7,36 @@
     min-height: 1000px;
 }
 @media (min-width: 1920px){
-    .login-page .container {
+    .authen-page .container {
         max-width: 1640px;
     }
 }
 
-.login-page .head-content{
+.authen-page .head-content{
     width: 100%;
     background-color: rgba(0,0,0,0.3);
 }
-.login-page .head-content .logo{
+.authen-page .head-content .logo{
     margin: 20px 0px 20px 80px;
 }
-.login-page .head-content .nav{
+.authen-page .head-content .nav{
     margin: 20px 80px 20px 0px;
 }
-.login-page .head-content .nav .nav-link{
+.authen-page .head-content .nav .nav-link{
     color: #ffffff;
     font-size: 24px;
 }
-.login-page .c-text{
+.authen-page .c-text{
     color: #ffffff !important;
 }
-.login-page .page-title{
+.authen-page .page-title{
     font-size: 50px;
     font-weight: bold;
     text-align: center;
     vertical-align: middle;
     margin: 40px auto;
 }
-.login-page .body-content{
+.authen-page .body-content{
     text-align: center;
     vertical-align: middle;
     border: 1px solid rgba(0,0,0,0);
@@ -47,36 +47,46 @@
     padding-right: 0px;
     margin-bottom: 80px;
 }
-.login-page .body-content h4{
+.authen-page .body-content h4{
     font-weight: normal;
     font-size: 23px;
 }
-.login-page .body-content .description{
+.authen-page .body-content .description{
     padding-top: 30px;
     padding-bottom: 30px;
 }
-.login-page .body-content .btn-register-phone{
+.authen-page .body-content .btn-register-phone{
     border-radius: 10px;
     color: #ffffff;
     background-color: #3464D4;
     border-color: #3464D4 ;
 }
 
-.login-page .body-content .btn-register-phone:hover{
+.authen-page .body-content .btn-register-phone:hover{
     color: #ffffff;
 }
-.login-page .body-content .links{
+.authen-page .body-content .links{
     margin-top: 25px;
     margin-bottom: 40px;
     display: inline-block;
+    position: relative;
 }
-.login-page .body-content .new-users{
+.authen-page .body-content .links .fa-facebook-square::before{
+    position: absolute;
+    top: -5px;
+    right: -35px;
+}
+.authen-page .body-content .new-users{
     background-color: rgba(255,255,255,0.9);
     padding-top: 50px;
     border-bottom-right-radius: 20px;
     border-bottom-left-radius: 20px;
 }
-.login-page .body-content .new-users .users{
+.authen-page .body-content .new-users .users{
     display: flex;
+}
+.authen-page .form-horizontal{
+    margin-left: 30px;
+    margin-right: 30px;
 }
 /*END LOGIN PAGE*/

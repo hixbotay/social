@@ -15,7 +15,7 @@
     <script src="https://sdk.accountkit.com/en_US/sdk.js" url="vi_VN"></script>
 </head>
 <body>
-    <div class="main-content login-page">
+    <div class="main-content authen-page">
         <div class="row">
             <div class="head-content">
                 <div class="logo float-left">
