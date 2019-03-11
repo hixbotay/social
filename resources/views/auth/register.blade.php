@@ -1,5 +1,11 @@
 @extends('layouts.auth')
-
+@section('topmenu')
+    <ul class="nav float-right">
+        <li class="nav-item">
+            <a class="nav-link" href="{{url('/login')}}">Đăng nhập</a>
+        </li>
+    </ul>
+@endsection
 @section('content')
 
 
