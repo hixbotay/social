@@ -22,13 +22,14 @@
     margin: 10px auto;
 }
 .authen-page .head-content .nav{
-    margin: 10px auto;
+    margin: 15px auto 10px auto;
 }
 .authen-page .head-content .nav .nav-link{
     color: #ffffff;
 }
 .authen-page .c-text{
     color: #ffffff !important;
+    font-weight: 300;
 }
 .authen-page .page-title{
     font-weight: bold;
@@ -51,8 +52,9 @@
     font-weight: normal;
 }
 .authen-page .body-content .description{
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding: 30px 15px;
+    font-weight: 300;
+
 }
 .authen-page .body-content .btn-register-phone{
     border-radius: 10px;

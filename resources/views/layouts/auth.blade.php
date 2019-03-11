@@ -35,7 +35,7 @@
                     <div class="col-xl-4 col-lg-4 col-md-12 col-xs-12"></div>
                     <div class="col-xl-4 col-lg-4 col-md-12 col-xs-12"></div>
                     <div class="col-xl-4 col-lg-4 col-md-12 col-xs-12 body-content">
-                        <h5 class="c-text">Tìm một nửa kia của bạn</h5>
+                        <h5 class="c-text font-weight-bold">Tìm một nửa kia của bạn</h5>
                         <h6 class="c-text description">Hãy tham gia ngay cùng cộng đồng noiduyen.vn để cùng gặp gỡ những người bạn mới.</h6>
                         @yield('content')
                         <div class="links">
