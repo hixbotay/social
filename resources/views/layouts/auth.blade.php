@@ -39,19 +39,19 @@
                         <h6 class="c-text description">Hãy tham gia ngay cùng cộng đồng noiduyen.vn để cùng gặp gỡ những người bạn mới.</h6>
                         @yield('content')
                         <div class="links">
-                            <span class="c-text">Hoặc sử dụng tài khoản thông qua</span> <a href="{{url('/auth/facebook')}}"><img src="{{asset('public/images/main/fb.png')}}" width="37" height="37"></a>
+                            <span class="c-text title">Hoặc sử dụng tài khoản thông qua</span> <a href="{{url('/auth/facebook')}}"><img src="{{asset('public/images/main/fb.png')}}" width="37" height="37"></a>
                         </div>
                         <div class="new-users">
-                            <h5 class="text-left pl-4 pb-3">Thành viên mới vừa đăng ký</h5>
-                            <div class="users pb-5 pl-xl-5 pl-lg-5 pl-md-5 pl-5 pr-xl-5 pr-lg-5 pr-md-5 pr-5">
+                            <h6 class="text-left pl-4 pb-3 title">Thành viên mới vừa đăng ký</h6>
+                            <div class="users pb-3 pl-xl-5 pl-lg-5 pl-md-5 pl-5 pr-xl-5 pr-lg-5 pr-md-5 pr-5">
                                 <div class="item pr-xl-4 pr-lg-4 pr-md-4 pr-4">
-                                    <a href="/"><img src="{{asset('public/images/main/user.png')}}"></a>
+                                    <a href="/"><img src="{{asset('public/images/main/user.png')}}" width="80" height="80"></a>
                                 </div>
                                 <div class="item pr-xl-4 pr-lg-4 pr-md-4 pr-4">
-                                    <a href="/"><img src="{{asset('public/images/main/user.png')}}"></a>
+                                    <a href="/"><img src="{{asset('public/images/main/user.png')}}" width="80" height="80"></a>
                                 </div>
                                 <div class="item pr-xl-4 pr-lg-4 pr-md-4 pr-4">
-                                    <a href="/"><img src="{{asset('public/images/main/user.png')}}"></a>
+                                    <a href="/"><img src="{{asset('public/images/main/user.png')}}" width="80" height="80"></a>
                                 </div>
                             </div>
                         </div>
