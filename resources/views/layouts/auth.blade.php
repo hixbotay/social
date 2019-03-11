@@ -42,7 +42,7 @@
                     <h4 class="c-text description">Hãy tham gia ngay cùng cộng đồng noiduyen.vn để cùng gặp gỡ những người bạn mới.</h4>
                     @yield('content')
                     <div class="links">
-                        <span class="c-text">Hoặc sử dụng tài khoản thông qua</span> <a href="#"><i class="fab fa-facebook-square fa-2x"></i></a>
+                        <span class="c-text">Hoặc sử dụng tài khoản thông qua</span> <a href="#"><img src="{{asset('public/images/main/fb.png')}}" width="37" height="37"></a>
                     </div>
                     <div class="new-users">
                         <h4 class="text-left pl-4 pb-3">Thành viên mới vừa đăng ký</h4>
