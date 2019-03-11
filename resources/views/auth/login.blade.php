@@ -15,7 +15,7 @@
             <input type="text" class="form-control" name='mobile' placeholder="Số điện thoại" required/>
         </div>
         <div class="form-group">
-            <input type="password" class="form-control"  name="password" placeholder="Mật khẩu" required/>
+            <input type="password" class="form-control title"  name="password" placeholder="Mật khẩu" required/>
         </div>
         <input type="hidden" name="remember" value="1" />
         @include('layouts.admin.notice')
