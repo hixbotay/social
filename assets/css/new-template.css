@@ -11,26 +11,26 @@
         max-width: 1640px;
     }
 }
-
+.authen-page .container-fluid{
+    background-color: rgba(0,0,0,0.3);
+    height: 70px;
+}
 .authen-page .head-content{
     width: 100%;
-    background-color: rgba(0,0,0,0.3);
 }
 .authen-page .head-content .logo{
-    margin: 20px 0px 20px 80px;
+    margin: 10px auto;
 }
 .authen-page .head-content .nav{
-    margin: 20px 80px 20px 0px;
+    margin: 10px auto;
 }
 .authen-page .head-content .nav .nav-link{
     color: #ffffff;
-    font-size: 24px;
 }
 .authen-page .c-text{
     color: #ffffff !important;
 }
 .authen-page .page-title{
-    font-size: 50px;
     font-weight: bold;
     text-align: center;
     vertical-align: middle;
@@ -49,7 +49,6 @@
 }
 .authen-page .body-content h4{
     font-weight: normal;
-    font-size: 23px;
 }
 .authen-page .body-content .description{
     padding-top: 30px;
