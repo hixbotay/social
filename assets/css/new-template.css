@@ -84,6 +84,8 @@
 }
 .authen-page .body-content .new-users .users{
     display: flex;
+    overflow: auto;
+    width: 100%;
 }
 .authen-page .form-horizontal{
     margin-left: 30px;
