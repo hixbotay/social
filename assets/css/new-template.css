@@ -6,6 +6,15 @@
     overflow: hidden;
     min-height: 1000px;
 }
+@media screen and (max-width: 1023px) {
+    .authen-page{
+        min-height: 100%;
+        height: auto;
+    }
+}
+.authen-page .container{
+    margin-top: -70px;
+}
 /*@media (min-width: 1920px){*/
     /*.authen-page .container {*/
         /*max-width: 1640px;*/
