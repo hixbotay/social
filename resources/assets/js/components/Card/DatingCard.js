@@ -62,7 +62,7 @@ class DatingCard extends Component {
                                     <div className="text-center">
                                         {
                                             onMore ? (
-                                            <a href="javasript:void(0);" onClick={() => {onMore();}}>
+                                            <a href="javascript:void(0);" onClick={() => {onMore();}}>
                                                 <u>Xem thêm...</u>
                                             </a>
                                             ) : null

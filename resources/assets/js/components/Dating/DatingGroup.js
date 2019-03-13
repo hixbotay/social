@@ -87,11 +87,8 @@ class DatingGroup extends Component {
                                 </button>
                             </div>
                             <div className="col-6">
-                                <button className="btn btn-primary btn-sm ml-2" onClick={() => this.invite(event.id)}>
-                                    Mời
-                                </button>
-                                <button type="button" id="open-invite-modal" className="d-none"
-                                    data-toggle="modal" data-target="#invite-modal">
+                                <button className="btn btn-primary btn-sm">
+                                    Quy định
                                 </button>
                             </div>
                         </div>
@@ -252,15 +249,6 @@ class DatingGroup extends Component {
                                     </FacebookShareButton>
                                 </div>
                                 <div className="col">
-                                    <GooglePlusShareButton
-                                        url={shareUrl}
-                                        quote="Cuộc hẹn nhóm vui vẻ với noiduyen.vn"
-                                        className="Demo__some-network__share-button"
-                                    >
-                                        <GooglePlusIcon size={24} round/>
-                                    </GooglePlusShareButton>
-                                </div>
-                                <div className="col">
                                     <TwitterShareButton
                                         url={shareUrl}
                                         quote="Cuộc hẹn nhóm vui vẻ với noiduyen.vn"
@@ -268,6 +256,20 @@ class DatingGroup extends Component {
                                     >
                                         <TwitterIcon size={24} round/>
                                     </TwitterShareButton>
+                                </div>
+                                <div className="col">
+                                    {
+                                        (event.is_joined && status === 'forthcoming') ? (
+                                            <React.Fragment>
+                                                <button className="btn btn-primary btn-sm ml-2" onClick={() => this.invite(event.id)}>
+                                                    Mời
+                                                </button>
+                                                <button type="button" id="open-invite-modal" className="d-none"
+                                                    data-toggle="modal" data-target="#invite-modal">
+                                                </button>
+                                            </React.Fragment>
+                                        ) : null
+                                    }
                                 </div>
                             </div>
                             <div className="row btn-dating-group">

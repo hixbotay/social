@@ -98,6 +98,10 @@ class CreateGroupDating extends Component {
                 alert("Bạn không thể chọn ngày chốt lớn hơn ngày cuộc hẹn diễn ra!");
                 return;
             }
+        } else {
+            this.setState({
+                limit_date_register: moment()
+            })
         }
 
         this.setState({
@@ -295,7 +299,7 @@ class CreateGroupDating extends Component {
                 is_approved: 1
             }
         }, () => {
-            let requiredFields = ['agency_id', 'image', 'start_time', 'limit_time_register'];
+            let requiredFields = ['is_secret', 'agency_id', 'image', 'start_time', 'limit_time_register'];
             let requireMetaFields = ['job_conditional', 'min_male_number', 'max_male_number', 'min_female_number', 'max_female_number',
                 'min_male_age', 'max_male_age', 'min_female_age', 'max_female_age'];
             let isAlert = false;

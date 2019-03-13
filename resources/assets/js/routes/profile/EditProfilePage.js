@@ -41,6 +41,9 @@ class EditProfilePage extends Component {
         delete user.province_name;
         delete user.district_name;
         delete user.village_name;
+        delete user.hometown_province_name;
+        delete user.hometown_district_name;
+        delete user.hometown_village_name; 
         delete user.is_id_card_verified;
         delete user.hobbies;
 
@@ -55,17 +58,44 @@ class EditProfilePage extends Component {
             isOpenAlert2: false,
             isOpenSuccess: false,
             isOpenChangePassword: false,
-            alert: ""
+            alert: "",
+            districts1: [],
+            villages1: [],
+            districts2: [],
+            villages2: [],
         };
     }
 
     componentDidMount() {
-        this.props.getAllDistricts(this.props.user.province_id);
-        this.props.getAllCommunes(this.props.user.district_id);
+        this.props.getAllProvinces();
+        // current address
+        this.props.getAllDistricts(this.props.user.province_id).then(districts => {
+            this.setState({
+                districts1: districts
+            })
+        });
+        this.props.getAllCommunes(this.props.user.district_id).then(villages => {
+            this.setState({
+                villages1: villages
+            })
+        });
+
+        //  hometown
+        this.props.getAllDistricts(this.props.user.hometown_province).then(districts => {
+            this.setState({
+                districts2: districts
+            })
+        });
+        this.props.getAllCommunes(this.props.user.hometown_district).then(villages => {
+            this.setState({
+                villages2: villages
+            })
+        });
+
         this.props.getAllHobbies();
         this.props.getAllJobs();
         this.props.getEducations();
-        this.props.getAllProvinces();
+        
         this.props.getEthnicities();
         this.props.getReligion();
     }
@@ -123,7 +153,12 @@ class EditProfilePage extends Component {
         let value = option.value;
         switch (name) {
             case "province_id": {
-                this.props.getAllDistricts(value);
+                this.props.getAllDistricts(value).then(districts => {
+                    this.setState({
+                        districts1: districts
+                    })
+                });
+
                 this.setState({
                     data: {
                         ...this.state.data,
@@ -138,7 +173,12 @@ class EditProfilePage extends Component {
                 break;
             }
             case "district_id": {
-                this.props.getAllCommunes(value);
+                this.props.getAllCommunes(value).then(villages => {
+                    this.setState({
+                        villages1: villages
+                    })
+                });
+
                 this.setState({
                     data: {
                         ...this.state.data,
@@ -152,6 +192,57 @@ class EditProfilePage extends Component {
                 break;
             }
             case "village_id": {
+                this.setState({
+                    data: {
+                        ...this.state.data,
+                        user: {
+                            ...this.state.data.user,
+                            [name]: value,
+                        }
+                    }
+                });
+                break;
+            }
+            case "hometown_province": {
+                this.props.getAllDistricts(value).then(districts => {
+                    this.setState({
+                        districts2: districts
+                    })
+                });
+
+                this.setState({
+                    data: {
+                        ...this.state.data,
+                        user: {
+                            ...this.state.data.user,
+                            [name]: value,
+                            hometown_district: null,
+                            hometown_village: null
+                        }
+                    }
+                });
+                break;
+            }
+            case "hometown_district": {
+                this.props.getAllCommunes(value).then(villages => {
+                    this.setState({
+                        villages2: villages
+                    })
+                });
+
+                this.setState({
+                    data: {
+                        ...this.state.data,
+                        user: {
+                            ...this.state.data.user,
+                            [name]: value,
+                            hometown_village: null
+                        }
+                    }
+                });
+                break;
+            }
+            case "hometown_village": {
                 this.setState({
                     data: {
                         ...this.state.data,
@@ -211,7 +302,8 @@ class EditProfilePage extends Component {
             return alert("Ngày sinh không hợp lệ!");
         }
 
-        if (!this.state.data.user.district_id || !this.state.data.user.village_id) {
+        if (!this.state.data.user.district_id || !this.state.data.user.village_id 
+                ||!this.state.data.user.hometown_district || !this.state.data.user.hometown_village ) {
             this.setState({ isOpenAlert: false });
             return alert("Vui lòng chọn lại quận/huyện và xã/phường của bạn!");
         }
@@ -277,7 +369,8 @@ class EditProfilePage extends Component {
     }
 
     render() {
-        const { hobbies, jobs, educations, provinces, districts, communes, ethnicities, religions } = this.props;
+        const { hobbies, jobs, educations, provinces, ethnicities, religions } = this.props;
+        var {districts1, districts2, villages1, villages2} = this.state;
         var { ideal_person } = this.state;
 
         var user = this.state.data.user;
@@ -388,7 +481,7 @@ class EditProfilePage extends Component {
                         </div>
                         <div className="form-group">
                             <div className="row">
-                                <label className="col-12">Chọn địa chỉ</label>
+                                <label className="col-12">Chọn địa chỉ nơi ở hiện tại</label>
                                 <div className="col-4">
                                     <Select
                                         placeholder={`Chọn tỉnh/TP`}
@@ -407,7 +500,7 @@ class EditProfilePage extends Component {
                                         defaultValue={{ value: user.district_id, label: this.props.user.district_name }}
                                         placeholder={`Chọn quận/huyện`}
                                         options={
-                                            districts.map((district) => {
+                                            districts1.map((district) => {
                                                 return { value: district.maqh, label: district.name };
                                             })
                                         }
@@ -416,11 +509,11 @@ class EditProfilePage extends Component {
                                 </div>
                                 <div className="col-4">
                                     <Select
-                                        placeholder={`Chọn quận/huyện`}
+                                        placeholder={`Chọn xã / phường`}
                                         defaultValue={{ value: user.village_id, label: this.props.user.village_name }}
                                         options={
-                                            communes.map((commune) => {
-                                                return { value: commune.xaid, label: commune.name };
+                                            villages1.map((village) => {
+                                                return { value: village.xaid, label: village.name };
                                             })
                                         }
                                         onChange={(selectedOption) => this.onChangeSelectAddress(selectedOption, "village_id")}
@@ -430,11 +523,45 @@ class EditProfilePage extends Component {
                         </div>
                         <div className="form-group">
                             <div className="row align-items-center">
-                                <div className="col-4">
+                                <div className="col-12">
                                     <label>Quê quán</label>
                                 </div>
-                                <div className="col-8">
-                                    <input type="text" className="form-control" name="address" defaultValue={user.address} onChange={(event) => this.editUser(event)} />
+                                <div className="col-4">
+                                    <Select
+                                        placeholder={`Chọn tỉnh/TP`}
+                                        defaultValue={{ value: user.hometown_province, label: this.props.user.hometown_province_name }}
+                                        options={
+                                            provinces.map((province) => {
+                                                return { value: province.matp, label: province.name };
+                                            })
+                                        }
+                                        onChange={(selectedOption) => this.onChangeSelectAddress(selectedOption, "hometown_province")}
+                                    />
+                                </div>
+                                <div className="col-4">
+                                    <Select
+                                        name="district"
+                                        defaultValue={{ value: user.hometown_district, label: this.props.user.hometown_district_name }}
+                                        placeholder={`Chọn quận/huyện`}
+                                        options={
+                                            districts2.map((district) => {
+                                                return { value: district.maqh, label: district.name };
+                                            })
+                                        }
+                                        onChange={(selectedOption) => this.onChangeSelectAddress(selectedOption, "hometown_district")}
+                                    />
+                                </div>
+                                <div className="col-4">
+                                    <Select
+                                        placeholder={`Chọn xã / phường`}
+                                        defaultValue={{ value: user.hometown_village, label: this.props.user.hometown_village_name }}
+                                        options={
+                                            villages2.map((village) => {
+                                                return { value: village.xaid, label: village.name };
+                                            })
+                                        }
+                                        onChange={(selectedOption) => this.onChangeSelectAddress(selectedOption, "hometown_village")}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -809,8 +936,8 @@ function mapStateToProps(state) {
         jobs: state.job.jobs,
         educations: state.education.educations,
         provinces: state.address.provinces,
-        districts: state.address.districts,
-        communes: state.address.communes,
+        // districts: state.address.districts,
+        // communes: state.address.communes,
         ethnicities: state.ethnicity.ethnicities,
         religions: state.religion.religions
     }

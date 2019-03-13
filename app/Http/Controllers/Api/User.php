@@ -190,18 +190,24 @@ class User extends Controller
             ->leftjoin('education', 'users.education', '=', 'education.id')
             ->leftjoin('ethnicity', 'users.ethnicity', '=', 'ethnicity.id')
             ->leftjoin('religion', 'users.religion', '=', 'religion.id')
-            ->leftjoin('devvn_tinhthanhpho', 'users.province_id', '=', 'devvn_tinhthanhpho.matp')
-            ->leftjoin('devvn_quanhuyen', 'users.district_id', '=', 'devvn_quanhuyen.maqh')
-            ->leftjoin('devvn_xaphuongthitran', 'users.village_id', '=', 'devvn_xaphuongthitran.xaid')
+            ->leftjoin('devvn_tinhthanhpho AS province1', 'users.province_id', '=', 'province1.matp')
+            ->leftjoin('devvn_quanhuyen AS district1', 'users.district_id', '=', 'district1.maqh')
+            ->leftjoin('devvn_xaphuongthitran AS village1', 'users.village_id', '=', 'village1.xaid')
+            ->leftjoin('devvn_tinhthanhpho AS province2', 'users.hometown_province', '=', 'province2.matp')
+            ->leftjoin('devvn_quanhuyen AS district2', 'users.hometown_district', '=', 'district2.maqh')
+            ->leftjoin('devvn_xaphuongthitran AS village2', 'users.hometown_village', '=', 'village2.xaid')
             ->select(DB::raw(
                 'users.*, 
                 user_jobs.name AS job_name, 
                 education.name AS education_name,
                 ethnicity.name AS ethnicity_name,
                 religion.name AS religion_name,
-                devvn_tinhthanhpho.name AS province_name,
-                devvn_quanhuyen.name AS district_name,
-                devvn_xaphuongthitran.name AS village_name'
+                province1.name AS province_name,
+                district1.name AS district_name,
+                village1.name AS village_name,
+                province2.name AS hometown_province_name,
+                district2.name AS hometown_district_name,
+                village2.name AS hometown_village_name'
             ))
             ->first();
 

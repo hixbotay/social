@@ -142,29 +142,29 @@ class ProfileHeader extends PureComponent {
                             </div>
                         </div>
                         <div className="flex">
-                            <div className="left">Học vấn</div>
-                            <div className="right">{user.education_name}</div>
-                        </div>
-                        <div className="flex">
-                            <div className="left">Nghề nghiệp</div>
-                            <div className="right">{user.job_name}</div>
-                        </div>
-                        <div className="flex">
-                            <div className="left">Dân tộc</div>
-                            <div className="right">{user.ethnicity_name}</div>
-                        </div>
-                        <div className="flex">
-                            <div className="left">Tôn giáo</div>
-                            <div className="right">{user.religion_name}</div>
-                        </div>
-                        <div className="flex">
                             <div className="left">Quê quán</div>
-                            <div className="right">{user.address}</div>
+                            <div className="right">{user.hometown_village_name}, {user.hometown_district_name}, {user.hometown_province_name}</div>
                         </div>
 
                         {
                             <React.Fragment>
                                 <ToggleDisplay show={this.state.show}>
+                                    <div className="flex">
+                                        <div className="left">Học vấn</div>
+                                        <div className="right">{user.education_name}</div>
+                                    </div>
+                                    <div className="flex">
+                                        <div className="left">Nghề nghiệp</div>
+                                        <div className="right">{user.job_name}</div>
+                                    </div>
+                                    <div className="flex">
+                                        <div className="left">Dân tộc</div>
+                                        <div className="right">{user.ethnicity_name}</div>
+                                    </div>
+                                    <div className="flex">
+                                        <div className="left">Tôn giáo</div>
+                                        <div className="right">{user.religion_name}</div>
+                                    </div>
                                     <div className="flex">
                                         <div className="left">Nơi ở hiện tại</div>
                                         <div className="right">{user.village_name}, {user.district_name}, {user.province_name}</div>

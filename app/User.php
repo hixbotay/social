@@ -121,4 +121,21 @@ class User extends Authenticatable
             ->count();
         return $count;
     }
+
+    // type: add or spend
+    public static function pay($user_id, $amount, $type, $content) {
+        $now = date('Y-m-d H:i:s');
+        $user = User::find([['id', '=', $user_id]]);
+        if($type === 'add') {
+            $user->credit += $amount;
+        } else {
+            $user->credit -= $amount;
+        }
+        $user->save();
+
+        // DB::table('user_payments')->insert([
+        //     'user_id' => $user_id,
+            
+        // ])
+    }
 }

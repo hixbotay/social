@@ -63,6 +63,7 @@ Route::middleware(['web'])->group(function() {
     Route::get('/notifications/count-unread', 'Api\Notification@countUnread');
 
     Route::post('/update-avatar', 'Api\User@updateAvatar');
+    Route::post('user/{id}', 'Api\User@updateUser');
     
     Route::post('/cafe/image/{id}', 'Api\Cafe@handleImage');
     Route::get('/subscribers', 'Api\Event@listSubscribers');
@@ -101,7 +102,7 @@ Route::middleware(['web'])->group(function() {
 
 Route::post('profile/visitprofile', 'Api\User@visitProfile');
 
-Route::post('user/{id}', 'Api\User@updateUser');
+
 
 Route::get('/ethnicities', 'Api\User@getAllEthnicity');
 Route::get('/religion', 'Api\User@getAllReligion');
