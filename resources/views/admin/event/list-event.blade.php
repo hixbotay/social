@@ -8,23 +8,34 @@
                 <h4 class="m-t-0">@lang('admin.EVENT')</h4>
                 <hr>
 
-                <form name="filterUser" action="{{url('admin?view=Transaction')}}" method="GET">
+                <form name="filterUser" action="{{url('admin?view=Event&layout=listEvent')}}" method="GET">
 
                     <div class="row">
-
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>Tên quán</label>
-                                <div>
-                                    <input type="text" class="form-control" placeholder="Keywork">
-                                </div>
-                            </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Keywork">
                         </div>
-
+                        <div class="col-md-4">
+                            <select id="inputState" class="form-control">
+                                <option value="">@lang('admin.AGENCY') ...</option>
+                                @foreach($agencies AS $value)
+                                <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary btn-block">
+                                @lang('admin.FILTER')
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4"></div>
                     </div>
 
-
-                    <input type="hidden" name="view" value="listEvent">
+                    <input type="hidden" name="view" value="Event">
+                    <input type="hidden" name="layout" value="listEvent">
 
                 </form>
 
@@ -95,7 +106,7 @@
                                     <p>
                                         {{ isset($item->canceled_reason)?"Lý do: ".$item->canceled_reason:null }}
                                     </p>
-                                        
+
                                     @endif
 
                                     <p>

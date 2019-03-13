@@ -14,7 +14,7 @@
     <!-- HTTPS required. HTTP will give a 403 forbidden response -->
     <script src="https://sdk.accountkit.com/en_US/sdk.js" url="vi_VN"></script>
 </head>
-<body>
+<body class="body-authen-page">
     <div class="main-content authen-page">
         <div class="container-fluid">
 
