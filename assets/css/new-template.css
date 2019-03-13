@@ -1,9 +1,8 @@
 /*LOGIN PAGE*/
-.authen-page{
+body.body-authen-page{
     background-image: url("../../public/images/main/landing.jpg");
     background-position: center center;
     background-size: cover;
-    overflow: hidden;
 }
 @media screen and (max-width: 1023px) {
     .authen-page{
@@ -54,7 +53,7 @@
     padding-top: 15px;
     padding-left: 0px;
     padding-right: 0px;
-    margin-bottom: 80px;
+    margin-bottom: 10px;
 }
 .authen-page .body-content h4{
     font-weight: normal;
