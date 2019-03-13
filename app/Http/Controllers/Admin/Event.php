@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Event as EventModel;
 use App\EventSchedules as EventSchedulesModel;
-use App\Filters\EventFilters;
 use DateTime;
 use Session;
 use URL;
+use App\Agency;
 
 class Event extends Controller
 {
@@ -21,8 +21,10 @@ class Event extends Controller
     public function listEvent()
     {
         $events = EventModel::getItems(array());
+        $agency = Agency::all();
         return view('admin.event.list-event', [
-            'items' => $events
+            'items' => $events,
+            'agencies' => $agency
         ]);
     }
 
