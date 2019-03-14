@@ -5,8 +5,8 @@ namespace App\Libraries\Payments;
 class VTCPay
 {
 
-    protected static $securityCode = "izW5yYUkplywaHiS2CZoFA2D1dYfunxe2be3l7LI";
-    protected static $websiteId = 84180;
+    protected static $securityCode = "0TWzcNqFru0RZ3Zi2X9IgjGmCbH9GfyU4LLnOYwa";
+    protected static $websiteId = 7965;
 
 //http://alpha1.vtcpay.vn/portalgateway/checkout.html?website_id=83178&reference_number=330760&receiver_account=0963465816&url_return=http%3A%2F%2Fthaipart.webike.vn%2F%3Fwc-api%3Dwc_gateway_vtcpay&bill_to_phone=3902435439634958&payment_type=&language=vi&amount=13601014&currency=VND&signature=F9DAA36E1CC0DA8335BE9C45BE3DD22AEEAA65B13D8C26F19727580BDE233B84
 
@@ -16,6 +16,9 @@ class VTCPay
     {
         $websiteid = self::$websiteId;
         $secret_key = self::$securityCode;
+
+        $websiteid = config('payment.vtc.website_id');
+        $secret_key = config('payment.vtc.security_code');
         // Mảng các tham số chuyển tới VTC Pay
         $arr_param = array(
             'url_return'		=>	strtolower(urlencode(config('payment.vtc.url_return'))),

@@ -6,7 +6,7 @@ return [
         'name' => 'VTC PAY',
         'website_id' => 7965,
         'reference_number' => 'VTC PAY',
-        'receiver_account' => 'gateway_vtcpay',
+//        'receiver_account' => 'gateway_vtcpay',
         'url_return' => 'https://noiduyen.vn/payment/proccess',
         'language' => 'vi',
         'security_code' => '0TWzcNqFru0RZ3Zi2X9IgjGmCbH9GfyU4LLnOYwa',
