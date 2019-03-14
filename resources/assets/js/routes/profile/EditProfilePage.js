@@ -393,7 +393,7 @@ class EditProfilePage extends Component {
             <CurrentUserLayout
                 avatar={user ? user.avatar : "https://www.w3schools.com/howto/img_avatar.png"}
                 heading={user ? user.name : "UNDEFINED"}
-                subHeading={user ? user.address : null}
+                subHeading={user ? user.hometown_province_name : null}
             >
                 <CardWithTitle title="CẬP NHẬT THÔNG TIN CÁ NHÂN" hasLine={true} className="clearfix">
                     <form onSubmit={(e) => this.openAlert(e)} className="mt-4">

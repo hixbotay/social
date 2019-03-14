@@ -104,7 +104,7 @@ class Subscriber extends Component {
                 </div>
                 <div className="col-9">
                     <h5>{subscriber.name}</h5>
-                    <div>{subscriber.address}</div>
+                    <div>{subscriber.hometown_province_name}</div>
                     <div>Địa điểm: <span>{subscriber.district}, {subscriber.province}</span></div>
                     <div>Quán: <span>{subscriber.agency_name}</span></div>
                     <div>Chi phí: <span>{(subscriber.payer === 'self') ? `${subscriber.name} trả` : 'Bạn trả'}</span></div>

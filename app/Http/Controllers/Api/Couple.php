@@ -40,8 +40,10 @@ class Couple extends Controller {
                 ->whereNotIn('users.id', $dismissUsers)
                 ->where('name', 'like', DB::raw("'%".$name."%'"))
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
+                ->leftjoin('devvn_tinhthanhpho', 'users.hometown_province', '=', 'devvn_tinhthanhpho.matp')
                 ->select(DB::raw(
-                    'users.id, users.name, users.address, users.avatar, users.birthday, users.description,
+                    'users.id, users.name, users.avatar, users.birthday, users.description,
+                    devvn_tinhthanhpho.name AS hometown_province_name,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))
@@ -51,8 +53,10 @@ class Couple extends Controller {
             $results = \App\User::where($query)
                 ->whereNotIn('users.id', $dismissUsers)
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'users.id')
+                ->leftjoin('devvn_tinhthanhpho', 'users.hometown_province', '=', 'devvn_tinhthanhpho.matp')
                 ->select(DB::raw(
-                    'users.id, users.name, users.address, users.avatar, users.birthday, users.description,
+                    'users.id, users.name, users.avatar, users.birthday, users.description,
+                    devvn_tinhthanhpho.name AS hometown_province_name,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))

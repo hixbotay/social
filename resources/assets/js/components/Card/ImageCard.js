@@ -94,7 +94,7 @@ class ImageCard extends Component {
                                     </h5>
                                 </Link>
                                 <small>
-                                    {this.props.user.address}
+                                    {user.hometown_province_name}
                                 </small>
                                 <InformationNumber
                                     heartNumber={this.state.loveNumber}

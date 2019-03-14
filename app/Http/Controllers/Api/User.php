@@ -249,9 +249,12 @@ class User extends Controller
             ->leftjoin('education', 'users.education', '=', 'education.id')
             ->leftjoin('ethnicity', 'users.ethnicity', '=', 'ethnicity.id')
             ->leftjoin('religion', 'users.religion', '=', 'religion.id')
-            ->leftjoin('devvn_tinhthanhpho', 'users.province_id', '=', 'devvn_tinhthanhpho.matp')
-            ->leftjoin('devvn_quanhuyen', 'users.district_id', '=', 'devvn_quanhuyen.maqh')
-            ->leftjoin('devvn_xaphuongthitran', 'users.village_id', '=', 'devvn_xaphuongthitran.xaid')
+            ->leftjoin('devvn_tinhthanhpho AS province1', 'users.province_id', '=', 'province1.matp')
+            ->leftjoin('devvn_quanhuyen AS district1', 'users.district_id', '=', 'district1.maqh')
+            ->leftjoin('devvn_xaphuongthitran AS village1', 'users.village_id', '=', 'village1.xaid')
+            ->leftjoin('devvn_tinhthanhpho AS province2', 'users.hometown_province', '=', 'province2.matp')
+            ->leftjoin('devvn_quanhuyen AS district2', 'users.hometown_district', '=', 'district2.maqh')
+            ->leftjoin('devvn_xaphuongthitran AS village2', 'users.hometown_village', '=', 'village2.xaid')
             ->leftjoin('id_card_verification', function ($join) {
                 $join->on('users.id', '=', 'id_card_verification.user_id');
                 $join->on(function($query) {
@@ -265,9 +268,12 @@ class User extends Controller
                 education.name AS education_name,
                 ethnicity.name AS ethnicity_name,
                 religion.name AS religion_name,
-                devvn_tinhthanhpho.name AS province_name,
-                devvn_quanhuyen.name AS district_name,
-                devvn_xaphuongthitran.name AS village_name,
+                province1.name AS province_name,
+                district1.name AS district_name,
+                village1.name AS village_name,
+                province2.name AS hometown_province_name,
+                district2.name AS hometown_district_name,
+                village2.name AS hometown_village_name,
                 (CASE is_verified WHEN 1 THEN 1 ELSE 0 END) AS is_id_card_verified'
             ))
             ->first();
@@ -358,8 +364,10 @@ class User extends Controller
             $results = \App\UserRelationship::where('is_like', '=', 1)           
                 ->orWhere('is_loved', '=', 1)
                 ->leftjoin('users', 'user_relationship.to_user_id', '=', 'users.id')
+                ->leftjoin('devvn_tinhthanhpho', 'users.hometown_province', '=', 'devvn_tinhthanhpho.matp')
                 ->select(DB::raw(
-                    'users.id, users.name, users.address, users.avatar, users.birthday,
+                    'users.id, users.name, users.avatar, users.birthday,
+                    devvn_tinhthanhpho.name AS hometown_province_name,
                     user_relationship.from_user_id, user_relationship.is_like, user_relationship.is_loved,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
@@ -371,8 +379,10 @@ class User extends Controller
             $results = \App\UserRelationship::where('is_like', '=', 1)           
                 ->orWhere('is_loved', '=', 1)
                 ->leftjoin('users', 'user_relationship.from_user_id', '=', 'users.id')
+                ->leftjoin('devvn_tinhthanhpho', 'users.hometown_province', '=', 'devvn_tinhthanhpho.matp')
                 ->select(DB::raw(
-                    'users.id, users.name, users.address, users.avatar, users.birthday,
+                    'users.id, users.name, users.avatar, users.birthday,
+                    devvn_tinhthanhpho.name AS hometown_province_name,
                     user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
@@ -385,8 +395,10 @@ class User extends Controller
                 ->where('profile_id', '=', $user_id)
                 ->leftjoin('users', 'visitor_id', '=', 'users.id')
                 ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'visitor_id')
+                ->leftjoin('devvn_tinhthanhpho', 'users.hometown_province', '=', 'devvn_tinhthanhpho.matp')
                 ->select(DB::raw(
-                    'users.id, users.name, users.address, users.avatar, users.birthday, users.is_incognito,
+                    'users.id, users.name, users.avatar, users.birthday, users.is_incognito,
+                    devvn_tinhthanhpho.name AS hometown_province_name,
                     user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved,
                     SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'

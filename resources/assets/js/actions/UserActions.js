@@ -93,7 +93,7 @@ export const getCurrentUserDetail = () => (dispatch) => {
 export const updateUser = (data, id) => (dispatch) => {
     return new Promise((resolve, reject) => {
         return api.post(`/user/${id}`, data)
-        .then(response => {
+        .then(response => { 
             dispatch({type: UPDATE_USER_DETAIL, payload: response.data});
             resolve(response.data);
         })

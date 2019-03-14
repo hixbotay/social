@@ -114,7 +114,7 @@ class CoupleView extends Component {
                                 <Link to={`/profile/${item.id}`}>
                                     <h4>{item.name}</h4>
                                 </Link>
-                                <small>{item.address}</small>
+                                <small>{item.hometown_province_name}</small>
                                 <InformationNumber
                                     heartNumber={this.state.loveNumber}
                                     likeNumber={this.state.likeNumber}

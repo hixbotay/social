@@ -172,7 +172,7 @@ class IdCardVerify extends Component {
             <CurrentUserLayout
                 avatar={current_user ? current_user.avatar : "https://www.w3schools.com/howto/img_avatar.png"}
                 heading={current_user ? current_user.name : "UNDEFINED"}
-                subHeading={current_user ? current_user.address : null}
+                subHeading={current_user ? current_user.hometown_province_name : null}
             >
                 <Card>
                     {

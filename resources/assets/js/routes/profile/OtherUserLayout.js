@@ -206,7 +206,7 @@ class OtherUserLayout extends Component {
                             }
                             
                             <div className="author-date">
-                                <Heading heading={user.name} subHeading={user.address} size='medium'></Heading>
+                                <Heading heading={user.name} subHeading={user.hometown_province_name} size='medium'></Heading>
                                 <InformationNumber likeNumber={this.state.likeNumber} viewNumber={this.props.user.viewNumber} heartNumber={this.state.loveNumber}></InformationNumber>
                             </div>
                         </div>
