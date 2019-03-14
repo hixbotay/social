@@ -4,13 +4,13 @@
 return [
     'vtc' => [
         'name' => 'VTC PAY',
-        'website_id' => 6606,
+        'website_id' => 7965,
         'reference_number' => 'VTC PAY',
         'receiver_account' => 'gateway_vtcpay',
         'url_return' => 'https://noiduyen.vn/payment/proccess',
         'language' => 'vi',
-        'security_code' => 'izW5yYUkplywaHiS2CZoFA2D1dYfunxe2be3l7LI',
-        'receiver_account' => '0977119830',
+        'security_code' => '0TWzcNqFru0RZ3Zi2X9IgjGmCbH9GfyU4LLnOYwa',
+        'receiver_account' => '0941014567',
         'currency' => 'VND',
     ],
     'currency' => [
