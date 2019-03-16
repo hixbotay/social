@@ -221,7 +221,7 @@ class DatingDetail extends Component {
                                             Hạn đăng ký
                                         </div>
                                         <div className="col-6">
-                                            {event.limit_time_register}
+                                            {moment(event.limit_time_register).format('HH:mm DD/MM/YYYY')}
                                         </div>
                                     </div>
                                     <div className="row">

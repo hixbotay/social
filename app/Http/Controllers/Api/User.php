@@ -245,7 +245,12 @@ class User extends Controller
         $current_user = Auth::user();
         $user = \App\User::where('users.id', $id)
             ->leftjoin('user_jobs', 'job', '=', 'user_jobs.id')
-            ->leftjoin('user_relationship', 'users.id', '=', 'user_relationship.to_user_id')
+            ->leftjoin('user_relationship', function($join) {
+                $join->on('users.id', '=', 'user_relationship.to_user_id');
+                $join->on(function($query) {
+                    $query->where('from_user_id', '=', Auth::id()); 
+                });
+            })
             ->leftjoin('education', 'users.education', '=', 'education.id')
             ->leftjoin('ethnicity', 'users.ethnicity', '=', 'ethnicity.id')
             ->leftjoin('religion', 'users.religion', '=', 'religion.id')
@@ -376,9 +381,19 @@ class User extends Controller
                 ->having('from_user_id', '=', $user_id)
                 ->get();
         } else if ($type == 'like-you') {
-            $results = \App\UserRelationship::where('is_like', '=', 1)           
+            $temp = \App\UserRelationship::where('is_like', '=', 1)           
                 ->orWhere('is_loved', '=', 1)
-                ->leftjoin('users', 'user_relationship.from_user_id', '=', 'users.id')
+                ->having('to_user_id', '=', $user_id)
+                ->get();
+            
+            $users = [];
+            foreach($temp as $item) {
+                array_push($users, $item->from_user_id);
+            }
+
+            $results = \App\UserRelationship::where('from_user_id', '=', $user_id)
+                ->whereIn('to_user_id', $users)
+                ->leftjoin('users', 'user_relationship.to_user_id', '=', 'users.id')
                 ->leftjoin('devvn_tinhthanhpho', 'users.hometown_province', '=', 'devvn_tinhthanhpho.matp')
                 ->select(DB::raw(
                     'users.id, users.name, users.avatar, users.birthday,
@@ -388,7 +403,6 @@ class User extends Controller
                     SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
                 ))
                 ->groupBy('users.id')
-                ->having('to_user_id', '=', $user_id)
                 ->get();
         } else if ($type == 'visited') {
             $results = DB::table('profile_visitor')

@@ -360,8 +360,9 @@ class Event extends Controller {
                 ['limit_time_register', '>', $now],
                 ['events.status', '=', 'forthcoming'], 
                 ['events.type', '=', 'group'],
-                ['agency.province_id', '=', $user->province_id]
+                // ['agency.province_id', '=', $user->province_id]
             ])
+            ->whereIn('province_scope', [null, $user->province_id])
             ->whereNotIn('events.id', $excludeEvents)
             ->select(DB::raw('
                 events.*,

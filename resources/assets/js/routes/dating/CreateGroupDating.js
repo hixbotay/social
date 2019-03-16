@@ -32,7 +32,15 @@ class CreateGroupDating extends Component {
                 province_scope: null
             },
             metadata: {
-                marital_status: 0
+                marital_status: 0,
+                min_male_number: 1,
+                min_female_number: 1,
+                max_male_number: 2,
+                max_female_number: 2,
+                min_male_age: 18,
+                min_female_age: 18,
+                max_male_age: 25,
+                max_female_age: 25
             },
             // datetime
             start_date: moment(),
@@ -109,9 +117,6 @@ class CreateGroupDating extends Component {
         }, () => {
             console.log(this.state);
         })
-
-
-
     }
 
     onChangeTime(value, name) {
@@ -143,12 +148,18 @@ class CreateGroupDating extends Component {
     }
 
     onChangeMetadata(value, name) {
-        this.setState({
-            metadata: {
-                ...this.state.metadata,
-                [name]: value
-            }
-        });
+        var temp = ['min_male_age', 'min_female_age', 'max_male_age', 'max_female_age', 'min_male_number', 
+            'min_female_number', 'max_male_number', 'max_female_number'];
+        if(temp.indexOf(name) >= 0 && value == 0) {
+                return alert("Không thể đặt giá trị bằng 0!");
+        } else {
+            this.setState({
+                metadata: {
+                    ...this.state.metadata,
+                    [name]: value
+                }
+            });
+        }
     }
 
     onChangeProfit(name, value) {
@@ -304,8 +315,10 @@ class CreateGroupDating extends Component {
                 'min_male_age', 'max_male_age', 'min_female_age', 'max_female_age'];
             let isAlert = false;
 
+            console.log(this.state.newEvent)
+
             requiredFields.some(key => {
-                if (!this.state.newEvent[key]) {
+                if (this.state.newEvent[key] == null || this.state.newEvent[key] == undefined) {
                     isAlert = true;
                     return;
                 }
@@ -323,6 +336,16 @@ class CreateGroupDating extends Component {
             if (this.state.metadata.min_male_age < 18 || this.state.metadata.min_female_age < 18
                 || this.state.metadata.max_male_age < 18 || this.state.metadata.max_female_age < 18) {
                 alert("Tuổi của thành viên tham gia hẹn phải đủ 18 tuổi!");
+                return;
+            }
+
+            if((this.state.metadata.min_male_age >= this.state.metadata.max_male_age) || (this.state.metadata.min_female_age >= this.state.metadata.max_female_age)) {
+                alert("Độ tuổi lớn nhất của nam hoặc nữ không hợp lệ!");
+                return;
+            }
+
+            if((this.state.metadata.min_male_number >= this.state.metadata.max_male_number) || (this.state.metadata.min_female_number >= this.state.metadata.max_female_number)) {
+                alert("Số lượng lớn nhất của nam hoặc nữ không hợp lệ!");
                 return;
             }
 
@@ -373,7 +396,7 @@ class CreateGroupDating extends Component {
                         <div className="row form-group">
                             <div className="col-4">Kiểu cuộc hẹn *</div>
                             <div className="col-1">
-                                <input className="custom-input" type="radio" name="is_secret" value={0} />
+                                <input className="custom-input" type="radio" name="is_secret" value={0} defaultChecked={true}/>
                             </div>
                             <div className="col-3">
                                 <label>Công khai</label>
@@ -574,7 +597,7 @@ class CreateGroupDating extends Component {
                             <div className="col-4">Độ tuổi của nam từ *</div>
                             <div className="col-4">
                                 <NumericInput
-                                    // required
+                                    required
                                     className="form-control"
                                     min={18}
                                     value={this.state.metadata.min_male_age}
@@ -584,7 +607,7 @@ class CreateGroupDating extends Component {
                             </div>
                             <div className="col-4">
                                 <NumericInput
-                                    // required
+                                    required
                                     className="form-control"
                                     min={this.state.metadata.min_male_age}
                                     value={this.state.metadata.max_male_age}
@@ -597,7 +620,7 @@ class CreateGroupDating extends Component {
                             <div className="col-4">Độ tuổi của nữ từ *</div>
                             <div className="col-4">
                                 <NumericInput
-                                    // required
+                                    required
                                     className="form-control"
                                     min={18}
                                     value={this.state.metadata.min_female_age}
@@ -607,7 +630,7 @@ class CreateGroupDating extends Component {
                             </div>
                             <div className="col-4">
                                 <NumericInput
-                                    // required
+                                    required
                                     className="form-control"
                                     min={this.state.metadata.min_female_age}
                                     value={this.state.metadata.max_female_age}
@@ -693,7 +716,7 @@ class CreateGroupDating extends Component {
                         </div>
                         <div className="row form-group">
                             <div className="col-4">
-                                Phí tổ chức (Bạn được nhận về)
+                                Phí tổ chức * (Bạn được nhận về)
                             </div>
                             <div className="col-4">
                                 <NumericInput
