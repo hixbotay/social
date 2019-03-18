@@ -79,38 +79,16 @@ class CreatePostForm extends Component {
 
     render() {
         return (
-            <div className="news-feed-form">
-                <ul className="nav nav-tabs row" role="tablist">
-                    <li className="nav-item col-4">
-                        <a className="nav-link active inline-items" data-toggle="tab" href="#home-1" role="tab" aria-expanded="true">
-                            <i className="fas fa-pencil-alt fa-2x"></i> <span>Viết gì đó</span>
-                        </a>
-                    </li>
-                    <li className="nav-item col-4">
-                        <a className="nav-link inline-items" >
-                            <div onClick={() => { document.getElementById('add-photo').click() }}>
-                                <i className="fas fa-camera fa-2x"></i> <span>Tải ảnh</span>
-                            </div>
-                            <input type="file" accept="image/*" className="d-none" id="add-photo" onChange={(e) => this.handleImage(e)}/>
-                        </a>
-                    </li>
-
-                    {/* <li className="nav-item">
-                        <a className="nav-link inline-items" data-toggle="tab" href="#blog" role="tab" aria-expanded="false">
-                            <span>Tải video</span>
-                        </a>
-                    </li> */}
-                </ul>
-
+            <div className="news-feed-form box-shadow-default">
                 <div className="tab-content">
                     <div className="tab-pane active" id="home-1" role="tabpanel" aria-expanded="true">
                         <form onSubmit={(e) => this.createPost(e)}>
                             <div className="author-thumb">
                             </div>
-                            <div className="form-group with-icon label-floating is-empty">
+                            <div className="form-group is-empty">
                                 <textarea
                                     className="form-control"
-                                    placeholder="Share what you are thinking here..."
+                                    placeholder="Bạn đang nghĩ gì !"
                                     onChange={(event) => this.updateStatus(event)}
                                     value={this.state.newPost.content}
                                 ></textarea>
@@ -128,7 +106,11 @@ class CreatePostForm extends Component {
                             }
                             
                             <div className="add-options-message">
-                                <button type="submit" className="btn btn-primary btn-md-2">Post Status</button>
+                                <a className="btn btn-secondary btn-xs " onClick={() => { document.getElementById('add-photo').click() }}>
+                                    Tải ảnh
+                                </a>
+                                <input type="file" accept="image/*" className="d-none" id="add-photo" onChange={(e) => this.handleImage(e)}/>
+                                <button type="submit" className="btn btn-primary btn-xs">Đăng</button>
                             </div>
                         </form>
 

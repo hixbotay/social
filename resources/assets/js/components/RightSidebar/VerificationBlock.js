@@ -6,13 +6,13 @@ class VerificationBlock extends Component {
     render() {
         const {user} = this.props;
         
-        let temp = 0;
-        if(user.is_id_card_verified === 'verified') temp++; 
-        if(user.is_facebook_verified) temp++; 
-        if(user.is_gmail_verified) temp++; 
-        if(user.is_phone_verified) temp++; 
-
-        var verificationPercentage  = (temp/4) * 100;
+        // let temp = 0;
+        // if(user.is_id_card_verified === 'verified') temp++;
+        // if(user.is_facebook_verified) temp++;
+        // if(user.is_gmail_verified) temp++;
+        // if(user.is_phone_verified) temp++;
+        //
+        // var verificationPercentage  = (temp/4) * 100;
         
         var items = [
             {
@@ -43,19 +43,6 @@ class VerificationBlock extends Component {
 
         return (
             <div className="ui-block">
-				<div className="ui-block-title">
-					<h6 className="title">Xác minh thông tin để tăng độ phổ biến</h6>
-				</div>
-                <div className="container mt-2">
-                    <div className="row">
-                        <div className="col-2">
-                            <i className="fas fa-check-circle fa-2x"></i>
-                        </div>
-                        <div className="col-10">
-                            <Line percent={verificationPercentage} strokeWidth="4" strokeColor="#2ecc71" trailWidth="4" trailColor="#bdc3c7"/>
-                        </div>
-                    </div>
-                </div>
 				<ul className="widget w-friend-pages-added notification-list friend-requests">
                     {
                         items.map((item, index) => {

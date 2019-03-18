@@ -13,7 +13,7 @@
 
 .more-menu {
     position: absolute;
-    top: 20px;
+    top: 13px;
     left: 15px;
 }
 
@@ -21,6 +21,7 @@
     margin-top: 10px;
     border-top: 2px solid;
     border-color: #0091ff3b;
+    padding-top: 10px;
 }
 
 .mobile-menu-bottom {
@@ -53,4 +54,27 @@
         display: block;
         height: 130px;
     }
+}
+.author-mobile{
+    position: fixed;
+    left: -100%;
+    top: 50px;
+    transition: all 500ms ease;
+    width: 100%;
+}
+.author-mobile .author-thumb{
+    width: 100%;
+}
+.author-mobile.active{
+    left: 0;
+    z-index: 1000;
+}
+.author-mobile.active .more-dropdown{
+    visibility: visible;
+    top: 52%;
+    z-index: 1000;
+    opacity: 1;
+    left: 0;
+    width: 80%;
+    padding: 0px;
 }
