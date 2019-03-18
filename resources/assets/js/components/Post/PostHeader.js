@@ -12,12 +12,16 @@ class PostHeader extends Component {
         if(this.props.isShare) title = "đã chia sẻ một bài viết";
 
         return (
-            <Link to={`/profile/${this.props.user_id}`}>
+            
                 <div className="post__author author vcard inline-items">
-                    <RoundAvatar img={this.props.avatar} size="medium"></RoundAvatar>
+                    <Link to={`/profile/${this.props.user_id}`}>
+                        <RoundAvatar img={this.props.avatar} size="medium"></RoundAvatar>
+                    </Link>
 
                     <div className="author-date">
-                        <h5>{this.props.name + " " + title}</h5>
+                        <Link to={`/profile/${this.props.user_id}`}>
+                            <h5>{this.props.name + " " + title}</h5>
+                        </Link>
                         <div><i className="far fa-clock"></i> {moment(this.props.created).format("HH:mm DD-MM-YYYY")}</div>
                         {/* <div className="row">
                             <div className="post-info-item col"><i className="fas fa-heart"></i> {this.props.heartNumber}</div>
@@ -27,7 +31,6 @@ class PostHeader extends Component {
                         </div> */}
                     </div>
                 </div>
-            </Link>
         );
     }
 }

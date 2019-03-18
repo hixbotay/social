@@ -142,13 +142,21 @@ class ProfileHeader extends PureComponent {
                             </div>
                         </div>
                         <div className="flex">
-                            <div className="left">Quê quán</div>
-                            <div className="right">{user.hometown_village_name}, {user.hometown_district_name}, {user.hometown_province_name}</div>
+                            <div className="left">Nơi ở hiện tại</div>
+                            <div className="right">{user.village_name}, {user.district_name}, {user.province_name}</div>
                         </div>
 
                         {
                             <React.Fragment>
                                 <ToggleDisplay show={this.state.show}>
+                                    <div className="flex">
+                                        <div className="left">Chiều cao</div>
+                                        <div className="right">{user.height} cm</div>
+                                    </div>
+                                    <div className="flex">
+                                        <div className="left">Cân nặng</div>
+                                        <div className="right">{user.weight} kg</div>
+                                    </div>
                                     <div className="flex">
                                         <div className="left">Học vấn</div>
                                         <div className="right">{user.education_name}</div>
@@ -181,14 +189,21 @@ class ProfileHeader extends PureComponent {
                                             }
                                         </div>
                                     </div>
-                                    <div className="flex">
-                                        <div className="left">Số điện thoại</div>
-                                        <div className="right">{user.mobile}</div>
-                                    </div>
-                                    <div className="flex">
-                                        <div className="left">Email</div>
-                                        <div className="right">{user.email}</div>
-                                    </div>
+                                    {
+                                        isCurrentUser ? (
+                                            <React.Fragment>
+                                                 <div className="flex">
+                                                    <div className="left">Số điện thoại</div>
+                                                    <div className="right">{user.mobile}</div>
+                                                </div>
+                                                <div className="flex">
+                                                    <div className="left">Email</div>
+                                                    <div className="right">{user.email}</div>
+                                                </div>
+                                            </React.Fragment>
+                                        ) : null
+                                    }
+                                   
                                 </ToggleDisplay>
                                 <div className="text-center" onClick={() => this.viewMoreInfo()}>
                                     {

@@ -70,7 +70,7 @@ class OtherUserLayout extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.relationship) {
+        if(nextProps.relationship != this.props.relationship) {
             this.setState({
                 isLoved: nextProps.relationship.is_loved,
                 isLiked: nextProps.relationship.is_like,
@@ -110,10 +110,6 @@ class OtherUserLayout extends Component {
                 user: [current_user.id, user.id]
             })
                 .then(response => {
-
-                    console.log(response);
-                    console.log(this.state.message);
-
                     const conversation = response.conversation_id;
                     this.setState({
                         conversation_id: response.conversation_id,
@@ -141,9 +137,6 @@ class OtherUserLayout extends Component {
             });
             this.createNotification('info');
         }
-
-
-
     }
 
     createNotification(type){
@@ -230,7 +223,6 @@ class OtherUserLayout extends Component {
                                 ></CircleButton>
                             </div>
                             <div className="col-4 text-center">
-                                
                                     <CircleButton 
                                         icon="fas fa-coffee"
                                         color={this.state.isBlocked ? '#d35400' : '#34495e'}

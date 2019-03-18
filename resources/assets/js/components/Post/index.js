@@ -5,6 +5,7 @@ import {FaRegThumbsUp, FaRegThumbsDown} from 'react-icons/fa';
 import EdiText from 'react-editext';
 import {reactPost, unreactPost, share, removePost, updatePost} from '../../actions/PostActions';
 import Modal from 'react-modal';
+import moment from 'moment';
 
 class Post extends Component {
 
@@ -175,6 +176,11 @@ class Post extends Component {
                         </React.Fragment>
                     )
                 }
+                <div className="mb-4">
+                    <i>
+                        <small>Bài viết được chỉnh sửa lần cuối vào lúc {moment(post.updated_at).format("HH:mm DD-MM-YYYY")}</small>
+                    </i>
+                </div>
                 <div className="row">
                     <div className="col-12">
                         <div className="float-left">
