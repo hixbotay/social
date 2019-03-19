@@ -108,17 +108,17 @@ class CoupleView extends Component {
                             
                             <div className="couple-button">
                                 <CircleButton
-                                    icon="fas fa-thumbs-up fa-3x"
+                                    icon="fas fa-thumbs-up fa-2x"
                                     color="#ffffff"
                                     // action
                                 ></CircleButton>
                                 <CircleButton
-                                    icon="fas fa-heart fa-3x"
+                                    icon="fas fa-heart fa-2x"
                                     color={this.state.isLoved ? '#e74c3c' : '#ffffff'}
                                     action={() => this.onUpdateRelationship('love')}
                                 ></CircleButton>
                                 <CircleButton
-                                    icon="fas fa-times fa-3x"
+                                    icon="fas fa-times fa-2x"
                                     action={() => this.props.dismissAction(item.id)}
                                     class="next-couple"
                                     id={`next-couple-${item.id}`}
