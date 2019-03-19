@@ -680,7 +680,7 @@ class CreateGroupDating extends Component {
                             <div className="col-4">
                                 Khu vực đăng ký
                             </div>
-                            <div className="col-4">
+                            <div className="col-8">
                                 <Select
                                     options={
                                         [
@@ -692,7 +692,7 @@ class CreateGroupDating extends Component {
                                     onChange={(selectedOption) => this.onChangeScope("province", selectedOption)}
                                 />
                             </div>
-                            <div className="col-4">
+                            {/* <div className="col-4">
                                 <Select
                                     placeholder="Không giới hạn quận/huyện"
                                     options={
@@ -703,8 +703,8 @@ class CreateGroupDating extends Component {
                                     }
                                     defaultValue={{ value: null, label: "Tất cả các huyện" }}
                                     onChange={(selectedOption) => this.onChangeScope("district", selectedOption)}
-                                />
-                            </div>
+                                /> 
+                            </div>*/}
                         </div>
                         <div className="row form-group">
                             <div className="col-4">

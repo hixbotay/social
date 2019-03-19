@@ -1193,9 +1193,9 @@ class Event extends Controller {
 
         $subscribers = DB::table('event_subscribers')
             ->join('users', 'users.id', '=', 'event_subscribers.user_id')
-            ->join('devvn_tinhthanhpho', 'matp', '=', 'event_subscribers.province_id')
-            ->join('devvn_quanhuyen', 'maqh', '=', 'event_subscribers.district_id')
-            ->join('agency', 'agency.id', '=', 'event_subscribers.agency_id')
+            ->leftjoin('devvn_tinhthanhpho', 'event_subscribers.province_id', '=', 'matp')
+            ->leftjoin('devvn_quanhuyen', 'event_subscribers.district_id', '=', 'maqh')
+            ->leftjoin('agency', 'agency.id', '=', 'event_subscribers.agency_id')
             ->leftjoin('agency_photos', function ($join) {
                 $join->on('event_subscribers.agency_id', '=', 'agency_photos.agency_id');
                 $join->on(function($query) {
@@ -1235,9 +1235,9 @@ class Event extends Controller {
 
     public function getCurrentUserSubscribers() {
         $subscribers = DB::table('event_subscribers')
-            ->join('agency', 'agency.id', '=', 'event_subscribers.agency_id')
-            ->join('devvn_tinhthanhpho', 'matp', '=', 'event_subscribers.province_id')
-            ->join('devvn_quanhuyen', 'maqh', '=', 'event_subscribers.district_id')
+            ->leftjoin('agency', 'agency.id', '=', 'event_subscribers.agency_id')
+            ->leftjoin('devvn_tinhthanhpho', 'matp', '=', 'event_subscribers.province_id')
+            ->leftjoin('devvn_quanhuyen', 'maqh', '=', 'event_subscribers.district_id')
             // ->join('user_jobs', 'expect_job', '=', 'user_jobs.id')
             ->where([
                 ['event_subscribers.user_id', '=', Auth::id()],

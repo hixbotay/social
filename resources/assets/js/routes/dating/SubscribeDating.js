@@ -24,8 +24,11 @@ class SubscribeDating extends Component {
             newSubscriber: {
                 expect_marital_status: null,
                 expect_job: null,
-                is_subscribe_couple_dating: 0,
+                is_subscribe_couple_dating: 1,
                 is_subscribe_group_dating: 0,
+                payer: 'self',
+                expect_age_min: 18,
+                expect_age_max: 25,
                 // province_id: '01',
             },
             show: false
@@ -169,8 +172,13 @@ class SubscribeDating extends Component {
             alert("Vui lòng chọn lại ngày");
             return;
         }
-        if (this.state.newSubscriber.expect_age_min >= this.state.newSubscriber.expect_age_max) {
+        if (this.state.newSubscriber.expect_age_min >= this.state.newSubscriber.expect_age_max || this.state.newSubscriber.expect_age_min < 18) {
             alert("Vui lòng chọn lại tuổi");
+            return;
+        }
+
+        if (!this.state.newSubscriber.province_id || !this.state.newSubscriber.district_id) {
+            alert("Vui lòng xem lại địa chỉ tỉnh và huyện");
             return;
         }
 
@@ -193,7 +201,6 @@ class SubscribeDating extends Component {
     deleteSubscriber(id) {
         if (confirm("Bạn có chắc chắn muốn xóa đăng ký này?")) {
             this.props.deleteSubscriber(id).then(data => {
-                console.log(this.props.mySubscribers.length)
                 if (this.props.mySubscribers.length === 0) {
                     setTimeout(() => {
                         this.setState({
@@ -308,7 +315,7 @@ class SubscribeDating extends Component {
                                     Đăng ký
                                 </div>
                                 <div className="col-1">
-                                    <input type="checkbox" className="custom-input" name="is_subscribe_couple_dating" onChange={(e) => this.onChangeCheckboxData(e)} />
+                                    <input type="checkbox" className="custom-input" name="is_subscribe_couple_dating" onChange={(e) => this.onChangeCheckboxData(e)} defaultChecked/>
                                 </div>
                                 <div className="col-3">
                                     <label>Hẹn đôi</label>
@@ -325,7 +332,7 @@ class SubscribeDating extends Component {
                                     Người thanh toán hẹn đôi
                                 </div>
                                 <div className="col-1">
-                                    <input className="custom-input" type="radio" name="payer" value="self" required />
+                                    <input className="custom-input" type="radio" name="payer" value="self" required defaultChecked/>
                                 </div>
                                 <div className="col-3">
                                     <label>Bạn thanh toán</label>
@@ -366,14 +373,14 @@ class SubscribeDating extends Component {
                                 </div>
                             </div>
                             <div>
-                                <h5><i className="fas fa-map-marker"></i> Chọn địa điểm</h5>
+                                <h5><i className="fas fa-map-marker"></i> Chọn địa điểm hẹn</h5>
                                 <hr />
                             </div>
                             <div>
-                                Vui lòng chọn tỉnh/thành, quận/huyện và quán
+                                Vui lòng chọn tỉnh/thành
                             </div>
                             <div className="row">
-                                <div className="col-12 col-md-4 mb-2">
+                                <div className="col-12 col-md-6 mb-2">
                                     <Select
                                         placeholder="Chọn tỉnh/thành"
                                         defaultValue={this.state.newSubscriber.province_id}
@@ -385,7 +392,7 @@ class SubscribeDating extends Component {
                                         onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
                                     />
                                 </div>
-                                <div className="col-12 col-md-4 mb-2">
+                                <div className="col-12 col-md-6 mb-2">
                                     <Select
                                         placeholder="Chọn huyện"
                                         defaultValue={this.state.newSubscriber.district_id}
@@ -397,7 +404,10 @@ class SubscribeDating extends Component {
                                         onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
                                     />
                                 </div>
-                                <div className="col-12 col-md-4 mb-2">
+                            </div>
+                            <div>Chọn quán nếu bạn muốn</div>
+                            <div className="row">
+                                <div className="col-12 col-md-6 mb-2">
                                     <Select
                                         placeholder="Loại quán"
                                         // defaultValue={this.state.agency_type}
@@ -410,7 +420,7 @@ class SubscribeDating extends Component {
                                         onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
                                     />
                                 </div>
-                                <div className="col-12 col-md-12 mb-4">
+                                <div className="col-12 col-md-6 mb-4">
                                     <Select
                                         placeholder={`Danh sách các quán (${cafes.length} quán)`}
                                         defaultValue={this.state.newSubscriber.agency_id}
