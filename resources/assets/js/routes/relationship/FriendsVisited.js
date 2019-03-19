@@ -17,7 +17,7 @@ class FriendsVisited extends Component {
                 <div className="row">
                     <div className="banner"></div>
                 </div>
-                <CardWithTitle title="ĐÃ GHÉ THĂM BẠN" hasLine={false} icon='fas fa-eye'>
+                <CardWithTitle  className='custom-grid'  title="ĐÃ GHÉ THĂM BẠN" hasLine={false} icon='fas fa-eye'>
                     <div className="row">
                     {
                         users ? users.map((user, index) => {
