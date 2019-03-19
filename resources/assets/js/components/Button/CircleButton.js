@@ -28,7 +28,7 @@ CircleButton.propTypes = {
 }
 
 CircleButton.defaultProps = {
-    color: '#34495e'
+    color: '#ffffff'
 }
 
 export default CircleButton;

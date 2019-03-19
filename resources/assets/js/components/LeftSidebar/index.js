@@ -9,7 +9,7 @@ class LeftSidebar extends Component {
         const {user, match} = this.props;
 
         return (
-            <aside className="col col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-4 col-sm-4 col-12 leftslider">
+            <aside className="col col-xl-3 order-xl-1 col-lg-3 order-lg-1 col-md-12 col-sm-12 col-12 leftslider">
 
                 <Link to={`/profile/${user.id}`}>
                     <RoundAvatar img={user.avatar} size='large' />

@@ -14,15 +14,15 @@ class MainLayout extends Component {
                         !isMobileOnly ? <LeftSidebar></LeftSidebar> : null
                     }
                     
-                    <div className="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-8 col-sm-8 col-12 type-1">
-                        <div className="row">
+                    <div className="col col-xl-9 order-xl-2 col-lg-9 order-lg-2 col-md-12 col-sm-12 col-12 main-content-wrap">
+                        <div className="row verify-block">
                             <div className="col col-xl-12 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
                                 <div className="ui-block-title bg-facebook box-shadow-default">
                                     <h6 className="title"><i className="far fa-star"></i> Xác minh thông tin để tăng độ phổ biến</h6>
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row user-controls">
                             <div className="col col-xl-8 order-xl-2 col-lg-8 order-lg-1 col-md-8 col-sm-8 col-12">
                                 <div className="group-navigator box-shadow-default">
                                     <div className="row">
@@ -53,6 +53,7 @@ class MainLayout extends Component {
                         </div>
                     </div>
                 </div>
+
             </div>
         );
     }

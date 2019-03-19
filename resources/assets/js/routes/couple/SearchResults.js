@@ -148,97 +148,8 @@ class SearchResults extends Component {
 
         return (
             <div>
-                <div className="row">
-                    <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-                        <div className="group-navigator">
-                            <div className="row">
-                                <div className="col-4 col-md-4  navigator-link">
-                                    <Link to={`/couple?${query_string}`}>
-                                        Tìm kiếm một
-                                        {/* <FaUserAlt size={20} /> */}
-                                    </Link>
-                                </div>
-                                <div className="col-4 col-md-4  navigator-link">
-                                    <Link to={`/couple?view=many${query_string}`}>
-                                        Tìm kiếm nhiều
-                                        {/* <FaUsers size={20} /> */}
-                                    </Link>
-                                </div>
-                                <div className="col-4 col-md-4 navigator-link" onClick={() => this.toggleFilter()}>
-                                    <i id="filter-couple" className="fas fa-sliders-h"></i>
-                                    {/* <FaFilter size={20} /> */}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col col-xl-2 order-xl-2">
-                    </div>
-                    <div className="col col-xl-3 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12 form-row">
-                        <div className="col-md-9">
-                            <input type="text" className="form-control" 
-                                placeholder="Tìm theo tên..." 
-                                defaultValue={filter.name}
-                                onChange={(event) => this.onChangeFilter(event.target.value, 'name')} 
-                            />
-                        </div>
-                        <div className="col-md-3">
-                            <button className='btn' onClick={() => this.onSearch()}>
-                                <i className="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <ToggleDisplay show={isShowFilter}>
-                    <Card id="couple-filter">
-                        <div className="row">
-                            <div className="col-2">
-                                <Select
-                                    placeholder="Giới tính"
-                                    value={selectedGender}
-                                    options={genderOptions}
-                                    onChange={(option) => this.onChangeFilter(option.value, "gender")}
-                                />
-                            </div>
-                            <div className="col-3">
-                                <Select
-                                    placeholder="Tình trạng hôn nhân"
-                                    value={selectedMarital}
-                                    options={maritalOptions}
-                                    onChange={(option) => this.onChangeFilter(option.value, "marital_status")}
-                                />
-                            </div>
-                            <div className="col-2">
-                                <Select
-                                    placeholder="Nghề nghiệp"
-                                    value={selectedJob}
-                                    options={jobOptions}
-                                    onChange={(option) => this.onChangeFilter(option.value, "job")}
-                                />
-                            </div>
-                            <div className="col-2">
-                                <Select
-                                    placeholder="Chọn tỉnh"
-                                    value={selectedProvince}
-                                    options={provinceOptions}
-                                    onChange={(option) => this.onChangeFilter(option.value, "province_id")}
-                                />
-                            </div>
-                            <div className="col-2">
-                                <Select
-                                    placeholder="Chọn huyện"
-                                    value={selectedDistrict}
-                                    options={districtOptions}
-                                    onChange={(option) => this.onChangeFilter(option.value, "district_id")}
-                                />
-                            </div>
-                            <div className="col-1">
-                                <button className="btn btn-secondary" onClick={() => this.onSearch()}>
-                                    LỌC
-                                </button>
-                            </div>
-                        </div>
-                    </Card>
-                </ToggleDisplay>
+
+
                 
                 {
                     results.length ? (
@@ -250,8 +161,8 @@ class SearchResults extends Component {
                                         var birth = new Date(item.birthday).getFullYear();
                                         item.age = currentYear - birth;
                                         return (
-                                            <div className='col col-md-3 col-lg-3' key={index}>
-                                                <div className='container image-card-results'>
+                                            <div className='col-xl-3 col-lg-3 col-md-3 col-xs-6' key={index}>
+                                                <div className='image-card-results show-many'>
                                                     <ImageCard
                                                         user={item}
                                                         action={(data, user_id) => this.props.updateRelationship(data, user_id)}
@@ -267,9 +178,9 @@ class SearchResults extends Component {
                             <Slider {...settings} ref="coupleSlider">
                                 {
                                     results.map((item, index) => {
-                                        
+
                                         return (
-                                            <CoupleView 
+                                            <CoupleView
                                                 item={item} key={index}
                                                 action={(data, user_id) => this.props.updateRelationship(data, user_id)}
                                                 dismissAction = {(user_id) => this.getNextUser(user_id)}
@@ -287,6 +198,7 @@ class SearchResults extends Component {
                         </Card>
                     )
                 }
+                <a className='btn-skip-user'>Các thành viên đã bỏ qua <i className='fas fa-angle-double-right'></i></a>
                 <button type="button" id="open-relationship-modal" className="d-none" data-toggle="modal" data-target="#relationship-alert"></button>
                 <Modal id="relationship-alert">
                     <div className="row">

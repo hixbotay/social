@@ -23,7 +23,6 @@ body a {
 
 .post-info-item {
     padding-right: 0;
-    min-width: 60px;
 }
 
 .verification-icon {
@@ -64,17 +63,13 @@ body a {
     height: 125px;
 }
 
-.info-number-line {
-    max-width: 200px;
-}
+/*.info-number-line {*/
+    /*max-width: 200px;*/
+/*}*/
 
-.custom-card {
-    padding: 15px 0px;
-}
-
-.custom-card svg {
-    font-size: 1.25em
-}
+/*.custom-card {*/
+    /*padding: 15px 0px;*/
+/*}*/
 
 .seperate-line {
     clear: both
@@ -107,10 +102,10 @@ body a {
     /*padding-left: 5px;*/
 /*}*/
 
-.row {
-    margin-right: -5px;
-    margin-left: -5px;
-}
+/*.row {*/
+    /*margin-right: -5px;*/
+    /*margin-left: -5px;*/
+/*}*/
 
 .status-info-icon {
     width: 40px;
@@ -152,10 +147,10 @@ span.avatar-list {
     /*padding-left: 5px;*/
 /*}*/
 
-.row {
-    margin-right: -5px;
-    margin-left: -5px;
-}
+/*.row {*/
+    /*margin-right: -5px;*/
+    /*margin-left: -5px;*/
+/*}*/
 
 .cafe-box {
 
@@ -207,24 +202,33 @@ li.list-group-item {
 }
 
 .image-card-content {
-    padding: 10px 0px;
+    padding: 10px;
 }
 
 .image-card {
-    border: solid 1px #b4babe;
+    border: solid 1px #D0D0D0;
     box-shadow: 2px 3px #bdc3c7;
     position: relative;
+    border-radius: 5px;
 }
 
 .image-card-btn {
-    z-index: 1;
+    /*z-index: 1;*/
     position: absolute;
-    top: 45%;
-    left: 10%;
+    top: 55%;
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .image-card-btn .circle-button {
     margin-right: 10px;
+    padding: 0px !important;
+    width: 24px;
+    height: 24px;
+    box-shadow: none;
 }
 
 .image-card-results {
@@ -851,20 +855,12 @@ input[type=radio], input[type=checkbox] {
     border: solid white;
 }
 
-.slick-slide:not(.slick-active) { 
-  margin: 20px 0; 
-}
-
 .child { 
   width:100%; 
 }
 
 .slide:not(.slick-active) { 
   cursor: pointer; 
-}
-
-.slick-active { 
-  padding: 20px 0; 
 }
 
 .preview-img {
@@ -885,7 +881,7 @@ input[type=radio], input[type=checkbox] {
 
 button.slick-arrow {
     width: 80px;
-    z-index: 0;
+    /*z-index: 0;*/
 }
 
 .slick-prev:before, .slick-next:before {
@@ -1138,7 +1134,6 @@ button.slick-arrow {
 }
 
 .btn-post {
-    font-size: 1.15em!important;
     cursor: pointer;
 }
 
@@ -1651,11 +1646,11 @@ img.thumbnail-img-slider {
     border-bottom-right-radius: 15px;
 }
 /*BEGIN MAIN LAYOUT - NEW TEMPLATE CSS*/
-.type-1{
+.main-content-wrap{
     padding-right: 26px;
     padding-left: 29px;
 }
-.type-1 .box-shadow-default{
+.main-content-wrap .box-shadow-default{
     webkit-box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
     -moz-box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
     box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.16);
@@ -1672,6 +1667,7 @@ img.thumbnail-img-slider {
     color: #707070;
     font-weight: bold;
     font-size: 18px;
+    height: 36px;
 }
 .search-box .fa-search{
     position: absolute;
@@ -1764,6 +1760,7 @@ img.thumbnail-img-slider {
     padding-left: 0px;
     padding-right: 0px;
     border-color: #D0D0D0;
+    font-size: 14px;
 }
 .news-feed-form .add-options-message{
     padding: 8px 25px;
@@ -1810,26 +1807,26 @@ img.thumbnail-img-slider {
     font-weight: 300;
     color: #3464D4;
 }
-.type-1 .notification-list{
+.main-content-wrap .notification-list{
     border: 1px solid #D0D0D0;
     border-radius: 9px;
 }
-.type-1 .avatar-medium{
+.main-content-wrap .avatar-medium{
     width: 40px;
     height: 40px;
     margin-right: 5px;
 }
-.type-1 .notification-list .notification-list-item{
+.main-content-wrap .notification-list .notification-list-item{
     border-bottom: 1px solid #D0D0D0;
     color: #000000;
 }
-.type-1 .notification-list .notification-list-item .notification-content{
+.main-content-wrap .notification-list .notification-list-item .notification-content{
     color: #000000;
 }
-.type-1 .notification-list-item .row{
+.main-content-wrap .notification-list-item .row{
     border-bottom: none;
 }
-.type-1 .notification-list .notifi-title{
+.main-content-wrap .notification-list .notifi-title{
     padding: 10px 10px;
     border-bottom: 1px solid #d0d0d0;
     color: #000000;
@@ -1838,3 +1835,197 @@ img.thumbnail-img-slider {
 }
 /*END MAIN CONTENT - NEW TEMPLATE CSS*/
 /*END MAIN LAYOUT - NEW TEMPLATE CSS*/
+/*BEGIN COUPLE PAGE - NEW TEMPLATE CSS*/
+.slick-prev{
+    left: 20px;
+    z-index: 1000;
+}
+
+.slick-next{
+    right: 0px;
+    z-index: 1000;
+}
+
+.couple-button{
+    display: flex;
+    width: 50%;
+    padding-bottom: 100px;
+    justify-content: space-between;
+}
+.couple-button button{
+    height: 64px;
+    width: 64px;
+    background-color: #3464D4;
+    box-shadow: none;
+}
+.custom-card .user-name{
+    font-size: 24px;
+    font-weight: 500;
+}
+.custom-card .user-address{
+    font-size : 18px;
+    font-weight: 500;
+}
+.custom-card .post-info-item{
+    font-size: 18px;
+    color: #000000;
+    display: inline-flex;
+}
+.custom-card .post-info-item .icon{
+    width: 28px;
+    height: 28px;
+    background-color:#3464D4 ;
+    border: 1px solid #3464D4;
+    border-radius: 50%;
+    text-align: center;
+    margin-right: 5px;
+}
+.custom-card .post-info-item .icon .fa-heart{
+    color: #FF7043 !important;
+}
+
+.custom-card .post-info-item .icon .fa-eye{
+    color: #ffffff !important;
+}
+
+.custom-card .post-info-item .icon .fa-thumbs-up{
+    color: #ffffff !important;
+}
+.color-white{
+    color: #ffffff !important;
+}
+.custom-card .float-right{
+    font-size: 21px;
+}
+.color-pink{
+    color: #D815BA !important;
+}
+.custom-card .gender{
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.custom-card .gender span{
+    margin-left: 20px;
+}
+.quotes{
+    margin-bottom: 20px;
+}
+.quotes .title{
+    margin-bottom: 15px;
+}
+.wave .wave-form{
+    text-align: center;
+    margin-top: 10px;
+}
+.wave .title{
+    color: #3464D4;
+    font-size: 15px;
+    font-weight: bold;
+}
+.wave .wave-form input{
+    width: 100%;
+    border-radius: 7px;
+    font-weight: lighter;
+    height: 65px;
+}
+.wave .wave-form .form-check{
+    padding-left: 10px;
+    text-align: left;
+    color: #000000;
+}
+.wave .wave-form .form-check-input{
+    display: block;
+    width: 18px !important;
+    height: 17px !important;
+}
+.wave .wave-form .form-check-label{
+    margin-left: 10px;
+}
+.wave .wave-form button{
+    padding: 3px 16px;
+}
+.couple-slider-nav {
+    position: absolute;
+    top: 50%;
+    font-size: 30px;
+    color: white;
+}
+.couple-slider-nav:focus, .couple-slider-nav:hover, .couple-slider-nav:focus, .couple-slider-nav:hover{
+    color: #ffffff !important;
+}
+.slick-prev {
+    left: 20px;
+}
+.slick-next {
+    right: 20px;
+}
+.slick-slide img {
+    border-radius: 25px;
+}
+.custom-slider-item{
+    position: relative;
+}
+.custom-slider-item .image-count{
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: lighter;
+}
+.custom-slider-item .image-count span{
+    margin-left: 10px;
+}
+.show-many .image-card .image-card-content .user-name{
+    font-size: 14px;
+    font-weight: lighter;
+    color: #000000;
+}
+.show-many .image-card .post-info-item{
+    color: #3464D4;
+    font-size: 12px;
+    font-weight: lighter;
+}
+.show-many .image-card .post-info-item .icon{
+    background-color: transparent;
+    border: none;
+    height: auto;
+}
+.show-many .image-card .post-info-item .icon .fa-heart{
+    color: #FF7043 !important;
+}
+
+.show-many .image-card .post-info-item .icon .fa-eye{
+    color: #707070 !important;
+}
+
+.show-many .image-card .post-info-item .icon .fa-thumbs-up{
+    color: #3464D4 !important;
+}
+.show-many .image-card .info-number-line .post-info-item:first-child{
+    padding-left: 10px;
+}
+.btn-skip-user{
+    border: 1px solid #d0d0d0;
+    padding: 10px 30px;
+    border-radius: 5px;
+    float: right;
+    font-size: 12px;
+    font-weight: 400;
+    color: #000000 !important;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+.custom-grid{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.custom-grid .col-xl-3,.custom-grid .col-lg-3,.custom-grid .col-md-3,.custom-grid .col-xs-6{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+/*END COUPLE PAGE - NEW TEMPLATE CSS*/
+

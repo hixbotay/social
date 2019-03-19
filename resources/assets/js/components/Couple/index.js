@@ -6,6 +6,25 @@ import CircleButton from '../Button/CircleButton';
 import {Link} from 'react-router-dom';
 import Image from 'react-image-resizer';
 
+function PrevArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            onClick={onClick}
+        >
+            <i class="fa fa-chevron-left slick-prev couple-slider-nav"/>
+        </div>
+    );
+}
+
+function NextArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            onClick={onClick}
+        ><i className="fa fa-chevron-right slick-next couple-slider-nav"/></div>
+    );
+}
 class CoupleView extends Component {
     constructor(props) {
         super(props);
@@ -56,7 +75,8 @@ class CoupleView extends Component {
             speed: 500,
             slidesToShow: 1,
             slidesToScroll: 1,
-            arrows: true
+            nextArrow: <NextArrow />,
+            prevArrow: <PrevArrow />
         };
 
         var defaultImages = [
@@ -65,19 +85,20 @@ class CoupleView extends Component {
 
         let images = item.photos.length ? item.photos : defaultImages;
         images = images.filter(Boolean);
-
+        let count = images.length;
         return (
             <Card>
-                <div className="container">
+                {/*<div className="container">*/}
                     <div className="row">
-                        <div className="col-8 couple-img-slider">
+                        <div className="col-xl-8 col-lg-8 col-md-8 col-sm-12 couple-img-slider">
                             <div>
                                 <Slider {...settings}>
                                 {
                                     images.map((item, index) => {
                                         return (
                                             <div key={index} className="custom-slider-item">
-                                                <Image src={item} width={580} height={400}/>
+                                                <Image src={item} width='100%' height={400}/>
+                                                <div className='image-count'><i className="fas fa-camera"></i><span>{index + 1}/{count}</span></div>
                                             </div>
                                         )
                                     })
@@ -87,49 +108,62 @@ class CoupleView extends Component {
                             
                             <div className="couple-button">
                                 <CircleButton
-                                    icon="fas fa-comments"
-                                    color='#34495e'
+                                    icon="fas fa-thumbs-up fa-3x"
+                                    color="#ffffff"
                                     // action
                                 ></CircleButton>
                                 <CircleButton
-                                    icon="fas fa-heart"
-                                    color={this.state.isLoved ? '#e74c3c' : '#34495e'}
+                                    icon="fas fa-heart fa-3x"
+                                    color={this.state.isLoved ? '#e74c3c' : '#ffffff'}
                                     action={() => this.onUpdateRelationship('love')}
                                 ></CircleButton>
                                 <CircleButton
-                                    icon="fas fa-thumbs-up"
-                                    color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                                    action={() => this.onUpdateRelationship('like')}
-                                ></CircleButton>
-                                <CircleButton
-                                    icon="fas fa-times"
+                                    icon="fas fa-times fa-3x"
                                     action={() => this.props.dismissAction(item.id)}
                                     class="next-couple"
                                     id={`next-couple-${item.id}`}
+                                    color="#ffffff"
                                 ></CircleButton>
                             </div>
                         </div>
-                        <div className="col-4">
+                        <div className="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                             <CardWithIcon rightIcon="fas fa-user-circle">
                                 <Link to={`/profile/${item.id}`}>
-                                    <h4>{item.name}</h4>
+                                    <h4 className='user-name'>{item.name}, 24</h4>
                                 </Link>
-                                <small>{item.hometown_province_name}</small>
+                                <small className='user-address'>{item.address}</small>
                                 <InformationNumber
                                     heartNumber={this.state.loveNumber}
+                                    viewNumber={this.state.viewNumber}
                                     likeNumber={this.state.likeNumber}
                                 ></InformationNumber>
-                                
-                                <div className="row">
-                                    <div className='col-12'>
-                                        <i className="fas fa-question-circle"></i>
-                                        <div>{item.description}</div>
+                                <div className='gender'><i className="fas fa-venus color-pink"></i> <span>Độc thân</span></div>
+                                <div className="ui-block">
+                                    <div className="quotes color-black">
+                                        <div className="title"><i className="fas fa-comment-alt"></i></div>
+                                        <div className="quote-item">
+                                            <div className="content">Sprite đập tan cơn khát <br />
+                                                Còn anh thì làm tan nát con tim em</div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div className='wave'>
+                                    <span className='title'>Hãy gửi lời chào tới {item.name}</span>
+                                    <form className='wave-form' action='' method='get'>
+                                        <div className="form-group">
+                                            <input className="box-shadow-default form-control" value='' placeholder='anabell thi dang so em thi dang yeu' />
+                                        </div>
+                                        <div className="form-check">
+                                            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
+                                                <label className="form-check-label" htmlFor="exampleCheck1">Nổi bật tin nhắn của bạn lên phía trên với người ấy chỉ với 10 xu</label>
+                                        </div>
+                                        <button type="submit" className="btn btn-primary btn-xs">Gửi</button>
+                                    </form>
                                 </div>
                             </CardWithIcon>
                         </div>
                     </div>
-                </div>
+                {/*</div>*/}
             </Card>
         );
     }
