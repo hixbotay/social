@@ -222,7 +222,9 @@ li.list-group-item {
     padding-left: 20px;
     padding-right: 20px;
 }
-
+.image-card-btn.disabled{
+    display: none;
+}
 .image-card-btn .circle-button {
     margin-right: 10px;
     padding: 0px !important;
@@ -232,7 +234,7 @@ li.list-group-item {
 }
 
 .image-card-results {
-    padding-bottom: 25px; 
+    padding-bottom: 15px;
 }
 
 .invididual-video img, .invididual-image img {
@@ -2024,9 +2026,17 @@ img.thumbnail-img-slider {
     padding-left: 10px;
     padding-right: 10px;
 }
-.custom-grid .col-xl-3,.custom-grid .col-lg-3,.custom-grid .col-md-3,.custom-grid .col-xs-6{
+.custom-grid .col-xl-3,.custom-grid .col-lg-3,.custom-grid .col-md-3,.custom-grid .col-xs-6, .custom-grid .col-xl-4,.custom-grid .col-lg-4,.custom-grid .col-md-4, .custom-grid .col-xs-12{
     padding-left: 5px;
     padding-right: 5px;
 }
 /*END COUPLE PAGE - NEW TEMPLATE CSS*/
+.list-group-item-info{
+    background-color: transparent;
+}
 
+/*BEGIN FRIEND PAGE: YOU LIKE, LIKE YOU, SKIPPED - NEW TEMPLATE*/
+.custom-grid .card-title .title .svg-inline--fa{
+    margin-right: 10px;
+}
+/*END FRIEND PAGE: YOU LIKE, LIKE YOU, SKIPPED - NEW TEMPLATE*/

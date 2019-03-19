@@ -61,10 +61,8 @@ class ImageCard extends Component {
                             <div>
                                 <img src="public/images/default-avatar-heart.png"/>
                             </div>
-                            <div className="row image-card-content">
-                                <div className="container">
-                                    <h5>Thành viên ẩn danh</h5>
-                                </div>
+                            <div className="image-card-content">
+                                    <h5 className='user-name'>Thành viên ẩn danh</h5>
                             </div>
                         </React.Fragment>
                     ) : (

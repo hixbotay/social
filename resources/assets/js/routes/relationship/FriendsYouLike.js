@@ -17,18 +17,21 @@ class FriendYouLike extends Component {
                 <div className="row">
                     <div className="banner"></div>
                 </div>
-                <CardWithTitle title="BẠN ĐÃ THÍCH" hasLine={true}>
+                <CardWithTitle title="NGƯỜI BẠN THÍCH" hasLine={false} icon='fas fa-grin-hearts color-red'>
                     <div className="row">
                         {
                             users ? users.map((user, index) => {
                                 let birth = new Date(user.birthday).getFullYear();
                                 user.age = currentYear - birth;
                                 return (
-                                    <div className="col-4 col-md-4 mb-4" key={index}>
-                                        <ImageCard
-                                            user={user}
-                                            action={(data, user_id) => this.props.updateRelationship(data, user_id)}
-                                        ></ImageCard>
+                                    <div className="col-xl-4 col-lg-4 col-md-4 col-xs-12" key={index}>
+                                        <div className='image-card-results show-many'>
+                                            <ImageCard
+                                                user={user}
+                                                action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                            ></ImageCard>
+                                        </div>
+
                                     </div>
                                 )
                             }) : <div>Loading...</div>
