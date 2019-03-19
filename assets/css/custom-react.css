@@ -1553,7 +1553,10 @@ div#suggest-create-dating {
     border: solid 1px #bec2c5;
     z-index: 10;
 }
-
+.post-control .list-group-item{
+    font-size: 12px;
+    font-weight: 400;
+}
 .post-control li {
     line-height: 0.25em;
     margin: 0 -5px;
@@ -2011,6 +2014,10 @@ img.thumbnail-img-slider {
 .show-many .image-card .info-number-line .post-info-item:first-child{
     padding-left: 10px;
 }
+.show-many .image-card .user-address{
+    font-size: 12px;
+    font-weight: lighter;
+}
 .btn-skip-user{
     border: 1px solid #d0d0d0;
     padding: 10px 30px;
@@ -2034,7 +2041,18 @@ img.thumbnail-img-slider {
 .list-group-item-info{
     background-color: transparent;
 }
-
+.post .author-date {
+    font-size: 14px;
+    font-weight: 400;
+}
+.post .author-date .user-name{
+    font-size: 16px !important;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+.post .author-date .post-created{
+    font-size: 12px;
+}
 /*BEGIN FRIEND PAGE: YOU LIKE, LIKE YOU, SKIPPED - NEW TEMPLATE*/
 .custom-grid .card-title .title .svg-inline--fa{
     margin-right: 10px;

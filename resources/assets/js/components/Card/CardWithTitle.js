@@ -7,7 +7,7 @@ class CardWithTitle extends Component {
         const {className, title, hasLine,icon, children} = this.props;
         
         return (
-            <div className={`ui-block custom-card custom-grid ${className}`} >
+            <div className={`ui-block custom-card ${className}`} >
                     <div className='card-title'>
                         <h6 className='title'><i className={icon}></i>{title}</h6>
                         {hasLine ? <hr className="seperate-line"/> : null}

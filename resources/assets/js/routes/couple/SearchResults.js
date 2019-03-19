@@ -154,7 +154,7 @@ class SearchResults extends Component {
                 {
                     results.length ? (
                         (view === 'many') ? (
-                        <Card>
+                        <Card className='custom-grid'>
                             <div className="row">
                                 {
                                     results.map((item, index) => {
@@ -191,7 +191,7 @@ class SearchResults extends Component {
                             </Slider>
                         )
                     ) : (
-                        <Card>
+                        <Card className='custom-grid'>
                             <div className="text-center">
                                 Không tìm thấy người dùng nào.
                             </div>
