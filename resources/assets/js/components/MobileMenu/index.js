@@ -22,7 +22,7 @@ class MobileMenu extends Component {
                     <Link to="/couple"><i className="fas fa-heartbeat fa-2x"></i></Link>
                 </div>
                 <div className="col-2 text-center">
-                    <Link to="/cafe"><i className="fas fa-coffee fa-2x"></i></Link>
+                    <Link to="/cafe"><i className="fas fa-store fa-2x"></i></Link>
                 </div>
                 <div className="col-2 text-center"></div>
                 <div className="col-1"></div>

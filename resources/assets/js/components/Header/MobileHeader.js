@@ -8,6 +8,12 @@ import {markAllAsRead, getUnreadNumber}  from '../../actions/NotificationActions
 import socket from '../../helper/socket';
 
 class MobileHeader extends Component {
+    constructor () {
+        super()
+        this.state = {
+            condition: false
+        }
+    }
     componentDidMount() {
         this.props.getUnreadNumber();
         socket.on("notify", (data) => {
@@ -15,7 +21,16 @@ class MobileHeader extends Component {
             console.log(data);
         });
     }
-
+    getInitialState() {
+        return {
+            condition: false
+        }
+    }
+    handleClick() {
+        this.setState({
+            condition: !this.state.condition
+        });
+    }
     render() {
         return (
             <header className="mobile-header">
@@ -31,21 +46,85 @@ class MobileHeader extends Component {
                             </a>
                         </div>
 
-                        <div className="more-menu">
-                            <i className="fas fa-bars fa-2x"></i>
+                        <div className="more-menu" onClick={() => this.handleClick()}>
+                            <img src={`${baseUrl}/public/images/main/user.png`}
+                                 style={{ width: 40, height: 40,marginRight:5 }}
+                            />
+                            <i className="fas fa-angle-down"></i>
+                        </div>
+                        <div className={ this.state.condition ? "author-mobile active" : "author-mobile" }>
+                            <div className="author-thumb">
+                                <div className="more-dropdown more-with-triangle">
+                                    <div className="mCustomScrollbar" data-mcs-theme="dark">
+                                        <div className="ui-block-title ui-block-title-small border-0">
+                                            <h6 className="title">Your Account</h6>
+                                        </div>
+
+                                        <ul className="list-group">
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="far fa-check-circle"></i>
+                                                    </div>
+                                                    <div className="col-10">
+                                                        Đặc quyền dành cho VIP
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="fas fa-bolt"></i>
+                                                    </div>
+                                                    <div className="col-10">
+                                                        Kích hoạt VIP
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="fas fa-dollar-sign"></i>
+                                                    </div>
+                                                    <div className="col-10">
+                                                        <Link to={'/payment/history'} >
+                                                            Lịch sử thanh toán
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="fas fa-cogs"></i>
+                                                    </div>
+                                                    <div className="col-10">
+                                                        <Link to="/settings">Cài đặt</Link>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className="list-group-item list-group-item-info">
+                                                <div className="row">
+                                                    <div className="col-2">
+                                                        <i className="fas fa-sign-out-alt"></i>
+                                                    </div>
+                                                    <div className="col-10" onClick={() => this.props.logout()}>
+                                                        <a href="javascript:void(0);">
+                                                            Log Out
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div >
                         </div>
                     </div>
 
                     <div className="row mobile-icons">
                         <div className="col-1"></div>
-                        <div className="col-2">
-                            <div className="control-icon more has-items text-center">
-                                <a href={`${baseUrl}/messages`}>
-                                    <i className="fa fa-comments"></i>
-                                    {/* <div className="label-avatar bg-blue">6</div> */}
-                                </a>
-                            </div>
-                        </div>
                         <div className="col-2">
                             <div className="control-icon more has-items text-center">
                                 <a href={`${baseUrl}/friends/like-you`}>
@@ -58,15 +137,25 @@ class MobileHeader extends Component {
                                 <a href={`${baseUrl}/friends/visited`}>
                                     <i className="fas fa-eye"></i>
                                 </a>
-                            </div>  
+                            </div>
                         </div>
                         <div className="col-2">
                             <div className="control-icon more has-items text-center">
-                                <a href={`${baseUrl}/friends/you-like`}>
+                                <a href={`${baseUrl}/friends/you-like`} className="color-red">
                                     <i className="fas fa-heart"></i>
+                                    <div className="label-avatar bg-red">12</div>
                                 </a>
                             </div>
                         </div>
+                        <div className="col-2">
+                            <div className="control-icon more has-items text-center">
+                                <a href={`${baseUrl}/messages`}>
+                                    <i className="fa fa-comment-dots"></i>
+                                    {/* <div className="label-avatar bg-blue">6</div> */}
+                                </a>
+                            </div>
+                        </div>
+
                         <div className="col-2">
                             <div className="control-icon more has-items text-center">
                                 <i className="fa fa-bell"></i>

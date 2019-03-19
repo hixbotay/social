@@ -54,7 +54,7 @@ class ImageCard extends Component {
         const {user} = this.props;
 
         return (
-            <div className="image-card">
+            <div className="image-card box-shadow-default">
                 {
                     user.is_incognito ? (
                         <React.Fragment>
@@ -75,38 +75,36 @@ class ImageCard extends Component {
                             </Link>
                             <div className="image-card-btn">
                                 <CircleButton
+                                    icon="fas fa-thumbs-up"
+                                    color={this.state.isLiked ? '#3464D4' : '#34495e'}
+                                    action={() => this.onUpdateRelationship('like')}
+                                ></CircleButton>
+                                <CircleButton
                                     icon="fas fa-heart"
                                     color={this.state.isLoved ? '#e74c3c' : '#34495e'}
                                     action={() => this.onUpdateRelationship('love')}
                                 ></CircleButton>
                                 <CircleButton
-                                    icon="fas fa-thumbs-up"
-                                    color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                                    action={() => this.onUpdateRelationship('like')}
-                                ></CircleButton>
-                                <CircleButton
-                                    icon="fas fa-comments"
-                                    color='#34495e'
+                                    icon="fas fa-comment-dots"
+                                    color='#3464D4'
                                     // action
                                 ></CircleButton>
                             </div>
                         </div>
                     
-                        <div className="row image-card-content">
-                            <div className="container">
-                                <Link to={`/profile/${user.id}`}>
-                                    <h5>
-                                        {user.name}, {user.age}
-                                    </h5>
-                                </Link>
-                                <small>
-                                    {user.hometown_province_name}
-                                </small>
-                                <InformationNumber
-                                    heartNumber={this.state.loveNumber}
-                                    likeNumber={this.state.likeNumber}
-                                ></InformationNumber>
-                            </div>
+                        <div className="image-card-content">
+                            <Link to={`/profile/${user.id}`} >
+                                <h5 className='user-name'>
+                                    {user.name}, {user.age}
+                                </h5>
+                            </Link>
+                            <small className='user-address'>
+                                {user.hometown_province_name}
+                            </small>
+                            <InformationNumber
+                                heartNumber={this.state.loveNumber}
+                                likeNumber={this.state.likeNumber}
+                            ></InformationNumber>
                         </div>
                     </React.Fragment>
                 )

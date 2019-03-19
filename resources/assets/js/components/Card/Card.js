@@ -11,12 +11,12 @@ class Card extends Component {
 
         var style = backgroundImage ? {backgroundImage: backgroundImage} : {};
         return (
-            <div className={`ui-block custom-card ${className}`} id={id} style={style}>
-                <div className="container">
-                    <div className="col-md-12">
+            <div className={`ui-block custom-card custom-grid ${className}`} id={id} style={style}>
+                {/*<div className="container">*/}
+                    {/*<div className="col-xl-12 col-lg-12 col-md-12">*/}
                         {children}
-                    </div>
-                </div>
+                    {/*</div>*/}
+                {/*</div>*/}
             </div>
         );
     }

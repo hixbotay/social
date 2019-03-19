@@ -100,7 +100,7 @@ class Post extends Component {
         var isShare = post.original_author ? true : false;
 
         return (
-            <article className="hentry post">
+            <article className="hentry post box-shadow-default">
                 <div className="row">
                     <div className="col-12">
                         <div className="float-left">
@@ -116,7 +116,7 @@ class Post extends Component {
                             post.user_id === user_id ? (
                                 <div className="float-right">
                                     <div onClick={() => this.handleClick()}>
-                                        <i className="fas fa-ellipsis-h" ></i>
+                                        <i className="fas fa-ellipsis-v" ></i>
                                     </div>
                                     
                                     <div className={this.state.isOpenControl ? "" : "d-none"}>
@@ -176,30 +176,21 @@ class Post extends Component {
                         </React.Fragment>
                     )
                 }
-                <div className="mb-4">
-                    <i>
-                        <small>Bài viết được chỉnh sửa lần cuối vào lúc {moment(post.updated_at).format("HH:mm DD-MM-YYYY")}</small>
-                    </i>
-                </div>
                 <div className="row">
-                    <div className="col-12">
-                        <div className="float-left">
-                            <span className={`btn-post mr-2 ${this.state.isLiked ? "active" : ""}`} onClick={() => this.changeReaction('like', post.id)}>
-                                {this.state.like} <i className="far fa-thumbs-up"></i>
+                    <div className="col-12 post-actions">
+                            <span className={`btn-post ${this.state.isLiked ? "active" : ""}`} onClick={() => this.changeReaction('like', post.id)}>
+                                <i className="far fa-thumbs-up"></i> <b>Thích</b>
                             </span> 
-                            | 
-                            <span className={`btn-post ml-2 ${this.state.isDisliked ? "active" : ""}`} onClick={() => this.changeReaction('dislike', post.id)}>
-                                {this.state.dislike} <i className="far fa-thumbs-down"></i>
-                            </span> 
-                        </div>
-                        <div className="float-right">
-                            <span className="btn-post mr-4">
-                                <i className="far fa-comment"></i> <b>Bình luận</b>
+
+                            <span className={`btn-post  ${this.state.isDisliked ? "active" : ""}`} onClick={() => this.changeReaction('dislike', post.id)}>
+                                <i className="far fa-thumbs-down"></i> <b>Không thích</b>
+                            </span>
+                            <span className="btn-post">
+                                <i className="far fa-comments"></i> <b>Bình luận</b>
                             </span>
                             <span className="btn-post" onClick={() => {this.setState({ isOpenAlert: true })}}>
-                                <i className="fas fa-share"></i> <b>Chia sẻ</b>
+                                <i className="fas fa-reply"></i> <b>Chia sẻ</b>
                             </span>
-                        </div>
                     </div>
                 </div>
 

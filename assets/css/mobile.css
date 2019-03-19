@@ -13,7 +13,7 @@
 
 .more-menu {
     position: absolute;
-    top: 20px;
+    top: 13px;
     left: 15px;
 }
 
@@ -21,6 +21,7 @@
     margin-top: 10px;
     border-top: 2px solid;
     border-color: #0091ff3b;
+    padding-top: 10px;
 }
 
 .mobile-menu-bottom {
@@ -31,19 +32,19 @@
     padding: 10px 0px;
     border-top: 2px solid;
     border-color: #0091ff3b;
+    margin: auto;
 }
 
 .menu-bottom-image {
     max-width: 30px;
     height: auto;
 }
-
-@media screen and (max-width: 768px) {
-    #newfeeds {
-        padding: 0;
-        margin: 0px -15px;
+@media screen and (max-width: 1024px) {
+    .couple-button{
+        padding-bottom: 170px;
     }
-
+}
+@media screen and (max-width: 768px) {
     .control-icon.more.has-items {
         font-size: 1.5em;
         margin: 0 !important;
@@ -53,4 +54,67 @@
         display: block;
         height: 130px;
     }
+    .verify-block {
+        margin-top: 10px;
+    }
+    .slick-slide img{
+        width: 100% !important;
+    }
+    .couple-button{
+        padding-bottom: 40px;
+    }
+    .leftslider{
+        padding-right: 15px;
+    }
+    .main-content-wrap{
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+@media screen and (max-width: 576px){
+    .group-navigator{
+        margin-bottom: 10px;
+    }
+    .search-box{
+        margin-top: 0px;
+        margin-bottom: 10px;
+    }
+    .post .post-actions .btn-post{
+        font-size: 12px;
+    }
+    .search-box .form-control{
+        font-size: 14px;
+    }
+    .couple-button{
+        padding-bottom: 40px;
+    }
+    .wave .wave-form{
+        margin-bottom: 30px;
+    }
+    /*.image-card img{*/
+        /*width: auto;*/
+    /*}*/
+}
+.author-mobile{
+    position: fixed;
+    left: -100%;
+    top: 50px;
+    transition: all 500ms ease;
+    width: 100%;
+}
+.author-mobile .author-thumb{
+    width: 100%;
+}
+.author-mobile.active{
+    left: 0;
+    z-index: 1000;
+}
+.author-mobile.active .more-dropdown{
+    visibility: visible;
+    top: 52%;
+    z-index: 1000;
+    opacity: 1;
+    left: 0;
+    width: 80%;
+    padding: 0px;
 }
