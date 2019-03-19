@@ -17,18 +17,20 @@ class FriendsVisited extends Component {
                 <div className="row">
                     <div className="banner"></div>
                 </div>
-                <CardWithTitle title="ĐÃ GHÉ THĂM BẠN" hasLine={true}>
+                <CardWithTitle title="ĐÃ GHÉ THĂM BẠN" hasLine={false} icon='fas fa-eye'>
                     <div className="row">
                     {
                         users ? users.map((user, index) => {
                             let birth = new Date(user.birthday).getFullYear();
                             user.age = currentYear - birth;
                             return (
-                                <div className="col-6 col-md-4 mb-4" key={index}>
-                                    <ImageCard 
-                                        user={user}
-                                        action={(data, user_id) => this.props.updateRelationship(data, user_id)}
-                                    ></ImageCard>
+                                <div className="col-xl-4 col-lg-4 col-md-4 col-xs-12" key={index}>
+                                    <div className='image-card-results show-many'>
+                                        <ImageCard
+                                            user={user}
+                                            action={(data, user_id) => this.props.updateRelationship(data, user_id)}
+                                        ></ImageCard>
+                                    </div>
                                 </div>
                             )
                         }) : <div>Loading...</div>
