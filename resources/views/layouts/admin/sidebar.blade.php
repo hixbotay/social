@@ -125,6 +125,10 @@
                         <a href="{{url('/admin?view=AgencyCoupons')}}"><i
                                     class="ti-person"></i>@lang('Danh sách')</a>
                     </li>
+                    <li>
+                        <a href="{{url('/admin?controller=AgencyCoupons&task=create')}}"><i
+                                    class="ti-person"></i>@lang('Thêm mới')</a>
+                    </li>
                 </ul>
             </li>
 

@@ -32,4 +32,8 @@ class AgencyCoupons extends Controller
             'agencies' => $agency
         ]);
     }
+
+    public function create(){
+        return view('admin.agencycoupons.create');
+    }
 }
