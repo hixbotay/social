@@ -22,7 +22,7 @@ import {BrowserRouter} from 'react-router-dom';
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter basename="/social">
+        <BrowserRouter basename="/zeno5/social">
             <MainApp />
         </BrowserRouter>
     </Provider>,

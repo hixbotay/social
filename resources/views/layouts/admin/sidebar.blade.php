@@ -117,6 +117,17 @@
                 </ul>
             </li>
 
+            <li>
+                <a href="javascript: void(0);"><i class="mdi mdi-cube-send"></i> @lang('Mã giảm giá')<span
+                            class="fa arrow"></span></a>
+                <ul class="nav-second-level nav" aria-expanded="true">
+                    <li>
+                        <a href="{{url('/admin?view=AgencyCoupons')}}"><i
+                                    class="ti-person"></i>@lang('Danh sách')</a>
+                    </li>
+                </ul>
+            </li>
+
             @can([config('auth.action.ADS_ORDERS'), config('auth.action.ADS_LOCATIONS')])
             <li>
                 <a href="javascript: void(0);" aria-expanded="true"><i
