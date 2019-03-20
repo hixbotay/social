@@ -34,6 +34,15 @@ class AgencyCoupons extends Controller
     }
 
     public function create(){
-        return view('admin.agencycoupons.create');
+        $agency = Agency::all();
+        return view('admin.agencycoupons.create', ['agencies' => $agency]);
+    }
+
+    public function store(Request $request){
+        $data = $request->get('data');
+        $data['from_time'] = date('Y-m-d H:i', strtotime($data['from_time']));
+        $data['to_time'] = date('Y-m-d H:i', strtotime($data['to_time']));
+        AgencyCouponsModel::create($data);
+        return redirect('/admin?view=AgencyCoupons');
     }
 }

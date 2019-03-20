@@ -45,96 +45,27 @@
                     <table class="table table-hover mails m-0 table table-actions-bar">
                         <thead>
                         <tr>
-                            <th>
-                                <div class="checkbox checkbox-primary checkbox-single m-r-15">
-                                    <input id="action-checkbox" type="checkbox">
-                                    <label for="action-checkbox"></label>
-                                </div>
-                            </th>
-                            <th>@lang('admin.NAME')</th>
-                            <th>Min/Max</th>
-                            <th>@lang('admin.START_TIME')</th>
-                            <th>@lang('admin.CREATOR')</th>
-                            <th>@lang('admin.TYPE')</th>
-                            <th>@lang('admin.AGENCY')</th>
-                            <th>@lang('admin.STATUS')</th>
-                            <th>@lang('admin.OPTION')</th>
+                            <th>Code</th>
+                            <th>Giá trị</th>
+                            <th>Ngày hiệu lực</th>
                         </tr>
                         </thead>
 
                         <tbody>
 
                         @foreach($items AS $item)
-
-                            @php
-                                $status = \App\Event::getStatusById($item->status);
-                                $type = \App\Event::getDatingTypeById($item->type);
-                            @endphp
-
                             <tr>
+                                <td>{{ $item->code }}</td>
                                 <td>
-                                    <div class="checkbox checkbox-primary m-r-15">
-                                        <input id="checkbox1" type="checkbox">
-                                        <label for="checkbox1"></label>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    <a href="admin?view=Event&layout=editEvent&id={{$item->id}}">
-                                        {{$item->name}}
-                                    </a>
-                                </td>
-
-                                <td>
-                                    {{$item->min_number . "/" . $item->limit_number}}
-                                </td>
-
-                                <td>{{$item->start_time}}</td>
-
-                                <td>{{$item->creator_name}}</td>
-                                <td>@lang('admin.'.$type->label)</td>
-                                <td>{{$item->agency_name}}</td>
-                                <td>
-                                    <p>
-                                        <span style="color: {{$status->color}}">@lang('admin.'.$status->label)</span>
-                                    </p>
-                                    @if($item->status == 'cancelled')
-
-                                        <p>
-                                            {{ isset($item->cancel_person)?"Bởi: ".$item->cancel_person."":null }}
-                                        </p>
-                                        <p>
-                                            {{ isset($item->canceled_reason)?"Lý do: ".$item->canceled_reason:null }}
-                                        </p>
-
+                                    {{ $item->value }}
+                                    @if($item->unit == 1)
+                                        {{ 'VND' }}
+                                    @else
+                                        {{ '%' }}
                                     @endif
-
-                                    <p>
-                                        @if($item->is_approved === 0)
-                                            @php
-                                                $status = BookproHelper::getRegisterStatusAgency($item->is_approved)
-                                            @endphp
-                                            <span class="{{ $status->class }}">
-                                                {{ $status->name }}
-                                            </span>
-                                        @endif
-                                    </p>
                                 </td>
-
-                                <td>
-                                    @if($item->is_approved === 0)
-                                        <a href="{{url('admin?controller=Event&task=approve&id='.$item->id)}}" onclick="return confirm('Are you sure?')">
-                                            <button class="btn btn-sm btn-primary">Duyệt</button>
-                                        </a>
-                                    @endif
-
-                                    <a href="{{url('admin?controller=Post&task=destroy&id='.$item->id)}}" onclick="return confirm('Want to delete?')">
-                                        <button class="btn btn-sm btn-danger">@lang('admin.DELETE')</button>
-                                    </a>
-                                </td>
+                                <td>{{ date('d-m-Y', strtotime($item->from_time)) . " ~ " . date('d-m-Y', strtotime($item->to_time)) }}</td>
                             </tr>
-
-
                         @endforeach
 
 

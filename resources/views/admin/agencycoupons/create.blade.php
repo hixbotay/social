@@ -13,11 +13,25 @@
                     <div class="col-sm-12">
 
                         <div class="form-group">
+                            <label>Agency<span>*</span></label>
+                            <select name="data[dating_type]" class="form-control" required>
+                                @foreach($agencies AS $agen)
+                                    <option value="{{ $agen->id }}">{{ $agen->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label>Loại hẹn hò<span>*</span></label>
                             <select name="data[dating_type]" class="form-control" required>
-                                <option value="2">Hẹn đôi</option>
-                                <option value="3">Hẹn nhóm</option>
+                                <option value="dating_couple">Hẹn đôi</option>
+                                <option value="dating_group">Hẹn nhóm</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Code<span></span></label>
+                            <input type="text" class="form-control" name="data[code]" required>
                         </div>
 
                         <div class="form-group">
