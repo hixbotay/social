@@ -8,7 +8,7 @@
                 <h4 class="m-t-0">@lang('admin.EVENT')</h4>
                 <hr>
 
-                <form name="filterUser" action="{{url('admin?view=Event&layout=listEvent')}}" method="GET">
+                <form name="filterUser" action="{{url('/admin?view=AgencyCoupons')}}" method="GET">
 
                     <div class="row">
                         <div class="col-md-4">
@@ -34,8 +34,7 @@
                         <div class="col-md-4"></div>
                     </div>
 
-                    <input type="hidden" name="view" value="Event">
-                    <input type="hidden" name="layout" value="listEvent">
+                    <input type="hidden" name="view" value="AgencyCoupons">
 
                 </form>
 
@@ -48,6 +47,7 @@
                             <th>Code</th>
                             <th>Giá trị</th>
                             <th>Ngày hiệu lực</th>
+                            <th>Đại lý</th>
                         </tr>
                         </thead>
 
@@ -65,6 +65,7 @@
                                     @endif
                                 </td>
                                 <td>{{ date('d-m-Y', strtotime($item->from_time)) . " ~ " . date('d-m-Y', strtotime($item->to_time)) }}</td>
+                                <td>{{ \App\Agency::find($item->agency_id)->name }}</td>
                             </tr>
                         @endforeach
 

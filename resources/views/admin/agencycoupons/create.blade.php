@@ -14,7 +14,7 @@
 
                         <div class="form-group">
                             <label>Agency<span>*</span></label>
-                            <select name="data[dating_type]" class="form-control" required>
+                            <select name="data[agency_id]" class="form-control" required>
                                 @foreach($agencies AS $agen)
                                     <option value="{{ $agen->id }}">{{ $agen->name }}</option>
                                 @endforeach
