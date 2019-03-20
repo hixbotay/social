@@ -8,13 +8,16 @@ import CircleButton from '../../components/Button/CircleButton';
 import RegisterItem from '../../components/Dating/RegisterItem';
 import { getEventDetail } from '../../actions/EventActions';
 import { updateRelationship } from '../../actions/UserActions';
-import Fragment from 'react-dot-fragment';
+import Select from 'react-select';
 import { updateEventStatus, joinDating, updateInvitation, getCoupleEventMember } from '../../actions/EventActions';
 import InformationNumber from '../../components/Information/InformationNumber';
 // import Modal from '../../components/Modal';
 import Modal from 'react-modal';
 import _ from "lodash";
 import moment from 'moment';
+import { getAllProvinces, getAllDistricts } from '../../actions/AddressActions';
+import { getAllCafe } from '../../actions/CafeActions';
+import Slider from "react-slick";
 
 class DatingDetail extends Component {
     constructor(props) {
@@ -24,8 +27,11 @@ class DatingDetail extends Component {
             isLovedCreator: false,
             isAlert: false,
             isReject: false,
+            isShowForm: false,
             reason: '',
-            coupleMembers: []
+            coupleMembers: [],
+            themes: [],
+            event_data: {},
         }
     }
 
@@ -38,6 +44,7 @@ class DatingDetail extends Component {
                 likeNumber: parseInt(creator.likeNumber)
             })
         });
+        this.props.getAllProvinces();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -57,16 +64,43 @@ class DatingDetail extends Component {
     }
 
     join(event_id) {
-        if (this.props.current_user.is_id_card_verified === 'pending' || this.props.current_user.is_id_card_verified === 'verified') {
-            this.props.joinDating(event_id).then(data => {
-                window.location.href = `${baseUrl}/dating/${event_id}`;
-            });
-        }
-        else {
+        if(this.props.event.address) {
+            if (this.props.current_user.is_id_card_verified === 'pending' || this.props.current_user.is_id_card_verified === 'verified') {
+                if(this.props.event.is_invited) {
+                    this.props.updateInvitation(event_id, { type: 'accept' });
+                } else {
+                    this.props.joinDating(event_id).then(data => {
+                        window.location.href = `${baseUrl}/dating/${event_id}`;
+                    });
+                }
+            }
+            else {
+                this.setState({
+                    isAlert: true
+                })
+            }
+        } else {
             this.setState({
-                isAlert: true
+                isShowForm: true
             })
         }
+    }
+
+    join2(event_id) {
+        console.log(1111111111);
+        // if (this.props.current_user.is_id_card_verified === 'pending' || this.props.current_user.is_id_card_verified === 'verified') {
+            this.props.updateInvitation(
+                event_id, 
+                { 
+                    type: 'accept',
+                    ...this.state.event_data 
+                }
+            );
+        // } else {
+        //     this.setState({
+        //         isAlert: true
+        //     })
+        // }
     }
 
     onChangeReason(e) {
@@ -121,8 +155,101 @@ class DatingDetail extends Component {
         this.props.updateRelationship(data, this.props.event.creator_user.id);
     }
 
+    onChangeCafeFilter(selectedOption, filterType) {
+        this.setState({
+            [filterType]: selectedOption.value
+        });
+
+        switch (filterType) {
+            case 'province': {
+                this.props.getAllDistricts(selectedOption.value);
+                this.props.getAllCafe({ province_id: selectedOption.value });
+                this.setState({
+                    event_data: {
+                        ...this.state.event_data,
+                        agency_id: null
+                    },
+                    district: null
+                });
+                break;
+            }
+            case 'district': {
+                this.props.getAllCafe({ province_id: this.state.province, district_id: selectedOption.value });
+                this.setState({
+                    event_data: {
+                        ...this.state.event_data,
+                        agency_id: null
+                    }
+                });
+
+                break;
+            }
+            case 'type': {
+                this.props.getAllCafe({
+                    province_id: this.state.province,
+                    district_id: this.state.district,
+                    type: selectedOption.value
+                });
+                break;
+            }
+        }
+    }
+
+    selectAddress(selectedOption) {
+        this.setState({
+            // selectedAddress: index,
+            selectedTheme: -1,
+            event_data: {
+                ...this.state.event_data,
+                agency_id: selectedOption.value,
+                name: selectedOption.label,
+                image: ""
+            },
+            themes: selectedOption.images,
+            fee: selectedOption.fee
+        })
+    }
+
+    selectTheme(item, index) {
+        this.setState({
+            selectedTheme: index,
+            event_data: {
+                ...this.state.event_data,
+                image: item
+            }
+        });
+    }
+
     render() {
-        const { event, current_user, price } = this.props;
+        const { event, current_user, price, provinces, districts, cafes } = this.props;
+
+        var provinceOptions = provinces.map(province => {
+            return { value: province.matp, label: province.name }
+        });
+
+        var districtOptions = districts.map(district => {
+            return { value: district.maqh, label: district.name }
+        });
+
+        var cafeOptions = cafes.map(cafe => {
+            return { value: cafe.id, label: cafe.name, images: cafe.images, fee: cafe.organizing_fee }
+        });
+
+        var typeOptions = [
+            { value: 1, label: "Cafe" },
+            { value: 2, label: "Quán ăn" }
+        ];
+
+        //setting for slider
+        var settings = {
+            accessibility: true,
+            dots: false,
+            infinite: false,
+            speed: 500,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            arrows: true
+        };
 
         if (event) {
 
@@ -194,25 +321,41 @@ class DatingDetail extends Component {
         }
 
         return (
+
             (event.id != undefined) ? (
                 (event.status != 'finished') ? (
                     <DatingLayout>
                         <Card>
-                            <div className={"row next-dating-header-row1"}>
-                                <div className={"col-md-2 align-middle dating-header"}>
-                                    <RoundAvatar size={"medium"} img={baseUrl + '/' + event.agency_avatar}></RoundAvatar>
-                                </div>
-                                <div className={"col-md-7 dating-header"}>
-                                    <h5>
-                                        {event.name}
-                                    </h5>
-                                    <div>{event.address}</div>
-                                </div>
-                                <div className={"col-md-3 align-right dating-time"}>
-                                    <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
-                                    <div>{moment(event.start_time).format("HH:mm")}</div>
-                                </div>
-                            </div>
+                            {
+                                (event.address) ? (
+                                    <div className={"row next-dating-header-row1"}>
+                                        <div className={"col-md-2 align-middle dating-header"}>
+                                            <RoundAvatar size={"medium"} img={event.agency_avatar}></RoundAvatar>
+                                        </div>
+                                        <div className={"col-md-7 dating-header"}>
+                                            <h5>{event.name}</h5>
+                                            <div>{event.address}</div>
+                                        </div>
+                                        <div className={"col-md-3 align-right dating-time"}>
+                                            <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
+                                            <div>{moment(event.start_time).format("HH:mm")}</div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                        <div className={"row next-dating-header-row1"}>
+                                            <div className={"col-md-2 align-middle dating-header"}>
+                                                <RoundAvatar size={"medium"} img={`${baseUrl}/public/images/agency.png`}></RoundAvatar>
+                                            </div>
+                                            <div className={"col-md-7 dating-header"}>
+                                                <h5>Chưa có địa điểm</h5>
+                                            </div>
+                                            <div className={"col-md-3 align-right dating-time"}>
+                                                <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
+                                                <div>{moment(event.start_time).format("HH:mm")}</div>
+                                            </div>
+                                        </div>
+                                    )
+                            }
                             <br />
                             <div className="row">
                                 <div className="col-6">
@@ -624,6 +767,68 @@ class DatingDetail extends Component {
                                 <button className="btn btn-sm btn-primary" type="submit">Xác nhận</button>
                             </form>
                         </Modal>
+                        <Modal isOpen={this.state.isShowForm} style={{content: {height: '500px'}}}>
+                            <h2>Vui lòng chọn địa điểm hẹn</h2>
+                            <hr/>
+                            <form>
+                                <div className="row">
+                                    <div className="col-12 col-md-4 mb-2">
+                                        <Select
+                                            placeholder="Chọn tỉnh/thành"
+                                            options={provinceOptions}
+                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
+                                        />
+                                    </div>
+                                    <div className="col-12 col-md-4 mb-2">
+                                        <Select
+                                            placeholder="Chọn huyện"
+                                            options={districtOptions}
+                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
+                                        />
+                                    </div>
+                                    <div className="col-12 col-md-4 mb-2">
+                                        <Select
+                                            placeholder="Loại quán"
+                                            options={typeOptions}
+                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
+                                        />
+                                    </div>
+                                    <div className="col-12 col-md-12 mb-4">
+                                        <Select
+                                            placeholder={`Danh sách các quán (${cafes.length} quán)`}
+                                            options={cafeOptions}
+                                            onChange={(selectedOption) => this.selectAddress(selectedOption)}
+                                        />
+                                    </div>
+                                </div>
+                                {
+                                        (this.state.themes) ? (
+                                            <React.Fragment>
+                                                <h5>Chọn chủ đề cho cuộc hẹn của bạn</h5>
+                                                <Slider {...settings}>
+                                                    {
+                                                        this.state.themes.map((item, index) => {
+                                                            return (
+                                                                <div className="event-theme" key={index}>
+                                                                    <img
+                                                                        src={item}
+                                                                        className={this.state.selectedTheme == index ? `selected-image` : ``}
+                                                                        onClick={() => this.selectTheme(item, index)}
+                                                                    />
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
+                                                </Slider>
+                                            </React.Fragment>
+                                        ) : null
+                                    }
+                                    <div>
+                                        <button className="btn btn-danger" onClick={() => {this.setState({isShowForm: false})}}>Hủy</button>
+                                        <button className="btn btn-success" onClick={() => this.join2(event.id)}>Xác nhận</button>
+                                    </div>
+                            </form>
+                        </Modal>
                     </DatingLayout>
                 ) : (
                         <Redirect to={`/dating/${this.props.match.params.id}/result`} />
@@ -637,7 +842,10 @@ function mapStateToProps(state) {
     return {
         event: state.event.currentEvent,
         current_user: state.user.current_user,
-        price: state.payment.price
+        price: state.payment.price,
+        provinces: state.address.provinces,
+        districts: state.address.districts,
+        cafes: state.cafe.cafes
     }
 }
 
@@ -648,7 +856,10 @@ function mapDispatchToProps(dispatch) {
         updateEventStatus: (event_id, status) => dispatch(updateEventStatus(event_id, status)),
         joinDating: (event_id) => dispatch(joinDating(event_id)),
         updateInvitation: (id, data) => dispatch(updateInvitation(id, data)),
-        getCoupleEventMember: (id) => dispatch(getCoupleEventMember(id))
+        getCoupleEventMember: (id) => dispatch(getCoupleEventMember(id)),
+        getAllProvinces: () => dispatch(getAllProvinces()),
+        getAllDistricts: (province_id) => dispatch(getAllDistricts(province_id)),
+        getAllCafe: (filter) => dispatch(getAllCafe(filter)),
     }
 }
 

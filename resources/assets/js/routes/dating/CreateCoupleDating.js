@@ -2,32 +2,37 @@ import React, { Component } from 'react';
 import { Card, CardWithTitle } from '../../components/Card';
 import { getAllProvinces, getAllDistricts } from '../../actions/AddressActions';
 import { getAllCafe } from '../../actions/CafeActions';
-import {createCoupleEvent} from "../../actions/EventActions";
+import { createCoupleEvent } from "../../actions/EventActions";
 import connect from 'react-redux/es/connect/connect';
 import Slider from "react-slick";
 import { RoundAvatar } from '../../components/Avatar';
 import Heading from '../../components/Information/Heading';
-import {withRouter, Link} from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import NotFound from '../404';
 import Modal from 'react-modal';
 import moment from 'moment';
-import Select from 'react-select'; 
+import Select from 'react-select';
 import 'moment/locale/vi.js';
 import { DatePickerInput } from 'rc-datepicker';
 import NumericInput from 'react-numeric-input';
 import TimePicker from 'react-times';
+import ToggleDisplay from 'react-toggle-display';
+import CurrentUserLayout from '../profile/CurrentUserLayout';
 
 class CreateCoupleDating extends Component {
     constructor(props) {
         super(props);
-        var invitee = props.location.state ? props.location.state.invitee : null ;
-        var subscriber = props.location.state ? props.location.state.subscriber : null ;
+        var invitee = props.location.state ? props.location.state.invitee : null;
+        var subscriber = props.location.state ? props.location.state.subscriber : null;
         this.state = {
             isOpenSuccess: false,
             event: {
                 type: "couple",
                 agency_id: subscriber ? subscriber.agency_id : null,
                 name: subscriber ? subscriber.agency_name : null,
+            },
+            event_meta: {
+                payer: subscriber ? ((subscriber.payer !== 'self') ? props.user.id : invitee.id) : invitee.id
             },
             startDate: new Date(),
             startTime: moment().hour() + 1 + ":00",
@@ -38,21 +43,22 @@ class CreateCoupleDating extends Component {
             district: null,
             agency_type: null,
             fee: 0,
+            isShow: false
         }
     }
 
     componentDidMount() {
         this.props.getAllProvinces();
-        if(this.state.subscriber) {
+        if (this.state.subscriber) {
             this.props.getAllDistricts(this.state.subscriber.province_id);
             this.props.getAllCafe({
-                province_id: this.state.subscriber.province_id, 
+                province_id: this.state.subscriber.province_id,
                 district_id: this.state.subscriber.district_id
             }).then((cafes => {
                 cafes.forEach((cafe, index) => {
-                    if(cafe.id === this.state.subscriber.agency_id) {
+                    if (cafe.id === this.state.subscriber.agency_id) {
                         this.setState({
-                            selectedAddress: index, 
+                            selectedAddress: index,
                             themes: cafe.images,
                             selectedTheme: -1,
                             fee: cafe.organizing_fee
@@ -61,7 +67,7 @@ class CreateCoupleDating extends Component {
                     }
                 });
 
-                
+
             }));
         }
     }
@@ -112,7 +118,7 @@ class CreateCoupleDating extends Component {
             selectedTheme: -1,
             event: {
                 ...this.state.event,
-                agency_id: selectedOption.value, 
+                agency_id: selectedOption.value,
                 name: selectedOption.label,
                 image: ""
             },
@@ -147,7 +153,7 @@ class CreateCoupleDating extends Component {
     }
 
     onChangeTime(value, name) {
-        if(new Date(new Date(this.state.startDate).setHours(value.hour)).setMinutes(value.minute) <= new Date()) {
+        if (new Date(new Date(this.state.startDate).setHours(value.hour)).setMinutes(value.minute) <= new Date()) {
             alert("Bạn không thể chọn ngày giờ nhỏ hơn hiện tại!");
             return;
         } else {
@@ -159,27 +165,27 @@ class CreateCoupleDating extends Component {
     }
 
     closeAlert() {
-        this.setState({isOpenSuccess: false}, () => {
+        this.setState({ isOpenSuccess: false }, () => {
             this.props.history.push('/dating');
         });
     }
 
     submit(e) {
-        e.preventDefault(); 
+        e.preventDefault();
 
-        if(!this.state.event.agency_id) {
-            return alert("Địa chỉ quán không hợp lệ, vui lòng xem lại!");
-        }
+        // if (!this.state.event.agency_id) {
+        //     return alert("Địa chỉ quán không hợp lệ, vui lòng xem lại!");
+        // }
 
-        if (this.state.selectedTheme < 0) {
-            return alert("Vui lòng chọn lại chủ đề hoặc địa chỉ");
-        } 
+        // if (this.state.selectedTheme < 0) {
+        //     return alert("Vui lòng chọn lại chủ đề hoặc địa chỉ");
+        // }
 
-        if(!moment(this.state.start_time).isValid()) {
+        if (!moment(this.state.start_time).isValid()) {
             return alert("Ngày bạn chọn không hợp lệ!");
         }
 
-        
+
         var times = this.state.startTime.split(":");
         var start_time = moment(this.state.startDate).hour(times[0]).minute(times[1]);
         start_time = start_time.local().format('YYYY-MM-DD HH:mm:ss');
@@ -204,16 +210,14 @@ class CreateCoupleDating extends Component {
             },
             subscriber: this.props.location.state.invitee.id
         }).then(res => {
-            this.setState({isOpenSuccess: true});
+            this.setState({ isOpenSuccess: true });
         });
 
     }
 
     render() {
-        var { cafes, price, provinces, districts } = this.props;
-        var {invitee, subscriber} = this.state;
-
-        // console.log(subscriber);
+        var { cafes, price, provinces, districts, user } = this.props;
+        var { invitee, subscriber } = this.state;
 
         var provinceOptions = provinces.map(province => {
             return { value: province.matp, label: province.name }
@@ -223,17 +227,17 @@ class CreateCoupleDating extends Component {
             return { value: district.maqh, label: district.name }
         });
 
-        var cafeOptions =  cafes.map(cafe => {
-            return {value:  cafe.id, label: cafe.name, images: cafe.images, fee: cafe.organizing_fee}
+        var cafeOptions = cafes.map(cafe => {
+            return { value: cafe.id, label: cafe.name, images: cafe.images, fee: cafe.organizing_fee }
         });
 
         var typeOptions = [
-            {value: 1, label: "Cafe"},
-            {value: 2, label: "Quán ăn"}
+            { value: 1, label: "Cafe" },
+            { value: 2, label: "Quán ăn" }
         ];
 
-        if(subscriber) {
-            var selectedType = typeOptions.find(o => {return o.value === subscriber.agency_type});
+        if (subscriber) {
+            var selectedType = typeOptions.find(o => { return o.value === subscriber.agency_type });
         }
 
         //setting for slider
@@ -247,7 +251,7 @@ class CreateCoupleDating extends Component {
             arrows: true
         };
 
-        if(!invitee) {
+        if (!invitee) {
             return (
                 <NotFound></NotFound>
             )
@@ -261,42 +265,71 @@ class CreateCoupleDating extends Component {
                             <div className="form-group">
                                 <label>
                                     <b><i className="fas fa-map-marker-alt"></i> Địa điểm dành cho cuộc hẹn</b>
-                                    <div>Bạn có thể dùng bộ lọc tỉnh, huyện và loại quán để tìm địa điểm hẹn hò nhé!</div>
                                 </label>
-                                <div className="row">
-                                    <div className="col-12 col-md-4 mb-2">
-                                        <Select
-                                            placeholder="Chọn tỉnh/thành" 
-                                            options={provinceOptions}
-                                            defaultValue={subscriber ? {value: subscriber.province_id, label: subscriber.province_name} : null}
-                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
+                                <div className="row d-flex align-items-center">
+                                    <div className="col-3">
+                                        <input
+                                            className="custom-input"
+                                            name="address" type="radio"
+                                            onClick={() => {this.setState({isShow: true})}}
+                                            required
                                         />
                                     </div>
-                                    <div className="col-12 col-md-4 mb-2">
-                                        <Select
-                                            placeholder="Chọn huyện" 
-                                            defaultValue={subscriber ? {value: subscriber.district_id, label: subscriber.district_name} : null}
-                                            options = {districtOptions}
-                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
+                                    <div className="col-3">
+                                        <label>Bạn chọn</label>
+                                    </div>
+                                    <div className="col-3">
+                                        <input
+                                            className="custom-input"
+                                            name="address" type="radio"
+                                            onClick={() => {this.setState({isShow: false})}}
+                                            defaultChecked
+                                            required
                                         />
                                     </div>
-                                    <div className="col-12 col-md-4 mb-2">
-                                        <Select
-                                            placeholder="Loại quán" 
-                                            defaultValue={subscriber ? selectedType : null}
-                                            options = {typeOptions}
-                                            onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
-                                        />
-                                    </div>
-                                    <div className="col-12 col-md-12 mb-4">
-                                        <Select
-                                            placeholder={`Danh sách các quán (${cafes.length} quán)`} 
-                                            defaultValue={subscriber ? {value: subscriber.agency_id, label: subscriber.agency_name} : null}
-                                            options = {cafeOptions}
-                                            onChange={(selectedOption) => this.selectAddress(selectedOption)}
-                                        />
+                                    <div className="col-3">
+                                        <label>Người kia chọn</label>
                                     </div>
                                 </div>
+                                <ToggleDisplay show={this.state.isShow}>
+                                    <div className="mb-4">
+                                        Bạn có thể dùng bộ lọc tỉnh, huyện và loại quán để tìm địa điểm hẹn hò nhé!
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-12 col-md-4 mb-2">
+                                            <Select
+                                                placeholder="Chọn tỉnh/thành"
+                                                options={provinceOptions}
+                                                defaultValue={subscriber ? { value: subscriber.province_id, label: subscriber.province_name } : null}
+                                                onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "province")}
+                                            />
+                                        </div>
+                                        <div className="col-12 col-md-4 mb-2">
+                                            <Select
+                                                placeholder="Chọn huyện"
+                                                defaultValue={subscriber ? { value: subscriber.district_id, label: subscriber.district_name } : null}
+                                                options={districtOptions}
+                                                onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "district")}
+                                            />
+                                        </div>
+                                        <div className="col-12 col-md-4 mb-2">
+                                            <Select
+                                                placeholder="Loại quán"
+                                                defaultValue={subscriber ? selectedType : null}
+                                                options={typeOptions}
+                                                onChange={(selectedOption) => this.onChangeCafeFilter(selectedOption, "type")}
+                                            />
+                                        </div>
+                                        <div className="col-12 col-md-12 mb-4">
+                                            <Select
+                                                placeholder={`Danh sách các quán (${cafes.length} quán)`}
+                                                defaultValue={subscriber ? { value: subscriber.agency_id, label: subscriber.agency_name } : null}
+                                                options={cafeOptions}
+                                                onChange={(selectedOption) => this.selectAddress(selectedOption)}
+                                            />
+                                        </div>
+                                    </div>
+                                </ToggleDisplay>
                                 <React.Fragment>
 
                                     {
@@ -324,7 +357,7 @@ class CreateCoupleDating extends Component {
                                     <div className="row">
                                         <div className="col-md-4">Phí địa điểm tổ chức</div>
                                         <div className="col-md-8">
-                                        <input type="text" className="form-control" readOnly value={this.state.fee + " VND"}/>
+                                            <input type="text" className="form-control" readOnly value={this.state.fee + " VND"} />
                                         </div>
                                     </div>
                                 </React.Fragment>
@@ -337,7 +370,7 @@ class CreateCoupleDating extends Component {
                                     <div className="row">
                                         <div className="col-12 col-md-6">
                                             <DatePickerInput
-                                                minDate={subscriber ? moment(Math.max(new Date(subscriber.expect_date_from), new Date())): moment()}
+                                                minDate={subscriber ? moment(Math.max(new Date(subscriber.expect_date_from), new Date())) : moment()}
                                                 maxDate={subscriber ? moment(subscriber.expect_date_to) : moment(new Date().setDate(new Date().getDate() + 15))}
                                                 className='react-datepicker-component my-react-component'
                                                 value={this.state.startDate}
@@ -368,10 +401,13 @@ class CreateCoupleDating extends Component {
                                     {/* Ngược với giá trị bản ghi, nếu payer=self tức là người kia nhận trả */}
                                     <div className="row d-flex align-items-center">
                                         <div className="col-3">
-                                            <input 
-                                                className="custom-input" 
-                                                name="payer" type="radio" value="self" 
-                                                checked={subscriber ? subscriber.payer !== 'self' : true} 
+                                            <input
+                                                className="custom-input"
+                                                name="payer" type="radio" value="self"
+                                                checked={subscriber ? subscriber.payer !== 'self' : true}
+                                                onClick={() => {
+                                                    this.setState({event_meta: {...this.state.event_meta, payer: user.id}})
+                                                }}
                                                 readOnly required
                                             />
                                         </div>
@@ -379,10 +415,13 @@ class CreateCoupleDating extends Component {
                                             <label>Bạn</label>
                                         </div>
                                         <div className="col-3">
-                                            <input 
-                                                className="custom-input" 
-                                                name="payer" type="radio" value="partner" 
-                                                checked={subscriber ? subscriber.payer === 'self' : false} 
+                                            <input
+                                                className="custom-input"
+                                                name="payer" type="radio" value="partner"
+                                                checked={subscriber ? subscriber.payer === 'self' : false}
+                                                onClick={() => {
+                                                    this.setState({event_meta: {...this.state.event_meta, payer: invitee.id}})
+                                                }}
                                                 readOnly required
                                             />
                                         </div>
@@ -395,10 +434,10 @@ class CreateCoupleDating extends Component {
                                     price.dating ? (
                                         <div>
                                             <div className="alert alert-warning">
-                                                Lưu ý chi phí tạo cuộc hẹn đôi là <b>{price.dating.couple_dating_price} VND</b><br/>
+                                                Lưu ý chi phí tạo cuộc hẹn đôi là <b>{price.dating.couple_dating_price} VND</b><br />
                                             </div>
                                         </div>
-                                    ) :  null
+                                    ) : null
                                 }
                                 <div className="form-group text-center">
                                     <button className="btn btn-primary">Hoàn tất</button>
@@ -420,9 +459,9 @@ class CreateCoupleDating extends Component {
                         </Link>
                     </CardWithTitle>
                 </aside>
-                <Modal  isOpen={this.state.isOpenSuccess}>
+                <Modal isOpen={this.state.isOpenSuccess}>
                     <h5>Bạn đã gửi lời mời hẹn đôi thành công</h5>
-                    <hr/>
+                    <hr />
                     <button className="float-right btn btn-primary" onClick={() => this.closeAlert()}>
                         Xong
                     </button>
@@ -437,7 +476,8 @@ function mapStateToProps(state) {
         provinces: state.address.provinces,
         districts: state.address.districts,
         cafes: state.cafe.cafes,
-        price: state.payment.price
+        price: state.payment.price,
+        user: state.user.current_user
     }
 }
 

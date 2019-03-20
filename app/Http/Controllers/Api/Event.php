@@ -678,23 +678,36 @@ class Event extends Controller {
             '))
             ->first();
         
-        if($event->type === 'couple') {
-            $register = DB::table('event_register')
-                ->where([
-                    ['event_id', '=', $event_id], 
-                    ['user_id', '=', $current_user_id], 
-                    ['status', '=', 1]
-                ])->first();  
+        $register = DB::table('event_register')
+            ->where([
+                ['event_id', '=', $event_id], 
+                ['user_id', '=', $current_user_id], 
+                ['status', '=', 1]
+            ])->first();  
 
-            $invitation = DB::table('event_invitations')
-                ->where([
-                    ['event_id', '=', $event_id],
-                    ['invitee', '=', $current_user_id]
-                ])->first(); 
-            
+        $invitation = DB::table('event_invitations')
+            ->where([
+                ['event_id', '=', $event_id],
+                ['invitee', '=', $current_user_id]
+            ])->first();
+        
+        if($event->type === 'couple') {
             if(!$register && !$invitation) {
                 return ['event' => null, 'message' => 'Bạn không thể xem cuộc hẹn này'];
             }
+        }
+        // current user is joined or not
+        if($register) {
+            $event['is_joined'] = 1;
+        } else {
+            $event['is_joined'] = 0;
+        }
+
+        // current user is invited or not
+        if($invitation) {
+            $event['is_invited'] = 1;
+        } else {
+            $event['is_invited'] = 0;
         }
 
         // get metadata
@@ -741,8 +754,6 @@ class Event extends Controller {
             ->groupBy('users.id')
             ->get();
 
-        // current user is joined or not
-        $event['is_joined'] = 0;
         $male_joined_number = 0;
         $female_joined_number = 0;
 
@@ -752,11 +763,11 @@ class Event extends Controller {
             if($user->gender == 'M') $male_joined_number++;
             else $female_joined_number++;
 
-            if(!$event['is_joined']) {
-                if($user->id == $current_user_id) {
-                    $event['is_joined'] = 1;
-                }
-            }
+            // if(!$event['is_joined']) {
+            //     if($user->id == $current_user_id) {
+            //         $event['is_joined'] = 1;
+            //     }
+            // }
 
             $user->is_like = 0;
             $user->is_loved = 0;
@@ -834,7 +845,7 @@ class Event extends Controller {
                         'event_id' => $event_id,
                         'inviter' => Auth::id(),
                         'invitee' => $request->input('user_id'),
-                        'content' => $request->input('content'),
+                        'content' => $request->input('content') ? $request->input('content') : "",
                         "created_at" =>  \Carbon\Carbon::now(), # \Datetime()
                         "updated_at" => \Carbon\Carbon::now(),  # \Datetime()
                     ]);
@@ -892,6 +903,14 @@ class Event extends Controller {
                 "created" =>  \Carbon\Carbon::now(), # \Datetime()
                 "status" => 1
             ]);
+
+            // choose address
+            if($event->type === 'couple' && $event->agency_id === null) {
+                $event['name'] = $request->get('name');
+                $event['agency_id'] = $request->get('agency_id');
+                $event['image'] = $request->get('image');
+                $event->save();
+            }
         } else if ($type === 'reject') {
             $invitation = DB::table('event_invitations')
                 ->where([

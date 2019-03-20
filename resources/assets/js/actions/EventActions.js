@@ -130,7 +130,6 @@ export const getEventDetail = (id) => dispatch => {
 }
 
 export const invite = (event_id, content) => dispatch => {
-    console.log(content);
     api.post(`/invite/${event_id}`, content)
     .then(res => {
         // dispatch({type: INVITE_INTO_EVENT, payload: res.data});
@@ -142,16 +141,17 @@ export const invite = (event_id, content) => dispatch => {
 }
 
 export const updateInvitation = (event_id, data) => (dispatch) => {
-    api.post(`/invite/${event_id}/update`, data).then(response => {
-        if(data.type === 'accept') {
-            window.location.href = `${baseUrl}/dating/${event_id}`;
-        } else {
-            window.alert("Từ chối lời mời thành công");
-        }
-    }).catch(err => {
-        alert(err.response.data.message);
-        // window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
-    })
+        api.post(`/invite/${event_id}/update`, data).then(response => {
+            if(data.type === 'accept') {
+                window.location.href = `${baseUrl}/dating/${event_id}`;
+            } else {
+                window.alert("Từ chối lời mời thành công");
+            }
+        }).catch(err => {
+            alert(err.response.data.message);
+            // window.alert("Đã có lỗi xảy ra. Vui lòng thử lại");
+        })
+    
 }
 
 export const searchEvent = (filter_string) => (dispatch) => {

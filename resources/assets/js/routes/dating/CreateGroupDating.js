@@ -310,12 +310,10 @@ class CreateGroupDating extends Component {
                 is_approved: 1
             }
         }, () => {
-            let requiredFields = ['is_secret', 'agency_id', 'image', 'start_time', 'limit_time_register'];
+            let requiredFields = ['name', 'is_secret', 'agency_id', 'image', 'start_time', 'limit_time_register'];
             let requireMetaFields = ['job_conditional', 'min_male_number', 'max_male_number', 'min_female_number', 'max_female_number',
                 'min_male_age', 'max_male_age', 'min_female_age', 'max_female_age'];
             let isAlert = false;
-
-            console.log(this.state.newEvent)
 
             requiredFields.some(key => {
                 if (this.state.newEvent[key] == null || this.state.newEvent[key] == undefined) {

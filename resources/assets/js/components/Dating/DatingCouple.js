@@ -141,25 +141,43 @@ class DatingCouple extends Component {
         return (
             <div>
                 <Link to={`/dating/${event.id}`} >
-                    <div className={"row next-dating-header-row1"}>
-                        <div className={"col-md-2 align-middle dating-header"}>
-                            <RoundAvatar size={"medium"} img={event.agency_avatar}></RoundAvatar>
-                        </div>
-                        <div className={"col-md-7 dating-header"}>
-                            <h5>{event.name}</h5>
-                            <div>{event.address}</div>
-                        </div>
-                        <div className={"col-md-3 align-right dating-time"}>
-                            <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
-                            <div>{moment(event.start_time).format("HH:mm")}</div>
-                        </div>
-                    </div>
+                    {
+                        (event.address) ? (
+                            <div className={"row next-dating-header-row1"}>
+                                <div className={"col-md-2 align-middle dating-header"}>
+                                    <RoundAvatar size={"medium"} img={event.agency_avatar}></RoundAvatar>
+                                </div>
+                                <div className={"col-md-7 dating-header"}>
+                                    <h5>{event.name}</h5>
+                                    <div>{event.address}</div>
+                                </div>
+                                <div className={"col-md-3 align-right dating-time"}>
+                                    <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
+                                    <div>{moment(event.start_time).format("HH:mm")}</div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className={"row next-dating-header-row1"}>
+                                <div className={"col-md-2 align-middle dating-header"}>
+                                    <RoundAvatar size={"medium"} img={`${baseUrl}/public/images/agency.png`}></RoundAvatar>
+                                </div>
+                                <div className={"col-md-7 dating-header"}>
+                                    <h5>Chưa có địa điểm</h5>
+                                </div>
+                                <div className={"col-md-3 align-right dating-time"}>
+                                    <div>{moment(event.start_time).format("DD/MM/YYYY")}</div>
+                                    <div>{moment(event.start_time).format("HH:mm")}</div>
+                                </div>
+                            </div>
+                        )
+                    }
+                    
                 </Link>
 
                 <div className={"row"}>
                     <div className={"col-md-7 dating-img"}>
                         <img
-                            src={event.image}
+                            src={event.image ? event.image : `${baseUrl}/public/images/couple_dating.jpg`}
                         />
                         {
                             (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48 * 60 * 60 * 1000)) ? (
@@ -201,7 +219,6 @@ class DatingCouple extends Component {
                                     </div>
                                 ) : null
                             }
-                            
 
                             <div className="btn-dating-group text-center">
                                 {button}
