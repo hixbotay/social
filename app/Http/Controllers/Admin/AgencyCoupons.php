@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Event;
 use App\Agency;
 use App\AgencyCoupons AS AgencyCouponsModel;
+use Illuminate\Support\Facades\Auth;
 
 class AgencyCoupons extends Controller
 {
