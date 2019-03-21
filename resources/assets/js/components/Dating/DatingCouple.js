@@ -122,20 +122,32 @@ class DatingCouple extends Component {
                 }
             }
         } else {
-            button = (
-                <div className="row">
-                    <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, { type: 'accept' })}>
-                            Chấp nhận
-                        </button>
+            if(event.is_invited) {
+                button = (
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, { type: 'accept' })}>
+                                Chấp nhận
+                            </button>
+                        </div>
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm" onClick={() => this.reject(event.id)}>
+                                Từ chối
+                            </button>
+                        </div>
                     </div>
-                    <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.reject(event.id)}>
-                            Từ chối
-                        </button>
+                );
+            } else {
+                button = (
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, { type: 'accept' })}>
+                                Tham gia
+                            </button>
+                        </div>
                     </div>
-                </div>
-            );
+                );
+            }
         }
 
         return (

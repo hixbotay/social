@@ -9,7 +9,7 @@ import RegisterItem from '../../components/Dating/RegisterItem';
 import { getEventDetail } from '../../actions/EventActions';
 import { updateRelationship } from '../../actions/UserActions';
 import Select from 'react-select';
-import { updateEventStatus, joinDating, updateInvitation, getCoupleEventMember } from '../../actions/EventActions';
+import { updateEventStatus, joinDating, updateInvitation, getCoupleEventMember, cancelEventByMember } from '../../actions/EventActions';
 import InformationNumber from '../../components/Information/InformationNumber';
 // import Modal from '../../components/Modal';
 import Modal from 'react-modal';
@@ -64,9 +64,9 @@ class DatingDetail extends Component {
     }
 
     join(event_id) {
-        if(this.props.event.address) {
+        if (this.props.event.address) {
             if (this.props.current_user.is_id_card_verified === 'pending' || this.props.current_user.is_id_card_verified === 'verified') {
-                if(this.props.event.is_invited) {
+                if (this.props.event.is_invited) {
                     this.props.updateInvitation(event_id, { type: 'accept' });
                 } else {
                     this.props.joinDating(event_id).then(data => {
@@ -89,13 +89,13 @@ class DatingDetail extends Component {
     join2(event_id) {
         console.log(1111111111);
         // if (this.props.current_user.is_id_card_verified === 'pending' || this.props.current_user.is_id_card_verified === 'verified') {
-            this.props.updateInvitation(
-                event_id, 
-                { 
-                    type: 'accept',
-                    ...this.state.event_data 
-                }
-            );
+        this.props.updateInvitation(
+            event_id,
+            {
+                type: 'accept',
+                ...this.state.event_data
+            }
+        );
         // } else {
         //     this.setState({
         //         isAlert: true
@@ -218,6 +218,12 @@ class DatingDetail extends Component {
                 image: item
             }
         });
+    }
+
+    cancel(event_id) {
+        if(confirm("Bạn chắc chắn muốn hủy hẹn?")) {
+            this.props.cancelEventByMember(event_id);
+        }
     }
 
     render() {
@@ -703,21 +709,16 @@ class DatingDetail extends Component {
                         }
 
                         {
-                            (!event.is_joined && event.status == "forthcoming") ? (
-                                <div>
-                                    {
-                                        event.type === 'group' ? (
-                                            <div className="mt-4 text-center">
-                                                <button className="btn btn-primary" onClick={() => this.join(event.id)}>
-                                                    THAM GIA NGAY!
-                                                </button>
-                                            </div>
-                                        ) : (
+                            event.status == "forthcoming" ? (
+                                (!event.is_joined) ? (
+                                    <div>
+                                        {
+                                            event.is_invited && event.type === 'couple' ? (
                                                 <div className="mt-4 row">
                                                     <div className="col-2"></div>
                                                     <div className="col-4 text-center">
-                                                        <button className="btn btn-primary" onClick={() => this.join(event.id)}>
-                                                            THAM GIA
+                                                        <button className="btn btn-primary" onClick={() => this.props.updateInvitation(event.id, {type: 'accept'})}>
+                                                            CHẤP NHẬN
                                                         </button>
                                                     </div>
                                                     <div className="col-4 text-center">
@@ -727,9 +728,22 @@ class DatingDetail extends Component {
                                                     </div>
                                                     <div className="col-2"></div>
                                                 </div>
+                                            ) : (
+                                                <div className="mt-4 text-center">
+                                                    <button className="btn btn-primary" onClick={() => this.join(event.id)}>
+                                                        THAM GIA NGAY!
+                                                    </button>
+                                                </div>
                                             )
-                                    }
-                                </div>
+                                        }
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <button className="btn btn-danger" onClick={() => this.cancel(event.id)}>
+                                            HỦY CUỘC HẸN
+                                        </button>
+                                    </div>
+                                )
                             ) : null
                         }
                         <Modal isOpen={this.state.isAlert} >
@@ -767,9 +781,9 @@ class DatingDetail extends Component {
                                 <button className="btn btn-sm btn-primary" type="submit">Xác nhận</button>
                             </form>
                         </Modal>
-                        <Modal isOpen={this.state.isShowForm} style={{content: {height: '500px'}}}>
+                        <Modal isOpen={this.state.isShowForm} style={{ content: { height: '500px' } }}>
                             <h2>Vui lòng chọn địa điểm hẹn</h2>
-                            <hr/>
+                            <hr />
                             <form>
                                 <div className="row">
                                     <div className="col-12 col-md-4 mb-2">
@@ -802,31 +816,31 @@ class DatingDetail extends Component {
                                     </div>
                                 </div>
                                 {
-                                        (this.state.themes) ? (
-                                            <React.Fragment>
-                                                <h5>Chọn chủ đề cho cuộc hẹn của bạn</h5>
-                                                <Slider {...settings}>
-                                                    {
-                                                        this.state.themes.map((item, index) => {
-                                                            return (
-                                                                <div className="event-theme" key={index}>
-                                                                    <img
-                                                                        src={item}
-                                                                        className={this.state.selectedTheme == index ? `selected-image` : ``}
-                                                                        onClick={() => this.selectTheme(item, index)}
-                                                                    />
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
-                                                </Slider>
-                                            </React.Fragment>
-                                        ) : null
-                                    }
-                                    <div>
-                                        <button className="btn btn-danger" onClick={() => {this.setState({isShowForm: false})}}>Hủy</button>
-                                        <button className="btn btn-success" onClick={() => this.join2(event.id)}>Xác nhận</button>
-                                    </div>
+                                    (this.state.themes) ? (
+                                        <React.Fragment>
+                                            <h5>Chọn chủ đề cho cuộc hẹn của bạn</h5>
+                                            <Slider {...settings}>
+                                                {
+                                                    this.state.themes.map((item, index) => {
+                                                        return (
+                                                            <div className="event-theme" key={index}>
+                                                                <img
+                                                                    src={item}
+                                                                    className={this.state.selectedTheme == index ? `selected-image` : ``}
+                                                                    onClick={() => this.selectTheme(item, index)}
+                                                                />
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </Slider>
+                                        </React.Fragment>
+                                    ) : null
+                                }
+                                <div>
+                                    <button className="btn btn-danger" onClick={() => { this.setState({ isShowForm: false }) }}>Hủy</button>
+                                    <button className="btn btn-success" onClick={() => this.join2(event.id)}>Xác nhận</button>
+                                </div>
                             </form>
                         </Modal>
                     </DatingLayout>
@@ -860,6 +874,7 @@ function mapDispatchToProps(dispatch) {
         getAllProvinces: () => dispatch(getAllProvinces()),
         getAllDistricts: (province_id) => dispatch(getAllDistricts(province_id)),
         getAllCafe: (filter) => dispatch(getAllCafe(filter)),
+        cancelEventByMember: (id) => dispatch(cancelEventByMember(id))
     }
 }
 

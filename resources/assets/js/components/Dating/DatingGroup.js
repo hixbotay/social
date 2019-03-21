@@ -122,23 +122,38 @@ class DatingGroup extends Component {
                 }
             }
         } else {
-            button = (
-                <div className="row">
-                    <div className="col-6">
-                        <button className="btn btn-primary btn-sm ml-2" onClick={() => this.join(event.id)}>
-                            Tham gia
-                        </button>
-                        <button type="button" id="open-verify-modal" className="d-none"
-                            data-toggle="modal" data-target="#verify-id-modal">
-                        </button>
+            if(event.is_invited) {
+                button = (
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm ml-2" onClick={() => this.join(event.id)}>
+                                Chấp nhận
+                            </button>
+                            <button type="button" id="open-verify-modal" className="d-none"
+                                data-toggle="modal" data-target="#verify-id-modal">
+                            </button>
+                        </div>
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm" onClick={() => this.reject(event.id)}>
+                                Từ chối
+                            </button>
+                        </div>
                     </div>
-                    <div className="col-6">
-                        <button className="btn btn-primary btn-sm" onClick={() => this.reject(event.id)}>
-                            Từ chối
-                        </button>
+                )
+            } else {
+                button = (
+                    <div className="row">
+                        <div className="col-6">
+                            <button className="btn btn-primary btn-sm ml-2" onClick={() => this.join(event.id)}>
+                                Tham gia
+                            </button>
+                            <button type="button" id="open-verify-modal" className="d-none"
+                                data-toggle="modal" data-target="#verify-id-modal">
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )
+                )
+            }
         }
 
         var maritalStatus = "Tất cả trạng thái"

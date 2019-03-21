@@ -74,7 +74,7 @@ class UserProfile extends Component {
 
     componentWillReceiveProps(nextProps) {
         var {current_user} = this.props;
-        if(nextProps.posts.length != this.props.posts.length) {
+        if(nextProps.posts.length != this.props.posts.length && nextProps.posts.length) {
             this.setState({
                 posts: [
                     <Post post={nextProps.posts[0]} key={nextProps.posts[0].id} user_id={current_user.id} isInNewsfeed={true}></Post>,

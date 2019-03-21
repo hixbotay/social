@@ -342,13 +342,22 @@ class Event extends Controller {
                 ['user_id', '=', $user->id]
             ])
             ->get();
+        
+        $temp1 = DB::table('event_invitations')
+            ->where([
+                ['invitee', '=', $user->id]
+            ])
+            ->get();
+
         $excludeEvents = [];
         foreach($temp as $item) {
             array_push($excludeEvents, $item->event_id);
         }
+        foreach($temp1 as $item) {
+            array_push($excludeEvents, $item->event_id);
+        }
 
         $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
-            ->leftjoin('event_register', 'events.id', '=', 'event_register.event_id')
             ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
             ->leftjoin('agency_photos', function ($join) {
                 $join->on('events.agency_id', '=', 'agency_photos.agency_id');
@@ -360,13 +369,14 @@ class Event extends Controller {
                 ['limit_time_register', '>', $now],
                 ['events.status', '=', 'forthcoming'], 
                 ['events.type', '=', 'group'],
-                // ['agency.province_id', '=', $user->province_id]
             ])
-            ->whereIn('province_scope', [null, $user->province_id])
+            ->where(function ($query) use ($user) {
+                $query->where('province_scope', '=', $user->province_id)
+                    ->orWhereNull('province_scope');
+            })
             ->whereNotIn('events.id', $excludeEvents)
             ->select(DB::raw('
                 events.*,
-                (CASE event_register.user_id WHEN '.$user->id.' THEN 1 ELSE 0 END) AS is_joined,
                 users.name as creator_name, 
                 users.avatar as creator_avatar, 
                 agency.address as address, 
@@ -969,6 +979,7 @@ class Event extends Controller {
         $events_id = [];
         foreach($events as $key => $event) {
             $event['is_joined'] = 0;
+            $event['is_invited'] = 1;
             array_push($events_id, $event->id);
         }
 

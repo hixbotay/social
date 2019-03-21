@@ -22,8 +22,6 @@ class ListFeatureDating extends Component {
     }
 
     componentDidMount() {
-        // this.props.getAllEvents('around');
-        // this.props.getAllEvents('crush');
         this.props.getAllEvents('upcoming');
     }
 
