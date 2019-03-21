@@ -5,6 +5,8 @@ import Modal from 'react-modal';
 import { getPhotosByType, uploadFeaturedPhotos, removePhoto, setAvatar } from '../../actions/UserActions';
 import connect from 'react-redux/es/connect/connect';
 import Gallery from "react-grid-gallery";
+import {ImageCard} from "../../components/Card";
+import Image from "react-image-resizer";
 
 class ProfilePhotos extends Component {
     constructor(props) {
@@ -115,40 +117,27 @@ class ProfilePhotos extends Component {
         }
 
         return (
-            <div>
+            <div className='profile-images'>
                 <div className="row">
-                    <div className="col-12 mb-2">
-                        <Carousel
-                            slidesToShow={3}
-                            cellSpacing={5}
-                            autoGenerateStyleTag={true}
-                            initialSlideHeight={250}
-                            autoplay={true}
-                            speed={3000}
-                            renderCenterLeftControls={({ previousSlide }) => (
-                                <button className="arrow-btn" onClick={previousSlide}><i className="fas fa-chevron-circle-left"></i></button>
-                            )}
-                            renderCenterRightControls={({ nextSlide }) => (
-                                <button className="arrow-btn" onClick={nextSlide}><i className="fas fa-chevron-circle-right"></i></button>
-                            )}
-                        >
-                            {
-                                images.map((item, index) => {
-                                    return (
-                                        <img src={item} key={index} />
-                                    )
-                                })
-                            }
-                        </Carousel>
-                    </div>
+                    {
+                        images.map((item, index) => {
+                            return (
+                                <div className='col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-3' key={index}>
+                                    <div className='image-card-results show-many'>
+                                        <img src={item} width='136' height='136'/>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
-                <div className="row">
+                <div className="row mt-2">
                     <div className="col-3">
                         <button className="btn btn-upload-photo" >
                             <div className="user-photo-icon">
                                 <label>
                                     <input className="d-none" type="file" name="photos" multiple accept="image/*" onChange={(e) => { this.handleImage(e) }} />
-                                    <i className="fas fa-camera-retro"></i>
+                                    <i className="fas fa-camera-retro fa-2x"></i>
                                 </label>
                             </div>
                             <b>UPLOAD ẢNH</b>
@@ -156,19 +145,19 @@ class ProfilePhotos extends Component {
                     </div>
                     <div className="col-3">
                         <button className="btn btn-user-photo" onClick={() => { this.getPhotos('featured') }}>
-                            <div className="user-photo-icon"><i className="fas fa-folder-open"></i></div>
+                            <div className="user-photo-icon"><i className="fas fa-folder-open fa-2x"></i></div>
                             <b>ẢNH NỔI BẬT</b>
                         </button>
                     </div>
                     <div className="col-3">
                         <button className="btn btn-user-photo" onClick={() => { this.getPhotos('timeline') }}>
-                            <div className="user-photo-icon"><i className="fas fa-folder-open"></i></div>
+                            <div className="user-photo-icon"><i className="fas fa-folder-open fa-2x"></i></div>
                             <b>ẢNH TIMELINE</b>
                         </button>
                     </div>
                     <div className="col-3">
                         <button className="btn btn-user-photo" onClick={() => { this.getPhotos('shared') }}>
-                            <div className="user-photo-icon"><i className="fas fa-folder-open"></i></div>
+                            <div className="user-photo-icon"><i className="fas fa-folder-open fa-2x"></i></div>
                             <b>ẢNH CHIA SẺ</b>
                         </button>
                     </div>

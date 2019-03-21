@@ -7,7 +7,7 @@
     position: fixed;
     width: 100%;
     top: 0;
-    z-index: 1000;
+    z-index: 2000;
     border-bottom: solid 2px;
 }
 
@@ -43,6 +43,9 @@
     .couple-button{
         padding-bottom: 170px;
     }
+    .col-left{
+        width: 50%;
+    }
 }
 @media screen and (max-width: 768px) {
     .control-icon.more.has-items {
@@ -70,6 +73,32 @@
         padding-right: 15px;
         padding-left: 15px;
     }
+    .profile-layout .main-content-wrap{
+        margin-left: 0px;
+    }
+    .profile-layout .col-left{
+        width: 100%;
+        z-index: 2000;
+        box-shadow: 0px 6px 9px 0px rgba(0,0,0,0.16);
+        background: white;
+        padding-top: 10px;
+        margin-left: 0px;
+    }
+    .profile-layout .col-right{
+        padding-left: 15px;
+        margin-top: 205px;
+        margin-left: auto;
+    }
+    .disable-mobile{
+        display: none;
+    }
+    .disable-desktop{
+        display: block;
+    }
+    .container{
+        height: 100%;
+        overflow: hidden;
+    }
 }
 @media screen and (max-width: 576px){
     .group-navigator{
@@ -94,6 +123,12 @@
     /*.image-card img{*/
         /*width: auto;*/
     /*}*/
+    .btn-user-photo b, .btn-upload-photo b{
+        font-size: 10px;
+    }
+    .profile-images .col-xl-3,.profile-images .col-lg-3,.profile-images .col-md-3,.profile-images .col-sm-3,.profile-images .col-xs-3{
+        width: 33.3%;
+    }
 }
 .author-mobile{
     position: fixed;

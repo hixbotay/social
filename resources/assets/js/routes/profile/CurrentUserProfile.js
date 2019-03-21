@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Card, CardWithIcon } from '../../components/Card';
+import {Card, CardWithIcon, CardWithTitle} from '../../components/Card';
 import CurrentUserLayout from './CurrentUserLayout';
 import { addVisitor, getFeaturedUserPhotos } from '../../actions/UserActions';
 import { getMyPosts } from '../../actions/PostActions';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import Post from '../../components/Post';
 import CreatePostForm from '../../components/Post/CreatePostForm';
 import ProfileHeader from './ProfileHeader';
 import InfiniteScroll from 'react-infinite-scroller';
+import VerificationBlock from "../../components/RightSidebar/VerificationBlock";
+import ProfilePhotos from "./ProfilePhotos";
 
 class UserProfile extends Component {
     constructor() {
@@ -95,6 +97,7 @@ class UserProfile extends Component {
                 subHeading={current_user ? current_user.hometown_province_name : null}
             >
                 <ProfileHeader user={current_user} isCurrentUser={true} images={featured_photos}></ProfileHeader>
+                <h4 className='profile-title'>Dòng thời gian</h4>
                 <Card>
                     <CreatePostForm user={current_user}></CreatePostForm>
                 </Card>

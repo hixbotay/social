@@ -43,11 +43,11 @@ class VerificationBlock extends Component {
 
         return (
             <div className="ui-block">
-				<ul className="widget w-friend-pages-added notification-list friend-requests">
+				<ul className="widget w-friend-pages-added notification-list friend-requests border-0">
                     {
                         items.map((item, index) => {
                             return (
-                                <li className="inline-items" key={index}>
+                                <li className="inline-items border-0 pl-0 pr-0 pt-2 pb-2" key={index}>
                                     <div className="author-thumb verification-icon">
                                         <img src={item.image} alt="verification-image"/>
                                     </div>
@@ -61,7 +61,7 @@ class VerificationBlock extends Component {
                                                 <i className="fas fa-check"></i>
                                             : 
                                             <a href={item.url}>
-                                                <button className="verify-btn">Xác minh</button>
+                                                <button className="btn btn-link btn-sm">Xác minh</button>
                                             </a>
                                         }
                                     </span>

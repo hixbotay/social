@@ -16,7 +16,7 @@ import "../../../../assets/css/mobile.css";
 import MainLayout from '../layouts/MainLayout';
 import SecondLayout from '../layouts/SecondLayout';
 import ThirdLayout from '../layouts/ThirdLayout';
-import FourthLayout from '../layouts/FourthLayout'
+import FifthLayout from '../layouts/FifthLayout';
 import Header from '../components/Header';
 
 import Home from './newfeeds/NewFeeds';
@@ -101,8 +101,8 @@ class MainApp extends Component {
                     {/* Home */}
                     <AppRoute exact path="/" layout={MainLayout} component={Home} />
                     {/* Profile */}
-                    <AppRoute exact path="/profile/edit" layout={SecondLayout} component={EditProfilePage} />
-                    <AppRoute exact path="/profile/:id" layout={FourthLayout} component={Profile} />
+                    <AppRoute exact path="/profile/edit" layout={FifthLayout} component={EditProfilePage} />
+                    <AppRoute exact path="/profile/:id" layout={FifthLayout} component={Profile} />
                     {/* Cafe */}
                     <AppRoute exact path="/cafe" layout={ThirdLayout} component={CafeList} />
                     <AppRoute exact path="/cafe/:id/view" layout={ThirdLayout} component={CafeDetail} />
@@ -132,8 +132,8 @@ class MainApp extends Component {
                     <AppRoute exact path={"/payment/history"} layout={MainLayout} component={PaymentHistory} />
                     <AppRoute exact path={"/payment/charge"} layout={MainLayout} component={PaymentCharge} />
 
-                    <AppRoute exact path={"/settings"} layout={MainLayout} component={Settings} />
-                    <AppRoute exact path={"/verify/id-card"} layout={SecondLayout} component={IdCardVerify} />
+                    <AppRoute exact path={"/settings"} layout={FifthLayout} component={Settings} />
+                    <AppRoute exact path={"/verify/id-card"} layout={FifthLayout} component={IdCardVerify} />
 
                     {/*Product*/}
 

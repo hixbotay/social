@@ -189,10 +189,10 @@ class OtherUserLayout extends Component {
 
         return (
             <div className="row">
-                <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                <div className="col col-xl-7 order-xl-1 col-lg-7 order-lg-1 col-md-7 order-md-2 col-sm-12 order-sm-2 col-12 col-right">
                     {this.props.children}
                 </div>
-                <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                <div className="col col-xl-5 order-xl-2 col-lg-5 order-lg-2 col-md-5 order-md-1 col-sm-12 order-sm-1 col-12 col-left">
                     <CardWithIcon>
                         <div className="author vcard inline-items profile-heading-info">
                             <RoundAvatar img={user.avatar} size='large'></RoundAvatar>
@@ -203,7 +203,7 @@ class OtherUserLayout extends Component {
                                     </label>
                                 ) : null
                             }
-                            
+
                             <div className="author-date">
                                 <Heading heading={user.name} subHeading={user.hometown_province_name} size='medium'></Heading>
                                 <InformationNumber likeNumber={this.state.likeNumber} viewNumber={this.props.user.viewNumber} heartNumber={this.state.loveNumber}></InformationNumber>
@@ -211,70 +211,57 @@ class OtherUserLayout extends Component {
                         </div>
                     </CardWithIcon>
                     <Card>
-                        <div className="row">
-                            <div className="col-4  text-center">
-                                <CircleButton
-                                    icon="fas fa-heart"
-                                    name='love'
-                                    color={this.state.isLoved ? '#e74c3c' : '#34495e'}
-                                    action={() => this.updateRelationship('love')}
-                                ></CircleButton>
-                            </div>
-                            <div className="col-4 text-center">
-                                <CircleButton
-                                    icon="fas fa-thumbs-up"
-                                    name='like'
-                                    color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                                    action={() => this.updateRelationship('like')}
-                                ></CircleButton>
-                            </div>
-                            <div className="col-4 text-center">
-                                    <CircleButton 
-                                        icon="fas fa-coffee"
-                                        color={this.state.isBlocked ? '#d35400' : '#34495e'}
-                                        action={() => this.inviteDating()}
-                                    ></CircleButton>
-                            </div>
+                        <div className="friend-controls">
+                            <CircleButton
+                                icon="fas fa-heart"
+                                name='love'
+                                color={this.state.isLoved ? '#e74c3c' : '#34495e'}
+                                action={() => this.updateRelationship('love')}
+                            ></CircleButton>
+                            <CircleButton
+                                icon="fas fa-thumbs-up"
+                                name='like'
+                                color={this.state.isLiked ? '#2980b9' : '#34495e'}
+                                action={() => this.updateRelationship('like')}
+                            ></CircleButton>
+                            <CircleButton
+                                icon="fas fa-coffee"
+                                color={this.state.isBlocked ? '#d35400' : '#34495e'}
+                                action={() => this.inviteDating()}
+                            ></CircleButton>
                         </div>
                     </Card>
                     <Card>
                         <div className="row">
-                            <div className="col-9">
+                            <div className="col-10 pr-0">
                                 <input className="form-control" value={this.state.message} onChange={(e) => {
                                     this.setState({message: e.target.value});
                                 }} />
                             </div>
-                            <div className="col-3 text-center">
+                            <div className="col-2 text-center send-message pl-0">
                                 <CircleButton
                                     action={() => {
                                         this.sendMessage();
                                     }}
-                                    icon="fab fa-telegram-plane"></CircleButton>
+                                    icon="fab fa-telegram-plane fa-2x"></CircleButton>
                             </div>
                         </div>
-                        <div>Bắt đầu chat với {user.name} ngay!</div>
+                        <div className='mt-1'>Bắt đầu chat với {user.name} ngay!</div>
                     </Card>
-                    <Card>
-                        <div className="clearfix">
-                            <div className="float-left">
-                                <h5><i className="fas fa-image"></i> Ảnh</h5>
-                            </div>
-                            <div className="float-right">
-                                <u onClick={() => {this.setState({isOpenImages: true})}}>Xem toàn bộ ảnh</u>
-                            </div>
-                        </div>
-
-                        <SimpleSlider images={sliderImg} slidesToShow={3} itemClassName="thumbnail-img-slider"/>
-                    </Card>
-                    <VerificationBlock user={current_user}></VerificationBlock>
+                    <div className='disable-mobile'>
+                        <VerificationBlock user={user}/>
+                    </div>
+                    <div className='events mt-4 mb-3 disable-mobile'>
+                        <img src="http://file.hstatic.net/1000184601/file/457__1_.jpg" className="vip-upgrade"/>
+                    </div>
                 </div>
-                
+
                 <Modal isOpen={this.state.isAlertRelationship}>
                     <div className="row">
-                        <div className="col-6">
-                            <img src="https://us.123rf.com/450wm/anwarsikumbang/anwarsikumbang1408/anwarsikumbang140800671/31358550-love-couple-romance-cartoon.jpg" id="create-event-alert-img" />
+                        <div className="image">
+                            <img src="https://us.123rf.com/450wm/anwarsikumbang/anwarsikumbang1408/anwarsikumbang140800671/31358550-love-couple-romance-cartoon.jpg" id="create-event-alert-img" width='200px' height='200px'/>
                         </div>
-                        <div className="col-6">
+                        <div className="content">
                             <div className="text-center">
                                 CHƯA XONG!
                             </div>

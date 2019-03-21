@@ -9,6 +9,7 @@ import {withRouter, Link, Redirect } from 'react-router-dom';
 import {updateAvatar, updateUser} from '../../actions/UserActions'; 
 import VerificationBlock from '../../components/RightSidebar/VerificationBlock';
 import Switch from "react-switch";
+import LeftSidebarTypeTwo from "../../components/LeftSidebarTypeTwo";
 
 class ProfileLayout extends Component {
     constructor(props) {
@@ -62,10 +63,11 @@ class ProfileLayout extends Component {
     
         return (
             <div className="row">
-                <div className="col col-xl-7 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+
+                <div className="col col-xl-7 order-xl-1 col-lg-7 order-lg-1 col-md-7 order-md-2 col-sm-12 order-sm-2 col-12 col-right">
                     {this.props.children}
                 </div>
-                <div className="col col-xl-5 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
+                <div className="col col-xl-5 order-xl-2 col-lg-5 order-lg-2 col-md-5 order-md-1 col-sm-12 order-sm-1 col-12 col-left">
                     <CardWithIcon>
                         <div className="author vcard inline-items profile-heading-info">
                             <RoundAvatar img={user.avatar} size='large'></RoundAvatar>
@@ -109,42 +111,13 @@ class ProfileLayout extends Component {
                                 />
                             </div>
                         </div>
-                        
+
                     </Card>
-                    <img src="http://file.hstatic.net/1000184601/file/457__1_.jpg" className="vip-upgrade"/>
-                    <VerificationBlock user={user}/>
-                    <CardWithTitle title="Xác thực CMT" hasLine={true}> 
-                        <div className="row">
-                            <div className="col-md-12">
-                                <p>Xác thực CMT để dễ dàng tham gia các cuộc hẹn tốc độ</p>
-                                {
-                                    user.is_id_card_verified === 'verified' ? (
-                                        <div className="alert alert-success">
-                                            Bạn đã được phê duyệt Chứng minh thư
-                                        </div>
-                                    ) : (
-                                        <div>
-                                            <div className="alert alert-danger">
-                                                Bạn chưa xác thực Chứng minh thư. Hãy xác minh ngay!                
-                                            
-                                                <div className="text-center">
-                                                    <Link to="/verify/id-card">
-                                                        <button className="btn-add-image" id="upload-id-card"> 
-                                                            <i className="fas fa-camera"></i> Upload
-                                                        </button>
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                }
-                                
-                            </div>
-                        </div>
-                    </CardWithTitle>
-                    
-                    <div>
-                        <img src="https://momo.vn/Images/2018/03/13/banner-uu-dai-1080x540_131430747.png"/>
+                    <div className='disable-mobile'>
+                        <VerificationBlock user={user}/>
+                    </div>
+                    <div className='events mt-4 mb-3 disable-mobile'>
+                        <img src="http://file.hstatic.net/1000184601/file/457__1_.jpg" className="vip-upgrade"/>
                     </div>
                 </div>
             </div>
