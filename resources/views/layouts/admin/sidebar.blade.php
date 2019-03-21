@@ -114,6 +114,9 @@
                                     class="ti-person"></i>@lang('admin.product_category_2')</a></li>
                     <li><a href="{{url('/admin?view=ProductCategory&type=3')}}"><i
                                     class="ti-person"></i>@lang('admin.product_category_3')</a></li>
+                    <li><a href="{{url('/admin?view=AgencyEmployee')}}"><i
+                                    class="ti-person"></i>@lang('Nhân viên đại lý')</a></li>
+
                 </ul>
             </li>
 
