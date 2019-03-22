@@ -2099,7 +2099,6 @@ a.link-default{
     color: #ff763a;
 }
 .profile-title{
-    border-bottom: 1px solid #FF7043;
     line-height: 40px;
     font-size: 16px;
     font-weight: 700;
@@ -2164,5 +2163,94 @@ a.link-default{
     padding-left: 5px;
     padding-right: 5px;
     text-align: center;
+}
+.profile-images .custom-slider-item{
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+}
+.profile-images .btn-next {
+    position: absolute;
+    top: 50%;
+    right: -35px;
+    color: #000000;
+}
+.profile-images .btn-next .slick-next{
+    color: #000000 !important;
+}
+.profile-images .btn-previous{
+    position: absolute;
+    top: 50%;
+    left: -35px;
+    color: #000000;
+}
+.profile-images .btn-previous .slick-prev{
+    color: #000000 !important;
+}
+.profile-timeline{
+    margin-top: -280px;
+}
+.friend-controls-block{
+    float: right;
+    margin-top: -90px;
+    justify-content: space-between;
+    width: 40%;
+    margin-right: 30px;
+    display: block;
+}
+.disabled{
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: opacity 600ms, visibility 600ms;
+    transition: opacity 600ms, visibility 600ms;
+}
+.td-block-title-wrap{
+    display: flex;
+    width: 100%;
+}
+.td-block-title-wrap .profile-title{
+    width: 70%;
+}
+.td-block-title-wrap .td-subcat-filter{
+    width: 30%;
+    float: right;
+    margin-top: 10px;
+}
+.td-block-title-wrap .td-subcat-filter .td-subcat-list{
+    display: flex;
+    margin-bottom: 0;
+    width: 100%;
+    justify-content: space-between;
+}
+.td-subcat-link{
+    color: #3464D4;
+    font-size: 14px;
+    font-weight: 300;
+}
+.profile-controls .btn-upload-photo{
+    min-height: 0px;
+    width: 110px;
+    height: 35px;
+}
+.profile-controls .btn-upload-photo .svg-inline--fa{
+    position: absolute;
+    left: 5px;
+    top: 2px;
+}
+.profile-controls .btn-upload-photo span{
+    position: absolute;
+    top: 5px;
+    left: 40px;
+}
+.td-subcat-dropdown{
+    width: 75px;
+}
+.td-subcat-dropdown .td-subcat-list{
+    width: 80px;
+    display: none;
+}
+.td-subcat-dropdown .td-subcat-list.active{
+    display: block;
 }
 /*END PROFILE PAGE - NEW TEMPLATE*/

@@ -29,7 +29,8 @@ class OtherUserLayout extends Component {
             isAlertDating: false,
             message: "",
             conversation_id: "",
-            isOpenImages: false
+            isOpenImages: false,
+            condition:false
         }
     }
 
@@ -164,7 +165,16 @@ class OtherUserLayout extends Component {
                 break;
         }
     }
-
+    getInitialState() {
+        return {
+            condition: false
+        }
+    }
+    handleClick() {
+        this.setState({
+            condition: !this.state.condition
+        });
+    }
     render() {
         const {user, current_user, other_user_photos} = this.props;
 
@@ -189,72 +199,72 @@ class OtherUserLayout extends Component {
 
         return (
             <div className="row">
-                <div className="col col-xl-7 order-xl-1 col-lg-7 order-lg-1 col-md-7 order-md-2 col-sm-12 order-sm-2 col-12 col-right">
-                    {this.props.children}
-                </div>
-                <div className="col col-xl-5 order-xl-2 col-lg-5 order-lg-2 col-md-5 order-md-1 col-sm-12 order-sm-1 col-12 col-left">
-                    <CardWithIcon>
-                        <div className="author vcard inline-items profile-heading-info">
-                            <RoundAvatar img={user.avatar} size='large'></RoundAvatar>
-                            {
-                                current_user.id === user.id ? (
-                                    <label className="btn-change-avatar">
-                                        <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e)} />
-                                    </label>
-                                ) : null
-                            }
+                <div className="col col-xl-12 order-xl-1 col-lg-12 order-lg-1 col-md-12 order-md-2 col-sm-12 order-sm-2 col-12">
+                    <div className='top-div'>
+                        <CardWithIcon>
+                            <div className="author vcard inline-items profile-heading-info">
+                                <RoundAvatar img={user.avatar} size='large'></RoundAvatar>
+                                {
+                                    current_user.id === user.id ? (
+                                        <label className="btn-change-avatar">
+                                            <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e)} />
+                                        </label>
+                                    ) : null
+                                }
 
-                            <div className="author-date">
-                                <Heading heading={user.name} subHeading={user.hometown_province_name} size='medium'></Heading>
-                                <InformationNumber likeNumber={this.state.likeNumber} viewNumber={this.props.user.viewNumber} heartNumber={this.state.loveNumber}></InformationNumber>
+                                <div className="author-date">
+                                    <Heading heading={user.name} subHeading={user.hometown_province_name} size='medium'></Heading>
+                                    <InformationNumber likeNumber={this.state.likeNumber} viewNumber={this.props.user.viewNumber} heartNumber={this.state.loveNumber}></InformationNumber>
+                                </div>
                             </div>
-                        </div>
-                    </CardWithIcon>
-                    <Card>
-                        <div className="friend-controls">
-                            <CircleButton
-                                icon="fas fa-heart"
-                                name='love'
-                                color={this.state.isLoved ? '#e74c3c' : '#34495e'}
-                                action={() => this.updateRelationship('love')}
-                            ></CircleButton>
-                            <CircleButton
-                                icon="fas fa-thumbs-up"
-                                name='like'
-                                color={this.state.isLiked ? '#2980b9' : '#34495e'}
-                                action={() => this.updateRelationship('like')}
-                            ></CircleButton>
-                            <CircleButton
-                                icon="fas fa-coffee"
-                                color={this.state.isBlocked ? '#d35400' : '#34495e'}
-                                action={() => this.inviteDating()}
-                            ></CircleButton>
-                        </div>
-                    </Card>
-                    <Card>
-                        <div className="row">
-                            <div className="col-10 pr-0">
-                                <input className="form-control" value={this.state.message} onChange={(e) => {
-                                    this.setState({message: e.target.value});
-                                }} />
-                            </div>
-                            <div className="col-2 text-center send-message pl-0">
-                                <CircleButton
-                                    action={() => {
-                                        this.sendMessage();
-                                    }}
-                                    icon="fab fa-telegram-plane fa-2x"></CircleButton>
-                            </div>
-                        </div>
-                        <div className='mt-1'>Bắt đầu chat với {user.name} ngay!</div>
-                    </Card>
-                    <div className='disable-mobile'>
-                        <VerificationBlock user={user}/>
+                            <Card className='friend-controls-block'>
+                                <div className={ this.state.condition ? "friend-controls disabled" : "friend-controls" }>
+                                    <CircleButton
+                                        icon="fas fa-heart"
+                                        name='love'
+                                        color={this.state.isLoved ? '#e74c3c' : '#34495e'}
+                                        action={() => this.updateRelationship('love')}
+                                    ></CircleButton>
+                                    <CircleButton
+                                        icon="fas fa-thumbs-up"
+                                        name='like'
+                                        color={this.state.isLiked ? '#2980b9' : '#34495e'}
+                                        action={() => this.updateRelationship('like')}
+                                    ></CircleButton>
+                                    <CircleButton
+                                        icon="fas fa-coffee"
+                                        color={this.state.isBlocked ? '#d35400' : '#34495e'}
+                                        action={() => this.inviteDating()}
+                                    ></CircleButton>
+                                    <CircleButton
+                                        icon="fab fa-telegram-plane"
+                                        color={this.state.isBlocked ? '#34495e' : '#34495e'}
+                                        action={() => this.handleClick()}
+                                    ></CircleButton>
+                                </div>
+                                <div className={ this.state.condition ? "row" : "row disabled" }>
+                                    <div className="col-10 pr-0">
+                                        <input className="form-control" value={this.state.message} onChange={(e) => {
+                                            this.setState({message: e.target.value});
+                                        }} />
+                                    </div>
+                                    <div className="col-2 text-center send-message pl-0">
+                                        <CircleButton
+                                            action={() => {
+                                                this.sendMessage();
+                                            }}
+                                            icon="fab fa-telegram-plane fa-2x"></CircleButton>
+                                    </div>
+                                    <div className='mt-1 pl-5'>Bắt đầu chat với {user.name} ngay!</div>
+                                </div>
+                            </Card>
+                        </CardWithIcon>
                     </div>
-                    <div className='events mt-4 mb-3 disable-mobile'>
-                        <img src="http://file.hstatic.net/1000184601/file/457__1_.jpg" className="vip-upgrade"/>
+                    <div className='bottom-div'>
+                        {this.props.children}
                     </div>
                 </div>
+
 
                 <Modal isOpen={this.state.isAlertRelationship}>
                     <div className="row">
