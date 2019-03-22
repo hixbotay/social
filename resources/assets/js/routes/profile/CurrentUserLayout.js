@@ -68,22 +68,49 @@ class ProfileLayout extends Component {
                 <div className="col col-xl-12 order-xl-1 col-lg-12 order-lg-1 col-md-12 order-md-2 col-sm-12 order-sm-2 col-12">
                     <div className='top-div'>
                         <CardWithIcon>
-                            {/*<div className="col col-xl-7 order-xl-1 col-lg-7 order-lg-1 col-md-7 order-md-2 col-sm-12 order-sm-2 col-12">*/}
-                                <div className="author vcard inline-items profile-heading-info">
-                                    <RoundAvatar img={user.avatar} size='large'></RoundAvatar>
-                                    <label className="btn-change-avatar">
-                                        <input type="file" className="d-none" name="image" accept="image/*" onChange={(e) => this.handleImage(e)} />
-                                    </label>
+                            <div className="author vcard inline-items profile-heading-info">
+                                <RoundAvatar img={user.avatar} size='large'></RoundAvatar>
+                                <label className="btn-change-avatar">
+                                    <input type="file" className="d-none" name="image" accept="image/*" onChange={(e) => this.handleImage(e)} />
+                                </label>
 
-                                    <div className="author-date">
-                                        <Heading heading={this.props.heading} subHeading={this.props.subHeading} size='medium'></Heading>
-                                        <InformationNumber likeNumber={user.likeNumber} viewNumber={user.viewNumber} heartNumber={user.loveNumber}></InformationNumber>
-                                    </div>
-                                {/*</div>*/}
+                                <div className="author-date">
+                                    <Heading heading={this.props.heading} subHeading={this.props.subHeading} size='medium'></Heading>
+                                    <InformationNumber likeNumber={user.likeNumber} viewNumber={user.viewNumber} heartNumber={user.loveNumber}></InformationNumber>
+                                </div>
                             </div>
-                            {/*<div className="col col-xl-5 order-xl-2 col-lg-5 order-lg-2 col-md-5 order-md-2 col-sm-12 order-sm-2 col-12">*/}
-                                {/**/}
-                            {/*</div>*/}
+                            <Card className='friend-controls-block'>
+                                <div className="row">
+                                    <div className="col-4">
+                                        <img src={`${baseUrl}/public/images/space-rocket-512.png`} className="status-info-icon" title="Nổi bật 24h"/>
+                                        <Switch
+                                            onChange={() => this.alert()}
+                                            checked={false}
+                                            className="react-switch align-middle"
+                                            id="normal-switch"
+                                        />
+                                    </div>
+                                    <div className="col-4">
+                                        <img src={`${baseUrl}/public/images/Pacman_Ghost-512.png`} className="status-info-icon" title="Ẩn danh"/>
+                                        <Switch
+                                            onChange={() => this.handleChange()}
+                                            checked={this.state.is_incognito}
+                                            className="react-switch align-middle"
+                                            id="normal-switch"
+                                        />
+                                    </div>
+                                    <div className="col-4">
+                                        <img src={`${baseUrl}/public/images/iconfinder_chat.png`} className="status-info-icon" title="Nhắn đồng thời 100 tin"/>
+                                        <Switch
+                                            onChange={() => this.alert()}
+                                            checked={false}
+                                            className="react-switch align-middle"
+                                            id="normal-switch"
+                                        />
+                                    </div>
+                                </div>
+
+                            </Card>
                         </CardWithIcon>
                     </div>
                     <div className='bottom-div current-user'>

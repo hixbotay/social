@@ -9,6 +9,7 @@ import moment from "moment";
 import VerificationBlock from "../../components/RightSidebar/VerificationBlock";
 import Slider from "react-slick/lib";
 import {isMobileOnly} from "react-device-detect";
+import Switch from "react-switch";
 function PrevArrow(props) {
     const { onClick } = props;
     return (
