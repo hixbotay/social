@@ -6,6 +6,8 @@ import {getAllProvinces, getAllDistricts} from '../../actions/AddressActions';
 import Select from 'react-select';
 import qs from 'qs';
 import {withRouter} from 'react-router-dom';
+import CenterModeSlider from "../../components/Slider/CenterModeSlider";
+import Modal from "../../components/Modal";
 
 class CafeLayout extends Component {
     constructor(props) {
@@ -88,15 +90,65 @@ class CafeLayout extends Component {
             selectedDistrict = districtOptions.find(o => { return o.value == parseInt(filter.district_id) });
             selectedType = typeOptions.find(o => { return o.value == parseInt(filter.type) });
         }
-
+        var settings = {
+            centerPadding: '50px',
+            speed: 500,
+            centerMode: true,
+            slidesToShow: 1,
+            focusOnSelect: true,
+            dots: false,
+            infinite: true,
+            adaptiveHeight: true
+        };
         return (
             <div className="row">
-                <div className="col col-xl-8 order-xl-2 col-lg-8 order-lg-1 col-md-8 col-sm-12 col-12">
-                    {this.props.children}
+                <div className="col col-xl-8 order-xl-1 col-lg-8 order-lg-1 col-md-8 order-md-1 col-sm-12 order-sm-2 col-12 ">
+                    <Card className='cafe-store-box disable-desktop mt-4 search-cafe-store box-shadow-default'>
+                        <form  onSubmit={(e) => this.onSearch(e)}>
+                            <div className="form-group is-empty">
+                                <input type="text" name="name"
+                                       className="form-control"
+                                       defaultValue={filter.name}
+                                       placeholder="Nhập tên quán..."
+                                       onChange={(e) => this.onChangeFilter(e.target.value, "name")}/>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-2">
+                                    <i className="fas fa-map-marker-alt cafe-address-icon" ></i>
+                                </div>
+                                <div className='col-md-5'>
+                                    <Select
+                                        placeholder="Huyện"
+                                        value={selectedDistrict}
+                                        options={districtOptions}
+                                        onChange={(option) => this.onChangeFilter(option.value, "district_id")}
+                                    />
+                                </div>
+                                <div className='col-md-5'>
+                                    <Select
+                                        placeholder="Tỉnh"
+                                        value={selectedProvince}
+                                        options={provinceOptions}
+                                        onChange={(option) => this.onChangeFilter(option.value, "province_id")}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="row text-center btn-group-submit">
+                                <button className="btn btn-primary waves-effect waves-light" type="submit">
+                                    Tìm kiếm
+                                </button>
+                            </div>
+                        </form>
+                    </Card>
+                    <div className='stores-content'>
+                        {this.props.children}
+                    </div>
                 </div>
-                <div className="col col-xl-4 order-xl-2 col-lg-4 order-lg-1 col-md-4 col-sm-12 col-12">
-                    <Card>
-                        <form onSubmit={(e) => this.onSearch(e)}>
+                <div className="col col-xl-4 order-xl-2 col-lg-4 order-lg-2 col-md-4 order-md-2 col-sm-12 order-sm-1 col-12">
+                    <Card className='cafe-store-box disable-mobile'>
+                        <form  onSubmit={(e) => this.onSearch(e)}>
                             <div className="form-group is-empty">
                                 <input type="text" name="name" 
                                     className="form-control" 
@@ -107,9 +159,17 @@ class CafeLayout extends Component {
 
                             <div className="row form-group">
                                 <div className="col-md-2">
-                                    <i className="fas fa-map-marker-alt" id='cafe-address-icon'></i>
+                                    <i className="fas fa-map-marker-alt cafe-address-icon"></i>
                                 </div>
-                                <div className="col-md-10">
+                                <div className='col-md-5'>
+                                    <Select
+                                        placeholder="Huyện"
+                                        value={selectedDistrict}
+                                        options={districtOptions}
+                                        onChange={(option) => this.onChangeFilter(option.value, "district_id")}
+                                    />
+                                </div>
+                                <div className='col-md-5'>
                                     <Select
                                         placeholder="Tỉnh"
                                         value={selectedProvince}
@@ -118,42 +178,19 @@ class CafeLayout extends Component {
                                     />
                                 </div>
                             </div>
-                            <div className="row form-group">
-                                <div className="col-md-2"></div>
-                                <div className="col-md-10">
-                                    <Select
-                                        placeholder="Huyện"
-                                        value={selectedDistrict}
-                                        options={districtOptions}
-                                        onChange={(option) => this.onChangeFilter(option.value, "district_id")}
-                                    />
-                                </div>
-                            </div>
-                            <div className="row form-group">
-                                <div className="col-md-12">
-                                    <Select
-                                        placeholder="Loại quán"
-                                        value={selectedType}
-                                        options={typeOptions}
-                                        onChange={(option) => this.onChangeFilter(option.value, "type")}
-                                    />
-                                </div>
-                            </div>
 
-                            <hr />
-
-                            <div className="row text-center">
+                            <div className="row text-center btn-group-submit">
                                 <button className="btn btn-primary waves-effect waves-light" type="submit">
                                     Tìm kiếm
                                 </button>
                             </div>
                         </form>
                     </Card>
-                    <CardWithTitle title="SĂN DEAL GIẢM GIÁ" hasLine={true}>
-                        <SimpleSlider images={data}></SimpleSlider>
+                    <CardWithTitle className='cafe-store-box' title="SĂN DEAL GIẢM GIÁ" hasLine={true}>
+                        <CenterModeSlider settings={settings} images={data}></CenterModeSlider>
                     </CardWithTitle>
-                    <CardWithTitle title="ĐƯỢC ĐỀ XUẤT VỚI BẠN" hasLine={true}>
-                        <SimpleSlider images={data}></SimpleSlider>
+                    <CardWithTitle className='cafe-store-box ' title="ĐƯỢC ĐỀ XUẤT VỚI BẠN" hasLine={true}>
+                        <CenterModeSlider settings={settings} images={data}></CenterModeSlider>
                     </CardWithTitle>
                 </div>
             </div>

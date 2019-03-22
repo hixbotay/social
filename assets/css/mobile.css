@@ -149,6 +149,36 @@
     .profile-controls .btn-upload-photo{
         margin-top: 10px;
     }
+    .cafe-header-banner{
+        margin-top: 20px;
+    }
+    .block-cafe-stores .store-item{
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    .cafe-btn{
+        top: 20%;
+        left: 30%;
+        width: 40%;
+    }
+    .cafe-btn button{
+        font-size: 14px;
+        width: 80px;
+    }
+    .search-cafe-store.disable-desktop{
+        position: fixed;
+        width: 100%;
+        z-index: 3000;
+        top: 110px;
+        left: 0px;
+        border: none;
+        border-bottom: 1px solid #d0d0d0;
+        border-radius: unset;
+        padding: 10px 15px 0px 15px;
+    }
+    .stores-content{
+        margin-top: 240px;
+    }
 }
 @media screen and (max-width: 576px){
     .group-navigator{

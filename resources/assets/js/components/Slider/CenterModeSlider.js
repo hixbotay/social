@@ -5,18 +5,9 @@ import PropTypes from 'prop-types';
 class CenterModeSlider extends Component {
 
     render() {
-        const { images } = this.props;
+        const { images, settings } = this.props;
         // See more at: https://react-slick.neostack.com/docs/api
-        const settings = {
-            centerPadding: '50px',
-            speed: 500,
-            centerMode: true,
-            slidesToShow: 3,
-            focusOnSelect: true,
-            dots: false,
-            infinite: true,
-            adaptiveHeight: true
-        };
+
         // remove item undefined
         var imageArr = images.filter(item => {
             return item;

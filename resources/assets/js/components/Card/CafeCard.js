@@ -5,10 +5,10 @@ import {seCookie, setCookie} from '../../helper/cookie';
 class CafeCard extends Component {
     
     render() {
-        const {agency} = this.props;
+        const {agency,className} = this.props;
 
         return (
-            <div className="image-card cafe-card">
+            <div className={className}>
                 <div>
                     <Link to={`/cafe/${agency.id}/view`}>
                         <img src={agency.avatar}/>
@@ -17,7 +17,9 @@ class CafeCard extends Component {
                         <Link to={{pathname:"/dating/create", state: {cafe: agency}}}>
                             <button className="btn btn-sm">Hẹn hò</button>
                         </Link>
-                        {/* <button className="btn btn-sm">Đặt chố</button> */}
+                        <Link to=''>
+                            <button className="btn btn-sm btn-booking">Đặt chỗ</button>
+                        </Link>
                     </div>
                 </div>
                 <div className="row image-card-content">

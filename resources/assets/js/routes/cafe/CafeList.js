@@ -14,13 +14,13 @@ class CafeList extends Component {
         const {agencies} = this.props;
         return (
             <CafeLayout>
-                <div className="container cafe-header-banner">
+                <div className="cafe-header-banner">
                     <div className="row">
-                        <div className="col-9">
+                        <div className=" col-xl-9 col-lg-9 col-md-9 col-sm-6 col-xs-12">
                             <h4>BẠN ĐANG SỞ HỮU TIỆM CAFE?</h4>
-                            <div>Hãy tham gia cùng chúng tôi để tạo nên những điều tốt đẹp trong cuộc sống</div>
+                            <p>Hãy tham gia cùng chúng tôi để tạo nên những điều tốt đẹp trong cuộc sống</p>
                         </div>
-                        <div className="col-3">
+                        <div className=" col-xl-3 col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <Link to='/cafe/create'>
                                 <button className="btn btn-primary">ĐĂNG KÝ</button>
                             </Link>
@@ -28,17 +28,21 @@ class CafeList extends Component {
                     </div>
                 </div>
 
-                <Card>
+                <Card className='block-cafe-stores mt-4'>
                     <div className="row">
                     {
                         agencies.map((agency, index) => {
                             return (
-                                <div className="col-4" key={index}>
-                                    <CafeCard agency={agency}></CafeCard>
+                                <div className="store-item col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12" key={index}>
+                                    <CafeCard className='image-card cafe-card box-shadow-default' agency={agency}></CafeCard>
                                 </div>
                             )
                         })
                     }
+                    </div>
+
+                    <div className='load-more text-center'>
+                        <a className='btn btn-link color-blue'>Xem thêm</a>
                     </div>
                 </Card>
             </CafeLayout>

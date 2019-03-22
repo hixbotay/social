@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CafeLayout from './CafeLayout';
-import { Card, CafeCard, CardWithTitle } from '../../components/Card';
+import { Card, CafeCard } from '../../components/Card';
 import * as qs from 'qs';
 import { cleanObject } from '../../helper/function';
 import { searchCafe } from '../../actions/CafeActions';
@@ -25,25 +25,28 @@ class SearchResult extends Component {
 
         return (
             <CafeLayout>
-                <CardWithTitle title="KẾT QUẢ TÌM KIẾM" hasLine={true}>
+                <div className='card-title'>
+                    <h6 className='title'>KẾT QUẢ TÌM KIẾM</h6>
+                </div>
+                <Card className='block-cafe-stores'>
                     <div className="row">
                         {
                             results.length ? (
                                 results.map((agency, index) => {
                                     return (
-                                        <div className="col-4" key={index}>
-                                            <CafeCard agency={agency}></CafeCard>
+                                        <div className="store-item col-xl-4 col-lg-4 col-md-4 col-sm-6 col-xs-12" key={index}>
+                                            <CafeCard className='image-card cafe-card box-shadow-default' agency={agency}></CafeCard>
                                         </div>
                                     )
                                 })
                             ) : (
-                                    <div>
-                                        Xin lỗi, chúng tôi không tìm thấy kết quả nào khớp với truy vấn.
-                                    </div>
-                                )
+                                <div>
+                                    Xin lỗi, chúng tôi không tìm thấy kết quả nào khớp với truy vấn.
+                                </div>
+                            )
                         }
                     </div>
-                </CardWithTitle>
+                </Card>
             </CafeLayout>
         );
     }
