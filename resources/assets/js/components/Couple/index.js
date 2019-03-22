@@ -12,7 +12,7 @@ function PrevArrow(props) {
         <div
             onClick={onClick}
         >
-            <i class="fa fa-chevron-left slick-prev couple-slider-nav"/>
+            <i className="fa fa-chevron-left slick-prev couple-slider-nav"/>
         </div>
     );
 }

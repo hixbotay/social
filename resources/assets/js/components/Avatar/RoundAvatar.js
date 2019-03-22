@@ -13,7 +13,7 @@ class RoundAvatar extends Component {
 
 RoundAvatar.propTypes = {
     img: PropTypes.string,
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    size: PropTypes.oneOf(['small', 'medium', 'large','x-medium']),
 }
 
 RoundAvatar.defaultProps = {

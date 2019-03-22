@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CafeLayout from './CafeLayout';
-import { Card, CardWithTitle } from '../../components/Card';
+import {Card, CardWithTitle, ImageCard} from '../../components/Card';
 import { RoundAvatar } from '../../components/Avatar';
 import connect from 'react-redux/es/connect/connect';
 import { getCafeDetail, updateImage } from '../../actions/CafeActions';
@@ -8,7 +8,27 @@ import { getProducts } from '../../actions/ProductActions';
 import { withRouter, Link } from 'react-router-dom';
 import ImageCompressor from 'image-compressor.js';
 import Carousel from "nuka-carousel";
+import Image from "react-image-resizer";
+import Slider from "react-slick/lib";
+function PrevArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            onClick={onClick}
+        >
+            <i className="fa fa-chevron-left slick-prev couple-slider-nav"/>
+        </div>
+    );
+}
 
+function NextArrow(props) {
+    const { onClick } = props;
+    return (
+        <div
+            onClick={onClick}
+        ><i className="fa fa-chevron-right slick-next couple-slider-nav"/></div>
+    );
+}
 class CafeDetail extends Component {
     constructor(props) {
         super(props);
@@ -50,138 +70,153 @@ class CafeDetail extends Component {
     render() {
         const { user, agency, products } = this.props;
         var now = new Date().getHours();
+        var settings = {
+            accessibility: true,
+            dots: false,
+            infinite: false,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            nextArrow: <NextArrow />,
+            prevArrow: <PrevArrow />
+        };
+        var images = [
+            'landing1.jpg',
+            'landing2.jpg',
 
+        ];
         return (
             <CafeLayout>
                 <div className={"add-cafe-banner"}>
-                    <img src={agency.cover ? baseUrl + '/' + agency.cover : 'http://www.marcetme.com/public/attachments/product-cat-imgs/nopic.png'} />
-                    {
-                        (user.id === agency.user_id) ? (
-                            <label className="btn-add-image"> <i className="fas fa-camera fa-2x"></i>
-                                <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'cover')} />
-                            </label>
-                        ) : null
-                    }
+                    <Slider {...settings}>
+                        {
+                            images.map((item, index) => {
+                                return (
+                                    <div key={index} className="custom-slider-item">
+                                        <Image src={`${baseUrl}/public/images/main/`+item} width='100%' height={400}/>
+                                    </div>
+                                )
+                            })
+                        }
+                    </Slider>
                 </div>
                 <Card>
-                    <div className="post__author author vcard inline-items" id="cafe-avatar">
-                        <RoundAvatar img={baseUrl + '/' + agency.avatar} size="large"></RoundAvatar>
+                    <div className="row">
+                        <RoundAvatar img={baseUrl + '/' + agency.avatar} size="x-medium"></RoundAvatar>
                         {
                             (user.id === agency.user_id) ? (
-                                <label className="btn-change-avatar">
-                                    <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'avatar')} />
+                                <label className="btn-change-avatar medium">
+                                    <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'avatar')} /><i
+                                    className="fas fa-camera fa-2x camera"></i>
                                 </label>
                             ) : null
                         }
-
-                        <div className="author-date">
-                            <h3>{agency.name}</h3>
-                            <div>
-                                {
-                                    agency.type ?
-                                        (
-                                            agency.type === 1 ? (
-                                                <div className="address-type">CAFE</div>
-                                            ) : (
+                        <div className="post__author author vcard inline-items" id="cafe-avatar">
+                            <div className="author-date">
+                                <h4 className='store-name'>{agency.name}</h4>
+                                <div>
+                                    {
+                                        agency.type ?
+                                            (
+                                                agency.type === 1 ? (
+                                                    <div>CAFE</div>
+                                                ) : (
                                                     <div className="address-type">QUÁN ĂN</div>
                                                 )
-                                        ) : null
-                                }
+                                            ) : null
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div className="row">
                         <div className="col-2"></div>
                         <div className="col-4">
                             <div>
                                 <i className="fas fa-map-marker-alt"></i> {agency.address}
                             </div>
-                            <div>
+                            <div className={(agency.open < now.toString() && agency.close > now.toString()) ? "open-now" : ""}>
                                 <i className="far fa-clock"></i>
-                                {
-                                    (agency.open < now.toString() && agency.close > now.toString()) ? ' Đang mở cửa' : ' Đã đóng cửa'
-                                }
+                                <span>
+                                    {
+                                        (agency.open < now.toString() && agency.close > now.toString()) ? ' Đang mở cửa' : ' Đã đóng cửa'
+                                    }
+                                </span>
                             </div>
                             <div>
                                 <i className="fas fa-tag"></i> {agency.min_price} - {agency.max_price}
                             </div>
                         </div>
                         <div className="col-6">
-                            <button className="btn btn-primary" id="btn-cafe-1" onClick={() => this.createDating(agency.id)}>
+                            <button className="btn btn-primary btn-sm" id="btn-cafe-2">
+                                Đặt chỗ
+                            </button>
+                            <button className="btn btn-primary btn-sm  bg-white" id="btn-cafe-1" onClick={() => this.createDating(agency.id)}>
                                 Hẹn hò
                             </button>
-                            <button className="btn btn-primary" id="btn-cafe-2">
-                                Đặt chố
-                            </button>
+
                         </div>
                     </div>
                 </Card>
-                <Card>
-                    <p>Thêm ảnh có liên quan để mô tả rõ hơn về quán</p>
+                <CardWithTitle title="HÌNH ẢNH CÓ LIÊN QUAN" hasLine={true}>
                     {
                         (user.id === agency.user_id) ? (
-                            <div className="row">
-                                <div className="col-3">
-                                    <label className="btn-add-image" id="btn-normal-img">
-                                        <i className="fas fa-camera fa-2x"></i>
-                                        <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'normal')} />
-                                    </label>
-                                </div>
-                                <div className="col-9">
-                                    <Carousel
-                                        slidesToShow={3}
-                                        cellSpacing={5}
-                                        autoplay={true}
-                                        autoGenerateStyleTag={true}
-                                        initialSlideHeight={250}
-                                        autoplay={true}
-                                        renderCenterLeftControls={({ previousSlide }) => (
-                                            <button className="arrow-btn" onClick={previousSlide}><i className="fas fa-chevron-circle-left"></i></button>
-                                        )}
-                                        renderCenterRightControls={({ nextSlide }) => (
-                                            <button className="arrow-btn" onClick={nextSlide}><i className="fas fa-chevron-circle-right"></i></button>
-                                        )}
-                                    >
-                                        {
-                                            agency.images.map((item, index) => {
-                                                return (
-                                                    <img src={item} key={index} />
-                                                )
-                                            })
-                                        }
-                                    </Carousel>
-                                </div>
-                            </div>
-                        ) : (
-                                <div className="row">
-                                    <div className="col-12">
-                                        <Carousel
-                                            slidesToShow={3}
-                                            cellSpacing={5}
-                                            autoplay={true}
-                                            autoGenerateStyleTag={true}
-                                            initialSlideHeight={250}
-                                            autoplay={true}
-                                            renderCenterLeftControls={({ previousSlide }) => (
-                                                <button className="arrow-btn" onClick={previousSlide}><i className="fas fa-chevron-circle-left"></i></button>
-                                            )}
-                                            renderCenterRightControls={({ nextSlide }) => (
-                                                <button className="arrow-btn" onClick={nextSlide}><i className="fas fa-chevron-circle-right"></i></button>
-                                            )}
-                                        >
-                                            {
-                                                agency.images.map((item, index) => {
-                                                    return (
-                                                        <img src={item} key={index} />
-                                                    )
-                                                })
-                                            }
-                                        </Carousel>
+                            <div className="row store-images cafe-details">
+                                <div className='image-item col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-12'>
+                                    <div className="image-card box-shadow-default border-0">
+                                        <label className="btn-add-image" id="btn-normal-img">
+                                            <input type="file" className="d-none" name="image" onChange={(e) => this.handleImage(e, 'normal')} />
+                                            <i className="fas fa-camera"></i> <span>Thêm ảnh</span>
+                                        </label>
+
                                     </div>
                                 </div>
+                                <div className='image-item col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-12'>
+                                    <div className="image-card box-shadow-default border-0">
+                                        <label className="btn-add-image" id="btn-normal-video">
+                                            <input type="file" className="d-none" name="video" onChange={(e) => this.handleImage(e, 'normal')} />
+                                            <i className="fas fa-film"></i> <span>Thêm video</span>
+                                        </label>
+
+                                    </div>
+                                </div>
+                                {
+                                    agency.images.map((item, index) => {
+                                        return (
+                                            <div className='image-item col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-12'>
+                                                <div className="image-card box-shadow-default">
+                                                    <img src={item} key={index}/>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        ) : (
+                            <div className="row store-images cafe-details">
+                                {
+                                    agency.images.map((item, index) => {
+                                        return (
+                                            <div className='image-item col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-12'>
+                                                <div className="image-card box-shadow-default">
+                                                    <img src={item} key={index} />
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                <div className='col-12'>
+                                    <div className='load-more text-center'>
+                                        <a className='btn btn-link color-blue'>
+                                            Xem thêm ảnh
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                             )
                     }
-                </Card>
+                </CardWithTitle>
                 <CardWithTitle title="SẢN PHẨM CỦA QUÁN" hasLine={true}>
                     <div className="row">
                         {
