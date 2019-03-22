@@ -728,7 +728,7 @@ class EditProfilePage extends Component {
                             </div>
                         </div>
                         <div className="form-group">
-                            <button className="btn btn-success float-right" type="submit">Cập nhật</button>
+                            <button className="btn btn-primary float-right btn-medium" type="submit">Cập nhật</button>
                         </div>
                     </form>
                 </CardWithTitle>
@@ -857,7 +857,7 @@ class EditProfilePage extends Component {
                             </div>
                         </div>
                         <div className="form-group">
-                            <button className="btn btn-success float-right" type="submit">Cập nhật</button>
+                            <button className="btn btn-primary float-right btn-medium" type="submit">Cập nhật</button>
                         </div>
                     </form>
                 </CardWithTitle>

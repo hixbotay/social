@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 class Card extends Component {
 
     render() {
-        const {backgroundImage, className, id, children} = this.props;
+        const {backgroundImage, className, id, children, role} = this.props;
 
         var style = backgroundImage ? {backgroundImage: backgroundImage} : {};
         return (
-            <div className={`ui-block custom-card ${className}`} id={id} style={style}>
+            <div className={`ui-block custom-card ${className}`} id={id} style={style} role={role}>
                 {/*<div className="container">*/}
                     {/*<div className="col-xl-12 col-lg-12 col-md-12">*/}
                         {children}

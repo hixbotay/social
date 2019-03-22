@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Card, CardWithIcon } from '../../components/Card';
+import {Card, CardWithIcon, CardWithTitle} from '../../components/Card';
 import CurrentUserLayout from './CurrentUserLayout';
 import { addVisitor, getFeaturedUserPhotos } from '../../actions/UserActions';
 import { getMyPosts } from '../../actions/PostActions';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import Post from '../../components/Post';
 import CreatePostForm from '../../components/Post/CreatePostForm';
 import ProfileHeader from './ProfileHeader';
 import InfiniteScroll from 'react-infinite-scroller';
+import VerificationBlock from "../../components/RightSidebar/VerificationBlock";
+import ProfilePhotos from "./ProfilePhotos";
 
 class UserProfile extends Component {
     constructor() {
@@ -94,31 +96,39 @@ class UserProfile extends Component {
                 heading={current_user ? current_user.name : "UNDEFINED"}
                 subHeading={current_user ? current_user.hometown_province_name : null}
             >
+
                 <ProfileHeader user={current_user} isCurrentUser={true} images={featured_photos}></ProfileHeader>
-                <Card>
-                    <CreatePostForm user={current_user}></CreatePostForm>
-                </Card>
-                
-                <Card>
-                    {
-                        this.state.posts.length ? (
-                            <InfiniteScroll
-                                pageStart={0}
-                                loadMore={this.onLoad.bind(this)}
-                                hasMore={this.state.hasMorePost}
-                                loader={<div className="text-center" key={0}>Loading...</div>}
-                            >
-                                {this.state.posts} 
-                            </InfiniteScroll>
-                        ) : (
-                            <div className="alert alert-warning">
-                                <div className="text-center">
-                                    Bạn chưa có bài viết nào. Hãy tạo bài viết ngay nhé! 
-                                </div>
-                            </div>
-                        )
-                    }
-                </Card>
+                <div className="row profile-timeline">
+                    <div className="col col-xl-12 order-xl-1 col-lg-12 order-lg-1 col-md-12 order-md-1 col-sm-12 order-sm-2 col-12 pl-0 pr-0">
+                        <div className="col col-xl-7 order-xl-1 col-lg-7 order-lg-1 col-md-7 order-md-2 col-sm-12 order-sm-2 col-12">
+                            <h4 className='profile-title'><i className="fas fa-star-of-life color-red mr-1"></i>Dòng thời gian</h4>
+                            <Card>
+                                <CreatePostForm user={current_user}></CreatePostForm>
+                            </Card>
+
+                            <Card>
+                                {
+                                    this.state.posts.length ? (
+                                        <InfiniteScroll
+                                            pageStart={0}
+                                            loadMore={this.onLoad.bind(this)}
+                                            hasMore={this.state.hasMorePost}
+                                            loader={<div className="text-center" key={0}>Loading...</div>}
+                                        >
+                                            {this.state.posts}
+                                        </InfiniteScroll>
+                                    ) : (
+                                        <div className="alert alert-warning">
+                                            <div className="text-center">
+                                                Bạn chưa có bài viết nào. Hãy tạo bài viết ngay nhé!
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            </Card>
+                        </div>
+                    </div>
+                </div>
             </CurrentUserLayout>
         );
     }

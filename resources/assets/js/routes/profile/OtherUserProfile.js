@@ -31,47 +31,32 @@ class OtherPerson extends Component {
                 <Card>
                     <ProfileHeader user={user_data.user} current_user={current_user} isCurrentUser={false} images={featured_photos}></ProfileHeader>
                 </Card>
-                
-                <div className="col-12">
-                    <div className="row no-gutters">
-                        <div className="col-4">
-                            <button className="btn btn-primary btn-function" id="safe-btn">
-                                <i className="fas fa-shield-alt"></i> An toàn
-                            </button>
-                        </div>
-                        <div className="col-4">
-                            <Link to={{pathname: '/gift/categories', state: {receiver: user_data.user.id}}}>
-                                <button className="btn btn-primary btn-function" id="gift-btn">
-                                    <i className="fas fa-gift"></i> Tặng quà
-                                </button>
-                            </Link>
-                        </div>
-                        <div className="col-4">
-                            <button className="btn btn-primary btn-function" id="fortune-btn">
-                                <i className="fas fa-hand-holding-heart"></i> Bói yêu
-                            </button>
+                <div className="row profile-timeline">
+                    <div className="col col-xl-12 order-xl-1 col-lg-12 order-lg-1 col-md-12 order-md-1 col-sm-12 order-sm-2 col-12 pl-0 pr-0">
+                        <div className="col col-xl-7 order-xl-1 col-lg-7 order-lg-1 col-md-7 order-md-2 col-sm-12 order-sm-2 col-12">
+                            <Card>
+                                {
+                                    user_data.posts.length ?
+                                        user_data.posts.map((post, index) => {
+                                            post.author = user_data.user.name;
+                                            post.author_avatar = user_data.user.avatar;
+
+                                            return (
+                                                <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={false}></Post>
+                                            )
+                                        })
+                                        : (
+                                            <div className="text-center">
+                                                Không có bài viết nào
+                                            </div>
+                                        )
+                                }
+                            </Card>
                         </div>
                     </div>
                 </div>
 
-                <Card>
-                    {
-                        user_data.posts.length ? 
-                        user_data.posts.map((post, index) => {
-                            post.author = user_data.user.name;
-                            post.author_avatar = user_data.user.avatar;
 
-                            return (
-                                <Post post={post} key={index} user_id={current_user.id} isInNewsfeed={false}></Post>
-                            )
-                        })
-                        : (
-                            <div className="text-center">
-                                Không có bài viết nào
-                            </div>
-                        )
-                    }
-                </Card>
             </OtherUserLayout>
         );
     }
