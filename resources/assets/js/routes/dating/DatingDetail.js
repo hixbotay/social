@@ -717,7 +717,7 @@ class DatingDetail extends Component {
                                                 <div className="mt-4 row">
                                                     <div className="col-2"></div>
                                                     <div className="col-4 text-center">
-                                                        <button className="btn btn-primary" onClick={() => this.props.updateInvitation(event.id, {type: 'accept'})}>
+                                                        <button className="btn btn-primary" onClick={() => this.join(event.id)}>
                                                             CHẤP NHẬN
                                                         </button>
                                                     </div>
@@ -779,6 +779,9 @@ class DatingDetail extends Component {
                                     />
                                 </div>
                                 <button className="btn btn-sm btn-primary" type="submit">Xác nhận</button>
+                                <button className="btn btn-sm btn-danger" onClick={() => {this.setState({isReject: false})}}>
+                                    Hủy
+                                </button>
                             </form>
                         </Modal>
                         <Modal isOpen={this.state.isShowForm} style={{ content: { height: '500px' } }}>

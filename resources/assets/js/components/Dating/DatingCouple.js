@@ -125,7 +125,7 @@ class DatingCouple extends Component {
             if(event.is_invited) {
                 button = (
                     <div className="row">
-                        <div className="col-6">
+                        {/* <div className="col-6">
                             <button className="btn btn-primary btn-sm" onClick={() => this.props.updateInvitation(event.id, { type: 'accept' })}>
                                 Chấp nhận
                             </button>
@@ -134,7 +134,12 @@ class DatingCouple extends Component {
                             <button className="btn btn-primary btn-sm" onClick={() => this.reject(event.id)}>
                                 Từ chối
                             </button>
-                        </div>
+                        </div> */}
+                        <Link to={`/dating/${event.id}`}>
+                            <button className="btn btn-primary">
+                                Xem lời mời
+                            </button>
+                        </Link>
                     </div>
                 );
             } else {

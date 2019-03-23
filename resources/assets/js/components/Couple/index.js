@@ -47,16 +47,30 @@ class CoupleView extends Component {
                     data = {'is_loved': 0};
                     this.setState({isLoved: false, loveNumber: this.state.loveNumber - 1});
                 } else {
-                    data = {'is_loved': 1};
+                    data = {'is_loved': 1, 'is_like': 0};
                     this.setState({isLoved: true, loveNumber: this.state.loveNumber + 1});
+                    if(this.state.isLiked) {
+                        this.setState({isLiked: false, likeNumber: this.state.likeNumber - 1});
+                    }
                 }
             } else if(actionType == 'like') {
                 if(this.state.isLiked) {
                     data = {'is_like': 0};
                     this.setState({isLiked: false, likeNumber: this.state.likeNumber - 1});
                 } else {
-                    data = {'is_like': 1};
+                    data = {'is_loved': 0, 'is_like': 1};
                     this.setState({isLiked: true, likeNumber: this.state.likeNumber + 1});
+                    if(this.state.isLoved) {
+                        this.setState({isLoved: false, loveNumber: this.state.loveNumber - 1});
+                    }
+                }
+            } else if(actionType == 'block') {
+                if(this.state.isBlocked) {
+                    data = {'is_block': 0};
+                    this.setState({isBlocked: false});
+                } else {
+                    data = {'is_block': 1};
+                    this.setState({isBlocked: true});
                 }
             }
 
@@ -110,7 +124,7 @@ class CoupleView extends Component {
                                 <CircleButton
                                     icon="fas fa-thumbs-up fa-2x"
                                     color="#ffffff"
-                                    // action
+                                    action={() => this.onUpdateRelationship('like')}
                                 ></CircleButton>
                                 <CircleButton
                                     icon="fas fa-heart fa-2x"

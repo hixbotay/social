@@ -323,16 +323,11 @@ class User extends Controller
             ['profile_id', '=', $id],
             ['visitor_id', '=', $current_user->id]
         ])
-        ->select(
-            DB::raw('profile_visitor.*, COUNT(profile_id='.$id.') AS viewNumber')
-        )
         ->first();
         
-        $user->viewNumber = 0;
+        $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $id)->count();
 
         if(!$temp) {
-            $user->viewNumber = $temp->viewNumber;
-
             // add to visitor table
             DB::table('profile_visitor')->insert([
                 'profile_id' => $id,
@@ -365,19 +360,17 @@ class User extends Controller
 
     public function listFriends($type) {
         $user_id = Auth::id();
+        
         if($type == 'you-like') {
             $results = \App\UserRelationship::where('is_like', '=', 1)           
                 ->orWhere('is_loved', '=', 1)
-                ->leftjoin('users', 'user_relationship.to_user_id', '=', 'users.id')
-                ->leftjoin('devvn_tinhthanhpho', 'users.hometown_province', '=', 'devvn_tinhthanhpho.matp')
+                ->leftJoin('users', 'user_relationship.to_user_id', '=', 'users.id')
+                ->leftJoin('devvn_tinhthanhpho', 'users.hometown_province', '=', 'devvn_tinhthanhpho.matp')
                 ->select(DB::raw(
                     'users.id, users.name, users.avatar, users.birthday,
                     devvn_tinhthanhpho.name AS hometown_province_name,
-                    user_relationship.from_user_id, user_relationship.is_like, user_relationship.is_loved,
-                    SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
-                    SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                    user_relationship.from_user_id, user_relationship.is_like, user_relationship.is_loved'
                 ))
-                ->groupBy('users.id')
                 ->having('from_user_id', '=', $user_id)
                 ->get();
         } else if ($type == 'like-you') {
@@ -398,11 +391,9 @@ class User extends Controller
                 ->select(DB::raw(
                     'users.id, users.name, users.avatar, users.birthday,
                     devvn_tinhthanhpho.name AS hometown_province_name,
-                    user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved,
-                    SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
-                    SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                    user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved'
                 ))
-                ->groupBy('users.id')
+                // ->groupBy('users.id')
                 ->get();
         } else if ($type == 'visited') {
             $results = DB::table('profile_visitor')
@@ -413,11 +404,9 @@ class User extends Controller
                 ->select(DB::raw(
                     'users.id, users.name, users.avatar, users.birthday, users.is_incognito,
                     devvn_tinhthanhpho.name AS hometown_province_name,
-                    user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved,
-                    SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE null END) AS loveNumber, 
-                    SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE null END) AS likeNumber'
+                    user_relationship.to_user_id, user_relationship.is_like, user_relationship.is_loved'
                 ))
-                ->groupBy('users.id')
+                // ->groupBy('users.id')
                 // ->having('from_user_id', '=', $user_id)
                 ->get();
         }
