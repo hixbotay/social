@@ -2217,9 +2217,9 @@ a.link-default{
     display: block;
 }
 .disabled{
-    display: none;
+    /* display: none;
     opacity: 0;
-    visibility: hidden;
+    visibility: hidden; */
     -webkit-transition: opacity 600ms, visibility 600ms;
     transition: opacity 600ms, visibility 600ms;
 }

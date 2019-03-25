@@ -1182,16 +1182,18 @@ class Event extends Controller {
 
     public function listSubscribers() {
         $user = Auth::user();
+        $excludeUsers = [$user->id];
+
         // find user is invited by current user and that event is forthcoming
         $excludeInvitee = DB::table('event_invitations')
             ->join('events', 'event_id', '=', 'events.id')
             ->where([
-                ['events.status', '<>', 'finished'],
+                ['events.status', '=', 'forthcoming'],
+                ['type', '=', 'couple'],
                 ['inviter', '=', $user->id]
             ])
             ->select('invitee')
             ->get();
-        $excludeUsers = [$user->id];
         foreach($excludeInvitee as $item) {
             array_push($excludeUsers, $item->invitee);
         }
@@ -1200,7 +1202,7 @@ class Event extends Controller {
         $events = DB::table('event_register')
             ->join('events', 'event_id', '=', 'events.id')
             ->where([
-                ['events.status', '<>', 'finished'],
+                ['events.status', '=', 'forthcoming'],
                 ['type', '=', 'couple'],
                 ['user_id', '=', $user->id]
             ])

@@ -30,6 +30,8 @@ class SubscribeDating extends Component {
                 expect_age_min: 18,
                 expect_age_max: 25,
                 // province_id: '01',
+                expect_date_from: moment(),
+                expect_date_to: moment().days(4)
             },
             show: false
         }
