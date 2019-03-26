@@ -1184,44 +1184,44 @@ class Event extends Controller {
         $user = Auth::user();
         $excludeUsers = [$user->id];
 
-        // find user is invited by current user and that event is forthcoming
-        $excludeInvitee = DB::table('event_invitations')
-            ->join('events', 'event_id', '=', 'events.id')
-            ->where([
-                ['events.status', '=', 'forthcoming'],
-                ['type', '=', 'couple'],
-                ['inviter', '=', $user->id]
-            ])
-            ->select('invitee')
-            ->get();
-        foreach($excludeInvitee as $item) {
-            array_push($excludeUsers, $item->invitee);
-        }
+        // // find user is invited by current user and that event is forthcoming
+        // $excludeInvitee = DB::table('event_invitations')
+        //     ->join('events', 'event_id', '=', 'events.id')
+        //     ->where([
+        //         ['events.status', '=', 'forthcoming'],
+        //         ['type', '=', 'couple'],
+        //         ['inviter', '=', $user->id]
+        //     ])
+        //     ->select('invitee')
+        //     ->get();
+        // foreach($excludeInvitee as $item) {
+        //     array_push($excludeUsers, $item->invitee);
+        // }
 
-        // find couple dating and exclude user 
-        $events = DB::table('event_register')
-            ->join('events', 'event_id', '=', 'events.id')
-            ->where([
-                ['events.status', '=', 'forthcoming'],
-                ['type', '=', 'couple'],
-                ['user_id', '=', $user->id]
-            ])
-            ->select('event_id')
-            ->get();
-        $temp1 = [];
-        foreach($events as $item) {
-            array_push($temp1, $item->event_id);
-        }
+        // // find couple dating and exclude user 
+        // $events = DB::table('event_register')
+        //     ->join('events', 'event_id', '=', 'events.id')
+        //     ->where([
+        //         ['events.status', '=', 'forthcoming'],
+        //         ['type', '=', 'couple'],
+        //         ['user_id', '=', $user->id]
+        //     ])
+        //     ->select('event_id')
+        //     ->get();
+        // $temp1 = [];
+        // foreach($events as $item) {
+        //     array_push($temp1, $item->event_id);
+        // }
 
-        $temp2 = DB::table('event_register')
-            ->whereIn('event_id', $temp1)
-            ->select('user_id')
-            ->distinct()
-            ->get();
+        // $temp2 = DB::table('event_register')
+        //     ->whereIn('event_id', $temp1)
+        //     ->select('user_id')
+        //     ->distinct()
+        //     ->get();
 
-        foreach($temp2 as $item) {
-            array_push($excludeUsers, $item->user_id);
-        }
+        // foreach($temp2 as $item) {
+        //     array_push($excludeUsers, $item->user_id);
+        // }
 
         $subscribers = DB::table('event_subscribers')
             ->join('users', 'users.id', '=', 'event_subscribers.user_id')
