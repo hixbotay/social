@@ -236,13 +236,9 @@ class OtherUserLayout extends Component {
                                         color={this.state.isBlocked ? '#d35400' : '#34495e'}
                                         action={() => this.inviteDating()}
                                     ></CircleButton>
-                                    <CircleButton
-                                        icon="fab fa-telegram-plane"
-                                        color={this.state.isBlocked ? '#34495e' : '#34495e'}
-                                        action={() => this.handleClick()}
-                                    ></CircleButton>
+
                                 </div>
-                                <div className={ this.state.condition ? "row" : "row disabled" }>
+                                <div className="row mt-3">
                                     <div className="col-10 pr-0">
                                         <input className="form-control" value={this.state.message} onChange={(e) => {
                                             this.setState({message: e.target.value});
@@ -260,12 +256,12 @@ class OtherUserLayout extends Component {
                             </Card>
                         </CardWithIcon>
                     </div>
+                </div>
+                <div className="col col-xl-12 order-xl-1 col-lg-12 order-lg-1 col-md-12 order-md-2 col-sm-12 order-sm-2 col-12">
                     <div className='bottom-div'>
                         {this.props.children}
                     </div>
                 </div>
-
-
                 <Modal isOpen={this.state.isAlertRelationship}>
                     <div className="row">
                         <div className="image">
@@ -309,7 +305,7 @@ class OtherUserLayout extends Component {
                         enableLightbox={true}
                         enableImageSelection={false}
                         // currentImageWillChange={this.onCurrentImageChange}
-                    />               
+                    />
                 </Modal>
 
                 <NotificationContainer/>
