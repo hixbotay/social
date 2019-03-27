@@ -117,7 +117,7 @@
         margin-top: 10px;
     }
     .bottom-div{
-        margin-top: 160px;
+        margin-top: 220px;
     }
     .bottom-div.current-user{
         margin-top: 170px;
@@ -144,11 +144,9 @@
         justify-content: space-between;
     }
     .td-subcat-link{
-        font-size: 12px;
+        font-size: 11px;
     }
-    .profile-controls .btn-upload-photo{
-        margin-top: 10px;
-    }
+
     .cafe-header-banner{
         margin-top: 20px;
     }

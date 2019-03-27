@@ -198,7 +198,7 @@ class SearchResults extends Component {
                         </Card>
                     )
                 }
-                <a className='btn-skip-user'>Các thành viên đã bỏ qua <i className='fas fa-angle-double-right'></i></a>
+
                 <button type="button" id="open-relationship-modal" className="d-none" data-toggle="modal" data-target="#relationship-alert"></button>
                 <Modal id="relationship-alert">
                     <div className="row">

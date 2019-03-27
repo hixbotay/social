@@ -83,30 +83,15 @@ class ProfileLayout extends Component {
                                 <div className="row">
                                     <div className="col-4">
                                         <img src={`${baseUrl}/public/images/space-rocket-512.png`} className="status-info-icon" title="Nổi bật 24h"/>
-                                        <Switch
-                                            onChange={() => this.alert()}
-                                            checked={false}
-                                            className="react-switch align-middle"
-                                            id="normal-switch"
-                                        />
+                                        <p className="color-primary">Nổi Bật 24h</p>
                                     </div>
                                     <div className="col-4">
                                         <img src={`${baseUrl}/public/images/Pacman_Ghost-512.png`} className="status-info-icon" title="Ẩn danh"/>
-                                        <Switch
-                                            onChange={() => this.handleChange()}
-                                            checked={this.state.is_incognito}
-                                            className="react-switch align-middle"
-                                            id="normal-switch"
-                                        />
+                                        <p className="color-primary">Ẩn Danh</p>
                                     </div>
                                     <div className="col-4">
                                         <img src={`${baseUrl}/public/images/iconfinder_chat.png`} className="status-info-icon" title="Nhắn đồng thời 100 tin"/>
-                                        <Switch
-                                            onChange={() => this.alert()}
-                                            checked={false}
-                                            className="react-switch align-middle"
-                                            id="normal-switch"
-                                        />
+                                        <p className="color-primary">Nhắn 100</p>
                                     </div>
                                 </div>
 
