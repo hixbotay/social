@@ -2126,7 +2126,8 @@ a.link-default{
 }
 .profile-layout .leftslider{
     position: fixed;
-    width: 16%;
+    width: 100%;
+    max-width: 295px;
     padding-right: 40px;
 }
 .profile-layout .main-content-wrap{
@@ -2393,9 +2394,14 @@ a.link-default{
 .color-primary{
     color: #3464D4;
 }
-@media screen and (max-width: 1200px) {
-    .profile-layout .leftslider {
-        width: 25%;
-    }
-}
+/*@media screen and (min-width: 1356px)  {*/
+    /*.profile-layout .leftslider {*/
+        /*width: 21%;*/
+    /*}*/
+/*}*/
+/*@media screen and (max-width: 1366px) {*/
+    /*.profile-layout .leftslider {*/
+        /*width: 25%;*/
+    /*}*/
+/*}*/
 /*END CAFE - NEW TEMPLATE*/
