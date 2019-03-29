@@ -86,7 +86,7 @@ class RegisterItem extends Component {
                             </div>
                             <div className="col-8">
                                 <h5>{user.name}</h5>
-                                <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/>
+                                {/* <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/> */}
                                 {/* {
                                     (user.id !== current_user.id) ? (
                                         <Fragment>
@@ -126,7 +126,7 @@ class RegisterItem extends Component {
                             </div>
                             <div className="col-8">
                                 <h5>{`ID-${user.id}`}</h5>
-                                <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/>
+                                {/* <InformationNumber heartNumber={this.state.loveNumber} likeNumber={this.state.likeNumber} viewNumber={user.viewNumber}/> */}
                             </div>
                         </Fragment>
                     )

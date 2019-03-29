@@ -179,7 +179,7 @@ class SubscribeDating extends Component {
             return;
         }
 
-        if (!this.state.newSubscriber.province_id || !this.state.newSubscriber.district_id) {
+        if (!this.state.newSubscriber.province_id) {
             alert("Vui lòng xem lại địa chỉ tỉnh và huyện");
             return;
         }
@@ -396,7 +396,7 @@ class SubscribeDating extends Component {
                                 </div>
                                 <div className="col-12 col-md-6 mb-2">
                                     <Select
-                                        placeholder="Chọn huyện"
+                                        placeholder="Chọn huyện (Không bắt buộc)"
                                         defaultValue={this.state.newSubscriber.district_id}
                                         options={
                                             districts.map(district => {

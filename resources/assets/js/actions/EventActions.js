@@ -23,7 +23,8 @@ import {
     CANCEL_EVENT_BY_MEMBER,
     RESET_EVENT,
     REFUSE_REGISTER,
-    GET_COUPLE_EVENT_MEMBERS
+    GET_COUPLE_EVENT_MEMBERS,
+    GET_GROUP_EVENT_MEMBERS
 } from './types';
 
 export const getAllEvents = (type) => dispatch => {
@@ -256,9 +257,20 @@ export const refuseRegister = (event_id, data) => dispatch => {
 
 export const getCoupleEventMember = (event_id) => dispatch => {
     return new Promise((resolve, reject) => {
-        return api.get(`/event/members/${event_id}`).then(response => {
+        return api.get(`/event/couple/members/${event_id}`).then(response => {
             dispatch({type: GET_COUPLE_EVENT_MEMBERS, payload: response.data.users});
             resolve(response.data.users);
+        }).catch(err => {
+            reject(err);
+        })
+    })
+}
+
+export const getGroupEventMember = (event_id) => dispatch => {
+    return new Promise((resolve, reject) => {
+        return api.get(`/event/group/members/${event_id}`).then(response => {
+            dispatch({type: GET_GROUP_EVENT_MEMBERS, payload: response.data});
+            resolve(response.data);
         }).catch(err => {
             reject(err);
         })

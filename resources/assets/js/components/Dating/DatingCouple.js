@@ -210,7 +210,7 @@ class DatingCouple extends Component {
                         <div>
 
                             {
-                                event.is_joined && event.creator != user.id ? (
+                                event.status == 'forthcoming' && event.is_joined && event.creator != user.id ? (
                                     <div >
                                         <b>
                                             Bạn đã đồng ý tham gia cuộc hẹn này, hãy đến đúng hẹn và

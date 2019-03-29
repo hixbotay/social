@@ -687,7 +687,16 @@ class Event extends Controller {
                 agency.organizing_fee as organizing_fee
             '))
             ->first();
+
+        if(!$event) {
+            return ['event' => null, 'message' => 'Cuộc hẹn không tồn tại!'];
+        }
         
+        $creator = \App\User::where('id', '=', $event->creator)
+            ->select(['id', 'name', 'avatar'])
+            ->first();
+        $event->creator_user = $creator;
+
         $register = DB::table('event_register')
             ->where([
                 ['event_id', '=', $event_id], 
@@ -747,76 +756,6 @@ class Event extends Controller {
                 $event['marital_status'] = $marital_status;
             }
         }
-
-        // get registers
-        $event_registers = DB::table('event_register')
-            ->join('users', 'users.id', '=', 'event_register.user_id')
-            ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'event_register.user_id')
-            ->where([
-                ['event_register.event_id', '=', $event_id],
-                ['event_register.status', '=', 1]
-            ])
-            ->select(DB::raw(
-                'users.id AS id, users.name AS name, users.avatar AS avatar, users.gender AS gender,
-                SUM(case user_relationship.is_loved WHEN 1 THEN 1 ELSE 0 END) AS loveNumber, 
-                SUM(case user_relationship.is_like WHEN 1 THEN 1 ELSE 0 END) AS likeNumber'
-            ))
-            ->groupBy('users.id')
-            ->get();
-
-        $male_joined_number = 0;
-        $female_joined_number = 0;
-
-        $registers = [];
-        foreach($event_registers as $key => $user) {
-
-            if($user->gender == 'M') $male_joined_number++;
-            else $female_joined_number++;
-
-            // if(!$event['is_joined']) {
-            //     if($user->id == $current_user_id) {
-            //         $event['is_joined'] = 1;
-            //     }
-            // }
-
-            $user->is_like = 0;
-            $user->is_loved = 0;
-            $user->is_partner_loved = 0;
-
-            $temp1 = DB::table('user_relationship')
-                ->where([
-                    ["from_user_id", '=', $user->id], 
-                    ["to_user_id",'=', $current_user_id]
-                ])
-                ->having('is_loved', '=', 1);
-
-            $temp = DB::table('user_relationship')
-                ->where([["from_user_id", '=', $current_user_id], ["to_user_id", '=', $user->id]])
-                ->union($temp1)
-                ->get();
-
-            foreach($temp as $item) {
-                if($item->from_user_id == $current_user_id) {
-                    $user->is_like = $item->is_like;
-                    $user->is_loved = $item->is_loved;
-                } else {
-                    $user->is_partner_loved = $item->is_loved;
-                }
-            }
-
-            $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $user->id)->count();
-            if($user->id == $event['creator']) {
-                // unset($event['creator']);
-                $event['creator_user'] = $user;
-                continue;
-            } else {
-                array_push($registers, $user);
-            }
-        }
-
-        $event['registers'] = $registers;
-        $event['male_joined_number'] = $male_joined_number;
-        $event['female_joined_number'] = $female_joined_number;
 
         // get review if type is couple
         $event['reviews'] = [];
@@ -1304,10 +1243,19 @@ class Event extends Controller {
     // thành viên rời khỏi cuộc hẹn
     public function cancelEventByMember($event_id) {
         $user = Auth::user();
+        $event = \App\Event::find($event_id);
 
         $result = DB::table('event_register')
             ->where([['user_id', '=', $user->id], ['event_id', '=', $event_id]])
             ->update(['status' => 0, 'updated_at' => date('Y-m-d H:i:s')]);
+        
+        if($event->type === 'couple') {
+            $event->status = 'cancelled';
+            $event->canceled_person = $user->id;
+            $event->canceled_reason = '';
+            $event->save();
+        }
+        
         return ['result' => $result];
     }
 
@@ -1344,37 +1292,106 @@ class Event extends Controller {
         return ['ok' => 1];
     }
 
-    public function getCoupleEventMember($event_id) {
+    public function getCoupleEventMembers($event_id) {
         $event = \App\Event::where([['id', '=', $event_id], ['type', '=','couple']])->first();
         $temp = [];
         $status = null;
+        $users = [];
 
-        $registers = DB::table('event_register')->where([['event_id', '=', $event_id]])->get();
+        $registers = DB::table('event_register')
+            ->where([['event_id', '=', $event_id]])
+            ->join('users', 'users.id', '=', 'event_register.user_id')
+            ->select(DB::raw('users.id AS id, users.name AS name, users.avatar AS avatar, status'))
+            ->groupBy('id')
+            ->get();
+    
+        foreach($registers as $register) {
+            $register->type = 'register';
+            array_push($users, $register);
+        }
+
         if(count($registers) === 1) {
-            $invitation = DB::table('event_invitations')->where([['event_id', '=', $event_id]])->first();
-            $status = $invitation->status;
-            $temp = [$registers[0]->user_id, $invitation->invitee];
-        } else {
-            $temp = [$registers[0]->user_id, $registers[1]->user_id];
-        }
-        
-        $users = \App\User::whereIn('id', $temp)->select(['id','name', 'avatar'])->get();
-        $users->get(0)->status = $registers->get(0)->status;
-        $users->get(0)->type = 'register';
+            $invitation = DB::table('event_invitations')
+                ->where([['event_id', '=', $event_id]])
+                ->join('users', 'users.id', '=', 'invitee')
+                ->select(DB::raw('users.id AS id, users.name AS name, users.avatar AS avatar, status'))
+                ->first();
+            $invitation->type = 'invited';
+            array_push($users, $invitation);
+        } 
 
-        if($status !== null) {
-            $users->get(1)->status = $status;
-            $users->get(1)->type = 'invited';
-        } else {   
-            $users->get(1)->status = $registers->get(1)->status;
-            $users->get(1)->type = 'register';
-        }
-
-        if($event->status === 'cancelled') {
-            $users->get(0)->status = 0;
-            $users->get(1)->status = 1;
-        }
+        // if($event->status === 'cancelled') {
+        //     $users[0]->status = 0;
+        //     // $users->get(1)->status = 1;
+        // }
 
         return ['users' => $users];
+    }
+
+    public function getGroupEventMembers($event_id) {
+        $current_user_id = Auth::id();
+        
+        $event = \App\Event::where([['id', '=', $event_id], ['type', '=','group']])->first();
+
+        if($event) {
+            // get registers
+            $event_registers = DB::table('event_register')
+                ->join('users', 'users.id', '=', 'event_register.user_id')
+                ->leftjoin('user_relationship', 'user_relationship.to_user_id', '=', 'event_register.user_id')
+                ->where([
+                    ['event_register.event_id', '=', $event_id],
+                    ['event_register.status', '=', 1]
+                ])
+                ->select(DB::raw(
+                    'users.id AS id, users.name AS name, users.avatar AS avatar, users.gender AS gender'
+                ))
+                ->groupBy('users.id')
+                ->get();
+
+            $male_joined_number = 0;
+            $female_joined_number = 0;
+
+            $registers = [];
+            foreach($event_registers as $key => $user) {
+                if($user->gender == 'M') $male_joined_number++;
+                else $female_joined_number++;
+
+                $user->is_like = 0;
+                $user->is_loved = 0;
+                $user->is_partner_loved = 0;
+
+                $temp1 = DB::table('user_relationship')
+                    ->where([
+                        ["from_user_id", '=', $user->id], 
+                        ["to_user_id",'=', $current_user_id]
+                    ])
+                    ->having('is_loved', '=', 1);
+
+                $temp = DB::table('user_relationship')
+                    ->where([["from_user_id", '=', $current_user_id], ["to_user_id", '=', $user->id]])
+                    ->union($temp1)
+                    ->get();
+
+                foreach($temp as $item) {
+                    if($item->from_user_id == $current_user_id) {
+                        $user->is_like = $item->is_like;
+                        $user->is_loved = $item->is_loved;
+                    } else {
+                        $user->is_partner_loved = $item->is_loved;
+                    }
+                }
+
+                $user->viewNumber = DB::table('profile_visitor')->where('profile_id', '=', $user->id)->count();
+
+                if($user->id == $event['creator']) {
+                    continue;
+                } else {
+                    array_push($registers, $user);
+                }
+            }
+
+            return ['registers' => $registers, 'male_joined_number' => $male_joined_number, 'female_joined_number' => $female_joined_number];
+                
+        }
     }
 }
