@@ -84,24 +84,36 @@ class Event extends Controller {
                 ->orderBy('start_time', 'DESC')
                 ->paginate(10);
         } else if($status == 'cancelled') {
-            $registeredEvents = DB::table('event_register')
+            $temp = [];
+            //  tim các cuộc hẹn đôi mà register status = 0
+            $registeredCoupleEvents = DB::table('event_register')
+                ->join('events', 'events.id', '=', 'event_register.event_id')
                 ->where([
-                    ['user_id', '=', Auth::id()],
-                    ['event_register.status', '=', 0]    
+                    ['user_id', '=', Auth::id()],    
+                    ['events.status', '=', 'cancelled'],
+                    ['events.type', '=', 'couple']
                 ])
                 ->get();
-            $temp = [];
-            foreach($registeredEvents as $item) {
+            
+            foreach($registeredCoupleEvents as $item) {
+                array_push($temp, $item->event_id);
+            }
+
+            $registeredGroupEvents = DB::table('event_register')
+                ->join('events', 'events.id', '=', 'event_register.event_id')
+                ->where([
+                    ['user_id', '=', Auth::id()],    
+                    ['events.status', '=', 'cancelled'],
+                    ['events.type', '=', 'group'],
+                    ['event_register.status', '=', 1]
+                ])
+                ->get();
+            
+            foreach($registeredGroupEvents as $item) {
                 array_push($temp, $item->event_id);
             }
             
             $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
-                ->join('event_register', function($join) {
-                    $join->on('events.id', '=', 'event_register.event_id');
-                    $join->on(function($query) {
-                        $query->where('event_register.user_id', '=', Auth::id()); 
-                    });
-                })
                 ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
                 ->leftjoin('agency_photos', function ($join) {
                     $join->on('events.agency_id', '=', 'agency_photos.agency_id');
@@ -109,10 +121,7 @@ class Event extends Controller {
                         $query->where('agency_photos.type', '=', 'avatar'); 
                     });
                 })
-                ->where([
-                    ['events.status', '=', 'cancelled']
-                ])
-                ->orWhereIn('events.id', $temp)
+                ->whereIn('events.id', $temp)
                 ->select(DB::raw('
                     events.*,
                     users.name as creator_name, 
@@ -160,177 +169,6 @@ class Event extends Controller {
         return json_encode($events);
     }
 
-    // list events around here and current user does not join 
-    public function listEventsAround() {
-        $now = date('Y-m-d H:i:s');
-        $user = Auth::user();
-        // looking for event that current_user is joined
-        $temp = DB::table('event_register')
-            ->where([
-                ['user_id', '=', $user->id]
-            ])
-            ->get();
-        $excludeEvents = [];
-        foreach($temp as $item) {
-            array_push($excludeEvents, $item->event_id);
-        }
-
-        $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
-            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
-            ->leftjoin('agency_photos', function ($join) {
-                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
-                $join->on(function($query) {
-                    $query->where('agency_photos.type', '=', 'avatar'); 
-                });
-            })
-            ->where([
-                ['limit_time_register', '>', $now],
-                ['status', '=', 'forthcoming'],
-                ['events.type', '=', 'group'],
-                ['agency.province_id', '=', $user->province_id]
-            ])
-            ->whereNotIn('events.id', $excludeEvents)
-            ->select(DB::raw('
-                events.*, 
-                users.name as creator_name, 
-                users.avatar as creator_avatar, 
-                agency.address as address, 
-                agency_photos.source as agency_avatar
-            '))
-            ->paginate(10);
-
-        $events_id = [];
-        foreach($events as $key => $event) {
-            $event['is_joined'] = 0;
-            array_push($events_id, $event->id);
-        }
-
-        $event_meta = DB::table('event_meta')
-                    ->whereIn('event_id', $events_id)
-                    ->leftJoin('user_jobs', function($join) {
-                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
-                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
-                    })
-                    ->get();
-
-        $events->map( function ($event, $key) use ($event_meta) {
-            $job = [];
-            $marital_status = [];
-            foreach($event_meta as $metadata) {
-                if($metadata->event_id == $event->id) {
-                    $key = $metadata->meta_key;
-
-                    if($key == 'job_conditional') {
-                        array_push($job, $metadata->name);
-                    } else if($key == 'marital_status') {
-                        array_push($marital_status, $metadata->meta_value);
-                    } else {
-                        $event[$key] = $metadata->meta_value;
-                    }
-                }
-            }
-            $event['job'] = $job;
-            $event['marital_status'] = $marital_status;
-        });
-        return json_encode($events);
-    }
-
-    // list events has current user's crush and current user does not join 
-    public function listEventsHasYourCrush() {
-        $now = date('Y-m-d H:i:s');
-        $user_id = Auth::id();
-        // looking for event that current_user is joined
-        $temp = DB::table('event_register')
-            ->where([
-                ['user_id', '=', $user_id],
-                ['status', '=', 1]
-            ])
-            ->get();
-        $excludeEvents = [];
-        foreach($temp as $item) {
-            array_push($excludeEvents, $item->event_id);
-        }
-        
-        $event_registers = DB::table('event_register')
-            ->join('user_relationship', function($join) {
-                $join->on('to_user_id', '=', 'event_register.user_id');
-                $join->on(function($query) {
-                    $query->where([
-                        ['from_user_id', '=', Auth::id()],
-                        ['is_loved', '=', 1]
-                    ]);
-                });
-            })
-            ->whereNotIn('event_register.event_id', $excludeEvents)
-            ->select(DB::raw('event_register.*'))
-            ->get();
-
-        $temp = [];
-        foreach($event_registers as $item) {
-            array_push($temp, $item->event_id);
-        }
-
-        $events = \App\Event::leftjoin('users', 'events.creator', '=', 'users.id')
-            ->leftjoin('event_register', 'events.id', '=', 'event_register.event_id')
-            ->leftjoin('agency', 'events.agency_id', '=', 'agency.id')
-            ->leftjoin('agency_photos', function ($join) {
-                $join->on('events.agency_id', '=', 'agency_photos.agency_id');
-                $join->on(function($query) {
-                    $query->where('agency_photos.type', '=', 'avatar'); 
-                });
-            })
-            ->where([
-                ['limit_time_register', '>', $now],
-                ['events.status', '=', 'forthcoming'], 
-                ['events.type', '=', 'group']
-            ])
-            ->whereIn('events.id', $temp)
-            ->select(DB::raw('
-                events.*,
-                (CASE event_register.user_id WHEN '.$user_id.' THEN 1 ELSE 0 END) AS is_joined,
-                users.name as creator_name, 
-                users.avatar as creator_avatar, 
-                agency.address as address, 
-                agency_photos.source as agency_avatar
-            '))
-            ->paginate(10);
-
-        $events_id = [];
-        foreach($events as $key => $event) {
-            array_push($events_id, $event->id);
-        }
-
-        $event_meta = DB::table('event_meta')
-                    ->whereIn('event_id', $events_id)
-                    ->leftJoin('user_jobs', function($join) {
-                        $join->on('user_jobs.id', '=', 'event_meta.meta_value');
-                        $join->on('event_meta.meta_key', '=', DB::raw("'job_conditional'"));
-                    })
-                    ->get();
-
-        $events->map( function ($event, $key) use ($event_meta) {
-            $job = [];
-            $marital_status = [];
-            foreach($event_meta as $metadata) {
-                if($metadata->event_id == $event->id) {
-                    $key = $metadata->meta_key;
-
-                    if($key == 'job_conditional') {
-                        array_push($job, $metadata->name);
-                    } else if($key == 'marital_status') {
-                        array_push($marital_status, $metadata->meta_value);
-                    } else {
-                        $event[$key] = $metadata->meta_value;
-                    }
-                }
-            }
-            
-            $event['job'] = $job;
-            $event['marital_status'] = $marital_status;
-        });
-        return json_encode($events);
-    }
-
     // list upcoming group event and current user does not join 
     public function listEventsUpcoming() {
         $now = date('Y-m-d H:i:s');
@@ -339,7 +177,8 @@ class Event extends Controller {
         // find event user never join or invited
         $temp = DB::table('event_register')
             ->where([
-                ['user_id', '=', $user->id]
+                ['user_id', '=', $user->id],
+                ['status', '=', 1]
             ])
             ->get();
         
@@ -656,9 +495,9 @@ class Event extends Controller {
                 ['user_id', '=', Auth::id()],
                 ['event_id', '=', $event_id],
             ])
-            ->get();
+            ->first();
         
-        if(count($register) == 0) {
+        if($register) {
             $result = DB::table('event_register')
             ->insert([
                 'user_id' => Auth::id(),
@@ -666,7 +505,13 @@ class Event extends Controller {
                 'status' => 1,
                 'created' => date('Y-m-d H:i:s')
             ]);
-        } else $result = false;
+        } else {
+            $register->status = 1;
+            $register->updated_at = date('Y-m-d H:i:s');
+            $register->save();
+
+            $result = true;
+        }
         
         return json_encode($result);
     }

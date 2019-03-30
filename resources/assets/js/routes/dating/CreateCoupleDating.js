@@ -404,11 +404,11 @@ class CreateCoupleDating extends Component {
                                             <input
                                                 className="custom-input"
                                                 name="payer" type="radio" value="self"
-                                                checked={subscriber ? subscriber.payer !== 'self' : true}
+                                                defaultChecked={subscriber ? subscriber.payer !== 'self' : true}
                                                 onClick={() => {
                                                     this.setState({event_meta: {...this.state.event_meta, payer: user.id}})
                                                 }}
-                                                readOnly required
+                                                required
                                             />
                                         </div>
                                         <div className="col-3">
@@ -418,11 +418,11 @@ class CreateCoupleDating extends Component {
                                             <input
                                                 className="custom-input"
                                                 name="payer" type="radio" value="partner"
-                                                checked={subscriber ? subscriber.payer === 'self' : false}
+                                                defaultChecked={subscriber ? subscriber.payer === 'self' : false}
                                                 onClick={() => {
                                                     this.setState({event_meta: {...this.state.event_meta, payer: invitee.id}})
                                                 }}
-                                                readOnly required
+                                                required
                                             />
                                         </div>
                                         <div className="col-3">

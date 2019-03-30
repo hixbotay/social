@@ -197,9 +197,9 @@ class DatingCouple extends Component {
                             src={event.image ? event.image : `${baseUrl}/public/images/couple_dating.jpg`}
                         />
                         {
-                            (event.status == 'forthcoming' && ((new Date(event.start_time) - new Date()) <= 48 * 60 * 60 * 1000)) ? (
+                            (event.status == 'forthcoming' && ((new Date(event.limit_time_register) - new Date()) <= 48 * 60 * 60 * 1000)) ? (
                                 <Countdown
-                                    date={new Date(event.start_time)}
+                                    date={new Date(event.limit_time_register)}
                                     renderer={renderCountdown}
                                     daysInHours={true}
                                 ></Countdown>
