@@ -497,7 +497,7 @@ class Event extends Controller {
             ])
             ->first();
         
-        if($register) {
+        if(!$register) {
             $result = DB::table('event_register')
             ->insert([
                 'user_id' => Auth::id(),
@@ -506,9 +506,15 @@ class Event extends Controller {
                 'created' => date('Y-m-d H:i:s')
             ]);
         } else {
-            $register->status = 1;
-            $register->updated_at = date('Y-m-d H:i:s');
-            $register->save();
+            $register= DB::table('event_register')
+            ->where([
+                ['user_id', '=', Auth::id()],
+                ['event_id', '=', $event_id],
+            ])
+            ->update([
+                'status' => 1,
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
 
             $result = true;
         }
@@ -546,7 +552,7 @@ class Event extends Controller {
             ->where([
                 ['event_id', '=', $event_id], 
                 ['user_id', '=', $current_user_id], 
-                ['status', '=', 1]
+                // ['status', '=', 1]
             ])->first();  
 
         $invitation = DB::table('event_invitations')
@@ -562,9 +568,7 @@ class Event extends Controller {
         }
         // current user is joined or not
         if($register) {
-            $event['is_joined'] = 1;
-        } else {
-            $event['is_joined'] = 0;
+            $event['is_joined'] = $register->status;
         }
 
         // current user is invited or not

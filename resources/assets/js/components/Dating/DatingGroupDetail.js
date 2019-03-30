@@ -567,21 +567,21 @@ class DatingGroupDetail extends Component {
                                                     <div className="col-2"></div>
                                                 </div>
                                             ) : (
-                                                    <div className="mt-4 text-center">
-                                                        <button className="btn btn-primary" onClick={() => this.join(event.id)}>
-                                                            THAM GIA NGAY!
+                                                <div className="mt-4 text-center">
+                                                    <button className="btn btn-primary" onClick={() => this.join(event.id)}>
+                                                        THAM GIA NGAY!
                                                     </button>
-                                                    </div>
-                                                )
+                                                </div>
+                                            )
                                         }
                                     </div>
                                 ) : (
-                                        <div>
-                                            <button className="btn btn-danger" onClick={() => this.cancel(event.id)}>
-                                                HỦY CUỘC HẸN
+                                    <div>
+                                        <button className="btn btn-danger" onClick={() => this.cancel(event.id)}>
+                                            HỦY CUỘC HẸN
                                         </button>
-                                        </div>
-                                    )
+                                    </div>
+                                )
                             ) : null
                         }
                         <Modal isOpen={this.state.isAlert} >
