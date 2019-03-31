@@ -252,6 +252,7 @@ export const refuseRegister = (event_id, data) => dispatch => {
         window.location.reload();
     }).catch(err => {
         console(err.response.data.message);
+        alert(err.response.data.message)
     })
 }
 
