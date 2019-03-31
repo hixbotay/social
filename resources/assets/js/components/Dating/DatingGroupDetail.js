@@ -492,8 +492,8 @@ class DatingGroupDetail extends Component {
                                         </div>
                                     </div>
                                 ) : (
-                                        <div>Loading....</div>
-                                    )
+                                    <div>Loading....</div>
+                                )
                             }
                             <div className="dating-description mt-2 mb-4">
                                 <b>Mô tả về cuộc hẹn này:</b>
@@ -560,7 +560,7 @@ class DatingGroupDetail extends Component {
                                                         </button>
                                                     </div>
                                                     <div className="col-4 text-center">
-                                                        <button className="btn btn-primary" onClick={() => { this.setState({ isReject: true }) }}>
+                                                        <button className="btn btn-danger" onClick={() => { this.setState({ isReject: true }) }}>
                                                             TỪ CHỐI
                                                         </button>
                                                     </div>
@@ -577,9 +577,13 @@ class DatingGroupDetail extends Component {
                                     </div>
                                 ) : (
                                     <div>
-                                        <button className="btn btn-danger" onClick={() => this.cancel(event.id)}>
-                                            HỦY CUỘC HẸN
-                                        </button>
+                                        {
+                                            (current_user.id != event.creator) ? (
+                                                <button className="btn btn-danger" onClick={() => this.cancel(event.id)}>
+                                                    HỦY CUỘC HẸN
+                                                </button>
+                                            ) : null
+                                        }
                                     </div>
                                 )
                             ) : null

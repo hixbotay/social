@@ -251,7 +251,7 @@ export const refuseRegister = (event_id, data) => dispatch => {
         dispatch({type: REFUSE_REGISTER, payload: event_id});
         window.location.reload();
     }).catch(err => {
-        console.log(err);
+        console(err.response.data.message);
     })
 }
 
