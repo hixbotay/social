@@ -2405,3 +2405,9 @@ a.link-default{
     /*}*/
 /*}*/
 /*END CAFE - NEW TEMPLATE*/
+
+.toggle-dating-btn {
+    float: right;
+    cursor: pointer;
+    font-size: 1.5em;
+}

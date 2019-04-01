@@ -98,14 +98,24 @@ class Dating extends Component {
                 }
                 {
                     this.props.finishedEvents.length ? (
-                        <DatingCard status="finished" title="CUỘC HẸN ĐÃ KẾT THÚC" events={this.props.finishedEvents}></DatingCard>
+                        <DatingCard 
+                            status="finished" 
+                            title="CUỘC HẸN ĐÃ KẾT THÚC" 
+                            events={this.props.finishedEvents}
+                            isShow={false}
+                        />
                     ) : (
                             null
                         )
                 }
                 {
                     this.props.cancelledEvents.length ? (
-                        <DatingCard status="cancelled" title="CUỘC HẸN ĐÃ HỦY" events={this.props.cancelledEvents}></DatingCard>
+                        <DatingCard 
+                            status="cancelled" 
+                            title="CUỘC HẸN ĐÃ HỦY" 
+                            events={this.props.cancelledEvents}
+                            isShow={false}
+                        />
                     ) : (
                             null
                         )

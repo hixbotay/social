@@ -18,7 +18,8 @@ class DatingCard extends Component {
             // adaptiveHeight: true
         };
 
-        const { title, type, events, isDisplaySlide } = this.props;
+        const { title, type, events, isDisplaySlide, isShow } = this.props;
+
         var eventArr = events.map((event, index) => {
             return (
                 <div key={index}>
@@ -45,7 +46,7 @@ class DatingCard extends Component {
         });
 
         return (
-            <CardWithTitle hasLine={true} title={title}>
+            <CardWithTitle hasLine={true} title={title} isShowToggleIcon={true} isShow={this.props.isShow}>
                 {
                     isDisplaySlide ? (
                         <div className="dating-slide">
