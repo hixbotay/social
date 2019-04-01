@@ -247,12 +247,11 @@ export const resetEvent = (event_id) => dispatch => {
 }
 
 export const refuseRegister = (event_id, data) => dispatch => {
-    return api.put(`/event/refuse/${event_id}`, data).then(response => {
+    return api.post(`/event/refuse/${event_id}`, data).then(response => {
         dispatch({type: REFUSE_REGISTER, payload: event_id});
-        window.location.reload();
+        window.location.href = `${baseUrl}/dating`;
     }).catch(err => {
         console(err.response.data.message);
-        alert(err.response.data.message)
     })
 }
 

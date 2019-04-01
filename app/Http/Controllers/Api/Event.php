@@ -178,8 +178,8 @@ class Event extends Controller {
         $temp = DB::table('event_register')
             ->where([
                 ['user_id', '=', $user->id],
-                ['status', '=', 1]
             ])
+            ->whereIn('status', [1, 2])
             ->get();
         
         $temp1 = DB::table('event_invitations')

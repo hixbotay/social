@@ -28,7 +28,7 @@ Route::middleware(['web'])->group(function() {
     Route::post('/event/subscribe', 'Api\Event@subscribeEvent');
     Route::post('/event/{event_id}', 'Api\Event@joinEvent');
     Route::put('/event/cancel/{event_id}', 'Api\Event@cancelEventByMember');
-    Route::put('/event/refuse/{event_id}', 'Api\Event@refuseRegister');
+    Route::post('/event/refuse/{event_id}', 'Api\Event@refuseRegister');
     Route::put('/event/reset/{event_id}', 'Api\Event@resetEvent');
     Route::get('/event/couple/members/{event_id}', 'Api\Event@getCoupleEventMembers');
     Route::get('/event/group/members/{event_id}', 'Api\Event@getGroupEventMembers');

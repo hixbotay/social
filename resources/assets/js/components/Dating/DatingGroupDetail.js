@@ -578,7 +578,7 @@ class DatingGroupDetail extends Component {
                                 ) : (
                                     <div>
                                         {
-                                            (current_user.id != event.creator) ? (
+                                            (current_user.id != event.creator && event.is_joined == 1) ? (
                                                 <button className="btn btn-danger" onClick={() => this.cancel(event.id)}>
                                                     HỦY CUỘC HẸN
                                                 </button>
