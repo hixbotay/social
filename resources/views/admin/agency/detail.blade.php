@@ -122,8 +122,10 @@
                         </div>
 
 
+                            {{--ONLY ADMIN EDIT--}}
+
                         <div class="form-group">
-                            <label>Chủ<span></span></label>
+                            <label>Chủ quán<span></span></label>
                             <input value="{{$item->owner}}" type="text" name="data[owner]" class="form-control" required>
                         </div>
 
