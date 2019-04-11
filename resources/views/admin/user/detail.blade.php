@@ -15,7 +15,7 @@
 					<div class="row">
 						<div class="container">
 							<div class="col-md-3 user-details">
-								<button class="btn btn-defau`lt waves-effect waves-light avatar-button" id="custom-html-alert" type="button">
+								<button class="btn btn-defau`lt waves-effect waves-light avatar-button" id="custom-html-alert" index="{{ $item->id }}" type="button">
 									<img src="{{$item->avatar}}" class="thumb-md img-circle">
 								</button>
 							</div>
@@ -51,10 +51,6 @@
 							<option value="1">Enabled</option>
 							<option value="0">Disabled</option>
 						</select>
-					</div>
-					<div class="form-group">
-						<label>Address</label>
-						<input type="text" class="form-control" name="data[address]" value="{{$item->address}}"/>
 					</div>
 					<div class="form-group">
 						<label>Longitude</label>

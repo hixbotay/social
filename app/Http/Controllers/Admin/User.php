@@ -277,8 +277,25 @@ class User extends Controller
     }
 
     public function updateUserAvatar(Request $request) {
-        $id =  Session::get('current_user_id');
-        console_log($id);
+        $id = $request->get('user_id');
+        $selectedUser = UserModel::find($id);
+        $file = $request->file();
+
+        if ($file){
+            foreach ($file AS $value){
+                $file_name = time() . '_' . $value->getClientOriginalName();
+                $file_path = 'storage/app/user'.$id.'/avatar/';
+                $newFile = $value->move($file_path, $file_name);
+                $url = $file_path . $file_name;
+                $selectedUser->avatar = $url;
+                $selectedUser->save();
+            }
+        }
+
+
+
+        return redirect('admin?view=User&layout=edit&id='.$id);
+
         // $user = UserModel::find($id);
 
         // $request->validate([

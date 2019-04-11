@@ -122,6 +122,7 @@
 
         //custom html alert
         $('#custom-html-alert').click(function () {
+            var user_id = $(this).attr('index');
             swal({
                 title: 'Upload new Avatar',
                 type: 'info',
@@ -129,6 +130,7 @@
                     <div class="input-group m-t-10">
                         <input type="file" id="example-input2-group2" name="avatar" class="form-control">
                         <span class="input-group-btn">
+                        <input type="hidden" name="user_id" id="user_id" value="`+user_id+`">
                         <button type="submit" class="btn btn-primary">Submit</button>
                         </span>
                     </div>
