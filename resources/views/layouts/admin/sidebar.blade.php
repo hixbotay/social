@@ -22,6 +22,8 @@
                 <a href="{{url('/admin')}}"><i class="ti-home"></i> @lang('Dashboard') </a>
             </li>
 
+            @can(config('auth.action.LIST_USERS'))
+
             <li>
                 <a href="javascript: void(0);" aria-expanded="true">
                     <i class="mdi mdi-account-multiple-plus"></i> @lang('admin.ACCOUNT')
@@ -54,6 +56,9 @@
                 </ul>
             </li>
 
+            @endcan
+
+
             @can([config('auth.action.LIST_POST')])
 
             <li>
@@ -66,6 +71,9 @@
 
             @endcan
 
+
+            @can([config('auth.action.MANAGER_DATING')])
+
             <li>
                 <a href="javascript: void(0);" aria-expanded="true"><i
                             class="mdi mdi-calendar-clock"></i> @lang('admin.DATING_MANAGER') <span class="fa arrow"></span></a>
@@ -75,6 +83,11 @@
                     </li>
                 </ul>
             </li>
+
+            @endcan
+
+
+            @can([config('auth.action.LIST_FINANCE')])
 
             <li>
                 <a href="javascript: void(0);" aria-expanded="true"><i
@@ -91,6 +104,8 @@
                         </a></li>
                 </ul>
             </li>
+
+            @endcan
 
             <li>
                 <a href="javascript: void(0);"><i class="mdi mdi-cube-send"></i> @lang('admin.MODULE_DAI_LY')<span

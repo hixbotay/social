@@ -150,6 +150,7 @@ return [
         'CONFIG_GENERAL' => 'CONFIG_GENERAL',
         'ADS_LOCATIONS' => 'ADS_LOCATIONS',
         'ADS_ORDERS' => 'ADS_ORDERS',
+        'MANAGER_DATING' => 'MANAGER_DATING'
 
     ],
 

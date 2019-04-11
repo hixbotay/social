@@ -80,6 +80,8 @@ class Controller extends BaseController
                 return view('admin', [
                     'data' => (object)$data,
                 ]);
+            case config('auth.usergroup.agency_employee'):
+                return view('admin');
         }
 
     }

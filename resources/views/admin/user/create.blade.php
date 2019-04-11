@@ -33,10 +33,6 @@
 						<?php BookproHtml::select_user_groups('data[group_id]') ?>
 					</div>
 					<div class="form-group">
-						<label>Address</label>
-						<input type="text" class="form-control" name="data[address]" />
-					</div>
-					<div class="form-group">
 						<label>Longitude</label>
 						<input type="text" class="form-control" name="data[longitude]" />
 					</div>
