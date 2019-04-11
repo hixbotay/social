@@ -111,7 +111,7 @@ class UserGroup extends Controller
         }
         $result = $usergroup->save();
 
-        $url = url('admin?view=usergroup&layout=edit&id='.$id);
+        $url = url('admin?view=UserGroup&layout=edit&id='.$id);
 
         if ($result){
             return redirect($url)->with('success', [__('admin.SAVE_SUCCESS')]);
@@ -131,6 +131,6 @@ class UserGroup extends Controller
     {
         $id = $request->input('id');
         UserGroupModel::destroy($id);
-        return redirect('admin?view=usergroup');
+        return redirect('admin?view=UserGroup');
     }
 }
