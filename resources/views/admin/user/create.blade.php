@@ -32,6 +32,22 @@
 						@endphp
 						<input type="hidden" class="form-control" name="data[group_id]" value="{{ $group->id }}" />
 						<input type="hidden" class="form-control" name="data[parent_id]" value="{{ $currentUser->id }}" />
+
+						<div class="form-group">
+							<label>Nhân viên quán</label>
+
+							@php
+							$agencyList = \App\Agency::getListAgencyByUserId($currentUser->id);
+							@endphp
+
+							<select name="agency_employee[agency_id]" class="form-control" required>
+								@foreach($agencyList AS $value)
+								<option value="{{ $value->id }}">{{ $value->name }}</option>
+								@endforeach
+							</select>
+
+
+						</div>
 					@else
 
 					<div class="form-group">
