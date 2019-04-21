@@ -1,5 +1,4 @@
 @extends('layouts.admin')
-
 @section('content')
 <div class="container">
 	<div class="row">
@@ -27,11 +26,22 @@
 						<label>Mobile</label>
 						<input type="number" class="form-control" name="data[mobile]" required />
 					</div>
+					@if($currentUser->group->key == config('auth.usergroup.agency'))
+						@php
+						$group = \App\UserGroup::getGroupByKey(config('auth.usergroup.agency_employee'));
+						@endphp
+						<input type="hidden" class="form-control" name="data[group_id]" value="{{ $group->id }}" />
+						<input type="hidden" class="form-control" name="data[parent_id]" value="{{ $currentUser->id }}" />
+					@else
+
 					<div class="form-group">
 						<label>Group ID</label>
 						{{--<input type="number" class="form-control" name="data[group_id]" />--}}
 						<?php BookproHtml::select_user_groups('data[group_id]') ?>
 					</div>
+
+					@endif
+
 					<div class="form-group">
 						<label>Longitude</label>
 						<input type="text" class="form-control" name="data[longitude]" />

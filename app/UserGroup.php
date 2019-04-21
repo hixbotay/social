@@ -12,5 +12,12 @@ class UserGroup extends Model
 
     public $timestamps = false;
 
+    public static function getGroupByKey($key){
+        if (!$key) return false;
+        $data = self::select('*')
+            ->where('key', '=', $key)
+            ->first();
+        return $data;
+    }
 
 }
