@@ -140,7 +140,7 @@ class User extends Controller
         }
         if (!empty($plans))DB::table('user_hobby_map')->insert( $plans );
 
-        return redirect('/admin?view=user');
+        return redirect('/admin?view=User');
     }
 
     /**
